@@ -1,0 +1,38 @@
+import React, { useState, useEffect, useRef } from 'react';
+import gsap, { Power2 } from 'gsap';
+
+interface LerpNumProps {
+	value: number;
+}
+
+// This is very dumb, I have no idea why I did this
+export const LerpNum: React.FC<LerpNumProps> = (props: LerpNumProps) => {
+	const [displayValue, setDisplayValue] = useState(0);
+	const dummyEl = useRef<HTMLDivElement>(null);
+
+	// Basically I had no idea how to lerp a state
+	// So I lerped an element's position and took that value to set the display value
+	// The division by 100 is so that I don't run into a bug or performance issues that may or may not exist at x: 100,000
+	// Literally I have no idea if anything happens at x: 100,000 but I cant be bothered finding out
+	useEffect(() => {
+		const timeInterval = Math.min((props.value - displayValue) * 0.03, 3);
+		gsap.to(dummyEl.current, {
+			ease: Power2.easeOut,
+			duration: timeInterval,
+			x: props.value / 100,
+			onUpdate: () => {
+				const dummyElPos = gsap.getProperty(dummyEl.current, 'x') || 0;
+				setDisplayValue(parseFloat(dummyElPos.toString()) * 100);
+			},
+		});
+	// Legit this makes the animation really smooth, no idea how it works but it does
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.value]);
+
+	return (
+		<>
+			{Math.floor(displayValue).toLocaleString()}
+			<div ref={dummyEl} />
+		</>
+	);
+};

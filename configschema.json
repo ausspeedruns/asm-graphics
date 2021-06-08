@@ -1,0 +1,129 @@
+{
+	"$schema": "https://json-schema.org/draft-07/schema",
+	"type": "object",
+	"additionalProperties": false,
+
+	"properties": {
+		"obs": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": true
+				},
+				"port": {
+					"type": "number",
+					"default": 4444
+				},
+				"ip": {
+					"type": "string",
+					"default": "localhost"
+				},
+				"password": {
+					"type": "string"
+				}
+			},
+			"required": ["enabled"]
+		},
+		"twitch": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"parents": {
+					"type": "array",
+					"default": ["localhost"]
+				}
+			},
+			"required": ["parents"]
+		},
+		"twitter": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": true
+				},
+				"key": {
+					"type": "string",
+					"default": ""
+				},
+				"secret": {
+					"type": "string",
+					"default": ""
+				},
+				"bearer": {
+					"type": "string",
+					"default": ""
+				},
+				"rules": {
+					"type": "array",
+					"default": [{ "value": "#FAST2020", "tag": "Event Hashtag" }]
+				}
+			},
+			"required": ["enabled", "key", "secret"]
+		},
+		"googleCredentials": {
+			"type": "object",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false
+				},
+				"spreadsheet": {
+					"type": "string",
+					"default": "192nms5HjWe6li2XwmV1-l0W0_8csRv6Jyc944ir3tVY"
+				},
+				"installed": {
+					"type": "object",
+					"properties": {
+						"clientID": {
+							"type": "string",
+							"default": ""
+						},
+						"projectID": {
+							"type": "string",
+							"default": ""
+						},
+						"authURI": {
+							"type": "string",
+							"default": ""
+						},
+						"tokenURI": {
+							"type": "string",
+							"default": ""
+						},
+						"authProviderX509CERTURL": {
+							"type": "string",
+							"default": ""
+						},
+						"clientSecret": {
+							"type": "string",
+							"default": ""
+						},
+						"redirectUris": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							},
+							"default": []
+						}
+					},
+					"required": [
+						"authProviderX509CERTURL",
+						"authURI",
+						"clientID",
+						"clientSecret",
+						"projectID",
+						"redirectUris",
+						"tokenURI"
+					],
+					"title": "installed"
+				}
+			},
+			"required": ["enabled", "installed"]
+		}
+	},
+	"required": ["obs", "twitch", "twitter", "googleCredentials"]
+}
