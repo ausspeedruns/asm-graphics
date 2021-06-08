@@ -22,7 +22,7 @@ const Sidebar = styled.div`
 	top: 144px;
 	height: 872px;
 	width: 523px;
-	border-right: 1px solid var(--sec-col);
+	border-right: 1px solid var(--asm-orange);
 
 	display: flex;
 	flex-direction: column;
@@ -32,7 +32,7 @@ const Sidebar = styled.div`
 
 const SponsorsBoxS = styled(SponsorsBox)`
 	width: 100%;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 	flex-grow: 1;
 `;
 

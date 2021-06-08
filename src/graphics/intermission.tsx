@@ -119,7 +119,7 @@ const BottomBlock = styled.div`
 	height: 836px;
 	width: 100%;
 	border-top: solid 9px #095e8c;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 	display: flex;
 	justify-content: center;
 `;

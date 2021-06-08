@@ -31,7 +31,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 	height: 459px;
 	left: 0px;
 	top: 400px;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 	border-top: 1px solid var(--main-col);
 	overflow: hidden;
 	display: flex;

@@ -24,20 +24,20 @@ const Topbar = styled.div`
 	position: absolute;
 	height: 296px;
 	width: 1920px;
-	border-bottom: 1px solid var(--sec-col);
+	border-bottom: 1px solid var(--asm-orange);
 	overflow: hidden;
 `;
 
 const InfoTopDivider = styled.div`
 	height: 1px;
 	width: 652px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 const InfoSideDivider = styled.div`
 	height: 140px;
 	width: 1px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 const VerticalStack = styled.div`
@@ -54,7 +54,7 @@ const InfoBox = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 `;
 
 const InfoSubBox = styled.div`
@@ -67,7 +67,7 @@ const InfoSubBox = styled.div`
 const SponsorsBoxS = styled(SponsorsBox)`
 	width: 666px;
 	height: 100%;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 `;
 
 const SponsorSize = {
@@ -87,7 +87,7 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 297px;
 	left: 959px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 export const Standard2: React.FC = () => {
@@ -151,8 +151,8 @@ export const Standard2: React.FC = () => {
 					width={586}
 					name={runnerNamesRep}
 					style={{
-						borderRight: '1px solid var(--sec-col)',
-						borderLeft: '1px solid var(--sec-col)',
+						borderRight: '1px solid var(--asm-orange)',
+						borderLeft: '1px solid var(--asm-orange)',
 					}}
 					hosts={currentOverlayRep?.live === 'standard-2' ? hostNamesRep : previewHostNamesRep}
 				/>

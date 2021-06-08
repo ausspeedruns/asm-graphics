@@ -20,14 +20,14 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: 565px;
-	border-right: 1px solid var(--sec-col);
+	border-right: 1px solid var(--asm-orange);
 	overflow: hidden;
 `;
 
 const DSSecondScreen = styled.div`
 	width: 565px;
 	height: 424px;
-	border-bottom: 1px solid var(--sec-col);
+	border-bottom: 1px solid var(--asm-orange);
 `;
 
 const VerticalStack = styled.div`
@@ -45,7 +45,7 @@ const InfoBox = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 `;
 
 const InfoSubBox = styled.div`
@@ -59,13 +59,13 @@ const InfoSubBox = styled.div`
 const InfoTopDivider = styled.div`
 	height: 1px;
 	width: 652px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 const InfoSideDivider = styled.div`
 	height: 100px;
 	width: 1px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 export const DS: React.FC = () => {

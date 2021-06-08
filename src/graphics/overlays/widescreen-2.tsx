@@ -27,19 +27,19 @@ const Topbar = styled.div`
 	height: 341px;
 	width: 1920px;
 	overflow: hidden;
-	border-bottom: 1px solid var(--sec-col);
+	border-bottom: 1px solid var(--asm-orange);
 `;
 
 const InfoTopDivider = styled.div`
 	height: 1px;
 	width: 652px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 const InfoSideDivider = styled.div`
 	height: 160px;
 	width: 1px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 const VerticalStack = styled.div`
@@ -56,7 +56,7 @@ const InfoBox = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 `;
 
 const InfoSubBox = styled.div`
@@ -69,7 +69,7 @@ const InfoSubBox = styled.div`
 const SponsorsBoxS = styled(SponsorsBox)`
 	width: 666px;
 	height: 100%;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 `;
 
 const SponsorSize = {
@@ -89,7 +89,7 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 341px;
 	left: 959px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 const BottomBlock = styled.div`
@@ -97,10 +97,10 @@ const BottomBlock = styled.div`
 	top: 881px;
 	height: 134px;
 	width: 1920px;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%), url('../shared/design/ASLogoBlack.svg');
+	background: var(--main-col), url('../shared/design/ASLogoBlack.svg');
 	background-size: 37px;
 	background-blend-mode: hard-light;
-	border-bottom: 1px solid var(--sec-col);
+	border-bottom: 1px solid var(--asm-orange);
 	overflow: hidden;
 	display: flex;
 	justify-content: flex-end;

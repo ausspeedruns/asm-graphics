@@ -22,7 +22,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: 565px;
-	border-right: 1px solid var(--sec-col);
+	border-right: 1px solid var(--asm-orange);
 	overflow: hidden;
 `;
 
@@ -31,9 +31,9 @@ const RightSidebar = styled.div`
 	right: 0;
 	height: 1016px;
 	width: 224px;
-	border-left: 1px solid var(--sec-col);
+	border-left: 1px solid var(--asm-orange);
 	overflow: hidden;
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%), url('../shared/design/ASLogoBlack.svg');
+	background: var(--main-col), url('../shared/design/ASLogoBlack.svg');
 	background-size: 37px;
 	background-blend-mode: hard-light;
 `;
@@ -41,7 +41,7 @@ const RightSidebar = styled.div`
 const InfoDivider = styled.div`
 	height: 1px;
 	width: 430px;
-	background: var(--sec-col);
+	background: var(--asm-orange);
 `;
 
 const VerticalStack = styled.div`
@@ -78,7 +78,7 @@ const TwitterSize = {
 };
 
 const InfoBoxBG = styled.div`
-	background: linear-gradient(180deg, #df3422 0%, #7e1f15 100%);
+	background: var(--main-col);
 `;
 
 export const GBC: React.FC = () => {
