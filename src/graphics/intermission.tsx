@@ -202,7 +202,7 @@ export const Intermission: React.FC<IntermissionProps> = (props: IntermissionPro
 					<SocialMediaLabel>discord.ausspeedruns.com</SocialMediaLabel>
 				</SocialMediaItem>
 				<SocialMediaLabel style={{ fontSize: 40, zIndex: 2, color: '#ffffff', marginLeft: 100 }}>
-					#FAST2020
+					#ASM2021
 				</SocialMediaLabel>
 				<SocialMediaLabel style={{ fontSize: 40, zIndex: 2, color: '#ffffff' }}>{currentTime}</SocialMediaLabel>
 			</SocialMedia>

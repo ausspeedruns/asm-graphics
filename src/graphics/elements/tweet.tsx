@@ -69,7 +69,7 @@ export const Tweet: React.FC<Props> = (props: Props) => {
 	
 	const dangerBold = () => {
 		if (props.tweet) {
-			const tweetText = props.tweet.data.text.replace('#FAST2020', '<b>#FAST2020</b>');
+			const tweetText = props.tweet.data.text.replace('#ASM2021', '<b>#ASM2021</b>');
 	
 			return {__html: _.unescape(tweetText)};
 		}

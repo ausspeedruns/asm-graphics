@@ -45,7 +45,7 @@ const fakeTweet: Tweet = {
 		id: '1317382179320627201',
 		createdAt: '2020-10-26T07:17:29.000Z',
 		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque dignissim elementum. Aliquam risus elit, commodo eu ultrices eu, ornare quis mi. Morbi varius magna augue, et rutrum dolor interdum sit amet. Integer tristique magna vitae mollis auctor. Class #FAST2020',
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque dignissim elementum. Aliquam risus elit, commodo eu ultrices eu, ornare quis mi. Morbi varius magna augue, et rutrum dolor interdum sit amet. Integer tristique magna vitae mollis auctor. Class #ASM2021',
 	},
 	includes: { users: [{ id: '105261155', name: 'Ewan Lyon', username: 'Clubwhom' }] },
 	matchingRules: [{ id: 1, tag: 'Event Hashtag' }],

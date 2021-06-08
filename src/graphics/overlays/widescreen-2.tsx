@@ -196,7 +196,7 @@ export const Widescreen2: React.FC = () => {
 			</Topbar>
 			<CentralDivider />
 			<BottomBlock>
-				<HashtagText>#FAST2020</HashtagText>
+				<HashtagText>#ASM2021</HashtagText>
 			</BottomBlock>
 		</Widescreen2Container>
 	);

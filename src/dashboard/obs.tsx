@@ -184,7 +184,7 @@ const DashOBS: React.FC = () => {
 									border: 0,
 								}}
 								scrolling="no"
-								src="http://localhost:9090/bundles/fast2020-graphics/graphics/preview-gameplay.html"
+								src="http://localhost:9090/bundles/asm2021-graphics/graphics/preview-gameplay.html"
 							/>
 						</GameplayPreview>
 					</GameplaySpacer>
@@ -240,7 +240,7 @@ const DashOBS: React.FC = () => {
 										border: 0,
 									}}
 									scrolling="no"
-									src="http://localhost:9090/bundles/fast2020-graphics/graphics/gameplay-overlay.html"
+									src="http://localhost:9090/bundles/asm2021-graphics/graphics/gameplay-overlay.html"
 								/>
 							) : (
 								<iframe
@@ -251,7 +251,7 @@ const DashOBS: React.FC = () => {
 										border: 0,
 									}}
 									scrolling="no"
-									src="http://localhost:9090/bundles/fast2020-graphics/graphics/intermission-muted.html"
+									src="http://localhost:9090/bundles/asm2021-graphics/graphics/intermission-muted.html"
 								/>
 							)}
 						</GameplayPreview>

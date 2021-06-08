@@ -134,7 +134,7 @@
     "start": "node ../..",
     "lint": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx}",
     "lint:fix": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx} --fix",
-    "terminal": "wt -p \"FAST2020\"; split-pane -p \"FAST2020\"; split-pane -p \"FAST2020\""
+    "terminal": "wt -p \"ASM2021\"; split-pane -p \"ASM2021\"; split-pane -p \"ASM2021\""
   },
   "repository": "https://github.com/nodecg/nodecg.git",
   "license": "Apache-2.0",

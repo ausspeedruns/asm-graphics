@@ -123,7 +123,7 @@ export const HostDash: React.FC = () => {
 				<span onClick={showDialog} style={{ cursor: 'pointer', width: 500, textAlign: 'center' }}>
 					Take a breath.
 				</span>
-				<span style={{ width: 500, textAlign: 'right' }}>FAST2020</span>
+				<span style={{ width: 500, textAlign: 'right' }}>ASM2021</span>
 			</TopBar>
 			{/* , height: 926  */}
 			<Grid container justify="space-around" style={{ background: '#ececec', height: 'calc(100% - 60px)' }}>
@@ -174,7 +174,7 @@ export const HostDash: React.FC = () => {
 					xs
 					style={{ padding: 8, height: '100%' }}>
 					<Paper style={{ height: '49%', overflow: 'hidden' }}>
-						<Header text="Upcoming Runs" url="https://horaro.org/fast2020/schedule" />
+						<Header text="Upcoming Runs" url="https://horaro.org/asm2021/schedule" />
 						<Upcoming style={{ height: 'calc(100% - 56px)', overflowY: 'auto', overflowX: 'hidden' }} />
 					</Paper>
 					<Paper style={{ height: '49%', overflow: 'hidden' }}>
@@ -202,7 +202,7 @@ export const HostDash: React.FC = () => {
 						<br />
 						<br />
 						&quot;We&apos;re AusSpeedruns, and we do speedrun events to raise money for charity. For
-						FAST2020 we&apos;re raising money for the Royal Flying Doctor Service, a charity that provides
+						ASM2021 we&apos;re raising money for the Royal Flying Doctor Service, a charity that provides
 						primary and emergency health services to people in remote and rural areas across Australia. If
 						you&apos;d like to donate, the link to do so is donate.ausspeedruns.com&quot;
 					</DialogContentText>
