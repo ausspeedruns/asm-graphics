@@ -157,7 +157,7 @@ export const HostDash: React.FC = () => {
 					direction="column"
 					xs
 					style={{ padding: 8, gap: 8, height: '100%' }}>
-					<TotalBox>${donationRep.toLocaleString()}</TotalBox>
+					<TotalBox>${(donationRep || 10000).toLocaleString()}</TotalBox>
 					<Paper style={{ overflow: 'hidden', height: 209, minHeight: 209 }}>
 						<Timer />
 					</Paper>

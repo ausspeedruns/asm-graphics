@@ -28,7 +28,7 @@ export const Donations: React.FC = () => {
 		namespace: 'asm-donations',
 	});
 
-	const allDonations = donations.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse();
+	const allDonations = donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() || [];
 
 	return (
 		<DonationsContainer>
