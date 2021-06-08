@@ -190,7 +190,7 @@ export const HostDash: React.FC = () => {
 						&quot;We are AusSpeedruns, a group who does speedrun events to raise money for charity. For this
 						event we&apos;re raising money for Royal Flying Doctor Service, who provide emergency medical
 						and primary health care services to anyone who lives, works or travels in rural and remote
-						Australia. If you&apos;d like to donate, you can go to donate.ausspeedruns.com&quot;
+						Australia. If you&apos;d like to donate, you can go to ausspeedruns.com&quot;
 						<br />
 						<br />
 						(While doing this, if someone else hasn&apos;t, would recommend typing !donate in chat to
@@ -204,7 +204,7 @@ export const HostDash: React.FC = () => {
 						&quot;We&apos;re AusSpeedruns, and we do speedrun events to raise money for charity. For
 						ASM2021 we&apos;re raising money for the Royal Flying Doctor Service, a charity that provides
 						primary and emergency health services to people in remote and rural areas across Australia. If
-						you&apos;d like to donate, the link to do so is donate.ausspeedruns.com&quot;
+						you&apos;d like to donate, the link to do so is ausspeedruns.com&quot;
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
