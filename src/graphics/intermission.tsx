@@ -84,7 +84,7 @@ const SocialMedia = styled.div`
 	justify-content: space-evenly;
 	align-items: center;
 	font-family: Noto Sans;
-	background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
+	background: var(--main-col);
 `;
 
 const SocialMediaItem = styled.div`

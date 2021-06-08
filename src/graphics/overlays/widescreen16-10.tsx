@@ -37,13 +37,19 @@ const SponsorsBoxS = styled(SponsorsBox)`
 `;
 
 const InfoBar = styled.div`
-	background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
+	background: var(--main-col);
 	position: absolute;
 	height: 144px;
 	width: 1920px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+`;
+
+const InfoDivider = styled.div`
+	height: 77%;
+	width: 1px;
+	background: var(--asm-orange);
 `;
 
 const VerticalStack = styled.div`
@@ -74,27 +80,25 @@ export const Widescreen1610: React.FC = () => {
 	return (
 		<WidescreenContainer>
 			<InfoBar>
-				{/* Fancy design stuff */}
-				<>
-					<img style={{ position: 'absolute', left: 0, transform: 'scaleY(0.92)' }} src={'../shared/design/FullDesign.svg'} />
-				</>
-				<Timer style={{ width: 587, zIndex: 2 }} timer={timerRep} />
-				<VerticalStack style={{ flexGrow: 1 }}>
-					<RunInfo.Category
-						maxWidth={420}
-						category={runDataActiveRep?.category || ''}
-						style={{ marginBottom: -25, color: 'black' }}
-					/>
-					<RunInfo.Estimate style={{ color: 'black' }} estimate={runDataActiveRep?.estimate || ''} />
-				</VerticalStack>
 				<VerticalStack style={{ flexGrow: 1 }}>
 					<RunInfo.GameTitle
 						maxWidth={680}
 						game={runDataActiveRep?.game || ''}
-						style={{ marginBottom: -15, color: 'black' }}
+						style={{ marginBottom: -15 }}
 					/>
-					<RunInfo.System style={{ color: 'black' }} system={runDataActiveRep?.system || ''} />
+					<RunInfo.System system={runDataActiveRep?.system || ''} />
 				</VerticalStack>
+				<InfoDivider />
+				<VerticalStack style={{ flexGrow: 1 }}>
+					<RunInfo.Category
+						maxWidth={420}
+						category={runDataActiveRep?.category || ''}
+						style={{ marginBottom: -25 }}
+					/>
+					<RunInfo.Estimate estimate={runDataActiveRep?.estimate || ''} />
+				</VerticalStack>
+				<InfoDivider />
+				<Timer style={{ width: 587, zIndex: 2 }} timer={timerRep} />
 			</InfoBar>
 
 			<Sidebar>
