@@ -57,7 +57,7 @@ export const InterCTA: React.FC<Props> = (props: Props) => {
 			<DonateText>
 				Donate at&nbsp;<b>ausspeedruns.com</b>
 			</DonateText>
-			<Money>${Math.floor(donationRep).toLocaleString()}</Money>
+			<Money>${Math.floor(donationRep || 10000).toLocaleString()}</Money>
 		</InterCTAContainer>
 	);
 };
