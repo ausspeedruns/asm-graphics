@@ -13,6 +13,7 @@ import { SponsorsBox } from '../elements/sponsors';
 import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
+import { OrangeStripe } from '../elements/orange-stripe';
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -35,7 +36,7 @@ const InfoTopDivider = styled.div`
 `;
 
 const InfoSideDivider = styled.div`
-	height: 140px;
+	height: 100px;
 	width: 1px;
 	background: var(--asm-orange);
 `;
@@ -53,7 +54,9 @@ const InfoBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: space-between;
+	padding-top: 10px;
+	box-sizing: border-box;
 	background: var(--main-col);
 `;
 
@@ -64,10 +67,12 @@ const InfoSubBox = styled.div`
 	width: 100%;
 `;
 
-const SponsorsBoxS = styled(SponsorsBox)`
+const RightBox = styled.div`
 	width: 666px;
 	height: 100%;
 	background: var(--main-col);
+	display: flex;
+    flex-direction: column;
 `;
 
 const SponsorSize = {
@@ -134,6 +139,7 @@ export const Standard2: React.FC = () => {
 						<InfoSideDivider />
 						<Timer fontSize={75} timer={timerRep} />
 					</InfoSubBox>
+					<OrangeStripe side='bottom' style={{ transform: 'scaleY(1.28125)', transformOrigin: 'bottom' }} />
 				</InfoBox>
 
 				<AudioIndicator
@@ -159,7 +165,10 @@ export const Standard2: React.FC = () => {
 
 				{raceTimers}
 
-				<SponsorsBoxS sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
+				<RightBox>
+					<SponsorsBox style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
+					<OrangeStripe side='bottom' style={{ transform: 'scaleY(1.28125)', transformOrigin: 'bottom' }} />
+				</RightBox>
 			</Topbar>
 			<CentralDivider />
 		</Standard2Container>
