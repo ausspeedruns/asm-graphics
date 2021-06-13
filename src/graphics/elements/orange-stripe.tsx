@@ -29,32 +29,32 @@ interface Props {
 }
 
 export const OrangeStripe: React.FC<Props> = (props: Props) => {
-	let flexDirection = 'row';
+	let flexDirection: React.CSSProperties = {};
 	let bigStripeStyle: React.CSSProperties = {};
 	switch (props.side) {
 		case 'top':
-			flexDirection = 'column-reverse';
+			flexDirection = {flexDirection: 'column-reverse', width: '100%'};
 			bigStripeStyle = {marginBottom: 8}
 			break;
 		case 'right':
-			flexDirection = 'row';
+			flexDirection = {flexDirection: 'row', height: '100%'};
 			bigStripeStyle = {marginLeft: 8}
 			break;
 		case 'bottom':
-			flexDirection = 'column';
+			flexDirection = {flexDirection: 'column', width: '100%'};
 			bigStripeStyle = {marginTop: 8}
 			break;
 		case 'left':
-			flexDirection = 'row-reverse';
+			flexDirection = {flexDirection: 'row-reverse', height: '100%'};
 			bigStripeStyle = {marginRight: 8}
 			break;
 		default:
-			flexDirection = 'row';
+			flexDirection = {flexDirection: 'row'};
 			bigStripeStyle = {marginTop: 8}
 			break;
 	}
 	return (
-		<OrangeStripeContainer style={Object.assign(props.style, {flexDirection: flexDirection as any})}>
+		<OrangeStripeContainer style={Object.assign(props.style || {}, flexDirection)}>
 			<SmallStripe side={props.side} />
 			<BigStripe style={bigStripeStyle} side={props.side} />
 		</OrangeStripeContainer>
