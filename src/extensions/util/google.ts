@@ -138,7 +138,7 @@ function getAllData(auth: any) {
 }
 
 const GoalRegex = /\$\d+\.?\d*\/\$\d+\.?\d*/;	// e.g. $50.85/$150
-const WarRegex = /.+: \$\d+\.?\d*/;					// e.g. Hat Kid: $100
+const WarRegex = /.+: \$\d+\.?\d*/;				// e.g. Hat Kid: $100
 const ActiveRegex = /Open/;
 
 let runAuto = true;
