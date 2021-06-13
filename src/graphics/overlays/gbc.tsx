@@ -33,7 +33,7 @@ const RightSidebar = styled.div`
 	width: 224px;
 	border-left: 1px solid var(--asm-orange);
 	overflow: hidden;
-	background: var(--main-col), url('../shared/design/ASLogoBlack.svg');
+	background: var(--main-col);
 	background-size: 37px;
 	background-blend-mode: hard-light;
 `;
