@@ -11,6 +11,7 @@ import { Facecam } from '../elements/facecam';
 import { Timer } from '../elements/timer';
 import { SponsorsBox } from '../elements/sponsors';
 import * as RunInfo from '../elements/run-info';
+import { OrangeStripe } from '../elements/orange-stripe';
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -116,6 +117,8 @@ export const Widescreen: React.FC = () => {
 				/>
 
 				<SponsorBoxS sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
+				
+				<OrangeStripe side='bottom' style={{position: 'absolute', bottom: 0, width: '100%'}} />
 			</Sidebar>
 		</WidescreenContainer>
 	);

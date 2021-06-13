@@ -145,7 +145,7 @@ export const Transition: React.FC = () => {
 				<TopBox ref={bottomRef}>
 					<div ref={blueRef} style={{ display: 'flex', transform: 'translate(-2020px, 0)' }}>
 						<BlueBar style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-							<img ref={rfdsLogo} style={{ height: '70%' }} src="../shared/design/RFDSWhite.png" />
+							<img ref={rfdsLogo} style={{ height: '70%' }} src={require('./media/Sponsors/PSBB.png')} />
 						</BlueBar>
 						<BlueBarTip />
 					</div>

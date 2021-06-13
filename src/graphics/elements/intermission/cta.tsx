@@ -18,28 +18,18 @@ const DonateText = styled.span`
 	text-transform: uppercase;
 `;
 
-// const CharityLogo = styled.img`
-// 	width: 265px;
-// 	height: 100px;
-//  object-fit: contain;
-// 	margin-left: 35px;
-// `;
+const CharityLogo = styled.img`
+	width: 265px;
+	height: 100px;
+	object-fit: contain;
+	margin-left: 35px;
+`;
 
 const Money = styled.span`
 	font-size: 66px;
 	font-weight: bold;
 	margin-left: 16px;
 `;
-
-// interface Asset {
-// 	base: string;
-// 	bundleName: string;
-// 	category: string;
-// 	ext: string;
-// 	name: string;
-// 	sum: string;
-// 	url: string;
-// }
 
 interface Props {
 	style?: React.CSSProperties;
@@ -57,6 +47,7 @@ export const InterCTA: React.FC<Props> = (props: Props) => {
 			<DonateText>
 				Donate at&nbsp;<b>ausspeedruns.com</b>
 			</DonateText>
+			<CharityLogo src={require('../../media/Sponsors/PSBB.png')} />
 			<Money>${Math.floor(donationRep || 10000).toLocaleString()}</Money>
 		</InterCTAContainer>
 	);

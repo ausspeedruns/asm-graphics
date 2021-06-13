@@ -155,7 +155,7 @@ export const Ticker: React.FC = () => {
 			</ContentArea>
 			<DonationArea>
 				$<LerpNum value={donationRep} />
-				<CharityLogo src={require('./media/RFDSProudlySmall.png')} />
+				<CharityLogo src={require('./media/Sponsors/PSBB.png')} />
 			</DonationArea>
 		</TickerContainer>
 	);

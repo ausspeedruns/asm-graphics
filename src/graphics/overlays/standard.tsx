@@ -11,6 +11,7 @@ import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
+import { OrangeStripe } from '../elements/orange-stripe';
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -111,6 +112,7 @@ export const Standard: React.FC = () => {
 					</InfoBox>
 
 					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
+					<OrangeStripe side='bottom' style={{position: 'relative', bottom: 32, width: '100%'}} />
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>
