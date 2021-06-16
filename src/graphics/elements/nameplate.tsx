@@ -15,7 +15,8 @@ const NameplateContainer = styled.div`
 	font-family: Noto Sans;
 
 	display: flex;
-	flex-direction: ${(props: NameplateSide) => props.nameplateLeft ? 'row-reverse': 'row'};
+	flex-direction: ${(props: NameplateSide) =>
+		props.nameplateLeft ? 'row-reverse' : 'row'};
 	justify-content: space-between;
 	align-items: center;
 `;
@@ -91,7 +92,10 @@ export const Nameplate: React.FC<Props> = (props: Props) => {
 	const sameNameAndTwitch = props.player.name === props.player.social.twitch;
 
 	return (
-		<NameplateContainer style={props.style} className={props.className} nameplateLeft={props.nameplateLeft}>
+		<NameplateContainer
+			style={props.style}
+			className={props.className}
+			nameplateLeft={props.nameplateLeft}>
 			<Names>
 				<NormalName
 					ref={normalNameEl}
@@ -107,7 +111,9 @@ export const Nameplate: React.FC<Props> = (props: Props) => {
 					<NormalName>{props.player.social.twitch}</NormalName>
 				</TwitchDiv>
 			</Names>
-			<PronounBox>{props.player.pronouns}</PronounBox>
+			{props.player.pronouns && (
+				<PronounBox>{props.player.pronouns}</PronounBox>
+			)}
 		</NameplateContainer>
 	);
 };
