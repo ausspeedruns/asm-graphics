@@ -9,7 +9,7 @@ const InterNextRunItemContainer = styled.div`
 	height: 80px;
 	width: 100%;
 	font-family: Noto Sans;
-	background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 100%);
+	background: var(--sec-col);
 	display: flex;
 `;
 
@@ -20,7 +20,7 @@ const Time = styled.div`
 	align-items: center;
 	justify-content: center;
 	color: #000000;
-	border-right: 5px solid var(--main-col);
+	background: #FFFFFF;
 `;
 
 const InfoBlock = styled.div`
@@ -29,7 +29,7 @@ const InfoBlock = styled.div`
 	flex-direction: column;
 	//align-items: center;
 	//justify-content: center;
-	color: #000000;
+	color: #FFFFFF;
 	padding: 5px 10px 5px 5px;
 `;
 
