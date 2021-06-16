@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
 
-import { RunDataActiveRun } from '../../types/RunData';
-import { Timer as TimerType } from '../../types/Timer';
-import { CurrentOverlay } from '../../types/CurrentOverlay';
-import { RunnerNames } from '../../types/ExtraRunData';
+import { OverlayProps } from '../../types/OverlayProps';
 
 import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
@@ -68,44 +64,32 @@ const InfoSideDivider = styled.div`
 	background: var(--asm-orange);
 `;
 
-export const DS: React.FC = () => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
-	});
-	const [timerRep] = useReplicant<TimerType, undefined>('timer', undefined, {
-		namespace: 'nodecg-speedcontrol',
-	});
-	const [hostNamesRep] = useReplicant<string[], string[]>('host-names', []);
-	const [previewHostNamesRep] = useReplicant<string[], string[]>('preview-host-names', []);
-	const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [runnerNamesRep] = useReplicant<RunnerNames[], RunnerNames[]>('runner-names', []);
-
+export const DS: React.FC<OverlayProps> = (props) => {
 	return (
 		<DSContainer>
 			<Sidebar>
 				<DSSecondScreen />
 				<Facecam
 					height={352}
-					name={runnerNamesRep}
-					hosts={currentOverlayRep?.live === 'ds' ? hostNamesRep : previewHostNamesRep}
+					teams={props.runData?.teams[0]}
 				/>
 				<InfoBox>
 					<VerticalStack style={{ height: 120 }}>
 						<RunInfo.GameTitle
 							maxWidth={540}
-							game={runDataActiveRep?.game || ''}
+							game={props.runData?.game || ''}
 							style={{ fontSize: 50, marginBottom: -10 }}
 						/>
-						<RunInfo.System system={runDataActiveRep?.system || ''} style={{ fontSize: 25, zIndex: 2 }} />
+						<RunInfo.System system={props.runData?.system || ''} style={{ fontSize: 25, zIndex: 2 }} />
 					</VerticalStack>
 					<InfoTopDivider />
 					<InfoSubBox>
 						<VerticalStack style={{ height: 80 }}>
-							<RunInfo.Category maxWidth={450} category={runDataActiveRep?.category || ''} />
-							<RunInfo.Estimate fontSize={30} estimate={runDataActiveRep?.estimate || ''} />
+							<RunInfo.Category maxWidth={450} category={props.runData?.category || ''} />
+							<RunInfo.Estimate fontSize={30} estimate={props.runData?.estimate || ''} />
 						</VerticalStack>
 						<InfoSideDivider />
-						<Timer fontSize={75} timer={timerRep} />
+						<Timer fontSize={75} timer={props.timer} />
 					</InfoSubBox>
 				</InfoBox>
 			</Sidebar>

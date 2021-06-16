@@ -25,7 +25,6 @@ async function init() {
 		require('./util/obs');
 	}
 
-	require('./extra-run-data');
 	require('./overlay');
 	require('./audio');
 	require('./hosts');

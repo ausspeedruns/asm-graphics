@@ -15,6 +15,9 @@ import { Widescreen1610 } from './overlays/widescreen16-10';
 import { DS } from './overlays/ds';
 import { GBA } from './overlays/gba';
 import { GBC } from './overlays/gbc';
+import { RunDataActiveRun } from '../types/RunData';
+import { Timer } from '../types/Timer';
+import { CouchInformation } from '../types/OverlayProps';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -33,50 +36,6 @@ const SpacedLinks = styled(Link)`
 	display: inline-block;
 `;
 
-const Overlays = [
-	{
-		component: <Standard />,
-		name: '/',
-		// Defualt as standard
-	},
-	{
-		component: <Standard />,
-		name: 'Standard',
-	},
-	{
-		component: <Standard2 />,
-		name: 'Standard-2',
-	},
-	{
-		component: <Widescreen />,
-		name: 'Widescreen',
-	},
-	{
-		component: <Widescreen2 />,
-		name: 'Widescreen-2',
-	},
-	{
-		component: <Widescreen1610 />,
-		name: 'Widescreen-1610',
-	},
-	{
-		component: <DS />,
-		name: 'DS',
-	},
-	{
-		component: <GBA />,
-		name: 'GBA',
-	},
-	{
-		component: <GBC />,
-		name: 'GBC',
-	},
-	{
-		component: <div style={{height: 1016}}></div>,
-		name: 'None',
-	},
-];
-
 interface GameplayOverlayProps {
 	preview?: boolean;
 }
@@ -91,18 +50,69 @@ export const GameplayRouterParent: React.FC<GameplayOverlayProps> = (props: Game
 };
 
 const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayProps) => {
-	const [currentOverlay] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
+		namespace: 'nodecg-speedcontrol',
+	});
+	const [timerRep] = useReplicant<Timer, undefined>('timer', undefined, {
+		namespace: 'nodecg-speedcontrol',
+	});
+	const [hostNamesRep] = useReplicant<CouchInformation, CouchInformation>('couch-names', {current: [], preview: []});
+	const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
 	const history = useHistory();
 
+	const Overlays = [
+		{
+			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: '/',
+			// Defualt as standard
+		},
+		{
+			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: 'Standard',
+		},
+		{
+			component: <Standard2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: 'Standard-2',
+		},
+		{
+			component: <Widescreen runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: 'Widescreen',
+		},
+		{
+			component: <Widescreen2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: 'Widescreen-2',
+		},
+		{
+			component: <Widescreen1610 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: 'Widescreen-1610',
+		},
+		{
+			component: <DS runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} />,
+			name: 'DS',
+		},
+		{
+			component: <GBA runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: 'GBA',
+		},
+		{
+			component: <GBC runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: 'GBC',
+		},
+		{
+			component: <div style={{height: 1016}}></div>,
+			name: 'None',
+		},
+	];
+
 	useEffect(() => {
-		if (!currentOverlay || !history) return;
+		if (!currentOverlayRep || !history) return;
 
 		if (props.preview) {
-			history.push(`/${currentOverlay?.preview}`);
+			history.push(`/${currentOverlayRep?.preview}`);
 		} else {
-			history.push(`/${currentOverlay?.live}`);
+			history.push(`/${currentOverlayRep?.live}`);
 		}
-	}, [currentOverlay, history, props.preview]);
+	}, [currentOverlayRep, history, props.preview]);
 
 	const RouteData = Overlays.map((overlay) => {
 		return (

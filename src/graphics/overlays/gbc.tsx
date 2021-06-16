@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
 
-import { RunDataActiveRun } from '../../types/RunData';
-import { Timer as TimerType } from '../../types/Timer';
-import { CurrentOverlay } from '../../types/CurrentOverlay';
-import { RunnerNames } from '../../types/ExtraRunData';
+import { OverlayProps } from '../../types/OverlayProps';
 
 import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
@@ -81,44 +77,32 @@ const InfoBoxBG = styled.div`
 	background: var(--main-col);
 `;
 
-export const GBC: React.FC = () => {
-	// const [currentTweet] = useReplicant<ITweet, undefined>('currentTweet', undefined);
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
-	});
-	const [timerRep] = useReplicant<TimerType, undefined>('timer', undefined, {
-		namespace: 'nodecg-speedcontrol',
-	});
-	const [hostNamesRep] = useReplicant<string[], string[]>('host-names', []);
-	const [previewHostNamesRep] = useReplicant<string[], string[]>('preview-host-names', []);
-	const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [runnerNamesRep] = useReplicant<RunnerNames[], RunnerNames[]>('runner-names', []);
-
+export const GBC: React.FC<OverlayProps> = (props) => {
 	return (
 		<GBCContainer>
 			<Sidebar>
 				<Facecam
 					height={352}
-					name={runnerNamesRep}
-					hosts={currentOverlayRep?.live === 'gbc' ? hostNamesRep : previewHostNamesRep}
+					teams={props.runData?.teams[0]}
+					hosts={props.preview ? props.couchInformation.preview : props.couchInformation.current}
 				/>
 				<InfoBoxBG>
 					<InfoBox>
 						<VerticalStack style={{ height: 180 }}>
-							<Timer fontSize={110} timer={timerRep} style={{ marginBottom: -15 }} />
-							<RunInfo.Estimate fontSize={30} estimate={runDataActiveRep?.estimate || ''} />
+							<Timer fontSize={110} timer={props.timer}  style={{ marginBottom: -15 }} />
+							<RunInfo.Estimate fontSize={30} estimate={props.runData?.estimate || ''} />
 						</VerticalStack>
 						<InfoDivider />
-						<RunInfo.Category maxWidth={450} category={runDataActiveRep?.category || ''} />
+						<RunInfo.Category maxWidth={450} category={props.runData?.category || ''} />
 						<InfoDivider />
 						<VerticalStack style={{ height: 100 }}>
 							<RunInfo.GameTitle
 								maxWidth={540}
-								game={runDataActiveRep?.game || ''}
+								game={props.runData?.game || ''}
 								style={{ fontSize: 37 }}
 							/>
 							<RunInfo.System
-								system={runDataActiveRep?.system || ''}
+								system={props.runData?.system || ''}
 								style={{ fontSize: 25, zIndex: 2 }}
 							/>
 						</VerticalStack>

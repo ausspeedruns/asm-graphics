@@ -1,36 +1,36 @@
 import * as nodecgApiContext from './nodecg-api-context';
+import { CouchInformation } from '../types/OverlayProps';
 
 const nodecg = nodecgApiContext.get();
 
-const hostNamesRep = nodecg.Replicant<string[]>('host-names', { defaultValue: [] });
-const previewHostNamesRep = nodecg.Replicant<string[]>('preview-host-names', { defaultValue: [] });
+const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names', { defaultValue: {current: [], preview: []} });
 
 nodecg.listenFor('update-hostnames', (names: string[]) => {
-	hostNamesRep.value = names;
+	couchNamesRep.value.current = names;
 });
 
 // Unused due to ux anti pattern
 nodecg.listenFor('rename-hostnames', (data: {name: string, index: number}) => {
-	const hostNamesMutable = hostNamesRep.value;
-	hostNamesMutable[data.index] = data.name;
-	hostNamesRep.value = hostNamesMutable;
+	const hostNamesMutable = couchNamesRep.value;
+	hostNamesMutable.current[data.index] = data.name;
+	couchNamesRep.value = hostNamesMutable;
 });
 
 nodecg.listenFor('remove-hostname', (index: number) => {
-	const hostNamesMutable = hostNamesRep.value;
-	hostNamesMutable.splice(index, 1);
-	hostNamesRep.value = hostNamesMutable;
+	const hostNamesMutable = couchNamesRep.value;
+	hostNamesMutable.current.splice(index, 1);
+	couchNamesRep.value = hostNamesMutable;
 });
 
 // Preview host names
 nodecg.listenFor('update-preview-hostnames', (names: string[]) => {
-	previewHostNamesRep.value = names;
+	couchNamesRep.value.preview = names;
 });
 
 nodecg.listenFor('remove-preview-hostname', (index: number) => {
-	const hostNamesMutable = previewHostNamesRep.value;
-	hostNamesMutable.splice(index, 1);
-	previewHostNamesRep.value = hostNamesMutable;
+	const hostNamesMutable = couchNamesRep.value;
+	hostNamesMutable.preview.splice(index, 1);
+	couchNamesRep.value = hostNamesMutable;
 });
 
 // obsProgramRep.on('change', (newVal, oldVal) => {

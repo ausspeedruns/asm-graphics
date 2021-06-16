@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
 
-import { RunDataActiveRun } from '../../types/RunData';
-import { Timer as TimerType } from '../../types/Timer';
-import { CurrentOverlay } from '../../types/CurrentOverlay';
-import { RunnerNames } from '../../types/ExtraRunData';
+import { OverlayProps } from '../../types/OverlayProps';
 
 import { Timer } from '../elements/timer';
 import { SponsorsBox } from '../elements/sponsors';
@@ -66,47 +62,35 @@ const SponsorsStyled = {
 	width: 400
 };
 
-export const Widescreen1610: React.FC = () => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
-	});
-	const [timerRep] = useReplicant<TimerType, undefined>('timer', undefined, {
-		namespace: 'nodecg-speedcontrol',
-	});
-	const [hostNamesRep] = useReplicant<string[], string[]>('host-names', []);
-	const [previewHostNamesRep] = useReplicant<string[], string[]>('preview-host-names', []);
-	const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [runnerNamesRep] = useReplicant<RunnerNames[], RunnerNames[]>('runner-names', []);
-
+export const Widescreen1610: React.FC<OverlayProps> = (props) => {
 	return (
 		<WidescreenContainer>
 			<InfoBar>
 				<VerticalStack style={{ flexGrow: 1 }}>
 					<RunInfo.GameTitle
 						maxWidth={680}
-						game={runDataActiveRep?.game || ''}
+						game={props.runData?.game || ''}
 						style={{ marginBottom: -15 }}
 					/>
-					<RunInfo.System system={runDataActiveRep?.system || ''} />
+					<RunInfo.System system={props.runData?.system || ''} />
 				</VerticalStack>
 				<InfoDivider />
 				<VerticalStack style={{ flexGrow: 1 }}>
 					<RunInfo.Category
 						maxWidth={420}
-						category={runDataActiveRep?.category || ''}
+						category={props.runData?.category || ''}
 						style={{ marginBottom: -25 }}
 					/>
-					<RunInfo.Estimate estimate={runDataActiveRep?.estimate || ''} />
+					<RunInfo.Estimate estimate={props.runData?.estimate || ''} />
 				</VerticalStack>
 				<InfoDivider />
-				<Timer style={{ width: 587, zIndex: 2 }} timer={timerRep} />
+				<Timer style={{ width: 587, zIndex: 2 }} timer={props.timer} />
 			</InfoBar>
 
 			<Sidebar>
 				<Facecam
 					height={400}
-					name={runnerNamesRep}
-					hosts={currentOverlayRep?.live === 'widescreen16-10' ? hostNamesRep : previewHostNamesRep}
+					teams={props.runData?.teams[0]}
 				/>
 				<SponsorsBoxS sponsorStyle={SponsorsStyled} tweetStyle={SponsorsStyled} />
 				<OrangeStripe side='bottom' style={{position: 'absolute', bottom: 0, width: '100%'}} />

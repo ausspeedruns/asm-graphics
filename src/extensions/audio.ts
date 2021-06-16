@@ -3,7 +3,6 @@ import obs from './util/obs';
 
 import { RunDataActiveRun } from '../types/RunData';
 import { Stream } from '../types/Streams';
-import { RunnerNames } from '../types/ExtraRunData';
 
 const nodecg = nodecgApiContext.get();
 
@@ -11,19 +10,21 @@ const audioIndicatorRep = nodecg.Replicant<string>('audio-indicator', { defaultV
 const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams');
 const obsConnectionRep = nodecg.Replicant<boolean>('obsConnection');
-const runnerNamesRep = nodecg.Replicant<RunnerNames[]>('runner-names');
 
 nodecg.listenFor('update-audioindicator', (teamId: string) => {
 	audioIndicatorRep.value = teamId;
 	changeStreamMutes(teamId);
 });
 
-runnerNamesRep.on('change', newVal => {
-	if (newVal.length > 0) {
-		audioIndicatorRep.value = newVal[0].id;
-		changeStreamMutes(newVal[0].id);
-	} else {
+runDataActiveRep.on('change', newVal => {
+	if (!newVal?.teams) {
 		audioIndicatorRep.value = '';
+		return;
+	}
+
+	if (newVal.teams.length > 1) {
+		audioIndicatorRep.value = newVal.teams[0].id;
+		changeStreamMutes(newVal.teams[0].id);
 	}
 });
 

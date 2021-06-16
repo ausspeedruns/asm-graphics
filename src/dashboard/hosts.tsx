@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
+import { CouchInformation } from '../types/OverlayProps';
+
 import { Button, TextField, ThemeProvider } from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
@@ -59,9 +61,8 @@ const TextfieldStyled = styled(TextField)`
 export const DashHosts: React.FC = () => {
 	const [localPreviewHostName, setLocalPreviewHostName] = useState('');
 	const [localHostName, setLocalHostName] = useState('');
-	const [hostNamesRep] = useReplicant<string[], string[]>('host-names', []);
-	const [previewHostNamesRep] = useReplicant<string[], string[]>('preview-host-names', []);
-
+	const [couchNamesRep] = useReplicant<CouchInformation, CouchInformation>('couch-names', {current: [], preview: []});
+	console.log(couchNamesRep)
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocalHostName(event.target.value);
 	};
@@ -72,8 +73,8 @@ export const DashHosts: React.FC = () => {
 
 	const addHost = () => {
 		let newNamesArray: string[];
-		if (hostNamesRep.length > 0) {
-			newNamesArray = [...hostNamesRep, localHostName];
+		if (couchNamesRep.current.length > 0) {
+			newNamesArray = [...couchNamesRep.current, localHostName];
 		} else {
 			newNamesArray = [localHostName];
 		}
@@ -85,8 +86,8 @@ export const DashHosts: React.FC = () => {
 
 	const addPreviewHost = () => {
 		let newNamesArray: string[];
-		if (hostNamesRep.length > 0) {
-			newNamesArray = [...previewHostNamesRep, localPreviewHostName];
+		if (couchNamesRep.preview.length > 0) {
+			newNamesArray = [...couchNamesRep.preview, localPreviewHostName];
 		} else {
 			newNamesArray = [localPreviewHostName];
 		}
@@ -96,11 +97,11 @@ export const DashHosts: React.FC = () => {
 		setLocalPreviewHostName('');
 	};
 
-	const allHostNames = hostNamesRep.map((name, index) => {
+	const allHostNames = couchNamesRep.current.map((name, index) => {
 		return <HostComponent name={name} index={index} key={index} />;
 	});
 
-	const previewHostName = previewHostNamesRep.map((name, index) => {
+	const previewHostName = couchNamesRep.preview.map((name, index) => {
 		return <HostComponent name={name} index={index} key={index} preview />;
 	});
 

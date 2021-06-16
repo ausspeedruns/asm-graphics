@@ -33,7 +33,7 @@ const Position = styled.div`
 const FinalTime = styled.div``;
 
 interface RaceFinishProps {
-	time: Timer;
+	time: Timer | undefined;
 	teamID: string;
 	style?: React.CSSProperties;
 	className?: string;
@@ -41,6 +41,9 @@ interface RaceFinishProps {
 
 export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) => {
 	const animRef = useRef<HTMLDivElement>(null);
+
+	if (!props.time) return <></>;
+
 	let finalTime = '';
 	if (props.time.teamFinishTimes[props.teamID]) {
 		finalTime = props.time.teamFinishTimes[props.teamID].time;

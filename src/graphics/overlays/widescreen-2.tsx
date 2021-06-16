@@ -4,10 +4,7 @@ import { useReplicant } from 'use-nodecg';
 // @ts-ignore
 // import Twemoji from 'react-twemoji';
 
-import { RunDataActiveRun } from '../../types/RunData';
-import { Timer as TimerType } from '../../types/Timer';
-import { RunnerNames } from '../../types/ExtraRunData';
-import { CurrentOverlay } from '../../types/CurrentOverlay';
+import { OverlayProps } from '../../types/OverlayProps';
 
 import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
@@ -74,7 +71,7 @@ const RightBox = styled.div`
 	height: 100%;
 	background: var(--main-col);
 	display: flex;
-    flex-direction: column;
+	flex-direction: column;
 `;
 
 const SponsorSize = {
@@ -112,36 +109,23 @@ const BottomBlock = styled.div`
 	align-items: center;
 `;
 
-export const Widescreen2: React.FC = () => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
-	});
-	const [timerRep] = useReplicant<TimerType, undefined>('timer', undefined, {
-		namespace: 'nodecg-speedcontrol',
-	});
+export const Widescreen2: React.FC<OverlayProps> = (props) => {
 	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
-	const [hostNamesRep] = useReplicant<string[], string[]>('host-names', []);
-	const [previewHostNamesRep] = useReplicant<string[], string[]>('preview-host-names', []);
-	const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [runnerNamesRep] = useReplicant<RunnerNames[], RunnerNames[]>('runner-names', []);
 
-	let raceTimers = <></>;
-	if (timerRep && runDataActiveRep) {
-		raceTimers = (
-			<>
-				<RaceFinish
-					style={{ top: 265, left: 830, zIndex: 3 }}
-					time={timerRep}
-					teamID={runnerNamesRep[0]?.id || ''}
-				/>
-				<RaceFinish
-					style={{ top: 265, left: 960, zIndex: 3 }}
-					time={timerRep}
-					teamID={runnerNamesRep[1]?.id || ''}
-				/>
-			</>
-		);
-	}
+	let raceTimers = (
+		<>
+			<RaceFinish
+				style={{ top: 265, left: 830, zIndex: 3 }}
+				time={props.timer}
+				teamID={props.runData?.teams[0]?.id || ''}
+			/>
+			<RaceFinish
+				style={{ top: 265, left: 960, zIndex: 3 }}
+				time={props.timer}
+				teamID={props.runData?.teams[1]?.id || ''}
+			/>
+		</>
+	);
 
 	return (
 		<Widescreen2Container>
@@ -150,55 +134,94 @@ export const Widescreen2: React.FC = () => {
 					<VerticalStack style={{ height: 100 }}>
 						<RunInfo.GameTitle
 							maxWidth={620}
-							game={runDataActiveRep?.game || ''}
+							game={props.runData?.game || ''}
 							style={{ fontSize: 50 }}
 						/>
-						<RunInfo.System system={runDataActiveRep?.system || ''} style={{ fontSize: 25, zIndex: 2 }} />
+						<RunInfo.System
+							system={props.runData?.system || ''}
+							style={{ fontSize: 25, zIndex: 2 }}
+						/>
 					</VerticalStack>
 					<InfoTopDivider />
 					<InfoSubBox>
 						<VerticalStack style={{ height: 120 }}>
-							<RunInfo.Category maxWidth={290} category={runDataActiveRep?.category || ''} />
-							<RunInfo.Estimate fontSize={30} estimate={runDataActiveRep?.estimate || ''} />
+							<RunInfo.Category
+								maxWidth={290}
+								category={props.runData?.category || ''}
+							/>
+							<RunInfo.Estimate
+								fontSize={30}
+								estimate={props.runData?.estimate || ''}
+							/>
 						</VerticalStack>
 						<InfoSideDivider />
-						<Timer fontSize={75} timer={timerRep} />
+						<Timer fontSize={75} timer={props.timer} />
 					</InfoSubBox>
-					<OrangeStripe side='bottom' style={{ transform: 'scaleY(1.28125)', transformOrigin: 'bottom' }} />
+					<OrangeStripe
+						side="bottom"
+						style={{
+							transform: 'scaleY(1.28125)',
+							transformOrigin: 'bottom',
+						}}
+					/>
 				</InfoBox>
 
 				<AudioIndicator
-					active={audioIndicatorRep === (runnerNamesRep[0]?.id || '')}
+					active={
+						audioIndicatorRep ===
+						(props.runData?.teams[0]?.id || '')
+					}
 					side="left"
 					style={{ position: 'absolute', top: 300, left: 624 }}
 				/>
 				<AudioIndicator
-					active={audioIndicatorRep === (runnerNamesRep[1]?.id || '')}
+					active={
+						audioIndicatorRep ===
+						(props.runData?.teams[1]?.id || '')
+					}
 					side="right"
-					style={{ position: 'absolute', top: 300, right: 624, zIndex: 2 }}
+					style={{
+						position: 'absolute',
+						top: 300,
+						right: 624,
+						zIndex: 2,
+					}}
 				/>
 
 				<Facecam
 					width={588}
-					name={runnerNamesRep}
 					style={{
 						borderRight: '1px solid var(--asm-orange)',
 						borderLeft: '1px solid var(--asm-orange)',
 						zIndex: 2,
 					}}
-					hosts={currentOverlayRep?.live === 'widescreen-2' ? hostNamesRep : previewHostNamesRep}
+					teams={props.runData?.teams[0]}
+
 				/>
 
 				{raceTimers}
 
 				<RightBox>
-					<SponsorsBox style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
-					<OrangeStripe side='bottom' style={{ transform: 'scaleY(1.28125)', transformOrigin: 'bottom' }} />
+					<SponsorsBox
+						style={{ flexGrow: 1 }}
+						sponsorStyle={SponsorSize}
+						tweetStyle={TwitterSize}
+					/>
+					<OrangeStripe
+						side="bottom"
+						style={{
+							transform: 'scaleY(1.28125)',
+							transformOrigin: 'bottom',
+						}}
+					/>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />
 			<BottomBlock>
-				<OrangeStripe side='top' style={{position: 'relative', width: '100%'}} />
+				<OrangeStripe
+					side="top"
+					style={{ position: 'relative', width: '100%' }}
+				/>
 			</BottomBlock>
 		</Widescreen2Container>
 	);
