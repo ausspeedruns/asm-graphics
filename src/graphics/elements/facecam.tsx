@@ -29,24 +29,37 @@ interface FacecamProps {
 export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 	if (!props.teams) return <></>;
 
-	let allRunnerNames;
+	let allRunnerNames: JSX.Element[];
 	if (props.teams.players.length > 1) {
-		allRunnerNames = props.teams.players.map((player) => {
-			return (
+		let alternatingPronounSides = false;
+		allRunnerNames = [];
+		props.teams.players.forEach((player) => {
+			alternatingPronounSides = !alternatingPronounSides;
+			allRunnerNames.push(
 				<Nameplate
-					name={player.name}
-					twitch={player.social.twitch}
+					player={player}
+					nameplateLeft={alternatingPronounSides}
 					style={{
-						width: `${100 / props.teams!.players.length}%`,
+						fontSize: 25,
 					}}
 					key={player.id}
-				/>
+				/>,
+			);
+			allRunnerNames.push(
+				<div
+					key={player.id + '-divider'}
+					style={{
+						background: 'var(--asm-orange)',
+						minWidth: 2,
+						height: 41,
+					}}
+				/>,
 			);
 		});
+
+		allRunnerNames.pop();
 	} else {
-		allRunnerNames = (
-			<Nameplate name={props.teams.players[0].name} />
-		);
+		allRunnerNames = [<Nameplate key={props.teams.players[0].id} player={props.teams.players[0]} />];
 	}
 
 	return (

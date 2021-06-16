@@ -41,21 +41,23 @@ interface RaceFinishProps {
 
 export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) => {
 	const animRef = useRef<HTMLDivElement>(null);
-
-	if (!props.time) return <></>;
-
+	
 	let finalTime = '';
-	if (props.time.teamFinishTimes[props.teamID]) {
-		finalTime = props.time.teamFinishTimes[props.teamID].time;
-	}
 
 	useEffect(() => {
-		if (finalTime != '') {
+		if (!props.time) return ;
+		if (finalTime !== '') {
 			gsap.to(animRef.current, { y: 0, duration: 1 });
 		} else {
 			gsap.set(animRef.current, { y: 35 });
 		}
-	}, [finalTime]);
+	}, [finalTime, props.time]);
+
+	if (!props.time) return <></>;
+
+	if (props.time.teamFinishTimes[props.teamID]) {
+		finalTime = props.time.teamFinishTimes[props.teamID].time;
+	}
 
 	let finalPlace = 4;
 	if (props.time.teamFinishTimes[props.teamID]) {
