@@ -20,7 +20,7 @@ const DonateText = styled.span`
 
 const CharityLogo = styled.img`
 	width: 265px;
-	height: 100px;
+	height: 84px;
 	object-fit: contain;
 	margin-left: 35px;
 `;

@@ -14,6 +14,7 @@ import { InterNextRunItem, EndRunItem } from './elements/intermission/next-run-i
 // import { Sponsors } from './elements/sponsors';
 
 import { Tweet } from './elements/tweet';
+import { OrangeStripe } from './elements/orange-stripe';
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -29,25 +30,25 @@ const NextRuns = styled.div`
 	left: 1033px; */
 	color: #ffffff;
 	font-family: Noto Sans;
-	width: 630px;
+	width: 560px;
 	height: 100%;
-	background: linear-gradient(180deg, #0c94de 0%, #085d8b 100%);
+	background: var(--main-col);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	//gap: 30px; OBS Chrome version isn't high enough
 
 	& > div {
-		margin-top: 30px;
+		margin-top: 10px;
 	}
 `;
 
 const IncentiveBlock = styled.div`
 	color: #ffffff;
 	font-family: Noto Sans;
-	width: 630px;
+	width: 560px;
 	height: 100%;
-	background: linear-gradient(180deg, #0c94de 0%, #085d8b 100%);
+	background: var(--main-col);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -73,8 +74,8 @@ const SponsorHolder = styled.div`
 
 const SponsorImg = styled.img`
 	object-fit: contain;
-	height: 275px;
-	width: 265px;
+	height: 120px;
+	width: 100%;
 	z-index: 2;
 `;
 
@@ -99,8 +100,7 @@ const BottomBlock = styled.div`
 	top: 490px;
 	height: 590px;
 	width: 100%;
-	border-top: solid 9px #095e8c;
-	background: var(--main-col);
+	background: rgba(43, 49, 92, 0.8);
 	display: flex;
 	justify-content: center;
 `;
@@ -172,13 +172,17 @@ export const Intermission: React.FC<IntermissionProps> = (props: IntermissionPro
 		<IntermissionContainer>
 			<InterCTA style={{ position: 'absolute', top: 375 }} />
 			<BottomBlock>
-				<IncentiveBlock>
-					<b style={{ fontSize: 50, marginTop: 20 }}>Incentives</b>
-					<InterIncentives />
-				</IncentiveBlock>
+				<div style={{ display: 'flex' }}>
+					<OrangeStripe side='right' />
+					<IncentiveBlock>
+						<b style={{ fontSize: 50, marginTop: 20 }}>Incentives</b>
+						<InterIncentives />
+					</IncentiveBlock>
+					<OrangeStripe side='left' />
+				</div>
 				<MiddleContent>
 					<SponsorHolder style={{ position: 'relative' }}>
-						<SponsorImg ref={asLogoRef} src="../shared/design/AusSpeedrunsLogo.svg" />
+						<SponsorImg ref={asLogoRef} src="../shared/design/ASM-White.svg" />
 						<TweetBox ref={tweetRef}>
 							<Tweet style={{width: '100%', margin: 0, justifyContent: 'center'}} tweet={tweet} />
 						</TweetBox>
@@ -200,12 +204,16 @@ export const Intermission: React.FC<IntermissionProps> = (props: IntermissionPro
 						/>
 					</Music>
 				</MiddleContent>
-				<NextRuns>
-					<b style={{ fontSize: 50, marginTop: 20 }}>Next Run</b>
-					{NextRun}
-					<b style={{ fontSize: 36, marginTop: 20 }}>Soon</b>
-					{RunsArray}
-				</NextRuns>
+				<div style={{ display: 'flex' }}>
+					<OrangeStripe side='right' />
+					<NextRuns>
+						<b style={{ fontSize: 50, marginTop: 11 }}>Next Run</b>
+						{NextRun}
+						<b style={{ fontSize: 36, marginTop: 5 }}>Soon</b>
+						{RunsArray}
+					</NextRuns>
+					<OrangeStripe side='left' />
+				</div>
 			</BottomBlock>
 		</IntermissionContainer>
 	);
