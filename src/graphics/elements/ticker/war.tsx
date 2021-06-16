@@ -280,7 +280,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 						maxWidth: '80%',
 					}}>
 					<OptionName text={props.option.name} />
-					<CurrentAmount>${Math.ceil(props.option.total).toLocaleString()}</CurrentAmount>
+					<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
 				</div>
 			</TextDiv>
 		</ProgressContainer>

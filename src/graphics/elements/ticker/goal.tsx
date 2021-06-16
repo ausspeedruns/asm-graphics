@@ -204,7 +204,7 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 			<ProgressContainer>
 				<ProgressBarContainer ref={progressBarRef}>
 					<CurrentAmount style={textOnRightSide}>
-						${Math.ceil(props.goal.total).toLocaleString()}
+						${Math.floor(props.goal.total).toLocaleString()}
 					</CurrentAmount>
 				</ProgressBarContainer>
 			</ProgressContainer>

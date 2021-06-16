@@ -220,11 +220,11 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 			<ProgressContainer>
 				<ProgressBarContainer ref={progressBarRef}>
 					<CurrentAmount style={textOnRightSide}>
-						${Math.ceil(props.goal.total).toLocaleString()}
+						${Math.floor(props.goal.total).toLocaleString()}
 					</CurrentAmount>
 				</ProgressBarContainer>
 				<RemainingAmount style={{ display: percentage > 94 ? 'none' : '' }}>
-					${Math.ceil(props.goal.goal - props.goal.total).toLocaleString()} to go!
+					${Math.floor(props.goal.goal - props.goal.total).toLocaleString()} to go!
 				</RemainingAmount>
 			</ProgressContainer>
 		</GoalBarContainer>

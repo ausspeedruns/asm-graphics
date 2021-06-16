@@ -142,18 +142,18 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 			</TickerTitle>
 			<PrevMilestone>
 				<NextMilestoneEvent>{prevMilestone.event}</NextMilestoneEvent>
-				<NextMilestoneTotal>${Math.ceil(prevMilestone.total).toLocaleString()}</NextMilestoneTotal>
+				<NextMilestoneTotal>${Math.floor(prevMilestone.total).toLocaleString()}</NextMilestoneTotal>
 			</PrevMilestone>
 			<ProgressContainer>
 				<ProgressBarContainer ref={progressBarRef}>
 					<CurrentAmount style={textOnRightSide}>
-						${Math.ceil(props.currentTotal).toLocaleString()}
+						${Math.floor(props.currentTotal).toLocaleString()}
 					</CurrentAmount>
 				</ProgressBarContainer>
 			</ProgressContainer>
 			<NextMilestone>
 				<NextMilestoneEvent>{nextMilestone.event}</NextMilestoneEvent>
-				<NextMilestoneTotal>${Math.ceil(nextMilestone.total).toLocaleString()}</NextMilestoneTotal>
+				<NextMilestoneTotal>${Math.floor(nextMilestone.total).toLocaleString()}</NextMilestoneTotal>
 			</NextMilestone>
 		</TickerMilestonesContainer>
 	);
