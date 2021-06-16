@@ -30,8 +30,12 @@ export interface RunDataPlayer {
 	id: string;
 	teamID: string;
 	country?: string;
+	pronouns?: string;
 	social: {
 		twitch?: string;
+	};
+	customData: {
+		[key: string]: string;
 	};
 }
 
