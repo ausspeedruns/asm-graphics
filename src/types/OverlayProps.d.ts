@@ -9,6 +9,11 @@ export interface OverlayProps {
 }
 
 export interface CouchInformation {
-	current: string[];
-	preview: string[];
+	current: CouchPerson[];
+	preview: CouchPerson[];
+}
+
+export interface CouchPerson {
+	name: string;
+	pronouns: string;
 }

@@ -1,18 +1,18 @@
 import * as nodecgApiContext from './nodecg-api-context';
-import { CouchInformation } from '../types/OverlayProps';
+import { CouchInformation, CouchPerson } from '../types/OverlayProps';
 
 const nodecg = nodecgApiContext.get();
 
 const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names', { defaultValue: {current: [], preview: []} });
 
-nodecg.listenFor('update-hostnames', (names: string[]) => {
+nodecg.listenFor('update-hostnames', (names: CouchPerson[]) => {
 	couchNamesRep.value.current = names;
 });
 
 // Unused due to ux anti pattern
-nodecg.listenFor('rename-hostnames', (data: {name: string, index: number}) => {
+nodecg.listenFor('rename-hostnames', (data: {person: CouchPerson, index: number}) => {
 	const hostNamesMutable = couchNamesRep.value;
-	hostNamesMutable.current[data.index] = data.name;
+	hostNamesMutable.current[data.index] = data.person;
 	couchNamesRep.value = hostNamesMutable;
 });
 
@@ -23,7 +23,7 @@ nodecg.listenFor('remove-hostname', (index: number) => {
 });
 
 // Preview host names
-nodecg.listenFor('update-preview-hostnames', (names: string[]) => {
+nodecg.listenFor('update-preview-hostnames', (names: CouchPerson[]) => {
 	couchNamesRep.value.preview = names;
 });
 
