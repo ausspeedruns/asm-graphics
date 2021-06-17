@@ -21,8 +21,7 @@ const TweetContainer = styled.div`
 `;
 
 const Text = styled.div`
-	padding: 20px;
-	padding-bottom: 13px;
+	padding: 13px 20px;
 	text-align: center;
 
 	& .emoji {
@@ -36,13 +35,13 @@ const Text = styled.div`
 const Username = styled.span`
 	font-weight: bold;
 	font-size: 16px;
-	margin: 0 10px;
+	margin-right: 6px;
 `;
 
 const BottomBorderCont = styled.div`
 	display: flex;
 	align-items: center;
-	margin-bottom: -9px;
+	margin-bottom: -10px;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -52,6 +51,12 @@ const BottomBorder = styled.div`
 	height: 1px;
 	background: white;
 	min-width: 15px;
+`;
+
+const TwitterLogo = styled.img`
+	height: 22px;
+	width: auto;
+	margin: 0 6px;
 `;
 
 interface Props {
@@ -84,6 +89,7 @@ export const Tweet: React.FC<Props> = (props: Props) => {
 			</Twemoji>
 			<BottomBorderCont>
 				<BottomBorder style={{ flexGrow: 1 }} />
+				<TwitterLogo src={'../shared/design/Twitter white.svg'} />
 				<Username>@{props.tweet.includes.users[0].username}</Username>
 				<BottomBorder />
 			</BottomBorderCont>

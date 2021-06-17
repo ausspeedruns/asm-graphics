@@ -38,24 +38,23 @@ const TopBar = styled(Box)`
 	background-color: #4d5e80;
 `;
 
-/*
 const fakeTweet: Tweet = {
 	data: {
 		authorID: '105261155',
 		id: '1317382179320627201',
-		createdAt: '2020-10-26T07:17:29.000Z',
+		created_at: '2020-10-26T07:17:29.000Z',
 		text:
 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque dignissim elementum. Aliquam risus elit, commodo eu ultrices eu, ornare quis mi. Morbi varius magna augue, et rutrum dolor interdum sit amet. Integer tristique magna vitae mollis auctor. Class #ASM2021',
 	},
 	includes: { users: [{ id: '105261155', name: 'Ewan Lyon', username: 'Clubwhom' }] },
 	matchingRules: [{ id: 1, tag: 'Event Hashtag' }],
-}; */
+};
 
 const Twitter: React.FC = () => {
 	const [tweetList] = useReplicant<Tweet[], Tweet[]>('tweets', []);
 	const [canUndo, setCanUndo] = useState<Boolean>(false);
 
-	let tweets: JSX.Element[] = [];
+	let tweets: JSX.Element[] = [<SingleTweet key={'Test'} tweet={fakeTweet} />];
 	if (tweetList) {
 		tweets = tweetList.map((tweet) => {
 			return <SingleTweet key={tweet.data.id} tweet={tweet} />;

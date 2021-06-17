@@ -67,9 +67,9 @@ const SponsorsSize = {
 };
 
 const TwitterSize = {
-	height: 130,
-	width: 480,
-	marginTop: -60,
+	height: 163,
+    width: 480,
+    marginTop: -44
 };
 
 export const Standard: React.FC<OverlayProps> = (props) => {

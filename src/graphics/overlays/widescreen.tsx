@@ -78,8 +78,9 @@ const SponsorSize = {
 };
 
 const TwitterSize = {
-	height: 320,
-	width: 360,
+	height: 252,
+    width: 360,
+    marginTop: -41
 };
 
 export const Widescreen: React.FC<OverlayProps> = (props) => {

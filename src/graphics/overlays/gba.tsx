@@ -66,9 +66,10 @@ const InfoBoxBG = styled.div`
 `;
 
 const TwitterSize = {
-	height: 130,
-	width: 350,
-	marginTop: -60,
+	height: 158,
+    width: 395,
+    marginTop: -44,
+	fontSize: 14
 };
 
 export const GBA: React.FC<OverlayProps> = (props) => {

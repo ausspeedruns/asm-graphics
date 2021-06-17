@@ -69,9 +69,9 @@ const SponsorsSize = {
 };
 
 const TwitterSize = {
-	height: 130,
-	width: 480,
-	marginTop: -60,
+	height: 142,
+    width: 558,
+    marginTop: -47
 };
 
 const InfoBoxBG = styled.div`
