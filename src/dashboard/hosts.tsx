@@ -108,6 +108,7 @@ export const DashHosts: React.FC = () => {
 		nodecg.sendMessage('update-hostnames', newNamesArray);
 
 		setLocalHostName('');
+		setLocalHostPronoun('');
 	};
 
 	const addPreviewHost = () => {
@@ -126,6 +127,7 @@ export const DashHosts: React.FC = () => {
 		nodecg.sendMessage('update-preview-hostnames', newNamesArray);
 
 		setLocalPreviewHostName('');
+		setLocalPreviewPronoun('');
 	};
 
 	const allHostNames = couchNamesRep.current.map((person, index) => {
@@ -148,11 +150,23 @@ export const DashHosts: React.FC = () => {
 					value={localPreviewHostName}
 					onChange={handlePreviewNameChange}
 				/>
+			</div>
+			<div style={{ display: 'flex' }}>
 				<TextfieldStyled
+					style={{ flexShrink: 1 }}
 					label="Pronouns"
 					value={localPreviewPronoun}
 					onChange={handlePreviewPronounChange}
 				/>
+				<Button onClick={() => setLocalPreviewPronoun('He/Him')}>
+					He/Him
+				</Button>
+				<Button onClick={() => setLocalPreviewPronoun('She/Her')}>
+					She/Her
+				</Button>
+				<Button onClick={() => setLocalPreviewPronoun('They/Them')}>
+					They/Them
+				</Button>
 			</div>
 			<GreenButton
 				fullWidth
@@ -179,11 +193,23 @@ export const DashHosts: React.FC = () => {
 					value={localHostName}
 					onChange={handleChange}
 				/>
+			</div>
+			<div style={{ display: 'flex' }}>
 				<TextfieldStyled
+					style={{ flexShrink: 1 }}
 					label="Pronouns"
 					value={localHostPronoun}
 					onChange={handlePronounChange}
 				/>
+				<Button onClick={() => setLocalHostPronoun('He/Him')}>
+					He/Him
+				</Button>
+				<Button onClick={() => setLocalHostPronoun('She/Her')}>
+					She/Her
+				</Button>
+				<Button onClick={() => setLocalHostPronoun('They/Them')}>
+					They/Them
+				</Button>
 			</div>
 			<div>
 				<GreenButton
