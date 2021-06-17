@@ -8,6 +8,8 @@ import * as RunInfo from '../elements/run-info';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { OrangeStripe } from '../elements/orange-stripe';
+import { Couch } from '../elements/couch';
+import { ASMBanner } from '../elements/asm-banner';
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -38,10 +40,14 @@ const VerticalStack = styled.div`
 
 const InfoBoxBG = styled.div`
 	background: var(--main-col);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 664px;
 `;
 
 const InfoBox = styled.div`
-	height: 400px;
+	height: 340px;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -51,16 +57,17 @@ const InfoBox = styled.div`
 
 const SponsorBoxS = styled(SponsorsBox)`
 	width: 100%;
-	height: 264px;
+	/* height: 264px; */
+	flex-grow: 1;
 `;
 
 const SponsorsSize = {
-	height: 200,
+	height: 130,
 	width: 430,
 };
 
 const TwitterSize = {
-	height: 210,
+	height: 130,
 	width: 480,
 	marginTop: -60,
 };
@@ -69,18 +76,25 @@ export const Standard: React.FC<OverlayProps> = (props) => {
 	return (
 		<StandardContainer>
 			<Sidebar>
-				<Facecam
-					height={352}
-					teams={props.runData?.teams[0]}
-				/>
+				<Facecam height={352} teams={props.runData?.teams[0]} />
 				<InfoBoxBG>
 					<InfoBox>
 						<VerticalStack style={{ height: 180 }}>
-							<Timer fontSize={110} timer={props.timer} style={{ marginBottom: -15 }} />
-							<RunInfo.Estimate fontSize={30} estimate={props.runData?.estimate || ''} />
+							<Timer
+								fontSize={110}
+								timer={props.timer}
+								style={{ marginBottom: -15 }}
+							/>
+							<RunInfo.Estimate
+								fontSize={30}
+								estimate={props.runData?.estimate || ''}
+							/>
 						</VerticalStack>
 						<InfoDivider />
-						<RunInfo.Category maxWidth={450} category={props.runData?.category || ''} />
+						<RunInfo.Category
+							maxWidth={450}
+							category={props.runData?.category || ''}
+						/>
 						<InfoDivider />
 						<VerticalStack style={{ height: 100 }}>
 							<RunInfo.GameTitle
@@ -94,9 +108,19 @@ export const Standard: React.FC<OverlayProps> = (props) => {
 							/>
 						</VerticalStack>
 					</InfoBox>
-
-					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
-					<OrangeStripe side='bottom' style={{position: 'relative', bottom: 32, width: '100%'}} />
+					<Couch
+						couch={
+							props.preview
+								? props.couchInformation.preview
+								: props.couchInformation.current
+						}
+					/>
+					<ASMBanner />
+					<SponsorBoxS
+						sponsorStyle={SponsorsSize}
+						tweetStyle={TwitterSize}
+					/>
+					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>
