@@ -13,6 +13,7 @@ import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { OrangeStripe } from '../elements/orange-stripe';
+import { PersonCompressed } from '../elements/couch';
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -107,10 +108,26 @@ const BottomBlock = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: space-between;
+`;
+
+const BespokeCouch = styled.div`
+	display: flex;
+	align-items: center;
+`;
+
+const CouchLabel = styled.span`
+	color: #ffffff;
+	font-style: italic;
+	font-size: 20px;
+	margin-right: 4px;
 `;
 
 export const Widescreen2: React.FC<OverlayProps> = (props) => {
-	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
+	const [audioIndicatorRep] = useReplicant<string, string>(
+		'audio-indicator',
+		'',
+	);
 
 	let raceTimers = (
 		<>
@@ -196,7 +213,6 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams[0]}
-
 				/>
 
 				{raceTimers}
@@ -220,8 +236,20 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 			<BottomBlock>
 				<OrangeStripe
 					side="top"
-					style={{ position: 'relative', width: '100%' }}
+					style={{ width: '100%' }}
 				/>
+				<BespokeCouch>
+					<CouchLabel>Couch</CouchLabel>
+					{/* Since this is a special placement it has to be made custom here */}
+					{props.preview
+						? props.couchInformation.preview.map((person) => {
+								return <PersonCompressed person={person} />;
+						  })
+						: props.couchInformation.current.map((person) => {
+								return <PersonCompressed person={person} />;
+						  })}
+				</BespokeCouch>
+				<div />
 			</BottomBlock>
 		</Widescreen2Container>
 	);
