@@ -27,6 +27,7 @@ const PeopleContainer = styled.div`
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
 `;
 
 interface Props {
@@ -75,7 +76,7 @@ interface PersonCompressedProps {
 	person: CouchPerson;
 }
 
-const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
+export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
 		<PersonCompressedContainer>
 			<Pronouns>{props.person.pronouns}</Pronouns>
