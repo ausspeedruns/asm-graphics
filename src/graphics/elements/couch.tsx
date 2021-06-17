@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CouchPerson } from '../../types/OverlayProps';
 
 const CouchContainer = styled.div`
+	font-family: Noto Sans;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
