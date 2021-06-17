@@ -11,6 +11,7 @@ import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { OrangeStripe } from '../elements/orange-stripe';
+import { Couch } from '../elements/couch';
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -69,7 +70,8 @@ const RightBox = styled.div`
 	height: 100%;
 	background: var(--main-col);
 	display: flex;
-    flex-direction: column;
+	flex-direction: column;
+	justify-content: space-between;
 `;
 
 const SponsorSize = {
@@ -93,15 +95,25 @@ const CentralDivider = styled.div`
 `;
 
 export const Standard2: React.FC<OverlayProps> = (props) => {
-	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
+	const [audioIndicatorRep] = useReplicant<string, string>(
+		'audio-indicator',
+		'',
+	);
 
 	let raceTimers = (
 		<>
-			<RaceFinish style={{ top: 220, left: 830 }} time={props.timer} teamID={props.runData?.teams[0]?.id || ''} />
-			<RaceFinish style={{ top: 220, left: 960 }} time={props.timer} teamID={props.runData?.teams[1]?.id || ''} />
+			<RaceFinish
+				style={{ top: 220, left: 830 }}
+				time={props.timer}
+				teamID={props.runData?.teams[0]?.id || ''}
+			/>
+			<RaceFinish
+				style={{ top: 220, left: 960 }}
+				time={props.timer}
+				teamID={props.runData?.teams[1]?.id || ''}
+			/>
 		</>
 	);
-		
 
 	return (
 		<Standard2Container>
@@ -113,29 +125,55 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 							game={props.runData?.game || ''}
 							style={{ fontSize: 37 }}
 						/>
-						<RunInfo.System system={props.runData?.system || ''} style={{ fontSize: 25, zIndex: 2 }} />
+						<RunInfo.System
+							system={props.runData?.system || ''}
+							style={{ fontSize: 25, zIndex: 2 }}
+						/>
 					</VerticalStack>
 					<InfoTopDivider />
 					<InfoSubBox>
 						<VerticalStack style={{ height: 120 }}>
-							<RunInfo.Category maxWidth={370} category={props.runData?.category || ''} />
-							<RunInfo.Estimate fontSize={30} estimate={props.runData?.estimate || ''} />
+							<RunInfo.Category
+								maxWidth={370}
+								category={props.runData?.category || ''}
+							/>
+							<RunInfo.Estimate
+								fontSize={30}
+								estimate={props.runData?.estimate || ''}
+							/>
 						</VerticalStack>
 						<InfoSideDivider />
 						<Timer fontSize={75} timer={props.timer} />
 					</InfoSubBox>
-					<OrangeStripe side='bottom' style={{ transform: 'scaleY(1.28125)', transformOrigin: 'bottom' }} />
+					<OrangeStripe
+						side="bottom"
+						style={{
+							transform: 'scaleY(1.28125)',
+							transformOrigin: 'bottom',
+						}}
+					/>
 				</InfoBox>
 
 				<AudioIndicator
-					active={audioIndicatorRep === (props.runData?.teams[0]?.id || '')}
+					active={
+						audioIndicatorRep ===
+						(props.runData?.teams[0]?.id || '')
+					}
 					side="left"
 					style={{ position: 'absolute', top: 255, left: 625 }}
 				/>
 				<AudioIndicator
-					active={audioIndicatorRep === (props.runData?.teams[1]?.id || '')}
+					active={
+						audioIndicatorRep ===
+						(props.runData?.teams[1]?.id || '')
+					}
 					side="right"
-					style={{ position: 'absolute', top: 255, right: 625, zIndex: 2 }}
+					style={{
+						position: 'absolute',
+						top: 255,
+						right: 625,
+						zIndex: 2,
+					}}
 				/>
 
 				<Facecam
@@ -150,8 +188,29 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 				{raceTimers}
 
 				<RightBox>
-					<SponsorsBox style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
-					<OrangeStripe side='bottom' style={{ transform: 'scaleY(1.28125)', transformOrigin: 'bottom' }} />
+					<div
+						style={{ display: 'flex', width: '100%', flexGrow: 1, alignItems: 'center' }}>
+						<Couch
+							couch={
+								props.preview
+									? props.couchInformation.preview
+									: props.couchInformation.current
+							}
+							style={{ width: '30%' }}
+						/>
+						<SponsorsBox
+							style={{ flexGrow: 1 }}
+							sponsorStyle={SponsorSize}
+							tweetStyle={TwitterSize}
+						/>
+					</div>
+					<OrangeStripe
+						side="bottom"
+						style={{
+							transform: 'scaleY(1.28125)',
+							transformOrigin: 'bottom',
+						}}
+					/>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />
