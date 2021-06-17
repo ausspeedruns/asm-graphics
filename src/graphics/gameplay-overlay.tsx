@@ -18,6 +18,8 @@ import { GBC } from './overlays/gbc';
 import { RunDataActiveRun } from '../types/RunData';
 import { Timer } from '../types/Timer';
 import { CouchInformation } from '../types/OverlayProps';
+import { DS2 } from './overlays/ds2';
+import { WHG } from './overlays/whg11-8';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -91,12 +93,20 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: 'DS',
 		},
 		{
+			component: <DS2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} />,
+			name: 'DS-2',
+		},
+		{
 			component: <GBA runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
 			name: 'GBA',
 		},
 		{
 			component: <GBC runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
 			name: 'GBC',
+		},
+		{
+			component: <WHG runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			name: 'WHG',
 		},
 		{
 			component: <div style={{height: 1016}}></div>,

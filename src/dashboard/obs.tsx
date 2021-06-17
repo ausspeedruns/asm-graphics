@@ -205,6 +205,8 @@ const DashOBS: React.FC = () => {
 							<MenuItem value="gba">Gameboy Advanced</MenuItem>
 							<MenuItem value="gbc">Gameboy Colour</MenuItem>
 							<MenuItem value="ds">Nintendo DS</MenuItem>
+							<MenuItem value="ds-2">Nintendo DS 2</MenuItem>
+							<MenuItem value="whg">World's Hardest Game (11:8)</MenuItem>
 							<MenuItem value="none">None</MenuItem>
 						</Select>
 					</FormControl>
