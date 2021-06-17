@@ -8,6 +8,8 @@ import { SponsorsBox } from '../elements/sponsors';
 import * as RunInfo from '../elements/run-info';
 import { Facecam } from '../elements/facecam';
 import { OrangeStripe } from '../elements/orange-stripe';
+import { Couch } from '../elements/couch';
+import { ASMBanner } from '../elements/asm-banner';
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -33,6 +35,15 @@ const SponsorsBoxS = styled(SponsorsBox)`
 	flex-grow: 1;
 `;
 
+const SidebarBG = styled.div`
+	background: var(--main-col);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 458px;
+	padding-top: 14px;
+`;
+
 const InfoBar = styled.div`
 	background: var(--main-col);
 	position: absolute;
@@ -41,6 +52,7 @@ const InfoBar = styled.div`
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	border-bottom: 1px var(--asm-orange) solid;
 `;
 
 const InfoDivider = styled.div`
@@ -60,6 +72,11 @@ const VerticalStack = styled.div`
 const SponsorsStyled = {
 	height: 250,
 	width: 400
+};
+
+const TwitterSize = {
+	height: 320,
+	width: 360,
 };
 
 export const Widescreen1610: React.FC<OverlayProps> = (props) => {
@@ -88,12 +105,19 @@ export const Widescreen1610: React.FC<OverlayProps> = (props) => {
 			</InfoBar>
 
 			<Sidebar>
-				<Facecam
-					height={400}
-					teams={props.runData?.teams[0]}
-				/>
-				<SponsorsBoxS sponsorStyle={SponsorsStyled} tweetStyle={SponsorsStyled} />
-				<OrangeStripe side='bottom' style={{position: 'absolute', bottom: 0, width: '100%'}} />
+				<Facecam height={400} teams={props.runData?.teams[0]} />
+				<SidebarBG>
+					<Couch
+						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
+					/>
+					<ASMBanner style={{marginTop: 4}} />
+					<SponsorsBoxS
+						sponsorStyle={SponsorsStyled}
+						tweetStyle={TwitterSize}
+					/>
+
+					<OrangeStripe side="bottom" style={{ width: '100%' }} />
+				</SidebarBG>
 			</Sidebar>
 		</WidescreenContainer>
 	);
