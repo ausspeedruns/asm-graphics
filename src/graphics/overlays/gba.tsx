@@ -7,6 +7,9 @@ import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
+import { ASMBanner } from '../elements/asm-banner';
+import { Couch } from '../elements/couch';
+import { OrangeStripe } from '../elements/orange-stripe';
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -36,7 +39,7 @@ const VerticalStack = styled.div`
 `;
 
 const InfoBox = styled.div`
-	height: 400px;
+	height: 340px;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -46,17 +49,27 @@ const InfoBox = styled.div`
 
 const SponsorsBoxS = styled(SponsorsBox)`
 	width: 100%;
-	height: 264px;
+	flex-grow: 1;
 `;
 
 const SponsorsStyled = {
-	height: 220,
+	height: 130,
 	width: 340,
 };
 
 const InfoBoxBG = styled.div`
 	background: var(--main-col);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 664px;
 `;
+
+const TwitterSize = {
+	height: 130,
+	width: 350,
+	marginTop: -60,
+};
 
 export const GBA: React.FC<OverlayProps> = (props) => {
 	return (
@@ -88,7 +101,19 @@ export const GBA: React.FC<OverlayProps> = (props) => {
 						</VerticalStack>
 					</InfoBox>
 
-					<SponsorsBoxS sponsorStyle={SponsorsStyled} tweetStyle={SponsorsStyled} />
+					<Couch
+						couch={
+							props.preview
+								? props.couchInformation.preview
+								: props.couchInformation.current
+						}
+					/>
+					<ASMBanner />
+					<SponsorsBoxS
+						sponsorStyle={SponsorsStyled}
+						tweetStyle={TwitterSize}
+					/>
+					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>
