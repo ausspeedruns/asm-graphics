@@ -31,24 +31,21 @@ const PeopleContainer = styled.div`
 
 interface Props {
 	couch: CouchPerson[];
-	wide?: boolean;
-	wideColumns?: number;
+	style?: React.CSSProperties;
+	className?: string;
 }
 
 export const Couch: React.FC<Props> = (props: Props) => {
 	if (props.couch.length === 0) return <></>;
 
 	return (
-		<CouchContainer>
+		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar>
 				<LineBorder />
 				<div style={{ margin: '0 6px' }}>Couch</div>
 				<LineBorder />
 			</MenuBar>
-			<PeopleContainer
-				style={{
-					justifyContent: props.wide ? 'space-between' : 'center',
-				}}>
+			<PeopleContainer>
 				{props.couch.map((person) => {
 					return <PersonCompressed person={person} />;
 				})}
