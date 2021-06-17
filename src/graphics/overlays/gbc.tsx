@@ -7,6 +7,9 @@ import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
+import { ASMBanner } from '../elements/asm-banner';
+import { OrangeStripe } from '../elements/orange-stripe';
+import { Couch } from '../elements/couch';
 
 const GBCContainer = styled.div`
 	height: 1016px;
@@ -30,8 +33,6 @@ const RightSidebar = styled.div`
 	border-left: 1px solid var(--asm-orange);
 	overflow: hidden;
 	background: var(--main-col);
-	background-size: 37px;
-	background-blend-mode: hard-light;
 `;
 
 const InfoDivider = styled.div`
@@ -49,7 +50,7 @@ const VerticalStack = styled.div`
 `;
 
 const InfoBox = styled.div`
-	height: 400px;
+	height: 340px;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -63,18 +64,22 @@ const SponsorBoxStyle = styled(SponsorsBox)`
 `;
 
 const SponsorsSize = {
-	height: 200,
+	height: 130,
 	width: 430,
 };
 
 const TwitterSize = {
-	height: 210,
+	height: 130,
 	width: 480,
 	marginTop: -60,
 };
 
 const InfoBoxBG = styled.div`
 	background: var(--main-col);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 664px;
 `;
 
 export const GBC: React.FC<OverlayProps> = (props) => {
@@ -84,7 +89,6 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 				<Facecam
 					height={352}
 					teams={props.runData?.teams[0]}
-					hosts={props.preview ? props.couchInformation.preview : props.couchInformation.current}
 				/>
 				<InfoBoxBG>
 					<InfoBox>
@@ -107,11 +111,24 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 							/>
 						</VerticalStack>
 					</InfoBox>
-
-					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
+					<Couch
+						couch={
+							props.preview
+								? props.couchInformation.preview
+								: props.couchInformation.current
+						}
+					/>
+					<ASMBanner />
+					<SponsorBoxStyle
+						sponsorStyle={SponsorsSize}
+						tweetStyle={TwitterSize}
+					/>
+					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</InfoBoxBG>
 			</Sidebar>
-			<RightSidebar />
+			<RightSidebar>
+				<OrangeStripe side="left" style={{position: 'absolute'}} />
+			</RightSidebar>
 		</GBCContainer>
 	);
 };
