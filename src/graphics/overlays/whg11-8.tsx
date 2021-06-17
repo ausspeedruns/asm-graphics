@@ -19,7 +19,8 @@ const WHGContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 523px;
+	width: 522px;
+	box-sizing: border-box;
 	border-right: 1px solid var(--asm-orange);
 	overflow: hidden;
 `;
