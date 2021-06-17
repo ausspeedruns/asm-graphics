@@ -30,8 +30,8 @@ async function init() {
 	require('./couch');
 
 	if (ncgConfig.twitter.enabled) {
-		require('./util/twitter');
 		require('./twitter');
+		require('./util/twitter');
 	} else {
 		nodecg.log.info('Twitter not enabled. Showing tweets will not work');
 	}

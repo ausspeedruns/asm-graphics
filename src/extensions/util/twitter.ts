@@ -14,8 +14,15 @@ const streamURL = 'https://api.twitter.com/2/tweets/search/stream';
 
 const streamParameters = [
 	'expansions=author_id',
-	'user.fields=username',
+	'user.fields=username', 
 	'tweet.fields=created_at'
+];
+
+const twitterSearch = [
+	'expansions=author_id',
+	'user.fields=username',
+	'tweet.fields=created_at',
+	'query=%23ASM2021'
 ];
 
 // Edit rules as desired here below
@@ -31,7 +38,6 @@ async function getAllRules() {
 
 	if (response.statusCode !== 200) {
 		throw new Error(response.body);
-		return null;
 	}
 
 	return (response.body);
@@ -126,6 +132,38 @@ function streamConnect() {
 	return stream;
 }
 
+function firstTimeLoad() {
+	const options = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		}
+	};
+	const streamURLwQuery = `https://api.twitter.com/2/tweets/search/recent?${twitterSearch.join('&')}`;
+
+	needle.get(streamURLwQuery, options, (err, _res, body) => {
+		if (err) {
+			nodecg.log.error('Twitter first time search fail: ' + err.message);
+			return;
+		}
+
+		body.data.forEach((tweet: any) => {
+			// Skip retweets
+			if (tweet.text.substr(0, 4) === 'RT @') return;
+
+			// console.log(JSON.stringify(tweet))
+			const tweetAuthor = body.includes.users.find((author: any) => author.id === tweet.author_id);
+			const normalisedTweet: TwitterTypes.Tweet = {
+				data: tweet,
+				includes: {
+					users: [tweetAuthor]
+				},
+				matchingRules: []
+			}
+			nodecg.sendMessage('newTweet', normalisedTweet);
+		});
+	});
+}
+
 
 (async () => {
 	let currentRules;
@@ -148,7 +186,7 @@ function streamConnect() {
 	// This reconnection logic will attempt to reconnect when a disconnection is detected.
 	// To avoid rate limites, this logic implements exponential backoff, so the wait time
 	// will increase if the client cannot reconnect to the stream.
-
+	firstTimeLoad();
 	const filteredStream = streamConnect();
 	let timeout = 0;
 	filteredStream.on('timeout', () => {
