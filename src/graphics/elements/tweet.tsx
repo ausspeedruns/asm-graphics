@@ -43,7 +43,7 @@ const BottomBorderCont = styled.div`
 	align-items: center;
 	margin-bottom: -10px;
 	position: absolute;
-	bottom: 0;
+	bottom: -1px;
 	width: 100%;
 `;
 
