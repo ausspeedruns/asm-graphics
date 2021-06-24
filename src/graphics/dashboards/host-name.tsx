@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { TextField, Button } from '@material-ui/core';
 import { CouchPerson } from '../../types/OverlayProps';
+import { useReplicant } from 'use-nodecg';
+import { useEffect } from 'react';
 
 const HostNameContainer = styled.div`
 	display: flex;
@@ -19,6 +21,12 @@ interface Props {
 export const HostName: React.FC<Props> = (props: Props) => {
 	const [hostName, setHostName] = useState('');
 	const [hostPronouns, setHostPronouns] = useState('');
+	const [host] = useReplicant<CouchPerson, CouchPerson>('host', { name: '', pronouns: '' });
+
+	useEffect(() => {
+		setHostName(host.name);
+		setHostPronouns(host.pronouns);
+	}, [host]);
 
 	return (
 		<HostNameContainer className={props.className} style={props.style}>
