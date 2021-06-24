@@ -17,6 +17,11 @@ export interface Config {
 		rules: { value: string, tag: string }[];
 	};
 	googleCredentials: GoogleCredentials;
+	raisely: {
+		enabled: boolean;
+		accessToken: string;
+		campaignId: string;
+	}
 }
 
 interface GoogleCredentials {

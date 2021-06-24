@@ -123,7 +123,25 @@
 				}
 			},
 			"required": ["enabled", "installed"]
+		},
+		"raisely": {
+			"type": "object",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false
+				},
+				"accessToken": {
+					"type": "string",
+					"default": ""
+				},
+				"campaignId": {
+					"type": "string",
+					"default": ""
+				}
+			},
+			"required": ["enabled"]
 		}
 	},
-	"required": ["obs", "twitch", "twitter", "googleCredentials"]
+	"required": ["obs", "twitch", "twitter", "googleCredentials", "raisely"]
 }
