@@ -35,7 +35,7 @@ const InfoBlock = styled.div`
 
 const GameTitle = styled(FitText)`
 	font-size: 33px;
-	max-width: 370px;
+	max-width: 330px !important;
 `;
 
 const TopText = styled.div`
@@ -47,7 +47,7 @@ const TopText = styled.div`
 `;
 
 const Category = styled(FitText)`
-	max-width: 320px;
+	max-width: 280px;
 `;
 
 const Runners = styled(FitText)`
@@ -102,7 +102,7 @@ const EndRunCont = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	font-size: 34px;
+	font-size: 30px;
 	margin-top: -15px;
 `;
 
@@ -111,7 +111,7 @@ export const EndRunItem: React.FC = () => {
 		<EndRunCont>
 			<span>The End</span>
 			<span>
-				<b>Thank you for watching FAST 2020!</b>
+				<b>Thank you for watching ASM2021!</b>
 			</span>
 		</EndRunCont>
 	);

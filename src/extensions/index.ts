@@ -28,6 +28,7 @@ async function init() {
 	require('./overlay');
 	require('./audio');
 	require('./couch');
+	require('./host');
 
 	if (ncgConfig.twitter.enabled) {
 		require('./twitter');

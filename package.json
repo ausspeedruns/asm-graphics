@@ -159,6 +159,7 @@
     "react-twitch-embed": "^2.1.0",
     "styled-components": "^5.1.1",
     "underscore": "^1.11.0",
+    "use-http": "^1.0.21",
     "use-nodecg": "^0.4.1-1"
   },
   "devDependencies": {

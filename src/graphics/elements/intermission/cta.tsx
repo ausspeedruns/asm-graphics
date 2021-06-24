@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
 const InterCTAContainer = styled.div`
+	z-index: 2;
 	height: 115px;
 	width: 100%;
 	font-family: Noto Sans;
@@ -12,6 +13,8 @@ const InterCTAContainer = styled.div`
 	justify-content: center;
 	font-size: 54px;
 	color: var(--main-col);
+	border-top: 1px solid var(--asm-orange);
+	border-bottom: 1px solid var(--asm-orange);
 `;
 
 const DonateText = styled.span`

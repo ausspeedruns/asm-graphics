@@ -23,6 +23,7 @@ import { Twitter } from './dashboards/tweets';
 import { StaffMessages } from './dashboards/staff-messages';
 import { Timer } from './dashboards/timer';
 import { useListenFor, useReplicant } from 'use-nodecg';
+import { HostName } from './dashboards/host-name';
 
 const HostDashContainer = styled.div`
 	// height: 1007px;
@@ -134,11 +135,15 @@ export const HostDash: React.FC = () => {
 					direction="column"
 					xs
 					style={{ padding: 8, height: '100%' }}>
-					<Paper style={{ height: '49%', overflowY: 'auto', overflowX: 'hidden' }}>
+					<Paper style={{ height: '14%', overflowY: 'auto', overflowX: 'hidden' }}>
+						<Header text="Your Name :)" />
+						<HostName />
+					</Paper>
+					<Paper style={{ height: '42%', overflowY: 'auto', overflowX: 'hidden' }}>
 						<Header text="Tweets" />
 						<Twitter />
 					</Paper>
-					<Paper style={{ height: '49%', overflowY: 'auto', overflowX: 'hidden' }}>
+					<Paper style={{ height: '42%', overflowY: 'auto', overflowX: 'hidden' }}>
 						<Header
 							text="Incentives"
 							url="https://docs.google.com/spreadsheets/d/192nms5HjWe6li2XwmV1-l0W0_8csRv6Jyc944ir3tVY">
