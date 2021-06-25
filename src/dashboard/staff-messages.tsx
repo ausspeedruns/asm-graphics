@@ -5,11 +5,10 @@ import styled, { keyframes } from 'styled-components';
 import { StaffMessage } from '../types/StaffMessages';
 
 import { darkTheme } from './theme';
-import { GreenButton, LightTextfield, RedButton } from './elements/styled-ui';
+import { GreenButton, LightTextfield } from './elements/styled-ui';
 import { Box, Grid, Snackbar, ThemeProvider } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useReplicant } from 'use-nodecg';
-import { Close, Check } from '@material-ui/icons';
 
 const StaffMessagesContainer = styled.div``;
 
@@ -131,23 +130,8 @@ const Author = styled.span`
 	font-weight: bold;
 `;
 
-const DisabledCover = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: rgba(0, 0, 0, 0.35);
-	top: 0px;
-	left: 0px;
-	border-radius: 7px;
-`;
-
 const Message: React.FC<MessageProps> = (props: MessageProps) => {
-	const [read, setRead] = useState(false);
 	const date = new Date(props.message.date);
-
-	const toggleRead = () => {
-		setRead(!read);
-	};
 
 	return (
 		<MessageContainer boxShadow={2} style={props.style}>
