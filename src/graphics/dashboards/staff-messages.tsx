@@ -18,6 +18,7 @@ import {
 import { Close, Check } from '@material-ui/icons';
 import { RedButton, GreenButton } from '../../dashboard/elements/styled-ui';
 import { CouchPerson } from '../../types/OverlayProps';
+import { useEffect } from 'react';
 
 const StaffMessagesContainer = styled.div`
 	height: calc(100% - 56px);
@@ -30,7 +31,10 @@ export const StaffMessages: React.FC = () => {
 		'staff-messages',
 		[],
 	);
-	const [host] = useReplicant<CouchPerson, CouchPerson>('host',	{name: '', pronouns: ''});
+	const [host] = useReplicant<CouchPerson, CouchPerson>('host', {
+		name: '',
+		pronouns: '',
+	});
 	const [replyDialog, setReplyDialog] = useState(false);
 	const [replyMsg, setReplyMsg] = useState('');
 
@@ -61,6 +65,20 @@ export const StaffMessages: React.FC = () => {
 		setReplyMsg('');
 		setReplyDialog(false);
 	};
+
+	useEffect(() => {
+		if (Notification.permission === 'granted') {
+			new Notification('New staff message');
+			console.log('notif???');
+		} else if (Notification.permission !== 'denied') {
+			Notification.requestPermission().then(function (permission) {
+				// If the user accepts, let's create a notification
+				if (permission === 'granted') {
+					new Notification('Hi there!');
+				}
+			});
+		}
+	}, [staffMessagesRep]);
 
 	return (
 		<StaffMessagesContainer>
@@ -164,18 +182,19 @@ const Message: React.FC<MessageProps> = (props: MessageProps) => {
 					{props.message.message}
 				</span>
 			</Grid>
-			{read ? (
-				<>
-					<DisabledCover />
-					<RedButton variant="contained" onClick={toggleRead}>
-						<Close />
-					</RedButton>
-				</>
-			) : (
-				<GreenButton variant="contained" onClick={toggleRead}>
-					<Check />
-				</GreenButton>
-			)}
+			{!props.message.fromHost &&
+				(read ? (
+					<>
+						<DisabledCover />
+						<RedButton variant="contained" onClick={toggleRead}>
+							<Close />
+						</RedButton>
+					</>
+				) : (
+					<GreenButton variant="contained" onClick={toggleRead}>
+						<Check />
+					</GreenButton>
+				))}
 		</MessageContainer>
 	);
 };

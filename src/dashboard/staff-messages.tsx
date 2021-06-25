@@ -160,18 +160,6 @@ const Message: React.FC<MessageProps> = (props: MessageProps) => {
 					{props.message.message}
 				</span>
 			</Grid>
-			{read ? (
-				<>
-					<DisabledCover />
-					<RedButton variant="contained" onClick={toggleRead}>
-						<Close />
-					</RedButton>
-				</>
-			) : (
-				<GreenButton variant="contained" onClick={toggleRead}>
-					<Check />
-				</GreenButton>
-			)}
 		</MessageContainer>
 	);
 };
