@@ -26,6 +26,21 @@ const StaffMessagesContainer = styled.div`
 	overflow-y: auto;
 `;
 
+const OrangeFAB = styled(Fab)`
+	position: fixed !important;
+	right: 16px;
+	bottom: 24px;
+
+	&.MuiFab-root {
+		background-color: var(--asm-orange);
+		color: #ffffff;
+	}
+
+	&.MuiFab-root:hover {
+		background-color: #bc6e20;
+	}
+`;
+
 export const StaffMessages: React.FC = () => {
 	const [staffMessagesRep] = useReplicant<StaffMessage[], StaffMessage[]>(
 		'staff-messages',
@@ -85,12 +100,11 @@ export const StaffMessages: React.FC = () => {
 			<Grid container direction="column" style={{ padding: 8, gap: 4 }}>
 				{messageMap}
 			</Grid>
-			<Fab
+			<OrangeFAB
 				variant="extended"
-				style={{ position: 'fixed', right: 16, bottom: 24 }}
 				onClick={() => setReplyDialog(true)}>
 				Reply
-			</Fab>
+			</OrangeFAB>
 			<Dialog
 				open={replyDialog}
 				onClose={() => setReplyDialog(false)}
