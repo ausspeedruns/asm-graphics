@@ -63,6 +63,14 @@
         "width": 3,
         "headerColor": "#9146FF",
         "file": "twitch-chat.html"
+      },
+      {
+        "name": "settings",
+        "title": "Settings",
+        "width": 3,
+        "headerColor": "#FF0000",
+        "file": "settings.html",
+        "workspace": "Run Modifications"
       }
     ],
     "graphics": [

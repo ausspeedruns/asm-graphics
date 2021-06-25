@@ -4,7 +4,6 @@
 // Modified to use NodeCG config and Replicants
 
 import * as nodecgApiContext from '../nodecg-api-context';
-import readline from 'readline';
 import { google } from 'googleapis';
 import { OAuth2Client } from 'googleapis-common';
 
@@ -45,7 +44,7 @@ function authorize(credentials: Config['googleCredentials']['installed'], callba
 		oAuth2Client.setCredentials(googleTokenRep.value);
 		callback(oAuth2Client);
 	} else {
-		getNewToken(oAuth2Client, callback);
+		getNewToken(oAuth2Client);
 	}
 }
 
@@ -55,28 +54,28 @@ function authorize(credentials: Config['googleCredentials']['installed'], callba
  * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
  * @param {getEventsCallback} callback The callback for the authorized client.
  */
-function getNewToken(oAuth2Client: OAuth2Client, callback: (arg0: any) => void) {
+function getNewToken(oAuth2Client: OAuth2Client) {
 	const authUrl = oAuth2Client.generateAuthUrl({
 		access_type: 'offline',
 		scope: SCOPES,
 	});
 
 	nodecg.log.info('Authorize this app by visiting this url:', authUrl);
-	const rl = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout,
-	});
+	// const rl = readline.createInterface({
+	// 	input: process.stdin,
+	// 	output: process.stdout,
+	// });
 
-	rl.question('Enter the code from that page here: ', (code) => {
-		rl.close();
-		oAuth2Client.getToken(code, (err: any, token: any) => {
-			if (err) return nodecg.log.error('Error while trying to retrieve access token', err);
-			oAuth2Client.setCredentials(token);
-			// Store the token to disk for later program executions
-			googleTokenRep.value = token;
-			callback(oAuth2Client);
-		});
-	});
+	// rl.question('Enter the code from that page here: ', (code) => {
+	// 	rl.close();
+	// 	oAuth2Client.getToken(code, (err: any, token: any) => {
+	// 		if (err) return nodecg.log.error('Error while trying to retrieve access token', err);
+	// 		oAuth2Client.setCredentials(token);
+	// 		// Store the token to disk for later program executions
+	// 		googleTokenRep.value = token;
+	// 		callback(oAuth2Client);
+	// 	});
+	// });
 }
 
 /**
@@ -231,5 +230,18 @@ setInterval(() => {
 }, 30000);
 
 nodecg.listenFor('updateIncentives', () => {
+	runAuth();
+});
+
+nodecg.listenFor('google-newcred', (newCred: string) => {
+	const { client_secret, client_id, redirect_uris } = ncgGoogleConfig.installed;
+	const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+	oAuth2Client.getToken(newCred, (err: any, token: any) => {
+		if (err) return nodecg.log.error('Error while trying to retrieve access token', err);
+		oAuth2Client.setCredentials(token);
+		// Store the token to disk for later program executions
+		googleTokenRep.value = token;
+	});
+
 	runAuth();
 });
