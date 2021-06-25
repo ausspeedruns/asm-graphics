@@ -35,13 +35,14 @@ const HostDashContainer = styled.div`
 
 const TopBar = styled.div`
 	height: 60px;
-	background: #c7c7c7;
+	background: var(--asm-orange);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	font-weight: bold;
 	padding: 0 16px;
 	font-size: 29px;
+	color: #ffffff;
 `;
 
 const TotalBox = styled(Paper)`
