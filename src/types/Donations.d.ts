@@ -3,6 +3,6 @@ export interface Donation {
 	id: string;
 	read: boolean;
 	time: string;
-	title: string;
-	used: boolean;
+	name: string;
+	amount: number;
 }

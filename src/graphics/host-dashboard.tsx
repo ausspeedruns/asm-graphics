@@ -60,9 +60,7 @@ const TotalBox = styled(Paper)`
 export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
 	// Implement donation total
-	const [donationRep] = useReplicant<number, number>('donationTotal', 100, {
-		namespace: 'asm-donations',
-	});
+	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
 	const [currentTime, setCurrentTime] = useState('00:00:00');
 	const [showScript, setShowScript] = useState(false);
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour

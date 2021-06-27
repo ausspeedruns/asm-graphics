@@ -138,6 +138,10 @@
 				"campaignId": {
 					"type": "string",
 					"default": ""
+				},
+				"profileId": {
+					"type": "string",
+					"default": ""
 				}
 			},
 			"required": ["enabled"]

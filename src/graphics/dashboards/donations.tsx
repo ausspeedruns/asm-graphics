@@ -24,9 +24,7 @@ const DonationsContainer = styled.div`
 // used: false
 
 export const Donations: React.FC = () => {
-	const [donations] = useReplicant<Donation[], Donation[]>('donations', [], {
-		namespace: 'asm-donations',
-	});
+	const [donations] = useReplicant<Donation[], Donation[]>('donations', []);
 
 	const allDonations = donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() || [];
 
@@ -88,9 +86,6 @@ const DisabledCover = styled.div`
 `;
 
 const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
-	const author = props.donation.title.split(' donated ')[0];
-	const amount = props.donation.title.split(' donated ')[1];
-
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	const toggleRead = () => {
@@ -101,8 +96,8 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 		<DonationContainer boxShadow={2}>
 			<Grid direction="column" container>
 				<div>
-					<Amount>{amount}</Amount>
-					<Name>{author}</Name>
+					<Amount>${props.donation.amount.toLocaleString()}</Amount>
+					<Name>{props.donation.name}</Name>
 				</div>
 				<DateText>{timeText}</DateText>
 				<span style={{ fontStyle: props.donation.desc ? '' : 'italic' }}>

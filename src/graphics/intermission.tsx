@@ -31,9 +31,6 @@ const IntermissionContainer = styled.div`
 `;
 
 const NextRuns = styled.div`
-	/* position: absolute;
-	top: 235px;
-	left: 1033px; */
 	color: #ffffff;
 	font-family: Noto Sans;
 	width: 560px;
@@ -42,11 +39,23 @@ const NextRuns = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	//gap: 30px; OBS Chrome version isn't high enough
 
 	& > div {
 		margin-top: 10px;
 	}
+`;
+
+const RunsList = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	flex-grow: 1;
+	padding-bottom: 10px;
+
+	/* & > div {
+		margin-top: 10px;
+	} */
 `;
 
 const IncentiveBlock = styled.div`
@@ -61,9 +70,6 @@ const IncentiveBlock = styled.div`
 `;
 
 const MiddleContent = styled.div`
-	/* position: absolute;
-	top: 235px; */
-	/* width: 1033px; */
 	margin: 0 32px;
 	height: 100%;
 	display: flex;
@@ -76,7 +82,7 @@ const SponsorHolder = styled.div`
 	display: flex;
 	justify-content: space-around;
 	width: 400px;
-	max-height: 200px;
+	height: 200px;
 `;
 
 const SponsorImg = styled.img`
@@ -87,20 +93,8 @@ const SponsorImg = styled.img`
 `;
 
 const Music = styled.div`
-	/* width: 100%; */
 	text-align: center;
-	/* margin-top: -2px; */
 `;
-
-// interface Asset {
-// 	base: string;
-// 	bundleName: string;
-// 	category: string;
-// 	ext: string;
-// 	name: string;
-// 	sum: string;
-// 	url: string;
-// }
 
 const BottomBlock = styled.div`
 	position: absolute;
@@ -199,7 +193,10 @@ export const Intermission: React.FC<IntermissionProps> = (
 			namespace: 'nodecg-speedcontrol',
 		},
 	);
-	const [hostName] = useReplicant<CouchPerson, CouchPerson>('host', { name: '', pronouns: '' });
+	const [hostName] = useReplicant<CouchPerson, CouchPerson>('host', {
+		name: '',
+		pronouns: '',
+	});
 	const [currentTime, setCurrentTime] = useState('00:00:00');
 	const [currentSong, setCurrentSong] = useState('');
 	const songEl = useRef<HTMLDivElement>(null);
@@ -282,15 +279,14 @@ export const Intermission: React.FC<IntermissionProps> = (
 				<div style={{ display: 'flex' }}>
 					<OrangeStripe side="right" />
 					<IncentiveBlock>
-						<b style={{ fontSize: 50, marginTop: 20 }}>
-							Incentives
-						</b>
+						<b style={{ fontSize: 40 }}>Incentives</b>
 						<InterIncentives />
 					</IncentiveBlock>
 					<OrangeStripe side="left" />
 				</div>
 				<MiddleContent>
-					<SponsorHolder style={{ position: 'relative', alignItems: 'center' }}>
+					<SponsorHolder
+						style={{ position: 'relative', alignItems: 'center' }}>
 						<SponsorImg
 							ref={asLogoRef}
 							src="../shared/design/ASM-White.svg"
@@ -311,7 +307,12 @@ export const Intermission: React.FC<IntermissionProps> = (
 					</SponsorHolder>
 					<BottomInfo>
 						<Time>{currentTime}</Time>
-						<HostName>{hostName.name} {hostName.pronouns && <HostPronoun>{hostName.pronouns}</HostPronoun>}</HostName>
+						<HostName>
+							{hostName.name}{' '}
+							{hostName.pronouns && (
+								<HostPronoun>{hostName.pronouns}</HostPronoun>
+							)}
+						</HostName>
 						<Music>
 							<audio
 								id="intermission-music"
@@ -337,15 +338,16 @@ export const Intermission: React.FC<IntermissionProps> = (
 							</div>
 						</Music>
 					</BottomInfo>
-					
 				</MiddleContent>
 				<div style={{ display: 'flex' }}>
 					<OrangeStripe side="right" />
 					<NextRuns>
-						<b style={{ fontSize: 50, marginTop: 11 }}>Next Run</b>
+						<b style={{ fontSize: 40 }}>Next Run</b>
 						{NextRun}
-						<b style={{ fontSize: 36, marginTop: 5 }}>Soon</b>
-						{RunsArray}
+						<b style={{ fontSize: 30, marginTop: 5 }}>Soon</b>
+						<RunsList>
+							{RunsArray}
+						</RunsList>
 					</NextRuns>
 					<OrangeStripe side="left" />
 				</div>

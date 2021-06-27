@@ -79,9 +79,7 @@ export const Ticker: React.FC = () => {
 		namespace: 'nodecg-speedcontrol',
 	});
 	const [incentivesRep] = useReplicant<(Goal | War)[], (Goal | War)[]>('incentives', []);
-	const [donationRep] = useReplicant<number, number>('donationTotal', 0, {
-		namespace: 'asm-donations',
-	});
+	const [donationRep] = useReplicant<number, number>('donationTotal', 0);
 	// const [donationTester] = useState(14000);
 
 	// useEffect(() => {

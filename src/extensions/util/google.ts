@@ -184,7 +184,7 @@ function parseIncentive(row: string[], rowIndex: number): Goal | War | undefined
 						break;
 					}
 
-					nodecg.log.error(`Failed parsing war incentive: ${row[1]} | ${row[2]}. "${row[i]}" failed regex. Skipping...`);
+					nodecg.log.error(`Failed parsing war incentive: ${row[1]} | ${row[2]}. ${i}: "${row[i]}" failed regex. Skipping...`);
 					break;
 				}
 

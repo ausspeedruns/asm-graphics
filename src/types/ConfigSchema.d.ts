@@ -19,8 +19,9 @@ export interface Config {
 	googleCredentials: GoogleCredentials;
 	raisely: {
 		enabled: boolean;
-		accessToken: string;
-		campaignId: string;
+		accessToken?: string;
+		campaignId?: string;
+		profileId?: string;
 	}
 }
 

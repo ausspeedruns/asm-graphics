@@ -43,6 +43,10 @@ async function init() {
 		nodecg.log.info('Google API not enabled. Incentives will not work');
 	}
 
+	if (ncgConfig.raisely.enabled) {
+		require('./donations/raisely');
+	}
+
 	require('./incentives');
 	require('./staff-messages');
 	require('./donations');

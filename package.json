@@ -37,6 +37,13 @@
         "file": "obs.html"
       },
       {
+        "name": "donations",
+        "title": "Donations",
+        "width": 4,
+        "headerColor": "#CC7722",
+        "file": "donations.html"
+      },
+      {
         "name": "stream",
         "title": "Stream",
         "width": 3,

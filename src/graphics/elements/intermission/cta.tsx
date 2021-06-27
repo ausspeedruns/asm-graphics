@@ -40,9 +40,7 @@ interface Props {
 }
 
 export const InterCTA: React.FC<Props> = (props: Props) => {
-	const [donationRep] = useReplicant<number, number>('donationTotal', 100, {
-		namespace: 'asm-donations',
-	});
+	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
 	// const DonationAmount = 10000;
 
 	return (
