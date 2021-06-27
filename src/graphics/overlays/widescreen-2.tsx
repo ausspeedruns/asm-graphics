@@ -112,6 +112,7 @@ const BottomBlock = styled.div`
 `;
 
 const BespokeCouch = styled.div`
+	font-family: Noto Sans;
 	display: flex;
 	align-items: center;
 `;
