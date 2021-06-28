@@ -60,7 +60,7 @@ const TextfieldStyled = styled(TextField)`
 	}
 `;
 
-export const DashHosts: React.FC = () => {
+export const DashCouch: React.FC = () => {
 	const [localPreviewHostName, setLocalPreviewHostName] = useState('');
 	const [localPreviewPronoun, setLocalPreviewPronoun] = useState('');
 	const [localHostName, setLocalHostName] = useState('');
@@ -292,4 +292,4 @@ const HostComponent: React.FC<HostComponentProps> = (
 	);
 };
 
-render(<DashHosts />, document.getElementById('hosts'));
+render(<DashCouch />, document.getElementById('couch'));

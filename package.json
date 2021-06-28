@@ -23,11 +23,11 @@
     },
     "dashboardPanels": [
       {
-        "name": "hosts",
-        "title": "Hosts",
+        "name": "couch",
+        "title": "Couch",
         "width": 3,
         "headerColor": "#CC7722",
-        "file": "hosts.html"
+        "file": "couch.html"
       },
       {
         "name": "obs",
