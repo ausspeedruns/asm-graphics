@@ -27,7 +27,13 @@ import {
 	DialogTitle,
 	IconButton,
 } from '@material-ui/core';
-import { Filter1, Filter2, Filter3, Filter4 } from '@material-ui/icons';
+import {
+	Filter1,
+	Filter2,
+	Filter3,
+	Filter4,
+	OpenInNew,
+} from '@material-ui/icons';
 import { darkTheme } from './theme';
 // import { GameplayRouterParent } from '../graphics/gameplay-overlay';
 import { ASMStream } from '../graphics/elements/individual-stream';
@@ -204,7 +210,19 @@ const DashOBS: React.FC = () => {
 						}
 						label="OBS Connection"
 					/>
-					<SideTitle>PREVIEW</SideTitle>
+					<SideTitle>
+						PREVIEW
+						<IconButton
+							size="small"
+							onClick={() =>
+								window.open(
+									'http://localhost:9090/bundles/asm2021-graphics/graphics/preview-gameplay.html',
+									'_blank',
+								)
+							}>
+							<OpenInNew />
+						</IconButton>
+					</SideTitle>
 					<GameplaySpacer>
 						<GameplayPreview>
 							<iframe
@@ -273,11 +291,13 @@ const DashOBS: React.FC = () => {
 					</ButtonGroup>
 				</VFlex>
 				<VFlex>
-					<div style={{display: 'flex'}}>
-					<Button variant="outlined" onClick={showDialog}>
-						Stream Keys
-					</Button>
-					<Button onClick={() => setShowRefreshDialog(true)}>Refresh Graphics</Button>
+					<div style={{ display: 'flex' }}>
+						<Button variant="outlined" onClick={showDialog}>
+							Stream Keys
+						</Button>
+						<Button onClick={() => setShowRefreshDialog(true)}>
+							Refresh Graphics
+						</Button>
 					</div>
 					<SideTitle>LIVE</SideTitle>
 					<GameplaySpacer>
@@ -329,14 +349,15 @@ const DashOBS: React.FC = () => {
 					</Flex>
 				</VFlex>
 			</Flex>
-			<Dialog open={showKeys} onClose={hideDialog} maxWidth='md'>
+			<Dialog open={showKeys} onClose={hideDialog} maxWidth="md">
 				<DialogTitle id="alert-dialog-title">
 					{'Stream keys'}
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
 						<div>
-							ASM Station 1: live_473924910_2S0hWK9YDW0ZAdWtDFVDbE2hMey3co
+							ASM Station 1:
+							live_473924910_2S0hWK9YDW0ZAdWtDFVDbE2hMey3co
 							<IconButton
 								onClick={() =>
 									navigator.clipboard.writeText(
@@ -390,26 +411,52 @@ const DashOBS: React.FC = () => {
 					</Button>
 				</DialogActions>
 			</Dialog>
-			<Dialog open={showRefreshDialog} onClose={() => setShowRefreshDialog(false)}><DialogTitle id="alert-dialog-title">
+			<Dialog
+				open={showRefreshDialog}
+				onClose={() => setShowRefreshDialog(false)}>
+				<DialogTitle id="alert-dialog-title">
 					{'Refresh graphics'}
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Go to the Graphics page and press reload on the graphic needing to be refreshed:
+						Go to the Graphics page and press reload on the graphic
+						needing to be refreshed:
 						<ul>
-							<li><b>Ticker</b> Controls the bar at the bottom of the screen</li>
-							<li><b>Intermission</b> The whole intermission screen</li>
-							<li><b>Transition</b> Unused: transition is done via a video in OBS</li>
-							<li><b>Gameplay-Overlay</b> The gameplay screen that is streamed</li>
-							<li><b>Stream</b> The individual twitch streams</li>
+							<li>
+								<b>Ticker</b> Controls the bar at the bottom of
+								the screen
+							</li>
+							<li>
+								<b>Intermission</b> The whole intermission
+								screen
+							</li>
+							<li>
+								<b>Transition</b> Unused: transition is done via
+								a video in OBS
+							</li>
+							<li>
+								<b>Gameplay-Overlay</b> The gameplay screen that
+								is streamed
+							</li>
+							<li>
+								<b>Stream</b> The individual twitch streams
+							</li>
 							<li>Host-Dashboard, Dashboard the host watches</li>
-							<li><b>Preview-Graphic</b> The graphic shown on the OBS panel on the dashboard</li>
-							<li><b>Intermission-Muted</b> The intermission graphic shown on the OBS panel</li>
+							<li>
+								<b>Preview-Graphic</b> The graphic shown on the
+								OBS panel on the dashboard
+							</li>
+							<li>
+								<b>Intermission-Muted</b> The intermission
+								graphic shown on the OBS panel
+							</li>
 						</ul>
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setShowRefreshDialog(false)} color="primary">
+					<Button
+						onClick={() => setShowRefreshDialog(false)}
+						color="primary">
 						Close
 					</Button>
 				</DialogActions>
