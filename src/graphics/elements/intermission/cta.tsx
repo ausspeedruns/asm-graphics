@@ -13,8 +13,8 @@ const InterCTAContainer = styled.div`
 	justify-content: center;
 	font-size: 54px;
 	color: var(--main-col);
-	border-top: 1px solid var(--asm-orange);
-	border-bottom: 1px solid var(--asm-orange);
+	border-top: 10px solid var(--asm-orange);
+	border-bottom: 10px solid var(--asm-orange);
 `;
 
 const DonateText = styled.span`
