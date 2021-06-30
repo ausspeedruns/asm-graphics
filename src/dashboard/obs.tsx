@@ -210,18 +210,15 @@ const DashOBS: React.FC = () => {
 						}
 						label="OBS Connection"
 					/>
-					<SideTitle>
+					<SideTitle style={{cursor: 'pointer'}}
+						onClick={() =>
+							window.open(
+								'http://localhost:9090/bundles/asm2021-graphics/graphics/preview-gameplay.html',
+								'_blank',
+							)
+						}>
 						PREVIEW
-						<IconButton
-							size="small"
-							onClick={() =>
-								window.open(
-									'http://localhost:9090/bundles/asm2021-graphics/graphics/preview-gameplay.html',
-									'_blank',
-								)
-							}>
-							<OpenInNew />
-						</IconButton>
+						<OpenInNew viewBox="0 0 30 30" />
 					</SideTitle>
 					<GameplaySpacer>
 						<GameplayPreview>
