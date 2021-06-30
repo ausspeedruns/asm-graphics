@@ -86,13 +86,6 @@ const VFlex = styled.div`
 	align-items: center;
 `;
 
-const StreamKeyLink = styled.span`
-	text-decoration: underline;
-	color: #eee;
-	height: 38px;
-	cursor: pointer;
-`;
-
 const DashOBS: React.FC = () => {
 	// const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
 	// const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
@@ -115,6 +108,7 @@ const DashOBS: React.FC = () => {
 		false,
 	);
 	const [showKeys, setShowKeys] = useState(false);
+	const [showRefreshDialog, setShowRefreshDialog] = useState(false);
 
 	const showDialog = () => {
 		setShowKeys(true);
@@ -279,9 +273,12 @@ const DashOBS: React.FC = () => {
 					</ButtonGroup>
 				</VFlex>
 				<VFlex>
-					<StreamKeyLink onClick={showDialog}>
+					<div style={{display: 'flex'}}>
+					<Button variant="outlined" onClick={showDialog}>
 						Stream Keys
-					</StreamKeyLink>
+					</Button>
+					<Button onClick={() => setShowRefreshDialog(true)}>Refresh Graphics</Button>
+					</div>
 					<SideTitle>LIVE</SideTitle>
 					<GameplaySpacer>
 						<GameplayPreview>
@@ -389,6 +386,30 @@ const DashOBS: React.FC = () => {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={hideDialog} color="primary">
+						Close
+					</Button>
+				</DialogActions>
+			</Dialog>
+			<Dialog open={showRefreshDialog} onClose={() => setShowRefreshDialog(false)}><DialogTitle id="alert-dialog-title">
+					{'Refresh graphics'}
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						Go to the Graphics page and press reload on the graphic needing to be refreshed:
+						<ul>
+							<li><b>Ticker</b> Controls the bar at the bottom of the screen</li>
+							<li><b>Intermission</b> The whole intermission screen</li>
+							<li><b>Transition</b> Unused: transition is done via a video in OBS</li>
+							<li><b>Gameplay-Overlay</b> The gameplay screen that is streamed</li>
+							<li><b>Stream</b> The individual twitch streams</li>
+							<li>Host-Dashboard, Dashboard the host watches</li>
+							<li><b>Preview-Graphic</b> The graphic shown on the OBS panel on the dashboard</li>
+							<li><b>Intermission-Muted</b> The intermission graphic shown on the OBS panel</li>
+						</ul>
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => setShowRefreshDialog(false)} color="primary">
 						Close
 					</Button>
 				</DialogActions>
