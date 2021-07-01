@@ -97,6 +97,7 @@ const DashOBS: React.FC = () => {
 	// const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
 	// 	namespace: 'nodecg-speedcontrol',
 	// });
+	const ncgConfig = nodecg.config;
 	const [currentOverlay] = useReplicant<CurrentOverlay, undefined>(
 		'currentOverlay',
 		undefined,
@@ -214,7 +215,7 @@ const DashOBS: React.FC = () => {
 						style={{ cursor: 'pointer' }}
 						onClick={() =>
 							window.open(
-								'http://localhost:9090/bundles/asm2021-graphics/graphics/preview-gameplay.html',
+								`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${ncgConfig.host}:${ncgConfig.port}/bundles/asm2021-graphics/graphics/preview-gameplay.html`,
 								'_blank',
 							)
 						}>
@@ -231,7 +232,7 @@ const DashOBS: React.FC = () => {
 									border: 0,
 								}}
 								scrolling="no"
-								src="http://localhost:9090/bundles/asm2021-graphics/graphics/preview-gameplay.html"
+								src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${ncgConfig.host}:${ncgConfig.port}/bundles/asm2021-graphics/graphics/preview-gameplay.html`}
 							/>
 						</GameplayPreview>
 					</GameplaySpacer>
@@ -311,7 +312,7 @@ const DashOBS: React.FC = () => {
 										border: 0,
 									}}
 									scrolling="no"
-									src="http://localhost:9090/bundles/asm2021-graphics/graphics/gameplay-overlay.html"
+									src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${ncgConfig.host}:${ncgConfig.port}/bundles/asm2021-graphics/graphics/gameplay-overlay.html`}
 								/>
 							) : (
 								<iframe
@@ -322,7 +323,7 @@ const DashOBS: React.FC = () => {
 										border: 0,
 									}}
 									scrolling="no"
-									src="http://localhost:9090/bundles/asm2021-graphics/graphics/intermission-muted.html"
+									src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${ncgConfig.host}:${ncgConfig.port}/bundles/asm2021-graphics/graphics/intermission-muted.html`}
 								/>
 							)}
 						</GameplayPreview>
