@@ -105,8 +105,8 @@ export const SponsorsBox: React.FC<FullBoxProps> = (props: FullBoxProps) => {
 		tl.set(tweetRef.current, { opacity: 0 });
 		tl.to(sponsorMainRef.current, { opacity: 0, duration: 1 });
 		tl.to(tweetRef.current, { opacity: 1, duration: 1 });
-		// tl.to(tweetRef.current, { opacity: 0, duration: 1 }, '+=10');
-		// tl.to(sponsorMainRef.current, { opacity: 1, duration: 1 });
+		tl.to(tweetRef.current, { opacity: 0, duration: 1 }, '+=10');
+		tl.to(sponsorMainRef.current, { opacity: 1, duration: 1 });
 	});
 
 	return (
