@@ -145,6 +145,11 @@
 				}
 			},
 			"required": ["enabled"]
+		},
+		"hostname": {
+			"type": "string",
+			"description": "Entry point hostname",
+			"default": "localhost"
 		}
 	},
 	"required": ["obs", "twitch", "twitter", "googleCredentials", "raisely"]

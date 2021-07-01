@@ -23,6 +23,7 @@ export interface Config {
 		campaignId?: string;
 		profileId?: string;
 	}
+	hostname?: string;
 }
 
 interface GoogleCredentials {
