@@ -12,11 +12,19 @@ const currentSceneRep = nodecg.Replicant<string>('obsCurrentScene', { defaultVal
 
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {
-	obs.connect();
+	try {
+		obs.connect();
+	} catch (error) {
+		nodecg.log.error(`[Overlay] Failed to connect to OBS: ${error}`)
+	}
 });
 
 nodecg.listenFor('disconnectOBS', () => {
-	obs.disconnect();
+	try {
+		obs.disconnect();
+	} catch (error) {
+		nodecg.log.error(`[Overlay] Failed to disconnect to OBS: ${error}`)
+	}
 });
 
 nodecg.listenFor('changeOverlayPreview', (newVal: string) => {

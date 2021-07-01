@@ -156,7 +156,7 @@ const DashOBS: React.FC = () => {
 	// Labels to say which streams are live
 	const liveStreamNotif = liveStreamsList.map((stream) => {
 		return (
-			<div key={stream.channel}>
+			<div key={stream.channel} style={{ display: 'inline' }}>
 				<b>{stream.channel}</b>: {stream.size}
 			</div>
 		);
@@ -210,7 +210,8 @@ const DashOBS: React.FC = () => {
 						}
 						label="OBS Connection"
 					/>
-					<SideTitle style={{cursor: 'pointer'}}
+					<SideTitle
+						style={{ cursor: 'pointer' }}
 						onClick={() =>
 							window.open(
 								'http://localhost:9090/bundles/asm2021-graphics/graphics/preview-gameplay.html',
@@ -299,11 +300,8 @@ const DashOBS: React.FC = () => {
 					<SideTitle>LIVE</SideTitle>
 					<GameplaySpacer>
 						<GameplayPreview>
-							{currentSceneRep === 'Game Overlay' ? (
-								liveStreamElements
-							) : (
-								<></>
-							)}
+							{currentSceneRep === 'Game Overlay' &&
+								liveStreamElements}
 							{currentSceneRep === 'Game Overlay' ? (
 								<iframe
 									height="1080"
@@ -330,17 +328,17 @@ const DashOBS: React.FC = () => {
 						</GameplayPreview>
 					</GameplaySpacer>
 
-					{currentSceneRep === 'Game Overlay' ? (
-						liveStreamNotif
-					) : (
-						<></>
+					{currentSceneRep === 'Game Overlay' && (
+						<div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+							{liveStreamNotif}
+						</div>
 					)}
-					{streamAudioControllers.length > 1 ? <DashAudio /> : <></>}
+					{streamAudioControllers.length > 1 && <DashAudio />}
 					<Flex
 						style={{
 							justifyContent: 'center',
 							flexGrow: 1,
-							minHeight: 200,
+							minHeight: 260,
 						}}>
 						{streamAudioControllers}
 					</Flex>

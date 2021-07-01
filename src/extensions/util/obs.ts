@@ -33,7 +33,6 @@ class OBSUtility extends obsWebsocketJs {
 			}
 		} catch (err) {
 			nodecg.log.warn(`[OBS] Cannot change scene [${name}]: ${err.error || err}`);
-			throw err;
 		}
 	}
 
@@ -51,13 +50,12 @@ class OBSUtility extends obsWebsocketJs {
 		try {
 			// @ts-ignore: Typings say we need to specify more than we actually do.
 			await this.send('SetSceneItemProperties', {
-				item,
+				item: { name: item },
 				visible: false,
 				'scene-name': scene,
 			});
 		} catch (err) {
 			nodecg.log.warn(`[OBS] Cannot hide item [${scene}: ${item}]: ${err.error}`);
-			throw err;
 		}
 	}
 
@@ -77,7 +75,6 @@ class OBSUtility extends obsWebsocketJs {
 			await this.send('SetVolume', { source, volume, useDecibel });
 		} catch (err) {
 			nodecg.log.warn(`[OBS] Cannot set volume [${source}: ${volume}]: ${err.error}`);
-			throw err;
 		}
 	}
 
@@ -96,7 +93,6 @@ class OBSUtility extends obsWebsocketJs {
 			await this.send('SetMute', { source, mute });
 		} catch (err) {
 			nodecg.log.warn(`[OBS] Cannot mute source [${source}: ${mute}]: ${err.error}`);
-			throw err;
 		}
 	}
 
@@ -120,7 +116,7 @@ class OBSUtility extends obsWebsocketJs {
 		}
 
 		try {
-			await this.send('TransitionToProgram', { 'with-transition': { name: 'BlankStinger' } });
+			await this.send('TransitionToProgram', { 'with-transition': { name: 'ASM Transition' } });
 		} catch (error) {
 			nodecg.log.error('Error transitioning:', error);
 		}
@@ -161,7 +157,7 @@ class OBSUtility extends obsWebsocketJs {
 		try {
 			// await this.send('SetPreviewScene', { 'scene-name': scene });
 
-			await this.send('SetSceneItemProperties', { 'scene-name': scene, item: source, ...itemProperties });
+			await this.send('SetSceneItemProperties', { 'scene-name': scene, item: { name: source }, ...itemProperties });
 			// await this.send('SetSceneItemProperties', { 'scene-name': scene, item: source });
 		} catch (error) {
 			nodecg.log.error('Error setting scene item property:', error);
@@ -221,8 +217,8 @@ async function connect(): Promise<void> {
 		nodecg.log.info('[OBS] Connection successful');
 		obsConnectionRep.value = true;
 	} catch (err) {
-		nodecg.log.warn('[OBS] Connection error');
-		nodecg.log.debug('[OBS] Connection error:', err);
+		// nodecg.log.warn('[OBS] Connection error');
+		nodecg.log.warn('[OBS] Connection error:', err);
 		obsConnectionRep.value = false;
 	}
 }
@@ -238,8 +234,8 @@ if (ncgOBSConfig.enabled) {
 
 	// @ts-ignore: Pretty sure this emits an error.
 	obs.on('error', (err) => {
-		nodecg.log.warn('[OBS] Connection error');
-		nodecg.log.debug('[OBS] Connection error:', err);
+		// nodecg.log.warn('[OBS] Connection error');
+		nodecg.log.warn('[OBS] Connection error:', err);
 		obsConnectionRep.value = false;
 	});
 }

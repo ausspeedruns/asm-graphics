@@ -29,13 +29,15 @@ runDataActiveRep.on('change', newVal => {
 });
 
 nodecg.listenFor('changeSourceAudio', (data: { source: string, volume: number }) => {
-	let logVolume = Math.log10(data.volume) * 50 - 100; // dB do be a logarithmic scale doe
+	let logVolume = Math.log10(data.volume) * 20 - 40; // dB do be a logarithmic scale doe
 
-	if (isNaN(logVolume) || logVolume > 0) {
+	if (isNaN(logVolume)) {
 		logVolume = 0;
 	} else if (logVolume < -100) {
 		logVolume = -100;
 	}
+
+	logVolume = Math.min(logVolume, 26);	// OBS Max volume is 26
 
 	obs.setSourceVolume(data.source, logVolume, true);
 });
@@ -60,7 +62,7 @@ function changeStreamMutes(newVal: string) {
 
 	// If a multiplayer stream
 	if (liveStreams.length > 1) {
-		// Try const because I am scared
+		// Try catch because I am scared
 		try {
 			// Team index's are left to right, [Player on left, Player on right]
 			// Find the index of which the audio indicator is pointing to

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Slider } from '@material-ui/core';
+import { Button, Input, Slider } from '@material-ui/core';
 import lightBlue from '@material-ui/core/colors/lightBlue';
 import { VolumeUp, VolumeOff } from '@material-ui/icons';
 
@@ -14,7 +14,9 @@ const StreamAudioContainer = styled.div`
 	align-items: center;
 	flex-direction: column;
 	flex-grow: 1;
-	border: 1px solid ${(props: DisabledProps) => (props.disabled ? 'rgb(255 255 255 / 12%)' : lightBlue[500])};
+	border: 1px solid
+		${(props: DisabledProps) =>
+			props.disabled ? 'rgb(255 255 255 / 12%)' : lightBlue[500]};
 	border-radius: 20px;
 	margin: 8px 4px;
 	padding: 8px;
@@ -22,7 +24,8 @@ const StreamAudioContainer = styled.div`
 
 const SourceLabel = styled.span`
 	font-weight: bold;
-	color: ${(props: DisabledProps) => (props.disabled ? 'rgba(255, 255, 255, 0.3)' : '#ffffff')};
+	color: ${(props: DisabledProps) =>
+		props.disabled ? 'rgba(255, 255, 255, 0.3)' : '#ffffff'};
 `;
 
 const VolumeMarks = [
@@ -51,19 +54,34 @@ interface StreamAudioProps {
 	disabled?: boolean;
 }
 
-export const StreamAudio: React.FC<StreamAudioProps> = (props: StreamAudioProps) => {
+export const StreamAudio: React.FC<StreamAudioProps> = (
+	props: StreamAudioProps,
+) => {
 	const [mute, setMute] = useState(false);
+	const [volumeNum, setVolumeNum] = useState(100);
 
 	const muteHandler = () => {
 		setMute(!mute);
-		nodecg.sendMessage('muteSourceAudio', { source: props.source, mute: !mute });
+		nodecg.sendMessage('muteSourceAudio', {
+			source: props.source,
+			mute: !mute,
+		});
 	};
 
 	const volumeHandler = (_event: any, newValue: number | number[]) => {
 		if (typeof newValue === 'number') {
-			nodecg.sendMessage('changeSourceAudio', { source: props.source, volume: newValue });
+			setVolumeNum(newValue);
 		}
 	};
+
+	useEffect(() => {
+		if (typeof volumeNum === 'number') {
+			nodecg.sendMessage('changeSourceAudio', {
+				source: props.source,
+				volume: volumeNum,
+			});
+		}
+	}, [volumeNum]);
 
 	return (
 		<StreamAudioContainer disabled={props.disabled}>
@@ -87,11 +105,22 @@ export const StreamAudio: React.FC<StreamAudioProps> = (props: StreamAudioProps)
 				onChange={volumeHandler}
 				disabled={props.disabled}
 				orientation="vertical"
-				step={0.01}
+				step={1}
 				min={0}
 				max={100}
 				marks={VolumeMarks}
 				valueLabelDisplay="auto"
+			/>
+			<Input
+				value={volumeNum}
+				margin="dense"
+				onChange={(e) => setVolumeNum(parseInt(e.target.value || '100', 10))}
+				inputProps={{
+					step: 1,
+					min: 0,
+					max: 1995,
+					type: 'number',
+				}}
 			/>
 		</StreamAudioContainer>
 	);
