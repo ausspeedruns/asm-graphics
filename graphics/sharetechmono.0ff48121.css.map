@@ -1,0 +1,1 @@
+{"version":3,"sources":["sharetechmono.css"],"names":[],"mappings":"AAAA;CACC,4BAA4B;CAC5B,gDAAqC;CACrC,gBAAgB;CAChB,kBAAkB;AACnB","file":"sharetechmono.0ff48121.css","sourceRoot":"..\\src\\graphics","sourcesContent":["@font-face {\r\n\tfont-family: 'ShareTechMono';\r\n\tsrc: url('ShareTechMono-Regular.ttf');\r\n\tfont-weight: 400;\r\n\tfont-style: normal;\r\n}"]}
