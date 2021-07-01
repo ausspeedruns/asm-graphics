@@ -29,8 +29,12 @@ async function GetDonations() {
             nodecg.log.warn('Error getting Raisely Profile: ' + err.message);
             return;
         }
+        if (!Array.isArray(res.body.data))
+            return;
         res.body.data.forEach((donation) => {
             var _a, _b;
+            if (!Array.isArray(donationsListRep.value))
+                return;
             if (!((_a = donationsListRep.value) === null || _a === void 0 ? void 0 : _a.find(donate => donate.id === donation.uuid))) {
                 (_b = donationsListRep.value) === null || _b === void 0 ? void 0 : _b.push({
                     id: donation.uuid,

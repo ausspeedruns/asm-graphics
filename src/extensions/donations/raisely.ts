@@ -38,7 +38,11 @@ async function GetDonations() {
 			return;
 		}
 
+		if (!Array.isArray(res.body.data)) return;
+
 		res.body.data.forEach((donation: any) => {
+			if (!Array.isArray(donationsListRep.value)) return;
+			
 			if (!donationsListRep.value?.find(donate => donate.id === donation.uuid)) {
 				donationsListRep.value?.push({
 					id: donation.uuid,
