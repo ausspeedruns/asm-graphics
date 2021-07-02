@@ -64,48 +64,48 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 
 	const Overlays = [
 		{
-			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: '/',
 			// Defualt as standard
 		},
 		{
-			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'Standard',
 		},
 		{
-			component: <Standard2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <Standard2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'Standard-2',
 		},
 		{
-			component: <Widescreen runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <Widescreen runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'Widescreen',
 		},
 		{
-			component: <Widescreen2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <Widescreen2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'Widescreen-2',
 		},
 		{
-			component: <Widescreen1610 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <Widescreen1610 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'Widescreen-1610',
 		},
 		{
-			component: <DS runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} />,
+			component: <DS runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'DS',
 		},
 		{
-			component: <DS2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} />,
+			component: <DS2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'DS-2',
 		},
 		{
-			component: <GBA runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <GBA runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'GBA',
 		},
 		{
-			component: <GBC runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <GBC runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'GBC',
 		},
 		{
-			component: <WHG runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep}  />,
+			component: <WHG runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
 			name: 'WHG',
 		},
 		{
