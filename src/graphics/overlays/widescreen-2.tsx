@@ -240,7 +240,7 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 					style={{ width: '100%' }}
 				/>
 				<BespokeCouch>
-					<CouchLabel>Couch</CouchLabel>
+					<CouchLabel>{props.couchInformation.current.length > 1 ? 'Commentators' : 'Commentator'}</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
 					{props.preview
 						? props.couchInformation.preview.map((person) => {
