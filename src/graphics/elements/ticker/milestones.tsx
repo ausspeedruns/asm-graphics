@@ -80,6 +80,7 @@ const MILESTONES = [
 	{ event: 'ASM2017', total: 3271 },
 	{ event: 'ASM2018', total: 5091.84 },
 	{ event: 'ASM2019', total: 7026.63 },
+	{ event: 'FAST2020', total: 7033 },
 	{ event: 'PAX2019', total: 7181.73 },
 	{ event: 'ASM2020', total: 13069.69 },
 ];

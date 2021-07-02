@@ -7,8 +7,8 @@ import { Config } from '../../types/ConfigSchema';
 
 const nodecg = nodecgApiContext.get();
 
-const donationTotalRep = nodecg.Replicant<number>('donationTotal', { persistent: true, defaultValue: 0 });
-const donationsListRep = nodecg.Replicant<Donation[]>('donations', { persistent: true, defaultValue: [] });
+const donationTotalRep = nodecg.Replicant<number>('donationTotal');
+const donationsListRep = nodecg.Replicant<Donation[]>('donations');
 
 const campaignID = (nodecg.bundleConfig as Config).raisely.campaignId || "";
 const profileID = (nodecg.bundleConfig as Config).raisely.profileId || "";
@@ -38,11 +38,12 @@ async function GetDonations() {
 			return;
 		}
 
-		if (!Array.isArray(res.body.data)) return;
+		if (!Array.isArray(res.body.data)) {
+			nodecg.log.warn(`Donations data not an array! Data: ${JSON.stringify(res.body.data)}`);
+			return;
+		}
 
 		res.body.data.forEach((donation: any) => {
-			if (!Array.isArray(donationsListRep.value)) return;
-			
 			if (!donationsListRep.value?.find(donate => donate.id === donation.uuid)) {
 				donationsListRep.value?.push({
 					id: donation.uuid,

@@ -6,7 +6,7 @@ const nodecgApiContext = tslib_1.__importStar(require("../nodecg-api-context"));
 const obs_websocket_js_1 = tslib_1.__importDefault(require("obs-websocket-js"));
 const nodecg = nodecgApiContext.get();
 const ncgOBSConfig = nodecg.bundleConfig.obs;
-const obsConnectionRep = nodecg.Replicant('obsConnection', { defaultValue: false, persistent: false });
+const obsConnectionRep = nodecg.Replicant('obsConnection');
 // Extending the OBS library with some of our own functions.
 class OBSUtility extends obs_websocket_js_1.default {
     /**

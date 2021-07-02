@@ -4,7 +4,7 @@ const tslib_1 = require("tslib");
 const nodecgApiContext = tslib_1.__importStar(require("./nodecg-api-context"));
 const bad_words_1 = tslib_1.__importDefault(require("bad-words"));
 const nodecg = nodecgApiContext.get();
-const tweetsRep = nodecg.Replicant('tweets', { persistent: false, defaultValue: [] });
+const tweetsRep = nodecg.Replicant('tweets');
 let deletedTweet = null;
 // Arbitrary number but we only want to keep the latest tweets
 const MAXSAVEDTWEETS = 15;

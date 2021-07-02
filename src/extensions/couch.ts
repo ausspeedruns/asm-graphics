@@ -3,7 +3,7 @@ import { CouchInformation, CouchPerson } from '../types/OverlayProps';
 
 const nodecg = nodecgApiContext.get();
 
-const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names', { defaultValue: {current: [], preview: []} });
+const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names');
 
 nodecg.listenFor('update-hostnames', (names: CouchPerson[]) => {
 	couchNamesRep.value.current = names;

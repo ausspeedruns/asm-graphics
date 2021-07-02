@@ -4,8 +4,8 @@ const tslib_1 = require("tslib");
 const nodecgApiContext = tslib_1.__importStar(require("../nodecg-api-context"));
 const needle_1 = tslib_1.__importDefault(require("needle"));
 const nodecg = nodecgApiContext.get();
-const donationTotalRep = nodecg.Replicant('donationTotal', { persistent: true, defaultValue: 0 });
-const donationsListRep = nodecg.Replicant('donations', { persistent: true, defaultValue: [] });
+const donationTotalRep = nodecg.Replicant('donationTotal');
+const donationsListRep = nodecg.Replicant('donations');
 const campaignID = nodecg.bundleConfig.raisely.campaignId || "";
 const profileID = nodecg.bundleConfig.raisely.profileId || "";
 if (!campaignID || !profileID) {
@@ -29,12 +29,12 @@ async function GetDonations() {
             nodecg.log.warn('Error getting Raisely Profile: ' + err.message);
             return;
         }
-        if (!Array.isArray(res.body.data))
+        if (!Array.isArray(res.body.data)) {
+            nodecg.log.warn(`Donations data not an array! Data: ${JSON.stringify(res.body.data)}`);
             return;
+        }
         res.body.data.forEach((donation) => {
             var _a, _b;
-            if (!Array.isArray(donationsListRep.value))
-                return;
             if (!((_a = donationsListRep.value) === null || _a === void 0 ? void 0 : _a.find(donate => donate.id === donation.uuid))) {
                 (_b = donationsListRep.value) === null || _b === void 0 ? void 0 : _b.push({
                     id: donation.uuid,

@@ -6,9 +6,9 @@ import { Stream } from '../types/Streams';
 
 const nodecg = nodecgApiContext.get();
 
-const currentOverlayRep = nodecg.Replicant<CurrentOverlay>('currentOverlay', { defaultValue: { preview: 'widescreen', live: 'standard' } });
-const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams', { defaultValue: [] });
-const currentSceneRep = nodecg.Replicant<string>('obsCurrentScene', { defaultValue: 'Intermission' });
+const currentOverlayRep = nodecg.Replicant<CurrentOverlay>('currentOverlay');
+const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams');
+const currentSceneRep = nodecg.Replicant<string>('obsCurrentScene');
 
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {

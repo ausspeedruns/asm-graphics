@@ -4,7 +4,7 @@ import * as nodecgApiContext from './nodecg-api-context';
 
 const nodecg = nodecgApiContext.get();
 
-const incentivesRep = nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
+const incentivesRep = nodecg.Replicant<(Goal | War)[]>('incentives');
 
 nodecg.listenFor('disableIncentive', (index: number) => {
 	const incentiveIndex = incentivesRep.value.findIndex(incentive => incentive.index === index);

@@ -13,8 +13,8 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const googleTokenRep = nodecg.Replicant('googleToken', { persistent: true });
-const incentivesRep = nodecg.Replicant('incentives', { defaultValue: [] });
+const googleTokenRep = nodecg.Replicant('googleToken');
+const incentivesRep = nodecg.Replicant('incentives');
 // Load client secrets from a local file.
 if (ncgGoogleConfig.enabled) {
     runAuth();

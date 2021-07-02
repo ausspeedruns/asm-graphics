@@ -5,7 +5,7 @@ import { Tweet } from '../types/Twitter';
 
 const nodecg = nodecgApiContext.get();
 
-const tweetsRep = nodecg.Replicant<Tweet[]>('tweets', { persistent: false, defaultValue: [] });
+const tweetsRep = nodecg.Replicant<Tweet[]>('tweets');
 let deletedTweet: Tweet | null = null;
 
 // Arbitrary number but we only want to keep the latest tweets

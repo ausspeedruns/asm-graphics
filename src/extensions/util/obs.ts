@@ -7,7 +7,7 @@ import { OBSSceneItemProperties } from '../../types/NodeCGOBS';
 
 const nodecg = nodecgApiContext.get();
 const ncgOBSConfig = (nodecg.bundleConfig as Config).obs;
-const obsConnectionRep = nodecg.Replicant<boolean>('obsConnection', { defaultValue: false, persistent: false });
+const obsConnectionRep = nodecg.Replicant<boolean>('obsConnection');
 
 // Extending the OBS library with some of our own functions.
 class OBSUtility extends obsWebsocketJs {

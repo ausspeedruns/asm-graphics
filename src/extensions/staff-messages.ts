@@ -4,7 +4,7 @@ import {StaffMessage} from '../types/StaffMessages';
 
 const nodecg = nodecgApiContext.get();
 
-const staffMessagesRep = nodecg.Replicant<StaffMessage[]>('staff-messages', { defaultValue: [] });
+const staffMessagesRep = nodecg.Replicant<StaffMessage[]>('staff-messages');
 
 nodecg.listenFor('staff-sendMessage', (msg: StaffMessage) => {
 	staffMessagesRep.value.push(msg);

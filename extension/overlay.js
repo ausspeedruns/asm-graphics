@@ -4,9 +4,9 @@ const tslib_1 = require("tslib");
 const nodecgApiContext = tslib_1.__importStar(require("./nodecg-api-context"));
 const obs_1 = tslib_1.__importDefault(require("./util/obs"));
 const nodecg = nodecgApiContext.get();
-const currentOverlayRep = nodecg.Replicant('currentOverlay', { defaultValue: { preview: 'widescreen', live: 'standard' } });
-const twitchStreamsRep = nodecg.Replicant('twitchStreams', { defaultValue: [] });
-const currentSceneRep = nodecg.Replicant('obsCurrentScene', { defaultValue: 'Intermission' });
+const currentOverlayRep = nodecg.Replicant('currentOverlay');
+const twitchStreamsRep = nodecg.Replicant('twitchStreams');
+const currentSceneRep = nodecg.Replicant('obsCurrentScene');
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {
     try {

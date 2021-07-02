@@ -16,6 +16,7 @@ module.exports = (nodecg) => {
 };
 async function init() {
     const nodecg = nodecgApiContext.get();
+    require('./replicants');
     // The order of these is literally just the chronological order of when they were made, a.k.a the best way to watch Star Wars
     if (ncgConfig.obs.enabled) {
         require('./util/obs');

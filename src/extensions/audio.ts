@@ -6,7 +6,7 @@ import { Stream } from '../types/Streams';
 
 const nodecg = nodecgApiContext.get();
 
-const audioIndicatorRep = nodecg.Replicant<string>('audio-indicator', { defaultValue: '' });
+const audioIndicatorRep = nodecg.Replicant<string>('audio-indicator');
 const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams');
 const obsConnectionRep = nodecg.Replicant<boolean>('obsConnection');
