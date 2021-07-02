@@ -17,7 +17,8 @@ class OBSUtility extends obs_websocket_js_1.default {
     async changeScene(name, ignore) {
         if (!ncgOBSConfig.enabled) {
             // OBS not enabled, don't even try to set.
-            throw new Error('No OBS connection available');
+            // throw new Error('No OBS connection available');
+            nodecg.log.warn(`[OBS] No OBS connection`);
         }
         try {
             const sceneList = await this.send('GetSceneList');
@@ -41,7 +42,8 @@ class OBSUtility extends obs_websocket_js_1.default {
     async hideItemInScene(item, scene) {
         if (!ncgOBSConfig.enabled) {
             // OBS not enabled, don't even try to set.
-            throw new Error('No OBS connection available');
+            // throw new Error('No OBS connection available');
+            nodecg.log.warn(`[OBS] No OBS connection`);
         }
         try {
             // @ts-ignore: Typings say we need to specify more than we actually do.
@@ -63,7 +65,8 @@ class OBSUtility extends obs_websocket_js_1.default {
     async setSourceVolume(source, volume, useDecibel) {
         if (!ncgOBSConfig.enabled) {
             // OBS not enabled, don't even try to set.
-            throw new Error('No OBS connection available');
+            // throw new Error('No OBS connection available');
+            nodecg.log.warn(`[OBS] No OBS connection`);
         }
         try {
             // @ts-ignore: Typings do not have the decibel boolean
@@ -81,7 +84,8 @@ class OBSUtility extends obs_websocket_js_1.default {
     async setSourceMute(source, mute) {
         if (!ncgOBSConfig.enabled) {
             // OBS not enabled, don't even try to set.
-            throw new Error('No OBS connection available');
+            // throw new Error('No OBS connection available');
+            nodecg.log.warn(`[OBS] No OBS connection`);
         }
         try {
             await this.send('SetMute', { source, mute });
@@ -97,7 +101,8 @@ class OBSUtility extends obs_websocket_js_1.default {
     async transition(scene) {
         if (!ncgOBSConfig.enabled) {
             // OBS not enabled, don't even try to set.
-            throw new Error('No OBS connection available');
+            // throw new Error('No OBS connection available');
+            nodecg.log.warn(`[OBS] No OBS connection`);
         }
         if (scene) {
             try {
@@ -124,7 +129,8 @@ class OBSUtility extends obs_websocket_js_1.default {
     async enableSource(source, render, scene) {
         if (!ncgOBSConfig.enabled) {
             // OBS not enabled, don't even try to set.
-            throw new Error('No OBS connection available');
+            // throw new Error('No OBS connection available');
+            nodecg.log.warn(`[OBS] No OBS connection`);
         }
         try {
             // await this.send('SetPreviewScene', { 'scene-name': scene });
@@ -143,7 +149,8 @@ class OBSUtility extends obs_websocket_js_1.default {
     async setSceneItemProperties(scene, source, itemProperties) {
         if (!ncgOBSConfig.enabled) {
             // OBS not enabled, don't even try to set.
-            throw new Error('No OBS connection available');
+            // throw new Error('No OBS connection available');
+            nodecg.log.warn(`[OBS] No OBS connection`);
         }
         try {
             // await this.send('SetPreviewScene', { 'scene-name': scene });

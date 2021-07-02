@@ -19,7 +19,8 @@ class OBSUtility extends obsWebsocketJs {
 	async changeScene(name: string, ignore?: string): Promise<void> {
 		if (!ncgOBSConfig.enabled) {
 			// OBS not enabled, don't even try to set.
-			throw new Error('No OBS connection available');
+			// throw new Error('No OBS connection available');
+			nodecg.log.warn(`[OBS] No OBS connection`);
 		}
 
 		try {
@@ -44,7 +45,8 @@ class OBSUtility extends obsWebsocketJs {
 	async hideItemInScene(item: string, scene: string): Promise<void> {
 		if (!ncgOBSConfig.enabled) {
 			// OBS not enabled, don't even try to set.
-			throw new Error('No OBS connection available');
+			// throw new Error('No OBS connection available');
+			nodecg.log.warn(`[OBS] No OBS connection`);
 		}
 
 		try {
@@ -67,7 +69,8 @@ class OBSUtility extends obsWebsocketJs {
 	async setSourceVolume(source: string, volume: number, useDecibel?: boolean): Promise<void> {
 		if (!ncgOBSConfig.enabled) {
 			// OBS not enabled, don't even try to set.
-			throw new Error('No OBS connection available');
+			// throw new Error('No OBS connection available');
+			nodecg.log.warn(`[OBS] No OBS connection`);
 		}
 
 		try {
@@ -86,7 +89,8 @@ class OBSUtility extends obsWebsocketJs {
 	async setSourceMute(source: string, mute: boolean): Promise<void> {
 		if (!ncgOBSConfig.enabled) {
 			// OBS not enabled, don't even try to set.
-			throw new Error('No OBS connection available');
+			// throw new Error('No OBS connection available');
+			nodecg.log.warn(`[OBS] No OBS connection`);
 		}
 
 		try {
@@ -103,7 +107,8 @@ class OBSUtility extends obsWebsocketJs {
 	async transition(scene?: string): Promise<void> {
 		if (!ncgOBSConfig.enabled) {
 			// OBS not enabled, don't even try to set.
-			throw new Error('No OBS connection available');
+			// throw new Error('No OBS connection available');
+			nodecg.log.warn(`[OBS] No OBS connection`);
 		}
 
 		if (scene) {
@@ -131,7 +136,8 @@ class OBSUtility extends obsWebsocketJs {
 	async enableSource(source: string, render: boolean, scene?: string): Promise<void> {
 		if (!ncgOBSConfig.enabled) {
 			// OBS not enabled, don't even try to set.
-			throw new Error('No OBS connection available');
+			// throw new Error('No OBS connection available');
+			nodecg.log.warn(`[OBS] No OBS connection`);
 		}
 
 		try {
@@ -151,7 +157,8 @@ class OBSUtility extends obsWebsocketJs {
 	async setSceneItemProperties(scene: string, source: string, itemProperties: OBSSceneItemProperties): Promise<void> {
 		if (!ncgOBSConfig.enabled) {
 			// OBS not enabled, don't even try to set.
-			throw new Error('No OBS connection available');
+			// throw new Error('No OBS connection available');
+			nodecg.log.warn(`[OBS] No OBS connection`);
 		}
 
 		try {
