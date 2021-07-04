@@ -39,9 +39,10 @@
       {
         "name": "donations",
         "title": "Donations",
-        "width": 4,
+        "width": 3,
         "headerColor": "#CC7722",
-        "file": "donations.html"
+        "file": "donations.html",
+        "workspace": "ASM Misc"
       },
       {
         "name": "stream",
@@ -55,7 +56,8 @@
         "title": "Tweets",
         "width": 3,
         "headerColor": "#1da1f2",
-        "file": "twitter.html"
+        "file": "twitter.html",
+        "workspace": "ASM Misc"
       },
       {
         "name": "staffmessages",
@@ -69,7 +71,8 @@
         "title": "Twitch Chat",
         "width": 3,
         "headerColor": "#9146FF",
-        "file": "twitch-chat.html"
+        "file": "twitch-chat.html",
+        "workspace": "ASM Misc"
       },
       {
         "name": "settings",

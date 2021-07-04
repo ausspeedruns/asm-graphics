@@ -140,11 +140,11 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 
 			incentiveData = (
 				<GoalContainer boxShadow={1}>
-					<span>${amountLeft % 1 === 0 ? amountLeft : amountLeft.toFixed(2)} Left</span>
+					<span>${(amountLeft % 1 === 0 ? amountLeft : amountLeft.toFixed(2)).toLocaleString()} Left</span>
 					<span>{Math.floor((props.incentive.total / props.incentive.goal) * 100)}%</span>
 					<span>
-						${props.incentive.total % 1 === 0 ? props.incentive.total : props.incentive.total.toFixed(2)}/$
-						{props.incentive.goal}
+						${(props.incentive.total % 1 === 0 ? props.incentive.total : props.incentive.total.toFixed(2)).toLocaleString()} / $
+						{props.incentive.goal.toLocaleString()}
 					</span>
 				</GoalContainer>
 			);
@@ -159,7 +159,7 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 					.map((option) => {
 						return (
 							<WarItem boxShadow={1} key={option.name}>
-								{option.name}: ${option.total}
+								{option.name}: ${option.total.toLocaleString()}
 							</WarItem>
 						);
 					})
@@ -186,7 +186,7 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 
 			<Grid container>
 				{incentiveData}
-				{props.incentive.active ? <></> : <DisabledCover />}
+				{!props.incentive.active && <DisabledCover />}
 			</Grid>
 		</IncentiveItemContainer>
 	);

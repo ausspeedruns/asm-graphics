@@ -44,13 +44,13 @@ const GoalDiv = styled.div`
 `;
 
 const Game = styled(FitText)`
-	font-size: 30px;
+	font-size: 25px;
 	margin-bottom: -10px;
 	max-width: 90%;
 `;
 
 const IncentiveName = styled(FitText)`
-	font-size: 35px;
+	font-size: 28px;
 	font-weight: bold;
 	max-width: 90%;
 `;
@@ -73,7 +73,6 @@ const ProgressContainer = styled.div`
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
-	margin-bottom: 10px;
 `;
 
 const ProgressBarContainer = styled.div`
@@ -224,7 +223,7 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 					</CurrentAmount>
 				</ProgressBarContainer>
 				<RemainingAmount style={{ display: percentage > 94 ? 'none' : '' }}>
-					${Math.floor(props.goal.goal - props.goal.total).toLocaleString()} to go!
+					${Math.ceil(props.goal.goal - props.goal.total).toLocaleString()} to go!
 				</RemainingAmount>
 			</ProgressContainer>
 		</GoalBarContainer>

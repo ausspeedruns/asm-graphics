@@ -26,6 +26,7 @@ export const InterIncentives: React.FC = () => {
 
 	let goalIncentives: Goal[] = [];
 	let warIncentives: War[] = [];
+	// let allIncentives:(Goal | War)[] = [];
 	if (incentivesRep) {
 		goalIncentives = incentivesRep
 			.filter((incentive) => {
@@ -44,6 +45,14 @@ export const InterIncentives: React.FC = () => {
 
 				return undefined;
 			}) as War[];
+
+		// allIncentives = incentivesRep.filter((incentive) => {
+		// 	if (incentive.active) {
+		// 		return incentive;
+		// 	}
+
+		// 	return undefined;
+		// })
 	}
 
 	const showContent = (element: TickerItemHandles) => {

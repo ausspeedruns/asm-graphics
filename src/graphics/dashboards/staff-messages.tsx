@@ -141,8 +141,8 @@ interface MessageProps {
 }
 
 const NewFlash = keyframes`
-	from { background-color: #000000; }
-	to { background-color: #c8ff00; }
+	from { background-color: #c8ff00; }
+	to { background-color: #FF0000; }
 `;
 
 const MessageContainer = styled(Box)`
@@ -153,8 +153,8 @@ const MessageContainer = styled(Box)`
 	padding: 8px;
 	border-radius: 7px;
 	animation-name: ${NewFlash};
-	animation-duration: 0.5s;
-	background-color: #eee;
+	animation-duration: 3s;
+	background-color: ${(props: ReadProps) => props.read ? '#eee' : '#FF0000'};
 	position: relative;
 `;
 
@@ -177,6 +177,10 @@ const DisabledCover = styled.div`
 	border-radius: 7px;
 `;
 
+interface ReadProps {
+	read?: boolean;
+}
+
 const Message: React.FC<MessageProps> = (props: MessageProps) => {
 	const [read, setRead] = useState(false);
 	const date = new Date(props.message.date);
@@ -186,7 +190,7 @@ const Message: React.FC<MessageProps> = (props: MessageProps) => {
 	};
 
 	return (
-		<MessageContainer boxShadow={2} style={props.style}>
+		<MessageContainer read={read} boxShadow={2} style={props.style}>
 			<Grid direction="column" container>
 				<div>
 					<DateText>{date.toLocaleTimeString()}</DateText>

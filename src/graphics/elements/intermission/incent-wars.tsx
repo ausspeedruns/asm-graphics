@@ -9,7 +9,7 @@ const InterIncentWarsContainer = styled.div`
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 750px;
+	height: 100%;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -37,13 +37,13 @@ const Goal = styled.div`
 `;
 
 const Game = styled(FitText)`
-	font-size: 30px;
+	font-size: 25px;
 	margin-bottom: -10px;
 	max-width: 90%;
 `;
 
 const IncentiveName = styled(FitText)`
-	font-size: 35px;
+	font-size: 28px;
 	font-weight: bold;
 	max-width: 600px;
 `;
@@ -61,7 +61,7 @@ const ProgressContainer = styled.div`
 	/* flex-grow: 1; */
 	width: 100%;
 	min-height: 40px;
-	height: 80px;
+	height: 40px;
 	border: 1px solid white;
 	position: relative;
 	overflow: hidden;
@@ -73,8 +73,8 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	width: 0px;
-	background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 100%);
-	border-right: 5px solid var(--main-col);
+	background: #FFFFFF;
+	border-right: 2px solid var(--main-col);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;

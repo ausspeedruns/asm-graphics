@@ -7,6 +7,7 @@ const nodecg = nodecgApiContext.get();
 const currentOverlayRep = nodecg.Replicant('currentOverlay');
 const twitchStreamsRep = nodecg.Replicant('twitchStreams');
 const currentSceneRep = nodecg.Replicant('obsCurrentScene');
+const couchNamesRep = nodecg.Replicant('couch-names');
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {
     try {
@@ -89,6 +90,11 @@ function transitionGameplay() {
     currentOverlayRep.value = {
         live: currentOverlayRep.value.preview,
         preview: currentOverlayRep.value.live
+    };
+    // Change couch names
+    couchNamesRep.value = {
+        current: couchNamesRep.value.preview,
+        preview: couchNamesRep.value.current
     };
     // Change livestreams
     const liveStreams = twitchStreamsRep.value.map(stream => {

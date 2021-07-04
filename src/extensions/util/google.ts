@@ -136,7 +136,7 @@ function getAllData(auth: any) {
 	});
 }
 
-const GoalRegex = /\$\d+\.?\d*\/\$\d+\.?\d*/;	// e.g. $50.85/$150
+const GoalRegex = /\$\d+\.?\d* \/ \$\d+\.?\d*/;	// e.g. $50.85/$150
 const WarRegex = /.+: \$\d+\.?\d*/;				// e.g. Hat Kid: $100
 const ActiveRegex = /Open/;
 
@@ -156,8 +156,8 @@ function parseIncentive(row: string[], rowIndex: number): Goal | War | undefined
 			}
 
 			// Split the text, remove the $ sign, parse as float
-			const total = parseFloat(row[6].split('/')[0].substring(1));
-			const goal = parseFloat(row[6].split('/')[1].substring(1));
+			const total = parseFloat(row[6].split(' / ')[0].substring(1));
+			const goal = parseFloat(row[6].split(' / ')[1].substring(1));
 
 			incentive = {
 				active: active,
