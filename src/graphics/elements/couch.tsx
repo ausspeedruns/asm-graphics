@@ -49,7 +49,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 			</MenuBar>
 			<PeopleContainer>
 				{props.couch.map((person) => {
-					return <PersonCompressed person={person} />;
+					return <PersonCompressed key={person.name} person={person} />;
 				})}
 			</PeopleContainer>
 		</CouchContainer>

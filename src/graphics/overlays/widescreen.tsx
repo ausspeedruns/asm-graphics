@@ -110,7 +110,7 @@ export const Widescreen: React.FC<OverlayProps> = (props) => {
 				<Timer style={{ width: 612, zIndex: 2 }} timer={props.timer} />
 			</InfoBar>
 			<Sidebar>
-				<Facecam height={400} teams={props.runData?.teams[0]} />
+				<Facecam height={400} teams={props.runData?.teams[0]} noCam={props.preview ? props.noCam.preview : props.noCam.current} />
 				<SidebarBG>
 					<Couch
 						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}

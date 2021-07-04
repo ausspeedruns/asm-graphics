@@ -3,3 +3,5 @@ coverage
 bower_components
 .cache
 .vscode
+/graphics
+/dashboard

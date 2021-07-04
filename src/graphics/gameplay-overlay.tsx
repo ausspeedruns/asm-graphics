@@ -17,7 +17,7 @@ import { GBA } from './overlays/gba';
 import { GBC } from './overlays/gbc';
 import { RunDataActiveRun } from '../types/RunData';
 import { Timer } from '../types/Timer';
-import { CouchInformation } from '../types/OverlayProps';
+import { CouchInformation, NoCam } from '../types/OverlayProps';
 import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
 
@@ -60,52 +60,53 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 	});
 	const [hostNamesRep] = useReplicant<CouchInformation, CouchInformation>('couch-names', {current: [], preview: []});
 	const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
+	const [noCamRep] = useReplicant<NoCam, NoCam>('no-cam', {current: false, preview: false});
 	const history = useHistory();
 
 	const Overlays = [
 		{
-			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: '/',
 			// Defualt as standard
 		},
 		{
-			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Standard',
 		},
 		{
-			component: <Standard2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <Standard2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Standard-2',
 		},
 		{
-			component: <Widescreen runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <Widescreen runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Widescreen',
 		},
 		{
-			component: <Widescreen2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <Widescreen2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Widescreen-2',
 		},
 		{
-			component: <Widescreen1610 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <Widescreen1610 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Widescreen-1610',
 		},
 		{
-			component: <DS runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <DS runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'DS',
 		},
 		{
-			component: <DS2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <DS2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'DS-2',
 		},
 		{
-			component: <GBA runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <GBA runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'GBA',
 		},
 		{
-			component: <GBC runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <GBC runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'GBC',
 		},
 		{
-			component: <WHG runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} />,
+			component: <WHG runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'WHG',
 		},
 		{

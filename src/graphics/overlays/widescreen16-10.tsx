@@ -106,7 +106,7 @@ export const Widescreen1610: React.FC<OverlayProps> = (props) => {
 			</InfoBar>
 
 			<Sidebar>
-				<Facecam height={400} teams={props.runData?.teams[0]} />
+				<Facecam height={400} teams={props.runData?.teams[0]} noCam={props.preview ? props.noCam.preview : props.noCam.current} />
 				<SidebarBG>
 					<Couch
 						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}

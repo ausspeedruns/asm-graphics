@@ -8,6 +8,7 @@ const currentOverlayRep = nodecg.Replicant('currentOverlay');
 const twitchStreamsRep = nodecg.Replicant('twitchStreams');
 const currentSceneRep = nodecg.Replicant('obsCurrentScene');
 const couchNamesRep = nodecg.Replicant('couch-names');
+const noCamRep = nodecg.Replicant('no-cam');
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {
     try {
@@ -95,6 +96,11 @@ function transitionGameplay() {
     couchNamesRep.value = {
         current: couchNamesRep.value.preview,
         preview: couchNamesRep.value.current
+    };
+    // Change no cam
+    noCamRep.value = {
+        current: noCamRep.value.preview,
+        preview: noCamRep.value.current
     };
     // Change livestreams
     const liveStreams = twitchStreamsRep.value.map(stream => {

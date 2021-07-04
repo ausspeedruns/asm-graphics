@@ -214,6 +214,7 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams[0]}
+					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 
 				{raceTimers}

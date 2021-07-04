@@ -4,6 +4,7 @@ const tslib_1 = require("tslib");
 const nodecgApiContext = tslib_1.__importStar(require("./nodecg-api-context"));
 const nodecg = nodecgApiContext.get();
 const couchNamesRep = nodecg.Replicant('couch-names');
+const noCamRep = nodecg.Replicant('no-cam');
 nodecg.listenFor('update-hostnames', (names) => {
     couchNamesRep.value.current = names;
 });
@@ -27,14 +28,9 @@ nodecg.listenFor('remove-preview-hostname', (index) => {
     hostNamesMutable.preview.splice(index, 1);
     couchNamesRep.value = hostNamesMutable;
 });
-// obsProgramRep.on('change', (newVal, oldVal) => {
-// 	if (oldVal) {
-// 		// Don't change lists if only going to intermission
-// 		if (newVal?.name === 'Intermission') return;
-// 		// Clone arrays
-// 		const oldProgram = hostNamesRep.value.slice(0);
-// 		const oldPreview = previewHostNamesRep.value.slice(0);
-// 		hostNamesRep.value = oldPreview;
-// 		previewHostNamesRep.value = oldProgram;
-// 	}
-// });
+nodecg.listenFor('no-cam-preview', (value) => {
+    noCamRep.value.preview = value;
+});
+nodecg.listenFor('no-cam-current', (value) => {
+    noCamRep.value.current = value;
+});

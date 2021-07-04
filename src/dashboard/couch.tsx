@@ -3,9 +3,9 @@ import { render } from 'react-dom';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { CouchInformation, CouchPerson } from '../types/OverlayProps';
+import { CouchInformation, CouchPerson, NoCam } from '../types/OverlayProps';
 
-import { Button, TextField, ThemeProvider } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, TextField, ThemeProvider } from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
 import { darkTheme } from './theme';
@@ -69,7 +69,11 @@ export const DashCouch: React.FC = () => {
 		'couch-names',
 		{ current: [], preview: [] },
 	);
-	console.log(couchNamesRep);
+	const [noCamsRep] = useReplicant<NoCam, NoCam>(
+		'no-cam',
+		{ current: false, preview: false },
+	);
+	
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocalHostName(event.target.value);
 	};
@@ -175,6 +179,11 @@ export const DashCouch: React.FC = () => {
 				disabled={localPreviewHostName === ''}>
 				Add Host
 			</GreenButton>
+			<FormControlLabel
+				control={<Checkbox color="primary" value={noCamsRep.preview} onChange={(e) => nodecg.sendMessage('no-cam-preview', e.target.checked)} />}
+				label="No runner cam?"
+				labelPlacement="start"
+			/>
 			<div
 				style={{
 					display: 'flex',
@@ -220,6 +229,11 @@ export const DashCouch: React.FC = () => {
 					Add Host
 				</GreenButton>
 			</div>
+			<FormControlLabel
+				control={<Checkbox color="primary" value={noCamsRep.current} onChange={(e) => nodecg.sendMessage('no-cam-current', e.target.checked)} />}
+				label="No runner cam?"
+				labelPlacement="start"
+			/>
 			<div
 				style={{
 					display: 'flex',

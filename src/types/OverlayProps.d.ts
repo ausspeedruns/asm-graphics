@@ -6,6 +6,7 @@ export interface OverlayProps {
 	timer: Timer | undefined;
 	couchInformation: CouchInformation;
 	preview?: boolean;
+	noCam: NoCam;
 }
 
 export interface CouchInformation {
@@ -16,4 +17,9 @@ export interface CouchInformation {
 export interface CouchPerson {
 	name: string;
 	pronouns: string;
+}
+
+export interface NoCam {
+	preview: boolean;
+	current: boolean;
 }

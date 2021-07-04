@@ -1,9 +1,10 @@
 import * as nodecgApiContext from './nodecg-api-context';
-import { CouchInformation, CouchPerson } from '../types/OverlayProps';
+import { CouchInformation, CouchPerson, NoCam } from '../types/OverlayProps';
 
 const nodecg = nodecgApiContext.get();
 
 const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names');
+const noCamRep = nodecg.Replicant<NoCam>('no-cam');
 
 nodecg.listenFor('update-hostnames', (names: CouchPerson[]) => {
 	couchNamesRep.value.current = names;
@@ -33,17 +34,10 @@ nodecg.listenFor('remove-preview-hostname', (index: number) => {
 	couchNamesRep.value = hostNamesMutable;
 });
 
-// obsProgramRep.on('change', (newVal, oldVal) => {
-// 	if (oldVal) {
-// 		// Don't change lists if only going to intermission
-// 		if (newVal?.name === 'Intermission') return;
+nodecg.listenFor('no-cam-preview', (value) => {
+	noCamRep.value.preview = value;
+});
 
-// 		// Clone arrays
-// 		const oldProgram = hostNamesRep.value.slice(0);
-// 		const oldPreview = previewHostNamesRep.value.slice(0);
-
-// 		hostNamesRep.value = oldPreview;
-// 		previewHostNamesRep.value = oldProgram;
-
-// 	}
-// });
+nodecg.listenFor('no-cam-current', (value) => {
+	noCamRep.value.current = value;
+});

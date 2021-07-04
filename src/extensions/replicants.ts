@@ -1,6 +1,6 @@
 import * as nodecgApiContext from './nodecg-api-context';
 
-import { CouchInformation, CouchPerson } from '../types/OverlayProps';
+import { CouchInformation, CouchPerson, NoCam } from '../types/OverlayProps';
 import { Donation } from '../types/Donations';
 import { GoogleToken } from '../types/GoogleToken';
 import { Goal, War } from '../types/Incentives';
@@ -11,18 +11,21 @@ import { Tweet } from '../types/Twitter';
 
 const nodecg = nodecgApiContext.get();
 
+nodecg.log.info('Setting up replicants');
+
 /* Couch */
-nodecg.Replicant<CouchInformation>('couch-names', { defaultValue: {current: [], preview: []} });
+nodecg.Replicant<CouchInformation>('couch-names', { defaultValue: { current: [], preview: [] } });
+nodecg.Replicant<NoCam>('no-cam', { defaultValue: { current: false, preview: false } });
 
 /* Donations */
-nodecg.Replicant<number>('donationTotal', { persistent: true, defaultValue: 0 });
-nodecg.Replicant<Donation[]>('donations', { persistent: true, defaultValue: [] });
+nodecg.Replicant<number>('donationTotal', { defaultValue: 0 });
+nodecg.Replicant<Donation[]>('donations', { defaultValue: [] });
 
 /* Audio */
 nodecg.Replicant<string>('audio-indicator', { defaultValue: '' });
 
 /* Host */
-nodecg.Replicant<CouchPerson>('host', { defaultValue: {name: '', pronouns: ''} });
+nodecg.Replicant<CouchPerson>('host', { defaultValue: { name: '', pronouns: '' } });
 
 /* Incentives */
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
@@ -39,7 +42,7 @@ nodecg.Replicant<StaffMessage[]>('staff-messages', { defaultValue: [] });
 nodecg.Replicant<Tweet[]>('tweets', { persistent: false, defaultValue: [] });
 
 /* Google */
-nodecg.Replicant<GoogleToken>('googleToken', { persistent: true });
+nodecg.Replicant<GoogleToken>('googleToken');
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
 
 /* OBS */

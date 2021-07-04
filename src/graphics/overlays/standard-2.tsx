@@ -183,6 +183,7 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 						borderLeft: '1px solid var(--asm-orange)',
 					}}
 					teams={props.runData?.teams[0]}
+					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 
 				{raceTimers}
