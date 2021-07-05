@@ -15,14 +15,14 @@ const DSContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 565px;
+	width: 564px;
 	border-right: 1px solid var(--asm-orange);
 	overflow: hidden;
 `;
 
 const DSSecondScreen = styled.div`
-	width: 565px;
-	height: 424px;
+	width: 564px;
+	height: 423px;
 	border-bottom: 1px solid var(--asm-orange);
 `;
 
@@ -35,7 +35,7 @@ const VerticalStack = styled.div`
 `;
 
 const InfoBox = styled.div`
-	height: 240px;
+	height: 241px;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -68,7 +68,6 @@ export const DS: React.FC<OverlayProps> = (props) => {
 	return (
 		<DSContainer>
 			<Sidebar>
-				<DSSecondScreen />
 				<Facecam
 					height={352}
 					teams={props.runData?.teams}
@@ -102,6 +101,7 @@ export const DS: React.FC<OverlayProps> = (props) => {
 						<Timer fontSize={75} timer={props.timer} />
 					</InfoSubBox>
 				</InfoBox>
+				<DSSecondScreen />
 			</Sidebar>
 		</DSContainer>
 	);

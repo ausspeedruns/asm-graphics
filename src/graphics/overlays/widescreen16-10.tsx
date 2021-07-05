@@ -18,8 +18,8 @@ const WidescreenContainer = styled.div`
 
 const Sidebar = styled.div`
 	position: absolute;
-	top: 144px;
-	height: 872px;
+	top: 143px;
+	height: 873px;
 	width: 523px;
 	border-right: 1px solid var(--asm-orange);
 
@@ -47,7 +47,7 @@ const SidebarBG = styled.div`
 const InfoBar = styled.div`
 	background: var(--main-col);
 	position: absolute;
-	height: 144px;
+	height: 142px;
 	width: 1920px;
 	display: flex;
 	justify-content: space-around;
@@ -109,7 +109,7 @@ export const Widescreen1610: React.FC<OverlayProps> = (props) => {
 			</InfoBar>
 
 			<Sidebar>
-				<Facecam height={400} teams={props.runData?.teams} noCam={props.preview ? props.noCam.preview : props.noCam.current} />
+				<Facecam height={401} teams={props.runData?.teams} noCam={props.preview ? props.noCam.preview : props.noCam.current} />
 				<SidebarBG>
 					<Couch
 						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}

@@ -19,7 +19,7 @@ const WHGContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 522px;
+	width: 523px;
 	box-sizing: border-box;
 	border-right: 1px solid var(--asm-orange);
 	overflow: hidden;
@@ -100,7 +100,7 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 						<InfoDivider />
 						<VerticalStack style={{ height: 100 }}>
 							<RunInfo.GameTitle
-								maxWidth={540}
+								maxWidth={500}
 								game={props.runData?.game || ''}
 								style={{ fontSize: 37 }}
 							/>

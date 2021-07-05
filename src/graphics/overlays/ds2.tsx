@@ -21,7 +21,7 @@ const DS2Container = styled.div`
 const Sidebar = styled.div`
 	/* position: absolute; */
 	height: 1016px;
-	width: 565px;
+	width: 564px;
 	border-right: 1px solid var(--asm-orange);
 	border-left: 1px solid var(--asm-orange);
 	overflow: hidden;

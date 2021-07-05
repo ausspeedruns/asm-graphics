@@ -19,7 +19,7 @@ const WidescreenContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	top: 156px;
-	height: 860px;
+	height: 863px;
 	width: 390px;
 	border-right: 1px solid var(--asm-orange);
 	/* border-top: 1px solid var(--asm-orange); */
@@ -51,7 +51,7 @@ const InfoBar = styled.div`
 	background: var(--main-col);
 	border-bottom: 1px var(--asm-orange) solid;
 	position: absolute;
-	height: 156px;
+	height: 155px;
 	width: 1920px;
 	display: flex;
 	justify-content: space-around;
