@@ -60,7 +60,7 @@ export const TickerCTA = React.forwardRef<TickerItemHandles>((_props, ref) => {
 			</CTALine>
 			<CTALine ref={incentiveRef} style={{transform: 'translate(100%, 0)'}}>
 				<span>Check out incentives at&nbsp;</span>
-				<b>ausspeedruns.com</b>
+				<b>incentives.ausspeedruns.com</b>
 			</CTALine>
 		</TickerCTAContainer>
 	);

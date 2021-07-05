@@ -80,8 +80,8 @@ interface PersonCompressedProps {
 export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
 		<PersonCompressedContainer>
+			<div style={{fontWeight: 'bold'}}>{props.person.name}</div>
 			<Pronouns>{props.person.pronouns}</Pronouns>
-			<div>{props.person.name}</div>
 		</PersonCompressedContainer>
 	);
 };

@@ -40,6 +40,7 @@ const DonationArea = styled.div`
 	align-items: center;
 	padding: 0 10px;
 	border-left: 6px solid var(--main-col);
+	color: var(--main-col);
 	font-weight: bold;
 `;
 
