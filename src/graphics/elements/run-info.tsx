@@ -100,3 +100,19 @@ interface SystemProps {
 export const System: React.FC<SystemProps> = (props: SystemProps) => {
 	return <SystemContainer style={props.style}>{props.system}</SystemContainer>;
 };
+
+/*			YEAR			*/
+const YearContainer = styled.div`
+	font-family: Noto Sans;
+	font-size: 35px;
+	color: #ffffff;
+`;
+
+interface YearProps {
+	year: string;
+	style?: React.CSSProperties;
+}
+
+export const Year: React.FC<YearProps> = (props: YearProps) => {
+	return <YearContainer style={props.style}>{props.year}</YearContainer>;
+};

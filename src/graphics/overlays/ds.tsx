@@ -81,7 +81,16 @@ export const DS: React.FC<OverlayProps> = (props) => {
 							game={props.runData?.game || ''}
 							style={{ fontSize: 50, marginBottom: -10 }}
 						/>
-						<RunInfo.System system={props.runData?.system || ''} style={{ fontSize: 25, zIndex: 2 }} />
+						<div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
+							<RunInfo.System
+								system={props.runData?.system || ''}
+								style={{ fontSize: 25, zIndex: 2 }}
+							/>
+							<RunInfo.Year
+								year={props.runData?.release || ''}
+								style={{ fontSize: 25, zIndex: 2 }}
+							/>
+						</div>
 					</VerticalStack>
 					<InfoTopDivider />
 					<InfoSubBox>

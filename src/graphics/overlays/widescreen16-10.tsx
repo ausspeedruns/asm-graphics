@@ -90,7 +90,10 @@ export const Widescreen1610: React.FC<OverlayProps> = (props) => {
 						game={props.runData?.game || ''}
 						style={{ marginBottom: -15 }}
 					/>
-					<RunInfo.System system={props.runData?.system || ''} />
+					<div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
+						<RunInfo.System system={props.runData?.system || ''} />
+						<RunInfo.Year year={props.runData?.release || ''} />
+					</div>
 				</VerticalStack>
 				<InfoDivider />
 				<VerticalStack style={{ flexGrow: 1 }}>
