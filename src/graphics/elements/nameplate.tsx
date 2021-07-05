@@ -6,6 +6,8 @@ import gsap from 'gsap';
 import TwitchLogo from '../media/TwitchGlitchPurple.svg';
 import { RunDataPlayer } from '../../types/RunData';
 
+import { FitText } from './fit-text';
+
 const NameplateContainer = styled.div`
 	background: #ffffff;
 	color: #000000;
@@ -28,7 +30,7 @@ const Names = styled.div`
 	align-items: center;
 `;
 
-const NormalName = styled.span``;
+const NormalName = styled(FitText)``;
 
 const TwitchDiv = styled.div`
 	position: absolute;
@@ -52,6 +54,7 @@ const PronounBox = styled.div`
 interface Props {
 	player: RunDataPlayer;
 	nameplateLeft?: boolean;
+	maxWidth?: number;
 	style?: React.CSSProperties;
 	className?: string;
 }
@@ -64,7 +67,7 @@ interface NameplateSide {
 const nameLoopLength = 90;
 
 export const Nameplate: React.FC<Props> = (props: Props) => {
-	const normalNameEl = useRef<HTMLSpanElement>(null);
+	const normalNameEl = useRef<HTMLDivElement>(null);
 	const twitchNameEl = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -97,22 +100,23 @@ export const Nameplate: React.FC<Props> = (props: Props) => {
 			className={props.className}
 			nameplateLeft={props.nameplateLeft}>
 			<Names>
-				<NormalName
-					ref={normalNameEl}
-					style={{ opacity: sameNameAndTwitch ? 0 : 1 }}>
-					{props.player.name}
-				</NormalName>
+				<div ref={normalNameEl} style={{opacity: sameNameAndTwitch ? 0 : 1}}>
+					<NormalName style={{ maxWidth: props.maxWidth }} text={props.player.name} />
+				</div>
 				<TwitchDiv
 					ref={twitchNameEl}
 					style={{ opacity: sameNameAndTwitch ? 1 : 0 }}>
 					<TwitchLogo
 						style={{ height: 30, width: 'auto', marginRight: 13 }}
 					/>
-					<NormalName>{props.player.social.twitch}</NormalName>
+					
+					<div>
+						<NormalName style={{ maxWidth: (props.maxWidth || 9999) - 45 }} text={props.player.social.twitch || ''} />
+					</div>
 				</TwitchDiv>
 			</Names>
 			{props.player.pronouns && (
-				<PronounBox>{props.player.pronouns}</PronounBox>
+				<PronounBox><FitText style={{maxWidth: (props.maxWidth || 9999) * 0.45}} text={props.player.pronouns} /></PronounBox>
 			)}
 		</NameplateContainer>
 	);

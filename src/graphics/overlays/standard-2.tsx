@@ -178,11 +178,12 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 
 				<Facecam
 					width={586}
+					maxNameWidth={190}
 					style={{
 						borderRight: '1px solid var(--asm-orange)',
 						borderLeft: '1px solid var(--asm-orange)',
 					}}
-					teams={props.runData?.teams[0]}
+					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 

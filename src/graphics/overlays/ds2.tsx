@@ -79,7 +79,7 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 	return (
 		<DS2Container>
 			<Sidebar>
-				<Facecam height={352} teams={props.runData?.teams[0]} noCam={props.preview ? props.noCam.preview : props.noCam.current} />
+				<Facecam height={352} teams={props.runData?.teams} noCam={props.preview ? props.noCam.preview : props.noCam.current} />
 				<InfoBoxBG>
 					<InfoBox>
 						<VerticalStack style={{ height: 180 }}>

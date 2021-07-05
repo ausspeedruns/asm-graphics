@@ -88,7 +88,7 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 			<Sidebar>
 				<Facecam
 					height={352}
-					teams={props.runData?.teams[0]}
+					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 				<InfoBoxBG>
