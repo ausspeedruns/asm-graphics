@@ -64,17 +64,18 @@ const NameWithRoles = styled.div`
 	}
 `;
 
-const HoldNames = 0.5; // How long to hold the names
+const HoldNames = 0; // How long to hold the names
 
 export const Credits: React.FC = () => {
 	const eventRef = useRef<HTMLDivElement>(null);
 	const titleRef = useRef<HTMLDivElement>(null);
 	const committeeRef = useRef<HTMLDivElement>(null);
-	// const runnerMgmtRef = useRef<HTMLDivElement>(null);
-	// const hostsRef = useRef<HTMLDivElement>(null);
+	const runnerMgmtRef = useRef<HTMLDivElement>(null);
+	const hostsRef = useRef<HTMLDivElement>(null);
 	const runnersRef1 = useRef<HTMLDivElement>(null);
 	const runnersRef2 = useRef<HTMLDivElement>(null);
 	const runnersRef3 = useRef<HTMLDivElement>(null);
+	const specialRef = useRef<HTMLDivElement>(null);
 
 	useListenFor('start-credits', () => {
 		const tl = gsap.timeline();
@@ -89,8 +90,16 @@ export const Credits: React.FC = () => {
 		tl.to([titleRef.current, committeeRef.current], { opacity: 0, duration: 2 }, `+=${HoldNames}`);
 
 		// Show runner management
+		tl.set(titleRef.current, { text: 'Runner Management / Tech' });
+		tl.to(titleRef.current, { opacity: 1, duration: 2 });
+		tl.to(runnerMgmtRef.current, { opacity: 1, duration: 2 });
+		tl.to([titleRef.current, runnerMgmtRef.current], { opacity: 0, duration: 2 }, `+=${HoldNames}`);
 
 		// Show hosts
+		tl.set(titleRef.current, { text: 'Hosts' });
+		tl.to(titleRef.current, { opacity: 1, duration: 2 });
+		tl.to(hostsRef.current, { opacity: 1, duration: 2 });
+		tl.to([titleRef.current, hostsRef.current], { opacity: 0, duration: 2 }, `+=${HoldNames}`);
 
 		// Show runners
 		tl.set(titleRef.current, { text: 'Runners' });
@@ -101,6 +110,12 @@ export const Credits: React.FC = () => {
 		tl.to(runnersRef2.current, { opacity: 0, duration: 2 }, `+=${HoldNames}`);
 		tl.to(runnersRef3.current, { opacity: 1, duration: 2 });
 		tl.to([titleRef.current, runnersRef3.current], { opacity: 0, duration: 2 }, `+=${HoldNames}`);
+
+		// Show special thanks
+		tl.set(titleRef.current, { text: 'Special Thanks to' });
+		tl.to(titleRef.current, { opacity: 1, duration: 2 });
+		tl.to(specialRef.current, { opacity: 1, duration: 2 });
+		tl.to([titleRef.current, specialRef.current], { opacity: 0, duration: 2 }, `+=${HoldNames}`);
 	});
 
 	return (
@@ -138,11 +153,31 @@ export const Credits: React.FC = () => {
 					Broadcast Designer<Name>Clubwho</Name>
 				</NameWithRoles>
 				<NameWithRoles>
-					Committee Representative<Name>Upjohn</Name>
+					Event Consultant<Name>Upjohn</Name>
 				</NameWithRoles>
 			</NameContainer>
-			{/* <NameContainer ref={runnerMgmtRef}></NameContainer>
-			<NameContainer ref={hostsRef}></NameContainer> */}
+			<NameContainer style={{ justifyContent: 'center', padding: '0 600px' }} ref={runnerMgmtRef}>
+				<Name>aytoms</Name>
+				<Name>dreamydreary</Name>
+				<Name>kuiperbole</Name>
+				<Name>megaslayer321a</Name>
+				<Name>neo</Name>
+				<Name>Noops</Name>
+			</NameContainer>
+			<NameContainer ref={hostsRef}>
+				<Name>Alecat</Name>
+				<Name>Benjlin</Name>
+				<Name>danmcd</Name>
+				<Name>Hans 'Pichy' Stockmann</Name>
+				<Name>jksessions</Name>
+				<Name>JTMagicman</Name>
+				<Name>megaslayer321a</Name>
+				<Name>mobius</Name>
+				<Name>Nicosar</Name>
+				<Name>Noops</Name>
+				<Name>SirBorris</Name>
+				<Name>werster</Name>
+			</NameContainer>
 			<NameContainer ref={runnersRef1}>
 				<Name>Acelord</Name>
 				<Name>AeonFrodo</Name>
@@ -208,6 +243,12 @@ export const Credits: React.FC = () => {
 				<Name>tim_trollgasm</Name>
 				<Name>werster</Name>
 				<Name>Yoshi100_Aus</Name>
+			</NameContainer>
+			<NameContainer style={{justifyContent: 'center'}} ref={specialRef}>
+				<NameWithRoles>
+					Website<Name>dragnflier</Name>
+				</NameWithRoles>
+				<Name>{"and especially you <3"}</Name>
 			</NameContainer>
 		</CreditsContainer>
 	);

@@ -27,10 +27,7 @@ export const Settings: React.FC = () => {
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<Button
-				variant="contained"
-				fullWidth
-				onClick={() => (locked ? setWarning(true) : setLock(true))}>
+			<Button variant="outlined" fullWidth onClick={() => (locked ? setWarning(true) : setLock(true))}>
 				{locked ? 'Unlock' : 'Lock'}
 			</Button>
 			<Row>
@@ -44,18 +41,19 @@ export const Settings: React.FC = () => {
 				<Button
 					disabled={locked}
 					variant="contained"
-					onClick={() =>
-						nodecg.sendMessage('google-newcred', googleCred)
-					}>
+					onClick={() => nodecg.sendMessage('google-newcred', googleCred)}>
 					Update
 				</Button>
 			</Row>
+			<Button disabled={locked} variant="contained" fullWidth onClick={() => nodecg.sendMessage('start-credits')}>
+				Run Credits
+			</Button>
 			<Dialog open={warning} onClose={() => setWarning(false)}>
 				<DialogTitle>Are you sure?</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						Changing these settings will break the graphics. Only
-						edit these if you have permission from Clubwho or nei_.
+						Changing these settings will break the graphics. Only edit these if you have permission from
+						Clubwho or nei_.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
