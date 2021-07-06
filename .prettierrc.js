@@ -36,5 +36,6 @@ module.exports = {
 	 * I agree with Faulty that it does make things easier to read. */
 	tabWidth: 4,
 	useTabs: true,
-	endOfLine: "auto"
+	endOfLine: "auto",
+	printWidth: 120,
 };

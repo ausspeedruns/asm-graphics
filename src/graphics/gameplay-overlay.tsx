@@ -20,6 +20,7 @@ import { Timer } from '../types/Timer';
 import { CouchInformation, NoCam } from '../types/OverlayProps';
 import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
+import { Credits } from './elements/credits';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -110,7 +111,7 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: 'WHG',
 		},
 		{
-			component: <div style={{height: 1016}}></div>,
+			component: <div style={{height: 1016, position: 'relative'}}><Credits /></div>,
 			name: 'None',
 		},
 	];
@@ -159,6 +160,7 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 				<button onClick={() => changeBGColor('#0f0')}>Green</button>
 				<button onClick={() => changeBGColor('#00f')}>Blue</button>
 				<button onClick={() => changeBGColor('rgba(0, 0, 0, 0)')}>Transparent</button>
+				<button onClick={() => nodecg.sendMessage('start-credits')}>Credits</button>
 			</div>
 		</GameplayOverlayCont>
 	);
