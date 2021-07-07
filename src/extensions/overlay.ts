@@ -105,7 +105,7 @@ function transitionGameplay() {
 		current: couchNamesRep.value.preview,
 		preview: couchNamesRep.value.current
 	}
-	
+
 	// Change no cam
 	noCamRep.value = {
 		current: noCamRep.value.preview,
@@ -156,7 +156,7 @@ function transitionGameplay() {
 		} else {
 			// Reset source
 			obs.enableSource(obsSourceName, false, 'Game Overlay');
-			obs.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 0 }, crop: { right: 0, left: 0 }, bounds: {}, scale: {} });
+			obs.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 0, y: 0 }, scale: { x: 1920, y: 1080 }, crop: { right: 0, left: 0 }, bounds: {} });
 		}
 	});
 
@@ -196,3 +196,15 @@ function getCurrentScene() {
 		nodecg.log.error('Could not get the current scene from OBS:', error);
 	}
 }
+
+nodecg.listenFor('discord-gameplay', (enable: boolean) => {
+	obs.enableSource('Discord', enable, 'Game Overlay')
+});
+
+nodecg.listenFor('ps5-stream-scale', (enable: boolean) => {
+	if (enable) {
+		obs.setSceneItemProperties('Game Overlay', 'ASM Station 1', { position: { x: 391, y: 156 }, scale: { x: 1529, y: 860 }, bounds:{}, crop: {} })
+	} else {
+		obs.setSceneItemProperties('Game Overlay', 'ASM Station 1', { position: { x: 0, y: 0 }, scale: { x: 1920, y: 1080 }, bounds:{}, crop: {} })
+	}
+});

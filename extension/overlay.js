@@ -142,7 +142,7 @@ function transitionGameplay() {
         else {
             // Reset source
             obs_1.default.enableSource(obsSourceName, false, 'Game Overlay');
-            obs_1.default.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 0 }, crop: { right: 0, left: 0 }, bounds: {}, scale: {} });
+            obs_1.default.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 0, y: 0 }, scale: { x: 1920, y: 1080 }, crop: { right: 0, left: 0 }, bounds: {} });
         }
     });
     nodecg.sendMessage('updateAudioMutes');
@@ -175,3 +175,14 @@ function getCurrentScene() {
         nodecg.log.error('Could not get the current scene from OBS:', error);
     }
 }
+nodecg.listenFor('discord-gameplay', (enable) => {
+    obs_1.default.enableSource('Discord', enable, 'Game Overlay');
+});
+nodecg.listenFor('ps5-stream-scale', (enable) => {
+    if (enable) {
+        obs_1.default.setSceneItemProperties('Game Overlay', 'ASM Station 1', { position: { x: 391, y: 156 }, scale: { x: 1529, y: 860 }, bounds: {}, crop: {} });
+    }
+    else {
+        obs_1.default.setSceneItemProperties('Game Overlay', 'ASM Station 1', { position: { x: 0, y: 0 }, scale: { x: 1920, y: 1080 }, bounds: {}, crop: {} });
+    }
+});
