@@ -265,14 +265,14 @@ export const Intermission: React.FC<IntermissionProps> = (
 	const [currentTime, setCurrentTime] = useState('00:00:00');
 	const [currentSong, setCurrentSong] = useState('');
 	const songEl = useRef<HTMLDivElement>(null);
-	const [songOverflowing, setSongOverflowing] = useState(false);
 	const [tweet, setTweet] = useState<ITweet | undefined>(undefined);
 	const tweetRef = useRef<HTMLDivElement>(null);
 	const asLogoRef = useRef<HTMLImageElement>(null);
-	const { get } = useFetch('https://rainwave.cc/api4');
+	const { get, cache } = useFetch('https://rainwave.cc/api4');
 
 	async function getCurrentSong() {
 		const song = await get('/info_all?sid=2');
+		cache.clear();
 		setCurrentSong(
 			`${song.all_stations_info[2].title} – ${song.all_stations_info[2].artists} – ${song.all_stations_info[2].album}`,
 		);
@@ -293,13 +293,6 @@ export const Intermission: React.FC<IntermissionProps> = (
 			clearInterval(songInterval);
 		};
 	}, []);
-
-	useEffect(() => {
-		if (!songEl.current) return;
-		setSongOverflowing(
-			songEl.current.offsetWidth < songEl.current.scrollWidth,
-		);
-	}, [songEl, currentSong]);
 
 	useListenFor('showTweet', (newVal: ITweet) => {
 		setTweet(newVal);
@@ -423,18 +416,14 @@ export const Intermission: React.FC<IntermissionProps> = (
 								muted={props.muted}>
 								<source
 									type="audio/mp3"
-									src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ"
+									src="https://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ"
 								/>
 							</audio>
 							<div style={{ display: 'flex' }}>
 								<MusicIcon src="../shared/design/MusicIcon.svg" />
 								<MusicLabel ref={songEl}>
-									{songOverflowing ? (
-										// @ts-ignore
-										<marquee>{currentSong}</marquee>
-									) : (
-										<span>{currentSong}</span>
-									)}
+									{/* @ts-ignore */}
+									<marquee>{currentSong}</marquee>
 								</MusicLabel>
 								<MusicIcon src="../shared/design/MusicIcon.svg" />
 							</div>
