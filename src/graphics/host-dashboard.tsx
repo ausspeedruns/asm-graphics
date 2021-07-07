@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
 import styled from 'styled-components';
+import { useListenFor, useReplicant } from 'use-nodecg';
 
 import {
 	Paper,
@@ -15,6 +16,10 @@ import {
 	Snackbar,
 } from '@material-ui/core';
 import { Close, Refresh } from '@material-ui/icons';
+import Draggable from 'react-draggable';
+// @ts-ignore
+import { TwitchPlayer } from 'react-twitch-embed';
+
 import { Header } from './dashboards/header';
 import { Donations } from './dashboards/donations';
 import { Upcoming } from './dashboards/upcoming';
@@ -22,8 +27,10 @@ import { Incentives } from './dashboards/incentives';
 import { Twitter } from './dashboards/tweets';
 import { StaffMessages } from './dashboards/staff-messages';
 import { Timer } from './dashboards/timer';
-import { useListenFor, useReplicant } from 'use-nodecg';
 import { HostName } from './dashboards/host-name';
+import { Config } from '../types/ConfigSchema';
+
+const TWITCHPARENTS = (nodecg.bundleConfig as Config).twitch.parents;
 
 const HostDashContainer = styled.div`
 	// height: 1007px;
@@ -57,6 +64,13 @@ const TotalBox = styled(Paper)`
 	}
 `;
 
+const TwitchFloating = styled.div`
+	display: flex;
+	padding: 10px;
+	width: fit-content;
+	background: var(--asm-orange);
+`;
+
 export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
 	// Implement donation total
@@ -65,6 +79,7 @@ export const HostDash: React.FC = () => {
 	const [showScript, setShowScript] = useState(false);
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
 	const [copyNotif, setCopyNotif] = useState(false); // False: 24hr, True: 12 Hour
+	const [showStream, setShowStream] = useState(false);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -123,7 +138,7 @@ export const HostDash: React.FC = () => {
 				<span onClick={showDialog} style={{ cursor: 'pointer', width: 500, textAlign: 'center' }}>
 					Take a breath.
 				</span>
-				<span style={{ width: 500, textAlign: 'right' }}>ASM2021</span>
+				<span style={{ width: 500, textAlign: 'right', cursor: 'pointer' }} onClick={() => setShowStream(!showStream)}>ASM2021</span>
 			</TopBar>
 			{/* , height: 926  */}
 			<Grid container justify="space-around" style={{ background: '#ececec', height: 'calc(100% - 60px)' }}>
@@ -145,7 +160,7 @@ export const HostDash: React.FC = () => {
 					<Paper style={{ height: '42%', overflowY: 'auto', overflowX: 'hidden' }}>
 						<Header
 							text="Incentives"
-							url="https://docs.google.com/spreadsheets/d/192nms5HjWe6li2XwmV1-l0W0_8csRv6Jyc944ir3tVY">
+							url="https://docs.google.com/spreadsheets/d/1GjMC3pwOqqJ8USRTlZVpdvCsx-7e55qucVTjGt2Ffrk">
 							<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
 								<Refresh fontSize="small" />
 							</IconButton>
@@ -187,6 +202,20 @@ export const HostDash: React.FC = () => {
 					</Paper>
 				</Grid>
 			</Grid>
+			{showStream && (
+				<Draggable defaultPosition={{x: 25, y: -900}}>
+					<TwitchFloating>
+						<TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={416} height={234} />
+						<iframe
+							height={234}
+							width={234}
+							src={`https://www.twitch.tv/embed/ausspeedruns/chat?${TWITCHPARENTS.map((parent) => {
+								return `&parent=${parent}`;
+							}).join('')}&darkpopout`}
+						/>
+					</TwitchFloating>
+				</Draggable>
+			)}
 			<Dialog open={showScript} onClose={hideDialog}>
 				<DialogTitle id="alert-dialog-title">{'Example charity script'}</DialogTitle>
 				<DialogContent>
@@ -205,9 +234,9 @@ export const HostDash: React.FC = () => {
 						fact, encouraged). For example just changing it to something like:
 						<br />
 						<br />
-						&quot;We&apos;re AusSpeedruns, and we do speedrun events to raise money for charity. For
-						ASM2021 we&apos;re raising money for the Royal Flying Doctor Service, a charity that provides
-						primary and emergency health services to people in remote and rural areas across Australia. If
+						&quot;We&apos;re AusSpeedruns, and we do speedrun events to raise money for charity. For ASM2021
+						we&apos;re raising money for the Royal Flying Doctor Service, a charity that provides primary
+						and emergency health services to people in remote and rural areas across Australia. If
 						you&apos;d like to donate, the link to do so is ausspeedruns.com&quot;
 					</DialogContentText>
 				</DialogContent>

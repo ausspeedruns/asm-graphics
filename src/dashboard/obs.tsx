@@ -250,7 +250,6 @@ const DashOBS: React.FC = () => {
 							onChange={previewOverlayChange}>
 							<MenuItem value="standard">Standard</MenuItem>
 							<MenuItem value="standard-2">Standard 2p</MenuItem>
-							{/* Standard 2p is unused in FAST so possibly have it commented out */}
 							<MenuItem value="widescreen">Widescreen</MenuItem>
 							<MenuItem value="widescreen-2">
 								Widescreen 2p
@@ -260,8 +259,9 @@ const DashOBS: React.FC = () => {
 							</MenuItem>
 							<MenuItem value="gba">Gameboy Advanced</MenuItem>
 							<MenuItem value="gbc">Gameboy Colour</MenuItem>
+							<MenuItem value="3ds">Nintendo 3DS</MenuItem>
 							<MenuItem value="ds">Nintendo DS</MenuItem>
-							<MenuItem value="ds-2">Nintendo DS 2</MenuItem>
+							<MenuItem value="ds-2">Nintendo DS 2p</MenuItem>
 							<MenuItem value="whg">
 								World's Hardest Game (11:8)
 							</MenuItem>
