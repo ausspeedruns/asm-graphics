@@ -9,6 +9,7 @@ const twitchStreamsRep = nodecg.Replicant('twitchStreams');
 const currentSceneRep = nodecg.Replicant('obsCurrentScene');
 const couchNamesRep = nodecg.Replicant('couch-names');
 const noCamRep = nodecg.Replicant('no-cam');
+const specialStreamScaleRep = nodecg.Replicant('special-stream-scale', { defaultValue: false });
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {
     try {
@@ -135,6 +136,8 @@ function transitionGameplay() {
                     break;
                 case 'whole':
                 default:
+                    if (specialStreamScaleRep.value && obsSourceName === 'ASM Station 1')
+                        break;
                     obs_1.default.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 0 }, crop: { right: 0, left: 0 }, bounds: {}, scale: {} });
                     break;
             }
@@ -178,8 +181,8 @@ function getCurrentScene() {
 nodecg.listenFor('discord-gameplay', (enable) => {
     obs_1.default.enableSource('Discord', enable, 'Game Overlay');
 });
-nodecg.listenFor('ps5-stream-scale', (enable) => {
-    if (enable) {
+specialStreamScaleRep.on('change', (newVal) => {
+    if (newVal) {
         obs_1.default.setSceneItemProperties('Game Overlay', 'ASM Station 1', { position: { x: 391, y: 156 }, scale: { x: 0.79623, y: 0.79623 }, bounds: {}, crop: {} });
     }
     else {

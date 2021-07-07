@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 import { darkTheme } from './theme';
 import { Checkbox, FormControlLabel, ThemeProvider } from '@material-ui/core';
+import { useReplicant } from 'use-nodecg';
 
 const SpecialOBSContainer = styled.div``;
 
 export const SpecialOBS: React.FC = () => {
 	const [discordGameplay, setDiscordGameplay] = useState(false);
-	const [specialStreamScale, setSpecialStreamScale] = useState(false);
+	const [streamScaleRep, setStreamScaleRep] = useReplicant<boolean, boolean>('special-stream-scale', false);
 
 	const discordGameplayHandler = (_e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
 		nodecg.sendMessage('discord-gameplay', checked);
@@ -17,8 +18,7 @@ export const SpecialOBS: React.FC = () => {
 	};
 
 	const streamScaleHandler = (_e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-		nodecg.sendMessage('ps5-stream-scale', checked);
-		setSpecialStreamScale(checked);
+		setStreamScaleRep(checked);
 	};
 
 	return (
@@ -30,7 +30,7 @@ export const SpecialOBS: React.FC = () => {
 					labelPlacement="start"
 				/>
 				<FormControlLabel
-					control={<Checkbox color="primary" value={specialStreamScale} onChange={streamScaleHandler} />}
+					control={<Checkbox color="primary" value={streamScaleRep} onChange={streamScaleHandler} />}
 					label="Resize ASM_Station1 full stream to fit in Widescreen graphic (RE7)"
 					labelPlacement="start"
 				/>
