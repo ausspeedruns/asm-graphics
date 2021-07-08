@@ -140,6 +140,7 @@ const MessageContainer = styled(Box)`
 	animation-name: ${NewFlash};
 	animation-duration: 3s;
 	background-color: ${(props: ReadProps) => props.read ? '#eee' : '#FF0000'};
+	color: ${(props: ReadProps) => props.read ? '#000' : '#fff'};
 	position: relative;
 `;
 
