@@ -28,7 +28,8 @@ async function getAllRules() {
         }
     });
     if (response.statusCode !== 200) {
-        throw new Error(response.body);
+        // throw new Error(response.body);
+        nodecg.log.error('[Twitter] Failed to get rules: ' + response.body);
     }
     return (response.body);
 }
@@ -49,7 +50,8 @@ async function deleteAllRules(rules) {
         }
     });
     if (response.statusCode !== 200) {
-        throw new Error(response.body);
+        nodecg.log.error('[Twitter] Failed to delete rules: ' + response.body);
+        // throw new Error(response.body);
         return null;
     }
     return (response.body);
@@ -65,7 +67,8 @@ async function setRules() {
         }
     });
     if (response.statusCode !== 201) {
-        throw new Error(response.body);
+        nodecg.log.error('[Twitter] Failed to set rules: ' + response.body);
+        // throw new Error(response.body);
         return null;
     }
     return (response.body);
