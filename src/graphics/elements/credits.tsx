@@ -71,6 +71,7 @@ export const Credits: React.FC = () => {
 	const titleRef = useRef<HTMLDivElement>(null);
 	const committeeRef = useRef<HTMLDivElement>(null);
 	const runnerMgmtRef = useRef<HTMLDivElement>(null);
+	const marketingRef = useRef<HTMLDivElement>(null);
 	const hostsRef = useRef<HTMLDivElement>(null);
 	const runnersRef1 = useRef<HTMLDivElement>(null);
 	const runnersRef2 = useRef<HTMLDivElement>(null);
@@ -94,6 +95,12 @@ export const Credits: React.FC = () => {
 		tl.to(titleRef.current, { opacity: 1, duration: 2 });
 		tl.to(runnerMgmtRef.current, { opacity: 1, duration: 2 });
 		tl.to([titleRef.current, runnerMgmtRef.current], { opacity: 0, duration: 2 }, `+=${HoldNames}`);
+
+		// Show runner management
+		tl.set(titleRef.current, { text: 'Marketing' });
+		tl.to(titleRef.current, { opacity: 1, duration: 2 });
+		tl.to(marketingRef.current, { opacity: 1, duration: 2 });
+		tl.to([titleRef.current, marketingRef.current], { opacity: 0, duration: 2 }, `+=${HoldNames}`);
 
 		// Show hosts
 		tl.set(titleRef.current, { text: 'Hosts' });
@@ -147,7 +154,7 @@ export const Credits: React.FC = () => {
 					Head of Runner Management<Name>Sten</Name>
 				</NameWithRoles>
 				<NameWithRoles>
-					Head of Tech<Name>nei</Name>
+					Technical Coordinator<Name>nei</Name>
 				</NameWithRoles>
 				<NameWithRoles>
 					Broadcast Designer<Name>Clubwho</Name>
@@ -163,6 +170,10 @@ export const Credits: React.FC = () => {
 				<Name>megaslayer321a</Name>
 				<Name>neo</Name>
 				<Name>Noops</Name>
+			</NameContainer>
+			<NameContainer style={{ justifyContent: 'center', padding: '0 600px' }} ref={marketingRef}>
+				<Name>Grandma</Name>
+				<Name>Luneth</Name>
 			</NameContainer>
 			<NameContainer ref={hostsRef}>
 				<Name>Alecat</Name>
@@ -247,6 +258,9 @@ export const Credits: React.FC = () => {
 			<NameContainer style={{justifyContent: 'center'}} ref={specialRef}>
 				<NameWithRoles>
 					Website<Name>dragnflier</Name>
+				</NameWithRoles>
+				<NameWithRoles>
+					Developers of<Name>OBS</Name><Name>NodeCG</Name><Name>nodecg-speedcontrol</Name><Name>obs-websocket</Name>
 				</NameWithRoles>
 				<Name>{"and especially you <3"}</Name>
 			</NameContainer>
