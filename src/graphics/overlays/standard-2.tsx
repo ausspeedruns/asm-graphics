@@ -100,20 +100,35 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 		'',
 	);
 
-	let raceTimers = (
-		<>
-			<RaceFinish
-				style={{ top: 220, left: 830 }}
-				time={props.timer}
-				teamID={props.runData?.teams[0]?.id || ''}
-			/>
-			<RaceFinish
-				style={{ top: 220, left: 960 }}
-				time={props.timer}
-				teamID={props.runData?.teams[1]?.id || ''}
-			/>
-		</>
-	);
+	const leftTeamID = props.runData?.teams[0]?.id || '';
+	const rightTeamID = props.runData?.teams[1]?.id || '';
+	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID) ? props.timer.teamFinishTimes[leftTeamID].time : ''
+	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID) ? props.timer.teamFinishTimes[rightTeamID].time : ''
+	const leftTeamPlace = findPlace(leftTeamID);
+	const rightTeamPlace = findPlace(rightTeamID);
+
+	function findPlace(teamID: string) {
+		if (props.timer?.teamFinishTimes.hasOwnProperty(teamID)) {
+			// Forfeit dont get a place (sorry runner)
+			if (props.timer.teamFinishTimes[teamID].state === 'forfeit') {
+				return -1;
+			} else {
+				// On a scale of 1 to fucked this is probably just a weird look
+				// Get place
+				const allFinishTimes: [string, number][] = [];
+				for (const loopTeamID in props.timer.teamFinishTimes) {
+					allFinishTimes.push([loopTeamID, props.timer.teamFinishTimes[loopTeamID].milliseconds]);
+				}
+	
+				allFinishTimes.sort((a, b) => {
+					return a[1] - b[1];
+				});
+	
+				return allFinishTimes.findIndex((element) => element[0] === teamID) + 1;
+			}
+		}
+		return 4;
+	}
 
 	return (
 		<Standard2Container>
@@ -187,7 +202,16 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 
-				{raceTimers}
+				<RaceFinish
+					style={{ top: 220, left: 830 }}
+					time={leftTeamTime}
+					place={leftTeamPlace}
+				/>
+				<RaceFinish
+					style={{ top: 220, left: 960 }}
+					time={rightTeamTime}
+					place={rightTeamPlace}
+				/>
 
 				<RightBox>
 					<div

@@ -31,7 +31,6 @@ interface FacecamProps {
 
 export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 	if (!props.teams) return <></>;
-	console.log(props.teams);
 
 	let allRunnerNames: JSX.Element[];
 	if (props.teams.length > 1) {

@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
-import { Timer } from '../../types/Timer';
 
 const RaceFinishContainer = styled.div`
 	overflow: hidden;
@@ -33,8 +32,8 @@ const Position = styled.div`
 const FinalTime = styled.div``;
 
 interface RaceFinishProps {
-	time: Timer | undefined;
-	teamID: string;
+	time: string | undefined;
+	place: number;
 	style?: React.CSSProperties;
 	className?: string;
 }
@@ -42,69 +41,62 @@ interface RaceFinishProps {
 export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) => {
 	const animRef = useRef<HTMLDivElement>(null);
 	
-	let finalTime = '';
-
 	useEffect(() => {
-		if (!props.time) return ;
-		if (finalTime !== '') {
-			gsap.to(animRef.current, { y: 0, duration: 1 });
-		} else {
-			gsap.set(animRef.current, { y: 35 });
+		if (props.time === '') {
+			gsap.to(animRef.current, { y: 35 });
+			return;
 		}
-	}, [finalTime, props.time]);
+		gsap.to(animRef.current, { y: 0, duration: 1 });
+	}, [props.time]);
 
-	if (!props.time) return <></>;
+	// let finalPlace = 4;
+	// if (props.time.teamFinishTimes[props.teamID]) {
+	// 	// Forfeit dont get a place (sorry runner)
+	// 	if (props.time.teamFinishTimes[props.teamID].state === 'forfeit') {
+	// 		finalPlace = -1;
+	// 	} else {
+	// 		// On a scale of 1 to fucked this is probably just a weird look
+	// 		// Get place
+	// 		const allFinishTimes = [];
+	// 		for (const teamID in props.time.teamFinishTimes) {
+	// 			allFinishTimes.push([teamID, props.time.teamFinishTimes[teamID].milliseconds]);
+	// 		}
 
-	if (props.time.teamFinishTimes[props.teamID]) {
-		finalTime = props.time.teamFinishTimes[props.teamID].time;
-	}
+	// 		allFinishTimes.sort((a, b) => {
+	// 			// Just to satisfy TS
+	// 			if (typeof a[1] === 'number' && typeof b[1] === 'number') {
+	// 				return a[1] - b[1];
+	// 			}
 
-	let finalPlace = 4;
-	if (props.time.teamFinishTimes[props.teamID]) {
-		// Forfeit dont get a place (sorry runner)
-		if (props.time.teamFinishTimes[props.teamID].state === 'forfeit') {
-			finalPlace = -1;
-		} else {
-			// On a scale of 1 to fucked this is probably just a weird look
-			// Get place
-			const allFinishTimes = [];
-			for (const teamID in props.time.teamFinishTimes) {
-				allFinishTimes.push([teamID, props.time.teamFinishTimes[teamID].milliseconds]);
-			}
-	
-			allFinishTimes.sort((a, b) => {
-				// Just to satisfy TS
-				if (typeof a[1] === 'number' && typeof b[1] === 'number') {
-					return a[1] - b[1];
-				}
-	
-				return 0;
-			});
-	
-			finalPlace = allFinishTimes.findIndex((element) => element[0] === props.teamID) + 1;
-		}
-	}
+	// 			return 0;
+	// 		});
+
+	// 		finalPlace = allFinishTimes.findIndex((element) => element[0] === props.teamID) + 1;
+	// 	}
+	// }
 
 	let bgColour = '#fff';
-	switch (finalPlace) {
-	case 1:
-		bgColour = '#dab509';
-		break;
+	switch (props.place) {
+		case 1:
+			bgColour = '#dab509';
+			break;
 
-	case 2:
-		bgColour = '#a1a1a1';
-		break;
+		case 2:
+			bgColour = '#a1a1a1';
+			break;
 
-	case 3:
-		bgColour = '#ae7058';
-		break;
+		case 3:
+			bgColour = '#ae7058';
+			break;
 	}
 
 	return (
 		<RaceFinishContainer className={props.className} style={props.style}>
 			<AnimatedContainer ref={animRef} style={{ backgroundColor: bgColour }}>
-				<Position>{finalPlace === -1 ? 'X' : finalPlace}</Position>
-				<FinalTime>{finalTime}</FinalTime>
+				<Position>{props.place === -1 ? 'X' : props.place}</Position>
+				<FinalTime>
+					{props.time}
+				</FinalTime>
 			</AnimatedContainer>
 		</RaceFinishContainer>
 	);
