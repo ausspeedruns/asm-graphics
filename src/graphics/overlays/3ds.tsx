@@ -6,6 +6,9 @@ import { OverlayProps } from '../../types/OverlayProps';
 import { Facecam } from '../elements/facecam';
 import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
+import { Couch } from '../elements/couch';
+import { ASMBanner } from '../elements/asm-banner';
+import { OrangeStripe } from '../elements/orange-stripe';
 
 const ThreeDSContainer = styled.div`
 	height: 1016px;
@@ -74,10 +77,30 @@ export const ThreeDS: React.FC<OverlayProps> = (props) => {
 				<Timer style={{ width: 612, zIndex: 2 }} timer={props.timer} />
 			</InfoBar>
 			<Sidebar>
+				<div
+					style={{
+						background: 'var(--main-col)',
+						height: 411,
+						width: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+					}}>
+					<OrangeStripe side="top" />
+					<img src="../shared/design/ASM21-BannerLogo White.svg" style={{ width: '55%' }} />
+					<div style={{ width: '100%' }}>
+						<Couch
+							couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
+						/>
+						<ASMBanner style={{ marginTop: 4 }} />
+					</div>
+					<OrangeStripe side="bottom" />
+				</div>
 				<Facecam
 					style={{ borderBottom: '1px solid var(--asm-orange)' }}
 					maxNameWidth={270}
-					height={452}
+					height={41}
 					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
