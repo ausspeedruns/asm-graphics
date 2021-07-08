@@ -18,7 +18,6 @@ import {
 import { Close, Check } from '@material-ui/icons';
 import { RedButton, GreenButton } from '../../dashboard/elements/styled-ui';
 import { CouchPerson } from '../../types/OverlayProps';
-import { useEffect } from 'react';
 
 const StaffMessagesContainer = styled.div`
 	height: calc(100% - 56px);
@@ -80,20 +79,6 @@ export const StaffMessages: React.FC = () => {
 		setReplyMsg('');
 		setReplyDialog(false);
 	};
-
-	useEffect(() => {
-		if (Notification.permission === 'granted') {
-			new Notification('New staff message');
-			console.log('notif???');
-		} else if (Notification.permission !== 'denied') {
-			Notification.requestPermission().then(function (permission) {
-				// If the user accepts, let's create a notification
-				if (permission === 'granted') {
-					new Notification('Hi there!');
-				}
-			});
-		}
-	}, [staffMessagesRep]);
 
 	return (
 		<StaffMessagesContainer>
@@ -190,7 +175,7 @@ const Message: React.FC<MessageProps> = (props: MessageProps) => {
 	};
 
 	return (
-		<MessageContainer read={read} boxShadow={2} style={props.style}>
+		<MessageContainer read={read || props.message.fromHost} boxShadow={2} style={props.style}>
 			<Grid direction="column" container>
 				<div>
 					<DateText>{date.toLocaleTimeString()}</DateText>

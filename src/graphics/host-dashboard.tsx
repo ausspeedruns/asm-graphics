@@ -69,6 +69,7 @@ const TwitchFloating = styled.div`
 	padding: 10px;
 	width: fit-content;
 	background: var(--asm-orange);
+	border-radius: 8px;
 `;
 
 export const HostDash: React.FC = () => {
@@ -205,10 +206,10 @@ export const HostDash: React.FC = () => {
 			{showStream && (
 				<Draggable defaultPosition={{x: 25, y: -900}}>
 					<TwitchFloating>
-						<TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={416} height={234} />
+						<TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={958} height={539} />
 						<iframe
-							height={234}
-							width={234}
+							height={539}
+							width={250}
 							src={`https://www.twitch.tv/embed/ausspeedruns/chat?${TWITCHPARENTS.map((parent) => {
 								return `&parent=${parent}`;
 							}).join('')}&darkpopout`}
