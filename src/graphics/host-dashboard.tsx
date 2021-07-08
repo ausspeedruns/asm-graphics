@@ -206,10 +206,10 @@ export const HostDash: React.FC = () => {
 			{showStream && (
 				<Draggable defaultPosition={{x: 25, y: -900}}>
 					<TwitchFloating>
-						<TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={958} height={539} />
+						<TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={832} height={468} />
 						<iframe
-							height={539}
-							width={250}
+							height={468}
+							width={300}
 							src={`https://www.twitch.tv/embed/ausspeedruns/chat?${TWITCHPARENTS.map((parent) => {
 								return `&parent=${parent}`;
 							}).join('')}&darkpopout`}
