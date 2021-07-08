@@ -237,6 +237,7 @@ const ParticlesConfig: ParticlesProps['params'] = {
 			bounce: true,
 		},
 	},
+	retina_detect: false
 };
 
 interface IntermissionProps {
