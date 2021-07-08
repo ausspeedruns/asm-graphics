@@ -64,8 +64,7 @@ export const StaffMessages: React.FC = () => {
 					}}
 				/>
 			);
-		})
-		.reverse();
+		});
 
 	const sendStaffMessage = () => {
 		const msg: StaffMessage = {
