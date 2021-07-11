@@ -12,12 +12,9 @@ const noCamRep = nodecg.Replicant('no-cam');
 const specialStreamScaleRep = nodecg.Replicant('special-stream-scale', { defaultValue: false });
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {
-    try {
-        obs_1.default.connect();
-    }
-    catch (error) {
-        nodecg.log.error(`[Overlay] Failed to connect to OBS: ${error}`);
-    }
+    obs_1.default.connect().then(() => { }, (err) => {
+        nodecg.log.error(`[Overlay] Failed to connect to OBS: ${err}`);
+    });
 });
 nodecg.listenFor('disconnectOBS', () => {
     try {

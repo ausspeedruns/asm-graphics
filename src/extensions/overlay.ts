@@ -17,11 +17,9 @@ const specialStreamScaleRep = nodecg.Replicant<boolean>('special-stream-scale', 
 
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {
-	try {
-		obs.connect();
-	} catch (error) {
-		nodecg.log.error(`[Overlay] Failed to connect to OBS: ${error}`)
-	}
+	obs.connect().then(() => {}, (err) => {
+		nodecg.log.error(`[Overlay] Failed to connect to OBS: ${err}`)
+	});
 });
 
 nodecg.listenFor('disconnectOBS', () => {
