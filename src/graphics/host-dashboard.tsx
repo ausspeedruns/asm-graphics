@@ -139,7 +139,11 @@ export const HostDash: React.FC = () => {
 				<span onClick={showDialog} style={{ cursor: 'pointer', width: 500, textAlign: 'center' }}>
 					Take a breath.
 				</span>
-				<span style={{ width: 500, textAlign: 'right', cursor: 'pointer' }} onClick={() => setShowStream(!showStream)}>ASM2021</span>
+				<span
+					style={{ width: 500, textAlign: 'right', cursor: 'pointer' }}
+					onClick={() => setShowStream(!showStream)}>
+					ASM2021
+				</span>
 			</TopBar>
 			{/* , height: 926  */}
 			<Grid container justify="space-around" style={{ background: '#ececec', height: 'calc(100% - 60px)' }}>
@@ -204,7 +208,7 @@ export const HostDash: React.FC = () => {
 				</Grid>
 			</Grid>
 			{showStream && (
-				<Draggable defaultPosition={{x: 25, y: -900}}>
+				<Draggable defaultPosition={{ x: 25, y: -900 }}>
 					<TwitchFloating>
 						<TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={832} height={468} />
 						<iframe
@@ -221,10 +225,11 @@ export const HostDash: React.FC = () => {
 				<DialogTitle id="alert-dialog-title">{'Example charity script'}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						&quot;We are AusSpeedruns, a group who does speedrun events to raise money for charity. For this
-						event we&apos;re raising money for Royal Flying Doctor Service, who provide emergency medical
-						and primary health care services to anyone who lives, works or travels in rural and remote
-						Australia. If you&apos;d like to donate, you can go to ausspeedruns.com&quot;
+						&quot;We are AusSpeedruns, a group doing speedrun events to raise money for charity. For this
+						event we&apos;re raising money for Beyond Blue, a charity working to raise the awareness of
+						mental health issues, and reduce around the stigma around these issues to help people achieve
+						their best possible mental health. If you&apos;d like to donate, you can go to
+						donate.ausspeedruns.com&quot;
 						<br />
 						<br />
 						(While doing this, if someone else hasn&apos;t, would recommend typing !donate in chat to
@@ -235,10 +240,10 @@ export const HostDash: React.FC = () => {
 						fact, encouraged). For example just changing it to something like:
 						<br />
 						<br />
-						&quot;We&apos;re AusSpeedruns, and we do speedrun events to raise money for charity. For ASM2021
-						we&apos;re raising money for the Royal Flying Doctor Service, a charity that provides primary
-						and emergency health services to people in remote and rural areas across Australia. If
-						you&apos;d like to donate, the link to do so is ausspeedruns.com&quot;
+						&quot;We&apos;re AusSpeedruns, and we do speedrun events to raise money for charity. For
+						ASM2021, we&apos;re raising money for Beyond Blue, a charity promoting good mental health,
+						through raising the awareness and reducing the stigma around these issues. If you&apos;d like to
+						donate, the link to do so is donate.ausspeedruns.com&quot;
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
