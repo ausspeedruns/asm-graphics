@@ -64,7 +64,7 @@ const NameWithRoles = styled.div`
 	}
 `;
 
-const HoldNames = 0; // How long to hold the names
+const HoldNames = 5; // How long to hold the names
 
 export const Credits: React.FC = () => {
 	const eventRef = useRef<HTMLDivElement>(null);
@@ -259,6 +259,7 @@ export const Credits: React.FC = () => {
 				<NameWithRoles>
 					Website<Name>dragnflier</Name>
 				</NameWithRoles>
+				<Name>Landfall Games</Name>
 				<NameWithRoles>
 					Developers of<Name>OBS</Name><Name>NodeCG</Name><Name>nodecg-speedcontrol</Name><Name>obs-websocket</Name>
 				</NameWithRoles>

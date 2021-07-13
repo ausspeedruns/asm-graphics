@@ -22,6 +22,7 @@ import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
 import { Credits } from './elements/credits';
 import { ThreeDS } from './overlays/3ds';
+import { Fishing } from './overlays/fishing';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -114,6 +115,10 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 		{
 			component: <ThreeDS runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: '3DS',
+		},
+		{
+			component: <Fishing runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			name: 'Fishing',
 		},
 		{
 			component: <div style={{height: 1016, position: 'relative'}}><Credits /></div>,

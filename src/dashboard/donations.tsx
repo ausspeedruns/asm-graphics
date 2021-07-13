@@ -20,6 +20,7 @@ const DonationsList = styled.div`
 	max-height: 300px;
 	display: flex;
 	flex-direction: column;
+	overflow-y: scroll;
 `;
 
 export const Donations: React.FC = () => {
@@ -31,7 +32,7 @@ export const Donations: React.FC = () => {
 			<DonationsList>
 				{donations.map(donation => {
 					return <DonationEl donation={donation} />
-				})}
+				}).reverse()}
 			</DonationsList>
 		</ThemeProvider>
 	);

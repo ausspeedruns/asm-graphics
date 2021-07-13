@@ -265,6 +265,9 @@ const DashOBS: React.FC = () => {
 							<MenuItem value="whg">
 								World's Hardest Game (11:8)
 							</MenuItem>
+							<MenuItem value="fishing">
+								Fisherman's Bait 2 Big Ol' Bass
+							</MenuItem>
 							<MenuItem value="none">None</MenuItem>
 						</Select>
 					</FormControl>
