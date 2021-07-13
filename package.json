@@ -71,8 +71,7 @@
         "title": "Twitch Chat",
         "width": 3,
         "headerColor": "#9146FF",
-        "file": "twitch-chat.html",
-        "workspace": "ASM Misc"
+        "file": "twitch-chat.html"
       },
       {
         "name": "special-obs",
