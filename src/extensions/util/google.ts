@@ -91,7 +91,7 @@ function getAllData(auth: any) {
 
 	sheets.spreadsheets.values.get({
 		spreadsheetId: ncgGoogleConfig.spreadsheet,
-		range: 'Sheet1'
+		range: 'Main Sheet'
 	}, (err, res) => {
 		if (err) return nodecg.log.info('The API returned an error: ' + err);
 
