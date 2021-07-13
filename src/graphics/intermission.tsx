@@ -417,7 +417,7 @@ export const Intermission: React.FC<IntermissionProps> = (
 								muted={props.muted}>
 								<source
 									type="audio/mp3"
-									src="https://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ"
+									src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ"
 								/>
 							</audio>
 							<div style={{ display: 'flex' }}>
