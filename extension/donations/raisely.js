@@ -42,7 +42,8 @@ async function GetDonations() {
                     time: donation.createdAt,
                     amount: parseInt(donation.amount, 10) / 100,
                     name: donation.preferredName,
-                    desc: donation.message || ''
+                    desc: donation.message || '',
+                    currencySymbol: donation.currencySymbol,
                 });
             }
         });

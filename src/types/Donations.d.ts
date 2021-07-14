@@ -5,4 +5,5 @@ export interface Donation {
 	time: string;
 	name: string;
 	amount: number;
+	currencySymbol: string;
 }

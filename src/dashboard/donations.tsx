@@ -78,7 +78,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 		<DonationContainer boxShadow={2}>
 			<Grid direction="column" container>
 				<div>
-					<Amount>${props.donation.amount.toLocaleString()}</Amount>
+					<Amount>{props.donation.currencySymbol}{props.donation.amount.toLocaleString()}</Amount>
 					<Name>{props.donation.name}</Name>
 				</div>
 				<DateText>{timeText}</DateText>
