@@ -358,11 +358,11 @@ const DashOBS: React.FC = () => {
 					<DialogContentText>
 						<div>
 							ASM Station 1:
-							live_473924910_3Xxa7qM7OcE86vVeyeev9H7m0FlWOO
+							live_473924910_vuJXJY25Zsjcnj5jli9FN2Vtmi4STB
 							<IconButton
 								onClick={() =>
 									navigator.clipboard.writeText(
-										'live_473924910_3Xxa7qM7OcE86vVeyeev9H7m0FlWOO',
+										'live_473924910_vuJXJY25Zsjcnj5jli9FN2Vtmi4STB',
 									)
 								}>
 								<Filter1 />
