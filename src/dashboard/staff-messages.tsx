@@ -17,6 +17,7 @@ const MessageList = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
+	overflow-y: scroll;
 `;
 
 export const StaffMessages: React.FC = () => {
