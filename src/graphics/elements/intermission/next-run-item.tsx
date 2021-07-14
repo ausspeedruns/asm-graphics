@@ -76,9 +76,11 @@ export const InterNextRunItem: React.FC<Props> = (props: Props) => {
 	// If one team then combine
 	// If more then combine team names and add vs
 
+	const time = scheduleTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
 	return (
 		<InterNextRunItemContainer>
-			<Time>{scheduleTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</Time>
+			<Time>{time === 'Invalid Date' ? '--:--' : time}</Time>
 			<InfoBlock>
 				<TopText>
 					<GameTitle text={props.run.game || ''} />

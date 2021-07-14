@@ -229,7 +229,7 @@ const ParticlesConfig: ParticlesProps['params'] = {
 		},
 		move: {
 			enable: true,
-			speed: 1,
+			speed: 2,
 			direction: 'none',
 			random: false,
 			straight: false,
