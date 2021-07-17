@@ -53,6 +53,7 @@ const RunsList = styled.div`
 	justify-content: space-between;
 	flex-grow: 1;
 	padding-bottom: 50px;
+	width: 100%;
 
 	/* & > div {
 		margin-top: 10px;
