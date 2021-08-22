@@ -1,6 +1,6 @@
 {
   "name": "asm2021-graphics",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "",
   "homepage": "",
   "author": {
@@ -17,7 +17,7 @@
     "nodecg-bundle"
   ],
   "nodecg": {
-    "compatibleRange": "^1.6.0",
+    "compatibleRange": "^1.8.1",
     "bundleDependencies": {
       "nodecg-speedcontrol": "^2.0.0"
     },
