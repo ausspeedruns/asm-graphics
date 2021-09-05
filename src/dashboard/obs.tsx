@@ -192,6 +192,7 @@ const DashOBS: React.FC = () => {
 	};
 
 	const gameplayTransition = () => {
+		nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
 		nodecg.sendMessage('transitionGameplay');
 	};
 
@@ -217,7 +218,7 @@ const DashOBS: React.FC = () => {
 						style={{ cursor: 'pointer' }}
 						onClick={() =>
 							window.open(
-								`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${bundleConfig.hostname || 'localhost'}:${ncgConfig.port}/bundles/asm2021-graphics/graphics/preview-gameplay.html`,
+								`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${bundleConfig.hostname || 'localhost'}:${ncgConfig.port}/bundles/asm-graphics/graphics/preview-gameplay.html`,
 								'_blank',
 							)
 						}>
@@ -234,7 +235,7 @@ const DashOBS: React.FC = () => {
 									border: 0,
 								}}
 								scrolling="no"
-								src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${bundleConfig.hostname || 'localhost'}:${ncgConfig.port}/bundles/asm2021-graphics/graphics/preview-gameplay.html`}
+								src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${bundleConfig.hostname || 'localhost'}:${ncgConfig.port}/bundles/asm-graphics/graphics/preview-gameplay.html`}
 							/>
 						</GameplayPreview>
 					</GameplaySpacer>
@@ -317,7 +318,7 @@ const DashOBS: React.FC = () => {
 										border: 0,
 									}}
 									scrolling="no"
-									src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${bundleConfig.hostname || 'localhost'}:${ncgConfig.port}/bundles/asm2021-graphics/graphics/gameplay-overlay.html`}
+									src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${bundleConfig.hostname || 'localhost'}:${ncgConfig.port}/bundles/asm-graphics/graphics/gameplay-overlay.html`}
 								/>
 							) : (
 								<iframe
@@ -328,7 +329,7 @@ const DashOBS: React.FC = () => {
 										border: 0,
 									}}
 									scrolling="no"
-									src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${bundleConfig.hostname || 'localhost'}:${ncgConfig.port}/bundles/asm2021-graphics/graphics/intermission-muted.html`}
+									src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${bundleConfig.hostname || 'localhost'}:${ncgConfig.port}/bundles/asm-graphics/graphics/intermission-muted.html`}
 								/>
 							)}
 						</GameplayPreview>
