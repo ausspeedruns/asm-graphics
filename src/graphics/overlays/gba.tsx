@@ -90,7 +90,7 @@ export const GBA: React.FC<OverlayProps> = (props) => {
 						<InfoDivider />
 						<RunInfo.Category maxWidth={450} category={props.runData?.category || ''} />
 						<InfoDivider />
-						<VerticalStack style={{ height: 100 }}>
+						<VerticalStack style={{ height: 100, width: '100%' }}>
 							<RunInfo.GameTitle
 								maxWidth={360}
 								game={props.runData?.game || ''}

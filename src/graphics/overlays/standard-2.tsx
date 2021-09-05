@@ -134,7 +134,7 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 		<Standard2Container>
 			<Topbar>
 				<InfoBox>
-					<VerticalStack style={{ height: 100 }}>
+					<VerticalStack style={{ height: 100, width: '100%' }}>
 						<RunInfo.GameTitle
 							maxWidth={540}
 							game={props.runData?.game || ''}

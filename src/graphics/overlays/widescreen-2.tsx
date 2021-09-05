@@ -164,7 +164,7 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 		<Widescreen2Container>
 			<Topbar>
 				<InfoBox>
-					<VerticalStack style={{ height: 100 }}>
+					<VerticalStack style={{ height: 100, width: '100%' }}>
 						<RunInfo.GameTitle
 							maxWidth={620}
 							game={props.runData?.game || ''}

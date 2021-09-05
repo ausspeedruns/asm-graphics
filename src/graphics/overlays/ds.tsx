@@ -74,7 +74,7 @@ export const DS: React.FC<OverlayProps> = (props) => {
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 				<InfoBox>
-					<VerticalStack style={{ height: 120 }}>
+					<VerticalStack style={{ height: 120, width: '100%' }}>
 						<RunInfo.GameTitle
 							maxWidth={540}
 							game={props.runData?.game || ''}

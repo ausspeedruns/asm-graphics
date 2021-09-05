@@ -100,7 +100,7 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 						<InfoDivider />
 						<RunInfo.Category maxWidth={450} category={props.runData?.category || ''} />
 						<InfoDivider />
-						<VerticalStack style={{ height: 100 }}>
+						<VerticalStack style={{ height: 100, width: '100%' }}>
 							<RunInfo.GameTitle
 								maxWidth={540}
 								game={props.runData?.game || ''}

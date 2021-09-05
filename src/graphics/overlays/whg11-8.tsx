@@ -98,7 +98,7 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 							category={props.runData?.category || ''}
 						/>
 						<InfoDivider />
-						<VerticalStack style={{ height: 100 }}>
+						<VerticalStack style={{ height: 100, width: '100%' }}>
 							<RunInfo.GameTitle
 								maxWidth={380}
 								game={props.runData?.game || ''}
