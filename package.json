@@ -74,14 +74,6 @@
         "file": "twitch-chat.html"
       },
       {
-        "name": "special-obs",
-        "title": "Special OBS",
-        "width": 3,
-        "headerColor": "#CC7722",
-        "file": "special-obs.html",
-        "workspace": "ASM Misc"
-      },
-      {
         "name": "settings",
         "title": "Settings",
         "width": 3,
