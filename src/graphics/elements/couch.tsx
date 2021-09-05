@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useReplicant } from 'use-nodecg';
 import { CouchPerson } from '../../types/OverlayProps';
 
 const CouchContainer = styled.div`
@@ -38,7 +39,12 @@ interface Props {
 }
 
 export const Couch: React.FC<Props> = (props: Props) => {
-	if (props.couch.length === 0) return <></>;
+	const [currentHost] = useReplicant<CouchPerson, CouchPerson>('host', {
+		name: '',
+		pronouns: '',
+	});
+
+	if (props.couch.length === 0 && currentHost.name === '') return <></>;
 
 	return (
 		<CouchContainer className={props.className} style={props.style}>
@@ -51,6 +57,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 				{props.couch.map((person) => {
 					return <PersonCompressed key={person.name} person={person} />;
 				})}
+				<PersonCompressed key={'Host'} person={currentHost} host />
 			</PeopleContainer>
 		</CouchContainer>
 	);
@@ -75,13 +82,17 @@ const Pronouns = styled.div`
 
 interface PersonCompressedProps {
 	person: CouchPerson;
+	host?: boolean;
 }
 
 export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
 		<PersonCompressedContainer>
-			<div style={{fontWeight: 'bold'}}>{props.person.name}</div>
-			<Pronouns>{props.person.pronouns}</Pronouns>
+			<span style={{ fontWeight: 'bold' }}>{props.person.name}</span>
+			<Pronouns>
+				<span style={{ fontWeight: 'bold' }}>{props.host && 'Host '}</span>
+				{props.person.pronouns}
+			</Pronouns>
 		</PersonCompressedContainer>
 	);
 };
