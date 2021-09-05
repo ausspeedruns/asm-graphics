@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import styled from 'styled-components';
 import { HashRouter as Router, Route, Link, Switch, useHistory } from 'react-router-dom';
 import { useReplicant } from 'use-nodecg';
+import _ from 'underscore';
 
 import { CurrentOverlay } from '../types/CurrentOverlay';
+import { RunDataActiveRun, RunDataArray } from '../types/RunData';
+import { Timer } from '../types/Timer';
+import { CouchInformation, NoCam } from '../types/OverlayProps';
 
 import { Ticker } from './ticker';
 import { Standard } from './overlays/standard';
@@ -15,9 +19,6 @@ import { Widescreen1610 } from './overlays/widescreen16-10';
 import { DS } from './overlays/ds';
 import { GBA } from './overlays/gba';
 import { GBC } from './overlays/gbc';
-import { RunDataActiveRun } from '../types/RunData';
-import { Timer } from '../types/Timer';
-import { CouchInformation, NoCam } from '../types/OverlayProps';
 import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
 import { Credits } from './elements/credits';
@@ -65,59 +66,62 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 	const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
 	const [noCamRep] = useReplicant<NoCam, NoCam>('no-cam', {current: false, preview: false});
 	const history = useHistory();
+	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
+	
+	console.log(displayingRun)
 
 	const Overlays = [
 		{
-			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <Standard runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: '/',
 			// Defualt as standard
 		},
 		{
-			component: <Standard runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <Standard runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Standard',
 		},
 		{
-			component: <Standard2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <Standard2 runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Standard-2',
 		},
 		{
-			component: <Widescreen runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <Widescreen runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Widescreen',
 		},
 		{
-			component: <Widescreen2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <Widescreen2 runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Widescreen-2',
 		},
 		{
-			component: <Widescreen1610 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <Widescreen1610 runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Widescreen-1610',
 		},
 		{
-			component: <DS runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <DS runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'DS',
 		},
 		{
-			component: <DS2 runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <DS2 runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'DS-2',
 		},
 		{
-			component: <GBA runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <GBA runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'GBA',
 		},
 		{
-			component: <GBC runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <GBC runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'GBC',
 		},
 		{
-			component: <WHG runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <WHG runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'WHG',
 		},
 		{
-			component: <ThreeDS runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <ThreeDS runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: '3DS',
 		},
 		{
-			component: <Fishing runData={runDataActiveRep} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			component: <Fishing runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Fishing',
 		},
 		{
@@ -125,6 +129,22 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: 'None',
 		},
 	];
+
+	useEffect(() => {
+		if (props.preview) {
+			nodecg.readReplicant('runDataArray', 'nodecg-speedcontrol', (runData: RunDataArray) => {
+				nodecg.readReplicant('runDataActiveRunSurrounding', 'nodecg-speedcontrol', (surrounding: {
+					previous?: string;
+					current?: string;
+					next?: string;
+				}) => {
+					setDisplayingRun(runData.find(run => run.id === surrounding.next));
+				});
+			});
+		} else {
+			setDisplayingRun(runDataActiveRep);
+		}
+	}, [runDataActiveRep]);
 
 	useEffect(() => {
 		if (!currentOverlayRep || !history) return;
