@@ -50,7 +50,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar>
 				<LineBorder />
-				<div style={{ margin: '0 6px' }}>{props.couch.length > 1 ? 'Commentators' : 'Commentator'}</div>
+				<div style={{ margin: '0 6px' }}>{props.couch.length > 0 ? 'Commentators' : 'Commentator'}</div>
 				<LineBorder />
 			</MenuBar>
 			<PeopleContainer>
