@@ -368,7 +368,7 @@ export const Intermission: React.FC<IntermissionProps> = (
 						textAlign: 'right',
 						marginLeft: 30,
 					}}>
-					#ASM2021
+					#PAXxAusSpeedruns2021
 				</SocialMediaLabel>
 			</SocialMedia>
 			<InterCTA style={{ position: 'absolute', top: 190 }} />

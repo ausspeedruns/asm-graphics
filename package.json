@@ -150,8 +150,7 @@
     "schema-types": "trash src/types/schemas && nodecg schema-types -o ./src/types",
     "start": "node ../..",
     "lint": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx}",
-    "lint:fix": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx} --fix",
-    "terminal": "wt -p \"ASM2021\"; split-pane -p \"ASM2021\"; split-pane -p \"ASM2021\""
+    "lint:fix": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx} --fix"
   },
   "repository": "https://github.com/nodecg/nodecg.git",
   "license": "Apache-2.0",

@@ -113,7 +113,7 @@ export const EndRunItem: React.FC = () => {
 		<EndRunCont>
 			<span>The End</span>
 			<span>
-				<b>Thank you for watching ASM2021!</b>
+				<b>Thank you for watching PAXxAusSpeedruns2021!</b>
 			</span>
 		</EndRunCont>
 	);

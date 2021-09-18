@@ -142,7 +142,7 @@ export const HostDash: React.FC = () => {
 				<span
 					style={{ width: 500, textAlign: 'right', cursor: 'pointer' }}
 					onClick={() => setShowStream(!showStream)}>
-					ASM2021
+					PAXxAusSpeedruns2021
 				</span>
 			</TopBar>
 			{/* , height: 926  */}
@@ -198,7 +198,7 @@ export const HostDash: React.FC = () => {
 					xs
 					style={{ padding: 8, height: '100%' }}>
 					<Paper style={{ height: '49%', overflow: 'hidden' }}>
-						<Header text="Upcoming Runs" url="https://horaro.org/asm2021/schedule" />
+						<Header text="Upcoming Runs" url="https://horaro.org/asmpax2021/schedule" />
 						<Upcoming style={{ height: 'calc(100% - 56px)', overflowY: 'auto', overflowX: 'hidden' }} />
 					</Paper>
 					<Paper style={{ height: '49%', overflow: 'hidden' }}>

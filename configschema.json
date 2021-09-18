@@ -59,7 +59,7 @@
 				},
 				"rules": {
 					"type": "array",
-					"default": [{ "value": "#ASM2021", "tag": "Event Hashtag" }]
+					"default": [{ "value": "#PAXxAusSpeedruns2021", "tag": "Event Hashtag" }]
 				}
 			},
 			"required": ["enabled", "key", "secret"]
