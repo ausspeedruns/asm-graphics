@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
+import { WideInfo, IWideStyling } from '../elements/info-box/wide';
 import { Facecam } from '../elements/facecam';
-import { Timer } from '../elements/timer';
-import * as RunInfo from '../elements/run-info';
 import { Couch } from '../elements/couch';
 import { ASMBanner } from '../elements/asm-banner';
 import { OrangeStripe } from '../elements/orange-stripe';
@@ -24,58 +23,16 @@ const Sidebar = styled.div`
 	/* border-top: 1px solid var(--asm-orange); */
 `;
 
-const InfoBar = styled.div`
-	background: var(--main-col);
-	border-bottom: 1px var(--asm-orange) solid;
-	position: absolute;
-	height: 174px;
-	width: 1920px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-`;
-
-const VerticalStack = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	height: 100%;
-`;
-
-const InfoDivider = styled.div`
-	height: 77%;
-	width: 1px;
-	background: var(--asm-orange);
-`;
+const customWideStyle: IWideStyling = {
+	mainStyle: {
+		height: 174,
+	},
+};
 
 export const ThreeDS: React.FC<OverlayProps> = (props) => {
 	return (
 		<ThreeDSContainer>
-			<InfoBar>
-				<VerticalStack style={{ flexGrow: 1 }}>
-					<RunInfo.GameTitle
-						maxWidth={680}
-						game={props.runData?.game || ''}
-						style={{ marginBottom: -25, marginTop: -4 }}
-					/>
-					<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
-						<RunInfo.System system={props.runData?.system || ''} />
-						<RunInfo.Year year={props.runData?.release || ''} />
-					</div>
-				</VerticalStack>
-				<InfoDivider />
-				<VerticalStack style={{ flexGrow: 1 }}>
-					<RunInfo.Category
-						maxWidth={420}
-						category={props.runData?.category || ''}
-						style={{ marginBottom: -25 }}
-					/>
-					<RunInfo.Estimate estimate={props.runData?.estimate || ''} />
-				</VerticalStack>
-				<InfoDivider />
-				<Timer style={{ width: 612, zIndex: 2 }} timer={props.timer} />
-			</InfoBar>
+			<WideInfo timer={props.timer} runData={props.runData} style={customWideStyle} />
 			<Sidebar>
 				<div
 					style={{

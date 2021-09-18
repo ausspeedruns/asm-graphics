@@ -4,8 +4,7 @@ import { useReplicant } from 'use-nodecg';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
-import { Timer } from '../elements/timer';
-import * as RunInfo from '../elements/run-info';
+import { SmallInfo, ISmallStyling } from '../elements/info-box/small';
 import { SponsorsBox } from '../elements/sponsors';
 import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
@@ -25,44 +24,6 @@ const Topbar = styled.div`
 	width: 1920px;
 	border-bottom: 1px solid var(--asm-orange);
 	overflow: hidden;
-`;
-
-const InfoTopDivider = styled.div`
-	height: 1px;
-	width: 652px;
-	background: var(--asm-orange);
-`;
-
-const InfoSideDivider = styled.div`
-	height: 100px;
-	width: 1px;
-	background: var(--asm-orange);
-`;
-
-const VerticalStack = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-`;
-
-const InfoBox = styled.div`
-	height: 100%;
-	width: 666px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding-top: 10px;
-	box-sizing: border-box;
-	background: var(--main-col);
-`;
-
-const InfoSubBox = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
-	width: 100%;
 `;
 
 const RightBox = styled.div`
@@ -94,16 +55,24 @@ const CentralDivider = styled.div`
 	background: var(--asm-orange);
 `;
 
+const customSmallStyling: ISmallStyling = {
+	mainStyle: {
+		height: '100%',
+		width: 666,
+	},
+};
+
 export const Standard2: React.FC<OverlayProps> = (props) => {
-	const [audioIndicatorRep] = useReplicant<string, string>(
-		'audio-indicator',
-		'',
-	);
+	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
 
 	const leftTeamID = props.runData?.teams[0]?.id || '';
 	const rightTeamID = props.runData?.teams[1]?.id || '';
-	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID) ? props.timer.teamFinishTimes[leftTeamID].time : ''
-	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID) ? props.timer.teamFinishTimes[rightTeamID].time : ''
+	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
+		? props.timer.teamFinishTimes[leftTeamID].time
+		: '';
+	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID)
+		? props.timer.teamFinishTimes[rightTeamID].time
+		: '';
 	const leftTeamPlace = findPlace(leftTeamID);
 	const rightTeamPlace = findPlace(rightTeamID);
 
@@ -119,11 +88,11 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 				for (const loopTeamID in props.timer.teamFinishTimes) {
 					allFinishTimes.push([loopTeamID, props.timer.teamFinishTimes[loopTeamID].milliseconds]);
 				}
-	
+
 				allFinishTimes.sort((a, b) => {
 					return a[1] - b[1];
 				});
-	
+
 				return allFinishTimes.findIndex((element) => element[0] === teamID) + 1;
 			}
 		}
@@ -133,55 +102,15 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 	return (
 		<Standard2Container>
 			<Topbar>
-				<InfoBox>
-					<VerticalStack style={{ height: 100, width: '100%' }}>
-						<RunInfo.GameTitle
-							maxWidth={540}
-							game={props.runData?.game || ''}
-							style={{ fontSize: 37 }}
-						/>
-						<div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
-							<RunInfo.System system={props.runData?.system || ''} style={{ fontSize: 25, zIndex: 2 }} />
-							<RunInfo.Year year={props.runData?.release || ''} style={{ fontSize: 25, zIndex: 2 }} />
-						</div>
-					</VerticalStack>
-					<InfoTopDivider />
-					<InfoSubBox>
-						<VerticalStack style={{ height: 120 }}>
-							<RunInfo.Category
-								maxWidth={370}
-								category={props.runData?.category || ''}
-							/>
-							<RunInfo.Estimate
-								fontSize={30}
-								estimate={props.runData?.estimate || ''}
-							/>
-						</VerticalStack>
-						<InfoSideDivider />
-						<Timer fontSize={75} timer={props.timer} />
-					</InfoSubBox>
-					<OrangeStripe
-						side="bottom"
-						style={{
-							transform: 'scaleY(1.28125)',
-							transformOrigin: 'bottom',
-						}}
-					/>
-				</InfoBox>
+				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 
 				<AudioIndicator
-					active={
-						audioIndicatorRep ===
-						(props.runData?.teams[0]?.id || '')
-					}
+					active={audioIndicatorRep === (props.runData?.teams[0]?.id || '')}
 					side="left"
 					style={{ position: 'absolute', top: 255, left: 625 }}
 				/>
 				<AudioIndicator
-					active={
-						audioIndicatorRep ===
-						(props.runData?.teams[1]?.id || '')
-					}
+					active={audioIndicatorRep === (props.runData?.teams[1]?.id || '')}
 					side="right"
 					style={{
 						position: 'absolute',
@@ -202,33 +131,16 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 
-				<RaceFinish
-					style={{ top: 220, left: 830 }}
-					time={leftTeamTime}
-					place={leftTeamPlace}
-				/>
-				<RaceFinish
-					style={{ top: 220, left: 960 }}
-					time={rightTeamTime}
-					place={rightTeamPlace}
-				/>
+				<RaceFinish style={{ top: 220, left: 830 }} time={leftTeamTime} place={leftTeamPlace} />
+				<RaceFinish style={{ top: 220, left: 960 }} time={rightTeamTime} place={rightTeamPlace} />
 
 				<RightBox>
-					<div
-						style={{ display: 'flex', width: '100%', flexGrow: 1, alignItems: 'center' }}>
+					<div style={{ display: 'flex', width: '100%', flexGrow: 1, alignItems: 'center' }}>
 						<Couch
-							couch={
-								props.preview
-									? props.couchInformation.preview
-									: props.couchInformation.current
-							}
+							couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
 							style={{ width: '30%' }}
 						/>
-						<SponsorsBox
-							style={{ flexGrow: 1 }}
-							sponsorStyle={SponsorSize}
-							tweetStyle={TwitterSize}
-						/>
+						<SponsorsBox style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
 					</div>
 					<OrangeStripe
 						side="bottom"

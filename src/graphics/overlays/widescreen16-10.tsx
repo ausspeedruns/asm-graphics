@@ -3,13 +3,11 @@ import styled from 'styled-components';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
-import { Timer } from '../elements/timer';
+import { IWideStyling, WideInfo } from '../elements/info-box/wide';
 import { SponsorsBox } from '../elements/sponsors';
-import * as RunInfo from '../elements/run-info';
 import { Facecam } from '../elements/facecam';
 import { OrangeStripe } from '../elements/orange-stripe';
 import { Couch } from '../elements/couch';
-import { ASMBanner } from '../elements/asm-banner';
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -44,81 +42,37 @@ const SidebarBG = styled.div`
 	padding-top: 14px;
 `;
 
-const InfoBar = styled.div`
-	background: var(--main-col);
-	position: absolute;
-	height: 142px;
-	width: 1920px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	border-bottom: 1px var(--asm-orange) solid;
-`;
-
-const InfoDivider = styled.div`
-	height: 77%;
-	width: 1px;
-	background: var(--asm-orange);
-`;
-
-const VerticalStack = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	height: 100%;
-`;
-
 const SponsorsStyled = {
 	height: 250,
-	width: 400
+	width: 400,
 };
 
 const TwitterSize = {
 	height: 248,
-    width: 438,
-    marginTop: -36,
+	width: 438,
+	marginTop: -36,
+};
+
+const customWideStyling: IWideStyling = {
+	mainStyle: {
+		height: 142,
+	},
 };
 
 export const Widescreen1610: React.FC<OverlayProps> = (props) => {
 	return (
 		<WidescreenContainer>
-			<InfoBar>
-				<VerticalStack style={{ flexGrow: 1 }}>
-					<RunInfo.GameTitle
-						maxWidth={680}
-						game={props.runData?.game || ''}
-						style={{ marginBottom: -15 }}
-					/>
-					<div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
-						<RunInfo.System system={props.runData?.system || ''} />
-						<RunInfo.Year year={props.runData?.release || ''} />
-					</div>
-				</VerticalStack>
-				<InfoDivider />
-				<VerticalStack style={{ flexGrow: 1 }}>
-					<RunInfo.Category
-						maxWidth={420}
-						category={props.runData?.category || ''}
-						style={{ marginBottom: -25 }}
-					/>
-					<RunInfo.Estimate estimate={props.runData?.estimate || ''} />
-				</VerticalStack>
-				<InfoDivider />
-				<Timer style={{ width: 587, zIndex: 2 }} timer={props.timer} />
-			</InfoBar>
+			<WideInfo timer={props.timer} runData={props.runData} style={customWideStyling} />
 
 			<Sidebar>
-				<Facecam height={401} teams={props.runData?.teams} noCam={props.preview ? props.noCam.preview : props.noCam.current} />
+				<Facecam
+					height={401}
+					teams={props.runData?.teams}
+					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+				/>
 				<SidebarBG>
-					<Couch
-						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
-					/>
-					<ASMBanner style={{marginTop: 4}} />
-					<SponsorsBoxS
-						sponsorStyle={SponsorsStyled}
-						tweetStyle={TwitterSize}
-					/>
+					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
+					<SponsorsBoxS sponsorStyle={SponsorsStyled} tweetStyle={TwitterSize} />
 
 					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</SidebarBG>

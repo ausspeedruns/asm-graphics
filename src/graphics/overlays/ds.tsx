@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
-import { Timer } from '../elements/timer';
-import * as RunInfo from '../elements/run-info';
+import { SmallInfo } from '../elements/info-box/small';
 import { Facecam } from '../elements/facecam';
 
 const DSContainer = styled.div`
@@ -26,44 +25,6 @@ const DSSecondScreen = styled.div`
 	border-bottom: 1px solid var(--asm-orange);
 `;
 
-const VerticalStack = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	height: 100%;
-`;
-
-const InfoBox = styled.div`
-	height: 241px;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	background: var(--main-col);
-`;
-
-const InfoSubBox = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
-	width: 100%;
-	height: 137px;
-`;
-
-const InfoTopDivider = styled.div`
-	height: 1px;
-	width: 652px;
-	background: var(--asm-orange);
-`;
-
-const InfoSideDivider = styled.div`
-	height: 100px;
-	width: 1px;
-	background: var(--asm-orange);
-`;
-
 export const DS: React.FC<OverlayProps> = (props) => {
 	return (
 		<DSContainer>
@@ -73,34 +34,7 @@ export const DS: React.FC<OverlayProps> = (props) => {
 					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
-				<InfoBox>
-					<VerticalStack style={{ height: 120, width: '100%' }}>
-						<RunInfo.GameTitle
-							maxWidth={540}
-							game={props.runData?.game || ''}
-							style={{ fontSize: 50, marginBottom: -10 }}
-						/>
-						<div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
-							<RunInfo.System
-								system={props.runData?.system || ''}
-								style={{ fontSize: 25, zIndex: 2 }}
-							/>
-							<RunInfo.Year
-								year={props.runData?.release || ''}
-								style={{ fontSize: 25, zIndex: 2 }}
-							/>
-						</div>
-					</VerticalStack>
-					<InfoTopDivider />
-					<InfoSubBox>
-						<VerticalStack style={{ height: 80 }}>
-							<RunInfo.Category maxWidth={450} category={props.runData?.category || ''} />
-							<RunInfo.Estimate fontSize={30} estimate={props.runData?.estimate || ''} />
-						</VerticalStack>
-						<InfoSideDivider />
-						<Timer fontSize={75} timer={props.timer} />
-					</InfoSubBox>
-				</InfoBox>
+				<SmallInfo timer={props.timer} runData={props.runData} />
 				<DSSecondScreen />
 			</Sidebar>
 		</DSContainer>

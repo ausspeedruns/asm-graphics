@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
-import { Timer } from '../elements/timer';
-import * as RunInfo from '../elements/run-info';
+import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { OrangeStripe } from '../elements/orange-stripe';
@@ -25,35 +24,12 @@ const Sidebar = styled.div`
 	overflow: hidden;
 `;
 
-const InfoDivider = styled.div`
-	height: 1px;
-	width: 430px;
-	background: var(--asm-orange);
-`;
-
-const VerticalStack = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	height: 100%;
-`;
-
 const InfoBoxBG = styled.div`
 	background: var(--main-col);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	height: 664px;
-`;
-
-const InfoBox = styled.div`
-	height: 340px;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -69,8 +45,12 @@ const SponsorsSize = {
 
 const TwitterSize = {
 	height: 163,
-    width: 480,
-    marginTop: -44
+	width: 480,
+	marginTop: -44,
+};
+
+const customVerticalStyle: IVerticalStyling = {
+	maxTextWidth: 400,
 };
 
 // World's Hardest Game (11:8)
@@ -78,56 +58,16 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 	return (
 		<WHGContainer>
 			<Sidebar>
-				<Facecam height={352} teams={props.runData?.teams} noCam={props.preview ? props.noCam.preview : props.noCam.current} />
+				<Facecam
+					height={352}
+					teams={props.runData?.teams}
+					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+				/>
 				<InfoBoxBG>
-					<InfoBox>
-						<VerticalStack style={{ height: 180 }}>
-							<Timer
-								fontSize={110}
-								timer={props.timer}
-								style={{ marginBottom: -15 }}
-							/>
-							<RunInfo.Estimate
-								fontSize={30}
-								estimate={props.runData?.estimate || ''}
-							/>
-						</VerticalStack>
-						<InfoDivider />
-						<RunInfo.Category
-							maxWidth={450}
-							category={props.runData?.category || ''}
-						/>
-						<InfoDivider />
-						<VerticalStack style={{ height: 100, width: '100%' }}>
-							<RunInfo.GameTitle
-								maxWidth={380}
-								game={props.runData?.game || ''}
-								style={{ fontSize: 37 }}
-							/>
-							<div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
-								<RunInfo.System
-									system={props.runData?.system || ''}
-									style={{ fontSize: 25, zIndex: 2 }}
-								/>
-								<RunInfo.Year
-									year={props.runData?.release || ''}
-									style={{ fontSize: 25, zIndex: 2 }}
-								/>
-							</div>
-						</VerticalStack>
-					</InfoBox>
-					<Couch
-						couch={
-							props.preview
-								? props.couchInformation.preview
-								: props.couchInformation.current
-						}
-					/>
+					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
 					<ASMBanner />
-					<SponsorBoxS
-						sponsorStyle={SponsorsSize}
-						tweetStyle={TwitterSize}
-					/>
+					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
 					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</InfoBoxBG>
 			</Sidebar>

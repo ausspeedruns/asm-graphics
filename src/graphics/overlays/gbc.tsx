@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
-import { Timer } from '../elements/timer';
-import * as RunInfo from '../elements/run-info';
+import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { ASMBanner } from '../elements/asm-banner';
@@ -35,29 +34,6 @@ const RightSidebar = styled.div`
 	background: var(--main-col);
 `;
 
-const InfoDivider = styled.div`
-	height: 1px;
-	width: 430px;
-	background: var(--asm-orange);
-`;
-
-const VerticalStack = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	height: 100%;
-`;
-
-const InfoBox = styled.div`
-	height: 340px;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-`;
-
 const SponsorBoxStyle = styled(SponsorsBox)`
 	width: 100%;
 	height: 264px;
@@ -70,8 +46,8 @@ const SponsorsSize = {
 
 const TwitterSize = {
 	height: 142,
-    width: 558,
-    marginTop: -47
+	width: 558,
+	marginTop: -47,
 };
 
 const InfoBoxBG = styled.div`
@@ -81,6 +57,10 @@ const InfoBoxBG = styled.div`
 	justify-content: space-between;
 	height: 664px;
 `;
+
+const customVerticalStyling: IVerticalStyling = {
+	maxTextWidth: 540,
+};
 
 export const GBC: React.FC<OverlayProps> = (props) => {
 	return (
@@ -92,49 +72,15 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 				<InfoBoxBG>
-					<InfoBox>
-						<VerticalStack style={{ height: 180 }}>
-							<Timer fontSize={110} timer={props.timer}  style={{ marginBottom: -15 }} />
-							<RunInfo.Estimate fontSize={30} estimate={props.runData?.estimate || ''} />
-						</VerticalStack>
-						<InfoDivider />
-						<RunInfo.Category maxWidth={450} category={props.runData?.category || ''} />
-						<InfoDivider />
-						<VerticalStack style={{ height: 100, width: '100%' }}>
-							<RunInfo.GameTitle
-								maxWidth={540}
-								game={props.runData?.game || ''}
-								style={{ fontSize: 37 }}
-							/>
-							<div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
-								<RunInfo.System
-									system={props.runData?.system || ''}
-									style={{ fontSize: 25, zIndex: 2 }}
-								/>
-								<RunInfo.Year
-									year={props.runData?.release || ''}
-									style={{ fontSize: 25, zIndex: 2 }}
-								/>
-							</div>
-						</VerticalStack>
-					</InfoBox>
-					<Couch
-						couch={
-							props.preview
-								? props.couchInformation.preview
-								: props.couchInformation.current
-						}
-					/>
+					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
+					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
 					<ASMBanner />
-					<SponsorBoxStyle
-						sponsorStyle={SponsorsSize}
-						tweetStyle={TwitterSize}
-					/>
+					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
 					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</InfoBoxBG>
 			</Sidebar>
 			<RightSidebar>
-				<OrangeStripe side="left" style={{position: 'absolute'}} />
+				<OrangeStripe side="left" style={{ position: 'absolute' }} />
 			</RightSidebar>
 		</GBCContainer>
 	);
