@@ -7,7 +7,6 @@ import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { Couch } from '../elements/couch';
-import { OrangeStripe } from '../elements/orange-stripe';
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -33,7 +32,9 @@ const SponsorsStyled = {
 };
 
 const InfoBoxBG = styled.div`
-	background: var(--main-col);
+	background-image: url('../shared/design/contour-maps/standard.svg');
+	background-size: cover;
+	background-position: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -67,7 +68,6 @@ export const GBA: React.FC<OverlayProps> = (props) => {
 
 					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
 					<SponsorsBoxS sponsorStyle={SponsorsStyled} tweetStyle={TwitterSize} />
-					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>

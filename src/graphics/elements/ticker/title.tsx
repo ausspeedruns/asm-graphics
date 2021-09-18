@@ -4,14 +4,14 @@ import styled from 'styled-components';
 const TickerTitleContainer = styled.div`
 	height: 64px;
 	width: fit-content;
-	font-family: Noto Sans;
+	font-family: National Park;
 	font-weight: bold;
 	font-size: 20px;
-	color: #ffffff;
+	color: #F2DAB2;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--main-col);
+	background: #302414;
 	white-space: nowrap;
 	padding: 0 10px;
 	text-align: center;

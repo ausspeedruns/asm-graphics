@@ -6,7 +6,7 @@ import { Timer as TimerType } from '../../types/Timer';
 const TimerContainer = styled.div`
 	font-family: DS-Digital;
 	font-size: ${(props: FontProps) => props.fontSize}px;
-	color: #ffffff;
+	color: var(--text-col);
 	text-align: center;
 	font-weight: bold;
 `;

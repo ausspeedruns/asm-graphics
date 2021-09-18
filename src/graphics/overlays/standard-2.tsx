@@ -9,7 +9,6 @@ import { SponsorsBox } from '../elements/sponsors';
 import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
-import { OrangeStripe } from '../elements/orange-stripe';
 import { Couch } from '../elements/couch';
 
 const Standard2Container = styled.div`
@@ -22,14 +21,14 @@ const Topbar = styled.div`
 	position: absolute;
 	height: 296px;
 	width: 1920px;
-	border-bottom: 1px solid var(--asm-orange);
+	border-bottom: 1px solid var(--pax-gold);
 	overflow: hidden;
 `;
 
 const RightBox = styled.div`
 	width: 666px;
 	height: 100%;
-	background: var(--main-col);
+	background-image: url('../shared/design/contour-maps/standard-2-right.svg');
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -52,7 +51,7 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 297px;
 	left: 959px;
-	background: var(--asm-orange);
+	background: var(--pax-gold);
 `;
 
 const customSmallStyling: ISmallStyling = {
@@ -142,13 +141,6 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 						/>
 						<SponsorsBox style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
 					</div>
-					<OrangeStripe
-						side="bottom"
-						style={{
-							transform: 'scaleY(1.28125)',
-							transformOrigin: 'bottom',
-						}}
-					/>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />

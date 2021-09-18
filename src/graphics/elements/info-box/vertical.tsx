@@ -64,7 +64,7 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate || ''} />
 			</VerticalStack>
 			<RunInfo.Category maxWidth={styles.maxTextWidth!} category={props.runData?.category || ''} />
-			<VerticalStack style={{ height: styles.gameStackHeight, width: '100%' }}>
+			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 20, width: '100%' }}>
 				<RunInfo.GameTitle maxWidth={styles.maxTextWidth!} game={props.runData?.game || ''} style={{ fontSize: styles.gameTitleSize }} />
 				<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
 					<RunInfo.System system={props.runData?.system || ''} style={{ fontSize: styles.gameInfoSize, zIndex: 2 }} />

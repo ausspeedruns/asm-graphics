@@ -6,9 +6,7 @@ import { OverlayProps } from '../../types/OverlayProps';
 import { VerticalInfo } from '../elements/info-box/vertical';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
-import { OrangeStripe } from '../elements/orange-stripe';
 import { Couch } from '../elements/couch';
-import { ASMBanner } from '../elements/asm-banner';
 import { useReplicant } from 'use-nodecg';
 import { AudioIndicator } from '../elements/audio-indicator';
 import { RaceFinish } from '../elements/race-finish';
@@ -23,13 +21,15 @@ const DS2Container = styled.div`
 const Sidebar = styled.div`
 	height: 1016px;
 	width: 564px;
-	border-right: 1px solid var(--asm-orange);
-	border-left: 1px solid var(--asm-orange);
+	border-right: 1px solid var(--pax-gold);
+	border-left: 1px solid var(--pax-gold);
 	overflow: hidden;
 `;
 
 const InfoBoxBG = styled.div`
-	background: var(--main-col);
+	background-image: url('../shared/design/contour-maps/standard.svg');
+	background-size: cover;
+	background-position: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -120,9 +120,7 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
-					<ASMBanner />
 					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
-					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</InfoBoxBG>
 			</Sidebar>
 		</DS2Container>

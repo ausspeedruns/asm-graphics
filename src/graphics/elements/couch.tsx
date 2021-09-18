@@ -4,25 +4,19 @@ import { useReplicant } from 'use-nodecg';
 import { CouchPerson } from '../../types/OverlayProps';
 
 const CouchContainer = styled.div`
-	font-family: Noto Sans;
+	font-family: National Park;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 `;
 
-const LineBorder = styled.div`
-	height: 4px;
-	flex-grow: 1;
-	background: var(--asm-orange);
-`;
-
 const MenuBar = styled.div`
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	width: 100%;
-	color: #ffffff;
-	font-style: italic;
-	font-size: 18px;
+	color: var(--text-col);
+	font-size: 25px;
 `;
 
 const PeopleContainer = styled.div`
@@ -49,9 +43,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 	return (
 		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar>
-				<LineBorder />
 				<div style={{ margin: '0 6px' }}>{props.couch.length > 0 ? 'Commentators' : 'Commentator'}</div>
-				<LineBorder />
 			</MenuBar>
 			<PeopleContainer>
 				{props.couch.map((person) => {
@@ -68,14 +60,14 @@ const PersonCompressedContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	padding: 8px;
-	color: #ffffff;
-	background: #202545;
-	font-size: 16px;
+	color: var(--text-col);
+	background: #251803;
+	font-size: 22px;
 	margin: 4px;
 `;
 
 const Pronouns = styled.div`
-	font-size: 12px;
+	font-size: 15px;
 	font-weight: lighter;
 	text-transform: uppercase;
 `;

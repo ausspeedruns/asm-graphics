@@ -17,8 +17,8 @@ import { Goal, War } from '../types/Incentives';
 const TickerContainer = styled.div`
 	height: 64px;
 	width: 1920px;
-	background: var(--sec-col);
-	font-family: Noto Sans;
+	background: #251803;
+	font-family: National Park;
 	display: flex;
 	justify-content: space-between;
 	overflow: hidden;
@@ -27,21 +27,23 @@ const TickerContainer = styled.div`
 const ASMLogo = styled.img`
 	height: 64px;
 	width: auto;
+	border-right: 6px solid #FFC629;
 `;
 
 const DonationArea = styled.div`
 	height: 100%;
 	width: fit-content;
 	float: right;
-	background: #ffffff;
+	background: #F2DAB2;
 	font-size: 37px;
 
 	display: flex;
 	align-items: center;
 	padding: 0 10px;
-	border-left: 6px solid var(--main-col);
-	color: var(--main-col);
+	border-left: 6px solid #FFC629;
+	color: #251803;
 	font-weight: bold;
+	font-family: Noto Sans;
 `;
 
 const ContentArea = styled.div`
@@ -55,7 +57,7 @@ const ContentArea = styled.div`
 `;
 
 const CharityLogo = styled.img`
-	height: 55px;
+	height: 45px;
 	width: auto;
 	margin-left: 10px;
 `;
@@ -143,7 +145,7 @@ export const Ticker: React.FC = () => {
 	return (
 		<TickerContainer>
 			<LeftBlock>
-				<ASMLogo src={require('./media/ASM-Gif.gif')} />
+				<ASMLogo src={'../shared/design/ASxPax.svg'} />
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={runDataActiveRep} runArray={runDataArrayRep} />
@@ -154,7 +156,7 @@ export const Ticker: React.FC = () => {
 			</ContentArea>
 			<DonationArea>
 				$<LerpNum value={donationRep} />
-				<CharityLogo src={require('./media/Sponsors/PSBB.png')} />
+				<CharityLogo src={'../shared/design/CureCancer.svg'} />
 			</DonationArea>
 		</TickerContainer>
 	);

@@ -6,8 +6,6 @@ import { OverlayProps } from '../../types/OverlayProps';
 import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
 import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
-import { ASMBanner } from '../elements/asm-banner';
-import { OrangeStripe } from '../elements/orange-stripe';
 import { Couch } from '../elements/couch';
 
 const GBCContainer = styled.div`
@@ -20,7 +18,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: 565px;
-	border-right: 1px solid var(--asm-orange);
+	border-right: 1px solid var(--pax-gold);
 	overflow: hidden;
 `;
 
@@ -29,9 +27,10 @@ const RightSidebar = styled.div`
 	right: 0;
 	height: 1016px;
 	width: 224px;
-	border-left: 1px solid var(--asm-orange);
+	border-left: 1px solid var(--pax-gold);
 	overflow: hidden;
-	background: var(--main-col);
+	background-image: url('../shared/design/contour-maps/standard.svg');
+	background-size: cover;
 `;
 
 const SponsorBoxStyle = styled(SponsorsBox)`
@@ -51,7 +50,9 @@ const TwitterSize = {
 };
 
 const InfoBoxBG = styled.div`
-	background: var(--main-col);
+	background-image: url('../shared/design/contour-maps/standard.svg');
+	background-size: cover;
+	background-position: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -74,14 +75,10 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
 					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
-					<ASMBanner />
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
-					<OrangeStripe side="bottom" style={{ width: '100%' }} />
 				</InfoBoxBG>
 			</Sidebar>
-			<RightSidebar>
-				<OrangeStripe side="left" style={{ position: 'absolute' }} />
-			</RightSidebar>
+			<RightSidebar/>
 		</GBCContainer>
 	);
 };

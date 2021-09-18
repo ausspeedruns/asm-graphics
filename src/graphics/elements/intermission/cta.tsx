@@ -48,7 +48,7 @@ export const InterCTA: React.FC<Props> = (props: Props) => {
 			<DonateText>
 				Donate at&nbsp;<b>ausspeedruns.com</b>
 			</DonateText>
-			<CharityLogo src={require('../../media/Sponsors/PSBB.png')} />
+			<CharityLogo src={'../shared/design/CureCancer.svg'} />
 			<Money>${Math.floor(donationRep || 10000).toLocaleString()}</Money>
 		</InterCTAContainer>
 	);

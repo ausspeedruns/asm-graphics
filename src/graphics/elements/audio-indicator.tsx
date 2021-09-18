@@ -13,8 +13,8 @@ const AudioIndicatorContainer = styled.div`
 const IconBGContainer = styled.div`
 	height: ${SIZE}px;
 	width: ${SIZE}px;
-	background: #ffffff;
-	color: #000000;
+	background: #F2DAB2;
+	color: #251803;
 	font-size: 30px;
 	display: flex;
 	justify-content: center;

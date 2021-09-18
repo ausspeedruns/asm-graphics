@@ -17,7 +17,7 @@ const TickerGoalsContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #F2DAB2;
 	font-size: 37px;
 	transform: translate(0, -64px);
 	overflow: hidden;

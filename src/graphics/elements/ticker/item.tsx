@@ -4,8 +4,8 @@ import styled from 'styled-components';
 const TickerItemContainer = styled.div`
 	height: 64px;
 	width: fit-content;
-	font-family: Noto Sans;
-	color: #ffffff;
+	font-family: National Park;
+	color: #F2DAB2;
 	display: flex;
 	align-items: center;
 `;
@@ -32,7 +32,7 @@ const Subtitle = styled.span`
 const BorderItem = styled.div`
 	height: 55px;
 	width: 2px;
-	background: var(--main-col);
+	background: #302414;
 `;
 
 interface Props {

@@ -14,7 +14,8 @@ const TickerCTAContainer = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #F2DAB2;
+	font-family: kulturista-web, sans-serif;
 	font-size: 37px;
 	transform: translate(0px, -64px);
 `;

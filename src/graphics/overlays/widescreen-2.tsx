@@ -4,7 +4,7 @@ import { useReplicant } from 'use-nodecg';
 // @ts-ignore
 // import Twemoji from 'react-twemoji';
 
-import { OverlayProps } from '../../types/OverlayProps';
+import { CouchPerson, OverlayProps } from '../../types/OverlayProps';
 
 import { SmallInfo, ISmallStyling } from '../elements/info-box/small';
 
@@ -12,7 +12,6 @@ import { SponsorsBox } from '../elements/sponsors';
 import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
-import { OrangeStripe } from '../elements/orange-stripe';
 import { PersonCompressed } from '../elements/couch';
 
 const Widescreen2Container = styled.div`
@@ -26,13 +25,13 @@ const Topbar = styled.div`
 	height: 341px;
 	width: 1920px;
 	overflow: hidden;
-	border-bottom: 1px solid var(--asm-orange);
+	border-bottom: 1px solid var(--pax-gold);
 `;
 
 const RightBox = styled.div`
 	width: 666px;
 	height: 100%;
-	background: var(--main-col);
+	background-image: url("../shared/design/contour-maps/widescreen-2-right.svg");
 	display: flex;
 	flex-direction: column;
 `;
@@ -54,7 +53,7 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 341px;
 	left: 959px;
-	background: var(--asm-orange);
+	background: var(--pax-gold);
 `;
 
 const BottomBlock = styled.div`
@@ -62,39 +61,43 @@ const BottomBlock = styled.div`
 	top: 881px;
 	height: 134px;
 	width: 1920px;
-	background: var(--main-col);
-	background-size: 37px;
-	background-blend-mode: hard-light;
-	border-bottom: 1px solid var(--asm-orange);
+	background-image: url("../shared/design/contour-maps/widescreen-2-bottom.svg");
+	border-bottom: 1px solid var(--pax-gold);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 `;
 
 const BespokeCouch = styled.div`
-	font-family: Noto Sans;
+	font-family: National Park;
 	display: flex;
 	align-items: center;
 `;
 
 const CouchLabel = styled.span`
-	color: #ffffff;
-	font-style: italic;
-	font-size: 20px;
-	margin-right: 4px;
+	color: #F2DAB2;
+	font-size: 40px;
+	margin-right: 8px;
 `;
 
 const customSmallStyling: ISmallStyling = {
+	gameTitleSize: 60,
+	gameTitleWidth: 640,
 	mainStyle: {
 		width: 666,
 		height: '100%',
+		backgroundImage: "url(../shared/design/contour-maps/widescreen-2-left.svg)",
 	},
 };
 
 export const Widescreen2: React.FC<OverlayProps> = (props) => {
 	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
+	const [currentHost] = useReplicant<CouchPerson, CouchPerson>('host', {
+		name: '',
+		pronouns: '',
+	});
 
 	const leftTeamID = props.runData?.teams[0]?.id || '';
 	const rightTeamID = props.runData?.teams[1]?.id || '';
@@ -154,8 +157,8 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 				<Facecam
 					width={588}
 					style={{
-						borderRight: '1px solid var(--asm-orange)',
-						borderLeft: '1px solid var(--asm-orange)',
+						borderRight: '1px solid var(--pax-gold)',
+						borderLeft: '1px solid var(--pax-gold)',
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams}
@@ -168,21 +171,13 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 
 				<RightBox>
 					<SponsorsBox style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
-					<OrangeStripe
-						side="bottom"
-						style={{
-							transform: 'scaleY(1.28125)',
-							transformOrigin: 'bottom',
-						}}
-					/>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />
 			<BottomBlock>
-				<OrangeStripe side="top" style={{ width: '100%' }} />
 				<BespokeCouch>
 					<CouchLabel>
-						{props.couchInformation.current.length > 1 ? 'Commentators' : 'Commentator'}
+						{props.couchInformation.current.length > 0 ? 'Commentators' : 'Commentator'}
 					</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
 					{props.preview
@@ -192,8 +187,8 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 						: props.couchInformation.current.map((person) => {
 								return <PersonCompressed person={person} />;
 						  })}
+					<PersonCompressed key={'Host'} person={currentHost} host />
 				</BespokeCouch>
-				<div />
 			</BottomBlock>
 		</Widescreen2Container>
 	);

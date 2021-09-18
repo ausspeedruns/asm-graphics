@@ -8,8 +8,8 @@ import { Timer } from '../timer';
 import * as RunInfo from '../run-info';
 
 const WideInfoContainer = styled.div`
-	background: var(--main-col);
-	border-bottom: 1px var(--asm-orange) solid;
+	background-image: url('../shared/design/contour-maps/widescreen-1-top.svg');
+	border-bottom: 1px var(--pax-gold) solid;
 	position: absolute;
 	height: 155px;
 	width: 1920px;
