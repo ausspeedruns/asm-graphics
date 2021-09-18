@@ -2,6 +2,7 @@ node_modules
 coverage
 bower_components
 .cache
+.parcel-cache
 .vscode
 /dashboard
 /graphics
