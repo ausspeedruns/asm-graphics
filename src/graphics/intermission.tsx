@@ -19,24 +19,22 @@ import {
 
 import { Sponsors } from './elements/sponsors';
 import { Tweet } from './elements/tweet';
-import { OrangeStripe } from './elements/orange-stripe';
-import Particles, { ParticlesProps } from 'react-particles-js';
 
 const IntermissionContainer = styled.div`
 	position: relative;
 	width: 1920px;
 	height: 1080px;
 	overflow: hidden;
-	font-family: Noto Sans;
-	background: var(--main-col);
+	font-family: National Park;
+	/* background: var(--main-col); */
 `;
 
 const NextRuns = styled.div`
-	color: #ffffff;
-	font-family: Noto Sans;
+	color: #F2DAB2;
+	font-family: National Park;
 	width: 560px;
 	height: 100%;
-	background: #202545;
+	background: #251803;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -61,11 +59,11 @@ const RunsList = styled.div`
 `;
 
 const IncentiveBlock = styled.div`
-	color: #ffffff;
-	font-family: Noto Sans;
+	color: #F2DAB2;
+	font-family: National Park;
 	width: 560px;
 	height: 100%;
-	background: #202545;
+	background: #251803;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -100,8 +98,8 @@ const Music = styled.div`
 
 const BottomBlock = styled.div`
 	position: absolute;
-	top: 325px;
-	height: 755px;
+	bottom: 0;
+	height: 710px;
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -117,7 +115,7 @@ const TweetBox = styled.div`
 
 const Time = styled.span`
 	font-style: italic;
-	color: #ffffff;
+	color: #F2DAB2;
 `;
 
 // const LocationBug = styled.div`
@@ -134,19 +132,19 @@ const Time = styled.span`
 
 const HostName = styled.div`
 	font-size: 28px;
-	color: #ffffff;
+	color: #F2DAB2;
 	display: flex;
 	align-items: center;
 `;
 
 const HostPronoun = styled.span`
 	font-size: 20px;
-	font-family: Work Sans, serif;
+	font-family: National Park;
 	font-weight: 400;
-	color: #ffffff;
+	color: #251803;
 	text-transform: uppercase;
 	margin-left: 8px;
-	background: var(--sec-col);
+	background: #FFC629;
 	height: 28px;
 	padding: 0 4px;
 	line-height: 28px;
@@ -154,7 +152,7 @@ const HostPronoun = styled.span`
 
 const MusicLabel = styled.div`
 	width: 410px;
-	color: #ffffff;
+	color: #F2DAB2;
 	font-size: 22px;
 	white-space: nowrap;
 	margin: 0 16px;
@@ -176,71 +174,30 @@ const BottomInfo = styled.div`
 `;
 
 const SocialMedia = styled.div`
-	height: 190px;
+	height: 255px;
 	width: 100%;
 	box-sizing: border-box;
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	justify-content: space-evenly;
 	align-items: center;
-	font-family: Noto Sans;
-	padding: 0 54px;
+	font-family: National Park;
 `;
 
 const SocialMediaItem = styled.div`
 	display: flex;
 	align-items: center;
+	width: 960px;
 	z-index: 2;
+	box-sizing: border-box;
+	padding: 0 30px;
 `;
 
 const SocialMediaLabel = styled.span`
-	color: #ffffff;
-	font-size: 35px;
-	margin-left: 10px;
+	color: #F2DAB2;
+	font-size: 46px;
+	margin: 0 10px;
 `;
-
-const ParticlesConfig: ParticlesProps['params'] = {
-	particles: {
-		number: {
-			value: 150,
-			density: {
-				enable: true,
-				value_area: 800,
-			},
-		},
-		color: {
-			value: '#CC7722',
-		},
-		shape: {
-			type: 'circle'
-		},
-		opacity: {
-			value: 0.5,
-			random: false,
-		},
-		size: {
-			value: 4,
-			random: true,
-		},
-		line_linked: {
-			enable: true,
-			distance: 160,
-			color: '#cc7722',
-			opacity: 0.4,
-			width: 1,
-		},
-		move: {
-			enable: true,
-			speed: 2,
-			direction: 'none',
-			random: false,
-			straight: false,
-			out_mode: 'out',
-			bounce: true,
-		},
-	},
-	retina_detect: false
-};
-
 interface IntermissionProps {
 	muted?: boolean;
 }
@@ -311,7 +268,7 @@ export const Intermission: React.FC<IntermissionProps> = (
 	);
 	const nextFiveRuns = clone(runDataArrayRep)
 		.slice(currentRunIndex + 1)
-		.slice(0, 6);
+		.slice(0, 5);
 
 	let NextRun;
 	if (nextFiveRuns.length !== 0) {
@@ -331,62 +288,64 @@ export const Intermission: React.FC<IntermissionProps> = (
 
 	return (
 		<IntermissionContainer>
-			<Particles
-				style={{ position: 'absolute', height: 1080, width: 1920, zIndex: 0, filter: 'blur(2px)' }}
-				params={ParticlesConfig}
-			/>
+			{/* <iframe width="1920" height="1080" frameBorder="0" src="https://www.shadertoy.com/embed/NdVGRw?gui=false&paused=false"></iframe> */}
 			<SocialMedia>
-				<SocialMediaItem>
-					<img
-						style={{ height: 70 }}
-						src={require('./media/twitter.png')}
-					/>
-					<SocialMediaLabel>@AusSpeedruns</SocialMediaLabel>
-				</SocialMediaItem>
-				<SocialMediaItem>
-					<img
-						style={{ height: 60, marginRight: 10 }}
-						src={require('./media/yt_icon_mono_dark.png')}
-					/>
-					<SocialMediaLabel>Australian Speedruns</SocialMediaLabel>
-				</SocialMediaItem>
-				<SocialMediaItem>
-					<img
-						style={{ height: 70 }}
-						src={require('./media/discord.png')}
-					/>
-					<SocialMediaLabel>
-						discord.ausspeedruns.com
-					</SocialMediaLabel>
-				</SocialMediaItem>
-				<SocialMediaLabel
-					style={{
-						fontSize: 60,
-						fontWeight: 'bold',
-						zIndex: 2,
-						color: '#ffffff',
-						textAlign: 'right',
-						marginLeft: 30,
-					}}>
-					#PAXxAusSpeedruns2021
-				</SocialMediaLabel>
-			</SocialMedia>
-			<InterCTA style={{ position: 'absolute', top: 190 }} />
-			<BottomBlock>
-				<div style={{ display: 'flex' }}>
-					<OrangeStripe side="right" />
-					<IncentiveBlock>
-						<b style={{ fontSize: 40, marginTop: 5 }}>Incentives</b>
-						<InterIncentives />
-					</IncentiveBlock>
-					<OrangeStripe side="left" />
+				<div style={{display: 'flex', width: '100%'}}>
+					<SocialMediaItem style={{justifyContent: 'flex-end'}}>
+						<SocialMediaLabel>@ AusSpeedruns</SocialMediaLabel>
+						<img
+							style={{ height: 70 }}
+							src={require('./media/twitter.svg')}
+						/>
+					</SocialMediaItem>
+					<SocialMediaItem style={{justifyContent: 'flex-start'}}>
+						<img
+							style={{ height: 70 }}
+							src={require('./media/youtube.svg')}
+						/>
+						<SocialMediaLabel>Australian Speedruns</SocialMediaLabel>
+					</SocialMediaItem>
 				</div>
+				<div style={{display: 'flex', width: '100%'}}>
+					<SocialMediaItem style={{justifyContent: 'flex-end'}}>
+						<SocialMediaLabel>
+							discord.ausspeedruns.com
+						</SocialMediaLabel>
+						<img
+							style={{ height: 70 }}
+							src={require('./media/discord.svg')}
+						/>
+					</SocialMediaItem>
+					<SocialMediaLabel
+						style={{
+							fontSize: 60,
+							fontWeight: 'bold',
+							zIndex: 2,
+							color: '#F2DAB2',
+							textAlign: 'right',
+							display: 'flex',
+							width: 960,
+							justifyContent: 'flex-start',
+							margin: 0,
+							paddingLeft: 30,
+							boxSizing: 'border-box'
+						}}>
+						#PAXxAusSpeedruns2021
+					</SocialMediaLabel>
+				</div>
+			</SocialMedia>
+			<InterCTA style={{ position: 'absolute', top: 255 }} />
+			<BottomBlock>
+				<IncentiveBlock>
+					<b style={{ fontSize: 40, marginTop: 5 }}>Incentives</b>
+					<InterIncentives />
+				</IncentiveBlock>
 				<MiddleContent>
 					<SponsorHolder
 						style={{ position: 'relative', alignItems: 'center' }}>
 						<SponsorImg
 							ref={asLogoRef}
-							src="../shared/design/AusSpeedruns-ASM2021-Combined.svg"
+							src="../shared/design/ASxPAX_Intermission.svg"
 						/>
 						<TweetBox ref={tweetRef}>
 							<Tweet
@@ -433,14 +392,12 @@ export const Intermission: React.FC<IntermissionProps> = (
 					</BottomInfo>
 				</MiddleContent>
 				<div style={{ display: 'flex' }}>
-					<OrangeStripe side="right" />
 					<NextRuns>
 						<b style={{ fontSize: 40, marginTop: 5 }}>Next Run</b>
 						{NextRun}
 						<b style={{ fontSize: 30, marginTop: 5 }}>Soon</b>
 						<RunsList>{RunsArray}</RunsList>
 					</NextRuns>
-					<OrangeStripe side="left" />
 				</div>
 			</BottomBlock>
 		</IntermissionContainer>

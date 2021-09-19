@@ -6,15 +6,13 @@ const InterCTAContainer = styled.div`
 	z-index: 2;
 	height: 115px;
 	width: 100%;
-	font-family: Noto Sans;
-	background: #FFFFFF;
+	font-family: kulturista-web, sans-serif;
+	background: #FFC629;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 54px;
-	color: var(--main-col);
-	border-top: 10px solid var(--asm-orange);
-	border-bottom: 10px solid var(--asm-orange);
+	color: #251803;
 `;
 
 const DonateText = styled.span`
@@ -32,6 +30,18 @@ const Money = styled.span`
 	font-size: 66px;
 	font-weight: bold;
 	margin-left: 16px;
+	font-family: Noto Sans;
+	z-index: 2;
+`;
+
+const LinesIMG = styled.img`
+	position: absolute;
+	left: 0;
+`;
+
+const CompassIMG = styled.img`
+	position: absolute;
+	right: 0;
 `;
 
 interface Props {
@@ -45,11 +55,13 @@ export const InterCTA: React.FC<Props> = (props: Props) => {
 
 	return (
 		<InterCTAContainer className={props.className} style={props.style}>
+			<LinesIMG src="../shared/design/CTA_Lines.svg" />
 			<DonateText>
 				Donate at&nbsp;<b>ausspeedruns.com</b>
 			</DonateText>
 			<CharityLogo src={'../shared/design/CureCancer.svg'} />
 			<Money>${Math.floor(donationRep || 10000).toLocaleString()}</Money>
+			<CompassIMG src="../shared/design/CTA_Compass.svg" />
 		</InterCTAContainer>
 	);
 };

@@ -8,8 +8,8 @@ import { RunData } from '../../../types/RunData';
 const InterNextRunItemContainer = styled.div`
 	height: 80px;
 	width: 100%;
-	font-family: Noto Sans;
-	background: var(--sec-col);
+	font-family: National Park;
+	background: #302414;
 	display: flex;
 `;
 
@@ -19,8 +19,8 @@ const Time = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: #000000;
-	background: #FFFFFF;
+	color: #251803;
+	background: #F2DAB2;
 `;
 
 const InfoBlock = styled.div`
@@ -29,7 +29,7 @@ const InfoBlock = styled.div`
 	flex-direction: column;
 	//align-items: center;
 	//justify-content: center;
-	color: #FFFFFF;
+	color: #F2DAB2;
 	padding: 5px 10px 5px 5px;
 `;
 
@@ -78,6 +78,11 @@ export const InterNextRunItem: React.FC<Props> = (props: Props) => {
 
 	const time = scheduleTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
+	let correctedEstimate = props.run.estimate || '';
+	if (correctedEstimate[0] === "0") {
+		correctedEstimate = correctedEstimate.substring(1);
+	}
+
 	return (
 		<InterNextRunItemContainer>
 			<Time>{time === 'Invalid Date' ? '--:--' : time}</Time>
@@ -87,7 +92,7 @@ export const InterNextRunItem: React.FC<Props> = (props: Props) => {
 					{/* <System>{props.run.system}</System> */}
 					<span style={{ fontSize: 25 }}>
 						<span style={{ fontSize: 14 }}>EST </span>
-						{props.run.estimate}
+						{correctedEstimate}
 					</span>
 				</TopText>
 				<TopText style={{ fontSize: 18, marginTop: 5 }}>
@@ -100,7 +105,7 @@ export const InterNextRunItem: React.FC<Props> = (props: Props) => {
 };
 
 const EndRunCont = styled.div`
-	color: #ffffff;
+	color: #F2DAB2;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -113,7 +118,7 @@ export const EndRunItem: React.FC = () => {
 		<EndRunCont>
 			<span>The End</span>
 			<span>
-				<b>Thank you for watching PAXxAusSpeedruns2021!</b>
+				<b>Thank you for watching PAX x AusSpeedruns 2021!</b>
 			</span>
 		</EndRunCont>
 	);
