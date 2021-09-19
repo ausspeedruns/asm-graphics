@@ -55,6 +55,7 @@ const CentralDivider = styled.div`
 `;
 
 const customSmallStyling: ISmallStyling = {
+	categoryWidth: 320,
 	mainStyle: {
 		height: '100%',
 		width: 666,

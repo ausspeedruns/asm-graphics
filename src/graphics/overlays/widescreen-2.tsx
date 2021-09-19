@@ -85,6 +85,7 @@ const CouchLabel = styled.span`
 const customSmallStyling: ISmallStyling = {
 	gameTitleSize: 60,
 	gameTitleWidth: 640,
+	categoryWidth: 320,
 	mainStyle: {
 		width: 666,
 		height: '100%',
