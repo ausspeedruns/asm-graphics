@@ -17,7 +17,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: 395px;
-	border-right: 1px solid var(--asm-orange);
+	border-right: 1px solid var(--pax-gold);
 	overflow: hidden;
 `;
 

@@ -19,7 +19,6 @@ const Sidebar = styled.div`
 	height: 863px;
 	width: 390px;
 	border-right: 1px solid var(--pax-gold);
-	/* border-top: 1px solid var(--asm-orange); */
 `;
 
 const SidebarBG = styled.div`

@@ -124,8 +124,8 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 					width={586}
 					maxNameWidth={190}
 					style={{
-						borderRight: '1px solid var(--asm-orange)',
-						borderLeft: '1px solid var(--asm-orange)',
+						borderRight: '1px solid #FFC629',
+						borderLeft: '1px solid #FFC629',
 					}}
 					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}

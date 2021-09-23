@@ -19,8 +19,7 @@ const Sidebar = styled.div`
 	top: 175px;
 	height: 841px;
 	width: 517px;
-	border-right: 1px solid var(--asm-orange);
-	/* border-top: 1px solid var(--asm-orange); */
+	border-right: 1px solid #FFC629;
 `;
 
 const customWideStyle: IWideStyling = {
@@ -55,7 +54,7 @@ export const ThreeDS: React.FC<OverlayProps> = (props) => {
 					<OrangeStripe side="bottom" />
 				</div>
 				<Facecam
-					style={{ borderBottom: '1px solid var(--asm-orange)' }}
+					style={{ borderBottom: '1px solid #FFC629' }}
 					maxNameWidth={270}
 					height={41}
 					teams={props.runData?.teams}

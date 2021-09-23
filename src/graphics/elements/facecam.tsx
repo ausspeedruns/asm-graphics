@@ -76,7 +76,7 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 						<div
 							key={id + '-divider'}
 							style={{
-								background: 'var(--asm-orange)',
+								background: '#FFC629',
 								minWidth: 2,
 								height: 41,
 							}}
@@ -104,7 +104,7 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 				<div
 					key={player.id + '-divider'}
 					style={{
-						background: 'var(--asm-orange)',
+						background: 'var(--pax-gold)',
 						minWidth: 2,
 						height: 41,
 					}}
