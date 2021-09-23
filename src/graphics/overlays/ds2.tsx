@@ -16,6 +16,7 @@ const DS2Container = styled.div`
 	width: 1920px;
 	display: flex;
 	justify-content: center;
+	position: relative;
 `;
 
 const Sidebar = styled.div`
@@ -113,7 +114,7 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 					style={{
 						position: 'absolute',
 						top: 270,
-						right: 661,
+						right: 678,
 						zIndex: 2,
 					}}
 				/>
