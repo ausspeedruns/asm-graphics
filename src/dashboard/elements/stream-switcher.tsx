@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 import { Stream } from '../../types/Streams';
 
-import { Button, ButtonGroup, SvgIcon } from '@material-ui/core';
+// import { Button, ButtonGroup, SvgIcon } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
+import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 
 // @ts-ignore
 import Widescreen from '../media/Widescreen.svg';
@@ -18,6 +19,11 @@ const StreamEl = styled.div`
 	justify-content: space-evenly;
 	align-items: center;
 	margin: 4px 0;
+`;
+
+const StreamIcon = styled.img`
+	/* height: 40px;
+	width: auto; */
 `;
 
 interface StreamSwitcherProps {
@@ -52,52 +58,42 @@ const StreamSizeSelection: React.FC<SizeSelection> = (props: SizeSelection) => {
 			// setDisabled(false);
 		} else {
 			// setDisabled(props.currentStreams[index].state === 'live'); // Disable if they are live so they can't be changed
-			setSize(props.currentStreams[index].size[0].toUpperCase());
+			setSize(props.currentStreams[index].size);
 		}
 	}, [props.channel, props.currentStreams]);
 
-	function updateSize(size: 'left' | 'right' | 'whole') {
+	function updateSize(size: 'left' | 'right' | 'whole' | 'X') {
+		if (size === 'X') {
+			nodecg.sendMessage('removeTwitchStream', props.channel);
+			return;
+		}
+
 		const streamObj: Stream = { channel: props.channel, size: size, state: 'preview' };
 		nodecg.sendMessage('newTwitchStream', streamObj);
 	}
 
-	const removeStream = () => {
-		setSize('X');
-		nodecg.sendMessage('removeTwitchStream', props.channel);
-	};
+	const handleChange = (_e: React.MouseEvent<HTMLElement, MouseEvent>, v: any) => {
+		updateSize(v);
+	}
 
 	return (
 		<StreamEl>
 			<span>{props.displayName}</span>
-			<ButtonGroup>
-				<Button onClick={removeStream} variant={size === 'X' ? 'contained' : 'outlined'}>
+			
+			<ToggleButtonGroup size="small" value={size} exclusive onChange={handleChange}>
+				<ToggleButton size="small" value="X">
 					<Close />
-				</Button>
-				<Button
-					variant={size === 'L' ? 'contained' : 'outlined'}
-					onClick={() => {
-						setSize('L');
-						updateSize('left');
-					}}>
-					<SvgIcon viewBox="0 0 50 28" component={Left} />
-				</Button>
-				<Button
-					variant={size === 'W' ? 'contained' : 'outlined'}
-					onClick={() => {
-						setSize('W');
-						updateSize('whole');
-					}}>
-					<SvgIcon viewBox="0 0 50 28" component={Widescreen} />
-				</Button>
-				<Button
-					variant={size === 'R' ? 'contained' : 'outlined'}
-					onClick={() => {
-						setSize('R');
-						updateSize('right');
-					}}>
-					<SvgIcon viewBox="0 0 50 28" component={Right} />
-				</Button>
-			</ButtonGroup>
+				</ToggleButton>
+				<ToggleButton size="small" value="left">
+					<StreamIcon src={Left} />
+				</ToggleButton>
+				<ToggleButton size="small" value="whole">
+					<StreamIcon src={Widescreen} />
+				</ToggleButton>
+				<ToggleButton size="small" value="right">
+					<StreamIcon src={Right} />
+				</ToggleButton>
+			</ToggleButtonGroup>
 		</StreamEl>
 	);
 };
