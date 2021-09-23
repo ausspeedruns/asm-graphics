@@ -10,7 +10,6 @@ import { Config } from '../types/ConfigSchema';
 
 import {
 	ThemeProvider,
-	Switch,
 	FormControlLabel,
 	Radio,
 	FormControl,
@@ -36,21 +35,10 @@ import {
 	OpenInNew,
 } from '@material-ui/icons';
 import { darkTheme } from './theme';
-// import { GameplayRouterParent } from '../graphics/gameplay-overlay';
 import { ASMStream } from '../graphics/elements/individual-stream';
 import { StreamSwitcher } from './elements/stream-switcher';
 import { StreamAudio } from './elements/stream-audio';
 import { RunData } from '../types/RunData';
-
-const GreenSwitch = styled(Switch)`
-	.MuiSwitch-colorPrimary.Mui-checked {
-		color: #4caf50;
-	}
-
-	.MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
-		background-color: #4caf50;
-	}
-`;
 
 const SideTitle = styled.span`
 	font-weight: bold;
@@ -91,6 +79,10 @@ const VFlex = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+`;
+
+const OBSIndicator = styled.span`
+	height: 36px;
 `;
 
 const DashOBS: React.FC = () => {
@@ -172,16 +164,6 @@ const DashOBS: React.FC = () => {
 	});
 
 	/* FUNCTIONS */
-	const handleOBSConnection = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		if (event.target.checked) {
-			nodecg.sendMessage('connectOBS');
-		} else {
-			nodecg.sendMessage('disconnectOBS');
-		}
-	};
-
 	const previewOverlayChange = (
 		event: React.ChangeEvent<{ value: unknown }>,
 	) => {
@@ -204,16 +186,7 @@ const DashOBS: React.FC = () => {
 		<ThemeProvider theme={darkTheme}>
 			<Flex>
 				<VFlex>
-					<FormControlLabel
-						control={
-							<GreenSwitch
-								color="primary"
-								checked={connectionRep}
-								onChange={handleOBSConnection}
-							/>
-						}
-						label="OBS Connection"
-					/>
+					{connectionRep ? <OBSIndicator style={{color: '#4caf50'}}>OBS Connected</OBSIndicator> : <OBSIndicator style={{color: 'red', fontWeight: 'bolder'}}>OBS NOT CONNECTED!!!!!!</OBSIndicator>}
 					<SideTitle
 						style={{ cursor: 'pointer' }}
 						onClick={() =>
@@ -281,13 +254,13 @@ const DashOBS: React.FC = () => {
 						<Button
 							variant="contained"
 							onClick={gameplayTransition}
-							disabled={currentSceneRep === 'Game Overlay'}>
+							disabled={currentSceneRep === 'Game Overlay' || !connectionRep}>
 							Transition
 						</Button>
 						<Button
 							variant="contained"
 							onClick={goToIntermission}
-							disabled={currentSceneRep === 'Intermission'}>
+							disabled={currentSceneRep === 'Intermission' || !connectionRep}>
 							Intermission
 						</Button>
 					</ButtonGroup>
