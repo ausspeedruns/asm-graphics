@@ -13,13 +13,12 @@ import { darkTheme } from './theme';
 const GreenButton = styled(Button)`
 	background-color: #4caf50 !important;
 	color: #fff !important;
-	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-		0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		background-color: #00e676 !important;
-		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-			0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 	}
 
@@ -33,13 +32,12 @@ const GreenButton = styled(Button)`
 const RedButton = styled(Button)`
 	background-color: #f44336 !important;
 	min-width: 0px !important;
-	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-		0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		background-color: #ff5252 !important;
-		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-			0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 	}
 `;
@@ -60,53 +58,49 @@ const TextfieldStyled = styled(TextField)`
 	}
 `;
 
+const LiveOverlay = styled.div`
+	background: #000000a4;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 2;
+	border-radius: 4px;
+`;
+
 export const DashCouch: React.FC = () => {
 	const [localPreviewHostName, setLocalPreviewHostName] = useState('');
 	const [localPreviewPronoun, setLocalPreviewPronoun] = useState('');
 	const [localHostName, setLocalHostName] = useState('');
 	const [localHostPronoun, setLocalHostPronoun] = useState('');
-	const [couchNamesRep] = useReplicant<CouchInformation, CouchInformation>(
-		'couch-names',
-		{ current: [], preview: [] },
-	);
-	const [noCamsRep] = useReplicant<NoCam, NoCam>(
-		'no-cam',
-		{ current: false, preview: false },
-	);
-	
+	const [couchNamesRep] = useReplicant<CouchInformation, CouchInformation>('couch-names', {
+		current: [],
+		preview: [],
+	});
+	const [noCamsRep] = useReplicant<NoCam, NoCam>('no-cam', { current: false, preview: false });
+	const [editLive, setEditLive] = useState(false);
+
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocalHostName(event.target.value);
 	};
 
-	const handlePronounChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handlePronounChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocalHostPronoun(event.target.value);
 	};
 
-	const handlePreviewNameChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handlePreviewNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocalPreviewHostName(event.target.value);
 	};
 
-	const handlePreviewPronounChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handlePreviewPronounChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocalPreviewPronoun(event.target.value);
 	};
 
 	const addHost = () => {
 		let newNamesArray: CouchPerson[];
 		if (couchNamesRep.current.length > 0) {
-			newNamesArray = [
-				...couchNamesRep.current,
-				{ name: localHostName, pronouns: localHostPronoun },
-			];
+			newNamesArray = [...couchNamesRep.current, { name: localHostName, pronouns: localHostPronoun }];
 		} else {
-			newNamesArray = [
-				{ name: localHostName, pronouns: localHostPronoun },
-			];
+			newNamesArray = [{ name: localHostName, pronouns: localHostPronoun }];
 		}
 
 		nodecg.sendMessage('update-hostnames', newNamesArray);
@@ -118,14 +112,9 @@ export const DashCouch: React.FC = () => {
 	const addPreviewHost = () => {
 		let newNamesArray: CouchPerson[];
 		if (couchNamesRep.preview.length > 0) {
-			newNamesArray = [
-				...couchNamesRep.preview,
-				{ name: localPreviewHostName, pronouns: localPreviewPronoun },
-			];
+			newNamesArray = [...couchNamesRep.preview, { name: localPreviewHostName, pronouns: localPreviewPronoun }];
 		} else {
-			newNamesArray = [
-				{ name: localPreviewHostName, pronouns: localPreviewPronoun },
-			];
+			newNamesArray = [{ name: localPreviewHostName, pronouns: localPreviewPronoun }];
 		}
 
 		nodecg.sendMessage('update-preview-hostnames', newNamesArray);
@@ -139,14 +128,12 @@ export const DashCouch: React.FC = () => {
 	});
 
 	const previewHostName = couchNamesRep.preview.map((person, index) => {
-		return (
-			<HostComponent person={person} index={index} key={index} preview />
-		);
+		return <HostComponent person={person} index={index} key={index} preview />;
 	});
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			Preview
+			Next Run
 			<div>
 				<TextfieldStyled
 					fullWidth
@@ -162,25 +149,21 @@ export const DashCouch: React.FC = () => {
 					value={localPreviewPronoun}
 					onChange={handlePreviewPronounChange}
 				/>
-				<Button onClick={() => setLocalPreviewPronoun('He/Him')}>
-					He/Him
-				</Button>
-				<Button onClick={() => setLocalPreviewPronoun('She/Her')}>
-					She/Her
-				</Button>
-				<Button onClick={() => setLocalPreviewPronoun('They/Them')}>
-					They/Them
-				</Button>
+				<Button onClick={() => setLocalPreviewPronoun('He/Him')}>He/Him</Button>
+				<Button onClick={() => setLocalPreviewPronoun('She/Her')}>She/Her</Button>
+				<Button onClick={() => setLocalPreviewPronoun('They/Them')}>They/Them</Button>
 			</div>
-			<GreenButton
-				fullWidth
-				startIcon={<Add />}
-				onClick={addPreviewHost}
-				disabled={localPreviewHostName === ''}>
+			<GreenButton fullWidth startIcon={<Add />} onClick={addPreviewHost} disabled={localPreviewHostName === ''}>
 				Add Host
 			</GreenButton>
 			<FormControlLabel
-				control={<Checkbox color="primary" value={noCamsRep.preview} onChange={(e) => nodecg.sendMessage('no-cam-preview', e.target.checked)} />}
+				control={
+					<Checkbox
+						color="primary"
+						value={noCamsRep.preview}
+						onChange={(e) => nodecg.sendMessage('no-cam-preview', e.target.checked)}
+					/>
+				}
 				label="No runner cam?"
 				labelPlacement="start"
 			/>
@@ -194,54 +177,53 @@ export const DashCouch: React.FC = () => {
 				{previewHostName}
 			</div>
 			<hr />
-			Live
-			<div>
-				<TextfieldStyled
-					fullWidth
-					label="Live Host"
-					value={localHostName}
-					onChange={handleChange}
+			<div style={{ position: 'relative' }}>
+				{!editLive && <LiveOverlay />}
+				<div style={{display: 'flex', justifyContent: 'space-between'}}>
+					Live
+					<Button variant="contained" style={{zIndex: 3}} onClick={() => { setEditLive(!editLive) }}>{editLive ? 'Finish' : 'Edit'}</Button>
+				</div>
+				<div>
+					<TextfieldStyled fullWidth label="Live Host" value={localHostName} onChange={handleChange} disabled={!editLive} />
+				</div>
+				<div style={{ display: 'flex' }}>
+					<TextfieldStyled
+						style={{ flexShrink: 1 }}
+						label="Pronouns"
+						value={localHostPronoun}
+						onChange={handlePronounChange}
+						disabled={!editLive}
+					/>
+					<Button onClick={() => setLocalHostPronoun('He/Him')} disabled={!editLive}>He/Him</Button>
+					<Button onClick={() => setLocalHostPronoun('She/Her')} disabled={!editLive}>She/Her</Button>
+					<Button onClick={() => setLocalHostPronoun('They/Them')} disabled={!editLive}>They/Them</Button>
+				</div>
+				<div>
+					<GreenButton fullWidth startIcon={<Add />} onClick={addHost} disabled={localHostName === '' || !editLive}>
+						Add Host
+					</GreenButton>
+				</div>
+				<FormControlLabel
+					control={
+						<Checkbox
+							color="primary"
+							value={noCamsRep.current}
+							onChange={(e) => nodecg.sendMessage('no-cam-current', e.target.checked)}
+						/>
+					}
+					label="No runner cam?"
+					labelPlacement="start"
+					disabled={!editLive}
 				/>
-			</div>
-			<div style={{ display: 'flex' }}>
-				<TextfieldStyled
-					style={{ flexShrink: 1 }}
-					label="Pronouns"
-					value={localHostPronoun}
-					onChange={handlePronounChange}
-				/>
-				<Button onClick={() => setLocalHostPronoun('He/Him')}>
-					He/Him
-				</Button>
-				<Button onClick={() => setLocalHostPronoun('She/Her')}>
-					She/Her
-				</Button>
-				<Button onClick={() => setLocalHostPronoun('They/Them')}>
-					They/Them
-				</Button>
-			</div>
-			<div>
-				<GreenButton
-					fullWidth
-					startIcon={<Add />}
-					onClick={addHost}
-					disabled={localHostName === ''}>
-					Add Host
-				</GreenButton>
-			</div>
-			<FormControlLabel
-				control={<Checkbox color="primary" value={noCamsRep.current} onChange={(e) => nodecg.sendMessage('no-cam-current', e.target.checked)} />}
-				label="No runner cam?"
-				labelPlacement="start"
-			/>
-			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					gap: 5,
-					marginTop: 5,
-				}}>
-				{allHostNames}
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						gap: 5,
+						marginTop: 5,
+					}}>
+					{allHostNames}
+				</div>
 			</div>
 		</ThemeProvider>
 	);
@@ -271,9 +253,7 @@ interface HostComponentProps {
 	preview?: boolean;
 }
 
-const HostComponent: React.FC<HostComponentProps> = (
-	props: HostComponentProps,
-) => {
+const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) => {
 	const removeName = () => {
 		if (props.preview) {
 			nodecg.sendMessage('remove-preview-hostname', props.index);
@@ -292,11 +272,7 @@ const HostComponent: React.FC<HostComponentProps> = (
 		<HostComponentContainer>
 			{/* <TextfieldStyled value={props.name} onChange={updateName} /> */}
 			<HostName>
-				{props.person.name === ' ' ? (
-					<i style={{ fontWeight: 'lighter' }}>No Host</i>
-				) : (
-					props.person.name
-				)}
+				{props.person.name === ' ' ? <i style={{ fontWeight: 'lighter' }}>No Host</i> : props.person.name}
 			</HostName>
 			<Pronoun>{props.person.pronouns}</Pronoun>
 			<RedButton style={{ float: 'right' }} onClick={removeName}>
