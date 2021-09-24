@@ -25,6 +25,9 @@ interface FacecamProps {
 	height?: number;
 	width?: number;
 	maxNameWidth?: number;
+	dontAlternatePronouns?: boolean;
+	pronounStartSide?: 'left' | 'right';
+	icons?: React.ReactNode[];
 	className?: string;
 	style?: React.CSSProperties;
 }
@@ -34,14 +37,15 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 
 	let allRunnerNames: JSX.Element[];
 	if (props.teams.length > 1) {
-		let alternatingPronounSides = false;
+		let alternatingPronounSides = props.pronounStartSide === 'left';
 		allRunnerNames = [];
-		props.teams.forEach((team) => {
+		props.teams.forEach((team, i) => {
 			let id = 'a';
 			if (team.name) {
 				id = team.id;
 				allRunnerNames.push(
 					<Nameplate
+						icon={props.icons ? props.icons[i] : undefined}
 						maxWidth={props.maxNameWidth}
 						player={{
 							id: team.id,
@@ -58,11 +62,15 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 					/>,
 				);
 			} else {
-				team.players.forEach((player) => {
+				team.players.forEach((player, i) => {
 					id = player.id;
-					alternatingPronounSides = !alternatingPronounSides;
+					alternatingPronounSides = !alternatingPronounSides;	
+					if (props.dontAlternatePronouns) {
+						alternatingPronounSides = props.pronounStartSide === 'left';
+					}
 					allRunnerNames.push(
 						<Nameplate
+							icon={props.icons ? props.icons[i] : undefined}
 							maxWidth={props.maxNameWidth}
 							player={player}
 							nameplateLeft={alternatingPronounSides}
@@ -88,12 +96,16 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 
 		allRunnerNames.pop();
 	} else {
-		let alternatingPronounSides = false;
+		let alternatingPronounSides = props.pronounStartSide === 'left';
 		allRunnerNames = [];
-		props.teams[0].players.forEach((player) => {
+		props.teams[0].players.forEach((player, i) => {
 			alternatingPronounSides = !alternatingPronounSides;
+			if (props.dontAlternatePronouns) {
+				alternatingPronounSides = props.pronounStartSide === 'left';
+			}
 			allRunnerNames.push(
 				<Nameplate
+					icon={props.icons ? props.icons[i] : undefined}
 					nameplateLeft={alternatingPronounSides}
 					maxWidth={props.maxNameWidth}
 					key={player.id}

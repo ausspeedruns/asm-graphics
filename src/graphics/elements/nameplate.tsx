@@ -60,6 +60,7 @@ interface Props {
 	player: RunDataPlayer;
 	nameplateLeft?: boolean;
 	maxWidth?: number;
+	icon?: React.ReactNode;
 	style?: React.CSSProperties;
 	className?: string;
 }
@@ -94,6 +95,7 @@ export const Nameplate: React.FC<Props> = (props: Props) => {
 
 	return (
 		<NameplateContainer style={props.style} className={props.className} nameplateLeft={props.nameplateLeft}>
+			{props.icon}
 			<Names>
 				<div ref={normalNameEl} style={{ opacity: sameNameAndTwitch ? 0 : 1 }}>
 					<NormalName style={{ maxWidth: props.maxWidth }} text={props.player.name} />

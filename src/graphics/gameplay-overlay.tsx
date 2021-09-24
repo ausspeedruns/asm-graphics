@@ -15,6 +15,7 @@ import { Standard } from './overlays/standard';
 import { Standard2 } from './overlays/standard-2';
 import { Widescreen } from './overlays/widescreen';
 import { Widescreen2 } from './overlays/widescreen-2';
+import { Widescreen3 } from './overlays/widescreen-3';
 import { Widescreen1610 } from './overlays/widescreen16-10';
 import { DS } from './overlays/ds';
 import { GBA } from './overlays/gba';
@@ -90,6 +91,10 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 		{
 			component: <Widescreen2 runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
 			name: 'Widescreen-2',
+		},
+		{
+			component: <Widescreen3 runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
+			name: 'Widescreen-3',
 		},
 		{
 			component: <Widescreen1610 runData={displayingRun} timer={timerRep} couchInformation={hostNamesRep} preview={props.preview} noCam={noCamRep} />,
