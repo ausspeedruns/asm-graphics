@@ -56,7 +56,7 @@ interface Props {
 
 export const VerticalInfo: React.FC<Props> = (props: Props) => {
 	const styles = {...DefaultVerticalStyling, ...props.style};
-	console.log(styles)
+
 	return (
 		<VerticalInfoContainer className={props.className} style={styles.mainStyle}>
 			<VerticalStack style={{ height: styles.timerStackHeight }}>

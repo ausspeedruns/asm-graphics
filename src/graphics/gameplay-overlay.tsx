@@ -68,7 +68,7 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 	const history = useHistory();
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	
-	console.log(displayingRun)
+	// console.log(displayingRun)
 
 	const Overlays = [
 		{
