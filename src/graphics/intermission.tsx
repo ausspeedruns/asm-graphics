@@ -295,13 +295,13 @@ export const Intermission: React.FC<IntermissionProps> = (
 						<SocialMediaLabel>@ AusSpeedruns</SocialMediaLabel>
 						<img
 							style={{ height: 70 }}
-							src={require('./media/twitter.svg')}
+							src={require('url:./media/twitter.svg')}
 						/>
 					</SocialMediaItem>
 					<SocialMediaItem style={{justifyContent: 'flex-start'}}>
 						<img
 							style={{ height: 70 }}
-							src={require('./media/youtube.svg')}
+							src={require('url:./media/youtube.svg')}
 						/>
 						<SocialMediaLabel>Australian Speedruns</SocialMediaLabel>
 					</SocialMediaItem>
@@ -313,7 +313,7 @@ export const Intermission: React.FC<IntermissionProps> = (
 						</SocialMediaLabel>
 						<img
 							style={{ height: 70 }}
-							src={require('./media/discord.svg')}
+							src={require('url:./media/discord.svg')}
 						/>
 					</SocialMediaItem>
 					<SocialMediaLabel

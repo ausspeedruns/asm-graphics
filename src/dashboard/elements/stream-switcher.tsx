@@ -8,11 +8,11 @@ import { Close } from '@material-ui/icons';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 
 // @ts-ignore
-import Widescreen from '../media/Widescreen.svg';
+import Widescreen from 'url:../media/Widescreen.svg';
 // @ts-ignore
-import Left from '../media/Left.svg';
+import Left from 'url:../media/Left.svg';
 // @ts-ignore
-import Right from '../media/Right.svg';
+import Right from 'url:../media/Right.svg';
 
 const StreamEl = styled.div`
 	display: flex;

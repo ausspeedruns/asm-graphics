@@ -157,9 +157,9 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 						pronounStartSide="right"
 						teams={props.runData?.teams}
 						icons={[
-							<NPIcon src={require('../media/Widescreen-3-BL.svg')} />,
-							<NPIcon src={require('../media/Widescreen-3-TL.svg')} />,
-							<NPIcon src={require('../media/Widescreen-3-TR.svg')} />,
+							<NPIcon src={require('url:../media/Widescreen-3-BL.svg')} />,
+							<NPIcon src={require('url:../media/Widescreen-3-TL.svg')} />,
+							<NPIcon src={require('url:../media/Widescreen-3-TR.svg')} />,
 						]}
 					/>
 					<InfoBox>
