@@ -60,7 +60,7 @@ function getNewToken(oAuth2Client: OAuth2Client) {
 		scope: SCOPES,
 	});
 
-	nodecg.log.info('Authorize this app by visiting this url:', authUrl);
+	nodecg.log.info('Authorize this app by visiting this ', authUrl);
 	// const rl = readline.createInterface({
 	// 	input: process.stdin,
 	// 	output: process.stdout,
