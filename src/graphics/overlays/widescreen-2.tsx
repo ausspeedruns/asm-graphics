@@ -59,10 +59,12 @@ const CentralDivider = styled.div`
 const BottomBlock = styled.div`
 	position: absolute;
 	top: 881px;
-	height: 134px;
+	height: 135px;
 	width: 1920px;
 	background-image: url("../shared/design/contour-maps/widescreen-2-bottom.svg");
 	border-bottom: 1px solid var(--pax-gold);
+	border-top: 1px solid var(--pax-gold);
+	box-sizing: border-box;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;

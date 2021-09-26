@@ -16,7 +16,7 @@ const WHGContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 423px;
+	width: 424px;
 	box-sizing: border-box;
 	border-right: 1px solid var(--pax-gold);
 	overflow: hidden;
@@ -51,6 +51,7 @@ const TwitterSize = {
 
 const customVerticalStyle: IVerticalStyling = {
 	maxTextWidth: 400,
+	timerSize: 80
 };
 
 // World's Hardest Game (11:8)

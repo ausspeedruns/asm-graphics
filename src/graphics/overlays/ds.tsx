@@ -14,7 +14,7 @@ const DSContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 564px;
+	width: 565px;
 	border-right: 1px solid var(--pax-gold);
 	overflow: hidden;
 `;
@@ -22,12 +22,13 @@ const Sidebar = styled.div`
 const DSSecondScreen = styled.div`
 	width: 564px;
 	height: 423px;
-	border-bottom: 1px solid var(--pax-gold);
+	border-top: 1px solid var(--pax-gold);
 `;
 
 const customSmallStyle: ISmallStyling = {
 	mainStyle: {
 		backgroundImage: "url(../shared/design/contour-maps/ds.svg)",
+		height: 239,
 	}
 }
 

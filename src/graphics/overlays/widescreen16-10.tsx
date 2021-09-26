@@ -18,7 +18,7 @@ const Sidebar = styled.div`
 	top: 143px;
 	height: 873px;
 	width: 523px;
-	border-right: 1px solid var(--pax-orange);
+	border-right: 1px solid var(--pax-gold);
 
 	display: flex;
 	flex-direction: column;
