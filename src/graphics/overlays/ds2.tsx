@@ -91,6 +91,16 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 		return 4;
 	}
 
+	let currentAudio = -1;
+
+	if (props.runData?.teams) {
+		if (props.runData.teams.length > 1) {
+			currentAudio = props.runData.teams.findIndex(team => audioIndicatorRep === team.id);
+		} else {
+			currentAudio = props.runData.teams[0].players.findIndex(player => audioIndicatorRep === player.id);
+		}
+	}
+
 	return (
 		<DS2Container>
 			<Sidebar>
@@ -104,12 +114,12 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 				<RaceFinish style={{ top: 276, left: 960 }} time={rightTeamTime} place={rightTeamPlace} />
 
 				<AudioIndicator
-					active={audioIndicatorRep === (props.runData?.teams[0]?.id || '')}
+					active={currentAudio === 0}
 					side="top"
 					style={{ position: 'absolute', top: 270, left: 678 }}
 				/>
 				<AudioIndicator
-					active={audioIndicatorRep === (props.runData?.teams[1]?.id || '')}
+					active={currentAudio === 1}
 					side="top"
 					style={{
 						position: 'absolute',

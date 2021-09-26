@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-// import { useReplicant } from 'use-nodecg';
+import { useReplicant } from 'use-nodecg';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
-// import { AudioIndicator } from '../elements/audio-indicator';
+import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 // import { RaceFinish } from '../elements/race-finish';
 
@@ -102,8 +102,17 @@ const InfoBoxCell = styled.div`
 	align-items: center;
 `;
 
+const WideAudioIndicator = styled(AudioIndicator)`
+	position: absolute;
+	top: 753px;
+
+	& > div {
+		width: 50px;
+	}
+`;
+
 export const Widescreen3: React.FC<OverlayProps> = (props) => {
-	// const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
+	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
 
 	// const leftTeamID = props.runData?.teams[0]?.id || '';
 	// const rightTeamID = props.runData?.teams[1]?.id || '';
@@ -139,8 +148,33 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 	// 	return 4;
 	// }
 
+	let currentAudio = -1;
+
+	if (props.runData?.teams) {
+		if (props.runData.teams.length > 1) {
+			currentAudio = props.runData.teams.findIndex((team) => audioIndicatorRep === team.id);
+		} else {
+			currentAudio = props.runData.teams[0].players.findIndex((player) => audioIndicatorRep === player.id);
+		}
+	}
+
 	return (
 		<Widescreen3Container>
+			<WideAudioIndicator
+				active={currentAudio === 0}
+				side="top"
+				style={{ left: 961 }}
+			/>
+			<WideAudioIndicator
+				active={currentAudio === 1}
+				side="top"
+				style={{ left: 1262 }}
+			/>
+			<WideAudioIndicator
+				active={currentAudio === 2}
+				side="top"
+				style={{ left: 1563 }}
+			/>
 			<LeftBorderImage src="../shared/design/contour-maps/widescreen-3-left.svg" />
 			<RightBorderImage src="../shared/design/contour-maps/widescreen-3-right.svg" />
 			<TopBar>
@@ -163,24 +197,32 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 						]}
 					/>
 					<InfoBox>
-						<InfoBoxRow style={{height: '23%'}}>
+						<InfoBoxRow style={{ height: '23%' }}>
 							<InfoBoxCell>
-								<RunInfo.GameTitle style={{fontSize: 30}} maxWidth={440} game={props.runData?.game || ''} />
+								<RunInfo.GameTitle
+									style={{ fontSize: 30 }}
+									maxWidth={440}
+									game={props.runData?.game || ''}
+								/>
 							</InfoBoxCell>
 							<InfoBoxCell>
-								<RunInfo.Category style={{fontSize: 30}} maxWidth={440} category={props.runData?.category || ''} />
+								<RunInfo.Category
+									style={{ fontSize: 30 }}
+									maxWidth={440}
+									category={props.runData?.category || ''}
+								/>
 							</InfoBoxCell>
 						</InfoBoxRow>
-						<InfoBoxRow style={{height: '43%'}}>
+						<InfoBoxRow style={{ height: '43%' }}>
 							<InfoBoxCell>
 								<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
-									<RunInfo.System style={{fontSize: 34}} system={props.runData?.system || ''} />
-									<RunInfo.Year style={{fontSize: 34}} year={props.runData?.release || ''} />
+									<RunInfo.System style={{ fontSize: 34 }} system={props.runData?.system || ''} />
+									<RunInfo.Year style={{ fontSize: 34 }} year={props.runData?.release || ''} />
 									<RunInfo.Estimate fontSize={34} estimate={props.runData?.estimate || ''} />
 								</div>
 							</InfoBoxCell>
 							<InfoBoxCell>
-								<Timer style={{marginLeft: -39}} fontSize={90} timer={props.timer} />
+								<Timer style={{ marginLeft: -39 }} fontSize={90} timer={props.timer} />
 							</InfoBoxCell>
 						</InfoBoxRow>
 					</InfoBox>

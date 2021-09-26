@@ -136,18 +136,28 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 		return 4;
 	}
 
+	let currentAudio = -1;
+
+	if (props.runData?.teams) {
+		if (props.runData.teams.length > 1) {
+			currentAudio = props.runData.teams.findIndex(team => audioIndicatorRep === team.id);
+		} else {
+			currentAudio = props.runData.teams[0].players.findIndex(player => audioIndicatorRep === player.id);
+		}
+	}
+
 	return (
 		<Widescreen2Container>
 			<Topbar>
 				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 
 				<AudioIndicator
-					active={audioIndicatorRep === (props.runData?.teams[0]?.id || '')}
+					active={currentAudio === 0}
 					side="left"
 					style={{ position: 'absolute', top: 300, left: 624 }}
 				/>
 				<AudioIndicator
-					active={audioIndicatorRep === (props.runData?.teams[1]?.id || '')}
+					active={currentAudio === 1}
 					side="right"
 					style={{
 						position: 'absolute',

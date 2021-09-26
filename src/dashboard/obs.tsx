@@ -468,15 +468,16 @@ export const DashAudio: React.FC = () => {
 	);
 
 	const runnerOptions = runDataRep?.teams.map((team) => {
-		const firstPlayerName = team.players[0].name;
-		return (
-			<FormControlLabel
-				value={team.id}
-				control={<RadioStyled />}
-				label={team.name || firstPlayerName}
-				key={team.id}
-			/>
-		);
+		return team.players.map(player => {
+			return (
+				<FormControlLabel
+					value={player.id}
+					control={<RadioStyled />}
+					label={player.name}
+					key={player.id}
+				/>
+			);
+		});
 	});
 
 	const updateAudioIndicator = (
