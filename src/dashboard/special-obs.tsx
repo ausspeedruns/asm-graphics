@@ -4,34 +4,23 @@ import styled from 'styled-components';
 
 import { darkTheme } from './theme';
 import { Checkbox, FormControlLabel, ThemeProvider } from '@material-ui/core';
-import { useReplicant } from 'use-nodecg';
 
 const SpecialOBSContainer = styled.div``;
 
 export const SpecialOBS: React.FC = () => {
-	const [discordGameplay, setDiscordGameplay] = useState(false);
-	const [streamScaleRep, setStreamScaleRep] = useReplicant<boolean, boolean>('special-stream-scale', false);
+	const [widescreen3p, setWidescreen3p] = useState(false);
 
-	const discordGameplayHandler = (_e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-		nodecg.sendMessage('discord-gameplay', checked);
-		setDiscordGameplay(checked);
-	};
-
-	const streamScaleHandler = (_e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-		setStreamScaleRep(checked);
+	const widescreen3pHandler = (_e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+		nodecg.sendMessage('widescreen3p-mask', checked);
+		setWidescreen3p(checked);
 	};
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<SpecialOBSContainer>
 				<FormControlLabel
-					control={<Checkbox color="primary" value={discordGameplay} onChange={discordGameplayHandler} />}
-					label="Turn on Host microphone for gameplay (Hollow Knight & RE7)"
-					labelPlacement="start"
-				/>
-				<FormControlLabel
-					control={<Checkbox color="primary" value={streamScaleRep} onChange={streamScaleHandler} />}
-					label="Resize ASM_Station1 full stream to fit in Widescreen graphic (RE7)"
+					control={<Checkbox color="primary" value={widescreen3p} onChange={widescreen3pHandler} />}
+					label="Enable Stream Masking for Widescreen 3p. ONLY ASM STATION 1, 2, 3!"
 					labelPlacement="start"
 				/>
 			</SpecialOBSContainer>

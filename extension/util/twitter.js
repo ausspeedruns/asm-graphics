@@ -17,7 +17,7 @@ const twitterSearch = [
     'expansions=author_id',
     'user.fields=username',
     'tweet.fields=created_at',
-    'query=%23ASM2021'
+    'query=%23PAXxAusSpeedruns2021'
 ];
 // Edit rules as desired here below
 const rules = ncgTwitterConfig.rules;

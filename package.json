@@ -80,6 +80,14 @@
         "headerColor": "#FF0000",
         "file": "settings.html",
         "workspace": "Run Modifications"
+      },
+      {
+        "name": "special-obs",
+        "title": "Special OBS",
+        "width": 3,
+        "headerColor": "#CC7722",
+        "file": "special-obs.html",
+        "workspace": "ASM Misc"
       }
     ],
     "graphics": [

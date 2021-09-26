@@ -33,7 +33,9 @@ class OBSUtility extends obsWebsocketJs {
 				throw new Error('Scene could not be found');
 			}
 		} catch (err) {
-			nodecg.log.warn(`[OBS] Cannot change scene [${name}]: ${err.error || err}`);
+			if (err instanceof Error) {
+				nodecg.log.warn(`[OBS] Cannot change scene [${name}]: ${err.message || err}`);
+			}
 		}
 	}
 
@@ -57,7 +59,9 @@ class OBSUtility extends obsWebsocketJs {
 				'scene-name': scene,
 			});
 		} catch (err) {
-			nodecg.log.warn(`[OBS] Cannot hide item [${scene}: ${item}]: ${err.error}`);
+			if (err instanceof Error) {
+				nodecg.log.warn(`[OBS] Cannot hide item [${scene}: ${item}]: ${err.message}`);
+			}
 		}
 	}
 
@@ -77,7 +81,9 @@ class OBSUtility extends obsWebsocketJs {
 			// @ts-ignore: Typings do not have the decibel boolean
 			await this.send('SetVolume', { source, volume, useDecibel });
 		} catch (err) {
-			nodecg.log.warn(`[OBS] Cannot set volume [${source}: ${volume}]: ${err.error}`);
+			if (err instanceof Error) {
+				nodecg.log.warn(`[OBS] Cannot set volume [${source}: ${volume}]: ${err.message}`);
+			}
 		}
 	}
 
@@ -96,7 +102,9 @@ class OBSUtility extends obsWebsocketJs {
 		try {
 			await this.send('SetMute', { source, mute });
 		} catch (err) {
-			nodecg.log.warn(`[OBS] Cannot mute source [${source}: ${mute}]: ${err.error}`);
+			if (err instanceof Error) {
+				nodecg.log.warn(`[OBS] Cannot mute source [${source}: ${mute}]: ${err.message}`);
+			}
 		}
 	}
 
@@ -166,6 +174,20 @@ class OBSUtility extends obsWebsocketJs {
 
 			await this.send('SetSceneItemProperties', { 'scene-name': scene, item: { name: source }, ...itemProperties });
 			// await this.send('SetSceneItemProperties', { 'scene-name': scene, item: source });
+		} catch (error) {
+			nodecg.log.error('Error setting scene item property:', error);
+		}
+	}
+
+	async setSourceFilterVisibility(sourceName: string, filterName: string, filterEnabled: boolean): Promise<void> {
+		if (!ncgOBSConfig.enabled) {
+			// OBS not enabled, don't even try to set.
+			// throw new Error('No OBS connection available');
+			nodecg.log.warn(`[OBS] No OBS connection`);
+		}
+
+		try {
+			await this.send('SetSourceFilterVisibility', { sourceName, filterName, filterEnabled });
 		} catch (error) {
 			nodecg.log.error('Error setting scene item property:', error);
 		}

@@ -198,14 +198,8 @@ function getCurrentScene() {
 	}
 }
 
-nodecg.listenFor('discord-gameplay', (enable: boolean) => {
-	obs.enableSource('Discord', enable, 'Game Overlay')
-});
-
-specialStreamScaleRep.on('change', (newVal: boolean) => {
-	if (newVal) {
-		obs.setSceneItemProperties('Game Overlay', 'ASM Station 1', { position: { x: 391, y: 156 }, scale: { x: 0.79623, y: 0.79623 }, bounds:{}, crop: {} })
-	} else {
-		obs.setSceneItemProperties('Game Overlay', 'ASM Station 1', { position: { x: 0, y: 0 }, scale: { x: 1, y: 1 }, bounds:{}, crop: {} })
-	}
+nodecg.listenFor('widescreen3p-mask', (enable: boolean) => {
+	obs.setSourceFilterVisibility('ASM Station 1', 'Widescreen 3p Bottom Left', enable);
+	obs.setSourceFilterVisibility('ASM Station 2', 'Widescreen 3p Top Left', enable);
+	obs.setSourceFilterVisibility('ASM Station 3', 'Widescreen 3p Top Right', enable);
 });
