@@ -179,6 +179,12 @@ class OBSUtility extends obsWebsocketJs {
 		}
 	}
 
+	/**
+	 * Set a filter on a sources visibility
+	 * @param sourceName Source name.
+	 * @param filterName Name of the filter on the source.
+	 * @param filterEnabled If the filter should be enabled or not.
+	 */
 	async setSourceFilterVisibility(sourceName: string, filterName: string, filterEnabled: boolean): Promise<void> {
 		if (!ncgOBSConfig.enabled) {
 			// OBS not enabled, don't even try to set.
