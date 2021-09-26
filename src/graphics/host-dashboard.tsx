@@ -226,10 +226,9 @@ export const HostDash: React.FC = () => {
 				<DialogContent>
 					<DialogContentText>
 						&quot;We are AusSpeedruns, a group doing speedrun events to raise money for charity. For this
-						event we&apos;re raising money for Beyond Blue, a charity working to raise the awareness of
-						mental health issues, and reduce around the stigma around these issues to help people achieve
-						their best possible mental health. If you&apos;d like to donate, you can go to
-						donate.ausspeedruns.com&quot;
+						event we&apos;re raising money for Cure Cancer, a charity which funds early-career cancer
+						researchers who are working across all cancers and all areas of cancer research. If you&apos;d
+						like to donate, you can go to donate.ausspeedruns.com&quot;
 						<br />
 						<br />
 						(While doing this, if someone else hasn&apos;t, would recommend typing !donate in chat to
@@ -237,13 +236,7 @@ export const HostDash: React.FC = () => {
 						<br />
 						<br />
 						Remember, this is just a guide, so slight modifications to feel more natural to you is fine (in
-						fact, encouraged). For example just changing it to something like:
-						<br />
-						<br />
-						&quot;We&apos;re AusSpeedruns, and we do speedrun events to raise money for charity. For
-						ASM2021, we&apos;re raising money for Beyond Blue, a charity promoting good mental health,
-						through raising the awareness and reducing the stigma around these issues. If you&apos;d like to
-						donate, the link to do so is donate.ausspeedruns.com&quot;
+						fact, encouraged).
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
