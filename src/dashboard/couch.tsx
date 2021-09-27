@@ -5,7 +5,17 @@ import { useReplicant } from 'use-nodecg';
 
 import { CouchInformation, CouchPerson, NoCam } from '../types/OverlayProps';
 
-import { Button, Checkbox, FormControlLabel, TextField, ThemeProvider } from '@material-ui/core';
+import {
+	Button,
+	Checkbox,
+	FormControl,
+	FormControlLabel,
+	InputLabel,
+	MenuItem,
+	Select,
+	TextField,
+	ThemeProvider,
+} from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
 import { darkTheme } from './theme';
@@ -76,7 +86,12 @@ export const DashCouch: React.FC = () => {
 		current: [],
 		preview: [],
 	});
+
 	const [noCamsRep] = useReplicant<NoCam, NoCam>('no-cam', { current: false, preview: false });
+	const [discordMembers] = useReplicant<DACBOTMember[], DACBOTMember[]>('memberList', [], {
+		namespace: 'nodecg-dacbot',
+	});
+
 	const [editLive, setEditLive] = useState(false);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +113,10 @@ export const DashCouch: React.FC = () => {
 	const addHost = () => {
 		let newNamesArray: CouchPerson[];
 		if (couchNamesRep.current.length > 0) {
-			newNamesArray = [...couchNamesRep.current, { name: localHostName, pronouns: localHostPronoun }];
+			newNamesArray = [
+				...couchNamesRep.current,
+				{ name: localHostName, pronouns: localHostPronoun },
+			];
 		} else {
 			newNamesArray = [{ name: localHostName, pronouns: localHostPronoun }];
 		}
@@ -112,7 +130,10 @@ export const DashCouch: React.FC = () => {
 	const addPreviewHost = () => {
 		let newNamesArray: CouchPerson[];
 		if (couchNamesRep.preview.length > 0) {
-			newNamesArray = [...couchNamesRep.preview, { name: localPreviewHostName, pronouns: localPreviewPronoun }];
+			newNamesArray = [
+				...couchNamesRep.preview,
+				{ name: localPreviewHostName, pronouns: localPreviewPronoun },
+			];
 		} else {
 			newNamesArray = [{ name: localPreviewHostName, pronouns: localPreviewPronoun }];
 		}
@@ -124,17 +145,17 @@ export const DashCouch: React.FC = () => {
 	};
 
 	const allHostNames = couchNamesRep.current.map((person, index) => {
-		return <HostComponent person={person} index={index} key={index} />;
+		return <HostComponent person={person} index={index} key={index} discordUsers={discordMembers} />;
 	});
 
 	const previewHostName = couchNamesRep.preview.map((person, index) => {
-		return <HostComponent person={person} index={index} key={index} preview />;
+		return <HostComponent person={person} index={index} key={index} discordUsers={discordMembers} preview />;
 	});
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			Next Run
-			<div>
+			<div style={{ display: 'flex', gap: 8 }}>
 				<TextfieldStyled
 					fullWidth
 					label="Preview Host"
@@ -179,12 +200,25 @@ export const DashCouch: React.FC = () => {
 			<hr />
 			<div style={{ position: 'relative' }}>
 				{!editLive && <LiveOverlay />}
-				<div style={{display: 'flex', justifyContent: 'space-between'}}>
+				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 					Live
-					<Button variant="contained" style={{zIndex: 3}} onClick={() => { setEditLive(!editLive) }}>{editLive ? 'Finish' : 'Edit'}</Button>
+					<Button
+						variant="contained"
+						style={{ zIndex: 3 }}
+						onClick={() => {
+							setEditLive(!editLive);
+						}}>
+						{editLive ? 'Finish' : 'Edit'}
+					</Button>
 				</div>
-				<div>
-					<TextfieldStyled fullWidth label="Live Host" value={localHostName} onChange={handleChange} disabled={!editLive} />
+				<div style={{ display: 'flex', gap: 8 }}>
+					<TextfieldStyled
+						fullWidth
+						label="Live Host"
+						value={localHostName}
+						onChange={handleChange}
+						disabled={!editLive}
+					/>
 				</div>
 				<div style={{ display: 'flex' }}>
 					<TextfieldStyled
@@ -194,12 +228,22 @@ export const DashCouch: React.FC = () => {
 						onChange={handlePronounChange}
 						disabled={!editLive}
 					/>
-					<Button onClick={() => setLocalHostPronoun('He/Him')} disabled={!editLive}>He/Him</Button>
-					<Button onClick={() => setLocalHostPronoun('She/Her')} disabled={!editLive}>She/Her</Button>
-					<Button onClick={() => setLocalHostPronoun('They/Them')} disabled={!editLive}>They/Them</Button>
+					<Button onClick={() => setLocalHostPronoun('He/Him')} disabled={!editLive}>
+						He/Him
+					</Button>
+					<Button onClick={() => setLocalHostPronoun('She/Her')} disabled={!editLive}>
+						She/Her
+					</Button>
+					<Button onClick={() => setLocalHostPronoun('They/Them')} disabled={!editLive}>
+						They/Them
+					</Button>
 				</div>
 				<div>
-					<GreenButton fullWidth startIcon={<Add />} onClick={addHost} disabled={localHostName === '' || !editLive}>
+					<GreenButton
+						fullWidth
+						startIcon={<Add />}
+						onClick={addHost}
+						disabled={localHostName === '' || !editLive}>
 						Add Host
 					</GreenButton>
 				</div>
@@ -230,6 +274,10 @@ export const DashCouch: React.FC = () => {
 };
 
 const HostComponentContainer = styled.div`
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	justify-content: space-between;
 	background: #4d5e80;
 	border-radius: 4px;
 	padding: 4px 4px 4px 8px;
@@ -247,10 +295,18 @@ const Pronoun = styled.span`
 	line-height: 36px;
 `;
 
+interface DACBOTMember {
+	avatar: string;
+	id: string;
+	muted: boolean;
+	name: string;
+}
+
 interface HostComponentProps {
 	person: CouchPerson;
 	index: number;
 	preview?: boolean;
+	discordUsers: DACBOTMember[];
 }
 
 const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) => {
@@ -275,7 +331,27 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 				{props.person.name === ' ' ? <i style={{ fontWeight: 'lighter' }}>No Host</i> : props.person.name}
 			</HostName>
 			<Pronoun>{props.person.pronouns}</Pronoun>
-			<RedButton style={{ float: 'right' }} onClick={removeName}>
+			<FormControl style={{minWidth: 120}}>
+				<InputLabel id="live-discord-user">Discord User</InputLabel>
+				<Select
+					labelId="live-discord-user"
+					value={props.person.discordID}
+					onChange={(e) => nodecg.sendMessage(props.preview ? 'set-discord-user-preview' : 'set-discord-user-live', {...props.person, discordID: e.target.value as string} as CouchPerson)}>
+					<MenuItem value="">No user</MenuItem>
+					{props.discordUsers.map((user) => {
+						return (
+							<MenuItem key={user.id} value={user.id}>
+								<img
+									style={{ borderRadius: '100%', height: 35, width: 'auto', marginRight: 6 }}
+									src={user.avatar}
+								/>
+								{user.name}
+							</MenuItem>
+						);
+					})}
+				</Select>
+			</FormControl>
+			<RedButton style={{ alignSelf: 'flex-end' }} onClick={removeName}>
 				<Remove />
 			</RedButton>
 		</HostComponentContainer>

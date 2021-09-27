@@ -41,3 +41,15 @@ nodecg.listenFor('no-cam-preview', (value) => {
 nodecg.listenFor('no-cam-current', (value) => {
 	noCamRep.value.current = value;
 });
+
+nodecg.listenFor('set-discord-user-preview', (person: CouchPerson) => {
+	const index = couchNamesRep.value.preview.findIndex(couch => couch.name === person.name);
+	if (index === -1) return;
+	couchNamesRep.value.preview[index] = person;
+});
+
+nodecg.listenFor('set-discord-user-live', (person: CouchPerson) => {
+	const index = couchNamesRep.value.current.findIndex(couch => couch.name === person.name);
+	if (index === -1) return;
+	couchNamesRep.value.current[index] = person;
+});

@@ -26,6 +26,11 @@ const PeopleContainer = styled.div`
 	justify-content: center;
 `;
 
+interface DACBOTSpeaking {
+	id: string;
+	speaking: boolean;
+}
+
 interface Props {
 	couch: CouchPerson[];
 	style?: React.CSSProperties;
@@ -37,6 +42,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 		name: '',
 		pronouns: '',
 	});
+	const [speakingDiscord] = useReplicant<DACBOTSpeaking[], DACBOTSpeaking[]>('speaking', [], {namespace: 'nodecg-dacbot'})
 
 	if (props.couch.length === 0 && currentHost.name === '') return <></>;
 
@@ -47,9 +53,9 @@ export const Couch: React.FC<Props> = (props: Props) => {
 			</MenuBar>
 			<PeopleContainer>
 				{props.couch.map((person) => {
-					return <PersonCompressed key={person.name} person={person} />;
+					return <PersonCompressed key={person.name} person={person} speaking={!!speakingDiscord.find(user => user.id === person.discordID)} />;
 				})}
-				<PersonCompressed key={'Host'} person={currentHost} host />
+				<PersonCompressed key={'Host'} person={currentHost} host speaking={!!speakingDiscord.find(user => user.id === currentHost.discordID)} />
 			</PeopleContainer>
 		</CouchContainer>
 	);
@@ -64,6 +70,7 @@ const PersonCompressedContainer = styled.div`
 	background: #251803;
 	font-size: 22px;
 	margin: 4px;
+	box-sizing: border-box;
 `;
 
 const Pronouns = styled.div`
@@ -74,12 +81,13 @@ const Pronouns = styled.div`
 
 interface PersonCompressedProps {
 	person: CouchPerson;
+	speaking?: boolean;
 	host?: boolean;
 }
 
 export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
-		<PersonCompressedContainer>
+		<PersonCompressedContainer style={{outline: props.speaking ? '4px solid var(--text-col)' : ''}}>
 			<span style={{ fontWeight: 'bold' }}>{props.person.name}</span>
 			<Pronouns>
 				<span style={{ fontWeight: 'bold' }}>{props.host && 'Host '}</span>

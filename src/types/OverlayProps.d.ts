@@ -17,6 +17,7 @@ export interface CouchInformation {
 export interface CouchPerson {
 	name: string;
 	pronouns: string;
+	discordID?: string;
 }
 
 export interface NoCam {
