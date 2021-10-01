@@ -170,9 +170,9 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 				<Facecam
 					width={588}
 					style={{
-						borderRight: '1px solid var(--pax-gold)',
-						borderLeft: '1px solid var(--pax-gold)',
-						zIndex: 2,
+						borderRight: '1px solid #FFC629',
+						borderLeft: '1px solid #FFC629',
+						zIndex: 2
 					}}
 					teams={props.runData?.teams}
 					maxNameWidth={190}
