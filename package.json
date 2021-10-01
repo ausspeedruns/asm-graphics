@@ -158,7 +158,8 @@
     "schema-types": "trash src/types/schemas && nodecg schema-types -o ./src/types",
     "start": "node ../..",
     "lint": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx}",
-    "lint:fix": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx} --fix"
+    "lint:fix": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx} --fix",
+    "clean": "trash node_modules/.cache && trash dashboard && trash extension && trash graphics"
   },
   "repository": "https://github.com/nodecg/nodecg.git",
   "license": "Apache-2.0",
