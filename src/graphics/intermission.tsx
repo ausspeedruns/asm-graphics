@@ -20,6 +20,10 @@ import {
 import { Sponsors } from './elements/sponsors';
 import { Tweet } from './elements/tweet';
 
+import ContourShader from './elements/contour-shader';
+// @ts-ignore
+import GlslCanvas from 'glslCanvas/dist/GlslCanvas.min.js';
+
 const IntermissionContainer = styled.div`
 	position: relative;
 	width: 1920px;
@@ -227,6 +231,7 @@ export const Intermission: React.FC<IntermissionProps> = (
 	const [tweet, setTweet] = useState<ITweet | undefined>(undefined);
 	const tweetRef = useRef<HTMLDivElement>(null);
 	const asLogoRef = useRef<HTMLImageElement>(null);
+	const backgroundRef = useRef<HTMLCanvasElement>(null);
 	const { get, cache } = useFetch('https://rainwave.cc/api4');
 
 	async function getCurrentSong() {
@@ -247,10 +252,24 @@ export const Intermission: React.FC<IntermissionProps> = (
 		const songInterval = setInterval(() => {
 			getCurrentSong();
 		}, 3000);
+
+		if (backgroundRef.current) {
+			backgroundRef.current.width  = backgroundRef.current.offsetWidth;
+			backgroundRef.current.height = backgroundRef.current.offsetHeight;
+
+			const sandbox = new GlslCanvas(backgroundRef.current);
+			sandbox.load(ContourShader);
+		}
+
 		return () => {
 			clearInterval(interval);
 			clearInterval(songInterval);
 		};
+	}, []);
+
+	
+	useEffect(() => {
+		
 	}, []);
 
 	useListenFor('showTweet', (newVal: ITweet) => {
@@ -288,7 +307,7 @@ export const Intermission: React.FC<IntermissionProps> = (
 
 	return (
 		<IntermissionContainer>
-			{/* <iframe width="1920" height="1080" frameBorder="0" src="https://www.shadertoy.com/embed/NdVGRw?gui=false&paused=false"></iframe> */}
+			<canvas width="1920" height="1080" ref={backgroundRef}></canvas>
 			<SocialMedia>
 				<div style={{display: 'flex', width: '100%'}}>
 					<SocialMediaItem style={{justifyContent: 'flex-end'}}>
