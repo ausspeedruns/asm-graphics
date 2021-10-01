@@ -169,6 +169,7 @@
     "@material-ui/lab": "^4.11.3-deprecations.1",
     "bad-words": "^3.0.4",
     "clone": "^2.1.2",
+    "glslCanvas": "^0.1.7",
     "googleapis": "^64.0.0",
     "gsap": "^3.7.1",
     "needle": "^2.9.1",

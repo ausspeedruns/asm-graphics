@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { RunDataTeam } from '../../types/RunData';
 
 import { Nameplate } from './nameplate';
-import { OrangeStripe } from './orange-stripe';
+import ContourShader from './contour-shader';
+
+// @ts-ignore
+import GlslCanvas from 'glslCanvas/dist/GlslCanvas.min.js';
 
 const FacecamContainer = styled.div`
 	position: relative;
@@ -145,29 +148,91 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 const NoCamContainer = styled.div`
 	height: 100%;
 	width: 100%;
-	background: var(--main-col);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
+	position: relative;
+	font-family: National Park;
+
+	& canvas {
+		width: 100%;
+		height: 100%;
+	}
 `;
 
-const Logo = styled.img`
-	object-fit: contain;
-	height: 55%;
-	width: 80%;
+const SocialMedia = styled.div`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding-bottom: 41px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	& > div {
+		margin: 5px 0;
+	}
+`;
+
+const SocialMediaItem = styled.div`
+	display: flex;
+	align-items: center;
+
+	& > img {
+		height: 40px;
+		margin: 0 5px;
+	}
+`;
+
+const SocialMediaLabel = styled.span`
+	color: #F2DAB2;
+	font-size: 30px;
+	margin: 0 5px;
 `;
 
 export const NoCam: React.FC = () => {
+	const canvasRef = useRef<HTMLCanvasElement>(null);
+
+	useEffect(() => {
+		if (canvasRef.current) {
+			canvasRef.current.width  = canvasRef.current.offsetWidth;
+			canvasRef.current.height = canvasRef.current.offsetHeight;
+
+			const sandbox = new GlslCanvas(canvasRef.current);
+			sandbox.load(ContourShader);
+		}
+	}, []);
+
 	return (
 		<NoCamContainer>
-			<OrangeStripe side="top" />
-			<Logo
-				src={
-					'../shared/design/AusSpeedruns-ASM2021-Combined_NoPadding.svg'
-				}
-			/>
-			<div style={{ minHeight: 41 }} /> {/* To even out */}
+			<canvas ref={canvasRef} className="glslCanvas" data-fragment={ContourShader}></canvas>
+			<SocialMedia>
+				<SocialMediaItem>
+					<img src={require('../media/twitter.svg')} />
+					<SocialMediaLabel>@ AusSpeedruns</SocialMediaLabel>
+				</SocialMediaItem>
+				<SocialMediaItem>
+					<img src={require('../media/youtube.svg')} />
+					<SocialMediaLabel>Australian Speedruns</SocialMediaLabel>
+				</SocialMediaItem>
+				<SocialMediaItem>
+					<img src={require('../media/discord.svg')} />
+					<SocialMediaLabel>
+						discord.ausspeedruns.com
+					</SocialMediaLabel>
+				</SocialMediaItem>
+				<SocialMediaLabel
+					style={{
+						fontSize: 30,
+						fontWeight: 'bold',
+						color: '#F2DAB2',
+					}}>
+					#PAXxAusSpeedruns2021
+				</SocialMediaLabel>
+			</SocialMedia>
 		</NoCamContainer>
 	);
 };
