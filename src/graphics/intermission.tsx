@@ -178,6 +178,8 @@ const BottomInfo = styled.div`
 `;
 
 const SocialMedia = styled.div`
+	position: absolute;
+	top: 0;
 	height: 255px;
 	width: 100%;
 	box-sizing: border-box;

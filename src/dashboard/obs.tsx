@@ -228,6 +228,7 @@ const DashOBS: React.FC = () => {
 							<MenuItem value="widescreen-2">
 								Widescreen 2p
 							</MenuItem>
+							<MenuItem value="Widescreen-3">Widescreen 3p</MenuItem>
 							<MenuItem value="widescreen-1610">
 								Widescreen 16:10
 							</MenuItem>
