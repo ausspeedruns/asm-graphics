@@ -41,6 +41,9 @@ async function init() {
     if (ncgConfig.raisely.enabled) {
         require('./donations/raisely');
     }
+    if (ncgConfig.tiltify) {
+        require('./donations/tiltify');
+    }
     require('./incentives');
     require('./staff-messages');
     require('./donations');
