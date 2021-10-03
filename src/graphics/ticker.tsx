@@ -145,7 +145,7 @@ export const Ticker: React.FC = () => {
 	return (
 		<TickerContainer>
 			<LeftBlock>
-				<ASMLogo src={'../shared/design/ASxPax.svg'} />
+				<ASMLogo src={'/bundles/asm-graphics/shared/design/ASxPAX.svg'} />
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={runDataActiveRep} runArray={runDataArrayRep} />

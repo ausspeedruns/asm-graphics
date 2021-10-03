@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import twemoji from 'twemoji';
 
 interface Props {
-	noWrapper: boolean;
-	options: Partial<twemoji.ParseObject>;
-	tag: string;
-	children: React.ReactNode;
+	noWrapper?: boolean;
+	options?: Partial<twemoji.ParseObject>;
+	tag?: string;
+	children?: React.ReactNode;
 }
 
 const Twemoji = React.forwardRef((props: Props, ref) => {

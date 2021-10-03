@@ -8,16 +8,16 @@ import { Tweet as ITweet } from '../../types/Twitter';
 
 const TweetContainer = styled.div`
 	position: absolute;
-	color: white;
+	color: #F2DAB2;
 	margin: 15px;
-	border-top: 1px solid white;
-	border-right: 1px solid white;
-	border-left: 1px solid white;
+	border-top: 1px solid #F2DAB2;
+	border-right: 1px solid #F2DAB2;
+	border-left: 1px solid #F2DAB2;
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	height: 100%;
-	font-family: Noto Sans;
+	font-family: National Park;
 `;
 
 const Text = styled.div`
@@ -49,7 +49,7 @@ const BottomBorderCont = styled.div`
 
 const BottomBorder = styled.div`
 	height: 1px;
-	background: white;
+	background: #F2DAB2;
 	min-width: 15px;
 `;
 
