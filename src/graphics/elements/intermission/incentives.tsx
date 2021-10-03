@@ -7,6 +7,7 @@ import { Goal, War } from '../../../types/Incentives';
 
 import { InterIncentWars } from './incent-wars';
 import { InterIncentGoal } from './incent-goal';
+import { InterPrizes } from './prizes';
 
 const InterIncentivesContainer = styled.div`
 	overflow: hidden;
@@ -22,6 +23,7 @@ export interface TickerItemHandles {
 export const InterIncentives: React.FC = () => {
 	const goalsRef = useRef<TickerItemHandles>(null);
 	const warsRef = useRef<TickerItemHandles>(null);
+	const prizesRef = useRef<TickerItemHandles>(null);
 	const [incentivesRep] = useReplicant<(Goal | War)[], (Goal | War)[]>('incentives', []);
 
 	let goalIncentives: Goal[] = [];
@@ -66,6 +68,7 @@ export const InterIncentives: React.FC = () => {
 
 		mainTl.add(showContent(goalsRef.current!));
 		mainTl.add(showContent(warsRef.current!));
+		mainTl.add(showContent(prizesRef.current!));
 
 		mainTl.eventCallback('onComplete', runLoop);
 	}, []);
@@ -80,6 +83,7 @@ export const InterIncentives: React.FC = () => {
 		<InterIncentivesContainer>
 			<InterIncentWars wars={warIncentives} ref={warsRef} />
 			<InterIncentGoal goals={goalIncentives} ref={goalsRef} />
+			<InterPrizes ref={prizesRef} />
 		</InterIncentivesContainer>
 	);
 };

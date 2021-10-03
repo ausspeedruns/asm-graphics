@@ -15,7 +15,7 @@ const InterIncentWarsContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #F2DAB2;
 	font-size: 37px;
 	transform: translate(-630px, 0);
 	overflow: hidden;
@@ -54,6 +54,7 @@ const IncentiveContainer = styled(Goal)`
 	align-items: center;
 	margin: 0 4px 0 8px;
 	width: 100%;
+	min-height: 30px;
 `;
 
 // Determines full size
@@ -62,7 +63,7 @@ const ProgressContainer = styled.div`
 	width: 100%;
 	min-height: 40px;
 	height: 40px;
-	border: 1px solid white;
+	border: 1px solid #F2DAB2;
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
@@ -73,8 +74,8 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	width: 0px;
-	background: #FFFFFF;
-	border-right: 2px solid var(--main-col);
+	background: #F2DAB2;
+	border-right: 2px solid var(--pax-gold);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -237,7 +238,7 @@ const TextDiv = styled.div`
 	top: 0;
 	left: 0;
 	padding-right: 8px;
-	color: black;
+	color: #251803;
 	font-size: 25px;
 `;
 
@@ -273,7 +274,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 					style={{
 						display: 'flex',
 						justifyContent: 'center',
-						background: 'white',
+						background: '#F2DAB2',
 						padding: '0 10px',
 						maxWidth: '80%',
 					}}>

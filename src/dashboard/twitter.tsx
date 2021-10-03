@@ -60,6 +60,7 @@ const Twitter: React.FC = () => {
 			return <SingleTweet key={tweet.data.id} tweet={tweet} />;
 		});
 	}
+	tweets.push(<SingleTweet key={'Test'} tweet={fakeTweet} />);
 
 	let noTweets;
 	if (!ncgConfig.twitter.enabled) {

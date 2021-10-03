@@ -35,7 +35,7 @@ const SidebarBG = styled.div`
 
 const SponsorBoxS = styled(SponsorsBox)`
 	/* position: absolute; */
-	width: 60%;
+	width: 100%;
 	/* height: 459px; */
 	flex-grow: 1;
 	/* left: 0px;
@@ -48,7 +48,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 
 const SponsorSize = {
 	height: 300,
-	width: 300,
+	width: 240,
 };
 
 const TwitterSize = {

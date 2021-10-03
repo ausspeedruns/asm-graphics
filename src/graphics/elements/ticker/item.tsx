@@ -21,7 +21,7 @@ const VerticalStack = styled.div`
 const Title = styled.span`
 	font-size: 28px;
 	white-space: nowrap;
-	margin-bottom: -3px;
+	margin-top: 2px;
 `;
 
 const Subtitle = styled.span`

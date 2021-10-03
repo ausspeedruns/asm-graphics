@@ -91,7 +91,7 @@ function getAllData(auth: any) {
 
 	sheets.spreadsheets.values.get({
 		spreadsheetId: ncgGoogleConfig.spreadsheet,
-		range: 'Main Sheet'
+		range: ncgGoogleConfig.sheetname
 	}, (err, res) => {
 		if (err) return nodecg.log.info('The API returned an error: ' + err);
 
@@ -151,7 +151,7 @@ function parseIncentive(row: string[], rowIndex: number): Goal | War | undefined
 		case 'Goal': {
 			// Test regex
 			if (!GoalRegex.test(row[6])) {
-				nodecg.log.error(`Failed parsing goal incentive: ${row[1]} | ${row[2]}. "${row[5]}" failed regex. Skipping...`);
+				nodecg.log.error(`Failed parsing goal incentive: ${row[1]} | ${row[2]}. "${row[6]}" failed regex. Skipping...`);
 				return;
 			}
 

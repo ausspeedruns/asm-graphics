@@ -13,6 +13,7 @@ import { TickerGoals } from './elements/ticker/goal';
 import { TickerWar } from './elements/ticker/war';
 import { LerpNum } from './elements/ticker/lerp-num';
 import { Goal, War } from '../types/Incentives';
+import { TickerPrizes } from './elements/ticker/prizes';
 
 const TickerContainer = styled.div`
 	height: 64px;
@@ -77,6 +78,7 @@ export const Ticker: React.FC = () => {
 	const milestoneRef = useRef<TickerItemHandles>(null);
 	const goalsRef = useRef<TickerItemHandles>(null);
 	const warsRef = useRef<TickerItemHandles>(null);
+	const prizesRef = useRef<TickerItemHandles>(null);
 	const [runDataArrayRep] = useReplicant<RunDataArray, []>('runDataArray', [], { namespace: 'nodecg-speedcontrol' });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
@@ -126,12 +128,14 @@ export const Ticker: React.FC = () => {
 		const mainTl = gsap.timeline();
 
 		mainTl.add(showContent(ctaRef.current!));
+		
 		// -=1.02 so that the animation "overlaps" and if it was just -1 there would be a 1px tall gap
 		mainTl.add(showContent(runsRef.current!), '-=1.02');
-		mainTl.add(showContent(milestoneRef.current!), '-=1.02');
-
+		mainTl.add(showContent(prizesRef.current!));
+		
 		mainTl.add(showContent(goalsRef.current!), '-=1.02');
 		mainTl.add(showContent(warsRef.current!), '-=1.02');
+		mainTl.add(showContent(milestoneRef.current!), '-=1.02');
 
 		mainTl.eventCallback('onComplete', runLoop);
 	}, []);
@@ -145,7 +149,7 @@ export const Ticker: React.FC = () => {
 	return (
 		<TickerContainer>
 			<LeftBlock>
-				<ASMLogo src={'../shared/design/ASxPax.svg'} />
+				<ASMLogo src={'/bundles/asm-graphics/shared/design/ASxPAX.svg'} />
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={runDataActiveRep} runArray={runDataArrayRep} />
@@ -153,6 +157,7 @@ export const Ticker: React.FC = () => {
 				<TickerMilestones currentTotal={donationRep} ref={milestoneRef} />
 				<TickerGoals goals={goalIncentives} ref={goalsRef} />
 				<TickerWar wars={warIncentives} ref={warsRef} />
+				<TickerPrizes ref={prizesRef} />
 			</ContentArea>
 			<DonationArea>
 				$<LerpNum value={donationRep} />

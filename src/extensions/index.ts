@@ -48,6 +48,10 @@ async function init() {
 		require('./donations/raisely');
 	}
 
+	if (ncgConfig.tiltify) {
+		require('./donations/tiltify')
+	}
+
 	require('./incentives');
 	require('./staff-messages');
 	require('./donations');

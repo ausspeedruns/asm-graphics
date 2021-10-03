@@ -24,10 +24,12 @@ export interface Config {
 		profileId?: string;
 	}
 	hostname?: string;
+	tiltify?: boolean;
 }
 
 interface GoogleCredentials {
 	enabled: boolean; // Custom added
+	sheetname: string; // Custom added
 	spreadsheet: string;
     installed: {
 		client_id:                string;

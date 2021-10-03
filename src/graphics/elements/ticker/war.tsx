@@ -17,7 +17,7 @@ const TickerWarContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #F2DAB2;
 	font-size: 37px;
 	transform: translate(0, -64px);
 	overflow: hidden;
@@ -66,7 +66,7 @@ const ProgressContainer = styled.div`
 	max-width: 50%;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid white;
+	border: 1px solid #F2DAB2;
 	position: relative;
 	overflow: hidden;
 `;
@@ -74,8 +74,8 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	width: 0px;
-	background: white;
-	border-right: 5px solid var(--main-col);
+	background: #F2DAB2;
+	border-right: 5px solid var(--pax-gold);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -244,7 +244,7 @@ const TextDiv = styled.div`
 	top: 0;
 	left: 0;
 	padding-right: 8px;
-	color: black;
+	color: #251803;
 	font-size: 25px;
 `;
 
@@ -275,7 +275,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 					style={{
 						display: 'flex',
 						justifyContent: 'center',
-						background: 'white',
+						background: '#F2DAB2',
 						padding: '0 10px',
 						maxWidth: '80%',
 					}}>

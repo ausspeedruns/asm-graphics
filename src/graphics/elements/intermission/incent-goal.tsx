@@ -20,7 +20,7 @@ const IncentGoalContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #F2DAB2;
 	font-size: 37px;
 	transform: translate(-630px, 0);
 	overflow: hidden;
@@ -67,7 +67,7 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
 	width: 100%;
-	border: 1px solid white;
+	border: 1px solid #F2DAB2;
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
@@ -77,9 +77,9 @@ const ProgressContainer = styled.div`
 
 const ProgressBarContainer = styled.div`
 	width: 100%;
-	background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 100%);
-	/* background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 100%); */
-	border-top: 5px solid var(--main-col);
+	background: linear-gradient(180deg, #F2DAB2 0%, #E8E8E8 100%);
+	/* background: linear-gradient(180deg, #F2DAB2 0%, #E8E8E8 100%); */
+	border-top: 5px solid var(--pax-gold);
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
@@ -88,13 +88,13 @@ const ProgressBarContainer = styled.div`
 `;
 
 const CurrentAmount = styled.span`
-	color: black;
+	color: #251803;
 	font-size: 30px;
 	font-weight: bold;
 `;
 
 const RemainingAmount = styled.span`
-	color: white;
+	color: #F2DAB2;
 	font-weight: lighter;
 	font-size: 25px;
 	font-style: italic;
@@ -203,7 +203,7 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	if (percentage < 50) {
 		textOnRightSide = {
 			marginTop: -46,
-			color: 'white',
+			color: '#F2DAB2',
 		};
 	}
 

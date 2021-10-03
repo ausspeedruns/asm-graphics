@@ -45,7 +45,7 @@ const SponsorsSize = {
 
 const TwitterSize = {
 	height: 163,
-	width: 480,
+	width: 400,
 	marginTop: -44,
 };
 
