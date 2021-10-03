@@ -19,7 +19,8 @@
   "nodecg": {
     "compatibleRange": "^1.8.1",
     "bundleDependencies": {
-      "nodecg-speedcontrol": "^2.0.0"
+      "nodecg-speedcontrol": "^2.0.0",
+      "nodecg-tiltify": "^0.0.0"
     },
     "dashboardPanels": [
       {

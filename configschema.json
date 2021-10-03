@@ -73,7 +73,11 @@
 				},
 				"spreadsheet": {
 					"type": "string",
-					"default": "192nms5HjWe6li2XwmV1-l0W0_8csRv6Jyc944ir3tVY"
+					"default": ""
+				},
+				"sheetname": {
+					"type": "string",
+					"default": "Sheet1"
 				},
 				"installed": {
 					"type": "object",
@@ -150,7 +154,12 @@
 			"type": "string",
 			"description": "Entry point hostname",
 			"default": "localhost"
+		},
+		"tiltify": {
+			"type": "boolean",
+			"description": "Enables nodecg-tiltify",
+			"default": false
 		}
 	},
-	"required": ["obs", "twitch", "twitter", "googleCredentials", "raisely"]
+	"required": ["obs", "twitch", "twitter", "googleCredentials", "raisely", "tiltify"]
 }
