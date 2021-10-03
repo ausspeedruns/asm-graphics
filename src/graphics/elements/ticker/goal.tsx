@@ -64,22 +64,22 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid white;
+	border: 1px solid #F2DAB2;
 	position: relative;
 	overflow: hidden;
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: white;
-	border-right: 5px solid var(--main-col);
+	background: #F2DAB2;
+	border-right: 5px solid var(--pax-gold);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 `;
 
 const CurrentAmount = styled.span`
-	color: black;
+	color: #251803;
 	margin-right: 5px;
 	font-weight: normal;
 	width: 100px;
@@ -190,7 +190,7 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	if (percentage < 50) {
 		textOnRightSide = {
 			marginRight: -110,
-			color: 'white',
+			color: '#F2DAB2',
 			textAlign: 'left',
 		};
 	}

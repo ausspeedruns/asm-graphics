@@ -17,7 +17,7 @@ import {
 	EndRunItem,
 } from './elements/intermission/next-run-item';
 
-import { Sponsors } from './elements/sponsors';
+// import { Sponsors } from './elements/sponsors';
 import { Tweet } from './elements/tweet';
 
 import ContourShader from './elements/contour-shader';
@@ -86,7 +86,7 @@ const SponsorHolder = styled.div`
 	display: flex;
 	justify-content: space-around;
 	width: 400px;
-	height: 200px;
+	height: 175px;
 `;
 
 const SponsorImg = styled.img`
@@ -269,11 +269,6 @@ export const Intermission: React.FC<IntermissionProps> = (
 		};
 	}, []);
 
-	
-	useEffect(() => {
-		
-	}, []);
-
 	useListenFor('showTweet', (newVal: ITweet) => {
 		setTweet(newVal);
 		const tl = gsap.timeline();
@@ -366,7 +361,7 @@ export const Intermission: React.FC<IntermissionProps> = (
 						style={{ position: 'relative', alignItems: 'center' }}>
 						<SponsorImg
 							ref={asLogoRef}
-							src="../shared/design/ASxPAX_Intermission.svg"
+							src="../shared/design/ASM-Orange.svg"
 						/>
 						<TweetBox ref={tweetRef}>
 							<Tweet
@@ -380,7 +375,10 @@ export const Intermission: React.FC<IntermissionProps> = (
 						</TweetBox>
 					</SponsorHolder>
 					<SponsorHolder>
-						<Sponsors />
+						<img src="../shared/design/Camp PAX.svg" />
+					</SponsorHolder>
+					<SponsorHolder>
+						<img style={{width: '100%', height: 'auto', objectFit: 'contain'}} src={require('./media/Sponsors/Cure Cancer Logo - White.png')} />
 					</SponsorHolder>
 					<BottomInfo>
 						<Time>{currentTime}</Time>
