@@ -83,6 +83,7 @@ const MILESTONES = [
 	{ event: 'FAST2020', total: 7033 },
 	{ event: 'PAX2019', total: 7181.73 },
 	{ event: 'ASM2020', total: 13069.69 },
+	{ event: 'ASM2021', total: 15000 }
 ];
 
 interface Props {
