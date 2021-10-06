@@ -95,12 +95,18 @@ const customSmallStyling: ISmallStyling = {
 	},
 };
 
+interface DACBOTSpeaking {
+	id: string;
+	speaking: boolean;
+}
+
 export const Widescreen2: React.FC<OverlayProps> = (props) => {
 	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
 	const [currentHost] = useReplicant<CouchPerson, CouchPerson>('host', {
 		name: '',
 		pronouns: '',
 	});
+	const [speakingDiscord] = useReplicant<DACBOTSpeaking[], DACBOTSpeaking[]>('speaking', [], {namespace: 'nodecg-dacbot'});
 
 	const leftTeamID = props.runData?.teams[0]?.id || '';
 	const rightTeamID = props.runData?.teams[1]?.id || '';
@@ -195,12 +201,12 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 					{/* Since this is a special placement it has to be made custom here */}
 					{props.preview
 						? props.couchInformation.preview.map((person) => {
-								return <PersonCompressed person={person} />;
+								return <PersonCompressed person={person} speaking={!!speakingDiscord.find(user => user.id === person.discordID)}  />;
 						  })
 						: props.couchInformation.current.map((person) => {
-								return <PersonCompressed person={person} />;
+								return <PersonCompressed person={person} speaking={!!speakingDiscord.find(user => user.id === person.discordID)}  />;
 						  })}
-					<PersonCompressed key={'Host'} person={currentHost} host />
+					<PersonCompressed key={'Host'} person={currentHost} host speaking={!!speakingDiscord.find(user => user.id === currentHost.discordID)}  />
 				</BespokeCouch>
 			</BottomBlock>
 		</Widescreen2Container>
