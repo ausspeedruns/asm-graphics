@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
@@ -10,6 +10,9 @@ import {
 	Checkbox,
 	FormControl,
 	FormControlLabel,
+	FormHelperText,
+	Input,
+	InputAdornment,
 	InputLabel,
 	MenuItem,
 	Select,
@@ -91,8 +94,16 @@ export const DashCouch: React.FC = () => {
 	const [discordMembers] = useReplicant<DACBOTMember[], DACBOTMember[]>('memberList', [], {
 		namespace: 'nodecg-dacbot',
 	});
+	const [discordAudioDelayRep, setDiscordAudioDelayRep] = useReplicant<number, number>('speakingDelay', 2000, {
+		namespace: 'nodecg-dacbot',
+	});
+	const [localAudioDelay, setLocalAudioDelay] = useState((discordAudioDelayRep / 1000).toString());
 
 	const [editLive, setEditLive] = useState(false);
+
+	useEffect(() => {
+		setLocalAudioDelay((discordAudioDelayRep / 1000).toString())
+	}, [discordAudioDelayRep]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocalHostName(event.target.value);
@@ -151,6 +162,14 @@ export const DashCouch: React.FC = () => {
 	const previewHostName = couchNamesRep.preview.map((person, index) => {
 		return <HostComponent person={person} index={index} key={index} discordUsers={discordMembers} preview />;
 	});
+
+	function editDiscordDelay(event: React.ChangeEvent<HTMLInputElement>) {
+		setLocalAudioDelay(event.target.value);
+		const rawVolumeNum = event.target.valueAsNumber;
+		if (rawVolumeNum !== NaN) {
+			setDiscordAudioDelayRep(rawVolumeNum * 1000);
+		}
+	}
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -269,6 +288,11 @@ export const DashCouch: React.FC = () => {
 					{allHostNames}
 				</div>
 			</div>
+			<hr />
+        <FormControl>
+			<Input type="number" value={localAudioDelay} onChange={editDiscordDelay} endAdornment={<InputAdornment position="end">s</InputAdornment>} />
+			<FormHelperText>Discord Audio Indicator Delay</FormHelperText>
+        </FormControl>
 		</ThemeProvider>
 	);
 };

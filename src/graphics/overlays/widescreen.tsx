@@ -16,7 +16,7 @@ const WidescreenContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	top: 156px;
-	height: 860px;
+	height: 861px;
 	width: 390px;
 	border-right: 1px solid var(--pax-gold);
 `;
