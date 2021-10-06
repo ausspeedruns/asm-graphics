@@ -24,6 +24,7 @@ tiltifyTotalRep.on('change', newVal => {
 });
 
 tiltifyDonationsRep.on('change', newVal => {
+	if (!newVal) return;
 	newVal.forEach(donation => {
 		if (!donationsListRep.value?.find(donate => donate.id === donation.id)) {
 			donationsListRep.value?.push({
