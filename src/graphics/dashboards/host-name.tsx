@@ -52,7 +52,7 @@ export const HostName: React.FC<Props> = (props: Props) => {
 							value={hostDiscord}
 							onChange={(e) => setHostDiscord(e.target.value as string)}>
 							<MenuItem value="">No user</MenuItem>
-							{discordMembers.map((user) => {
+							{discordMembers?.map((user) => {
 								return (
 									<MenuItem key={user.id} value={user.id}>
 										{user.name}
