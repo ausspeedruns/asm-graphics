@@ -165,7 +165,7 @@ export const HostDash: React.FC = () => {
 					<Paper style={{ height: '42%', overflowY: 'auto', overflowX: 'hidden' }}>
 						<Header
 							text="Incentives"
-							url="https://docs.google.com/spreadsheets/d/1GjMC3pwOqqJ8USRTlZVpdvCsx-7e55qucVTjGt2Ffrk">
+							url="https://docs.google.com/spreadsheets/d/1IsMrjs3Z09WfCmnj0r46WSTK3sbFPD9dXlkIsgMNIe8">
 							<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
 								<Refresh fontSize="small" />
 							</IconButton>
