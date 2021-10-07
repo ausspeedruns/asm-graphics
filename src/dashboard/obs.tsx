@@ -265,6 +265,10 @@ const DashOBS: React.FC = () => {
 							Intermission
 						</Button>
 					</ButtonGroup>
+					<span style={{textAlign: 'center', marginTop: 8}}>
+						Transition in: Instant<br/>
+						Transition out: Delay by 5s
+					</span>
 				</VFlex>
 				<VFlex>
 					<div style={{ display: 'flex' }}>

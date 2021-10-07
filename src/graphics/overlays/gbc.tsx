@@ -25,7 +25,7 @@ const Sidebar = styled.div`
 const RightSidebar = styled.div`
 	position: absolute;
 	right: 0;
-	height: 1016px;
+	height: 1016.5px;
 	width: 224px;
 	border-left: 1px solid var(--pax-gold);
 	overflow: hidden;

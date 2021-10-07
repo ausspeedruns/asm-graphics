@@ -16,7 +16,7 @@ interface TiltifyDonation {
 };
 
 const tiltifyTotalRep = nodecg.Replicant<number>('total', 'nodecg-tiltify');
-const tiltifyDonationsRep = nodecg.Replicant<TiltifyDonation[]>('allDonations', 'nodecg-tiltify');
+const tiltifyDonationsRep = nodecg.Replicant<TiltifyDonation[]>('alldonations', 'nodecg-tiltify');
 
 
 tiltifyTotalRep.on('change', newVal => {
@@ -32,7 +32,7 @@ tiltifyDonationsRep.on('change', newVal => {
 				currencySymbol: '$',
 				id: donation.id.toString(),
 				name: donation.name,
-				time: donation.completedAt.toString(),
+				time: donation.completedAt,
 				read: false,
 				desc: donation.comment ?? ''
 			});
