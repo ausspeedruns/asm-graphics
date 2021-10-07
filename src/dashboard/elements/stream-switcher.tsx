@@ -73,7 +73,9 @@ const StreamSizeSelection: React.FC<SizeSelection> = (props: SizeSelection) => {
 	}
 
 	const handleChange = (_e: React.MouseEvent<HTMLElement, MouseEvent>, v: any) => {
-		updateSize(v);
+		if (v.length) {
+			updateSize(v);
+		}
 	}
 
 	return (

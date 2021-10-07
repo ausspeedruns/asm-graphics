@@ -334,11 +334,11 @@ const DashOBS: React.FC = () => {
 					<DialogContentText>
 						<div>
 							ASM Station 1:
-							live_473924910_vuJXJY25Zsjcnj5jli9FN2Vtmi4STB
+							live_473924910_QRkHAf9mmudxB85MoGxEqOftOmjdBB
 							<IconButton
 								onClick={() =>
 									navigator.clipboard.writeText(
-										'live_473924910_vuJXJY25Zsjcnj5jli9FN2Vtmi4STB',
+										'live_473924910_QRkHAf9mmudxB85MoGxEqOftOmjdBB',
 									)
 								}>
 								<Filter1 />
@@ -346,11 +346,11 @@ const DashOBS: React.FC = () => {
 						</div>
 						<div>
 							ASM Station 2:
-							live_473929210_gBTGkO4HrcyETJWzC1bjYDumVnWHws
+							live_473929210_fGqAZD4iiN0LgTfu54U5eD70QXftbO
 							<IconButton
 								onClick={() =>
 									navigator.clipboard.writeText(
-										'live_473929210_gBTGkO4HrcyETJWzC1bjYDumVnWHws',
+										'live_473929210_fGqAZD4iiN0LgTfu54U5eD70QXftbO',
 									)
 								}>
 								<Filter2 />
@@ -358,11 +358,11 @@ const DashOBS: React.FC = () => {
 						</div>
 						<div>
 							ASM Station 3:
-							live_473929692_UaLs2lhDN8VklaIZIsFjdBhOhNxWxQ
+							live_473929692_Wqsye5ccxS3b4mEksq2AIMfIyJqofF
 							<IconButton
 								onClick={() =>
 									navigator.clipboard.writeText(
-										'live_473929692_UaLs2lhDN8VklaIZIsFjdBhOhNxWxQ',
+										'live_473929692_Wqsye5ccxS3b4mEksq2AIMfIyJqofF',
 									)
 								}>
 								<Filter3 />
@@ -370,11 +370,11 @@ const DashOBS: React.FC = () => {
 						</div>
 						<div>
 							ASM Station 4:
-							live_582054304_tfN8ZeWVsk5GXTEovn40jtg69T1i6U
+							live_582054304_bf1NHWJcfHHafE4sIewIykjrnaislr
 							<IconButton
 								onClick={() =>
 									navigator.clipboard.writeText(
-										'live_582054304_tfN8ZeWVsk5GXTEovn40jtg69T1i6U',
+										'live_582054304_bf1NHWJcfHHafE4sIewIykjrnaislr',
 									)
 								}>
 								<Filter4 />
