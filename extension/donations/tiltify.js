@@ -7,7 +7,7 @@ const donationTotalRep = nodecg.Replicant('donationTotal');
 const donationsListRep = nodecg.Replicant('donations');
 ;
 const tiltifyTotalRep = nodecg.Replicant('total', 'nodecg-tiltify');
-const tiltifyDonationsRep = nodecg.Replicant('allDonations', 'nodecg-tiltify');
+const tiltifyDonationsRep = nodecg.Replicant('alldonations', 'nodecg-tiltify');
 tiltifyTotalRep.on('change', newVal => {
     donationTotalRep.value = newVal;
 });
@@ -22,7 +22,7 @@ tiltifyDonationsRep.on('change', newVal => {
                 currencySymbol: '$',
                 id: donation.id.toString(),
                 name: donation.name,
-                time: donation.completedAt.toString(),
+                time: donation.completedAt,
                 read: false,
                 desc: (_c = donation.comment) !== null && _c !== void 0 ? _c : ''
             });
