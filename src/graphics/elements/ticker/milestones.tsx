@@ -15,7 +15,7 @@ const TickerMilestonesContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #F2DAB2;
 	font-size: 37px;
 `;
 
@@ -51,14 +51,14 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid white;
+	border: 1px solid #F2DAB2;
 	position: relative;
 	overflow: hidden;
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: white;
+	background: #F2DAB2;
 	border-right: 5px solid var(--main-col);
 	display: flex;
 	align-items: center;
@@ -130,7 +130,7 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 	if (percentage < 50) {
 		textOnRightSide = {
 			marginRight: -110,
-			color: 'white',
+			color: '#F2DAB2',
 			textAlign: 'left',
 		};
 	}
