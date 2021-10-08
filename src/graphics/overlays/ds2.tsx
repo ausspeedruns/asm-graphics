@@ -95,7 +95,20 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 
 	if (props.runData?.teams) {
 		if (props.runData.teams.length > 1) {
-			currentAudio = props.runData.teams.findIndex(team => audioIndicatorRep === team.id);
+			let totalIndex = -1;
+			props.runData.teams.forEach(team => {
+				team.players.forEach((player) => {
+					totalIndex++;
+					if (player.id === audioIndicatorRep) {
+						currentAudio = totalIndex;
+						return;
+					}
+
+					if (currentAudio !== -1) {
+						return;
+					}
+				});
+			});
 		} else {
 			currentAudio = props.runData.teams[0].players.findIndex(player => audioIndicatorRep === player.id);
 		}
