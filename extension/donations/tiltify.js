@@ -14,18 +14,22 @@ tiltifyTotalRep.on('change', newVal => {
 tiltifyDonationsRep.on('change', newVal => {
     if (!newVal)
         return;
+    const mutableDonations = [];
     newVal.forEach(donation => {
-        var _a, _b, _c;
+        var _a, _b;
         if (!((_a = donationsListRep.value) === null || _a === void 0 ? void 0 : _a.find(donate => donate.id === donation.id))) {
-            (_b = donationsListRep.value) === null || _b === void 0 ? void 0 : _b.push({
+            mutableDonations.push({
                 amount: donation.amount,
                 currencySymbol: '$',
                 id: donation.id.toString(),
                 name: donation.name,
                 time: donation.completedAt,
                 read: false,
-                desc: (_c = donation.comment) !== null && _c !== void 0 ? _c : ''
+                desc: (_b = donation.comment) !== null && _b !== void 0 ? _b : ''
             });
         }
+    });
+    donationsListRep.value = mutableDonations.filter((item, pos, self) => {
+        return self.findIndex(selfItem => item.id === selfItem.id) == pos;
     });
 });
