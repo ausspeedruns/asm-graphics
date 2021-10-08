@@ -163,3 +163,6 @@ function firstTimeLoad() {
         streamConnect();
     });
 })();
+nodecg.listenFor('refresh-tweets', () => {
+    firstTimeLoad();
+});
