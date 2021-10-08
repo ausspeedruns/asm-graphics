@@ -3,11 +3,11 @@ import styled, { keyframes } from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import _ from 'underscore';
 
-import { Donation } from '../../types/Donations';
+// import { Donation } from '../../types/Donations';
 
 import { Box, Grid, Tooltip } from '@material-ui/core';
-import { GreenButton, RedButton } from '../../dashboard/elements/styled-ui';
-import { Check, Close } from '@material-ui/icons';
+import { GreenButton } from '../../dashboard/elements/styled-ui';
+import { Check } from '@material-ui/icons';
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);
@@ -23,10 +23,23 @@ const DonationsContainer = styled.div`
 // title: "Pip donated $22"
 // used: false
 
+interface TiltifyDonation {
+	id: number,
+	amount: number,
+	name: string,
+	comment: string,
+	completedAt: number,
+	updatedAt: number,
+	sustained: boolean,
+	shown: boolean,
+	read: boolean
+}
+
 export const Donations: React.FC = () => {
-	const [donations] = useReplicant<Donation[], Donation[]>('donations', []);
+	const [donations] = useReplicant<TiltifyDonation[], TiltifyDonation[]>('donations', [], {namespace: 'nodecg-tiltify'});
+	console.log(donations);
 	
-	const allDonations = donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />) ?? [];
+	const allDonations = donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];
 	
 	return (
 		<DonationsContainer>
@@ -40,7 +53,7 @@ export const Donations: React.FC = () => {
 /* Single Donation */
 
 interface DonationProps {
-	donation: Donation;
+	donation: TiltifyDonation;
 }
 const NewFlash = keyframes`
 	from { background-color: #000000; }
@@ -86,34 +99,27 @@ const DisabledCover = styled.div`
 `;
 
 const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
-	const timeText = new Date(props.donation.time).toLocaleTimeString();
+	const timeText = new Date(props.donation.completedAt).toLocaleTimeString();
 
 	const toggleRead = () => {
-		nodecg.sendMessage('donations:toggleRead', props.donation.id);
+		nodecg.sendMessageToBundle('mark-donation-as-read', 'nodecg-tiltify', props.donation);
 	};
 
 	return (
 		<DonationContainer boxShadow={2}>
 			<Grid direction="column" container>
 				<div>
-					<Amount>{props.donation.currencySymbol}{props.donation.amount.toLocaleString()}</Amount>
+					<Amount>${props.donation.amount.toLocaleString()}</Amount>
 					<Name>{props.donation.name}</Name>
 				</div>
 				<DateText>{timeText}</DateText>
-				<span style={{ fontStyle: props.donation.desc ? '' : 'italic' }}>
-					{_.unescape(props.donation.desc || 'No comment').replace('&#39;', "'")}
+				<span style={{ fontStyle: props.donation.comment ? '' : 'italic' }}>
+					{_.unescape(props.donation.comment || 'No comment').replace('&#39;', "'")}
 				</span>
 			</Grid>
 
 			{props.donation.read ? (
-				<>
-					<DisabledCover />
-					<Tooltip title="Mark as unread" placement="top">
-						<RedButton variant="contained" onClick={toggleRead}>
-							<Close />
-						</RedButton>
-					</Tooltip>
-				</>
+				<DisabledCover />
 			) : (
 				<Tooltip title="Mark as read" placement="top">
 					<GreenButton variant="contained" onClick={toggleRead}>
