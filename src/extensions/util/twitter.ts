@@ -203,3 +203,7 @@ function firstTimeLoad() {
 	});
 
 })();
+
+nodecg.listenFor('refresh-tweets', () => {
+	firstTimeLoad();
+});
