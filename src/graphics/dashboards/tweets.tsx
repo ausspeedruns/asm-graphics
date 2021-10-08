@@ -99,6 +99,14 @@ export const Twitter: React.FC = () => {
 		<TwitterContainer>
 			<TopBar boxShadow={5}>
 				<Button
+					variant="contained"
+					size="small"
+					onClick={() => {
+						nodecg.sendMessage('refresh-tweets');
+					}}>
+					Refresh
+				</Button>
+				<Button
 					style={{ float: 'right' }}
 					variant="contained"
 					size="small"
