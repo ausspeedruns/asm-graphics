@@ -59,7 +59,7 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	background: #F2DAB2;
-	border-right: 5px solid var(--main-col);
+	border-right: 5px solid var(--pax-gold);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
