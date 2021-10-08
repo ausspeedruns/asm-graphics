@@ -25,9 +25,10 @@ tiltifyTotalRep.on('change', newVal => {
 
 tiltifyDonationsRep.on('change', newVal => {
 	if (!newVal) return;
+	const mutableDonations: Donation[] = [];
 	newVal.forEach(donation => {
 		if (!donationsListRep.value?.find(donate => donate.id === donation.id)) {
-			donationsListRep.value?.push({
+			mutableDonations.push({
 				amount: donation.amount,
 				currencySymbol: '$',
 				id: donation.id.toString(),
@@ -38,4 +39,8 @@ tiltifyDonationsRep.on('change', newVal => {
 			});
 		}
 	});
+
+	donationsListRep.value = mutableDonations.filter((item, pos, self) => {
+		return self.findIndex(selfItem => item.id === selfItem.id) == pos;
+	})
 });

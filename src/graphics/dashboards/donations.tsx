@@ -26,10 +26,7 @@ const DonationsContainer = styled.div`
 export const Donations: React.FC = () => {
 	const [donations] = useReplicant<Donation[], Donation[]>('donations', []);
 	
-	const uniqueDonations = donations.filter((item, pos, self) => {
-		return self.findIndex(selfItem => item.id === selfItem.id) == pos;
-	})
-	const allDonations = uniqueDonations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() || [];
+	const allDonations = donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />) ?? [];
 	
 	return (
 		<DonationsContainer>
