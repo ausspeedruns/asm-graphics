@@ -13,6 +13,7 @@ import {
 	ThemeProvider,
 } from '@material-ui/core';
 import { darkTheme } from './theme';
+import { useReplicant } from 'use-nodecg';
 
 const Row = styled.div`
 	display: flex;
@@ -24,6 +25,7 @@ export const Settings: React.FC = () => {
 	const [locked, setLock] = useState(true);
 	const [warning, setWarning] = useState(false);
 	const [googleCred, setGoogleCred] = useState('');
+	const [creditsNameRep, setCreditsNameRep] = useReplicant<{name: string, title: string}, {name: string, title: string}>('credits-name', {name: '', title: ''});
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -48,6 +50,22 @@ export const Settings: React.FC = () => {
 			<Button disabled={locked} variant="contained" fullWidth onClick={() => nodecg.sendMessage('start-credits')}>
 				Run Credits
 			</Button>
+			<Row>
+				<TextField
+					fullWidth
+					disabled={locked}
+					label="Credits Name"
+					value={creditsNameRep.name}
+					onChange={(e) => setCreditsNameRep({...creditsNameRep, name: e.target.value})}
+				/>
+				<TextField
+					fullWidth
+					disabled={locked}
+					label="Credits Title"
+					value={creditsNameRep.title}
+					onChange={(e) => setCreditsNameRep({...creditsNameRep, title: e.target.value})}
+				/>
+			</Row>
 			<Dialog open={warning} onClose={() => setWarning(false)}>
 				<DialogTitle>Are you sure?</DialogTitle>
 				<DialogContent>
