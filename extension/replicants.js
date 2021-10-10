@@ -29,3 +29,5 @@ nodecg.Replicant('googleToken');
 nodecg.Replicant('incentives', { defaultValue: [] });
 /* OBS */
 nodecg.Replicant('obsConnection', { defaultValue: false, persistent: false });
+/* Credits */
+nodecg.Replicant('credits-name', { defaultValue: { name: '', title: '' } });
