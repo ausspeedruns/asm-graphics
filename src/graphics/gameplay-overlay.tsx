@@ -22,8 +22,8 @@ import { GBA } from './overlays/gba';
 import { GBC } from './overlays/gbc';
 import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
-import { Credits } from './elements/credits';
 import { ThreeDS } from './overlays/3ds';
+import { CreditsOverlay } from './overlays/credits';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -125,7 +125,7 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: '3DS',
 		},
 		{
-			component: <div style={{height: 1016, position: 'relative'}}><Credits /></div>,
+			component: <CreditsOverlay />,
 			name: 'None',
 		},
 	];

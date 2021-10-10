@@ -47,3 +47,6 @@ nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
 
 /* OBS */
 nodecg.Replicant<boolean>('obsConnection', { defaultValue: false, persistent: false });
+
+/* Credits */
+nodecg.Replicant<{name: string, title: string}>('credits-name', {defaultValue: {name: '', title: ''}});
