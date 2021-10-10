@@ -111,6 +111,7 @@ const EndRunCont = styled.div`
 	align-items: center;
 	font-size: 30px;
 	margin-top: -15px;
+	text-align: center;
 `;
 
 export const EndRunItem: React.FC = () => {
@@ -118,7 +119,7 @@ export const EndRunItem: React.FC = () => {
 		<EndRunCont>
 			<span>The End</span>
 			<span>
-				<b>Thank you for watching PAX x AusSpeedruns 2021!</b>
+				<b>Thank you for watching<br />PAX x AusSpeedruns 2021!</b>
 			</span>
 		</EndRunCont>
 	);
