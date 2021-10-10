@@ -20,7 +20,7 @@ const CreditsContainer = styled.div`
 const AllCredits = styled.div`
 	display: flex;
 	flex-direction: column;
-	bottom: -4850px;
+	bottom: -4900px;
 	position: absolute;
 	width: 100%;
 	align-items: center;
@@ -77,7 +77,7 @@ export const Credits: React.FC = () => {
 		// Start credits
 		tl.to(creditsBGRef.current, { width: 400, duration: 2 });
 		tl.to(allCreditsRef.current, { bottom: 1100, duration: 100, ease: "none" }, '+=1');
-		tl.to(creditsBGRef.current, { width: 0, opacity: 0, duration: 2 });
+		tl.to(creditsBGRef.current, { width: 0, duration: 2 });
 	});
 
 	return (
