@@ -34,11 +34,11 @@ nodecg.listenFor('remove-preview-hostname', (index: number) => {
 	couchNamesRep.value = hostNamesMutable;
 });
 
-nodecg.listenFor('no-cam-preview', (value) => {
+nodecg.listenFor('no-cam-preview', (value: boolean) => {
 	noCamRep.value.preview = value;
 });
 
-nodecg.listenFor('no-cam-current', (value) => {
+nodecg.listenFor('no-cam-current', (value: boolean) => {
 	noCamRep.value.current = value;
 });
 

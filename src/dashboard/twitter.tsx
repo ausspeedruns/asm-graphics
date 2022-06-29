@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled, { keyframes } from 'styled-components';
 import { useReplicant, useListenFor } from 'use-nodecg';
 import _ from 'underscore';
@@ -8,9 +8,9 @@ import { Tweet } from '../types/Twitter';
 import { Config } from '../types/ConfigSchema';
 
 import { GreenButton, RedButton } from './elements/styled-ui';
-import { Box, Button } from '@material-ui/core';
-import UndoIcon from '@material-ui/icons/Undo';
-import Delete from '@material-ui/icons/Delete';
+import { Box, Button } from '@mui/material';
+import UndoIcon from '@mui/icons-material/Undo';
+import Delete from '@mui/icons-material/Delete';
 
 const ncgConfig = nodecg.bundleConfig as Config;
 
@@ -161,4 +161,4 @@ export const SingleTweet: React.FC<SingleTweetProps> = (props: SingleTweetProps)
 	);
 };
 
-render(<Twitter />, document.getElementById('twitter'));
+createRoot(document.getElementById('root')!).render(<Twitter />);

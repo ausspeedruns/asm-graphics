@@ -14,8 +14,8 @@ import {
 	DialogContent,
 	DialogTitle,
 	TextField,
-} from '@material-ui/core';
-import { Close, Check } from '@material-ui/icons';
+} from '@mui/material';
+import { Close, Check } from '@mui/icons-material';
 import { RedButton, GreenButton } from '../../dashboard/elements/styled-ui';
 import { CouchPerson } from '../../types/OverlayProps';
 

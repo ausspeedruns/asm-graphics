@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { useListenFor, useReplicant } from 'use-nodecg';
 
@@ -14,11 +14,9 @@ import {
 	DialogContentText,
 	DialogTitle,
 	Snackbar,
-} from '@material-ui/core';
-import { Close, Refresh } from '@material-ui/icons';
+} from '@mui/material';
+import { Close, Refresh } from '@mui/icons-material';
 import Draggable from 'react-draggable';
-// @ts-ignore
-import { TwitchPlayer } from 'react-twitch-embed';
 
 import { Header } from './dashboards/header';
 import { Donations } from './dashboards/donations';
@@ -210,7 +208,6 @@ export const HostDash: React.FC = () => {
 			{showStream && (
 				<Draggable defaultPosition={{ x: 25, y: -900 }}>
 					<TwitchFloating>
-						<TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={832} height={468} />
 						<iframe
 							height={468}
 							width={300}
@@ -264,4 +261,4 @@ export const HostDash: React.FC = () => {
 	);
 };
 
-render(<HostDash />, document.getElementById('hostdash'));
+createRoot(document.getElementById('root')!).render(<HostDash />);

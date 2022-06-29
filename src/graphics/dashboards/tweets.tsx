@@ -8,9 +8,8 @@ import { Tweet } from '../../types/Twitter';
 import { Config } from '../../types/ConfigSchema';
 
 import { GreenButton, RedButton } from '../../dashboard/elements/styled-ui';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-import UndoIcon from '@material-ui/icons/Undo';
-import Delete from '@material-ui/icons/Delete';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Delete, Undo } from '@mui/icons-material';
 
 const ncgConfig = nodecg.bundleConfig as Config;
 
@@ -111,7 +110,7 @@ export const Twitter: React.FC = () => {
 					variant="contained"
 					size="small"
 					disabled={!canUndo}
-					startIcon={<UndoIcon />}
+					startIcon={<Undo />}
 					onClick={() => {
 						nodecg.sendMessage('undoTweetDeletion');
 						setCanUndo(false);

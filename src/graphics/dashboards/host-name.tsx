@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { CouchPerson } from '../../types/OverlayProps';
 import { useReplicant } from 'use-nodecg';
 import { useEffect } from 'react';

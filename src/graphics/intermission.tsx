@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import clone from 'clone';
 import { useListenFor, useReplicant } from 'use-nodecg';
 import gsap from 'gsap';
-import { useFetch } from 'use-http';
+// import { useFetch } from 'use-http';
 
 import { RunDataArray, RunDataActiveRun } from '../types/RunData';
 import { Tweet as ITweet } from '../types/Twitter';
@@ -228,20 +228,20 @@ export const Intermission: React.FC<IntermissionProps> = (
 		pronouns: '',
 	});
 	const [currentTime, setCurrentTime] = useState('00:00:00');
-	const [currentSong, setCurrentSong] = useState('');
+	const [currentSong, _setCurrentSong] = useState('');
 	const songEl = useRef<HTMLDivElement>(null);
 	const [tweet, setTweet] = useState<ITweet | undefined>(undefined);
 	const tweetRef = useRef<HTMLDivElement>(null);
 	const asLogoRef = useRef<HTMLImageElement>(null);
 	const backgroundRef = useRef<HTMLCanvasElement>(null);
-	const { get, cache } = useFetch('https://rainwave.cc/api4');
+	// const { get, cache } = useFetch('https://rainwave.cc/api4');
 
 	async function getCurrentSong() {
-		const song = await get('/info_all?sid=2');
-		cache.clear();
-		setCurrentSong(
-			`${song.all_stations_info[2].title} – ${song.all_stations_info[2].artists} – ${song.all_stations_info[2].album}`,
-		);
+		// const song = await get('/info_all?sid=2');
+		// cache.clear();
+		// setCurrentSong(
+		// 	`${song.all_stations_info[2].title} – ${song.all_stations_info[2].artists} – ${song.all_stations_info[2].album}`,
+		// );
 	}
 
 	useEffect(() => {
@@ -423,6 +423,4 @@ export const Intermission: React.FC<IntermissionProps> = (
 	);
 };
 
-if (document.getElementById('intermission')) {
-	render(<Intermission />, document.getElementById('intermission'));
-}
+createRoot(document.getElementById('root')!).render(<Intermission />);

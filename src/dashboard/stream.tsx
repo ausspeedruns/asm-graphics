@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Config } from '../types/ConfigSchema';
 
@@ -14,4 +14,4 @@ const Stream: React.FC = () => {
 	);
 };
 
-render(<Stream />, document.getElementById('stream'));
+createRoot(document.getElementById('root')!).render(<Stream />);

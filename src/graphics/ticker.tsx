@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { useReplicant } from 'use-nodecg';
 import gsap from 'gsap';
 
@@ -120,6 +120,9 @@ export const Ticker: React.FC = () => {
 
 	const showContent = (element: TickerItemHandles) => {
 		const tl = gsap.timeline();
+
+		if (!element) return tl;
+
 		element.animation(tl);
 		return tl;
 	};
@@ -128,11 +131,11 @@ export const Ticker: React.FC = () => {
 		const mainTl = gsap.timeline();
 
 		mainTl.add(showContent(ctaRef.current!));
-		
+
 		// -=1.02 so that the animation "overlaps" and if it was just -1 there would be a 1px tall gap
 		mainTl.add(showContent(runsRef.current!), '-=1.02');
 		mainTl.add(showContent(prizesRef.current!));
-		
+
 		mainTl.add(showContent(goalsRef.current!), '-=1.02');
 		mainTl.add(showContent(warsRef.current!), '-=1.02');
 		mainTl.add(showContent(milestoneRef.current!), '-=1.02');
@@ -167,6 +170,4 @@ export const Ticker: React.FC = () => {
 	);
 };
 
-if (document.getElementById('ticker')) {
-	render(<Ticker />, document.getElementById('ticker'));
-}
+createRoot(document.getElementById('root')!).render(<Ticker />);

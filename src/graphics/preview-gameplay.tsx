@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
@@ -39,4 +39,4 @@ const PreviewGameplayStream: React.FC = () => {
 	);
 };
 
-render(<PreviewGameplayStream />, document.getElementById('PreviewGameplay'));
+createRoot(document.getElementById('root')!).render(<PreviewGameplayStream />);

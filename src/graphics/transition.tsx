@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { useListenFor } from 'use-nodecg';
 
@@ -53,4 +53,4 @@ export const Transition: React.FC = () => {
 	);
 };
 
-render(<Transition />, document.getElementById('transition'));
+createRoot(document.getElementById('root')!).render(<Transition />);

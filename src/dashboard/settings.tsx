@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 
 import {
@@ -11,7 +11,7 @@ import {
 	DialogTitle,
 	TextField,
 	ThemeProvider,
-} from '@material-ui/core';
+} from '@mui/material';
 import { darkTheme } from './theme';
 import { useReplicant } from 'use-nodecg';
 
@@ -92,4 +92,4 @@ export const Settings: React.FC = () => {
 	);
 };
 
-render(<Settings />, document.getElementById('settings'));
+createRoot(document.getElementById('root')!).render(<Settings />);

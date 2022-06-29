@@ -1,6 +1,6 @@
 import React from 'react';
-import {render} from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
-import {Intermission} from './intermission';
+import { Intermission } from './intermission';
 
-render(<Intermission muted/>, document.getElementById('intermission-muted'));
+createRoot(document.getElementById('root')!).render(<Intermission muted />);

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Input, Slider } from '@material-ui/core';
-import lightBlue from '@material-ui/core/colors/lightBlue';
-import { VolumeUp, VolumeOff } from '@material-ui/icons';
+import { Button, Input, Slider } from '@mui/material';
+import lightBlue from '@mui/material/colors/lightBlue';
+import { VolumeUp, VolumeOff } from '@mui/icons-material';
 
 interface DisabledProps {
 	readonly disabled?: boolean;

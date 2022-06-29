@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { Box, Grid } from '@material-ui/core';
+import { Box, Grid } from '@mui/material';
 
 import { Goal, War } from '../../types/Incentives';
 import { RunData } from '../../types/RunData';

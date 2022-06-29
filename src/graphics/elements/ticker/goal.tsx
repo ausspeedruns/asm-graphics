@@ -167,6 +167,8 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 
+	const percentage = (props.goal.total / props.goal.goal) * 100;
+
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
@@ -183,8 +185,6 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 			return tl;
 		},
 	}));
-
-	const percentage = (props.goal.total / props.goal.goal) * 100;
 
 	let textOnRightSide: React.CSSProperties = {};
 	if (percentage < 50) {

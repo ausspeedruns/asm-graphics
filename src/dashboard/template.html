@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Dash - Special OBS</title>
+		<title><%= htmlWebpackPlugin.options.title %></title>
 		<style>
 			body {
 				--main-col: #2b315c;
@@ -13,7 +12,6 @@
 		</style>
 	</head>
 	<body>
-		<div id="special-obs" />
-		<script src="special-obs.tsx"></script>
+		<div id="root"></div>
 	</body>
 </html>

@@ -20,6 +20,7 @@ const TickerTitleContainer = styled.div`
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
+	children?: React.ReactNode;
 }
 
 export const TickerTitle: React.FC<Props> = (props: React.PropsWithChildren<Props>) => {

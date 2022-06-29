@@ -5,7 +5,7 @@ import clone from 'clone';
 
 import { RunDataArray, RunData } from '../../types/RunData';
 
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 const UpcomingContainer = styled.div`
 	display: flex;

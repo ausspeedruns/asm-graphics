@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled, { keyframes } from 'styled-components';
 
 import { StaffMessage } from '../types/StaffMessages';
 
 import { darkTheme } from './theme';
 import { GreenButton, LightTextfield } from './elements/styled-ui';
-import { Box, Grid, Snackbar, ThemeProvider } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Box, Grid, Snackbar, ThemeProvider, Alert } from '@mui/material';
 import { useReplicant } from 'use-nodecg';
 
 const StaffMessagesContainer = styled.div``;
@@ -149,4 +148,4 @@ const Message: React.FC<MessageProps> = (props: MessageProps) => {
 	);
 };
 
-render(<StaffMessages />, document.getElementById('staff-messages'));
+createRoot(document.getElementById('root')!).render(<StaffMessages />);

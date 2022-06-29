@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 
 import { darkTheme } from './theme';
-import { Checkbox, FormControlLabel, ThemeProvider } from '@material-ui/core';
+import { Checkbox, FormControlLabel, ThemeProvider } from '@mui/material';
 
 const SpecialOBSContainer = styled.div``;
 
@@ -28,4 +28,4 @@ export const SpecialOBS: React.FC = () => {
 	);
 };
 
-render(<SpecialOBS />, document.getElementById('special-obs'));
+createRoot(document.getElementById('root')!).render(<SpecialOBS />);

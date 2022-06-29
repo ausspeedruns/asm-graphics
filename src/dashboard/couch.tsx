@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
@@ -18,9 +18,8 @@ import {
 	Select,
 	TextField,
 	ThemeProvider,
-} from '@material-ui/core';
-import Add from '@material-ui/icons/Add';
-import Remove from '@material-ui/icons/Remove';
+} from '@mui/material';
+import { Add, Remove } from '@mui/icons-material';
 import { darkTheme } from './theme';
 
 const GreenButton = styled(Button)`
@@ -102,7 +101,7 @@ export const DashCouch: React.FC = () => {
 	const [editLive, setEditLive] = useState(false);
 
 	useEffect(() => {
-		setLocalAudioDelay((discordAudioDelayRep / 1000).toString())
+		setLocalAudioDelay((discordAudioDelayRep / 1000).toString());
 	}, [discordAudioDelayRep]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,10 +123,7 @@ export const DashCouch: React.FC = () => {
 	const addHost = () => {
 		let newNamesArray: CouchPerson[];
 		if (couchNamesRep.current.length > 0) {
-			newNamesArray = [
-				...couchNamesRep.current,
-				{ name: localHostName, pronouns: localHostPronoun },
-			];
+			newNamesArray = [...couchNamesRep.current, { name: localHostName, pronouns: localHostPronoun }];
 		} else {
 			newNamesArray = [{ name: localHostName, pronouns: localHostPronoun }];
 		}
@@ -141,10 +137,7 @@ export const DashCouch: React.FC = () => {
 	const addPreviewHost = () => {
 		let newNamesArray: CouchPerson[];
 		if (couchNamesRep.preview.length > 0) {
-			newNamesArray = [
-				...couchNamesRep.preview,
-				{ name: localPreviewHostName, pronouns: localPreviewPronoun },
-			];
+			newNamesArray = [...couchNamesRep.preview, { name: localPreviewHostName, pronouns: localPreviewPronoun }];
 		} else {
 			newNamesArray = [{ name: localPreviewHostName, pronouns: localPreviewPronoun }];
 		}
@@ -289,10 +282,15 @@ export const DashCouch: React.FC = () => {
 				</div>
 			</div>
 			<hr />
-        <FormControl>
-			<Input type="number" value={localAudioDelay} onChange={editDiscordDelay} endAdornment={<InputAdornment position="end">s</InputAdornment>} />
-			<FormHelperText>Discord Audio Indicator Delay</FormHelperText>
-        </FormControl>
+			<FormControl>
+				<Input
+					type="number"
+					value={localAudioDelay}
+					onChange={editDiscordDelay}
+					endAdornment={<InputAdornment position="end">s</InputAdornment>}
+				/>
+				<FormHelperText>Discord Audio Indicator Delay</FormHelperText>
+			</FormControl>
 		</ThemeProvider>
 	);
 };
@@ -355,12 +353,17 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 				{props.person.name === ' ' ? <i style={{ fontWeight: 'lighter' }}>No Host</i> : props.person.name}
 			</HostName>
 			<Pronoun>{props.person.pronouns}</Pronoun>
-			<FormControl style={{minWidth: 120}}>
+			<FormControl style={{ minWidth: 120 }}>
 				<InputLabel id="live-discord-user">Discord User</InputLabel>
 				<Select
 					labelId="live-discord-user"
 					value={props.person.discordID}
-					onChange={(e) => nodecg.sendMessage(props.preview ? 'set-discord-user-preview' : 'set-discord-user-live', {...props.person, discordID: e.target.value as string} as CouchPerson)}>
+					onChange={(e) =>
+						nodecg.sendMessage(props.preview ? 'set-discord-user-preview' : 'set-discord-user-live', {
+							...props.person,
+							discordID: e.target.value as string,
+						} as CouchPerson)
+					}>
 					<MenuItem value="">No user</MenuItem>
 					{props.discordUsers.map((user) => {
 						return (
@@ -382,4 +385,4 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 	);
 };
 
-render(<DashCouch />, document.getElementById('couch'));
+createRoot(document.getElementById('root')!).render(<DashCouch />);

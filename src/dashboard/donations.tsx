@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import _ from 'underscore';
@@ -7,7 +7,7 @@ import _ from 'underscore';
 import {Donation} from '../types/Donations';
 
 import {darkTheme} from './theme';
-import { Box, Grid, ThemeProvider } from '@material-ui/core';
+import { Box, Grid, ThemeProvider } from '@mui/material';
 
 const DonationTotal = styled.div`
 	width: 100%;
@@ -90,4 +90,4 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	);
 };
 
-render(<Donations />, document.getElementById('donations'));
+createRoot(document.getElementById('root')!).render(<Donations />);

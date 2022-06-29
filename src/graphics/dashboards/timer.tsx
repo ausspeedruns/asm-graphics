@@ -4,8 +4,8 @@ import { useReplicant } from 'use-nodecg';
 
 import { Timer as TimerI } from '../../types/Timer';
 
-import { Button, Box, Tooltip } from '@material-ui/core';
-import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from '@material-ui/icons';
+import { Button, Box, Tooltip } from '@mui/material';
+import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from '@mui/icons-material';
 import { RunDataActiveRun, RunDataTeam } from '../../types/RunData';
 
 const TimerContainer = styled.div`
@@ -87,7 +87,7 @@ export const Timer: React.FC = () => {
 		case 'paused':
 			fontColor = '#949494';
 			break;
-			
+
 		default:
 			break;
 	}

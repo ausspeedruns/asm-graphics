@@ -5,9 +5,9 @@ import _ from 'underscore';
 
 // import { Donation } from '../../types/Donations';
 
-import { Box, Grid, Tooltip } from '@material-ui/core';
+import { Box, Grid, Tooltip } from '@mui/material';
 import { GreenButton } from '../../dashboard/elements/styled-ui';
-import { Check } from '@material-ui/icons';
+import { Check } from '@mui/icons-material';
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);
@@ -38,9 +38,9 @@ interface TiltifyDonation {
 export const Donations: React.FC = () => {
 	const [donations] = useReplicant<TiltifyDonation[], TiltifyDonation[]>('donations', [], {namespace: 'nodecg-tiltify'});
 	console.log(donations);
-	
+
 	const allDonations = donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];
-	
+
 	return (
 		<DonationsContainer>
 			<Grid container direction="column" style={{ padding: 8 }}>

@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import { Stream } from '../../types/Streams';
 
-// import { Button, ButtonGroup, SvgIcon } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
-import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
+// import { Button, ButtonGroup, SvgIcon } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 
 // @ts-ignore
 import Widescreen from '../media/Widescreen.svg';
@@ -81,7 +81,7 @@ const StreamSizeSelection: React.FC<SizeSelection> = (props: SizeSelection) => {
 	return (
 		<StreamEl>
 			<span>{props.displayName}</span>
-			
+
 			<ToggleButtonGroup size="small" value={size} exclusive onChange={handleChange}>
 				<ToggleButton size="small" value="X">
 					<Close />

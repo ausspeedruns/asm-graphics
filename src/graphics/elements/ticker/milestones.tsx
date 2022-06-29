@@ -94,6 +94,17 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 
+	const prevMilestoneArray = MILESTONES.filter((milestone) => props.currentTotal > milestone.total);
+	const nextMilestone = MILESTONES.find((milestone) => props.currentTotal < milestone.total);
+
+	if (!nextMilestone || prevMilestoneArray.length === 0) return <></>;
+
+	const prevMilestone = prevMilestoneArray[prevMilestoneArray.length - 1];
+
+	const moneyDifference = props.currentTotal - prevMilestone.total;
+	const goalDifference = nextMilestone.total - prevMilestone.total;
+	const percentage = (moneyDifference / goalDifference) * 100;
+
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			if (!percentage) {
@@ -115,16 +126,6 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 		},
 	}));
 
-	const prevMilestoneArray = MILESTONES.filter((milestone) => props.currentTotal > milestone.total);
-	const nextMilestone = MILESTONES.find((milestone) => props.currentTotal < milestone.total);
-
-	if (!nextMilestone || prevMilestoneArray.length === 0) return <></>;
-
-	const prevMilestone = prevMilestoneArray[prevMilestoneArray.length - 1];
-
-	const moneyDifference = props.currentTotal - prevMilestone.total;
-	const goalDifference = nextMilestone.total - prevMilestone.total;
-	const percentage = (moneyDifference / goalDifference) * 100;
 
 	let textOnRightSide: React.CSSProperties = {};
 	if (percentage < 50) {

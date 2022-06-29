@@ -36,12 +36,27 @@ interface FacecamProps {
 }
 
 export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
-	if (!props.teams) return <></>;
+	let allRunnerNames: JSX.Element[] = [];
 
-	let allRunnerNames: JSX.Element[];
-	if (props.teams.length > 1) {
+	if (!props.teams) {
+		allRunnerNames.push(
+			<Nameplate
+				icon={props.icons ? props.icons[0] : undefined}
+				nameplateLeft={false}
+				maxWidth={props.maxNameWidth}
+				key={'No Player'}
+				player={{
+					name: 'ASM2022',
+					social: { twitch: 'AusSpeedruns' },
+					pronouns: 'They/Them',
+					id: 'ASM2022',
+					teamID: 'ASM2022',
+					customData: {},
+				}}
+			/>,
+		);
+	} else if (props.teams.length > 1) {
 		let alternatingPronounSides = props.pronounStartSide === 'left';
-		allRunnerNames = [];
 		props.teams.forEach((team, i) => {
 			let id = 'a';
 			if (team.name) {
@@ -67,7 +82,7 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 			} else {
 				team.players.forEach((player, i) => {
 					id = player.id;
-					alternatingPronounSides = !alternatingPronounSides;	
+					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {
 						alternatingPronounSides = props.pronounStartSide === 'left';
 					}
@@ -100,33 +115,34 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 		allRunnerNames.pop();
 	} else {
 		let alternatingPronounSides = props.pronounStartSide === 'left';
-		allRunnerNames = [];
-		props.teams[0].players.forEach((player, i) => {
-			alternatingPronounSides = !alternatingPronounSides;
-			if (props.dontAlternatePronouns) {
-				alternatingPronounSides = props.pronounStartSide === 'left';
-			}
-			allRunnerNames.push(
-				<Nameplate
-					icon={props.icons ? props.icons[i] : undefined}
-					nameplateLeft={alternatingPronounSides}
-					maxWidth={props.maxNameWidth}
-					key={player.id}
-					player={player}
-				/>
-			);
-			allRunnerNames.push(
-				<div
-					key={player.id + '-divider'}
-					style={{
-						background: 'var(--pax-gold)',
-						minWidth: 2,
-						height: 41,
-					}}
-				/>,
-			);
-		});
-		allRunnerNames.pop();
+		if (props.teams) {
+			props.teams[0].players.forEach((player, i) => {
+				alternatingPronounSides = !alternatingPronounSides;
+				if (props.dontAlternatePronouns) {
+					alternatingPronounSides = props.pronounStartSide === 'left';
+				}
+				allRunnerNames.push(
+					<Nameplate
+						icon={props.icons ? props.icons[i] : undefined}
+						nameplateLeft={alternatingPronounSides}
+						maxWidth={props.maxNameWidth}
+						key={player.id}
+						player={player}
+					/>,
+				);
+				allRunnerNames.push(
+					<div
+						key={player.id + '-divider'}
+						style={{
+							background: 'var(--pax-gold)',
+							minWidth: 2,
+							height: 41,
+						}}
+					/>,
+				);
+			});
+			allRunnerNames.pop();
+		}
 	}
 
 	return (
@@ -188,7 +204,7 @@ const SocialMediaItem = styled.div`
 `;
 
 const SocialMediaLabel = styled.span`
-	color: #F2DAB2;
+	color: #f2dab2;
 	font-size: 30px;
 	margin: 0 5px;
 `;
@@ -198,7 +214,7 @@ export const NoCam: React.FC = () => {
 
 	useEffect(() => {
 		if (canvasRef.current) {
-			canvasRef.current.width  = canvasRef.current.offsetWidth;
+			canvasRef.current.width = canvasRef.current.offsetWidth;
 			canvasRef.current.height = canvasRef.current.offsetHeight;
 
 			const sandbox = new GlslCanvas(canvasRef.current);
@@ -220,9 +236,7 @@ export const NoCam: React.FC = () => {
 				</SocialMediaItem>
 				<SocialMediaItem>
 					<img src={require('../media/discord.svg')} />
-					<SocialMediaLabel>
-						discord.ausspeedruns.com
-					</SocialMediaLabel>
+					<SocialMediaLabel>discord.ausspeedruns.com</SocialMediaLabel>
 				</SocialMediaItem>
 				<SocialMediaLabel
 					style={{

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
 
-import { VolumeUp } from '@material-ui/icons';
+import { VolumeUp } from '@mui/icons-material';
 
 const SIZE = 41;
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { Button, Checkbox, TextField } from '@material-ui/core';
-import { green, red } from '@material-ui/core/colors';
+import { Button, Checkbox, TextField } from '@mui/material';
+import { green, red } from '@mui/material/colors';
 
 export const GreenButton = styled(Button)`
 	&.MuiButton-contained {

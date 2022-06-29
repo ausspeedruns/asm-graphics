@@ -1,8 +1,8 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { ASMStream } from './elements/individual-stream';
 
 const StreamContainer = styled.div``;
@@ -21,10 +21,10 @@ export const Stream: React.FC = () => {
 	return (
 		<StreamContainer>
 			<Router>
-				<Switch>{StreamElements}</Switch>
+				<Routes>{StreamElements}</Routes>
 			</Router>
 		</StreamContainer>
 	);
 };
 
-render(<Stream />, document.getElementById('stream'));
+createRoot(document.getElementById('root')!).render(<Stream />);
