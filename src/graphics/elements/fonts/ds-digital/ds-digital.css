@@ -1,26 +1,26 @@
 @font-face {
-	font-family: 'DS-Digital';
+	font-family: 'SomethingElse';
 	src: url('DS-DIGI.TTF');
 	font-weight: 400;
 	font-style: normal;
 }
 
 @font-face {
-	font-family: 'DS-Digital';
+	font-family: 'SomethingElse';
 	src: url('DS-Digital-Bold-Mono.ttf');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
-	font-family: 'DS-Digital';
+	font-family: 'SomethingElse';
 	src: url('DS-DIGII.TTF');
 	font-weight: 400;
 	font-style: italic;
 }
 
 @font-face {
-	font-family: 'DS-Digital';
+	font-family: 'SomethingElse';
 	src: url('DS-DIGIT.TTF');
 	font-weight: bold;
 	font-style: italic;

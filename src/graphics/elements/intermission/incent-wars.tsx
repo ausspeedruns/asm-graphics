@@ -15,7 +15,7 @@ const InterIncentWarsContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #F2DAB2;
+	color: var(--text-light);
 	font-size: 37px;
 	transform: translate(-630px, 0);
 	overflow: hidden;
@@ -27,64 +27,6 @@ const MultiGoalContainer = styled.div`
 	width: 100%;
 	height: 100%;
 	position: relative;
-`;
-
-const Goal = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-`;
-
-const Game = styled(FitText)`
-	font-size: 25px;
-	margin-bottom: -10px;
-	max-width: 90%;
-`;
-
-const IncentiveName = styled(FitText)`
-	font-size: 28px;
-	font-weight: bold;
-	max-width: 600px;
-`;
-
-const IncentiveContainer = styled(Goal)`
-	// position: absolute;
-	display: flex;
-	align-items: center;
-	margin: 0 4px 0 8px;
-	width: 100%;
-	min-height: 30px;
-`;
-
-// Determines full size
-const ProgressContainer = styled.div`
-	/* flex-grow: 1; */
-	width: 100%;
-	min-height: 40px;
-	height: 40px;
-	border: 1px solid #F2DAB2;
-	position: relative;
-	overflow: hidden;
-	box-sizing: border-box;
-	transform: translate(-630px, 0);
-	margin: 8px 0;
-`;
-
-const ProgressBarContainer = styled.div`
-	height: 100%;
-	width: 0px;
-	background: #F2DAB2;
-	border-right: 2px solid var(--pax-gold);
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-`;
-
-const CurrentAmount = styled.span`
-	font-weight: bold;
-	text-align: right;
-	margin-left: 5px;
 `;
 
 interface Props {
@@ -143,6 +85,18 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 	);
 });
 
+const IncentiveContainer = styled.div`
+	// position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: -10px;
+	margin-bottom: 10px;
+	flex-direction: row;
+	gap: 20px;
+	font-size: 30px;
+`;
+
 const WarChoiceContainer = styled.div`
 	position: absolute;
 	width: 100%;
@@ -150,17 +104,25 @@ const WarChoiceContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 	transform: translate(-630px, 0);
 `;
 
 const AllOptionContainer = styled.div`
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	flex-grow: 1;
 	width: 100%;
-	justify-content: flex-start;
+	justify-content: center;
+	gap: 15px;
+`;
+
+const Game = styled(FitText)`
+	max-width: 90%;
+`;
+
+const IncentiveName = styled(FitText)`
+	font-weight: bold;
+	max-width: 600px;
 `;
 
 interface GoalProps {
@@ -176,16 +138,16 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 		animation: (tl) => {
 			// Start
 			tl.to(containerRef.current, { x: 0, duration: 1 }, '-=0.5');
-			
+
 			tl.addLabel('idkstagger');
 			tl.addLabel(animLabel, `+=${props.war.options.length / 4}`);
-			optionRefs.current.reverse().forEach(optionRef => {
+			optionRefs.current.reverse().forEach((optionRef) => {
 				tl.add(optionRef.animation(tl), '-=1');
 			});
 
 			// End
-			tl.to(containerRef.current, { x: 630, duration: 1 }, '+=10');
-			tl.set(containerRef.current, { x: -630 });
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, '+=10');
+			tl.set(containerRef.current, { x: -1000 });
 
 			return tl;
 		},
@@ -196,14 +158,16 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 		if (option.total > highest) highest = option.total;
 	});
 
-	const allOptions = props.war.options.map((option, i) => {
+	const sortedOptions = props.war.options.map((a) => ({ ...a }));
+	sortedOptions.sort((a, b) => b.total - a.total);
+	const allOptions = sortedOptions.map((option, i) => {
 		return (
 			<WarChoice
 				animLabel={animLabel}
 				option={option}
 				highest={highest}
 				key={option.name}
-				index={props.war.options.length - 1 -i}
+				index={sortedOptions.length - 1 - i}
 				ref={(el) => {
 					if (el) {
 						optionRefs.current[i] = el;
@@ -211,7 +175,7 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 				}}
 			/>
 		);
-	}).reverse();
+	});
 
 	return (
 		<WarChoiceContainer ref={containerRef}>
@@ -226,20 +190,52 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 
 const OptionName = styled(FitText)`
 	max-width: 100%;
+	font-weight: bold;
+`;
+
+const OptionContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	/* width: 200px; */
+	min-height: 100px;
+	background: var(--main);
+	padding: 10px;
+	box-sizing: border-box;
 `;
 
 const TextDiv = styled.div`
-	width: 100%;
-	height: 100%;
-	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	top: 0;
 	left: 0;
-	padding-right: 8px;
-	color: #251803;
+	color: var(--text-light);
 	font-size: 25px;
+`;
+
+// Determines full size
+const ProgressContainer = styled.div`
+	/* flex-grow: 1; */
+	width: 30px;
+	height: 80px;
+	position: relative;
+	overflow: hidden;
+	box-sizing: border-box;
+	background: var(--main-dark);
+	display: flex;
+	align-items: flex-end;
+`;
+
+const ProgressBarContainer = styled.div`
+	height: 100%;
+	width: 100%;
+	background: var(--accent);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+`;
+
+const CurrentAmount = styled.span`
 `;
 
 interface WarChoiceProps {
@@ -257,24 +253,22 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(progressBarRef.current, { width: 0 }, 'warStart');
-			tl.set(containerRef.current, { x: -630 }, 'warStart');
+			tl.set(progressBarRef.current, { height: 0 }, 'warStart');
+			tl.set(containerRef.current, { x: -1000 }, 'warStart');
 
-			tl.to(containerRef.current, { x: 0 }, `idkstagger+=${props.index/4}`);
-			tl.to(progressBarRef.current, { width: `${percentage}%`, duration: 2 }, props.animLabel);
+			tl.to(containerRef.current, { x: 0 }, `idkstagger+=${props.index / 4}`);
+			tl.to(progressBarRef.current, { height: `${percentage}%`, duration: 2 }, props.animLabel);
 			return tl;
 		},
 	}));
 
 	return (
-		<ProgressContainer ref={containerRef}>
-			<ProgressBarContainer ref={progressBarRef} />
+		<OptionContainer ref={containerRef}>
 			<TextDiv>
 				<div
 					style={{
 						display: 'flex',
-						justifyContent: 'center',
-						background: '#F2DAB2',
+						flexDirection: 'column',
 						padding: '0 10px',
 						maxWidth: '80%',
 					}}>
@@ -282,7 +276,10 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 					<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
 				</div>
 			</TextDiv>
-		</ProgressContainer>
+			<ProgressContainer>
+				<ProgressBarContainer ref={progressBarRef} />
+			</ProgressContainer>
+		</OptionContainer>
 	);
 });
 

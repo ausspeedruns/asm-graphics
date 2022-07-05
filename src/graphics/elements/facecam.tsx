@@ -1,13 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { RunDataTeam } from '../../types/RunData';
 
 import { Nameplate } from './nameplate';
-import ContourShader from './contour-shader';
-
-// @ts-ignore
-import GlslCanvas from 'glslCanvas/dist/GlslCanvas.min.js';
 
 const FacecamContainer = styled.div`
 	position: relative;
@@ -114,12 +110,12 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 
 		allRunnerNames.pop();
 	} else {
-		let alternatingPronounSides = props.pronounStartSide === 'left';
+		let alternatingPronounSides = props.pronounStartSide === 'right';
 		if (props.teams) {
 			props.teams[0].players.forEach((player, i) => {
 				alternatingPronounSides = !alternatingPronounSides;
 				if (props.dontAlternatePronouns) {
-					alternatingPronounSides = props.pronounStartSide === 'left';
+					alternatingPronounSides = props.pronounStartSide === 'right';
 				}
 				allRunnerNames.push(
 					<Nameplate
@@ -210,21 +206,8 @@ const SocialMediaLabel = styled.span`
 `;
 
 export const NoCam: React.FC = () => {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-
-	useEffect(() => {
-		if (canvasRef.current) {
-			canvasRef.current.width = canvasRef.current.offsetWidth;
-			canvasRef.current.height = canvasRef.current.offsetHeight;
-
-			const sandbox = new GlslCanvas(canvasRef.current);
-			sandbox.load(ContourShader);
-		}
-	}, []);
-
 	return (
 		<NoCamContainer>
-			<canvas ref={canvasRef} className="glslCanvas" data-fragment={ContourShader}></canvas>
 			<SocialMedia>
 				<SocialMediaItem>
 					<img src={require('../media/twitter.svg')} />

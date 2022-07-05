@@ -34,7 +34,7 @@ const Title = styled.div`
 	font-size: 25px;
 	padding: 8px 16px;
 	background: #251803;
-	color: var(--text-col);
+	color: var(--text-light);
 `;
 
 interface Props {

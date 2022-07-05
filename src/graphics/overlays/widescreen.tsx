@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps } from '../../types/OverlayProps';
+import { OverlayProps, OverlayRef } from '../../types/OverlayProps';
 
 import { WideInfo } from '../elements/info-box/wide';
 import { Facecam } from '../elements/facecam';
-import { SponsorsBox } from '../elements/sponsors';
+import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Couch } from '../elements/couch';
+
+import WideBG from '../media/pixel/Wide Bottom.png';
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -18,13 +20,15 @@ const Sidebar = styled.div`
 	top: 156px;
 	height: 860px;
 	width: 390px;
-	border-right: 1px solid var(--pax-gold);
+	border-right: 1px solid var(--sec);
+	z-index: -1;
 `;
 
 const SidebarBG = styled.div`
-	background-image: url('../shared/design/contour-maps/widescreen-1-bottom.svg');
-	background-size: cover;
-	background-position: center;
+	background: var(--main);
+	background-image: url('${WideBG}');
+	background-position: bottom;
+	background-repeat: no-repeat;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -57,7 +61,15 @@ const TwitterSize = {
 	marginTop: -41,
 };
 
-export const Widescreen: React.FC<OverlayProps> = (props) => {
+export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
+	const sponsorRef = useRef<SponsorBoxRef>(null);
+
+	useImperativeHandle(ref, () => ({
+		showTweet(newVal) {
+			sponsorRef.current?.showTweet?.(newVal);
+		},
+	}));
+
 	return (
 		<WidescreenContainer>
 			<WideInfo timer={props.timer} runData={props.runData} />
@@ -66,13 +78,19 @@ export const Widescreen: React.FC<OverlayProps> = (props) => {
 					maxNameWidth={270}
 					height={400}
 					teams={props.runData?.teams}
+					pronounStartSide='right'
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 				<SidebarBG>
 					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
-					<SponsorBoxS sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
+					<SponsorBoxS
+						sponsors={props.sponsors}
+						ref={sponsorRef}
+						sponsorStyle={SponsorSize}
+						tweetStyle={TwitterSize}
+					/>
 				</SidebarBG>
 			</Sidebar>
 		</WidescreenContainer>
 	);
-};
+});

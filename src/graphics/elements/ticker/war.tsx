@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { War } from '../../../types/Incentives';
-import { TickerItemHandles } from '../../ticker';
+import { TickerItemHandles } from '../ticker';
 
 import { TickerTitle } from './title';
 import { FitText } from '../fit-text';
@@ -17,7 +17,7 @@ const TickerWarContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #F2DAB2;
+	color: var(--text-light);
 	font-size: 37px;
 	transform: translate(0, -64px);
 	overflow: hidden;
@@ -66,7 +66,7 @@ const ProgressContainer = styled.div`
 	max-width: 50%;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid #F2DAB2;
+	border: 1px solid #FFFFFF;
 	position: relative;
 	overflow: hidden;
 `;
@@ -74,8 +74,8 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	width: 0px;
-	background: #F2DAB2;
-	border-right: 5px solid var(--pax-gold);
+	background: #FFFFFF;
+	border-right: 5px solid var(--accent);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -196,8 +196,9 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	});
 
 	let allOptions = [];
+	const sortedOptions = props.war.options.sort((a, b) => a.total - b.total);
 	for (let i = 0; i < Math.min(props.war.options.length, 5); i++) {
-		const option = props.war.options[props.war.options.length - 1 - i];
+		const option = sortedOptions[props.war.options.length - 1 - i];
 		allOptions.push(
 			<WarChoice
 				animLabel={animLabel}
@@ -244,7 +245,7 @@ const TextDiv = styled.div`
 	top: 0;
 	left: 0;
 	padding-right: 8px;
-	color: #251803;
+	color: var(--text-dark);
 	font-size: 25px;
 `;
 
@@ -275,7 +276,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 					style={{
 						display: 'flex',
 						justifyContent: 'center',
-						background: '#F2DAB2',
+						background: '#FFFFFF',
 						padding: '0 10px',
 						maxWidth: '80%',
 					}}>

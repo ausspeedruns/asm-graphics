@@ -5,7 +5,7 @@ import clone from 'clone';
 import { TickerItem } from './item';
 import { TickerTitle } from './title';
 
-import { TickerItemHandles } from '../../ticker';
+import { TickerItemHandles } from '../ticker';
 import { RunDataArray, RunDataActiveRun } from '../../../types/RunData';
 
 const TickerRunsContainer = styled.div`

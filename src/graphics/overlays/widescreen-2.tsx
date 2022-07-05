@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
-// @ts-ignore
-// import Twemoji from 'react-twemoji';
 
-import { CouchPerson, OverlayProps } from '../../types/OverlayProps';
+import { OverlayProps } from '../../types/OverlayProps';
 
 import { SmallInfo, ISmallStyling } from '../elements/info-box/small';
 
@@ -13,6 +10,10 @@ import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { PersonCompressed } from '../elements/couch';
+
+import BGLeft from '../media/pixel/Wide 2p Left.png';
+import BGRight from '../media/pixel/Wide 2p Right.png';
+import BGBottom from '../media/pixel/Wide 2p Bottom.png';
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -25,13 +26,14 @@ const Topbar = styled.div`
 	height: 341px;
 	width: 1920px;
 	overflow: hidden;
-	border-bottom: 1px solid var(--pax-gold);
+	border-bottom: 1px solid var(--sec);
 `;
 
 const RightBox = styled.div`
 	width: 666px;
 	height: 100%;
-	background-image: url("../shared/design/contour-maps/widescreen-2-right.svg");
+	background: var(--main);
+	background-image: url('${BGRight}');
 	display: flex;
 	flex-direction: column;
 `;
@@ -53,7 +55,7 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 341px;
 	left: 959px;
-	background: var(--pax-gold);
+	background: var(--sec);
 `;
 
 const BottomBlock = styled.div`
@@ -61,9 +63,10 @@ const BottomBlock = styled.div`
 	top: 881px;
 	height: 135px;
 	width: 1920px;
-	background-image: url("../shared/design/contour-maps/widescreen-2-bottom.svg");
-	border-bottom: 1px solid var(--pax-gold);
-	border-top: 1px solid var(--pax-gold);
+	background: var(--main);
+	background-image: url('${BGBottom}');
+	border-bottom: 1px solid var(--sec);
+	border-top: 1px solid var(--sec);
 	box-sizing: border-box;
 	overflow: hidden;
 	display: flex;
@@ -73,14 +76,14 @@ const BottomBlock = styled.div`
 `;
 
 const BespokeCouch = styled.div`
-	font-family: National Park;
+	font-family: Noto Sans;
 	display: flex;
 	align-items: center;
 `;
 
 const CouchLabel = styled.span`
-	color: #F2DAB2;
-	font-size: 40px;
+	color: var(--text-light);
+	font-size: 30px;
 	margin-right: 8px;
 `;
 
@@ -91,23 +94,12 @@ const customSmallStyling: ISmallStyling = {
 	mainStyle: {
 		width: 666,
 		height: '100%',
-		backgroundImage: "url(../shared/design/contour-maps/widescreen-2-left.svg)",
+		background: 'var(--main)',
+		backgroundImage: `url('${BGLeft}')`,
 	},
 };
 
-interface DACBOTSpeaking {
-	id: string;
-	speaking: boolean;
-}
-
 export const Widescreen2: React.FC<OverlayProps> = (props) => {
-	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
-	const [currentHost] = useReplicant<CouchPerson, CouchPerson>('host', {
-		name: '',
-		pronouns: '',
-	});
-	const [speakingDiscord] = useReplicant<DACBOTSpeaking[], DACBOTSpeaking[]>('speaking', [], {namespace: 'nodecg-dacbot'});
-
 	const leftTeamID = props.runData?.teams[0]?.id || '';
 	const rightTeamID = props.runData?.teams[1]?.id || '';
 	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
@@ -147,10 +139,10 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 	if (props.runData?.teams) {
 		if (props.runData.teams.length > 1) {
 			let totalIndex = -1;
-			props.runData.teams.forEach(team => {
+			props.runData.teams.forEach((team) => {
 				team.players.forEach((player) => {
 					totalIndex++;
-					if (player.id === audioIndicatorRep) {
+					if (player.id === props.audioIndicator) {
 						currentAudio = totalIndex;
 						return;
 					}
@@ -161,9 +153,19 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 				});
 			});
 		} else {
-			currentAudio = props.runData.teams[0].players.findIndex(player => audioIndicatorRep === player.id);
+			currentAudio = props.runData.teams[0].players.findIndex((player) => props.audioIndicator === player.id);
 		}
 	}
+
+	// Custom couch so here is couch code
+	const host = (props.preview ? props.couchInformation.preview : props.couchInformation.current).find(
+		(person) => person.host,
+	);
+
+	// Remove host from array now
+	const couch = (props.preview ? props.couchInformation.preview : props.couchInformation.current).filter(
+		(person) => !person.host,
+	);
 
 	return (
 		<Widescreen2Container>
@@ -189,9 +191,9 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 				<Facecam
 					width={588}
 					style={{
-						borderRight: '1px solid #FFC629',
-						borderLeft: '1px solid #FFC629',
-						zIndex: 2
+						borderRight: '1px solid var(--sec)',
+						borderLeft: '1px solid var(--sec)',
+						zIndex: 2,
 					}}
 					teams={props.runData?.teams}
 					maxNameWidth={190}
@@ -202,24 +204,25 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 				<RaceFinish style={{ top: 265, left: 960, zIndex: 3 }} time={rightTeamTime} place={rightTeamPlace} />
 
 				<RightBox>
-					<SponsorsBox style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
+					<SponsorsBox
+						style={{ flexGrow: 1 }}
+						sponsors={props.sponsors}
+						sponsorStyle={SponsorSize}
+						tweetStyle={TwitterSize}
+					/>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />
 			<BottomBlock>
 				<BespokeCouch>
 					<CouchLabel>
-						{props.couchInformation.current.length > 0 ? 'Commentators' : 'Commentator'}
+						{props.couchInformation.current.length > 1 ? 'Commentators' : 'Commentator'}
 					</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
-					{props.preview
-						? props.couchInformation.preview.map((person) => {
-								return <PersonCompressed person={person} speaking={!!speakingDiscord.find(user => user.id === person.discordID)}  />;
-						  })
-						: props.couchInformation.current.map((person) => {
-								return <PersonCompressed person={person} speaking={!!speakingDiscord.find(user => user.id === person.discordID)}  />;
-						  })}
-					<PersonCompressed key={'Host'} person={currentHost} host speaking={!!speakingDiscord.find(user => user.id === currentHost.discordID)}  />
+					{couch.map((person) => {
+						return <PersonCompressed person={person} />;
+					})}
+					{host && <PersonCompressed key={'Host'} person={host} host />}
 				</BespokeCouch>
 			</BottomBlock>
 		</Widescreen2Container>

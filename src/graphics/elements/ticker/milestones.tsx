@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { TickerItemHandles } from '../../ticker';
+import { TickerItemHandles } from '../ticker';
 
 import { TickerTitle } from './title';
 
@@ -15,7 +15,7 @@ const TickerMilestonesContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #F2DAB2;
+	color: var(--text-light);
 	font-size: 37px;
 `;
 
@@ -51,15 +51,15 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid #F2DAB2;
+	border: 1px solid var(--text-light);
 	position: relative;
 	overflow: hidden;
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: #F2DAB2;
-	border-right: 5px solid var(--pax-gold);
+	background: #ffffff;
+	border-right: 5px solid var(--accent);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -80,11 +80,12 @@ const MILESTONES = [
 	{ event: 'ASM2017', total: 3271 },
 	{ event: 'ASM2018', total: 5091.84 },
 	{ event: 'ASM2019', total: 7026.63 },
-	{ event: 'FAST2020', total: 7033 },
 	{ event: 'PAX2019', total: 7181.73 },
 	{ event: 'ASM2020', total: 13069.69 },
-	{ event: 'ASM2021', total: 15000 }
-];
+	{ event: 'FAST2020', total: 7033 },
+	{ event: 'ASM2021', total: 15000 },
+	{ event: 'PAX2021', total: 7222.37 },
+].sort((a, b) => a.total - b.total);
 
 interface Props {
 	currentTotal: number;
@@ -97,7 +98,9 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 	const prevMilestoneArray = MILESTONES.filter((milestone) => props.currentTotal > milestone.total);
 	const nextMilestone = MILESTONES.find((milestone) => props.currentTotal < milestone.total);
 
-	if (!nextMilestone || prevMilestoneArray.length === 0) return <></>;
+	if (prevMilestoneArray.length === 0) prevMilestoneArray.push({ event: 'Start!', total: 0 });
+
+	if (!nextMilestone) return <></>;
 
 	const prevMilestone = prevMilestoneArray[prevMilestoneArray.length - 1];
 
@@ -116,7 +119,11 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 			tl.set(containerRef.current, { y: -64 });
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
-			tl.to(progressBarRef.current, { width: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) }, '+=1');
+			tl.to(
+				progressBarRef.current,
+				{ width: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) },
+				'+=1',
+			);
 
 			// End
 			tl.to(containerRef.current, { y: 64, duration: 1 }, '+=10');
@@ -126,12 +133,11 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 		},
 	}));
 
-
 	let textOnRightSide: React.CSSProperties = {};
 	if (percentage < 50) {
 		textOnRightSide = {
 			marginRight: -110,
-			color: '#F2DAB2',
+			color: 'var(--text-light)',
 			textAlign: 'left',
 		};
 	}

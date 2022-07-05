@@ -26,6 +26,7 @@ interface Props {
 	url?: string;
 	style?: React.CSSProperties;
 	onClick?: React.MouseEventHandler<HTMLDivElement>;
+	children?: React.ReactNode;
 }
 
 export const Header: React.FC<Props> = (props: React.PropsWithChildren<Props>) => {

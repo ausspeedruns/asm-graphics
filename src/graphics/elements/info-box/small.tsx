@@ -9,14 +9,14 @@ import * as RunInfo from '../run-info';
 
 const SmallInfoContainer = styled.div`
 	box-sizing: border-box;
-	padding: 20px 0;
+	padding: 20px 0 40px 0;
 	height: 241px;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
-	background-image: url('../shared/design/contour-maps/standard-2-left.svg');
+	/* background-image: url('../shared/design/contour-maps/standard-2-left.svg'); */
 `;
 
 const VerticalStack = styled.div`

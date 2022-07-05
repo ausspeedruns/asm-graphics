@@ -7,12 +7,15 @@ interface FontProps {
 	fontSize: number;
 }
 
+const BaseStyle = styled.div`
+	font-family: 'Noto Sans';
+	color: var(--text-light);
+`;
+
 /*			CATEGORY			*/
-const CategoryContainer = styled.div`
-	font-family: National Park;
+const CategoryContainer = styled(BaseStyle)`
 	font-weight: bold;
 	font-size: 42px;
-	color: var(--text-col);
 	text-transform: uppercase;
 `;
 
@@ -31,10 +34,7 @@ export const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
 };
 
 /*			ESTIMATE			*/
-const EstimateContainer = styled.div`
-	font-family: National Park;
-	color: var(--text-col);
-`;
+const EstimateContainer = styled(BaseStyle)``;
 
 const EstText = styled.span`
 	font-size: ${(props: FontProps) => props.fontSize * 0.6}px;
@@ -65,11 +65,9 @@ export const Estimate: React.FC<EstimateProps> = (props: EstimateProps) => {
 };
 
 /*			GAME TITLE			*/
-const GameContainer = styled.div`
-	font-family: kulturista-web, sans-serif;
+const GameContainer = styled(BaseStyle)`
 	font-weight: 700;
 	font-size: 50px;
-	color: var(--text-col);
 `;
 
 interface GameProps {
@@ -87,10 +85,8 @@ export const GameTitle: React.FC<GameProps> = (props: GameProps) => {
 };
 
 /*			SYSTEM			*/
-const SystemContainer = styled.div`
-	font-family: National Park;
+const SystemContainer = styled(BaseStyle)`
 	font-size: 35px;
-	color: var(--text-col);
 `;
 
 interface SystemProps {
@@ -103,10 +99,8 @@ export const System: React.FC<SystemProps> = (props: SystemProps) => {
 };
 
 /*			YEAR			*/
-const YearContainer = styled.div`
-	font-family: National Park;
+const YearContainer = styled(BaseStyle)`
 	font-size: 35px;
-	color: var(--text-col);
 `;
 
 interface YearProps {

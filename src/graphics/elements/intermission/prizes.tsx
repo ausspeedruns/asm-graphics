@@ -1,7 +1,6 @@
 import React, { useImperativeHandle, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { War } from '../../../types/Incentives';
 import { TickerItemHandles } from './incentives';
 import { FitText } from '../fit-text';
 
@@ -15,7 +14,7 @@ const InterPrizesContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #f2dab2;
+	color: var(--text-light);
 	font-size: 37px;
 	transform: translate(-630px, 0);
 	overflow: hidden;
@@ -27,7 +26,7 @@ const MultiGoalContainer = styled.div`
 	width: 100%;
 	height: 100%;
 	position: relative;
-	padding-top: 100px;
+	padding-top: 60px;
 `;
 
 const Goal = styled.div`
@@ -47,36 +46,36 @@ const IncentiveContainer = styled(Goal)`
 	// position: absolute;
 	display: flex;
 	align-items: center;
-	margin: 0 4px 0 8px;
+	margin: 5px;
 	width: 100%;
 `;
 
 // Determines full size
 const ProgressContainer = styled.div`
 	/* flex-grow: 1; */
-	width: 100%;
-	min-height: 60px;
-	height: 60px;
-	background: #f2dab2;
+	min-height: 110px;
+	height: 110px;
+	background: var(--main);
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
 	transform: translate(-630px, 0);
-	margin: 8px 0;
+	/* margin: 8px 0; */
+	padding: 10px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: #251803;
+	color: var(--text-light);
 `;
 
 const PrizesTitle = styled.span`
-	color: #f2dab2;
-	font-size: 40px;
+	color: var(--text-light);
+	font-size: 30px;
 	font-weight: bold;
 	width: 100%;
 	text-align: center;
 	position: absolute;
-	top: 0;
+	top: 5px;
 `;
 
 interface Props {}
@@ -112,11 +111,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 				<PrizePage
 					index="0"
 					donationTotal="$10 Donation"
-					prizes={[
-						'Arctis 3 White Headphones',
-						'Arctis 3 Black Headphones',
-						'Arctis 5 White Headphones'
-					]}
+					prizes={['Arctis 3 White Headphones', 'Arctis 3 Black Headphones', 'Arctis 5 White Headphones']}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[0] = el;
@@ -145,7 +140,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 const PrizeItemContainer = styled.div`
 	position: absolute;
 	width: 100%;
-	height: 100%;
+	/* height: 100%; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -155,11 +150,13 @@ const PrizeItemContainer = styled.div`
 
 const AllOptionContainer = styled.div`
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	flex-grow: 1;
+	justify-content: center;
 	width: 100%;
+	height: 100px;
 	justify-content: flex-start;
+	gap: 15px;
+	margin-top: 10px;
 `;
 
 interface GoalProps {
@@ -185,8 +182,8 @@ const PrizePage = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalPro
 			});
 
 			// End
-			tl.to(containerRef.current, { x: 630, duration: 1 }, '+=10');
-			tl.set(containerRef.current, { x: -630 });
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, '+=10');
+			tl.set(containerRef.current, { x: -1000 });
 
 			return tl;
 		},
@@ -220,8 +217,13 @@ const PrizePage = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalPro
 	);
 });
 
-const OptionName = styled(FitText)`
-	max-width: 100%;
+// const OptionName = styled(FitText)`
+// 	max-width: 100%;
+// `;
+
+const Option = styled.span`
+	text-align: center;
+	font-size: 26px;
 `;
 
 interface PrizeItemProps {
@@ -236,16 +238,17 @@ const PrizeItem = React.forwardRef<TickerItemHandles, PrizeItemProps>((props: Pr
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(containerRef.current, { x: -630 }, 'warStart');
+			tl.set(containerRef.current, { x: -1000 }, 'warStart');
 
-			tl.to(containerRef.current, { x: 0 }, `idkstagger+=${props.index / 4}`);
+			tl.to(containerRef.current, { x: 0 }, `idkstagger+=${1 - props.index / 4}`);
 			return tl;
 		},
 	}));
 
 	return (
 		<ProgressContainer ref={containerRef}>
-			<OptionName text={props.itemName} />
+			{/* <OptionName text={props.itemName} /> */}
+			<Option>{props.itemName}</Option>
 		</ProgressContainer>
 	);
 });

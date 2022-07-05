@@ -6,9 +6,5 @@
 		"module": "esnext",
 		"lib": ["esnext", "dom"]
 	},
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		"../types/nodecg.d.ts"
-	]
+	"include": ["**/*.ts", "**/*.tsx", "../types/nodecg.d.ts", "../types/Global.d.ts"]
 }

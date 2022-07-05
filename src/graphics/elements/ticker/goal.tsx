@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Goal } from '../../../types/Incentives';
-import { TickerItemHandles } from '../../ticker';
+import { TickerItemHandles } from '../ticker';
 
 import { TickerTitle } from './title';
 import { FitText } from '../fit-text';
@@ -17,7 +17,7 @@ const TickerGoalsContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #F2DAB2;
+	color: var(--text-light);
 	font-size: 37px;
 	transform: translate(0, -64px);
 	overflow: hidden;
@@ -30,7 +30,7 @@ const MultiGoalContainer = styled.div`
 	position: relative;
 `;
 
-const Goal = styled.div`
+const GoalElement = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -51,7 +51,7 @@ const IncentiveName = styled(FitText)`
 	max-width: 200px;
 `;
 
-const IncentiveContainer = styled(Goal)`
+const IncentiveContainer = styled(GoalElement)`
 	// position: absolute;
 	height: 100%;
 	display: flex;
@@ -64,14 +64,14 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid #F2DAB2;
+	border: 1px solid #FFFFFF;
 	position: relative;
 	overflow: hidden;
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: #F2DAB2;
+	background: #FFFFFF;
 	border-right: 5px solid var(--pax-gold);
 	display: flex;
 	align-items: center;
@@ -79,7 +79,7 @@ const ProgressBarContainer = styled.div`
 `;
 
 const CurrentAmount = styled.span`
-	color: #251803;
+	color: var(--main-dark);
 	margin-right: 5px;
 	font-weight: normal;
 	width: 100px;
@@ -190,7 +190,7 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	if (percentage < 50) {
 		textOnRightSide = {
 			marginRight: -110,
-			color: '#F2DAB2',
+			color: 'var(--text-light)',
 			textAlign: 'left',
 		};
 	}
@@ -208,9 +208,9 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 					</CurrentAmount>
 				</ProgressBarContainer>
 			</ProgressContainer>
-			<Goal>
+			<GoalElement>
 				<IncentiveName text={`$${props.goal.goal}`}></IncentiveName>
-			</Goal>
+			</GoalElement>
 		</GoalBarContainer>
 	);
 });

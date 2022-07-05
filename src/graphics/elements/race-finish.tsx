@@ -40,7 +40,7 @@ interface RaceFinishProps {
 
 export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) => {
 	const animRef = useRef<HTMLDivElement>(null);
-	
+
 	useEffect(() => {
 		if (props.time === '') {
 			gsap.to(animRef.current, { y: 35 });
@@ -75,7 +75,7 @@ export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) =>
 	// 	}
 	// }
 
-	let bgColour = '#fff';
+	let bgColour = '#e0e0e0';
 	switch (props.place) {
 		case 1:
 			bgColour = '#dab509';

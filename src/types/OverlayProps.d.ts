@@ -1,5 +1,11 @@
+import { Asset } from './nodecg';
 import { RunDataActiveRun, RunDataPlayer } from './RunData';
 import { Timer } from './Timer';
+import { Tweet } from './Twitter';
+
+export interface OverlayRef {
+	showTweet?: (newVal: Tweet) => void;
+}
 
 export interface OverlayProps {
 	runData: RunDataActiveRun | undefined;
@@ -7,6 +13,8 @@ export interface OverlayProps {
 	couchInformation: CouchInformation;
 	preview?: boolean;
 	noCam: NoCam;
+	sponsors: Asset[];
+	audioIndicator?: string;
 }
 
 export interface CouchInformation {
@@ -18,6 +26,7 @@ export interface CouchPerson {
 	name: string;
 	pronouns: string;
 	discordID?: string;
+	host?: boolean;
 }
 
 export interface NoCam {

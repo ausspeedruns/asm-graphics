@@ -1,22 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
+
+import GoCLogo from '../../media/Sponsors/GOCCCFullColour.svg';
+import CTAImg from '../../media/pixel/TotalBG.png';
 
 const InterCTAContainer = styled.div`
-	z-index: 2;
-	height: 115px;
+	height: 184px;
 	width: 100%;
-	font-family: kulturista-web, sans-serif;
-	background: #FFC629;
+	font-family: Noto Sans;
+	/* background: #ffffff; */
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	font-size: 54px;
-	color: #251803;
+	color: var(--text-dark);
+`;
+
+const Horizontal = styled.div`
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 const DonateText = styled.span`
 	text-transform: uppercase;
+	z-index: 2;
 `;
 
 const CharityLogo = styled.img`
@@ -24,6 +34,7 @@ const CharityLogo = styled.img`
 	height: 84px;
 	object-fit: contain;
 	margin-left: 35px;
+	z-index: 2;
 `;
 
 const Money = styled.span`
@@ -34,34 +45,25 @@ const Money = styled.span`
 	z-index: 2;
 `;
 
-const LinesIMG = styled.img`
-	position: absolute;
-	left: 0;
-`;
-
-const CompassIMG = styled.img`
-	position: absolute;
-	right: 0;
-`;
-
 interface Props {
+	donation: number;
 	style?: React.CSSProperties;
 	className?: string;
 }
 
 export const InterCTA: React.FC<Props> = (props: Props) => {
-	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
 	// const DonationAmount = 10000;
 
 	return (
 		<InterCTAContainer className={props.className} style={props.style}>
-			<LinesIMG src="../shared/design/CTA_Lines.svg" />
+			<img src={CTAImg} style={{ position: 'absolute', left: -31, top: 0 }} />
 			<DonateText>
 				Donate at&nbsp;<b>ausspeedruns.com</b>
 			</DonateText>
-			<CharityLogo src={'../shared/design/CureCancer.svg'} />
-			<Money>${Math.floor(donationRep || 10000).toLocaleString()}</Money>
-			<CompassIMG src="../shared/design/CTA_Compass.svg" />
+			<Horizontal>
+				<CharityLogo src={GoCLogo} />
+				<Money>${Math.floor(props.donation || 10000).toLocaleString()}</Money>
+			</Horizontal>
 		</InterCTAContainer>
 	);
 };

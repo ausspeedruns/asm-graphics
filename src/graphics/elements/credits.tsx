@@ -8,7 +8,7 @@ const CreditsContainer = styled.div`
 	left: 0;
 	width: 0;
 	height: 100%;
-	color: var(--text-col);
+	color: var(--text-light);
 	font-family: National Park;
 	background: #00000083;
 

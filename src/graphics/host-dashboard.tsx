@@ -140,15 +140,15 @@ export const HostDash: React.FC = () => {
 				<span
 					style={{ width: 500, textAlign: 'right', cursor: 'pointer' }}
 					onClick={() => setShowStream(!showStream)}>
-					PAXxAusSpeedruns2021
+					ASM2022
 				</span>
 			</TopBar>
 			{/* , height: 926  */}
-			<Grid container justify="space-around" style={{ background: '#ececec', height: 'calc(100% - 60px)' }}>
+			<Grid container justifyContent="space-around" style={{ background: '#ececec', height: 'calc(100% - 60px)' }}>
 				<Grid
 					item
 					container
-					justify="space-around"
+					justifyContent="space-around"
 					direction="column"
 					xs
 					style={{ padding: 8, height: '100%' }}>
@@ -174,7 +174,7 @@ export const HostDash: React.FC = () => {
 				<Grid
 					item
 					container
-					justify="space-around"
+					justifyContent="space-around"
 					wrap="nowrap"
 					direction="column"
 					xs
@@ -191,7 +191,7 @@ export const HostDash: React.FC = () => {
 				<Grid
 					item
 					container
-					justify="space-around"
+					justifyContent="space-around"
 					direction="column"
 					xs
 					style={{ padding: 8, height: '100%' }}>

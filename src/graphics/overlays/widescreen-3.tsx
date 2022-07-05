@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
@@ -11,6 +10,12 @@ import { Facecam } from '../elements/facecam';
 import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
 
+import BGLeft from '../media/pixel/Wide 3p Left.png';
+import BGRight from '../media/pixel/Wide 3p Right.png';
+import GameplayBL from '../media/Widescreen-3-BL.svg';
+import GameplayTL from '../media/Widescreen-3-TL.svg';
+import GameplayTR from '../media/Widescreen-3-TR.svg';
+
 const Widescreen3Container = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -20,9 +25,10 @@ const Widescreen3Container = styled.div`
 `;
 
 const Screen = styled.div`
-	width: 901px;
+	width: 903px;
 	height: 507px;
-	border: 1px solid var(--pax-gold);
+	border: 1px solid var(--sec);
+	box-sizing: border-box;
 `;
 
 const TopBar = styled.div`
@@ -43,6 +49,7 @@ const BottomBar = styled.div`
 
 	& > div {
 		border-bottom: 0px;
+		border-right: 0px;
 	}
 `;
 
@@ -52,21 +59,23 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 297px;
 	left: 959px;
-	background: var(--pax-gold);
+	background: var(--sec);
 `;
 
 const LeftBorderImage = styled.img`
+	background: var(--main);
 	position: absolute;
 	top: 0;
 	left: 0;
-	border-right: 1px solid var(--pax-gold);
+	border-right: 1px solid var(--sec);
 `;
 
 const RightBorderImage = styled.img`
+	/* background: var(--main); */
 	position: absolute;
 	top: 0;
 	right: 0;
-	border-left: 1px solid var(--pax-gold);
+	border-left: 1px solid var(--sec);
 `;
 
 // const Facecam = styled.div`
@@ -81,12 +90,14 @@ const NPIcon = styled.img`
 `;
 
 const InfoBox = styled.div`
-	background-image: url('../shared/design/contour-maps/widescreen-3-bottom.svg');
+	background: var(--main);
+	/* background-image: url('../shared/design/contour-maps/widescreen-3-bottom.svg'); */
 	width: 901px;
 	height: 181px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	border-right: 1px solid var(--main);
 `;
 
 const InfoBoxRow = styled.div`
@@ -96,10 +107,12 @@ const InfoBoxRow = styled.div`
 	align-items: center;
 `;
 const InfoBoxCell = styled.div`
+	display: flex;
 	flex-grow: 1;
 	width: 50%;
 	justify-content: center;
 	align-items: center;
+	z-index: 2;
 `;
 
 const WideAudioIndicator = styled(AudioIndicator)`
@@ -111,9 +124,15 @@ const WideAudioIndicator = styled(AudioIndicator)`
 	}
 `;
 
-export const Widescreen3: React.FC<OverlayProps> = (props) => {
-	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
+const RightBG = styled.div`
+	position: absolute;
+	right: 0;
+	height: 1016px;
+	width: 57px;
+	background: var(--main);
+`;
 
+export const Widescreen3: React.FC<OverlayProps> = (props) => {
 	// const leftTeamID = props.runData?.teams[0]?.id || '';
 	// const rightTeamID = props.runData?.teams[1]?.id || '';
 	// const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
@@ -153,43 +172,32 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 	if (props.runData?.teams) {
 		if (props.runData.teams.length > 1) {
 			let totalIndex = -1;
-			props.runData.teams.forEach(team => {
+			props.runData.teams.forEach((team) => {
 				team.players.forEach((player) => {
 					totalIndex++;
-					if (player.id === audioIndicatorRep) {
+					if (player.id === props.audioIndicator) {
 						currentAudio = totalIndex;
 						return;
 					}
-					
+
 					if (currentAudio !== -1) {
 						return;
 					}
 				});
 			});
 		} else {
-			currentAudio = props.runData.teams[0].players.findIndex(player => audioIndicatorRep === player.id);
+			currentAudio = props.runData.teams[0].players.findIndex((player) => props.audioIndicator === player.id);
 		}
 	}
 
 	return (
 		<Widescreen3Container>
-			<WideAudioIndicator
-				active={currentAudio === 0}
-				side="top"
-				style={{ left: 961 }}
-			/>
-			<WideAudioIndicator
-				active={currentAudio === 1}
-				side="top"
-				style={{ left: 1262 }}
-			/>
-			<WideAudioIndicator
-				active={currentAudio === 2}
-				side="top"
-				style={{ left: 1563 }}
-			/>
-			<LeftBorderImage src="../shared/design/contour-maps/widescreen-3-left.svg" />
-			<RightBorderImage src="../shared/design/contour-maps/widescreen-3-right.svg" />
+			<WideAudioIndicator active={currentAudio === 0} side="top" style={{ left: 961 }} />
+			<WideAudioIndicator active={currentAudio === 1} side="top" style={{ left: 1262 }} />
+			<WideAudioIndicator active={currentAudio === 2} side="top" style={{ left: 1563 }} />
+			<RightBG />
+			<LeftBorderImage src={BGLeft} />
+			<RightBorderImage src={BGRight} />
 			<TopBar>
 				<Screen />
 				<Screen />
@@ -203,11 +211,8 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 						dontAlternatePronouns
 						pronounStartSide="right"
 						teams={props.runData?.teams}
-						icons={[
-							<NPIcon src={require('../media/Widescreen-3-BL.svg')} />,
-							<NPIcon src={require('../media/Widescreen-3-TL.svg')} />,
-							<NPIcon src={require('../media/Widescreen-3-TR.svg')} />,
-						]}
+						icons={[<NPIcon src={GameplayBL} />, <NPIcon src={GameplayTL} />, <NPIcon src={GameplayTR} />]}
+						style={{ borderRight: '1px solid var(--sec)' }}
 					/>
 					<InfoBox>
 						<InfoBoxRow style={{ height: '23%' }}>
@@ -235,7 +240,7 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 								</div>
 							</InfoBoxCell>
 							<InfoBoxCell>
-								<Timer style={{ marginLeft: -39 }} fontSize={90} timer={props.timer} />
+								<Timer fontSize={60} timer={props.timer} />
 							</InfoBoxCell>
 						</InfoBoxRow>
 					</InfoBox>

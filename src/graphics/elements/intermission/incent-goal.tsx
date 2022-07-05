@@ -20,7 +20,7 @@ const IncentGoalContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	color: #F2DAB2;
+	color: var(--text-light);
 	font-size: 37px;
 	transform: translate(-630px, 0);
 	overflow: hidden;
@@ -32,72 +32,6 @@ const MultiGoalContainer = styled.div`
 	width: 100%;
 	height: 100%;
 	position: relative;
-`;
-
-const GoalDiv = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	margin-top: -10px;
-	width: 100%;
-`;
-
-const Game = styled(FitText)`
-	font-size: 25px;
-	margin-bottom: -10px;
-	max-width: 90%;
-`;
-
-const IncentiveName = styled(FitText)`
-	font-size: 28px;
-	font-weight: bold;
-	max-width: 90%;
-`;
-
-const IncentiveContainer = styled(GoalDiv)`
-	// position: absolute;
-	display: flex;
-	align-items: center;
-	margin: 0 4px 0 8px;
-`;
-
-// Determines full size
-const ProgressContainer = styled.div`
-	flex-grow: 1;
-	height: 100%;
-	width: 100%;
-	border: 1px solid #F2DAB2;
-	position: relative;
-	overflow: hidden;
-	box-sizing: border-box;
-	display: flex;
-	justify-content: center;
-`;
-
-const ProgressBarContainer = styled.div`
-	width: 100%;
-	background: linear-gradient(180deg, #F2DAB2 0%, #E8E8E8 100%);
-	/* background: linear-gradient(180deg, #F2DAB2 0%, #E8E8E8 100%); */
-	border-top: 5px solid var(--pax-gold);
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-	position: absolute;
-	bottom: 0;
-`;
-
-const CurrentAmount = styled.span`
-	color: #251803;
-	font-size: 30px;
-	font-weight: bold;
-`;
-
-const RemainingAmount = styled.span`
-	color: #F2DAB2;
-	font-weight: lighter;
-	font-size: 25px;
-	font-style: italic;
 `;
 
 interface Props {
@@ -116,7 +50,7 @@ export const InterIncentGoal = React.forwardRef<TickerItemHandles, Props>((props
 
 			// Start
 			tl.addLabel('goalStart');
-			tl.set(containerRef.current, { x: -630 });
+			tl.set(containerRef.current, { x: -1000 });
 			tl.to(containerRef.current, { x: 0, duration: 1 });
 
 			for (let i = 0; i < props.goals.length; i++) {
@@ -124,7 +58,7 @@ export const InterIncentGoal = React.forwardRef<TickerItemHandles, Props>((props
 			}
 
 			// End
-			tl.to(containerRef.current, { x: 630, duration: 1 }, '-=1');
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, '-=1');
 
 			return tl;
 		},
@@ -163,8 +97,88 @@ const GoalBarContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 	transform: translate(-630px, 0);
+`;
+
+const GoalDiv = styled.div`
+	display: flex;
+	justify-content: center;
+	margin: 0 10px;
+	font-weight: bold;
+`;
+
+const IncentiveContainer = styled.div`
+	// position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: -10px;
+	margin-bottom: 10px;
+	flex-direction: row;
+	gap: 20px;
+	font-size: 30px;
+`;
+
+const Game = styled(FitText)`
+	/* display: inline-block; */
+	max-width: 90%;
+`;
+
+const IncentiveName = styled(FitText)`
+	/* display: inline-block; */
+	font-weight: bold;
+	max-width: 100%;
+`;
+
+const BottomBar = styled.div`
+	display: flex;
+	/* justify-content: space-between; */
+	align-items: center;
+	height: 50%;
+	width: 100%;
+`;
+
+// Determines full size
+const ProgressContainer = styled.div`
+	flex-grow: 1;
+	height: 100%;
+	width: 100%;
+	border: 1px solid #ffffff;
+	position: relative;
+	overflow: hidden;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+`;
+
+const ProgressBarContainer = styled.div`
+	height: 100%;
+	background: #ffffff;
+	/* background: linear-gradient(180deg, #F2DAB2 0%, #E8E8E8 100%); */
+	border-right: 5px solid var(--accent);
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	position: absolute;
+	left: 0;
+`;
+
+const CurrentAmount = styled.span`
+	color: var(--text-dark);
+	font-size: 30px;
+	font-weight: bold;
+	margin-right: 16px;
+`;
+
+const RemainingAmount = styled.span`
+	color: var(--text-light);
+	font-weight: lighter;
+	font-size: 25px;
+	font-style: italic;
+	margin-right: 8px;
+	text-align: center;
 `;
 
 interface GoalProps {
@@ -181,19 +195,19 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(progressBarRef.current, { height: 0 }, 'goalStart');
-			tl.set(containerRef.current, { x: -630 }, '-=0.5');
+			tl.set(progressBarRef.current, { width: 0 }, 'goalStart');
+			tl.set(containerRef.current, { x: -1000 }, '-=0.5');
 			tl.to(containerRef.current, { x: 0, duration: 1 }, '-=0.5');
 
 			tl.to(
 				progressBarRef.current,
-				{ height: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) },
+				{ width: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) },
 				'+=0.1',
 			);
 
 			// End
-			tl.to(containerRef.current, { x: 630, duration: 1 }, '+=10');
-			tl.set(containerRef.current, { x: -630, duration: 1 });
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, '+=10');
+			tl.set(containerRef.current, { x: -1000, duration: 1 });
 
 			return tl;
 		},
@@ -203,7 +217,7 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	if (percentage < 50) {
 		textOnRightSide = {
 			marginTop: -46,
-			color: '#F2DAB2',
+			color: 'var(--text-light)',
 		};
 	}
 
@@ -213,19 +227,23 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 				<Game text={props.goal.game} />
 				<IncentiveName text={props.goal.incentive} />
 			</IncentiveContainer>
-			<GoalDiv>
-				<IncentiveName style={{ fontWeight: 'normal' }} text={`$${props.goal.goal}`}></IncentiveName>
-			</GoalDiv>
-			<ProgressContainer>
-				<ProgressBarContainer ref={progressBarRef}>
-					<CurrentAmount style={textOnRightSide}>
-						${Math.floor(props.goal.total).toLocaleString()}
-					</CurrentAmount>
-				</ProgressBarContainer>
-				<RemainingAmount style={{ display: percentage > 94 ? 'none' : '' }}>
-					${Math.ceil(props.goal.goal - props.goal.total).toLocaleString()} to go!
-				</RemainingAmount>
-			</ProgressContainer>
+			<BottomBar>
+				<ProgressContainer>
+					<ProgressBarContainer ref={progressBarRef}>
+						<CurrentAmount style={textOnRightSide}>
+							${Math.floor(props.goal.total).toLocaleString()}
+						</CurrentAmount>
+					</ProgressBarContainer>
+					<RemainingAmount style={{ display: percentage > 88 ? 'none' : undefined }}>
+						${Math.ceil(props.goal.goal - props.goal.total).toLocaleString()}
+						<br />
+						to go!
+					</RemainingAmount>
+				</ProgressContainer>
+				<GoalDiv>
+					<IncentiveName text={`$${props.goal.goal}`}></IncentiveName>
+				</GoalDiv>
+			</BottomBar>
 		</GoalBarContainer>
 	);
 });

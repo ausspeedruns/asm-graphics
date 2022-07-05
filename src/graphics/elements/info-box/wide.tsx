@@ -7,15 +7,20 @@ import { Timer as ITimer } from '../../../types/Timer';
 import { Timer } from '../timer';
 import * as RunInfo from '../run-info';
 
+import WideBG from '../../media/pixel/Wide Top.png';
+
 const WideInfoContainer = styled.div`
-	background-image: url('../shared/design/contour-maps/widescreen-1-top.svg');
-	border-bottom: 1px var(--pax-gold) solid;
+	background-color: var(--main);
+	background-image: url('${WideBG}');
+	border-bottom: 1px var(--sec) solid;
 	position: absolute;
 	height: 155px;
 	width: 1920px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	padding: 0 200px;
+	box-sizing: border-box;
 `;
 
 const VerticalStack = styled.div`

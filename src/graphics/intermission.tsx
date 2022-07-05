@@ -1,73 +1,72 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 import { createRoot } from 'react-dom/client';
 import clone from 'clone';
 import { useListenFor, useReplicant } from 'use-nodecg';
 import gsap from 'gsap';
-// import { useFetch } from 'use-http';
+import { format } from 'date-fns';
+import { useFetch } from 'use-http';
 
 import { RunDataArray, RunDataActiveRun } from '../types/RunData';
 import { Tweet as ITweet } from '../types/Twitter';
-import { CouchPerson } from '../types/OverlayProps';
+import { CouchInformation, CouchPerson } from '../types/OverlayProps';
 
 import { InterCTA } from './elements/intermission/cta';
 import { InterIncentives } from './elements/intermission/incentives';
-import {
-	InterNextRunItem,
-	EndRunItem,
-} from './elements/intermission/next-run-item';
+import { InterNextRunItem, EndRunItem } from './elements/intermission/next-run-item';
+import Mic from '@mui/icons-material/Mic';
 
 // import { Sponsors } from './elements/sponsors';
 import { Tweet } from './elements/tweet';
 
-import ContourShader from './elements/contour-shader';
-// @ts-ignore
-import GlslCanvas from 'glslCanvas/dist/GlslCanvas.min.js';
+import MusicIconImg from './media/MusicIcon.svg';
+import ASMLogo from './media/ASM2022 Logo.svg';
+import IncentivesImg from './media/pixel/IncentivesBG.png';
+import { Asset } from '../types/nodecg';
+import { SponsorsBox } from './elements/sponsors';
+import { Goal, War } from '../types/Incentives';
 
 const IntermissionContainer = styled.div`
 	position: relative;
 	width: 1920px;
 	height: 1080px;
 	overflow: hidden;
-	font-family: National Park;
-	/* background: var(--main-col); */
+	font-family: Noto Sans;
+`;
+
+const Half = styled.div`
+	height: 100%;
+	width: 955px;
+	position: relative;
 `;
 
 const NextRuns = styled.div`
-	color: #F2DAB2;
-	font-family: National Park;
-	width: 560px;
-	height: 100%;
-	background: #251803;
+	color: var(--text-light);
+	font-family: Noto Sans;
+	width: 100%;
+	height: 260px;
+	background: var(--main);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-	& > div {
-		margin-top: 10px;
-	}
+	padding-top: 55px;
 `;
 
 const RunsList = styled.div`
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 	flex-grow: 1;
-	padding-bottom: 50px;
 	width: 100%;
-
-	/* & > div {
-		margin-top: 10px;
-	} */
+	gap: 15px;
 `;
 
 const IncentiveBlock = styled.div`
-	color: #F2DAB2;
-	font-family: National Park;
-	width: 560px;
-	height: 100%;
-	background: #251803;
+	color: var(--text-light);
+	font-family: Noto Sans;
+	width: 100%;
+	margin-top: 46px;
+	height: 220px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -75,25 +74,10 @@ const IncentiveBlock = styled.div`
 
 const MiddleContent = styled.div`
 	margin: 0 32px;
-	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-`;
-
-const SponsorHolder = styled.div`
-	display: flex;
-	justify-content: space-around;
-	width: 400px;
-	height: 175px;
-`;
-
-const SponsorImg = styled.img`
-	object-fit: contain;
-	height: 200px;
-	width: 100%;
-	z-index: 2;
 `;
 
 const Music = styled.div`
@@ -103,7 +87,7 @@ const Music = styled.div`
 const BottomBlock = styled.div`
 	position: absolute;
 	bottom: 0;
-	height: 710px;
+	height: 268px;
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -118,45 +102,35 @@ const TweetBox = styled.div`
 `;
 
 const Time = styled.span`
-	font-style: italic;
-	color: #F2DAB2;
+	font-weight: bold;
+	font-size: 33px;
+	color: var(--text-light);
+	margin-bottom: -20px;
 `;
-
-// const LocationBug = styled.div`
-// 	position: absolute;
-// 	background: #ffffff;
-// 	border: 1px solid var(--asm-orange);
-// 	width: 250px;
-// 	height: 50px;
-// 	font-size: 32px;
-// 	text-align: center;
-// 	line-height: 50px;
-// 	color: var(--main-col);
-// `;
 
 const HostName = styled.div`
 	font-size: 28px;
-	color: #F2DAB2;
+	color: var(--text-light);
 	display: flex;
 	align-items: center;
 `;
 
 const HostPronoun = styled.span`
 	font-size: 20px;
-	font-family: National Park;
+	font-family: Noto Sans;
 	font-weight: 400;
-	color: #251803;
+	color: var(--main);
 	text-transform: uppercase;
 	margin-left: 8px;
-	background: #FFC629;
+	background: #ffffff;
 	height: 28px;
 	padding: 0 4px;
 	line-height: 28px;
 `;
 
 const MusicLabel = styled.div`
-	width: 410px;
-	color: #F2DAB2;
+	width: 320px;
+	color: var(--text-light);
 	font-size: 22px;
 	white-space: nowrap;
 	margin: 0 16px;
@@ -167,101 +141,98 @@ const MusicIcon = styled.img`
 	width: auto;
 `;
 
-const BottomInfo = styled.div`
+const BottomColumn = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-	& > * {
-		margin: 4px 0;
-	}
+	justify-content: space-around;
+	height: 100%;
+	width: 50%;
 `;
 
-const SocialMedia = styled.div`
-	position: absolute;
-	top: 0;
-	height: 255px;
+const SponsorBoxS = styled(SponsorsBox)`
 	width: 100%;
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
-	font-family: National Park;
+	/* height: 264px; */
+	flex-grow: 1;
 `;
 
-const SocialMediaItem = styled.div`
-	display: flex;
-	align-items: center;
-	width: 960px;
-	z-index: 2;
-	box-sizing: border-box;
-	padding: 0 30px;
-`;
+const SponsorsSize = {
+	height: 130,
+	width: 430,
+};
 
-const SocialMediaLabel = styled.span`
-	color: #F2DAB2;
-	font-size: 46px;
-	margin: 0 10px;
-`;
-interface IntermissionProps {
-	muted?: boolean;
+export const Intermission: React.FC = () => {
+	const [sponsorsRep] = useReplicant<Asset[], Asset[]>('assets:sponsors', []);
+	const [incentivesRep] = useReplicant<(Goal | War)[], (Goal | War)[]>('incentives', []);
+	const [runDataArrayRep] = useReplicant<RunDataArray, []>('runDataArray', [], { namespace: 'nodecg-speedcontrol' });
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
+		namespace: 'nodecg-speedcontrol',
+	});
+	const [hostName] = useReplicant<CouchInformation, CouchInformation>('couch-names', { current: [], preview: [] });
+	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
+
+	const intermissionRef = useRef<IntermissionRef>(null);
+
+	useListenFor('showTweet', (newVal: ITweet) => {
+		if (intermissionRef.current) intermissionRef.current.showTweet(newVal);
+	});
+
+	return (
+		<IntermissionElement
+			ref={intermissionRef}
+			activeRun={runDataActiveRep}
+			runArray={runDataArrayRep}
+			donation={donationRep}
+			host={hostName.current.find((person) => person.host)}
+			sponsors={sponsorsRep}
+			incentives={incentivesRep}
+		/>
+	);
+};
+
+interface IntermissionRef {
+	showTweet: (newVal: ITweet) => void;
+	showHyperX: () => void;
+	showGoC: () => void;
 }
 
-export const Intermission: React.FC<IntermissionProps> = (
-	props: IntermissionProps,
-) => {
-	const [runDataArrayRep] = useReplicant<RunDataArray, []>(
-		'runDataArray',
-		[],
-		{ namespace: 'nodecg-speedcontrol' },
-	);
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>(
-		'runDataActiveRun',
-		undefined,
-		{
-			namespace: 'nodecg-speedcontrol',
-		},
-	);
-	const [hostName] = useReplicant<CouchPerson, CouchPerson>('host', {
-		name: '',
-		pronouns: '',
-	});
+interface IntermissionProps {
+	activeRun: RunDataActiveRun;
+	runArray: RunDataArray;
+	host?: CouchPerson;
+	donation: number;
+	muted?: boolean;
+	sponsors?: Asset[];
+	incentives?: (Goal | War)[];
+}
+
+export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps>((props, ref) => {
 	const [currentTime, setCurrentTime] = useState('00:00:00');
-	const [currentSong, _setCurrentSong] = useState('');
+	const [currentSong, setCurrentSong] = useState('');
 	const songEl = useRef<HTMLDivElement>(null);
 	const [tweet, setTweet] = useState<ITweet | undefined>(undefined);
 	const tweetRef = useRef<HTMLDivElement>(null);
 	const asLogoRef = useRef<HTMLImageElement>(null);
-	const backgroundRef = useRef<HTMLCanvasElement>(null);
-	// const { get, cache } = useFetch('https://rainwave.cc/api4');
+	const { get, cache } = useFetch('https://rainwave.cc/api4');
 
 	async function getCurrentSong() {
-		// const song = await get('/info_all?sid=2');
-		// cache.clear();
-		// setCurrentSong(
-		// 	`${song.all_stations_info[2].title} – ${song.all_stations_info[2].artists} – ${song.all_stations_info[2].album}`,
-		// );
+		const song = await get('/info_all?sid=2');
+		cache.clear();
+		setCurrentSong(
+			`${song.all_stations_info[2].title} – ${song.all_stations_info[2].artists} – ${song.all_stations_info[2].album}`,
+		);
 	}
 
 	useEffect(() => {
 		getCurrentSong();
-		setCurrentTime(new Date().toLocaleTimeString('en-GB'));
+		setCurrentTime(format(new Date(), 'E d h:mm:ss a'));
 
 		const interval = setInterval(() => {
-			setCurrentTime(new Date().toLocaleTimeString('en-GB'));
+			setCurrentTime(format(new Date(), 'E d h:mm:ss a'));
 		}, 500);
 		const songInterval = setInterval(() => {
 			getCurrentSong();
 		}, 3000);
-
-		if (backgroundRef.current) {
-			backgroundRef.current.width  = backgroundRef.current.offsetWidth;
-			backgroundRef.current.height = backgroundRef.current.offsetHeight;
-
-			const sandbox = new GlslCanvas(backgroundRef.current);
-			sandbox.load(ContourShader);
-		}
 
 		return () => {
 			clearInterval(interval);
@@ -269,158 +240,92 @@ export const Intermission: React.FC<IntermissionProps> = (
 		};
 	}, []);
 
-	useListenFor('showTweet', (newVal: ITweet) => {
-		setTweet(newVal);
-		const tl = gsap.timeline();
-		tl.set(tweetRef.current, { opacity: 0 });
-		tl.to(asLogoRef.current, { opacity: 0, duration: 1 });
-		tl.to(tweetRef.current, { opacity: 1, duration: 1 });
-		tl.to(tweetRef.current, { opacity: 0, duration: 1 }, '+=10');
-		tl.to(asLogoRef.current, { opacity: 1, duration: 1 });
-	});
+	useImperativeHandle(ref, () => ({
+		showTweet(newVal) {
+			setTweet(newVal);
+			const tl = gsap.timeline();
+			tl.set(tweetRef.current, { opacity: 0 });
+			tl.to(asLogoRef.current, { opacity: 0, duration: 1 });
+			tl.to(tweetRef.current, { opacity: 1, duration: 1 });
+			tl.to(tweetRef.current, { opacity: 0, duration: 1 }, '+=10');
+			tl.to(asLogoRef.current, { opacity: 1, duration: 1 });
+		},
+		showGoC() {},
+		showHyperX() {},
+	}));
 
-	const currentRunIndex = runDataArrayRep.findIndex(
-		(run) => run.id === runDataActiveRep?.id,
-	);
-	const nextFiveRuns = clone(runDataArrayRep)
+	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.activeRun?.id);
+	const nextRuns = clone(props.runArray)
 		.slice(currentRunIndex + 1)
-		.slice(0, 5);
+		.slice(0, 3);
 
 	let NextRun;
-	if (nextFiveRuns.length !== 0) {
-		NextRun = (
-			<InterNextRunItem run={nextFiveRuns[0]} key={nextFiveRuns[0].id} />
-		);
+	if (nextRuns.length !== 0) {
+		NextRun = <InterNextRunItem nextRun run={nextRuns[0]} key={nextRuns[0].id} />;
 	}
 
-	nextFiveRuns.shift();
-	const RunsArray = nextFiveRuns.map((run) => {
+	nextRuns.shift();
+	const RunsArray = nextRuns.map((run) => {
 		return <InterNextRunItem run={run} key={run.id} />;
 	});
 
-	if (RunsArray.length < 4) {
+	if (RunsArray.length < 2) {
 		RunsArray.push(<EndRunItem key="end" />);
 	}
 
 	return (
 		<IntermissionContainer>
-			<canvas width="1920" height="1080" ref={backgroundRef}></canvas>
-			<SocialMedia>
-				<div style={{display: 'flex', width: '100%'}}>
-					<SocialMediaItem style={{justifyContent: 'flex-end'}}>
-						<SocialMediaLabel>@ AusSpeedruns</SocialMediaLabel>
-						<img
-							style={{ height: 70 }}
-							src={require('./media/twitter.svg')}
-						/>
-					</SocialMediaItem>
-					<SocialMediaItem style={{justifyContent: 'flex-start'}}>
-						<img
-							style={{ height: 70 }}
-							src={require('./media/youtube.svg')}
-						/>
-						<SocialMediaLabel>Australian Speedruns</SocialMediaLabel>
-					</SocialMediaItem>
-				</div>
-				<div style={{display: 'flex', width: '100%'}}>
-					<SocialMediaItem style={{justifyContent: 'flex-end'}}>
-						<SocialMediaLabel>
-							discord.ausspeedruns.com
-						</SocialMediaLabel>
-						<img
-							style={{ height: 70 }}
-							src={require('./media/discord.svg')}
-						/>
-					</SocialMediaItem>
-					<SocialMediaLabel
-						style={{
-							fontSize: 60,
-							fontWeight: 'bold',
-							zIndex: 2,
-							color: '#F2DAB2',
-							textAlign: 'right',
-							display: 'flex',
-							width: 960,
-							justifyContent: 'flex-start',
-							margin: 0,
-							paddingLeft: 30,
-							boxSizing: 'border-box'
-						}}>
-						#PAXxAusSpeedruns2021
-					</SocialMediaLabel>
-				</div>
-			</SocialMedia>
-			<InterCTA style={{ position: 'absolute', top: 255 }} />
-			<BottomBlock>
-				<IncentiveBlock>
-					<b style={{ fontSize: 40, marginTop: 5 }}>Incentives</b>
-					<InterIncentives />
-				</IncentiveBlock>
+			<Half style={{ backgroundColor: 'var(--main)', borderRight: '10px solid var(--sec)' }}>
+				<InterCTA donation={props.donation} style={{ zIndex: 1 }} />
+				<NextRuns>
+					<Time>{currentTime}</Time>
+					<RunsList>
+						{NextRun}
+						{RunsArray}
+					</RunsList>
+				</NextRuns>
+
+				<img src={IncentivesImg} style={{ position: 'absolute', left: -25, top: 424 }} />
 				<MiddleContent>
-					<SponsorHolder
-						style={{ position: 'relative', alignItems: 'center' }}>
-						<SponsorImg
-							ref={asLogoRef}
-							src="../shared/design/ASM-Orange.svg"
-						/>
-						<TweetBox ref={tweetRef}>
-							<Tweet
-								style={{
-									width: '100%',
-									margin: 0,
-									justifyContent: 'center',
-								}}
-								tweet={tweet}
-							/>
-						</TweetBox>
-					</SponsorHolder>
-					<SponsorHolder>
-						<img src="../shared/design/Camp PAX.svg" />
-					</SponsorHolder>
-					<SponsorHolder>
-						<img style={{width: '100%', height: 'auto', objectFit: 'contain'}} src={require('./media/Sponsors/Cure Cancer Logo - White.png')} />
-					</SponsorHolder>
-					<BottomInfo>
-						<Time>{currentTime}</Time>
-						<HostName>
-							{hostName.name}{' '}
-							{hostName.pronouns && (
-								<HostPronoun>{hostName.pronouns}</HostPronoun>
-							)}
-						</HostName>
+					<IncentiveBlock>
+						<InterIncentives incentives={props.incentives ?? []} />
+					</IncentiveBlock>
+				</MiddleContent>
+				<BottomBlock>
+					<BottomColumn>
+						<SponsorBoxS sponsors={props.sponsors ?? []} sponsorStyle={SponsorsSize} />
+					</BottomColumn>
+					<BottomColumn>
+						<img src={ASMLogo} style={{ height: 'auto', width: 360 }} />
+						{props.host && (
+							<HostName>
+								<Mic />
+								{props.host.name}{' '}
+								{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
+							</HostName>
+						)}
 						<Music>
-							<audio
-								id="intermission-music"
-								autoPlay
-								preload="auto"
-								muted={props.muted}>
+							<audio id="intermission-music" autoPlay preload="auto" muted={props.muted}>
 								<source
 									type="audio/mp3"
 									src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ"
 								/>
 							</audio>
 							<div style={{ display: 'flex' }}>
-								<MusicIcon src="../shared/design/MusicIcon.svg" />
+								<MusicIcon src={MusicIconImg} />
 								<MusicLabel ref={songEl}>
 									{/* @ts-ignore */}
 									<marquee>{currentSong}</marquee>
 								</MusicLabel>
-								<MusicIcon src="../shared/design/MusicIcon.svg" />
+								<MusicIcon src={MusicIconImg} />
 							</div>
 						</Music>
-					</BottomInfo>
-				</MiddleContent>
-				<div style={{ display: 'flex' }}>
-					<NextRuns>
-						<b style={{ fontSize: 40, marginTop: 5 }}>Next Run</b>
-						{NextRun}
-						<b style={{ fontSize: 30, marginTop: 5 }}>Soon</b>
-						<RunsList>{RunsArray}</RunsList>
-					</NextRuns>
-				</div>
-			</BottomBlock>
+					</BottomColumn>
+				</BottomBlock>
+			</Half>
+			<Half></Half>
 		</IntermissionContainer>
 	);
-};
+});
 
 createRoot(document.getElementById('root')!).render(<Intermission />);

@@ -1,67 +1,79 @@
 import React from 'react';
 import styled from 'styled-components';
+import { format } from 'date-fns';
 
 import { FitText } from '../fit-text';
 
 import { RunData } from '../../../types/RunData';
 
 const InterNextRunItemContainer = styled.div`
-	height: 80px;
-	width: 100%;
-	font-family: National Park;
-	background: #302414;
+	height: 193px;
+	width: 286px;
+	font-family: Noto Sans;
+	background: var(--main-dark);
 	display: flex;
+	flex-direction: column;
 `;
 
 const Time = styled.div`
-	width: 100px;
+	width: 100%;
 	font-size: 28px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: #251803;
-	background: #F2DAB2;
+	color: var(--text-dark);
+	background: #ffffff;
 `;
 
 const InfoBlock = styled.div`
 	width: 100%;
+	height: fit-content;
 	display: flex;
 	flex-direction: column;
-	//align-items: center;
+	align-items: center;
 	//justify-content: center;
-	color: #F2DAB2;
+	color: var(--text-light);
 	padding: 5px 10px 5px 5px;
 `;
 
 const GameTitle = styled(FitText)`
 	font-size: 33px;
-	max-width: 330px !important;
+	font-weight: bold;
+	max-width: 250px !important;
 `;
 
 const TopText = styled.div`
 	display: flex;
 	align-items: baseline;
-	justify-content: space-between;
+	justify-content: center;
+	gap: 20px;
 	width: 100%;
-	margin-top: -4px;
 `;
 
 const Category = styled(FitText)`
 	max-width: 280px;
+	font-size: 27px;
+`;
+
+const System = styled.span`
+	max-width: 143px;
+	flex-grow: 1;
+	font-size: 20px;
 `;
 
 const Runners = styled(FitText)`
 	max-width: 182px;
+	font-size: 23px;
 `;
 
 interface Props {
 	run: RunData;
+	nextRun?: boolean;
 }
 
 export const InterNextRunItem: React.FC<Props> = (props: Props) => {
-	const scheduleTime = new Date(props.run.scheduled || '');
-
-	// Thanks setup block
+	// If one team then combine
+	// If more then combine team names and add vs
 	let playerNames;
 	if (props.run.teams.length === 0) {
 		playerNames = '';
@@ -73,39 +85,36 @@ export const InterNextRunItem: React.FC<Props> = (props: Props) => {
 			.join(' vs ');
 	}
 
-	// If one team then combine
-	// If more then combine team names and add vs
-
-	const time = scheduleTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+	// Thanks setup block
+	let time = props.run.scheduled ? format(new Date(props.run.scheduled), 'h:mm a') : '--:--';
+	if (props.nextRun) time = 'Up Next';
 
 	let correctedEstimate = props.run.estimate || '';
-	if (correctedEstimate[0] === "0") {
+	if (correctedEstimate[0] === '0') {
 		correctedEstimate = correctedEstimate.substring(1);
 	}
 
 	return (
-		<InterNextRunItemContainer>
-			<Time>{time === 'Invalid Date' ? '--:--' : time}</Time>
+		<InterNextRunItemContainer style={{ background: props.nextRun ? 'var(--sec)' : undefined }}>
+			<Time style={{fontWeight: props.nextRun ? 'bold' : undefined}}>{time}</Time>
 			<InfoBlock>
+				<GameTitle text={props.run.game || ''} />
+				<Category text={props.run.category?.toUpperCase() || ''} />
 				<TopText>
-					<GameTitle text={props.run.game || ''} />
-					{/* <System>{props.run.system}</System> */}
-					<span style={{ fontSize: 25 }}>
+					<span style={{ fontSize: 20, minWidth: 143, textAlign: 'right' }}>
 						<span style={{ fontSize: 14 }}>EST </span>
 						{correctedEstimate}
 					</span>
+					<System>{props.run.system}</System>
 				</TopText>
-				<TopText style={{ fontSize: 18, marginTop: 5 }}>
-					<Category text={props.run.category?.toUpperCase() || ''} />
-					<Runners text={playerNames || ''} />
-				</TopText>
+				<Runners text={playerNames || ''} />
 			</InfoBlock>
 		</InterNextRunItemContainer>
 	);
 };
 
 const EndRunCont = styled.div`
-	color: #F2DAB2;
+	color: var(--text-light);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -119,7 +128,11 @@ export const EndRunItem: React.FC = () => {
 		<EndRunCont>
 			<span>The End</span>
 			<span>
-				<b>Thank you for watching<br />PAX x AusSpeedruns 2021!</b>
+				<b>
+					Thank you for watching
+					<br />
+					ASM2022!
+				</b>
 			</span>
 		</EndRunCont>
 	);

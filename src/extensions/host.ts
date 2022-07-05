@@ -3,8 +3,5 @@ import { CouchPerson } from '../types/OverlayProps';
 
 const nodecg = nodecgApiContext.get();
 
-const hostNameRep = nodecg.Replicant<CouchPerson>('host');
+const hostNameRep = nodecg.Replicant<CouchPerson>('couch-names');
 
-nodecg.listenFor('update-hostname', (data: CouchPerson) => {
-	hostNameRep.value = data;
-});

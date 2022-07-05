@@ -6,6 +6,15 @@ const nodecg = nodecgApiContext.get();
 const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names');
 const noCamRep = nodecg.Replicant<NoCam>('no-cam');
 
+nodecg.listenFor('update-hostname', (data: CouchPerson) => {
+	// hostNameRep.value = data;
+	const hostNamesMutable = couchNamesRep.value;
+	const hostNameIndex = hostNamesMutable.current.findIndex(couch => couch.host);
+	if (hostNameIndex > -1)	hostNamesMutable.current.splice(hostNameIndex, 1);
+	hostNamesMutable.current.push(data);
+	couchNamesRep.value = hostNamesMutable;
+});
+
 nodecg.listenFor('update-hostnames', (names: CouchPerson[]) => {
 	couchNamesRep.value.current = names;
 });

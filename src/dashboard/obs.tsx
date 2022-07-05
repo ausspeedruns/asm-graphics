@@ -429,4 +429,4 @@ export const DashAudio: React.FC = () => {
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<DashOBS />);
+// createRoot(document.getElementById('root')!).render(<DashOBS />);

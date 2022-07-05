@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps } from '../../types/OverlayProps';
+import { OverlayProps, OverlayRef } from '../../types/OverlayProps';
 
 import { IWideStyling, WideInfo } from '../elements/info-box/wide';
-import { SponsorsBox } from '../elements/sponsors';
+import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { Couch } from '../elements/couch';
 
@@ -60,7 +60,15 @@ const customWideStyling: IWideStyling = {
 	},
 };
 
-export const Widescreen1610: React.FC<OverlayProps> = (props) => {
+export const Widescreen1610 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
+	const sponsorRef = useRef<SponsorBoxRef>(null);
+
+	useImperativeHandle(ref, () => ({
+		showTweet(newVal) {
+			sponsorRef.current?.showTweet?.(newVal);
+		},
+	}));
+
 	return (
 		<WidescreenContainer>
 			<WideInfo timer={props.timer} runData={props.runData} style={customWideStyling} />
@@ -73,9 +81,14 @@ export const Widescreen1610: React.FC<OverlayProps> = (props) => {
 				/>
 				<SidebarBG>
 					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
-					<SponsorsBoxS sponsorStyle={SponsorsStyled} tweetStyle={TwitterSize} />
+					<SponsorsBoxS
+						sponsors={props.sponsors}
+						ref={sponsorRef}
+						sponsorStyle={SponsorsStyled}
+						tweetStyle={TwitterSize}
+					/>
 				</SidebarBG>
 			</Sidebar>
 		</WidescreenContainer>
 	);
-};
+});

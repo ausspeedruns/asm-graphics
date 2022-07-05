@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps } from '../../types/OverlayProps';
+import { OverlayProps, OverlayRef } from '../../types/OverlayProps';
 
 import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
-import { SponsorsBox } from '../elements/sponsors';
+import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { Couch } from '../elements/couch';
 
@@ -17,7 +17,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: 395px;
-	border-right: 1px solid var(--pax-gold);
+	border-right: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
@@ -32,9 +32,7 @@ const SponsorsStyled = {
 };
 
 const InfoBoxBG = styled.div`
-	background-image: url('../shared/design/contour-maps/standard.svg');
-	background-size: cover;
-	background-position: center;
+	background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -51,25 +49,39 @@ const TwitterSize = {
 const customVerticalStyle: IVerticalStyling = {
 	maxTextWidth: 360,
 	gameTitleSize: 35,
-	timerSize: 80,
+	timerSize: 60,
 };
 
-export const GBA: React.FC<OverlayProps> = (props) => {
+export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
+	const sponsorRef = useRef<SponsorBoxRef>(null);
+
+	useImperativeHandle(ref, () => ({
+		showTweet(newVal) {
+			sponsorRef.current?.showTweet?.(newVal);
+		},
+	}));
+
 	return (
 		<GBAContainer>
 			<Sidebar>
 				<Facecam
 					height={352}
 					teams={props.runData?.teams}
+					pronounStartSide="right"
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
 					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
-					<SponsorsBoxS sponsorStyle={SponsorsStyled} tweetStyle={TwitterSize} />
+					<SponsorsBoxS
+						sponsors={props.sponsors}
+						ref={sponsorRef}
+						sponsorStyle={SponsorsStyled}
+						tweetStyle={TwitterSize}
+					/>
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>
 	);
-};
+});

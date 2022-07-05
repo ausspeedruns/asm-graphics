@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
 import { CouchPerson } from '../../types/OverlayProps';
 
 const CouchContainer = styled.div`
-	font-family: National Park;
+	font-family: Noto Sans;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -15,7 +14,7 @@ const MenuBar = styled.div`
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	color: var(--text-col);
+	color: var(--text-light);
 	font-size: 25px;
 `;
 
@@ -26,11 +25,6 @@ const PeopleContainer = styled.div`
 	justify-content: center;
 `;
 
-interface DACBOTSpeaking {
-	id: string;
-	speaking: boolean;
-}
-
 interface Props {
 	couch: CouchPerson[];
 	style?: React.CSSProperties;
@@ -38,13 +32,12 @@ interface Props {
 }
 
 export const Couch: React.FC<Props> = (props: Props) => {
-	const [currentHost] = useReplicant<CouchPerson, CouchPerson>('host', {
-		name: '',
-		pronouns: '',
-	});
-	const [speakingDiscord] = useReplicant<DACBOTSpeaking[], DACBOTSpeaking[]>('speaking', [], {namespace: 'nodecg-dacbot'})
+	if (props.couch.length === 0) return <></>;
 
-	if (props.couch.length === 0 && currentHost.name === '') return <></>;
+	const host = props.couch.find((person) => person.host);
+
+	// Remove host from array now
+	const couch = props.couch.filter((person) => !person.host);
 
 	return (
 		<CouchContainer className={props.className} style={props.style}>
@@ -52,10 +45,10 @@ export const Couch: React.FC<Props> = (props: Props) => {
 				<div style={{ margin: '0 6px' }}>{props.couch.length > 0 ? 'Commentators' : 'Commentator'}</div>
 			</MenuBar>
 			<PeopleContainer>
-				{props.couch.map((person) => {
-					return <PersonCompressed key={person.name} person={person} speaking={!!speakingDiscord.find(user => user.id === person.discordID)} />;
+				{couch.map((person) => {
+					return <PersonCompressed key={person.name} person={person} />;
 				})}
-				<PersonCompressed key={'Host'} person={currentHost} host speaking={!!speakingDiscord.find(user => user.id === currentHost.discordID)} />
+				{host && <PersonCompressed key={'Host'} person={host} host />}
 			</PeopleContainer>
 		</CouchContainer>
 	);
@@ -66,8 +59,10 @@ const PersonCompressedContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	padding: 8px;
-	color: var(--text-col);
-	background: #251803;
+	color: var(--text-light);
+	background: var(--main-dark);
+	border: solid var(--accent) 5px;
+	border-radius: 15px;
 	font-size: 22px;
 	margin: 4px;
 	box-sizing: border-box;
@@ -75,7 +70,6 @@ const PersonCompressedContainer = styled.div`
 
 const Pronouns = styled.div`
 	font-size: 15px;
-	font-weight: lighter;
 	text-transform: uppercase;
 `;
 
@@ -87,7 +81,7 @@ interface PersonCompressedProps {
 
 export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
-		<PersonCompressedContainer style={{outline: props.speaking ? '4px solid var(--text-col)' : ''}}>
+		<PersonCompressedContainer style={{ outline: props.speaking ? '4px solid var(--text-light)' : '' }}>
 			<span style={{ fontWeight: 'bold' }}>{props.person.name}</span>
 			<Pronouns>
 				<span style={{ fontWeight: 'bold' }}>{props.host && 'Host '}</span>

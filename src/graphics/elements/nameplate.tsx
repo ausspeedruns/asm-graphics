@@ -9,12 +9,12 @@ import { RunDataPlayer } from '../../types/RunData';
 import { FitText } from './fit-text';
 
 const NameplateContainer = styled.div`
-	background: #F2DAB2;
-	color: #251803;
+	background: #ffffff;
+	color: var(--text-dark);
 	width: 100%;
 	height: 41px;
 	font-size: 30px;
-	font-family: National Park;
+	font-family: Noto Sans;
 
 	display: flex;
 	flex-direction: ${(props: NameplateSide) => (props.nameplateLeft ? 'row-reverse' : 'row')};
@@ -38,12 +38,12 @@ const TwitchDiv = styled.div`
 `;
 
 const PronounBox = styled.div`
-	background: #FFC629;
-	font-family: National Park;
+	background: var(--sec);
+	font-family: Noto Sans;
 	font-weight: 400;
 	font-size: 20px;
 	text-transform: uppercase;
-	color: #251803;
+	color: var(--text-light);
 	padding: 0 8px;
 	height: 100%;
 	display: flex;

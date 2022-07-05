@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { TickerItemHandles } from '../../ticker';
+import { TickerItemHandles } from '../ticker';
 
 import { TickerItem } from './item';
 import { TickerTitle } from './title';
@@ -58,12 +58,9 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 			</TickerTitle>
 			<div style={{width: '100%', position: 'relative'}}>
 				<PrizesScroller ref={prizesRef}>
-					<TickerItem title="Arctis 3 White Headphones" sub="$10 Donation" />
-					<TickerItem title="Arctis 3 Black Headphones" sub="$10 Donation" />
-					<TickerItem title="Arctis 5 White Headphones" sub="$10 Donation" />
-					<TickerItem title="Nanoleaf Hexagons Starter Kit" sub="$20 Donation" />
-					<TickerItem title="Nanoleaf Triangles Expansion" sub="$20 Donation" />
-					<TickerItem title="Nanoleaf Mini Triangles Expansion" sub="$20 Donation" />
+					<TickerItem title="T.A.B.S Game Code" sub="$10 Donation" />
+					<TickerItem title="Knightfall Game Code" sub="$10 Donation" />
+					<TickerItem title="Clustertruck" sub="$10 Donation" />
 				</PrizesScroller>
 			</div>
 		</TickerPrizesContainer>

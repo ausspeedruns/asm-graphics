@@ -15,22 +15,23 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: 565px;
-	border-right: 1px solid var(--pax-gold);
+	border-right: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
 const DSSecondScreen = styled.div`
 	width: 564px;
 	height: 423px;
-	border-top: 1px solid var(--pax-gold);
+	border-top: 1px solid var(--sec);
 `;
 
 const customSmallStyle: ISmallStyling = {
 	mainStyle: {
-		backgroundImage: "url(../shared/design/contour-maps/ds.svg)",
+		background: 'var(--main)',
 		height: 239,
-	}
-}
+	},
+	timerSize: 65,
+};
 
 export const DS: React.FC<OverlayProps> = (props) => {
 	return (
@@ -39,6 +40,7 @@ export const DS: React.FC<OverlayProps> = (props) => {
 				<Facecam
 					height={352}
 					teams={props.runData?.teams}
+					pronounStartSide="right"
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyle} />

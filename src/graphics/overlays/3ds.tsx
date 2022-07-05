@@ -16,7 +16,8 @@ const Sidebar = styled.div`
 	top: 175px;
 	height: 841px;
 	width: 517px;
-	border-right: 1px solid #FFC629;
+	border-right: 1px solid var(--sec);
+	z-index: -1;
 `;
 
 const customWideStyle: IWideStyling = {
@@ -31,10 +32,11 @@ export const ThreeDS: React.FC<OverlayProps> = (props) => {
 			<WideInfo timer={props.timer} runData={props.runData} style={customWideStyle} />
 			<Sidebar>
 				<Facecam
-					style={{ borderBottom: '1px solid #FFC629' }}
+					// style={{ borderBottom: '1px solid #FFC629' }}
 					maxNameWidth={270}
 					height={452}
 					teams={props.runData?.teams}
+					pronounStartSide="right"
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 			</Sidebar>

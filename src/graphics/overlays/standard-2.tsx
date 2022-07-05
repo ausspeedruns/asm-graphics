@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
 
 import { OverlayProps } from '../../types/OverlayProps';
 
@@ -10,6 +9,9 @@ import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { Couch } from '../elements/couch';
+
+import BGLeft from '../media/pixel/Standard 2p Left.png';
+import BGRight from '../media/pixel/Standard 2p Right.png';
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -21,14 +23,17 @@ const Topbar = styled.div`
 	position: absolute;
 	height: 296px;
 	width: 1920px;
-	border-bottom: 1px solid var(--pax-gold);
+	border-bottom: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
 const RightBox = styled.div`
 	width: 666px;
 	height: 100%;
-	background-image: url('../shared/design/contour-maps/standard-2-right.svg');
+	background: var(--main);
+	background-image: url('${BGRight}');
+	background-repeat: no-repeat;
+	background-position: bottom;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -51,7 +56,7 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 297px;
 	left: 959px;
-	background: var(--pax-gold);
+	background: var(--sec);
 `;
 
 const customSmallStyling: ISmallStyling = {
@@ -59,12 +64,14 @@ const customSmallStyling: ISmallStyling = {
 	mainStyle: {
 		height: '100%',
 		width: 666,
+		backgroundColor: 'var(--main)',
+		backgroundImage: `url('${BGLeft}')`,
+		backgroundPosition: 'bottom',
+		backgroundRepeat: 'no-repeat',
 	},
 };
 
 export const Standard2: React.FC<OverlayProps> = (props) => {
-	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
-
 	const leftTeamID = props.runData?.teams[0]?.id || '';
 	const rightTeamID = props.runData?.teams[1]?.id || '';
 	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
@@ -107,7 +114,7 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 			props.runData.teams.forEach(team => {
 				team.players.forEach((player) => {
 					totalIndex++;
-					if (player.id === audioIndicatorRep) {
+					if (player.id === props.audioIndicator) {
 						currentAudio = totalIndex;
 						return;
 					}
@@ -118,7 +125,7 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 				});
 			});
 		} else {
-			currentAudio = props.runData.teams[0].players.findIndex(player => audioIndicatorRep === player.id);
+			currentAudio = props.runData.teams[0].players.findIndex(player => props.audioIndicator === player.id);
 		}
 	}
 
@@ -147,8 +154,8 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 					width={586}
 					maxNameWidth={190}
 					style={{
-						borderRight: '1px solid #FFC629',
-						borderLeft: '1px solid #FFC629',
+						borderRight: '1px solid var(--sec)',
+						borderLeft: '1px solid var(--sec)',
 					}}
 					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
@@ -163,7 +170,7 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 							couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
 							style={{ width: '30%' }}
 						/>
-						<SponsorsBox style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
+						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
 					</div>
 				</RightBox>
 			</Topbar>

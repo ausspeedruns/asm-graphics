@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
+import { NoMargin } from './elements/no-margin';
 
 const TwitchChatContainer = styled.div``;
 
@@ -14,7 +15,9 @@ export const TwitchChat: React.FC = () => {
 
 	return (
 		<TwitchChatContainer>
+			<NoMargin />
 			<iframe
+				style={{ border: 0 }}
 				height="500"
 				width="416"
 				id="twitchchat"

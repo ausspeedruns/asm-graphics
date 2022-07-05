@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { HashRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import { useReplicant } from 'use-nodecg';
+import { useListenFor, useReplicant } from 'use-nodecg';
 import _ from 'underscore';
 
 // import { CurrentOverlay } from '../types/CurrentOverlay';
 import { RunDataActiveRun, RunDataArray } from '../types/RunData';
 import { Timer } from '../types/Timer';
-import { CouchInformation, NoCam } from '../types/OverlayProps';
+import { CouchInformation, NoCam, OverlayRef } from '../types/OverlayProps';
 
-import { Ticker } from './ticker';
+import { TickerOverlay } from './ticker';
 import { Standard } from './overlays/standard';
 import { Standard2 } from './overlays/standard-2';
 import { Widescreen } from './overlays/widescreen';
@@ -24,6 +24,8 @@ import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
 import { ThreeDS } from './overlays/3ds';
 import { CreditsOverlay } from './overlays/credits';
+import { Asset } from '../types/nodecg';
+import { Tweet } from '../types/Twitter';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -68,166 +70,82 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 	});
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
 	const [noCamRep] = useReplicant<NoCam, NoCam>('no-cam', { current: false, preview: false });
+	const [sponsorsRep] = useReplicant<Asset[], Asset[]>('assets:sponsors', []);
+	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
+	const overlayRefs = useRef<OverlayRef[]>([]);
+
+	useListenFor('showTweet', (newVal: Tweet) => {
+		if (!overlayRefs.current) return;
+
+		overlayRefs.current.forEach((ref) => {
+			ref.showTweet?.(newVal);
+		});
+	});
+
+	const overlayArgs = {
+		runData: displayingRun,
+		timer: timerRep,
+		couchInformation: hostNamesRep,
+		preview: props.preview,
+		noCam: noCamRep,
+		sponsors: sponsorsRep,
+	};
 
 	// console.log(displayingRun)
 
 	const Overlays = [
 		{
-			component: (
-				<Standard
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <Standard {...overlayArgs} />,
 			name: '',
 			// Defualt as standard
 		},
 		{
-			component: (
-				<Standard
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <Standard {...overlayArgs} />,
 			name: 'Standard',
 		},
 		{
-			component: (
-				<Standard2
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <Standard2 {...overlayArgs} audioIndicator={audioIndicatorRep} />,
 			name: 'Standard-2',
 		},
 		{
-			component: (
-				<Widescreen
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <Widescreen {...overlayArgs} />,
 			name: 'Widescreen',
 		},
 		{
-			component: (
-				<Widescreen2
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <Widescreen2 {...overlayArgs} audioIndicator={audioIndicatorRep} />,
 			name: 'Widescreen-2',
 		},
 		{
-			component: (
-				<Widescreen3
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <Widescreen3 {...overlayArgs} audioIndicator={audioIndicatorRep} />,
 			name: 'Widescreen-3',
 		},
 		{
-			component: (
-				<Widescreen1610
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <Widescreen1610 {...overlayArgs} />,
 			name: 'Widescreen-1610',
 		},
 		{
-			component: (
-				<DS
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <DS {...overlayArgs} />,
 			name: 'DS',
 		},
 		{
-			component: (
-				<DS2
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <DS2 {...overlayArgs} />,
 			name: 'DS-2',
 		},
 		{
-			component: (
-				<GBA
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <GBA {...overlayArgs} />,
 			name: 'GBA',
 		},
 		{
-			component: (
-				<GBC
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <GBC {...overlayArgs} />,
 			name: 'GBC',
 		},
 		{
-			component: (
-				<WHG
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <WHG {...overlayArgs} />,
 			name: 'WHG',
 		},
 		{
-			component: (
-				<ThreeDS
-					runData={displayingRun}
-					timer={timerRep}
-					couchInformation={hostNamesRep}
-					preview={props.preview}
-					noCam={noCamRep}
-				/>
-			),
+			component: <ThreeDS {...overlayArgs} />,
 			name: '3DS',
 		},
 		{
@@ -235,6 +153,10 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: 'None',
 		},
 	];
+
+	Overlays.forEach((overlay, i) => {
+		overlay.component.props.ref = (el: OverlayRef) => (overlayRefs.current[i] = el);
+	});
 
 	useEffect(() => {
 		if (props.preview) {
@@ -272,7 +194,7 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 		<GameplayOverlayCont>
 			<GameplayContainer>
 				<Routes>{RouteData}</Routes>
-				<Ticker />
+				<TickerOverlay />
 			</GameplayContainer>
 
 			{DevLinks}

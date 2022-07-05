@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import { Timer as TimerType } from '../../types/Timer';
 
 const TimerContainer = styled.div`
-	font-family: DS-Digital;
+	display: flex;
+	align-items: flex-end;
+	font-family: Seamless;
 	font-size: ${(props: FontProps) => props.fontSize}px;
-	color: var(--text-col);
+	color: var(--text-light);
 	text-align: center;
-	font-weight: bold;
+	letter-spacing: 2px;
 `;
 
 const MilliText = styled.span`
@@ -22,10 +24,12 @@ interface FontProps {
 }
 
 interface Props {
-	timer: TimerType | undefined;
+	timer?: TimerType;
 	fontSize?: number;
 	style?: React.CSSProperties;
 }
+
+const DEFAULT_FONT_SIZE = 80;
 
 export const Timer: React.FC<Props> = (props: Props) => {
 	let millis = 0;
@@ -44,9 +48,9 @@ export const Timer: React.FC<Props> = (props: Props) => {
 	}
 
 	return (
-		<TimerContainer fontSize={props.fontSize || 120} style={props.style}>
+		<TimerContainer fontSize={props.fontSize ?? DEFAULT_FONT_SIZE} style={props.style}>
 			{compressedTime}
-			<MilliText fontSize={props.fontSize || 120}>.{millis}</MilliText>
+			<MilliText fontSize={props.fontSize ?? DEFAULT_FONT_SIZE}>.{millis}</MilliText>
 		</TimerContainer>
 	);
 };
