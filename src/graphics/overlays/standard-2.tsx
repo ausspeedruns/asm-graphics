@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps } from '../../types/OverlayProps';
+import { OverlayProps, OverlayRef } from '../../types/OverlayProps';
 
 import { SmallInfo, ISmallStyling } from '../elements/info-box/small';
-import { SponsorsBox } from '../elements/sponsors';
+import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
@@ -45,8 +45,8 @@ const SponsorSize = {
 };
 
 const TwitterSize = {
-	height: 200,
-	width: 400,
+	height: 220,
+	width: 420,
 	marginTop: -40,
 };
 
@@ -71,7 +71,15 @@ const customSmallStyling: ISmallStyling = {
 	},
 };
 
-export const Standard2: React.FC<OverlayProps> = (props) => {
+export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
+	const sponsorRef = useRef<SponsorBoxRef>(null);
+
+	useImperativeHandle(ref, () => ({
+		showTweet(newVal) {
+			sponsorRef.current?.showTweet?.(newVal);
+		},
+	}));
+
 	const leftTeamID = props.runData?.teams[0]?.id || '';
 	const rightTeamID = props.runData?.teams[1]?.id || '';
 	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
@@ -111,7 +119,7 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 	if (props.runData?.teams) {
 		if (props.runData.teams.length > 1) {
 			let totalIndex = -1;
-			props.runData.teams.forEach(team => {
+			props.runData.teams.forEach((team) => {
 				team.players.forEach((player) => {
 					totalIndex++;
 					if (player.id === props.audioIndicator) {
@@ -125,7 +133,7 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 				});
 			});
 		} else {
-			currentAudio = props.runData.teams[0].players.findIndex(player => props.audioIndicator === player.id);
+			currentAudio = props.runData.teams[0].players.findIndex((player) => props.audioIndicator === player.id);
 		}
 	}
 
@@ -159,22 +167,30 @@ export const Standard2: React.FC<OverlayProps> = (props) => {
 					}}
 					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+					audioIndicator={props.obsAudioIndicator}
 				/>
 
 				<RaceFinish style={{ top: 220, left: 830 }} time={leftTeamTime} place={leftTeamPlace} />
 				<RaceFinish style={{ top: 220, left: 960 }} time={rightTeamTime} place={rightTeamPlace} />
 
 				<RightBox>
-					<div style={{ display: 'flex', width: '100%', flexGrow: 1, alignItems: 'center' }}>
+					<div style={{ display: 'flex', width: '100%', flexGrow: 1, alignItems: 'center', paddingBottom: 42 }}>
 						<Couch
 							couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
 							style={{ width: '30%' }}
+							audio={props.obsAudioIndicator}
 						/>
-						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} tweetStyle={TwitterSize} />
+						<SponsorsBox
+							ref={sponsorRef}
+							sponsors={props.sponsors}
+							style={{ flexGrow: 1 }}
+							sponsorStyle={SponsorSize}
+							tweetStyle={TwitterSize}
+						/>
 					</div>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />
 		</Standard2Container>
 	);
-};
+});

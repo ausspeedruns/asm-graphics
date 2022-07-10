@@ -19,7 +19,7 @@ module.exports = (nodecg: any) => {
 async function init() {
 	const nodecg = nodecgApiContext.get();
 	require('./replicants');
-	
+
 	// The order of these is literally just the chronological order of when they were made, a.k.a the best way to watch Star Wars
 
 	if (ncgConfig.obs.enabled) {
@@ -29,23 +29,12 @@ async function init() {
 	require('./overlay');
 	require('./audio');
 	require('./couch');
-	require('./host');
 
 	if (ncgConfig.twitter.enabled) {
 		require('./twitter');
 		require('./util/twitter');
 	} else {
 		nodecg.log.info('Twitter not enabled. Showing tweets will not work');
-	}
-
-	if (ncgConfig.googleCredentials.enabled) {
-		require('./util/google');
-	} else {
-		nodecg.log.info('Google API not enabled. Incentives will not work');
-	}
-
-	if (ncgConfig.raisely.enabled) {
-		require('./donations/raisely');
 	}
 
 	if (ncgConfig.tiltify) {

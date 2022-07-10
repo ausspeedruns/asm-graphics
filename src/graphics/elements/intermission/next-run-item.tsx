@@ -33,13 +33,14 @@ const InfoBlock = styled.div`
 	align-items: center;
 	//justify-content: center;
 	color: var(--text-light);
-	padding: 5px 10px 5px 5px;
+	padding: 5px;
+	box-sizing: border-box;
 `;
 
 const GameTitle = styled(FitText)`
 	font-size: 33px;
 	font-weight: bold;
-	max-width: 250px !important;
+	max-width: 95%;
 `;
 
 const TopText = styled.div`
@@ -51,18 +52,18 @@ const TopText = styled.div`
 `;
 
 const Category = styled(FitText)`
-	max-width: 280px;
+	max-width: 95%;
 	font-size: 27px;
 `;
 
 const System = styled.span`
-	max-width: 143px;
+	max-width: 50%;
 	flex-grow: 1;
 	font-size: 20px;
 `;
 
 const Runners = styled(FitText)`
-	max-width: 182px;
+	max-width: 95%;
 	font-size: 23px;
 `;
 
@@ -96,12 +97,12 @@ export const InterNextRunItem: React.FC<Props> = (props: Props) => {
 
 	return (
 		<InterNextRunItemContainer style={{ background: props.nextRun ? 'var(--sec)' : undefined }}>
-			<Time style={{fontWeight: props.nextRun ? 'bold' : undefined}}>{time}</Time>
+			<Time style={{ fontWeight: props.nextRun ? 'bold' : undefined }}>{time}</Time>
 			<InfoBlock>
 				<GameTitle text={props.run.game || ''} />
 				<Category text={props.run.category?.toUpperCase() || ''} />
 				<TopText>
-					<span style={{ fontSize: 20, minWidth: 143, textAlign: 'right' }}>
+					<span style={{ fontSize: 20, minWidth: 143, textAlign: 'right', maxWidth: '50%' }}>
 						<span style={{ fontSize: 14 }}>EST </span>
 						{correctedEstimate}
 					</span>

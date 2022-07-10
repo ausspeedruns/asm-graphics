@@ -40,7 +40,7 @@ TwitchNameSame.args = {
 
 export const NoPronoun = Template.bind({});
 NoPronoun.args = {
-	teams: [{ players: [{ ...DefaultPlayer, pronouns: ''}], id: '0', name: '' }],
+	teams: [{ players: [{ ...DefaultPlayer, pronouns: '' }], id: '0', name: '' }],
 	height: 500,
 	pronounStartSide: 'left',
 	dontAlternatePronouns: false,
@@ -85,4 +85,14 @@ Four.args = {
 	pronounStartSide: 'left',
 	dontAlternatePronouns: false,
 	noCam: false,
+};
+
+export const Speaking = Template.bind({});
+Speaking.args = {
+	teams: [{ players: [DefaultPlayer], id: '0', name: '' }],
+	height: 500,
+	pronounStartSide: 'left',
+	dontAlternatePronouns: false,
+	noCam: false,
+	audioIndicator: [{ id: '0', active: true, inputName: 'TestInput' }],
 };

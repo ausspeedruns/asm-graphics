@@ -19,4 +19,5 @@ Primary.args = {
 		{ name: 'Couch 3', pronouns: '' },
 		{ name: 'Host', pronouns: 'They/Them', host: true },
 	],
+	audio: [{ active: true, inputName: 'TestInput', id: 'Couch 2' }],
 };

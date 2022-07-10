@@ -22,7 +22,7 @@ const IncentGoalContainer = styled.div`
 	text-transform: uppercase;
 	color: var(--text-light);
 	font-size: 37px;
-	transform: translate(-630px, 0);
+	transform: translate(-1000px, 0);
 	overflow: hidden;
 `;
 
@@ -71,7 +71,6 @@ export const InterIncentGoal = React.forwardRef<TickerItemHandles, Props>((props
 	const allGoals = props.goals.map((goal, i) => {
 		return (
 			<GoalBar
-				index={goal.index}
 				goal={goal}
 				key={goal.index}
 				ref={(el) => {
@@ -98,7 +97,7 @@ const GoalBarContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	transform: translate(-630px, 0);
+	transform: translate(-1000px, 0);
 `;
 
 const GoalDiv = styled.div`
@@ -106,6 +105,7 @@ const GoalDiv = styled.div`
 	justify-content: center;
 	margin: 0 10px;
 	font-weight: bold;
+	font-size: 37px;
 `;
 
 const IncentiveContainer = styled.div`
@@ -122,13 +122,13 @@ const IncentiveContainer = styled.div`
 
 const Game = styled(FitText)`
 	/* display: inline-block; */
-	max-width: 90%;
+	max-width: 400px;
 `;
 
 const IncentiveName = styled(FitText)`
 	/* display: inline-block; */
 	font-weight: bold;
-	max-width: 100%;
+	max-width: 400px;
 `;
 
 const BottomBar = styled.div`
@@ -137,6 +137,8 @@ const BottomBar = styled.div`
 	align-items: center;
 	height: 50%;
 	width: 100%;
+	box-sizing: border-box;
+	padding: 0 5%;
 `;
 
 // Determines full size
@@ -183,10 +185,9 @@ const RemainingAmount = styled.span`
 
 interface GoalProps {
 	goal: Goal;
-	index: number;
 }
 
-const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
+export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 

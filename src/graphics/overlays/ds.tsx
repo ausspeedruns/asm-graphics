@@ -42,6 +42,7 @@ export const DS: React.FC<OverlayProps> = (props) => {
 					teams={props.runData?.teams}
 					pronounStartSide="right"
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+					audioIndicator={props.obsAudioIndicator}
 				/>
 				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyle} />
 				<DSSecondScreen />

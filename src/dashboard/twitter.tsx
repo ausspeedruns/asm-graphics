@@ -44,7 +44,7 @@ const fakeTweet: Tweet = {
 		id: '1317382179320627201',
 		created_at: '2020-10-26T07:17:29.000Z',
 		text:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque dignissim elementum. Aliquam risus elit, commodo eu ultrices eu, ornare quis mi. Morbi varius magna augue, et rutrum dolor interdum sit amet. Integer tristique magna vitae mollis auctor. Class #PAXxAusSpeedruns2021',
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacinia nisl nulla, vitae tempus augue tincidunt sed. In eget enim eu nibh semper faucibus id at mauris. Integer posuere tempor magna vel vestibulum. In placerat purus magna, non porttitor lacus dapibus id. V #ASM2022',
 	},
 	includes: { users: [{ id: '105261155', name: 'Ewan Lyon', username: 'Clubwhom' }] },
 	matchingRules: [{ id: 1, tag: 'Event Hashtag' }],

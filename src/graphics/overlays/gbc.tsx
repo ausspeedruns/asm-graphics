@@ -71,14 +71,18 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 					height={352}
 					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+					audioIndicator={props.obsAudioIndicator}
 				/>
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
-					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
-					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
+					<Couch
+						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
+						audio={props.obsAudioIndicator}
+					/>
+					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>
-			<RightSidebar/>
+			<RightSidebar />
 		</GBCContainer>
 	);
 };

@@ -64,102 +64,41 @@
 			},
 			"required": ["enabled", "key", "secret"]
 		},
-		"googleCredentials": {
-			"type": "object",
-			"properties": {
-				"enabled": {
-					"type": "boolean",
-					"default": false
-				},
-				"spreadsheet": {
-					"type": "string",
-					"default": ""
-				},
-				"sheetname": {
-					"type": "string",
-					"default": "Sheet1"
-				},
-				"installed": {
-					"type": "object",
-					"properties": {
-						"clientID": {
-							"type": "string",
-							"default": ""
-						},
-						"projectID": {
-							"type": "string",
-							"default": ""
-						},
-						"authURI": {
-							"type": "string",
-							"default": ""
-						},
-						"tokenURI": {
-							"type": "string",
-							"default": ""
-						},
-						"authProviderX509CERTURL": {
-							"type": "string",
-							"default": ""
-						},
-						"clientSecret": {
-							"type": "string",
-							"default": ""
-						},
-						"redirectUris": {
-							"type": "array",
-							"items": {
-								"type": "string"
-							},
-							"default": []
-						}
-					},
-					"required": [
-						"authProviderX509CERTURL",
-						"authURI",
-						"clientID",
-						"clientSecret",
-						"projectID",
-						"redirectUris",
-						"tokenURI"
-					],
-					"title": "installed"
-				}
-			},
-			"required": ["enabled", "installed"]
-		},
-		"raisely": {
-			"type": "object",
-			"properties": {
-				"enabled": {
-					"type": "boolean",
-					"default": false
-				},
-				"accessToken": {
-					"type": "string",
-					"default": ""
-				},
-				"campaignId": {
-					"type": "string",
-					"default": ""
-				},
-				"profileId": {
-					"type": "string",
-					"default": ""
-				}
-			},
-			"required": ["enabled"]
-		},
 		"hostname": {
 			"type": "string",
 			"description": "Entry point hostname",
 			"default": "localhost"
 		},
 		"tiltify": {
-			"type": "boolean",
-			"description": "Enables nodecg-tiltify",
-			"default": false
+			"type": "object",
+			"description": "Reads incentive data off the website",
+			"properties": {
+				"key": {
+					"type": "string",
+					"default": ""
+				},
+				"campaign": {
+					"type": "string",
+					"default": ""
+				}
+			},
+			"required": ["key", "campaign"]
+		},
+		"graphql": {
+			"type": "object",
+			"description": "Reads incentive data off the website",
+			"properties": {
+				"url": {
+					"type": "string",
+					"default": ""
+				},
+				"event": {
+					"type": "string",
+					"default": "ASM2022"
+				}
+			},
+			"required": ["url"]
 		}
 	},
-	"required": ["obs", "twitch", "twitter", "googleCredentials", "raisely", "tiltify"]
+	"required": ["obs", "twitch", "twitter", "tiltify"]
 }

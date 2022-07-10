@@ -1,13 +1,13 @@
 import * as nodecgApiContext from './nodecg-api-context';
 
-import { CouchInformation, CouchPerson, NoCam } from '../types/OverlayProps';
+import { CouchInformation, NoCam } from '../types/OverlayProps';
 import { Donation } from '../types/Donations';
-import { GoogleToken } from '../types/GoogleToken';
 import { Goal, War } from '../types/Incentives';
 import { Stream } from 'stream';
 import { CurrentOverlay } from '../types/CurrentOverlay';
 import { StaffMessage } from '../types/StaffMessages';
 import { Tweet } from '../types/Twitter';
+import { OBSAudioIndicator } from '../types/Audio';
 
 const nodecg = nodecgApiContext.get();
 
@@ -23,9 +23,9 @@ nodecg.Replicant<Donation[]>('donations', { defaultValue: [] });
 
 /* Audio */
 nodecg.Replicant<string>('audio-indicator', { defaultValue: '' });
-
-/* Host */
-nodecg.Replicant<CouchPerson>('host', { defaultValue: { name: '', pronouns: '' } });
+nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator', { defaultValue: [], persistenceInterval: 10 * 1000 });
+nodecg.Replicant<string[]>('obs-audio-inputs', { defaultValue: [] });
+nodecg.Replicant<number>('obs-audio-gate', { defaultValue: 0.7 });
 
 /* Incentives */
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
@@ -41,12 +41,11 @@ nodecg.Replicant<StaffMessage[]>('staff-messages', { defaultValue: [] });
 /* Twitter */
 nodecg.Replicant<Tweet[]>('tweets', { persistent: false, defaultValue: [] });
 
-/* Google */
-nodecg.Replicant<GoogleToken>('googleToken');
+/* GraphQL */
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
 
 /* OBS */
 nodecg.Replicant<boolean>('obsConnection', { defaultValue: false, persistent: false });
 
 /* Credits */
-nodecg.Replicant<{name: string, title: string}>('credits-name', {defaultValue: {name: '', title: ''}});
+nodecg.Replicant<{ name: string, title: string }>('credits-name', { defaultValue: { name: '', title: '' } });

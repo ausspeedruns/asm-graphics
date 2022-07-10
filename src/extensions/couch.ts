@@ -10,8 +10,8 @@ nodecg.listenFor('update-hostname', (data: CouchPerson) => {
 	// hostNameRep.value = data;
 	const hostNamesMutable = couchNamesRep.value;
 	const hostNameIndex = hostNamesMutable.current.findIndex(couch => couch.host);
-	if (hostNameIndex > -1)	hostNamesMutable.current.splice(hostNameIndex, 1);
-	hostNamesMutable.current.push(data);
+	if (hostNameIndex > -1) hostNamesMutable.current.splice(hostNameIndex, 1);
+	hostNamesMutable.current.push({ ...data, host: true });
 	couchNamesRep.value = hostNamesMutable;
 });
 
@@ -20,7 +20,7 @@ nodecg.listenFor('update-hostnames', (names: CouchPerson[]) => {
 });
 
 // Unused due to ux anti pattern
-nodecg.listenFor('rename-hostnames', (data: {person: CouchPerson, index: number}) => {
+nodecg.listenFor('rename-hostnames', (data: { person: CouchPerson, index: number }) => {
 	const hostNamesMutable = couchNamesRep.value;
 	hostNamesMutable.current[data.index] = data.person;
 	couchNamesRep.value = hostNamesMutable;

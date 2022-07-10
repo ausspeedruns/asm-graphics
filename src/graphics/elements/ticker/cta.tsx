@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { TickerItemHandles } from '../ticker';
@@ -40,10 +40,14 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 	const factRef = useRef(null);
 	const [fact, setFact] = useState('');
 
+	useEffect(() => {
+		setFact(getFact());
+	}, []);
+
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.call(() => setFact(getFact() ?? ''));
+			tl.call(() => setFact(getFact()));
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
 			tl.to(donateRef.current, { xPercent: -100, duration: 2 }, '+=5');
@@ -63,15 +67,17 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 	}));
 
 	function getFact() {
-		console.log('Hello!', props.currentTotal);
-		if (!props.currentTotal) return;
-		let maxFacts = 0;
+		if (!props.currentTotal) return "Let's break our record!";
+		let maxFacts = -1;
 		if (props.currentTotal >= 75) maxFacts++;
 		if (props.currentTotal >= 150) maxFacts++;
 		if (props.currentTotal >= 1000) maxFacts++;
 		if (props.currentTotal >= 10000) maxFacts++;
 
 		const random = Math.round(Math.random() * maxFacts);
+
+		console.log(maxFacts);
+		if (maxFacts === -1) return "Let's break our record!";
 
 		return [
 			`We have funded <b>${~~(props.currentTotal / 75)}</b> hours of research!`,

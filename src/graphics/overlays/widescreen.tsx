@@ -78,11 +78,15 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					maxNameWidth={270}
 					height={400}
 					teams={props.runData?.teams}
-					pronounStartSide='right'
+					pronounStartSide="right"
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+					audioIndicator={props.obsAudioIndicator}
 				/>
 				<SidebarBG>
-					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
+					<Couch
+						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
+						audio={props.obsAudioIndicator}
+					/>
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { OBSAudioIndicator } from '../../types/Audio';
 
 import { RunDataTeam } from '../../types/RunData';
 
@@ -27,6 +28,7 @@ interface FacecamProps {
 	dontAlternatePronouns?: boolean;
 	pronounStartSide?: 'left' | 'right';
 	icons?: React.ReactNode[];
+	audioIndicator?: OBSAudioIndicator[];
 	className?: string;
 	style?: React.CSSProperties;
 }
@@ -73,10 +75,11 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 							fontSize: 25,
 						}}
 						key={team.id}
+						speaking={props.audioIndicator?.find((audio) => audio.id === team.id)?.active}
 					/>,
 				);
 			} else {
-				team.players.forEach((player, i) => {
+				team.players.forEach((player) => {
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {
@@ -92,6 +95,7 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 								fontSize: 25,
 							}}
 							key={player.id}
+							speaking={props.audioIndicator?.find((audio) => audio.id === player.id)?.active}
 						/>,
 					);
 					allRunnerNames.push(
@@ -124,13 +128,14 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 						maxWidth={props.maxNameWidth}
 						key={player.id}
 						player={player}
+						speaking={props.audioIndicator?.find((audio) => audio.id === player.id)?.active}
 					/>,
 				);
 				allRunnerNames.push(
 					<div
 						key={player.id + '-divider'}
 						style={{
-							background: 'var(--pax-gold)',
+							background: 'var(--sec)',
 							minWidth: 2,
 							height: 41,
 						}}
@@ -165,7 +170,7 @@ const NoCamContainer = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	position: relative;
-	font-family: National Park;
+	font-family: Noto Sans;
 
 	& canvas {
 		width: 100%;

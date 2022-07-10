@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { CouchPerson } from '../../types/OverlayProps';
+import { OBSAudioIndicator } from '../../types/Audio';
 
 const CouchContainer = styled.div`
 	font-family: Noto Sans;
@@ -27,6 +29,7 @@ const PeopleContainer = styled.div`
 
 interface Props {
 	couch: CouchPerson[];
+	audio?: OBSAudioIndicator[];
 	style?: React.CSSProperties;
 	className?: string;
 }
@@ -46,9 +49,22 @@ export const Couch: React.FC<Props> = (props: Props) => {
 			</MenuBar>
 			<PeopleContainer>
 				{couch.map((person) => {
-					return <PersonCompressed key={person.name} person={person} />;
+					return (
+						<PersonCompressed
+							key={person.name}
+							person={person}
+							speaking={props.audio?.find((audio) => audio.id == person.name)?.active}
+						/>
+					);
 				})}
-				{host && <PersonCompressed key={'Host'} person={host} host />}
+				{host && (
+					<PersonCompressed
+						key={'Host'}
+						person={host}
+						speaking={props.audio?.find((audio) => audio.id == host.name)?.active}
+						host
+					/>
+				)}
 			</PeopleContainer>
 		</CouchContainer>
 	);
@@ -66,6 +82,7 @@ const PersonCompressedContainer = styled.div`
 	font-size: 22px;
 	margin: 4px;
 	box-sizing: border-box;
+	transition-duration: 0.2s;
 `;
 
 const Pronouns = styled.div`
@@ -81,7 +98,11 @@ interface PersonCompressedProps {
 
 export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
-		<PersonCompressedContainer style={{ outline: props.speaking ? '4px solid var(--text-light)' : '' }}>
+		<PersonCompressedContainer
+			style={{
+				background: props.speaking ? '#22467e' : undefined,
+				transitionDelay: props.speaking ? undefined : '0.5s',
+			}}>
 			<span style={{ fontWeight: 'bold' }}>{props.person.name}</span>
 			<Pronouns>
 				<span style={{ fontWeight: 'bold' }}>{props.host && 'Host '}</span>

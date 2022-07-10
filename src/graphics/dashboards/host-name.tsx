@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { CouchInformation, CouchPerson } from '../../types/OverlayProps';
 import { useReplicant } from 'use-nodecg';
 import { useEffect } from 'react';
@@ -11,6 +11,7 @@ const HostNameContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	padding: 0 8px;
+	height: 75%;
 `;
 
 interface Props {
@@ -33,30 +34,30 @@ export const HostName: React.FC<Props> = (props: Props) => {
 
 	return (
 		<HostNameContainer className={props.className} style={props.style}>
-			<TextField
-				// style={{ flexShrink: 1 }}
-				label="Name"
-				value={hostName}
-				onChange={(e) => setHostName(e.target.value)}
-			/>
+			<div style={{ display: 'flex', gap: 4 }}>
+				<TextField
+					// style={{ flexShrink: 1 }}
+					label="Name"
+					value={hostName}
+					onChange={(e) => setHostName(e.target.value)}
+				/>
+				<TextField
+					style={{ flexShrink: 1 }}
+					label="Pronouns"
+					value={hostPronouns}
+					onChange={(e) => setHostPronouns(e.target.value)}
+				/>
+			</div>
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<div style={{ display: 'flex', gap: 4 }}>
-					<TextField
-						style={{ flexShrink: 1 }}
-						label="Pronouns"
-						value={hostPronouns}
-						onChange={(e) => setHostPronouns(e.target.value)}
-					/>
-					<Button size="small" onClick={() => setHostPronouns('He/Him')}>
-						He/Him
-					</Button>
-					<Button size="small" onClick={() => setHostPronouns('She/Her')}>
-						She/Her
-					</Button>
-					<Button size="small" onClick={() => setHostPronouns('They/Them')}>
-						They/Them
-					</Button>
-				</div>
+				<Button size="small" onClick={() => setHostPronouns('He/Him')}>
+					He/Him
+				</Button>
+				<Button size="small" onClick={() => setHostPronouns('She/Her')}>
+					She/Her
+				</Button>
+				<Button size="small" onClick={() => setHostPronouns('They/Them')}>
+					They/Them
+				</Button>
 			</div>
 			<Button
 				variant="contained"

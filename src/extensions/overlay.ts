@@ -3,17 +3,15 @@ import obs from './util/obs';
 
 import { CurrentOverlay } from '../types/CurrentOverlay';
 import { Stream } from '../types/Streams';
-import { CouchInformation, NoCam } from '../types/OverlayProps';
+// import { CouchInformation, NoCam } from '../types/OverlayProps';
 
 const nodecg = nodecgApiContext.get();
 
 const currentOverlayRep = nodecg.Replicant<CurrentOverlay>('currentOverlay');
 const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams');
 const currentSceneRep = nodecg.Replicant<string>('obsCurrentScene');
-const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names');
-const noCamRep = nodecg.Replicant<NoCam>('no-cam');
-
-const specialStreamScaleRep = nodecg.Replicant<boolean>('special-stream-scale', {defaultValue: false});
+// const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names');
+// const noCamRep = nodecg.Replicant<NoCam>('no-cam');
 
 // Manual obs connections
 nodecg.listenFor('connectOBS', () => {
@@ -78,128 +76,128 @@ nodecg.listenFor('removeTwitchStream', (newVal: string) => {
 	}
 });
 
-nodecg.listenFor('transitionGameplay', () => {
-	// Check if intermission is live
-	obs.send('GetCurrentScene').then(val => {
-		nodecg.sendMessage('runTransitionGraphic');
+// nodecg.listenFor('transitionGameplay', () => {
+// 	// Check if intermission is live
+// 	obs.call('GetCurrentProgramScene').then(val => {
+// 		nodecg.sendMessage('runTransitionGraphic');
 
-		if (val.name === 'Intermission') {
-			transitionGameplay();
-			obs.transition('Game Overlay');
-		} else {
-			// Wait for 1.5 seconds to switch gameplay router
-			setTimeout(transitionGameplay, 1600);
-		}
-	});
-});
+// 		if (val.currentProgramSceneName === 'Intermission') {
+// 			transitionGameplay();
+// 			obs.transition('Game Overlay');
+// 		} else {
+// 			// Wait for 1.5 seconds to switch gameplay router
+// 			setTimeout(transitionGameplay, 1600);
+// 		}
+// 	});
+// });
 
-function transitionGameplay() {
-	// Change graphic
-	currentOverlayRep.value = {
-		live: currentOverlayRep.value.preview,
-		preview: currentOverlayRep.value.live
-	};
+// function transitionGameplay() {
+// 	// Change graphic
+// 	currentOverlayRep.value = {
+// 		live: currentOverlayRep.value.preview,
+// 		preview: currentOverlayRep.value.live
+// 	};
 
-	// Change couch names
-	couchNamesRep.value = {
-		current: couchNamesRep.value.preview,
-		preview: couchNamesRep.value.current
-	}
+// 	// Change couch names
+// 	couchNamesRep.value = {
+// 		current: couchNamesRep.value.preview,
+// 		preview: couchNamesRep.value.current
+// 	}
 
-	// Change no cam
-	noCamRep.value = {
-		current: noCamRep.value.preview,
-		preview: noCamRep.value.current
-	}
+// 	// Change no cam
+// 	noCamRep.value = {
+// 		current: noCamRep.value.preview,
+// 		preview: noCamRep.value.current
+// 	}
 
 
-	// Change livestreams
-	const liveStreams = twitchStreamsRep.value.map(stream => {
-		const modifiedStream = stream;
-		if (stream.state === 'preview') {
-			modifiedStream.state = 'live';
-		} else if (stream.state === 'live') {
-			modifiedStream.state = 'preview';
-		} else if (stream.state === 'both') {
-			// Do Nothing
-		} else {
-			modifiedStream.state = 'hidden';
-		}
+// 	// Change livestreams
+// 	const liveStreams = twitchStreamsRep.value.map(stream => {
+// 		const modifiedStream = stream;
+// 		if (stream.state === 'preview') {
+// 			modifiedStream.state = 'live';
+// 		} else if (stream.state === 'live') {
+// 			modifiedStream.state = 'preview';
+// 		} else if (stream.state === 'both') {
+// 			// Do Nothing
+// 		} else {
+// 			modifiedStream.state = 'hidden';
+// 		}
 
-		return modifiedStream;
-	});
+// 		return modifiedStream;
+// 	});
 
-	twitchStreamsRep.value = liveStreams;
+// 	twitchStreamsRep.value = liveStreams;
 
-	// Change livestream sources
-	liveStreams.forEach(stream => {
-		// We're only changing the ASM Stations
-		const obsSourceName = `ASM Station ${stream.channel.slice(-1)}`;
-		if (stream.state === 'live' || stream.state === 'both') {
-			obs.enableSource(obsSourceName, true, 'Game Overlay');
+// 	// Change livestream sources
+// 	liveStreams.forEach(stream => {
+// 		// We're only changing the ASM Stations
+// 		const obsSourceName = `ASM Station ${stream.channel.slice(-1)}`;
+// 		const obsSourceID = 0;
+// 		if (stream.state === 'live' || stream.state === 'both') {
+// 			obs.enableSource(obsSourceName, true, 'Game Overlay');
 
-			switch (stream.size) {
-				case 'left':
-					obs.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 0 }, crop: { right: 960, left: 0 }, bounds: {}, scale: {} });
-					break;
+// 			switch (stream.size) {
+// 				case 'left':
+// 					obs.setSceneItemProperties('Game Overlay', obsSourceID, { position: { x: 0 }, crop: { right: 960, left: 0 }, bounds: {}, scale: {} });
+// 					break;
 
-				case 'right':
-					obs.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 960 }, crop: { right: 0, left: 960 }, bounds: {}, scale: {} });
-					break;
+// 				case 'right':
+// 					obs.setSceneItemProperties('Game Overlay', obsSourceID, { position: { x: 960 }, crop: { right: 0, left: 960 }, bounds: {}, scale: {} });
+// 					break;
 
-				case 'whole':
-				default:
-					if (specialStreamScaleRep.value && obsSourceName === 'ASM Station 1') break;
-					obs.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 0 }, crop: { right: 0, left: 0 }, bounds: {}, scale: {} });
-					break;
-			}
+// 				case 'whole':
+// 				default:
+// 					obs.setSceneItemProperties('Game Overlay', obsSourceID, { position: { x: 0 }, crop: { right: 0, left: 0 }, bounds: {}, scale: {} });
+// 					break;
+// 			}
 
-		} else {
-			// Reset source
-			obs.enableSource(obsSourceName, false, 'Game Overlay');
-			obs.setSceneItemProperties('Game Overlay', obsSourceName, { position: { x: 0, y: 0 }, scale: { x: 1, y: 1 }, crop: { right: 0, left: 0 }, bounds: {} });
-		}
-	});
+// 		} else {
+// 			// Reset source
+// 			obs.enableSource(obsSourceName, false, 'Game Overlay');
+// 			obs.setSceneItemProperties('Game Overlay', obsSourceID, { position: { x: 0, y: 0 }, scale: { x: 1, y: 1 }, crop: { right: 0, left: 0 }, bounds: {} });
+// 		}
+// 	});
 
-	nodecg.sendMessage('updateAudioMutes');
-}
+// 	nodecg.sendMessage('updateAudioMutes');
+// }
 
 
 // Intermission
-nodecg.listenFor('goToIntermission', () => {
-	nodecg.sendMessage('runTransitionGraphic');
-	obs.transition('Intermission');
-});
+// nodecg.listenFor('goToIntermission', () => {
+// 	nodecg.sendMessage('runTransitionGraphic');
+// 	obs.transition('Intermission');
+// });
 
 // If a transition is done from OBS
-obs.on('TransitionBegin', () => {
+obs.on('SceneTransitionStarted', () => {
 	nodecg.sendMessage('runTransitionGraphic');
 });
 
 // CURRENT SCENE
 // Change current scene replicant on scene change
-obs.on('SwitchScenes', () => {
+obs.on('CurrentPreviewSceneChanged', () => {
 	getCurrentScene();
 });
 
 // Set replicant value on connection
 obs.on('ConnectionOpened', () => {
-	getCurrentScene();
+	// getCurrentScene();
 });
 
 
 function getCurrentScene() {
 	try {
-		obs.send('GetCurrentScene').then((val) => {
-			currentSceneRep.value = val.name;
+		obs.call('GetCurrentProgramScene').then((val) => {
+			currentSceneRep.value = val.currentProgramSceneName;
 		});
 	} catch (error) {
 		nodecg.log.error('Could not get the current scene from OBS:', error);
 	}
 }
 
-nodecg.listenFor('widescreen3p-mask', (enable: boolean) => {
-	obs.setSourceFilterVisibility('ASM Station 1', 'Widescreen 3p Bottom Left', enable);
-	obs.setSourceFilterVisibility('ASM Station 2', 'Widescreen 3p Top Left', enable);
-	obs.setSourceFilterVisibility('ASM Station 3', 'Widescreen 3p Top Right', enable);
-});
+// nodecg.listenFor('widescreen3p-mask', (enable: boolean) => {
+// 	obs.setSourceFilterVisibility('ASM Station 1', 'Widescreen 3p Bottom Left', enable);
+// 	obs.setSourceFilterVisibility('ASM Station 2', 'Widescreen 3p Top Left', enable);
+// 	obs.setSourceFilterVisibility('ASM Station 3', 'Widescreen 3p Top Right', enable);
+// });

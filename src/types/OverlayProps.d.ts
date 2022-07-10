@@ -1,5 +1,6 @@
+import { OBSAudioIndicator } from './Audio';
 import { Asset } from './nodecg';
-import { RunDataActiveRun, RunDataPlayer } from './RunData';
+import { RunDataActiveRun } from './RunData';
 import { Timer } from './Timer';
 import { Tweet } from './Twitter';
 
@@ -15,6 +16,7 @@ export interface OverlayProps {
 	noCam: NoCam;
 	sponsors: Asset[];
 	audioIndicator?: string;
+	obsAudioIndicator?: OBSAudioIndicator[];
 }
 
 export interface CouchInformation {

@@ -24,7 +24,6 @@ const Row = styled.div`
 export const Settings: React.FC = () => {
 	const [locked, setLock] = useState(true);
 	const [warning, setWarning] = useState(false);
-	const [googleCred, setGoogleCred] = useState('');
 	const [creditsNameRep, setCreditsNameRep] = useReplicant<{name: string, title: string}, {name: string, title: string}>('credits-name', {name: '', title: ''});
 
 	return (
@@ -32,21 +31,6 @@ export const Settings: React.FC = () => {
 			<Button variant="outlined" fullWidth onClick={() => (locked ? setWarning(true) : setLock(true))}>
 				{locked ? 'Unlock' : 'Lock'}
 			</Button>
-			<Row>
-				<TextField
-					fullWidth
-					disabled={locked}
-					label="Google Credentials"
-					value={googleCred}
-					onChange={(e) => setGoogleCred(e.target.value)}
-				/>
-				<Button
-					disabled={locked}
-					variant="contained"
-					onClick={() => nodecg.sendMessage('google-newcred', googleCred)}>
-					Update
-				</Button>
-			</Row>
 			<Button disabled={locked} variant="contained" fullWidth onClick={() => nodecg.sendMessage('start-credits')}>
 				Run Credits
 			</Button>

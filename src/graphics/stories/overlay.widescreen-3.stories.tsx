@@ -18,11 +18,11 @@ Primary.args = {
 	preview: false,
 	couchInformation: { current: [{ name: 'Couch 1', pronouns: 'He/Him' }], preview: [] },
 	runData: {
-		game: 'Long Game Title',
-		category: 'Any%',
-		estimate: '1:00:00',
-		release: '2000',
-		system: 'SNES',
+		game: 'Kingdom Hearts 1.5',
+		category: 'Beginner any%',
+		estimate: '03:00:00',
+		release: '2017',
+		system: 'PlayStation 4',
 		id: '',
 		teams: [
 			{ players: [DefaultPlayer], name: '', id: '0' },

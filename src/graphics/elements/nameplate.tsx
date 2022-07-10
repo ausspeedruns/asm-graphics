@@ -27,6 +27,7 @@ const Names = styled.div`
 	flex-grow: 1;
 	justify-content: center;
 	align-items: center;
+	transition-duration: 0.2s;
 `;
 
 const NormalName = styled(FitText)``;
@@ -63,6 +64,7 @@ interface Props {
 	icon?: React.ReactNode;
 	style?: React.CSSProperties;
 	className?: string;
+	speaking?: boolean;
 }
 
 interface NameplateSide {
@@ -96,7 +98,11 @@ export const Nameplate: React.FC<Props> = (props: Props) => {
 	return (
 		<NameplateContainer style={props.style} className={props.className} nameplateLeft={props.nameplateLeft}>
 			{props.icon}
-			<Names>
+			<Names
+				style={{
+					boxShadow: props.speaking ? 'inset 0px 0px 9px #000000' : undefined,
+					transitionDelay: props.speaking ? undefined : '0.5s',
+				}}>
 				<div ref={normalNameEl} style={{ opacity: sameNameAndTwitch ? 0 : 1 }}>
 					<NormalName style={{ maxWidth: props.maxWidth }} text={props.player.name} />
 				</div>

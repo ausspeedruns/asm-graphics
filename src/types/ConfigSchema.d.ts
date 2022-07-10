@@ -24,7 +24,14 @@ export interface Config {
 		profileId?: string;
 	}
 	hostname?: string;
-	tiltify?: boolean;
+	tiltify?: {
+		key: string;
+		capaign: string;
+	};
+	graphql?: {
+		url: string;
+		event: string;
+	}
 }
 
 interface GoogleCredentials {

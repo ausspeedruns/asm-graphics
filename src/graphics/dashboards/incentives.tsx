@@ -75,7 +75,6 @@ const IncentiveName = styled.span`
 `;
 
 const Notes = styled.span`
-	font-weight: lighter;
 	font-size: 1.1rem;
 `;
 
@@ -91,6 +90,7 @@ const WarItem = styled(Box)`
 	background: #ddd;
 	font-weight: bold;
 	padding: 2%;
+	font-size: 1.2rem;
 
 	&:first-child {
 		margin-left: 0;
@@ -100,7 +100,6 @@ const WarItem = styled(Box)`
 const WarNoOptions = styled(Box)`
 	width: 100%;
 	text-align: center;
-	background: #ddd;
 	font-weight: bold;
 	padding: 1%;
 	font-size: 1.3rem;
@@ -143,8 +142,12 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 					<span>${(amountLeft % 1 === 0 ? amountLeft : amountLeft.toFixed(2)).toLocaleString()} Left</span>
 					<span>{Math.floor((props.incentive.total / props.incentive.goal) * 100)}%</span>
 					<span>
-						${(props.incentive.total % 1 === 0 ? props.incentive.total : props.incentive.total.toFixed(2)).toLocaleString()} / $
-						{props.incentive.goal.toLocaleString()}
+						$
+						{(props.incentive.total % 1 === 0
+							? props.incentive.total
+							: props.incentive.total.toFixed(2)
+						).toLocaleString()}{' '}
+						/ ${props.incentive.goal.toLocaleString()}
 					</span>
 				</GoalContainer>
 			);
@@ -155,15 +158,15 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 			let warData: JSX.Element | JSX.Element[] = <WarNoOptions boxShadow={1}>No names submitted</WarNoOptions>;
 
 			if (props.incentive.options.length !== 0) {
-				warData = props.incentive.options
-					.map((option) => {
-						return (
-							<WarItem boxShadow={1} key={option.name}>
-								{option.name}: ${option.total.toLocaleString()}
-							</WarItem>
-						);
-					})
-					.reverse();
+				const mutableWarData = props.incentive.options.map((a) => ({ ...a }));
+				mutableWarData.sort((a, b) => a.total - b.total);
+				warData = mutableWarData.map((option) => {
+					return (
+						<WarItem boxShadow={1} key={option.name}>
+							{option.name}: ${option.total.toLocaleString()}
+						</WarItem>
+					);
+				}).reverse();
 			}
 
 			incentiveData = <WarContainer>{warData}</WarContainer>;
@@ -177,7 +180,7 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 	return (
 		<IncentiveItemContainer boxShadow={2}>
 			<Grid container direction="column">
-				<Grid item container justify="space-between">
+				<Grid item container justifyContent="space-between">
 					<GameTitle>{props.incentive.game}</GameTitle>
 					<IncentiveName>{props.incentive.incentive}</IncentiveName>
 				</Grid>

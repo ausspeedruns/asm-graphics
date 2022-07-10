@@ -40,7 +40,7 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 			tl.set(prizesRef.current, { right: '' });
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
-			tl.to(prizesRef.current, { right: 0, ease: "slow(0.999, 0.05, false)", duration: 20 }, '+=5');
+			tl.to(prizesRef.current, { right: 0, ease: "slow(0.999, 0.05, false)", duration: 10 }, '+=5');
 
 			// End
 			tl.to(containerRef.current, { y: 64, duration: 1 }, '+=5');
@@ -58,9 +58,9 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 			</TickerTitle>
 			<div style={{width: '100%', position: 'relative'}}>
 				<PrizesScroller ref={prizesRef}>
-					<TickerItem title="T.A.B.S Game Code" sub="$10 Donation" />
-					<TickerItem title="Knightfall Game Code" sub="$10 Donation" />
-					<TickerItem title="Clustertruck" sub="$10 Donation" />
+					<TickerItem title="Cloud II Headset" sub="$40 Donation" />
+					<TickerItem title="Cloud Gaming Earbuds" sub="$20 Donation" />
+					<TickerItem title="Landfall Games Bundle (TABS, Clustertruck, Knightfall)" sub="$10 Donation" />
 				</PrizesScroller>
 			</div>
 		</TickerPrizesContainer>

@@ -38,6 +38,7 @@ export const ThreeDS: React.FC<OverlayProps> = (props) => {
 					teams={props.runData?.teams}
 					pronounStartSide="right"
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+					audioIndicator={props.obsAudioIndicator}
 				/>
 			</Sidebar>
 		</ThreeDSContainer>

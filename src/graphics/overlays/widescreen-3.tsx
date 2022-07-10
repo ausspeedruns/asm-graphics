@@ -15,6 +15,7 @@ import BGRight from '../media/pixel/Wide 3p Right.png';
 import GameplayBL from '../media/Widescreen-3-BL.svg';
 import GameplayTL from '../media/Widescreen-3-TL.svg';
 import GameplayTR from '../media/Widescreen-3-TR.svg';
+import { RaceFinish } from '../elements/race-finish';
 
 const Widescreen3Container = styled.div`
 	height: 1016px;
@@ -93,7 +94,7 @@ const InfoBox = styled.div`
 	background: var(--main);
 	/* background-image: url('../shared/design/contour-maps/widescreen-3-bottom.svg'); */
 	width: 901px;
-	height: 181px;
+	height: 182px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -108,8 +109,8 @@ const InfoBoxRow = styled.div`
 `;
 const InfoBoxCell = styled.div`
 	display: flex;
-	flex-grow: 1;
-	width: 50%;
+	/* flex-grow: 1; */
+	width: 45%;
 	justify-content: center;
 	align-items: center;
 	z-index: 2;
@@ -133,39 +134,44 @@ const RightBG = styled.div`
 `;
 
 export const Widescreen3: React.FC<OverlayProps> = (props) => {
-	// const leftTeamID = props.runData?.teams[0]?.id || '';
-	// const rightTeamID = props.runData?.teams[1]?.id || '';
-	// const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
-	// 	? props.timer.teamFinishTimes[leftTeamID].time
-	// 	: '';
-	// const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID)
-	// 	? props.timer.teamFinishTimes[rightTeamID].time
-	// 	: '';
-	// const leftTeamPlace = findPlace(leftTeamID);
-	// const rightTeamPlace = findPlace(rightTeamID);
+	const leftTeamID = props.runData?.teams[0]?.id || '';
+	const middleTeamID = props.runData?.teams[1]?.id || '';
+	const rightTeamID = props.runData?.teams[2]?.id || '';
+	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
+		? props.timer.teamFinishTimes[leftTeamID].time
+		: '';
+	const middleTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(middleTeamID)
+		? props.timer.teamFinishTimes[middleTeamID].time
+		: '';
+	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID)
+		? props.timer.teamFinishTimes[middleTeamID].time
+		: '';
+	const leftTeamPlace = findPlace(leftTeamID);
+	const middleTeamPlace = findPlace(middleTeamID);
+	const rightTeamPlace = findPlace(rightTeamID);
 
-	// function findPlace(teamID: string) {
-	// 	if (props.timer?.teamFinishTimes.hasOwnProperty(teamID)) {
-	// 		// Forfeit dont get a place (sorry runner)
-	// 		if (props.timer.teamFinishTimes[teamID].state === 'forfeit') {
-	// 			return -1;
-	// 		} else {
-	// 			// On a scale of 1 to fucked this is probably just a weird look
-	// 			// Get place
-	// 			const allFinishTimes: [string, number][] = [];
-	// 			for (const loopTeamID in props.timer.teamFinishTimes) {
-	// 				allFinishTimes.push([loopTeamID, props.timer.teamFinishTimes[loopTeamID].milliseconds]);
-	// 			}
+	function findPlace(teamID: string) {
+		if (props.timer?.teamFinishTimes.hasOwnProperty(teamID)) {
+			// Forfeit dont get a place (sorry runner)
+			if (props.timer.teamFinishTimes[teamID].state === 'forfeit') {
+				return -1;
+			} else {
+				// On a scale of 1 to fucked this is probably just a weird look
+				// Get place
+				const allFinishTimes: [string, number][] = [];
+				for (const loopTeamID in props.timer.teamFinishTimes) {
+					allFinishTimes.push([loopTeamID, props.timer.teamFinishTimes[loopTeamID].milliseconds]);
+				}
 
-	// 			allFinishTimes.sort((a, b) => {
-	// 				return a[1] - b[1];
-	// 			});
+				allFinishTimes.sort((a, b) => {
+					return a[1] - b[1];
+				});
 
-	// 			return allFinishTimes.findIndex((element) => element[0] === teamID) + 1;
-	// 		}
-	// 	}
-	// 	return 4;
-	// }
+				return allFinishTimes.findIndex((element) => element[0] === teamID) + 1;
+			}
+		}
+		return 4;
+	}
 
 	let currentAudio = -1;
 
@@ -213,6 +219,19 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 						teams={props.runData?.teams}
 						icons={[<NPIcon src={GameplayBL} />, <NPIcon src={GameplayTL} />, <NPIcon src={GameplayTR} />]}
 						style={{ borderRight: '1px solid var(--sec)' }}
+						audioIndicator={props.obsAudioIndicator}
+					/>
+
+					<RaceFinish style={{ top: 758, left: 1046, zIndex: 3 }} time={leftTeamTime} place={leftTeamPlace} />
+					<RaceFinish
+						style={{ top: 758, left: 1346, zIndex: 3 }}
+						time={middleTeamTime}
+						place={middleTeamPlace}
+					/>
+					<RaceFinish
+						style={{ top: 758, left: 1647, zIndex: 3 }}
+						time={rightTeamTime}
+						place={rightTeamPlace}
 					/>
 					<InfoBox>
 						<InfoBoxRow style={{ height: '23%' }}>

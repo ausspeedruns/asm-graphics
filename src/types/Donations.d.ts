@@ -1,6 +1,6 @@
 export interface Donation {
 	desc?: string;
-	id: string | number;
+	id: string;
 	read: boolean;
 	time: number;
 	name: string;

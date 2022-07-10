@@ -26,6 +26,7 @@ import { ThreeDS } from './overlays/3ds';
 import { CreditsOverlay } from './overlays/credits';
 import { Asset } from '../types/nodecg';
 import { Tweet } from '../types/Twitter';
+import { OBSAudioIndicator } from '../types/Audio';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -72,16 +73,9 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 	const [noCamRep] = useReplicant<NoCam, NoCam>('no-cam', { current: false, preview: false });
 	const [sponsorsRep] = useReplicant<Asset[], Asset[]>('assets:sponsors', []);
 	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('obs-audio-indicator', []);
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
-
-	useListenFor('showTweet', (newVal: Tweet) => {
-		if (!overlayRefs.current) return;
-
-		overlayRefs.current.forEach((ref) => {
-			ref.showTweet?.(newVal);
-		});
-	});
 
 	const overlayArgs = {
 		runData: displayingRun,
@@ -90,30 +84,31 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 		preview: props.preview,
 		noCam: noCamRep,
 		sponsors: sponsorsRep,
+		obsAudioIndicator: obsAudioIndicatorRep,
 	};
 
 	// console.log(displayingRun)
 
 	const Overlays = [
 		{
-			component: <Standard {...overlayArgs} />,
+			component: <Standard {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[0] = el)} />,
 			name: '',
 			// Defualt as standard
 		},
 		{
-			component: <Standard {...overlayArgs} />,
+			component: <Standard {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[1] = el)} />,
 			name: 'Standard',
 		},
 		{
-			component: <Standard2 {...overlayArgs} audioIndicator={audioIndicatorRep} />,
+			component: <Standard2 {...overlayArgs} audioIndicator={audioIndicatorRep} ref={(el: OverlayRef) => (overlayRefs.current[2] = el)} />,
 			name: 'Standard-2',
 		},
 		{
-			component: <Widescreen {...overlayArgs} />,
+			component: <Widescreen {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[3] = el)} />,
 			name: 'Widescreen',
 		},
 		{
-			component: <Widescreen2 {...overlayArgs} audioIndicator={audioIndicatorRep} />,
+			component: <Widescreen2 {...overlayArgs} audioIndicator={audioIndicatorRep} ref={(el: OverlayRef) => (overlayRefs.current[4] = el)} />,
 			name: 'Widescreen-2',
 		},
 		{
@@ -121,7 +116,7 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: 'Widescreen-3',
 		},
 		{
-			component: <Widescreen1610 {...overlayArgs} />,
+			component: <Widescreen1610 {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[5] = el)} />,
 			name: 'Widescreen-1610',
 		},
 		{
@@ -133,7 +128,7 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: 'DS-2',
 		},
 		{
-			component: <GBA {...overlayArgs} />,
+			component: <GBA {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[6] = el)} />,
 			name: 'GBA',
 		},
 		{
@@ -154,8 +149,17 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 		},
 	];
 
-	Overlays.forEach((overlay, i) => {
-		overlay.component.props.ref = (el: OverlayRef) => (overlayRefs.current[i] = el);
+	// Overlays.forEach((overlay, i) => {
+	// 	// if (overlay.component.props.ref) {
+	// 		overlay.component.props.ref = (el: OverlayRef) => (overlayRefs.current[i] = el);
+	// 	// }
+	// });
+
+	useListenFor('showTweet', (newVal: Tweet) => {
+		console.log(overlayRefs.current);
+		overlayRefs.current.forEach((ref) => {
+			if (ref) ref.showTweet?.(newVal);
+		});
 	});
 
 	useEffect(() => {

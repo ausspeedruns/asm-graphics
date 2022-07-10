@@ -51,7 +51,7 @@ const TwitterSize = {
 
 const customVerticalStyle: IVerticalStyling = {
 	maxTextWidth: 400,
-	timerSize: 80
+	timerSize: 80,
 };
 
 // World's Hardest Game (11:8)
@@ -67,7 +67,7 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
-					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
+					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>
 		</WHGContainer>

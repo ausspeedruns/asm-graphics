@@ -25,6 +25,7 @@ import IncentivesImg from './media/pixel/IncentivesBG.png';
 import { Asset } from '../types/nodecg';
 import { SponsorsBox } from './elements/sponsors';
 import { Goal, War } from '../types/Incentives';
+import { IntermissionAds, IntermissionAdsRef } from './elements/intermission/ad';
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -32,6 +33,7 @@ const IntermissionContainer = styled.div`
 	height: 1080px;
 	overflow: hidden;
 	font-family: Noto Sans;
+	display: flex;
 `;
 
 const Half = styled.div`
@@ -73,11 +75,14 @@ const IncentiveBlock = styled.div`
 `;
 
 const MiddleContent = styled.div`
-	margin: 0 32px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
+	z-index: 10;
+	position: absolute;
+	top: 500px;
+	width: 100%;
 `;
 
 const Music = styled.div`
@@ -87,10 +92,13 @@ const Music = styled.div`
 const BottomBlock = styled.div`
 	position: absolute;
 	bottom: 0;
-	height: 268px;
+	height: 311px;
 	width: 100%;
 	display: flex;
 	justify-content: center;
+	background-color: var(--main-dark);
+	box-sizing: border-box;
+	padding-top: 43px;
 `;
 
 const TweetBox = styled.div`
@@ -105,7 +113,7 @@ const Time = styled.span`
 	font-weight: bold;
 	font-size: 33px;
 	color: var(--text-light);
-	margin-bottom: -20px;
+	margin-bottom: -10px;
 `;
 
 const HostName = styled.div`
@@ -161,6 +169,28 @@ const SponsorsSize = {
 	width: 430,
 };
 
+const RightHalfContainer = styled.div`
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+`;
+
+const LocationBug = styled.div`
+	color: var(--text-light);
+	background: var(--sec);
+	width: fit-content;
+	padding: 10px;
+	font-size: 50px;
+	font-weight: bold;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 110px;
+`;
+
 export const Intermission: React.FC = () => {
 	const [sponsorsRep] = useReplicant<Asset[], Asset[]>('assets:sponsors', []);
 	const [incentivesRep] = useReplicant<(Goal | War)[], (Goal | War)[]>('incentives', []);
@@ -177,6 +207,10 @@ export const Intermission: React.FC = () => {
 		if (intermissionRef.current) intermissionRef.current.showTweet(newVal);
 	});
 
+	useListenFor('playAd', (newVal: string) => {
+		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
+	});
+
 	return (
 		<IntermissionElement
 			ref={intermissionRef}
@@ -190,10 +224,9 @@ export const Intermission: React.FC = () => {
 	);
 };
 
-interface IntermissionRef {
+export interface IntermissionRef {
 	showTweet: (newVal: ITweet) => void;
-	showHyperX: () => void;
-	showGoC: () => void;
+	showAd: (ad: string) => void;
 }
 
 interface IntermissionProps {
@@ -213,6 +246,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	const [tweet, setTweet] = useState<ITweet | undefined>(undefined);
 	const tweetRef = useRef<HTMLDivElement>(null);
 	const asLogoRef = useRef<HTMLImageElement>(null);
+	const adsRef = useRef<IntermissionAdsRef>(null);
+	const audioRef = useRef<HTMLAudioElement>(null);
 	const { get, cache } = useFetch('https://rainwave.cc/api4');
 
 	async function getCurrentSong() {
@@ -225,10 +260,10 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	useEffect(() => {
 		getCurrentSong();
-		setCurrentTime(format(new Date(), 'E d h:mm:ss a'));
+		setCurrentTime(format(new Date(), 'E do MMM - h:mm:ss a'));
 
 		const interval = setInterval(() => {
-			setCurrentTime(format(new Date(), 'E d h:mm:ss a'));
+			setCurrentTime(format(new Date(), 'E do MMM - h:mm:ss a'));
 		}, 500);
 		const songInterval = setInterval(() => {
 			getCurrentSong();
@@ -250,8 +285,50 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			tl.to(tweetRef.current, { opacity: 0, duration: 1 }, '+=10');
 			tl.to(asLogoRef.current, { opacity: 1, duration: 1 });
 		},
-		showGoC() {},
-		showHyperX() {},
+		showAd(ad) {
+			let adDuration = 0;
+			switch (ad) {
+				case 'HyperX':
+					adDuration = 30;
+					break;
+
+				case 'GOC':
+					adDuration = 43;
+					break;
+				default:
+					return;
+			}
+
+			if (adsRef.current) {
+				if (!audioRef.current) return;
+
+				const tl = gsap.timeline();
+				tl.set(audioRef.current, { x: 1 });
+				tl.to(audioRef.current, {
+					x: 0,
+					duration: 5,
+					onUpdate: () => {
+						if (!audioRef.current) return;
+						const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;
+						audioRef.current.volume = parseFloat(dummyElPos.toString());
+					},
+				});
+				tl.call(() => adsRef.current?.showAd(ad));
+				tl.to(
+					audioRef.current,
+					{
+						x: 1,
+						duration: 5,
+						onUpdate: () => {
+							if (!audioRef.current) return;
+							const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;
+							audioRef.current.volume = parseFloat(dummyElPos.toString());
+						},
+					},
+					`+=${adDuration+10}`,
+				);
+			}
+		},
 	}));
 
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.activeRun?.id);
@@ -285,7 +362,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					</RunsList>
 				</NextRuns>
 
-				<img src={IncentivesImg} style={{ position: 'absolute', left: -25, top: 424 }} />
+				<img src={IncentivesImg} style={{ position: 'absolute', left: -25, top: 424, zIndex: 3 }} />
 				<MiddleContent>
 					<IncentiveBlock>
 						<InterIncentives incentives={props.incentives ?? []} />
@@ -300,12 +377,18 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						{props.host && (
 							<HostName>
 								<Mic />
-								{props.host.name}{' '}
+								{props.host.name}
 								{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
 							</HostName>
 						)}
 						<Music>
-							<audio id="intermission-music" autoPlay preload="auto" muted={props.muted}>
+							<audio
+								style={{ transform: 'translate(100px, 0px)' }}
+								id="intermission-music"
+								autoPlay
+								preload="auto"
+								muted={props.muted}
+								ref={audioRef}>
 								<source
 									type="audio/mp3"
 									src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ"
@@ -323,7 +406,15 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					</BottomColumn>
 				</BottomBlock>
 			</Half>
-			<Half></Half>
+			<Half>
+				<RightHalfContainer>
+					<LocationBug>
+						<span style={{ fontSize: 30 }}>in. Studio Cafe + Studio</span>
+						<span>Adelaide, SA</span>
+					</LocationBug>
+				</RightHalfContainer>
+			</Half>
+			<IntermissionAds ref={adsRef} style={{ position: 'absolute', left: 0, top: 545, zIndex: 10 }} />
 		</IntermissionContainer>
 	);
 });

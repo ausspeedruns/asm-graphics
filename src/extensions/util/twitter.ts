@@ -14,7 +14,7 @@ const streamURL = 'https://api.twitter.com/2/tweets/search/stream';
 
 const streamParameters = [
 	'expansions=author_id',
-	'user.fields=username', 
+	'user.fields=username',
 	'tweet.fields=created_at'
 ];
 
@@ -22,7 +22,7 @@ const twitterSearch = [
 	'expansions=author_id',
 	'user.fields=username',
 	'tweet.fields=created_at',
-	'query=%23PAXxAusSpeedruns2021'
+	'query=%23ASM2022'
 ];
 
 // Edit rules as desired here below
@@ -145,7 +145,12 @@ function firstTimeLoad() {
 
 	needle.get(streamURLwQuery, options, (err, _res, body) => {
 		if (err) {
-			nodecg.log.error('Twitter first time search fail: ' + err.message);
+			nodecg.log.error('[Twitter] First time search fail: ' + err.message);
+			return;
+		}
+
+		if (!body.data) {
+			nodecg.log.error('[Twitter] First time search fail: ' + body);
 			return;
 		}
 

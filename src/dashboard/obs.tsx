@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
+// import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
@@ -33,6 +33,7 @@ import { ASMStream } from '../graphics/elements/individual-stream';
 import { StreamSwitcher } from './elements/stream-switcher';
 import { StreamAudio } from './elements/stream-audio';
 import { RunData } from '../types/RunData';
+import { OBSAudioIndicator } from '../types/Audio';
 
 const SideTitle = styled.span`
 	font-weight: bold;
@@ -136,7 +137,7 @@ const DashOBS: React.FC = () => {
 	});
 
 	/* FUNCTIONS */
-	const previewOverlayChange = (event: { target: { value: string; }; }) => {
+	const previewOverlayChange = (event: { target: { value: string } }) => {
 		nodecg.sendMessage('changeOverlayPreview', event.target.value);
 	};
 
@@ -408,10 +409,47 @@ export const DashAudio: React.FC = () => {
 	const [runDataRep] = useReplicant<RunData, undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
+	const [obsInputsRep] = useReplicant<string[], string[]>('obs-audio-inputs', []);
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('obs-audio-indicator', []);
+
+	const AudioInputOptions = obsInputsRep.map((input) => (
+		<MenuItem key={input} value={input}>
+			{input}
+		</MenuItem>
+	));
+
+	const updateObsIndicator = (data: { id: string; inputName: string }) => {
+		if (data.inputName === '') {
+			nodecg.sendMessage('remove-obs-audio', data.id);
+		} else {
+			nodecg.sendMessage('update-obs-audio', { id: data.id, inputName: data.inputName });
+		}
+	};
 
 	const runnerOptions = runDataRep?.teams.map((team) => {
-		return team.players.map((player) => {
-			return <FormControlLabel value={player.id} control={<RadioStyled />} label={player.name} key={player.id} />;
+		return team.players.map((player, i) => {
+			return (
+				<div>
+					<FormControlLabel value={player.id} control={<RadioStyled />} label={player.name} key={player.id} />
+
+					<FormControl size="medium">
+						<InputLabel id={`obs-input-${i}-id`}>Audio Input</InputLabel>
+						<Select
+							labelId={`obs-input-${i}-id`}
+							id={`obs-input-${i}`}
+							value={obsAudioIndicatorRep.find((audio) => audio.id === player.id)?.inputName}
+							label="Audio Input"
+							onChange={(e) => {
+								updateObsIndicator({ id: player.id, inputName: e.target.value });
+							}}>
+							<MenuItem key={i} value={''}>
+								<i>None</i>
+							</MenuItem>
+							{AudioInputOptions}
+						</Select>
+					</FormControl>
+				</div>
+			);
 		});
 	});
 
@@ -420,12 +458,14 @@ export const DashAudio: React.FC = () => {
 	};
 
 	return (
-		<DashAudioContainer>
-			<FormLabelStyled>Audio Indicator</FormLabelStyled>
-			<RadioGroup value={audioIndicatorRep} onChange={updateAudioIndicator}>
-				{runnerOptions}
-			</RadioGroup>
-		</DashAudioContainer>
+		<ThemeProvider theme={darkTheme}>
+			<DashAudioContainer>
+				<FormLabelStyled>Audio Indicator</FormLabelStyled>
+				<RadioGroup value={audioIndicatorRep} onChange={updateAudioIndicator}>
+					{runnerOptions}
+				</RadioGroup>
+			</DashAudioContainer>
+		</ThemeProvider>
 	);
 };
 

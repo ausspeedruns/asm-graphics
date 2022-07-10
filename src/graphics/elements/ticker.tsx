@@ -100,6 +100,7 @@ export interface TickerProps {
 
 export const Ticker: React.FC<TickerProps> = (props) => {
 	const [currentTime, setCurrentTime] = useState(new Date());
+	const mainTl = useRef<gsap.core.Timeline>(gsap.timeline({ repeat: -1 }));
 	const contentRef = useRef<HTMLDivElement>(null);
 	const runsRef = useRef<TickerItemHandles>(null);
 	const ctaRef = useRef<TickerItemHandles>(null);
@@ -142,36 +143,42 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 	};
 
 	const runLoop = useCallback(() => {
-		const mainTl = gsap.timeline();
+		// const mainTl = gsap.timeline();
+		// mainTl.current. = gsap.timeline();
+
+		if (!mainTl.current) return;
 
 		// -=1.02 so that the animation "overlaps" and if it was just -1 there would be a 1px tall gap
 		props.tickerOrder.forEach((type) => {
 			switch (type.type) {
 				case 'cta':
-					mainTl.add(showContent(ctaRef.current!));
+					mainTl.current.add(showContent(ctaRef.current!));
 					break;
 				case 'nextruns':
-					mainTl.add(showContent(runsRef.current!), '-=1.02');
+					mainTl.current.add(showContent(runsRef.current!), '-=1.02');
 					break;
 				case 'prizes':
-					mainTl.add(showContent(prizesRef.current!));
+					mainTl.current.add(showContent(prizesRef.current!), '-=1.02');
 					break;
 				case 'goals':
-					mainTl.add(showContent(goalsRef.current!), '-=1.02');
+					mainTl.current.add(showContent(goalsRef.current!), '-=1.02');
 					break;
 				case 'wars':
-					mainTl.add(showContent(warsRef.current!), '-=1.02');
+					mainTl.current.add(showContent(warsRef.current!), '-=1.02');
 					break;
 				case 'milestone':
-					mainTl.add(showContent(milestoneRef.current!), '-=1.02');
+					mainTl.current.add(showContent(milestoneRef.current!), '-=1.02');
 					break;
 				default:
 					break;
 			}
 		});
 
-		mainTl.eventCallback('onComplete', runLoop);
-	}, [props.tickerOrder]);
+		// console.log(mainTl.current.totalDuration());
+
+		// mainTl.current.eventCallback('onComplete', runLoop);
+		mainTl.current.play();
+	}, []);
 
 	useEffect(() => {
 		gsap.defaults({ ease: 'power2.inOut' });
@@ -180,6 +187,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 
 		const timer = setTimeout(runLoop, 1000);
 		return () => clearTimeout(timer);
+		// runLoop();
 	}, [runLoop, props.tickerOrder]);
 
 	useEffect(() => {

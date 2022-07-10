@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps } from '../../types/OverlayProps';
+import { OverlayProps, OverlayRef } from '../../types/OverlayProps';
 
 import { SmallInfo, ISmallStyling } from '../elements/info-box/small';
 
-import { SponsorsBox } from '../elements/sponsors';
+import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
@@ -44,7 +44,7 @@ const SponsorSize = {
 };
 
 const TwitterSize = {
-	height: 200,
+	height: 240,
 	width: 540,
 	marginTop: -40,
 };
@@ -99,7 +99,15 @@ const customSmallStyling: ISmallStyling = {
 	},
 };
 
-export const Widescreen2: React.FC<OverlayProps> = (props) => {
+export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
+	const sponsorRef = useRef<SponsorBoxRef>(null);
+
+	useImperativeHandle(ref, () => ({
+		showTweet(newVal) {
+			sponsorRef.current?.showTweet?.(newVal);
+		},
+	}));
+
 	const leftTeamID = props.runData?.teams[0]?.id || '';
 	const rightTeamID = props.runData?.teams[1]?.id || '';
 	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
@@ -198,6 +206,7 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 					teams={props.runData?.teams}
 					maxNameWidth={190}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+					audioIndicator={props.obsAudioIndicator}
 				/>
 
 				<RaceFinish style={{ top: 265, left: 830, zIndex: 3 }} time={leftTeamTime} place={leftTeamPlace} />
@@ -205,6 +214,7 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 
 				<RightBox>
 					<SponsorsBox
+						ref={sponsorRef}
 						style={{ flexGrow: 1 }}
 						sponsors={props.sponsors}
 						sponsorStyle={SponsorSize}
@@ -220,11 +230,24 @@ export const Widescreen2: React.FC<OverlayProps> = (props) => {
 					</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
 					{couch.map((person) => {
-						return <PersonCompressed person={person} />;
+						return (
+							<PersonCompressed
+								key={person.name}
+								person={person}
+								speaking={props.obsAudioIndicator?.find((audio) => audio.id == person.name)?.active}
+							/>
+						);
 					})}
-					{host && <PersonCompressed key={'Host'} person={host} host />}
+					{host && (
+						<PersonCompressed
+							key={'Host'}
+							person={host}
+							speaking={props.obsAudioIndicator?.find((audio) => audio.id == host.name)?.active}
+							host
+						/>
+					)}
 				</BespokeCouch>
 			</BottomBlock>
 		</Widescreen2Container>
 	);
-};
+});

@@ -8,20 +8,23 @@ import { Tweet as ITweet } from '../../types/Twitter';
 
 const TweetContainer = styled.div`
 	position: absolute;
-	color: #F2DAB2;
+	color: var(--text-light);
 	margin: 15px;
-	border-top: 1px solid #F2DAB2;
-	border-right: 1px solid #F2DAB2;
-	border-left: 1px solid #F2DAB2;
+	border: 1px solid #ffffff;
+	background-color: var(--main-dark);
 	box-sizing: border-box;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	height: 100%;
-	font-family: National Park;
+	font-family: Noto Sans;
+	border-radius: 10px;
 `;
 
 const Text = styled.div`
 	padding: 13px 20px;
+	padding-top: 0;
 	text-align: center;
 
 	& .emoji {
@@ -38,20 +41,20 @@ const Username = styled.span`
 	margin-right: 6px;
 `;
 
-const BottomBorderCont = styled.div`
-	display: flex;
-	align-items: center;
-	margin-bottom: -10px;
-	position: absolute;
-	bottom: -1px;
-	width: 100%;
-`;
+// const BottomBorderCont = styled.div`
+// 	display: flex;
+// 	align-items: center;
+// 	margin-bottom: -10px;
+// 	position: absolute;
+// 	bottom: -1px;
+// 	width: 100%;
+// `;
 
-const BottomBorder = styled.div`
-	height: 1px;
-	background: #F2DAB2;
-	min-width: 15px;
-`;
+// const BottomBorder = styled.div`
+// 	height: 1px;
+// 	background: #ffffff;
+// 	min-width: 15px;
+// `;
 
 const TwitterLogo = styled.img`
 	height: 22px;
@@ -66,33 +69,35 @@ interface Props {
 }
 
 export const Tweet: React.FC<Props> = (props: Props) => {
-
-	
 	if (typeof props.tweet === 'undefined') {
 		return <></>;
 	}
-	
+
 	const dangerBold = () => {
 		if (props.tweet) {
-			const tweetText = props.tweet.data.text.replace('#PAXxAusSpeedruns2021', '<b>#PAXxAusSpeedruns2021</b>');
-	
-			return {__html: _.unescape(tweetText)};
+			const tweetText = props.tweet.data.text.replace('#ASM2022', '<b>#ASM2022</b>');
+
+			return { __html: _.unescape(tweetText) };
 		}
 
-		return {__html: ''};
+		return { __html: '' };
 	};
 
 	return (
 		<TweetContainer className={props.className} style={props.style}>
+			<div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: 13 }}>
+				<TwitterLogo src={'../shared/design/Twitter white.svg'} />
+				<Username>@{props.tweet.includes.users[0].username}</Username>
+			</div>
 			<Twemoji noWrapper={true}>
 				<Text dangerouslySetInnerHTML={dangerBold()}></Text>
 			</Twemoji>
-			<BottomBorderCont>
+			{/* <BottomBorderCont>
 				<BottomBorder style={{ flexGrow: 1 }} />
 				<TwitterLogo src={'../shared/design/Twitter white.svg'} />
 				<Username>@{props.tweet.includes.users[0].username}</Username>
 				<BottomBorder />
-			</BottomBorderCont>
+			</BottomBorderCont> */}
 		</TweetContainer>
 	);
 };

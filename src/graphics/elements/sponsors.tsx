@@ -24,7 +24,7 @@ interface Asset {
 }
 
 interface Props {
-	sponsors: Asset[];
+	sponsors?: Asset[];
 	start?: number;
 	style?: React.CSSProperties;
 	className?: string;
@@ -35,30 +35,26 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 	const imageRef = useRef<HTMLImageElement>(null);
 
 	useEffect(() => {
-
 		// Change this to a tl loop
 		const interval = setInterval(() => {
 			// Runs every 30 seconds
 			const tl = gsap.timeline();
 			tl.to(imageRef.current, { duration: 1, opacity: 0 });
 			tl.call(() => {
-				if (imageRef.current) {
-					imageRef.current.src = props.sponsors[imgIndex].url;
+				if (imageRef.current && props.sponsors) {
+					imageRef.current.src = props.sponsors[imgIndex]?.url;
 				}
 			});
 			tl.to(imageRef.current, { duration: 1, opacity: 1 }, '+=0.5');
 			tl.call(() => {
-				if (imgIndex + 1 >= props.sponsors.length) {
-					setImgIndex(0);
-				} else {
-					setImgIndex(imgIndex + 1);
-				}
+				if (!props.sponsors) return;
+				setImgIndex(imgIndex + 1 >= props.sponsors.length ? 0 : imgIndex + 1);
 			});
 		}, 1000 * 30);
 		return () => clearInterval(interval);
 	}, [imgIndex]);
 
-	if (props.sponsors.length === 0) {
+	if (!props.sponsors || props.sponsors.length === 0) {
 		return <></>;
 	}
 

@@ -32,7 +32,7 @@ const TWITCHPARENTS = (nodecg.bundleConfig as Config).twitch.parents;
 
 const HostDashContainer = styled.div`
 	// height: 1007px;
-	height: 100%;
+	height: 100vh;
 	// width: 1920px;
 	font-family: Noto Sans;
 	// overflow: hidden;
@@ -180,7 +180,7 @@ export const HostDash: React.FC = () => {
 					xs
 					style={{ padding: 8, gap: 8, height: '100%' }}>
 					<TotalBox>${(donationRep || 10000).toLocaleString()}</TotalBox>
-					<Paper style={{ overflow: 'hidden', height: 209, minHeight: 209 }}>
+					<Paper style={{ overflow: 'hidden', height: 238, minHeight: 238 }}>
 						<Timer />
 					</Paper>
 					<Paper style={{ overflow: 'hidden' }}>

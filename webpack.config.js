@@ -59,7 +59,7 @@ const browser = (folderName) => {
 					},
 				},
 				{
-					test: /\.(png|woff2?|webm|gif|svg)$/,
+					test: /\.(png|woff2?|ttf|webm|gif|svg|mp4|mp3)$/,
 					loader: 'file-loader',
 					options: { name: '[name].[hash].[ext]' },
 				},

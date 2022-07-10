@@ -8,6 +8,8 @@ import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { Couch } from '../elements/couch';
 
+import StandardBG from '../media/pixel/Standard.png';
+
 const GBAContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -19,6 +21,13 @@ const Sidebar = styled.div`
 	width: 395px;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
+`;
+
+const Background = styled.img`
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: auto;
 `;
 
 const SponsorsBoxS = styled(SponsorsBox)`
@@ -64,16 +73,21 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<GBAContainer>
 			<Sidebar>
+				<Background src={StandardBG} />
 				<Facecam
 					height={352}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+					audioIndicator={props.obsAudioIndicator}
 				/>
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
-					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
+					<Couch
+						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
+						audio={props.obsAudioIndicator}
+					/>
 					<SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

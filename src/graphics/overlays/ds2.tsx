@@ -121,6 +121,7 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 					height={352}
 					teams={props.runData?.teams}
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
+					audioIndicator={props.obsAudioIndicator}
 				/>
 
 				<RaceFinish style={{ top: 276, left: 830 }} time={leftTeamTime} place={leftTeamPlace} />
@@ -144,7 +145,7 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
-					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} />
+					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>
 		</DS2Container>

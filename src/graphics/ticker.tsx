@@ -21,7 +21,14 @@ export const TickerOverlay: React.FC = () => {
 			runDataActive={runDataActiveRep}
 			runDataArray={runDataArrayRep}
 			incentives={incentivesRep}
-			tickerOrder={[]}
+			tickerOrder={[
+				{ type: 'cta' },
+				{ type: 'nextruns' },
+				{ type: 'goals' },
+				{ type: 'wars' },
+				{ type: 'prizes' },
+				{ type: 'milestone' },
+			]}
 		/>
 	);
 };

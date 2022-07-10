@@ -196,7 +196,8 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	});
 
 	let allOptions = [];
-	const sortedOptions = props.war.options.sort((a, b) => a.total - b.total);
+	const sortedOptions = props.war.options.map(option => ({...option}));
+	sortedOptions.sort((a, b) => a.total - b.total);
 	for (let i = 0; i < Math.min(props.war.options.length, 5); i++) {
 		const option = sortedOptions[props.war.options.length - 1 - i];
 		allOptions.push(

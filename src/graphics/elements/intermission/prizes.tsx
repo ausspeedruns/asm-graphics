@@ -16,7 +16,7 @@ const InterPrizesContainer = styled.div`
 	text-transform: uppercase;
 	color: var(--text-light);
 	font-size: 37px;
-	transform: translate(-630px, 0);
+	transform: translate(-1000px, 0);
 	overflow: hidden;
 `;
 
@@ -59,7 +59,7 @@ const ProgressContainer = styled.div`
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
-	transform: translate(-630px, 0);
+	transform: translate(-1000px, 0);
 	/* margin: 8px 0; */
 	padding: 10px;
 	display: flex;
@@ -88,7 +88,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 		animation: (tl) => {
 			// Start
 			tl.addLabel('warStart');
-			tl.set(containerRef.current, { x: -630 });
+			tl.set(containerRef.current, { x: -1000 });
 			tl.to(containerRef.current, { x: 0, duration: 1 });
 
 			for (let i = 0; i < 2; i++) {
@@ -96,8 +96,8 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 			}
 
 			// End
-			tl.to(containerRef.current, { x: 630, duration: 1 }, '-=1');
-			tl.set(containerRef.current, { x: -630, duration: 1 });
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, '-=1');
+			tl.set(containerRef.current, { x: -1000, duration: 1 });
 
 			return tl;
 		},
@@ -110,8 +110,8 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 				{/* <PrizePage index='1' donationTotal="$20" prizes={["Pingas"]} ref={(el) => el = el ? prizeRefs.current[0] : null}/> */}
 				<PrizePage
 					index="0"
-					donationTotal="$10 Donation"
-					prizes={['Arctis 3 White Headphones', 'Arctis 3 Black Headphones', 'Arctis 5 White Headphones']}
+					donationTotal="$40 Donation"
+					prizes={['HyperX Cloud II Headsets']}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[0] = el;
@@ -119,16 +119,24 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 					}}
 				/>
 				<PrizePage
-					index="1"
+					index="0"
 					donationTotal="$20 Donation"
-					prizes={[
-						'Nanoleaf Hexagons Starter Kit',
-						'Nanoleaf Triangles Expansion',
-						'Nanoleaf Mini Triangles Expansion',
-					]}
+					prizes={['HyperX Cloud Gaming Earbuds']}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[1] = el;
+						}
+					}}
+				/>
+				<PrizePage
+					index="1"
+					donationTotal="$10 Donation"
+					prizes={[
+						'Landfall Games Pack (TABS, Clustertruck, Knightfall)',
+					]}
+					ref={(el) => {
+						if (el) {
+							prizeRefs.current[2] = el;
 						}
 					}}
 				/>
@@ -145,7 +153,7 @@ const PrizeItemContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-	transform: translate(-630px, 0);
+	transform: translate(-1000px, 0);
 `;
 
 const AllOptionContainer = styled.div`
@@ -154,7 +162,7 @@ const AllOptionContainer = styled.div`
 	justify-content: center;
 	width: 100%;
 	height: 100px;
-	justify-content: flex-start;
+	justify-content: center;
 	gap: 15px;
 	margin-top: 10px;
 `;

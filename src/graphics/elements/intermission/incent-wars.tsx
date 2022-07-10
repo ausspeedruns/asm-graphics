@@ -17,7 +17,7 @@ const InterIncentWarsContainer = styled.div`
 	text-transform: uppercase;
 	color: var(--text-light);
 	font-size: 37px;
-	transform: translate(-630px, 0);
+	transform: translate(-1000px, 0);
 	overflow: hidden;
 `;
 
@@ -45,7 +45,7 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 
 			// Start
 			tl.addLabel('warStart');
-			tl.set(containerRef.current, { x: -630 });
+			tl.set(containerRef.current, { x: -1000 });
 			tl.to(containerRef.current, { x: 0, duration: 1 });
 
 			for (let i = 0; i < props.wars.length; i++) {
@@ -53,8 +53,8 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 			}
 
 			// End
-			tl.to(containerRef.current, { x: 630, duration: 1 }, '-=1');
-			tl.set(containerRef.current, { x: -630, duration: 1 });
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, '-=1');
+			tl.set(containerRef.current, { x: -1000, duration: 1 });
 
 			return tl;
 		},
@@ -105,7 +105,7 @@ const WarChoiceContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	transform: translate(-630px, 0);
+	transform: translate(-1000px, 0);
 `;
 
 const AllOptionContainer = styled.div`
@@ -117,19 +117,19 @@ const AllOptionContainer = styled.div`
 `;
 
 const Game = styled(FitText)`
-	max-width: 90%;
+	max-width: 400px;
 `;
 
 const IncentiveName = styled(FitText)`
 	font-weight: bold;
-	max-width: 600px;
+	max-width: 400px;
 `;
 
 interface GoalProps {
 	war: War;
 }
 
-const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
+export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
 	const [animLabel] = useState(props.war.index.toString() + 'a');
@@ -160,8 +160,26 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 
 	const sortedOptions = props.war.options.map((a) => ({ ...a }));
 	sortedOptions.sort((a, b) => b.total - a.total);
-	const allOptions = sortedOptions.map((option, i) => {
-		return (
+	// const allOptions = sortedOptions.map((option, i) => {
+	// 	return (
+	// 		<WarChoice
+	// 			animLabel={animLabel}
+	// 			option={option}
+	// 			highest={highest}
+	// 			key={option.name}
+	// 			index={sortedOptions.length - 1 - i}
+	// 			ref={(el) => {
+	// 				if (el) {
+	// 					optionRefs.current[i] = el;
+	// 				}
+	// 			}}
+	// 		/>
+	// 	);
+	// });
+	const allOptions = [];
+	for (let i = 0; i < Math.min(3, sortedOptions.length); i++) {
+		const option = sortedOptions[i];
+		allOptions.push(
 			<WarChoice
 				animLabel={animLabel}
 				option={option}
@@ -173,9 +191,27 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 						optionRefs.current[i] = el;
 					}
 				}}
-			/>
+			/>,
 		);
-	});
+	}
+
+	if (sortedOptions.length > 3) {
+		allOptions.push(
+			<WarChoice
+				animLabel={animLabel}
+				option={{ name: '', total: 0 }}
+				highest={highest}
+				key={'More Options'}
+				moreOptions
+				index={0}
+				ref={(el) => {
+					if (el) {
+						optionRefs.current[3] = el;
+					}
+				}}
+			/>,
+		);
+	}
 
 	return (
 		<WarChoiceContainer ref={containerRef}>
@@ -201,6 +237,7 @@ const OptionContainer = styled.div`
 	background: var(--main);
 	padding: 10px;
 	box-sizing: border-box;
+	transform: translate(-1000px, 0);
 `;
 
 const TextDiv = styled.div`
@@ -227,7 +264,7 @@ const ProgressContainer = styled.div`
 `;
 
 const ProgressBarContainer = styled.div`
-	height: 100%;
+	height: 0%;
 	width: 100%;
 	background: var(--accent);
 	display: flex;
@@ -235,14 +272,14 @@ const ProgressBarContainer = styled.div`
 	justify-content: flex-end;
 `;
 
-const CurrentAmount = styled.span`
-`;
+const CurrentAmount = styled.span``;
 
 interface WarChoiceProps {
 	option: War['options'][0];
 	highest: number;
 	animLabel: string;
 	index: number;
+	moreOptions?: boolean;
 }
 
 const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: WarChoiceProps, ref) => {
@@ -261,6 +298,24 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 			return tl;
 		},
 	}));
+
+	if (props.moreOptions) {
+		return (
+			<OptionContainer ref={containerRef}>
+				<TextDiv>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							padding: '0 10px',
+							maxWidth: '80%',
+						}}>
+						<OptionName text={'More online!'} />
+					</div>
+				</TextDiv>
+			</OptionContainer>
+		);
+	}
 
 	return (
 		<OptionContainer ref={containerRef}>
@@ -291,6 +346,7 @@ const NoChoicesContainer = styled.div`
 	font-weight: bold;
 	text-transform: uppercase;
 	font-style: italic;
+	font-size: 40px;
 `;
 
 const NoChoicesMade: React.FC = () => {
