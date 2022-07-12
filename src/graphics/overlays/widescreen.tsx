@@ -52,7 +52,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 
 const SponsorSize = {
 	height: 300,
-	width: 240,
+	width: 315,
 };
 
 const TwitterSize = {

@@ -42,6 +42,7 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 			tl.to(imageRef.current, { duration: 1, opacity: 0 });
 			tl.call(() => {
 				if (imageRef.current && props.sponsors) {
+					console.log(imgIndex, props.sponsors)
 					imageRef.current.src = props.sponsors[imgIndex]?.url;
 				}
 			});
@@ -52,7 +53,7 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 			});
 		}, 1000 * 30);
 		return () => clearInterval(interval);
-	}, [imgIndex]);
+	}, [imgIndex, props.sponsors]);
 
 	if (!props.sponsors || props.sponsors.length === 0) {
 		return <></>;

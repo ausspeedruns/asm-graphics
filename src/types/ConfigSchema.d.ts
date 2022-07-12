@@ -25,6 +25,7 @@ export interface Config {
 	}
 	hostname?: string;
 	tiltify?: {
+		enabled: boolean;
 		key: string;
 		capaign: string;
 	};

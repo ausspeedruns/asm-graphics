@@ -144,7 +144,10 @@ export const HostDash: React.FC = () => {
 				</span>
 			</TopBar>
 			{/* , height: 926  */}
-			<Grid container justifyContent="space-around" style={{ background: '#ececec', height: 'calc(100% - 60px)' }}>
+			<Grid
+				container
+				justifyContent="space-around"
+				style={{ background: '#ececec', height: 'calc(100% - 60px)' }}>
 				<Grid
 					item
 					container
@@ -222,18 +225,34 @@ export const HostDash: React.FC = () => {
 				<DialogTitle id="alert-dialog-title">{'Example charity script'}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
+						<div>
+							<Button onClick={() => nodecg.sendMessage('playAd', 'HyperX')}>HyperX (30 seconds)</Button>
+							<Button onClick={() => nodecg.sendMessage('playAd', 'GOC')}>
+								Game On Cancer (43 seconds)
+							</Button>
+						</div>
 						&quot;We are AusSpeedruns, a group doing speedrun events to raise money for charity. For this
-						event we&apos;re raising money for Cure Cancer, a charity which funds early-career cancer
-						researchers who are working across all cancers and all areas of cancer research. If you&apos;d
-						like to donate, you can go to donate.ausspeedruns.com&quot;
+						event we&apos;re raising money for Game on Cancer, a charity which funds early-career cancer
+						researchers who are working across all areas of cancer research. If you&apos;d like to donate,
+						you can go to donate.ausspeedruns.com&quot;
 						<br />
 						<br />
-						(While doing this, if someone else hasn&apos;t, would recommend typing !donate in chat to
-						trigger the bot to post the donation link in chat)
+						(While doing this, if someone else hasnt, would recommend typing !donate in chat to trigger the
+						bot to post the donation link in chat) (While doing this, if someone else hasn&apos;t, would
+						recommend typing !donate in chat to trigger the bot to post the link in chat)
 						<br />
 						<br />
 						Remember, this is just a guide, so slight modifications to feel more natural to you is fine (in
 						fact, encouraged).
+						<br />
+						<br />
+						HyperX are our major sponsor for this event and it's terrific to have them on board to support
+						the Game on Cancer initiative. HyperX make fantastic headsets, microphones, keyboards, mice, and
+						plenty more products so no matter what you play, if you&apos;re into gaming, they have something for
+						you. We&apos;re thrilled to have HyperX on board to support the event this year, Cure Cancer and the
+						Game on Cancer initiative are doing amazing work and it's great to have that work supported by
+						HyperX. They believe that everyone can achieve their best with the gaming spirit, and are proud
+						to put theirs to work in supporting such a great cause as Game on Cancer.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

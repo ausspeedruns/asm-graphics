@@ -73,6 +73,10 @@
 			"type": "object",
 			"description": "Reads incentive data off the website",
 			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false
+				},
 				"key": {
 					"type": "string",
 					"default": ""
@@ -82,7 +86,7 @@
 					"default": ""
 				}
 			},
-			"required": ["key", "campaign"]
+			"required": ["enabled","key", "campaign"]
 		},
 		"graphql": {
 			"type": "object",

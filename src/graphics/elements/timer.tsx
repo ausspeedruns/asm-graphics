@@ -11,6 +11,7 @@ const TimerContainer = styled.div`
 	color: var(--text-light);
 	text-align: center;
 	letter-spacing: 2px;
+	justify-content: center;
 `;
 
 const MilliText = styled.span`

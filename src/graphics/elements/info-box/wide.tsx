@@ -21,6 +21,7 @@ const WideInfoContainer = styled.div`
 	align-items: center;
 	padding: 0 200px;
 	box-sizing: border-box;
+	gap: 50px;
 `;
 
 const VerticalStack = styled.div`
@@ -47,13 +48,13 @@ export interface IWideStyling {
 const DefaultWideStyling: IWideStyling = {
 	timerStackHeight: 180,
 	timerSize: 110,
-	timerStyle: { width: 612, zIndex: 2 },
+	timerStyle: { width: 423, zIndex: 2 },
 	estimateSize: 30,
 	maxTextWidth: 540,
 	gameStackHeight: 100,
 	gameTitleSize: 37,
 	gameInfoSize: 25,
-	bottomRowMargin: -25,
+	bottomRowMargin: -37,
 }
 
 interface Props {

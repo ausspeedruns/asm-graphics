@@ -42,7 +42,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 	width: 65%;
 	/* height: 264px; */
 	flex-grow: 1;
-	/* padding-bottom: 100px; */
+	padding-bottom: 46px;
 `;
 
 const SponsorsSize = {
@@ -57,7 +57,7 @@ const TwitterSize = {
 };
 
 const VerticalInfoS = styled(VerticalInfo)`
-	height: 250px;
+	height: 280px;
 	margin: 10px 0;
 `;
 
@@ -66,8 +66,8 @@ const customVerticalStyle: IVerticalStyling = {
 	timerSize: 75,
 	gameInfoSize: 20,
 	gameTitleSize: 30,
-	gameStackHeight: 80,
-	timerStackHeight: 150,
+	gameStackHeight: 100,
+	timerStackHeight: 200,
 };
 
 export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {

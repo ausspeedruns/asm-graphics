@@ -45,7 +45,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 	return (
 		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar>
-				<div style={{ margin: '0 6px' }}>{props.couch.length > 0 ? 'Commentators' : 'Commentator'}</div>
+				<div style={{ margin: '0 6px' }}>{props.couch.length > 1 ? 'Commentators' : 'Commentator'}</div>
 			</MenuBar>
 			<PeopleContainer>
 				{couch.map((person) => {
