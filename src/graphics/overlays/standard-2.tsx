@@ -21,7 +21,7 @@ const Standard2Container = styled.div`
 const Topbar = styled.div`
 	display: flex;
 	position: absolute;
-	height: 296px;
+	height: 295px;
 	width: 1920px;
 	border-bottom: 1px solid var(--sec);
 	overflow: hidden;

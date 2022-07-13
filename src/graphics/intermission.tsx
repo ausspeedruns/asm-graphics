@@ -194,6 +194,7 @@ const LocationBug = styled.div`
 	flex-direction: column;
 	align-items: center;
 	/* margin-bottom: 110px; */
+	margin: 20px 0;
 `;
 
 const Tweet = styled.div`
@@ -201,7 +202,6 @@ const Tweet = styled.div`
 	height: 200px;
 	background: var(--main-dark);
 	color: var(--text-light);
-	margin: 20px 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -373,9 +373,9 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	}));
 
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.activeRun?.id);
-	const nextRuns = clone(props.runArray)
-		.slice(currentRunIndex + 1)
-		.slice(0, 3);
+	const nextRuns = clone(props.runArray).slice(currentRunIndex).slice(0, 3);
+		// .slice(currentRunIndex + 1)
+		
 
 	let NextRun;
 	if (nextRuns.length !== 0) {
@@ -458,10 +458,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			</Half>
 			<Half>
 				<RightHalfContainer>
-					<LocationBug>
-						<span style={{ fontSize: 30 }}>in. Studio Cafe + Studio</span>
-						<span>Adelaide, SA</span>
-					</LocationBug>
 					<Tweet ref={tweetRef}>
 						<div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: 13 }}>
 							<TwitterLogo src={'../shared/design/Twitter white.svg'} />
@@ -471,6 +467,10 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							<TweetText dangerouslySetInnerHTML={dangerBold()}></TweetText>
 						</Twemoji>
 					</Tweet>
+					<LocationBug>
+						<span style={{ fontSize: 30 }}>in. Studio Cafe + Studio</span>
+						<span>Adelaide, SA</span>
+					</LocationBug>
 				</RightHalfContainer>
 			</Half>
 			<IntermissionAds ref={adsRef} style={{ position: 'absolute', left: 0, top: 545, zIndex: 10 }} />

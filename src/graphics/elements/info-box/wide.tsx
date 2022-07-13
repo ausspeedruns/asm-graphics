@@ -14,7 +14,7 @@ const WideInfoContainer = styled.div`
 	background-image: url('${WideBG}');
 	border-bottom: 1px var(--sec) solid;
 	position: absolute;
-	height: 155px;
+	height: 156px;
 	width: 1920px;
 	display: flex;
 	justify-content: space-around;

@@ -139,7 +139,7 @@ export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Pr
 	return (
 		<TickerGoalsContainer ref={containerRef}>
 			<TickerTitle>
-				Incentive
+				Challenge
 				<br />
 				Goals
 			</TickerTitle>

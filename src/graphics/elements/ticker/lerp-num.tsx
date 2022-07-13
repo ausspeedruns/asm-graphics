@@ -33,6 +33,11 @@ export const LerpNum: React.FC<LerpNumProps> = (props: LerpNumProps) => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.value]);
 
+	useEffect(() => {
+		setDisplayValue(props.value);
+		if (dummyEl.current) dummyEl.current.style.transform = `translate(${props.value / 100}px, 0px)`
+	}, []);
+
 	return (
 		<>
 			{Math.floor(displayValue).toLocaleString()}

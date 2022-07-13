@@ -68,6 +68,8 @@ interface Props {
 	className?: string;
 }
 
+const twitterImgRegex = new RegExp(/https:\/\/t\.co\/\w*/);
+
 export const Tweet: React.FC<Props> = (props: Props) => {
 	if (typeof props.tweet === 'undefined') {
 		return <></>;
@@ -75,7 +77,8 @@ export const Tweet: React.FC<Props> = (props: Props) => {
 
 	const dangerBold = () => {
 		if (props.tweet) {
-			const tweetText = props.tweet.data.text.replace('#ASM2022', '<b>#ASM2022</b>');
+			let tweetText = props.tweet.data.text.replace('#ASM2022', '<b>#ASM2022</b>');
+			tweetText = tweetText.replace(twitterImgRegex, ' ');
 
 			return { __html: _.unescape(tweetText) };
 		}

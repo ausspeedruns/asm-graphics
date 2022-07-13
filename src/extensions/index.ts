@@ -37,7 +37,7 @@ async function init() {
 		nodecg.log.info('Twitter not enabled. Showing tweets will not work');
 	}
 
-	if (ncgConfig?.tiltify.enabled) {
+	if (ncgConfig?.tiltify?.enabled) {
 		require('./donations/tiltify')
 	}
 

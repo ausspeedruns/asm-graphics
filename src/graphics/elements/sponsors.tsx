@@ -42,7 +42,6 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 			tl.to(imageRef.current, { duration: 1, opacity: 0 });
 			tl.call(() => {
 				if (imageRef.current && props.sponsors) {
-					console.log(imgIndex, props.sponsors)
 					imageRef.current.src = props.sponsors[imgIndex]?.url;
 				}
 			});
@@ -102,7 +101,6 @@ export const SponsorsBox = forwardRef<SponsorBoxRef, FullBoxProps>((props, ref) 
 
 	useImperativeHandle(ref, () => ({
 		showTweet(newVal: ITweet) {
-			console.log(newVal);
 			setTweet(newVal);
 			const tl = gsap.timeline();
 			tl.set(tweetRef.current, { opacity: 0 });

@@ -70,20 +70,19 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 		if (!props.currentTotal) return "Let's break our record!";
 		let maxFacts = -1;
 		if (props.currentTotal >= 75) maxFacts++;
-		if (props.currentTotal >= 150) maxFacts++;
+		// if (props.currentTotal >= 150) maxFacts++;
 		if (props.currentTotal >= 1000) maxFacts++;
-		if (props.currentTotal >= 10000) maxFacts++;
+		// if (props.currentTotal >= 10000) maxFacts++;
 
 		const random = Math.round(Math.random() * maxFacts);
 
-		console.log(maxFacts);
 		if (maxFacts === -1) return "Let's break our record!";
 
 		return [
 			`We have funded <b>${~~(props.currentTotal / 75)}</b> hours of research!`,
-			`We have funded <b>${~~(props.currentTotal / 150)}</b> microscopy imaging sessions!`,
+			// `We have funded <b>${~~(props.currentTotal / 150)}</b> microscopy imaging sessions!`,
 			`We have funded <b>${~~(props.currentTotal / 1000)}</b> small scale drug screening studies!`,
-			`We have funded <b>${~~(props.currentTotal / 10000)}</b> genomic analysis of cancer cells!`,
+			// `We have funded <b>${~~(props.currentTotal / 10000)}</b> genomic analysis of cancer cells!`,
 		][random];
 	}
 

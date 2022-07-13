@@ -10,7 +10,7 @@ import { RunDataActiveRun, RunDataArray } from '../types/RunData';
 import { Timer } from '../types/Timer';
 import { CouchInformation, NoCam, OverlayRef } from '../types/OverlayProps';
 
-import { TickerOverlay } from './ticker';
+// import { TickerOverlay } from './ticker';
 import { Standard } from './overlays/standard';
 import { Standard2 } from './overlays/standard-2';
 import { Widescreen } from './overlays/widescreen';
@@ -198,7 +198,7 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 		<GameplayOverlayCont>
 			<GameplayContainer>
 				<Routes>{RouteData}</Routes>
-				<TickerOverlay />
+				{/* <TickerOverlay /> */}
 			</GameplayContainer>
 
 			{DevLinks}
