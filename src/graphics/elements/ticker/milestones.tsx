@@ -85,6 +85,15 @@ const MILESTONES = [
 	{ event: 'FAST2020', total: 7033 },
 	{ event: 'ASM2021', total: 15000 },
 	{ event: 'PAX2021', total: 7222.37 },
+	{ event: '$20K?', total: 20000 },
+	{ event: '$30K?', total: 30000 },
+	{ event: '$40K?', total: 40000 },
+	{ event: '$50K?', total: 50000 },
+	{ event: '$60K?', total: 60000 },
+	{ event: '$70K?', total: 70000 },
+	{ event: '$80K?', total: 80000 },
+	{ event: '$90K?', total: 90000 },
+	{ event: '$100K?', total: 100000 },
 ].sort((a, b) => a.total - b.total);
 
 interface Props {
