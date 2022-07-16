@@ -8,7 +8,18 @@ interface LerpNumProps {
 // This is very dumb, I have no idea why I did this
 export const LerpNum: React.FC<LerpNumProps> = (props: LerpNumProps) => {
 	const [displayValue, setDisplayValue] = useState(0);
+	const [lerp, setLerp] = useState(false);
 	const dummyEl = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		// setDisplayValue(props.value);
+		// if (dummyEl.current) dummyEl.current.style.transform = `translate(${props.value / 100}px, 0px)`;
+
+		const timer = setTimeout(() => {
+			setLerp(true);
+		}, 1000);
+		return () => clearTimeout(timer);
+	}, []);
 
 	// Original ??/07/2020
 	// Basically I had no idea how to lerp a state
@@ -19,24 +30,25 @@ export const LerpNum: React.FC<LerpNumProps> = (props: LerpNumProps) => {
 	// Update 08/07/2022
 	// I still have no idea how to lerp a state
 	useEffect(() => {
-		const timeInterval = Math.min((props.value - displayValue) * 0.03, 3);
-		gsap.to(dummyEl.current, {
-			ease: Power2.easeOut,
-			duration: timeInterval,
-			x: props.value / 100,
-			onUpdate: () => {
-				const dummyElPos = gsap.getProperty(dummyEl.current, 'x') ?? 0;
-				setDisplayValue(parseFloat(dummyElPos.toString()) * 100);
-			},
-		});
-	// Legit this makes the animation really smooth, no idea how it works but it does
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [props.value]);
+		if (lerp) {
+			const timeInterval = Math.min((props.value - displayValue) * 0.03, 3);
+			gsap.to(dummyEl.current, {
+				ease: Power2.easeOut,
+				duration: timeInterval,
+				x: props.value / 100,
+				onUpdate: () => {
+					const dummyElPos = gsap.getProperty(dummyEl.current, 'x') ?? 0;
+					setDisplayValue(parseFloat(dummyElPos.toString()) * 100);
+				},
+			});
+		} else {
+			setDisplayValue(props.value);
+			if (dummyEl.current) dummyEl.current.style.transform = `translate(${props.value / 100}px, 0px)`;
+		}
 
-	useEffect(() => {
-		setDisplayValue(props.value);
-		if (dummyEl.current) dummyEl.current.style.transform = `translate(${props.value / 100}px, 0px)`
-	}, []);
+		// Legit this makes the animation really smooth, no idea how it works but it does
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.value]);
 
 	return (
 		<>
