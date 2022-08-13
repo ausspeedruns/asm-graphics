@@ -94,10 +94,10 @@ asm-graphics is provided under the Mozilla Public License v2.0, which is availab
 
 ## Authors
 
-Lead developer and designer [Ewan "Clubwho" Lyon](https://github.com/EwanLyon)
-Tester [nei\_](https://github.com/neiunderscore)
+- Lead developer and designer [Ewan "Clubwho" Lyon](https://github.com/EwanLyon)
+- Tester [nei\_](https://github.com/neiunderscore)
 
 ## Credits
 
-[fit-text.tsx](https://github.com/ausspeedruns/asm-graphics/blob/main/src/graphics/elements/fit-text.tsx). modified from a version originally written by [Hoishin](https://github.com/Hoishin), [Original Source](https://github.com/JapaneseRestream/jr-layouts/blob/master/src/browser/graphics/components/fit-text.tsx).
-[obs.ts](https://github.com/ausspeedruns/asm-graphics/blob/main/src/extensions/util/obs.ts), modified from a version originally written by [zoton2](https://github.com/zoton2), [Original Source](https://github.com/esamarathon/esa-layouts/blob/master/src/extension/util/obs.ts).
+- [fit-text.tsx](https://github.com/ausspeedruns/asm-graphics/blob/main/src/graphics/elements/fit-text.tsx). modified from a version originally written by [Hoishin](https://github.com/Hoishin), [Original Source](https://github.com/JapaneseRestream/jr-layouts/blob/master/src/browser/graphics/components/fit-text.tsx).
+- [obs.ts](https://github.com/ausspeedruns/asm-graphics/blob/main/src/extensions/util/obs.ts), modified from a version originally written by [zoton2](https://github.com/zoton2), [Original Source](https://github.com/esamarathon/esa-layouts/blob/master/src/extension/util/obs.ts).
