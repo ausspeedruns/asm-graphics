@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const TickerItemContainer = styled.div`
 	height: 64px;
 	width: fit-content;
-	font-family: Noto Sans;
+	font-family: Nasalization;
 	color: var(--text-light);
 	display: flex;
 	align-items: center;
@@ -21,13 +21,14 @@ const VerticalStack = styled.div`
 const Title = styled.span`
 	font-size: 28px;
 	white-space: nowrap;
-	margin-top: 2px;
+	margin-top: 3px;
 `;
 
 const Subtitle = styled.span`
 	font-size: 17px;
 	white-space: nowrap;
-	margin-top: -8px;
+	/* margin-top: -8px; */
+	font-family: Orbitron;
 `;
 
 const BorderItem = styled.div`

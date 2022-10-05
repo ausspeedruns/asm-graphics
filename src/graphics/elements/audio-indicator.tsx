@@ -14,7 +14,7 @@ const IconBGContainer = styled.div`
 	height: ${SIZE}px;
 	width: ${SIZE}px;
 	background: #FFFFFF;
-	color: var(--main-dark);
+	color: var(--main);
 	font-size: 30px;
 	display: flex;
 	justify-content: center;

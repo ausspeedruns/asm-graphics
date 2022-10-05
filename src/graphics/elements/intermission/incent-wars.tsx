@@ -123,6 +123,7 @@ const Game = styled(FitText)`
 const IncentiveName = styled(FitText)`
 	font-weight: bold;
 	max-width: 400px;
+	font-family: Orbitron;
 `;
 
 interface GoalProps {
@@ -238,6 +239,8 @@ const OptionContainer = styled.div`
 	padding: 10px;
 	box-sizing: border-box;
 	transform: translate(-1000px, 0);
+	font-family: Orbitron;
+	border: 1px solid var(--sec);
 `;
 
 const TextDiv = styled.div`
@@ -258,15 +261,16 @@ const ProgressContainer = styled.div`
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
-	background: var(--main-dark);
+	background: #000;
 	display: flex;
 	align-items: flex-end;
+	border: 1px solid var(--sec);
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 0%;
 	width: 100%;
-	background: var(--accent);
+	background: var(--sec);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;

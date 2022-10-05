@@ -77,6 +77,8 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
+	console.log(audioIndicatorRep)
+
 	const overlayArgs = {
 		runData: displayingRun,
 		timer: timerRep,

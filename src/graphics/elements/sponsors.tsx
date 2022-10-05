@@ -30,6 +30,8 @@ interface Props {
 	className?: string;
 }
 
+const AD_LENGTH = 30;
+
 export const Sponsors: React.FC<Props> = (props: Props) => {
 	const [imgIndex, setImgIndex] = useState(props.start || 1);
 	const imageRef = useRef<HTMLImageElement>(null);
@@ -50,7 +52,7 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 				if (!props.sponsors) return;
 				setImgIndex(imgIndex + 1 >= props.sponsors.length ? 0 : imgIndex + 1);
 			});
-		}, 1000 * 30);
+		}, 1000 * AD_LENGTH);
 		return () => clearInterval(interval);
 	}, [imgIndex, props.sponsors]);
 

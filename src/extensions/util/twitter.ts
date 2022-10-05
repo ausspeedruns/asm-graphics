@@ -22,7 +22,7 @@ const twitterSearch = [
 	'expansions=author_id',
 	'user.fields=username',
 	'tweet.fields=created_at',
-	'query=%23ASM2022'
+	'query=%23ASAP2022'
 ];
 
 // Edit rules as desired here below

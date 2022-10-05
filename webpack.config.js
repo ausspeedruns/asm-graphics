@@ -65,13 +65,18 @@ const browser = (folderName) => {
 				},
 				{
 					test: /\.css$/,
-					loader: 'css-loader',
-					options: {
-						modules: {
-							exportLocalsConvention: 'camelCase',
+					use: [
+						{
+							loader: 'css-loader',
+							options: {
+								modules: {
+									exportLocalsConvention: 'camelCase',
+								},
+								sourceMap: true,
+							},
 						},
-						sourceMap: true,
-					},
+						'style-loader',
+					],
 				},
 			],
 		},

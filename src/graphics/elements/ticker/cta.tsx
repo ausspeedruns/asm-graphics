@@ -15,8 +15,7 @@ const TickerCTAContainer = styled.div`
 	flex-direction: column;
 	text-transform: uppercase;
 	color: var(--text-light);
-	font-family: kulturista-web, sans-serif;
-	font-size: 37px;
+	font-size: 27px;
 	transform: translate(0px, -64px);
 `;
 
@@ -48,7 +47,8 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 		animation: (tl) => {
 			// Start
 			tl.call(() => setFact(getFact()));
-			tl.to(containerRef.current, { y: 0, duration: 1 });
+			tl.set(containerRef.current, { y: -64 });
+			tl.to(containerRef.current, { y: 0, duration: 1 }, '+=1');
 
 			tl.to(donateRef.current, { xPercent: -100, duration: 2 }, '+=5');
 			tl.to(incentiveRef.current, { xPercent: -100, duration: 2 }, '-=2');
@@ -88,7 +88,7 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 
 	return (
 		<TickerCTAContainer ref={containerRef}>
-			<CTALine ref={donateRef}>
+			<CTALine ref={donateRef} style={{ fontSize: 37 }}>
 				<span>Donate at&nbsp;</span>
 				<b>ausspeedruns.com</b>
 			</CTALine>

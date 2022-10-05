@@ -31,12 +31,17 @@ interface FacecamProps {
 	audioIndicator?: OBSAudioIndicator[];
 	className?: string;
 	style?: React.CSSProperties;
+	verticalCoop?: boolean;
 }
+
+const NAMEPLATE_HEIGHT = 41;
+const NAMEPLATE_HEIGHT_VERTICAL = 61;
 
 export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 	let allRunnerNames: JSX.Element[] = [];
 
 	if (!props.teams) {
+		// Fallback
 		allRunnerNames.push(
 			<Nameplate
 				icon={props.icons ? props.icons[0] : undefined}
@@ -44,20 +49,22 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 				maxWidth={props.maxNameWidth}
 				key={'No Player'}
 				player={{
-					name: 'ASM2022',
+					name: 'ASAP2022',
 					social: { twitch: 'AusSpeedruns' },
 					pronouns: 'They/Them',
-					id: 'ASM2022',
-					teamID: 'ASM2022',
+					id: 'ASAP2022',
+					teamID: 'ASAP2022',
 					customData: {},
 				}}
 			/>,
 		);
 	} else if (props.teams.length > 1) {
+		// Versus
 		let alternatingPronounSides = props.pronounStartSide === 'left';
 		props.teams.forEach((team, i) => {
 			let id = 'a';
 			if (team.name) {
+				// Versus has a team name
 				id = team.id;
 				allRunnerNames.push(
 					<Nameplate
@@ -79,6 +86,7 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 					/>,
 				);
 			} else {
+				// Versus does not have a team name, display each name
 				team.players.forEach((player) => {
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
@@ -104,7 +112,7 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 							style={{
 								background: '#FFC629',
 								minWidth: 2,
-								height: 41,
+								height: NAMEPLATE_HEIGHT,
 							}}
 						/>,
 					);
@@ -115,35 +123,35 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 		allRunnerNames.pop();
 	} else {
 		let alternatingPronounSides = props.pronounStartSide === 'right';
-		if (props.teams) {
-			props.teams[0].players.forEach((player, i) => {
-				alternatingPronounSides = !alternatingPronounSides;
-				if (props.dontAlternatePronouns) {
-					alternatingPronounSides = props.pronounStartSide === 'right';
-				}
-				allRunnerNames.push(
-					<Nameplate
-						icon={props.icons ? props.icons[i] : undefined}
-						nameplateLeft={alternatingPronounSides}
-						maxWidth={props.maxNameWidth}
-						key={player.id}
-						player={player}
-						speaking={props.audioIndicator?.find((audio) => audio.id === player.id)?.active}
-					/>,
-				);
-				allRunnerNames.push(
-					<div
-						key={player.id + '-divider'}
-						style={{
-							background: 'var(--sec)',
-							minWidth: 2,
-							height: 41,
-						}}
-					/>,
-				);
-			});
-			allRunnerNames.pop();
-		}
+		// Single Player/Coop, display each player's name
+		props.teams[0].players.forEach((player, i) => {
+			alternatingPronounSides = !alternatingPronounSides;
+			if (props.dontAlternatePronouns) {
+				alternatingPronounSides = props.pronounStartSide === 'right';
+			}
+			allRunnerNames.push(
+				<Nameplate
+					icon={props.icons ? props.icons[i] : undefined}
+					nameplateLeft={alternatingPronounSides}
+					maxWidth={props.maxNameWidth}
+					key={player.id}
+					player={player}
+					speaking={props.audioIndicator?.find((audio) => audio.id === player.id)?.active}
+					vertical={props.teams![0].players.length > 1 ? props.verticalCoop : false}
+				/>,
+			);
+			allRunnerNames.push(
+				<div
+					key={player.id + '-divider'}
+					style={{
+						background: 'var(--sec)',
+						minWidth: 2,
+						height: props.verticalCoop ? NAMEPLATE_HEIGHT_VERTICAL : NAMEPLATE_HEIGHT,
+					}}
+				/>,
+			);
+		});
+		allRunnerNames.pop();
 	}
 
 	return (

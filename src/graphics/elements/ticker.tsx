@@ -14,13 +14,14 @@ import { TickerWar } from './ticker/war';
 import { LerpNum } from './ticker/lerp-num';
 import { TickerPrizes } from './ticker/prizes';
 
-import ASMGif from '../media/ASM-Gif.gif';
-import GoCLogo from '../media/Sponsors/GoCFullColour.svg';
+// import ASMGif from '../media/ASM-Gif.gif';
+import PAXBug from '../media/PAXBug.svg';
+import GoCLogo from '../media/Sponsors/GoCWhite.svg';
 
 const TickerContainer = styled.div`
 	height: 64px;
 	width: 1920px;
-	background: var(--main-dark);
+	background: var(--main);
 	font-family: Noto Sans;
 	display: flex;
 	justify-content: space-between;
@@ -30,19 +31,21 @@ const TickerContainer = styled.div`
 const ASMLogo = styled.img`
 	height: 64px;
 	width: auto;
+	padding: 0 12px;
+	background: linear-gradient(90deg, #624C10 0%, rgba(255, 198, 41, 0) 100%);
 `;
 
 const DonationArea = styled.div`
 	height: 100%;
 	width: fit-content;
 	float: right;
-	background: #ffffff;
+	background: linear-gradient(-90deg, #624C10 0%, rgba(255, 198, 41, 0) 100%);
 	font-size: 37px;
 
 	display: flex;
 	align-items: center;
 	padding: 0 10px;
-	color: var(--main-dark);
+	color: var(--text-light);
 	font-weight: bold;
 	font-family: Noto Sans;
 `;
@@ -51,9 +54,9 @@ const CurrentTimeArea = styled.div`
 	height: 100%;
 	width: fit-content;
 	background: var(--sec);
-	color: var(--text-light);
+	color: var(--text-dark);
 	font-weight: bold;
-	border-left: 6px solid var(--accent);
+	/* border-left: 6px solid var(--accent); */
 	padding: 0 16px;
 	text-transform: uppercase;
 	font-size: 22px;
@@ -61,6 +64,7 @@ const CurrentTimeArea = styled.div`
 	display: flex;
 	align-items: center;
 	line-height: 20px;
+	font-family: NasalizationMono;
 `;
 
 const ContentArea = styled.div`
@@ -71,6 +75,7 @@ const ContentArea = styled.div`
 	flex-direction: column;
 	overflow: hidden;
 	position: relative;
+	font-family: Orbitron;
 `;
 
 const CharityLogo = styled.img`
@@ -100,7 +105,6 @@ export interface TickerProps {
 
 export const Ticker: React.FC<TickerProps> = (props) => {
 	const [currentTime, setCurrentTime] = useState(new Date());
-	const mainTl = useRef<gsap.core.Timeline>(gsap.timeline({ repeat: -1 }));
 	const contentRef = useRef<HTMLDivElement>(null);
 	const runsRef = useRef<TickerItemHandles>(null);
 	const ctaRef = useRef<TickerItemHandles>(null);
@@ -143,41 +147,36 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 	};
 
 	const runLoop = useCallback(() => {
-		// const mainTl = gsap.timeline();
-		// mainTl.current. = gsap.timeline();
-
-		if (!mainTl.current) return;
+		const localTl = gsap.timeline({ onComplete: runLoop });
+		console.log(localTl);
 
 		// -=1.02 so that the animation "overlaps" and if it was just -1 there would be a 1px tall gap
 		props.tickerOrder.forEach((type) => {
 			switch (type.type) {
 				case 'cta':
-					mainTl.current.add(showContent(ctaRef.current!));
+					localTl.add(showContent(ctaRef.current!), '-=1.02');
 					break;
 				case 'nextruns':
-					mainTl.current.add(showContent(runsRef.current!), '-=1.02');
+					localTl.add(showContent(runsRef.current!), '-=1.02');
 					break;
 				case 'prizes':
-					mainTl.current.add(showContent(prizesRef.current!), '-=1.02');
+					localTl.add(showContent(prizesRef.current!), '-=1.02');
 					break;
 				case 'goals':
-					mainTl.current.add(showContent(goalsRef.current!), '-=1.02');
+					localTl.add(showContent(goalsRef.current!), '-=1.02');
 					break;
 				case 'wars':
-					mainTl.current.add(showContent(warsRef.current!), '-=1.02');
+					localTl.add(showContent(warsRef.current!), '-=1.02');
 					break;
 				case 'milestone':
-					mainTl.current.add(showContent(milestoneRef.current!), '-=1.02');
+					localTl.add(showContent(milestoneRef.current!), '-=1.02');
 					break;
 				default:
 					break;
 			}
 		});
 
-		// console.log(mainTl.current.totalDuration());
-
-		// mainTl.current.eventCallback('onComplete', runLoop);
-		mainTl.current.play();
+		localTl.play();
 	}, []);
 
 	useEffect(() => {
@@ -185,10 +184,9 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 
 		if (props.tickerOrder.length === 0) return;
 
-		const timer = setTimeout(runLoop, 1000);
-		return () => clearTimeout(timer);
-		// runLoop();
-	}, [runLoop, props.tickerOrder]);
+		runLoop();
+		console.log('running again bruh')
+	}, []);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -200,7 +198,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 	return (
 		<TickerContainer>
 			<LeftBlock>
-				<ASMLogo src={ASMGif} />
+				<ASMLogo src={PAXBug} />
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={props.runDataActive} runArray={props.runDataArray} />

@@ -5,7 +5,7 @@ import { CouchPerson } from '../../types/OverlayProps';
 import { OBSAudioIndicator } from '../../types/Audio';
 
 const CouchContainer = styled.div`
-	font-family: Noto Sans;
+	font-family: Nasalization;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -74,20 +74,51 @@ const PersonCompressedContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding: 8px;
 	color: var(--text-light);
-	background: var(--main-dark);
-	border: solid var(--accent) 5px;
-	border-radius: 15px;
 	font-size: 22px;
 	margin: 4px;
 	box-sizing: border-box;
+	position: relative;
+`;
+
+const SpeakingColour = styled.div`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	opacity: ${(props: SpeakingProps) => (props.speaking ? 1 : 0)};
+	background: linear-gradient(
+		90deg,
+		rgba(255, 198, 41, 0) 0%,
+		rgba(255, 198, 41, 0.588) 50%,
+		rgba(255, 198, 41, 0) 100%
+	);
 	transition-duration: 0.2s;
+	transition-delay: ${(props: SpeakingProps) => (props.speaking ? undefined : '0.5s')};
+`;
+
+interface SpeakingProps {
+	speaking?: boolean;
+}
+
+const GradientBorder = styled.div`
+	height: 2px;
+	width: 100%;
+	background: linear-gradient(90deg, rgba(255, 198, 41, 0) 0%, #ffc629 50%, rgba(255, 198, 41, 0) 100%);
+	z-index: 2;
+`;
+
+const Name = styled.span`
+	font-weight: bold;
+	padding: 0 8px;
+	z-index: 2;
 `;
 
 const Pronouns = styled.div`
 	font-size: 15px;
+	padding: 0 8px;
 	text-transform: uppercase;
+	font-family: 'Orbitron';
+	z-index: 2;
 `;
 
 interface PersonCompressedProps {
@@ -98,16 +129,15 @@ interface PersonCompressedProps {
 
 export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
-		<PersonCompressedContainer
-			style={{
-				background: props.speaking ? '#22467e' : undefined,
-				transitionDelay: props.speaking ? undefined : '0.5s',
-			}}>
-			<span style={{ fontWeight: 'bold' }}>{props.person.name}</span>
+		<PersonCompressedContainer>
+			<SpeakingColour speaking={props.speaking} />
+			<GradientBorder style={{ marginBottom: 6 }} />
+			<Name>{props.person.name}</Name>
 			<Pronouns>
 				<span style={{ fontWeight: 'bold' }}>{props.host && 'Host '}</span>
 				{props.person.pronouns}
 			</Pronouns>
+			<GradientBorder style={{ marginTop: 6 }} />
 		</PersonCompressedContainer>
 	);
 };

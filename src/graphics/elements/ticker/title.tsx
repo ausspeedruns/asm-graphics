@@ -4,10 +4,10 @@ import styled from 'styled-components';
 const TickerTitleContainer = styled.div`
 	height: 64px;
 	width: fit-content;
-	font-family: Noto Sans;
+	font-family: Nasalization;
 	font-weight: bold;
 	font-size: 20px;
-	color: var(--text-light);
+	color: var(--text-dark);
 	display: flex;
 	align-items: center;
 	justify-content: center;

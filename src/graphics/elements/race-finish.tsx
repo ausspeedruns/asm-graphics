@@ -17,7 +17,7 @@ const AnimatedContainer = styled.div`
 	box-sizing: border-box;
 	font-size: 22px;
 	color: #ffffff;
-	font-family: Noto Sans;
+	font-family: Nasalization;
 `;
 
 const Position = styled.div`
@@ -25,11 +25,38 @@ const Position = styled.div`
 	height: 35px;
 	width: 35px;
 	text-align: center;
-	line-height: 35px;
+	line-height: 36px;
 	background-color: rgba(0, 0, 0, 0.22);
 `;
 
-const FinalTime = styled.div``;
+const FinalTime = styled.div`
+	line-height: 36px;
+	width: 100%;
+	text-align: center;
+`;
+
+function timeFormat(time?: string) {
+	if (!time) return "";
+
+	let formattedTime = time;
+	if (formattedTime[0] === "0") {
+		formattedTime = formattedTime?.substring(1);
+	} else {
+		return formattedTime;
+	}
+
+	if (formattedTime[0] === "0") {
+		formattedTime = formattedTime?.substring(2);
+	} else {
+		return formattedTime;
+	}
+
+	if (formattedTime[0] === "0") {
+		formattedTime = formattedTime?.substring(1);
+	}
+
+	return formattedTime;
+}
 
 interface RaceFinishProps {
 	time: string | undefined;
@@ -95,7 +122,7 @@ export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) =>
 			<AnimatedContainer ref={animRef} style={{ backgroundColor: bgColour }}>
 				<Position>{props.place === -1 ? 'X' : props.place}</Position>
 				<FinalTime>
-					{props.time}
+					{timeFormat(props.time)}
 				</FinalTime>
 			</AnimatedContainer>
 		</RaceFinishContainer>

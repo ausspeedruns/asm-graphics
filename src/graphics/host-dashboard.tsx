@@ -23,7 +23,7 @@ import { Donations } from './dashboards/donations';
 import { Upcoming } from './dashboards/upcoming';
 import { Incentives } from './dashboards/incentives';
 import { Twitter } from './dashboards/tweets';
-import { StaffMessages } from './dashboards/staff-messages';
+import { ManualDonations } from './dashboards/manual-donations';
 import { Timer } from './dashboards/timer';
 import { HostName } from './dashboards/host-name';
 import { Config } from '../types/ConfigSchema';
@@ -74,6 +74,7 @@ export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
 	// Implement donation total
 	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
+	const [manualDonationRep] = useReplicant<number, number>('manual-donation-total', 100);
 	const [currentTime, setCurrentTime] = useState('00:00:00');
 	const [showScript, setShowScript] = useState(false);
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
@@ -140,7 +141,7 @@ export const HostDash: React.FC = () => {
 				<span
 					style={{ width: 500, textAlign: 'right', cursor: 'pointer' }}
 					onClick={() => setShowStream(!showStream)}>
-					ASM2022
+					ASAP2022
 				</span>
 			</TopBar>
 			{/* , height: 926  */}
@@ -182,7 +183,7 @@ export const HostDash: React.FC = () => {
 					direction="column"
 					xs
 					style={{ padding: 8, gap: 8, height: '100%' }}>
-					<TotalBox>${(donationRep || 10000).toLocaleString()}</TotalBox>
+					<TotalBox>${(donationRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
 					<Paper style={{ overflow: 'hidden', height: 238, minHeight: 238 }}>
 						<Timer />
 					</Paper>
@@ -203,8 +204,8 @@ export const HostDash: React.FC = () => {
 						<Upcoming style={{ height: 'calc(100% - 56px)', overflowY: 'auto', overflowX: 'hidden' }} />
 					</Paper>
 					<Paper style={{ height: '49%', overflow: 'hidden' }}>
-						<Header text="Staff Messages" />
-						<StaffMessages />
+						<Header text={`Manual Donations $${(manualDonationRep ?? 0).toLocaleString()}`} />
+						<ManualDonations />
 					</Paper>
 				</Grid>
 			</Grid>
@@ -237,9 +238,8 @@ export const HostDash: React.FC = () => {
 						you can go to donate.ausspeedruns.com&quot;
 						<br />
 						<br />
-						(While doing this, if someone else hasnt, would recommend typing !donate in chat to trigger the
-						bot to post the donation link in chat) (While doing this, if someone else hasn&apos;t, would
-						recommend typing !donate in chat to trigger the bot to post the link in chat)
+						(While doing this, if someone else hasn&apos;t, would recommend typing !donate in chat to
+						trigger the bot to post the link in chat)
 						<br />
 						<br />
 						Remember, this is just a guide, so slight modifications to feel more natural to you is fine (in
@@ -248,11 +248,11 @@ export const HostDash: React.FC = () => {
 						<br />
 						HyperX are our major sponsor for this event and it's terrific to have them on board to support
 						the Game on Cancer initiative. HyperX make fantastic headsets, microphones, keyboards, mice, and
-						plenty more products so no matter what you play, if you&apos;re into gaming, they have something for
-						you. We&apos;re thrilled to have HyperX on board to support the event this year, Cure Cancer and the
-						Game on Cancer initiative are doing amazing work and it's great to have that work supported by
-						HyperX. They believe that everyone can achieve their best with the gaming spirit, and are proud
-						to put theirs to work in supporting such a great cause as Game on Cancer.
+						plenty more products so no matter what you play, if you&apos;re into gaming, they have something
+						for you. We&apos;re thrilled to have HyperX on board to support the event this year, Cure Cancer
+						and the Game on Cancer initiative are doing amazing work and it's great to have that work
+						supported by HyperX. They believe that everyone can achieve their best with the gaming spirit,
+						and are proud to put theirs to work in supporting such a great cause as Game on Cancer.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

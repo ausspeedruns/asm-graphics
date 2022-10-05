@@ -11,9 +11,8 @@ import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { PersonCompressed } from '../elements/couch';
 
-import BGLeft from '../media/pixel/Wide 2p Left.png';
-import BGRight from '../media/pixel/Wide 2p Right.png';
-import BGBottom from '../media/pixel/Wide 2p Bottom.png';
+import { PaxCircles } from '../elements/pax-circles';
+import PAXStars from '../media/Stars.png';
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -32,14 +31,42 @@ const Topbar = styled.div`
 const RightBox = styled.div`
 	width: 666px;
 	height: 100%;
-	background: var(--main);
-	background-image: url('${BGRight}');
+	/* background: var(--main); */
 	display: flex;
 	flex-direction: column;
 `;
 
+const PAXGlow = styled.div`
+	position: absolute;
+	width: 1920px;
+	height: 1156px;
+	left: 0px;
+	top: -102px;
+
+	background: radial-gradient(50% 50% at 50% 50%, #785E16 36.97%, #000000 100%);
+
+	clip-path: path('M1920 0H0V443H666V102H1254V443H1920ZM1920 984H0V1118H1920Z');
+`;
+
+const PaxCirclesStyled = styled(PaxCircles)`
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	height: 1080px;
+	width: 1920px;
+	justify-content: center;
+	align-items: center;
+	clip-path: path('M1920 0H0V341H666V0H1254V341H1920Z	M1920 882H0V1016H1920Z');
+
+	& img {
+		width: 150%;
+		height: auto;
+	}
+`;
+
 const SponsorSize = {
-	height: 195,
+	height: 230,
 	width: 340,
 };
 
@@ -64,7 +91,7 @@ const BottomBlock = styled.div`
 	height: 135px;
 	width: 1920px;
 	background: var(--main);
-	background-image: url('${BGBottom}');
+	background-image: url('${PAXStars}');
 	border-bottom: 1px solid var(--sec);
 	border-top: 1px solid var(--sec);
 	box-sizing: border-box;
@@ -73,6 +100,9 @@ const BottomBlock = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	background-position: center;
+	background-size: cover;
+	mix-blend-mode: screen;
 `;
 
 const BespokeCouch = styled.div`
@@ -94,8 +124,7 @@ const customSmallStyling: ISmallStyling = {
 	mainStyle: {
 		width: 666,
 		height: '100%',
-		background: 'var(--main)',
-		backgroundImage: `url('${BGLeft}')`,
+		// background: 'var(--main)',
 	},
 };
 
@@ -177,6 +206,9 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 
 	return (
 		<Widescreen2Container>
+			<PAXGlow />
+			<PaxCirclesStyled />
+
 			<Topbar>
 				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 
@@ -248,6 +280,14 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					)}
 				</BespokeCouch>
 			</BottomBlock>
+
+			{/* <svg id="widescreen2Clip">
+				<defs>
+					<clipPath>
+						<polygon points="667,0 1253,0, 1253,341 667,341" />
+					</clipPath>
+				</defs>
+			</svg> */}
 		</Widescreen2Container>
 	);
 });

@@ -20,6 +20,8 @@ nodecg.Replicant<NoCam>('no-cam', { defaultValue: { current: false, preview: fal
 /* Donations */
 nodecg.Replicant<number>('donationTotal', { defaultValue: 0 });
 nodecg.Replicant<Donation[]>('donations', { defaultValue: [] });
+nodecg.Replicant<Donation[]>('manual-donations', { defaultValue: [] });
+nodecg.Replicant<number>('manual-donation-total', { defaultValue: 0 });
 
 /* Audio */
 nodecg.Replicant<string>('audio-indicator', { defaultValue: '' });

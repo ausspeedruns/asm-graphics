@@ -8,7 +8,8 @@ import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { Couch } from '../elements/couch';
 
-import StandardBG from '../media/pixel/Standard.png';
+import StarsBG from '../media/Stars.png';
+import { PaxCircles } from '../elements/pax-circles';
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -23,11 +24,42 @@ const Sidebar = styled.div`
 	overflow: hidden;
 `;
 
+
 const Background = styled.img`
+	mix-blend-mode: screen;
 	position: absolute;
+	bottom: 20px;
+	width: 200%;
+	transform-origin: center;
+	transform: translateY(50%);
+`;
+
+const Background2 = styled(Background)`
+	right: 0;
+`;
+
+const PAXGlow = styled.div`
+	position: absolute;
+	width: 1114px;
+	height: 673px;
+	left: -274px;
 	bottom: 0;
-	width: 100%;
-	height: auto;
+	transform-origin: center;
+	transform: translateY(50%);
+
+	background: radial-gradient(50% 50% at 50% 50%, rgba(255, 198, 41, 0.96) 0%, rgba(255, 198, 41, 0) 100%);
+	background-blend-mode: screen;
+	mix-blend-mode: screen;
+	opacity: 0.5;
+`;
+
+const PAXCirclesStandard = styled(PaxCircles)`
+	position: absolute;
+	width: 300%;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	transform: translate(-33.5%, 50%);
 `;
 
 const SponsorsBoxS = styled(SponsorsBox)`
@@ -36,7 +68,7 @@ const SponsorsBoxS = styled(SponsorsBox)`
 `;
 
 const SponsorsStyled = {
-	height: 130,
+	height: 200,
 	width: 340,
 };
 
@@ -73,7 +105,10 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<GBAContainer>
 			<Sidebar>
-				<Background src={StandardBG} />
+				<PAXCirclesStandard />
+				<Background src={StarsBG} />
+				<Background2 src={StarsBG} />
+				<PAXGlow />
 				<Facecam
 					height={352}
 					teams={props.runData?.teams}

@@ -14,10 +14,11 @@ export const TickerOverlay: React.FC = () => {
 	});
 	const [incentivesRep] = useReplicant<(Goal | War)[], (Goal | War)[]>('incentives', []);
 	const [donationRep] = useReplicant<number, number>('donationTotal', 0);
+	const [manualDonationRep] = useReplicant<number, number>('manual-donation-total', 0);
 
 	return (
 		<Ticker
-			donationAmount={donationRep}
+			donationAmount={donationRep + manualDonationRep}
 			runDataActive={runDataActiveRep}
 			runDataArray={runDataArrayRep}
 			incentives={incentivesRep}

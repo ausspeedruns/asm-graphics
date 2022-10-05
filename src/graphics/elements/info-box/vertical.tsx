@@ -24,6 +24,12 @@ const VerticalStack = styled.div`
 	height: 100%;
 `;
 
+const Divider = styled.div`
+	height: 1px;
+	width: 80%;
+	background-color: var(--sec);
+`;
+
 export interface IVerticalStyling {
 	timerStackHeight?: number;
 	timerSize?: number;
@@ -63,7 +69,9 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
 				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate || ''} />
 			</VerticalStack>
+			<Divider />
 			<RunInfo.Category maxWidth={styles.maxTextWidth!} category={props.runData?.category || ''} />
+			<Divider />
 			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: '100%' }}>
 				<RunInfo.GameTitle maxWidth={styles.maxTextWidth!} game={props.runData?.game || ''} style={{ fontSize: styles.gameTitleSize }} />
 				<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>

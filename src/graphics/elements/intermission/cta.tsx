@@ -1,20 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import GoCLogo from '../../media/Sponsors/GOCCCFullColour.svg';
-import CTAImg from '../../media/pixel/TotalBG.png';
+import GoCLogo from '../../media/Sponsors/GoCCWhiteColour.svg';
+import PAXStars from '../../media/Stars.png';
 
 const InterCTAContainer = styled.div`
 	height: 184px;
 	width: 100%;
-	font-family: Noto Sans;
+	font-family: Orbitron;
 	/* background: #ffffff; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: 54px;
-	color: var(--text-dark);
+	font-size: 42px;
+	color: var(--text-light);
+	background: url('${PAXStars}');
+	background-size: cover;
+	background-position: center;
+	border-bottom: 1px solid var(--sec);
 `;
 
 const Horizontal = styled.div`
@@ -56,7 +60,6 @@ export const InterCTA: React.FC<Props> = (props: Props) => {
 
 	return (
 		<InterCTAContainer className={props.className} style={props.style}>
-			<img src={CTAImg} style={{ position: 'absolute', left: -31, top: 0 }} />
 			<DonateText>
 				Donate at&nbsp;<b>ausspeedruns.com</b>
 			</DonateText>

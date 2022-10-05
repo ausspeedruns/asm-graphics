@@ -1,0 +1,10 @@
+body {
+	margin: 0;
+	--main: #000000;
+	--main-dark: #16223a;
+	--sec: #FFC62F;
+	--accent: #cdde00;
+	--asm-orange: #cc7722;
+	--text-light: #ffffff;
+	--text-dark: #000000;
+}

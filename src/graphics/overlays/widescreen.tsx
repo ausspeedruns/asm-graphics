@@ -8,7 +8,7 @@ import { Facecam } from '../elements/facecam';
 import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Couch } from '../elements/couch';
 
-import WideBG from '../media/pixel/Wide Bottom.png';
+import Stars from '../media/PAXStarsWidescreen.png';
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -22,19 +22,39 @@ const Sidebar = styled.div`
 	width: 390px;
 	border-right: 1px solid var(--sec);
 	z-index: -1;
+	overflow: hidden;
+`;
+
+const PaxGlow = styled.div`
+	position: absolute;
+	width: 1114px;
+	height: 670px;
+	left: -345px;
+	bottom: 0;
+	transform: translateY(50%);
+
+	background: radial-gradient(50% 50% at 50% 50%, rgb(255, 198, 41) 0%, rgba(255, 198, 41, 0) 100%);
+	background-blend-mode: screen;
+	mix-blend-mode: screen;
+	opacity: 0.5;
 `;
 
 const SidebarBG = styled.div`
 	background: var(--main);
-	background-image: url('${WideBG}');
-	background-position: bottom;
-	background-repeat: no-repeat;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
 	height: 446.5px;
 	padding-top: 14px;
+	border-top: 1px solid var(--sec);
+	overflow: hidden;
+`;
+
+const PaxStars = styled.img`
+	mix-blend-mode: screen;
+	position: absolute;
+	bottom: 0;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -51,7 +71,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 `;
 
 const SponsorSize = {
-	height: 300,
+	height: 250,
 	width: 315,
 };
 
@@ -81,8 +101,11 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					pronounStartSide="right"
 					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 					audioIndicator={props.obsAudioIndicator}
+					verticalCoop
 				/>
 				<SidebarBG>
+					<PaxStars src={Stars} />
+					<PaxGlow />
 					<Couch
 						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
 						audio={props.obsAudioIndicator}

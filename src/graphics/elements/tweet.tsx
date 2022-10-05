@@ -11,7 +11,7 @@ const TweetContainer = styled.div`
 	color: var(--text-light);
 	margin: 15px;
 	border: 1px solid #ffffff;
-	background-color: var(--main-dark);
+	background-color: var(--main);
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
@@ -19,7 +19,7 @@ const TweetContainer = styled.div`
 	justify-content: center;
 	height: 100%;
 	font-family: Noto Sans;
-	border-radius: 10px;
+	border: 1px solid var(--sec);
 `;
 
 const Text = styled.div`

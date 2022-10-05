@@ -116,12 +116,20 @@ obs.on('InputVolumeMeters', data => {
 
 	const mutableArray = _.clone(obsAudioIndictorRep.value);
 
+	// data.inputs.forEach(element => {
+	// 	if (element.inputName == "RED Runner")	console.log(mulToDB((element?.inputLevelsMul as number[][])[0][2]));
+	// });
+
 	for (let i = 0, n = mutableArray.length; i < n; i++) {
-		mutableArray[i].active = ((data.inputs.find(input => (input.inputName?.toString() ?? '') === mutableArray[i].inputName)?.inputLevelsMul as number[][])[0][0] ?? 0) >= obsAudioGate.value;
+		mutableArray[i].active = mulToDB(((data.inputs.find(input => (input.inputName?.toString() ?? '') === mutableArray[i].inputName)?.inputLevelsMul as number[][])[0][2] ?? 0)) >= obsAudioGate.value;
 	}
 
 	obsAudioIndictorRep.value = mutableArray;
 });
+
+function mulToDB(mul: number) {
+	return mul <= 0 ? -Infinity : (20 * Math.log10(mul));
+}
 
 // nodecg.listenFor('changeSourceAudio', (data: { source: string, volume: number }) => {
 // 	let logVolume = Math.log10(data.volume) * 20 - 40; // dB do be a logarithmic scale doe

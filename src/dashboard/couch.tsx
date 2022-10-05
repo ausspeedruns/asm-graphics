@@ -70,13 +70,13 @@ const TextfieldStyled = styled(TextField)`
 export const DashCouch: React.FC = () => {
 	const [localHostName, setLocalHostName] = useState('');
 	const [localHostPronoun, setLocalHostPronoun] = useState('');
-	const [localAudioGate, setLocalAudioGate] = useState(0.7);
+	const [localAudioGate, setLocalAudioGate] = useState(-25);
 	const [couchNamesRep] = useReplicant<CouchInformation, CouchInformation>('couch-names', {
 		current: [],
 		preview: [],
 	});
 	const [obsInputsRep] = useReplicant<string[], string[]>('obs-audio-inputs', []);
-	const [obsGateRep] = useReplicant<number, number>('obs-audio-gate', 0.7);
+	const [obsGateRep] = useReplicant<number, number>('obs-audio-gate', -25);
 	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('obs-audio-indicator', []);
 
 	useEffect(() => {
@@ -160,7 +160,7 @@ export const DashCouch: React.FC = () => {
 						value={localAudioGate}
 						onChange={updateAudioGate}
 						type="number"
-						label="Audio Activity Sensitivity / Gate (0-1)"
+						label="Audio Activity Sensitivity / Gate"
 					/>
 				</div>
 			</div>

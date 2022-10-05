@@ -129,6 +129,7 @@ const IncentiveName = styled(FitText)`
 	/* display: inline-block; */
 	font-weight: bold;
 	max-width: 400px;
+	font-family: Orbitron;
 `;
 
 const BottomBar = styled.div`
@@ -146,7 +147,7 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
 	width: 100%;
-	border: 1px solid #ffffff;
+	border: 1px solid var(--sec);
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
@@ -157,9 +158,9 @@ const ProgressContainer = styled.div`
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: #ffffff;
+	background: var(--sec);
 	/* background: linear-gradient(180deg, #F2DAB2 0%, #E8E8E8 100%); */
-	border-right: 5px solid var(--accent);
+	/* border-right: 5px solid var(--sec); */
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;

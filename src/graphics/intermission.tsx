@@ -19,12 +19,12 @@ import Mic from '@mui/icons-material/Mic';
 // import { Sponsors } from './elements/sponsors';
 
 import MusicIconImg from './media/MusicIcon.svg';
-import ASMLogo from './media/ASM2022 Logo.svg';
-import IncentivesImg from './media/pixel/IncentivesBG.png';
+import ASAP2022Vertical from './media/Sponsors/PAXVertical.svg';
 import { Asset } from '../types/nodecg';
 import { SponsorsBox } from './elements/sponsors';
 import { Goal, War } from '../types/Incentives';
 import { IntermissionAds, IntermissionAdsRef } from './elements/intermission/ad';
+import { PaxCircles } from './elements/pax-circles';
 
 // @ts-ignore
 import Twemoji from 'react-twemoji';
@@ -35,7 +35,7 @@ const IntermissionContainer = styled.div`
 	width: 1920px;
 	height: 1080px;
 	overflow: hidden;
-	font-family: Noto Sans;
+	font-family: Nasalization;
 	display: flex;
 `;
 
@@ -43,18 +43,35 @@ const Half = styled.div`
 	height: 100%;
 	width: 955px;
 	position: relative;
+	overflow: hidden;
+`;
+
+const PAXGlow = styled.div`
+	position: absolute;
+	width: 955px;
+	height: 890px;
+	bottom: 0;
+	background: radial-gradient(50% 50% at 50% 50%, #ffc629 0%, #000000 100%);
+	z-index: 0;
+`;
+
+const PAXCircles = styled(PaxCircles)`
+	position: absolute;
+	width: 955px;
+	height: 890px;
+	bottom: 0;
 `;
 
 const NextRuns = styled.div`
 	color: var(--text-light);
-	font-family: Noto Sans;
 	width: 100%;
-	height: 260px;
-	background: var(--main);
+	height: 345px;
+	background: #000000;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding-top: 55px;
+	padding-top: 16px;
+	z-index: 2;
 `;
 
 const RunsList = styled.div`
@@ -63,12 +80,19 @@ const RunsList = styled.div`
 	justify-content: center;
 	flex-grow: 1;
 	width: 100%;
-	gap: 15px;
+	gap: 16px;
+	z-index: 1;
+	/* margin-top: 10px; */
+	padding: 16px;
+	box-sizing: border-box;
 `;
 
 const IncentiveBlock = styled.div`
+	background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%);
+	border-top: 1px solid var(--sec);
+	border-bottom: 1px solid var(--sec);
 	color: var(--text-light);
-	font-family: Noto Sans;
+	font-family: Nasalization;
 	width: 100%;
 	margin-top: 46px;
 	height: 220px;
@@ -99,9 +123,7 @@ const BottomBlock = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: center;
-	background-color: var(--main-dark);
 	box-sizing: border-box;
-	padding-top: 43px;
 `;
 
 const Time = styled.span`
@@ -109,6 +131,8 @@ const Time = styled.span`
 	font-size: 33px;
 	color: var(--text-light);
 	margin-bottom: -10px;
+	z-index: 1;
+	font-family: NasalizationMono;
 `;
 
 const HostName = styled.div`
@@ -120,12 +144,12 @@ const HostName = styled.div`
 
 const HostPronoun = styled.span`
 	font-size: 20px;
-	font-family: Noto Sans;
+	font-family: Orbitron;
 	font-weight: 400;
-	color: var(--main);
+	color: #000000;
 	text-transform: uppercase;
 	margin-left: 8px;
-	background: #ffffff;
+	background: var(--sec);
 	height: 28px;
 	padding: 0 4px;
 	line-height: 28px;
@@ -137,6 +161,7 @@ const MusicLabel = styled.div`
 	font-size: 22px;
 	white-space: nowrap;
 	margin: 0 16px;
+	font-family: Orbitron;
 `;
 
 const MusicIcon = styled.img`
@@ -160,7 +185,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 `;
 
 const SponsorsSize = {
-	height: 130,
+	height: 230,
 	width: 430,
 };
 
@@ -184,7 +209,7 @@ const RightHalfContainer = styled.div`
 // `;
 
 const LocationBug = styled.div`
-	color: var(--text-light);
+	color: var(--text-dark);
 	background: var(--sec);
 	width: fit-content;
 	padding: 10px;
@@ -200,7 +225,8 @@ const LocationBug = styled.div`
 const Tweet = styled.div`
 	width: 500px;
 	height: 200px;
-	background: var(--main-dark);
+	background: var(--main);
+	border: 1px solid var(--sec);
 	color: var(--text-light);
 	display: flex;
 	flex-direction: column;
@@ -219,6 +245,7 @@ export const Intermission: React.FC = () => {
 	});
 	const [hostName] = useReplicant<CouchInformation, CouchInformation>('couch-names', { current: [], preview: [] });
 	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
+	const [manualDonationRep] = useReplicant<number, number>('manual-donation-total', 0);
 
 	const intermissionRef = useRef<IntermissionRef>(null);
 
@@ -235,7 +262,7 @@ export const Intermission: React.FC = () => {
 			ref={intermissionRef}
 			activeRun={runDataActiveRep}
 			runArray={runDataArrayRep}
-			donation={donationRep}
+			donation={donationRep + manualDonationRep}
 			host={hostName.current.find((person) => person.host)}
 			sponsors={sponsorsRep}
 			incentives={incentivesRep}
@@ -291,6 +318,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	const tweetRef = useRef<HTMLDivElement>(null);
 	const adsRef = useRef<IntermissionAdsRef>(null);
 	const audioRef = useRef<HTMLAudioElement>(null);
+	const bottomBlockRef = useRef<HTMLDivElement>(null);
 	const { get, cache } = useFetch('https://rainwave.cc/api4');
 
 	async function getCurrentSong() {
@@ -345,16 +373,31 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 				const tl = gsap.timeline();
 				tl.set(audioRef.current, { x: 1 });
-				tl.to(audioRef.current, {
-					x: 0,
-					duration: 5,
-					onUpdate: () => {
-						if (!audioRef.current) return;
-						const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;
-						audioRef.current.volume = parseFloat(dummyElPos.toString());
+				tl.set(bottomBlockRef.current, { opacity: 1 });
+				tl.addLabel('fadeOut');
+				tl.to(
+					audioRef.current,
+					{
+						x: 0,
+						duration: 5,
+						onUpdate: () => {
+							if (!audioRef.current) return;
+							const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;
+							audioRef.current.volume = parseFloat(dummyElPos.toString());
+						},
 					},
-				});
+					'fadeOut',
+				);
+				tl.to(
+					bottomBlockRef.current,
+					{
+						opacity: 0,
+						duration: 5
+					},
+					'fadeOut',
+				);
 				tl.call(() => adsRef.current?.showAd(ad));
+				tl.addLabel('fadeIn', `+=${adDuration + 10}`);
 				tl.to(
 					audioRef.current,
 					{
@@ -366,7 +409,15 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							audioRef.current.volume = parseFloat(dummyElPos.toString());
 						},
 					},
-					`+=${adDuration + 10}`,
+					'fadeIn',
+				);
+				tl.to(
+					bottomBlockRef.current,
+					{
+						opacity: 1,
+						duration: 5
+					},
+					'fadeIn',
 				);
 			}
 		},
@@ -374,8 +425,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.activeRun?.id);
 	const nextRuns = clone(props.runArray).slice(currentRunIndex).slice(0, 3);
-		// .slice(currentRunIndex + 1)
-		
+	// .slice(currentRunIndex + 1)
 
 	let NextRun;
 	if (nextRuns.length !== 0) {
@@ -393,7 +443,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	const dangerBold = () => {
 		if (tweet) {
-			const tweetText = tweet.data.text.replace('#ASM2022', '<b>#ASM2022</b>');
+			let tweetText = tweet.data.text.replace('#ASAP2022', '<b>#ASAP2022</b>');
+			tweetText = tweet.data.text.replace('#PAXAUS', '<b>#PAXAUS</b>');
 			return { __html: _.unescape(tweetText) };
 		}
 
@@ -403,27 +454,37 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	return (
 		<IntermissionContainer>
 			<Half style={{ backgroundColor: 'var(--main)', borderRight: '10px solid var(--sec)' }}>
+				<PAXGlow />
 				<InterCTA donation={props.donation} style={{ zIndex: 1 }} />
+				<PAXCircles />
 				<NextRuns>
 					<Time>{currentTime}</Time>
 					<RunsList>
-						{NextRun}
-						{RunsArray}
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'space-between',
+								flexGrow: 1,
+								height: '100%',
+								gap: 16,
+							}}>
+							{RunsArray}
+						</div>
+						<div style={{ flexGrow: 1, height: '100%', minWidth: 454 }}>{NextRun}</div>
 					</RunsList>
 				</NextRuns>
-
-				<img src={IncentivesImg} style={{ position: 'absolute', left: -25, top: 424, zIndex: 3 }} />
 				<MiddleContent>
 					<IncentiveBlock>
 						<InterIncentives incentives={props.incentives ?? []} />
 					</IncentiveBlock>
 				</MiddleContent>
-				<BottomBlock>
+				<BottomBlock ref={bottomBlockRef}>
 					<BottomColumn>
 						<SponsorBoxS sponsors={props.sponsors ?? []} sponsorStyle={SponsorsSize} />
 					</BottomColumn>
 					<BottomColumn>
-						<img src={ASMLogo} style={{ height: 'auto', width: 360 }} />
+						<img src={ASAP2022Vertical} style={{ height: 'auto', width: 322, margin: '-18px 0' }} />
 						{props.host && (
 							<HostName>
 								<Mic />
@@ -468,8 +529,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						</Twemoji>
 					</Tweet>
 					<LocationBug>
-						<span style={{ fontSize: 30 }}>in. Studio Cafe + Studio</span>
-						<span>Adelaide, SA</span>
+						<span style={{ fontSize: 30 }}>PAX Australia 2022</span>
+						<span>Melbourne, VIC</span>
 					</LocationBug>
 				</RightHalfContainer>
 			</Half>

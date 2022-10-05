@@ -9,7 +9,7 @@ import * as RunInfo from '../run-info';
 
 const SmallInfoContainer = styled.div`
 	box-sizing: border-box;
-	padding: 20px 0 40px 0;
+	padding: 20px 0 20px 0;
 	height: 241px;
 	width: 100%;
 	display: flex;
@@ -55,7 +55,7 @@ const DefaultSmallStyling: ISmallStyling = {
 	estimateSize: 30,
 	gameTitleWidth: 540,
 	gameStackHeight: 80,
-	gameTitleSize: 37,
+	gameTitleSize: 45,
 	gameInfoSize: 25
 }
 

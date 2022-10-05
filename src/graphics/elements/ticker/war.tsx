@@ -18,7 +18,7 @@ const TickerWarContainer = styled.div`
 	justify-content: space-between;
 	text-transform: uppercase;
 	color: var(--text-light);
-	font-size: 37px;
+	font-size: 30px;
 	transform: translate(0, -64px);
 	overflow: hidden;
 `;
@@ -247,7 +247,7 @@ const TextDiv = styled.div`
 	left: 0;
 	padding-right: 8px;
 	color: var(--text-dark);
-	font-size: 25px;
+	font-size: 20px;
 `;
 
 interface WarChoiceProps {

@@ -24,14 +24,16 @@ interface Props {
 	currentRun: RunDataActiveRun;
 }
 
+const numOfUpcomingRuns = 3;
+
 export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
 	const containerRef = useRef(null);
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.currentRun?.id);
-	const nextFourRuns = clone(props.runArray)
+	const upcomingRuns = clone(props.runArray)
 		.slice(currentRunIndex + 1)
-		.slice(0, 4);
+		.slice(0, numOfUpcomingRuns);
 
-	const RunsArray = nextFourRuns.map((run) => {
+	const RunsArray = upcomingRuns.map((run) => {
 		let playerNames;
 		if (run.teams.length === 0) {
 			playerNames = '';

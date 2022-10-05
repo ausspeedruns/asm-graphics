@@ -72,7 +72,7 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	background: #FFFFFF;
-	border-right: 5px solid var(--pax-gold);
+	border-right: 5px solid var(--sec);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;

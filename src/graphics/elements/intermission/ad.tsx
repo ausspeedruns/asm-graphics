@@ -2,8 +2,6 @@ import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
 
-import BackgroundImage from '../../media/pixel/IntermissionAdBG.png';
-
 import GameOnCancerVid from '../../media/Sponsors/GameOnCancer.mp4';
 import HyperXVid from '../../media/Sponsors/HyperX.mp4';
 
@@ -12,6 +10,10 @@ const IntermissionAdsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	opacity: 0;
+	background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%);
+	border-top: 1px solid var(--sec);
+	border-bottom: 1px solid var(--sec);
+	height: 221px;
 `;
 
 const VideoBox = styled.div`
@@ -31,21 +33,6 @@ const Video = styled.video`
 	opacity: 0;
 `;
 
-const OrangeBlock = styled.div`
-	width: 100%;
-	background-color: var(--sec);
-`;
-
-const BGImage = styled.img`
-	z-index: 1;
-`;
-
-const BlueBlock = styled.div`
-	background-color: var(--main-dark);
-	height: 300px;
-	margin-top: -43px;
-`;
-
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
@@ -57,7 +44,6 @@ export interface IntermissionAdsRef {
 
 export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref) => {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const orangeRef = useRef<HTMLDivElement>(null);
 	const videoRef = useRef<HTMLVideoElement>(null);
 
 	useImperativeHandle(ref, () => ({
@@ -93,7 +79,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			const tl = gsap.timeline();
 
 			tl.to(containerRef.current, { opacity: 1, duration: 2 });
-			tl.to(orangeRef.current, { height: 234, duration: 2 });
+			tl.to(containerRef.current, { height: 459, duration: 2 });
 			tl.to(videoRef.current, { opacity: 1 });
 			tl.call(() => {
 				if (!videoRef.current) return;
@@ -102,7 +88,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 				videoRef.current?.play();
 			});
 			tl.to(videoRef.current, { opacity: 0 }, `+=${adData.length + 1}`);
-			tl.to(orangeRef.current, { height: 0 });
+			tl.to(containerRef.current, { height: 221, duration: 2 });
 			tl.to(containerRef.current, { opacity: 0 });
 		},
 	}));
@@ -112,9 +98,6 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			<VideoBox>
 				<Video src={GameOnCancerVid} ref={videoRef} />
 			</VideoBox>
-			<OrangeBlock ref={orangeRef} />
-			<BGImage src={BackgroundImage} />
-			<BlueBlock />
 		</IntermissionAdsContainer>
 	);
 });

@@ -10,8 +10,7 @@ import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { Couch } from '../elements/couch';
 
-import BGLeft from '../media/pixel/Standard 2p Left.png';
-import BGRight from '../media/pixel/Standard 2p Right.png';
+import { PaxCircles } from '../elements/pax-circles';
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -30,17 +29,44 @@ const Topbar = styled.div`
 const RightBox = styled.div`
 	width: 666px;
 	height: 100%;
-	background: var(--main);
-	background-image: url('${BGRight}');
-	background-repeat: no-repeat;
-	background-position: bottom;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 `;
 
+const PAXGlow = styled.div`
+	position: absolute;
+	width: 1920px;
+	height: 1156px;
+	left: 0px;
+	top: -102px;
+
+	background: radial-gradient(50% 50% at 50% 50%, #785E16 36.97%, #000000 100%);
+
+	clip-path: path('M0 0H1920V397H1254V0H667V397H0Z');
+`;
+
+const PaxCirclesStyled = styled(PaxCircles)`
+	position: absolute;
+	z-index: 0;
+	top: 0;
+	left: 0;
+	display: flex;
+	height: 1080px;
+	width: 1920px;
+	justify-content: center;
+	align-items: center;
+
+	& img {
+		width: 150%;
+		height: auto;
+	}
+
+	clip-path: path('M0 0H1920V820H1254V0H667V820H0Z');
+`;
+
 const SponsorSize = {
-	height: 195,
+	height: 230,
 	width: 340,
 };
 
@@ -64,10 +90,7 @@ const customSmallStyling: ISmallStyling = {
 	mainStyle: {
 		height: '100%',
 		width: 666,
-		backgroundColor: 'var(--main)',
-		backgroundImage: `url('${BGLeft}')`,
-		backgroundPosition: 'bottom',
-		backgroundRepeat: 'no-repeat',
+		zIndex: 1,
 	},
 };
 
@@ -140,6 +163,8 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<Standard2Container>
 			<Topbar>
+				<PAXGlow />
+				<PaxCirclesStyled />
 				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 
 				<AudioIndicator
@@ -174,10 +199,16 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<RaceFinish style={{ top: 220, left: 960 }} time={rightTeamTime} place={rightTeamPlace} />
 
 				<RightBox>
-					<div style={{ display: 'flex', width: '100%', flexGrow: 1, alignItems: 'center', paddingBottom: 42 }}>
+					<div
+						style={{
+							display: 'flex',
+							width: '100%',
+							flexGrow: 1,
+							alignItems: 'center',
+						}}>
 						<Couch
 							couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
-							style={{ width: '30%' }}
+							style={{ width: '30%', zIndex: 3 }}
 							audio={props.obsAudioIndicator}
 						/>
 						<SponsorsBox
