@@ -1,236 +1,236 @@
 {
-  "name": "asm-graphics",
-  "version": "2.0.0",
-  "homepage": "ausspeedruns.com",
-  "author": {
-    "name": "Ewan"
-  },
-  "nodecg": {
-    "compatibleRange": "^1.8.1",
-    "bundleDependencies": {
-      "nodecg-speedcontrol": "^2.0.0"
-    },
-    "dashboardPanels": [
-      {
-        "name": "couch",
-        "title": "Couch",
-        "width": 3,
-        "headerColor": "#CC7722",
-        "file": "couch.html"
-      },
-      {
-        "name": "ads",
-        "title": "Ads",
-        "width": 3,
-        "headerColor": "#CC7722",
-        "file": "ads.html"
-      },
-      {
-        "name": "audioindicator",
-        "title": "Audio Indicator",
-        "width": 3,
-        "headerColor": "#CC7722",
-        "file": "audio-indicator.html"
-      },
-      {
-        "name": "donations",
-        "title": "Donations",
-        "width": 3,
-        "headerColor": "#CC7722",
-        "file": "donations.html",
-        "workspace": "ASM Misc"
-      },
-      {
-        "name": "stream",
-        "title": "Stream",
-        "width": 3,
-        "headerColor": "#9146FF",
-        "file": "stream.html"
-      },
-      {
-        "name": "twitter",
-        "title": "Tweets",
-        "width": 3,
-        "headerColor": "#1da1f2",
-        "file": "twitter.html",
-        "workspace": "ASM Misc"
-      },
-      {
-        "name": "staffmessages",
-        "title": "Host Message",
-        "width": 3,
-        "headerColor": "#CC7722",
-        "file": "staff-messages.html"
-      },
-      {
-        "name": "twitch-chat",
-        "title": "Twitch Chat",
-        "width": 3,
-        "headerColor": "#9146FF",
-        "file": "twitch-chat.html"
-      },
-      {
-        "name": "settings",
-        "title": "Settings",
-        "width": 3,
-        "headerColor": "#FF0000",
-        "file": "settings.html",
-        "workspace": "Run Modifications"
-      },
-      {
-        "name": "special-obs",
-        "title": "Special OBS",
-        "width": 3,
-        "headerColor": "#CC7722",
-        "file": "special-obs.html",
-        "workspace": "ASM Misc"
-      }
-    ],
-    "graphics": [
-      {
-        "file": "ticker.html",
-        "width": 1920,
-        "height": 64
-      },
-      {
-        "file": "intermission.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "transition.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "gameplay-overlay.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "stream.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "host-dashboard.html",
-        "width": 0,
-        "height": 0
-      },
-      {
-        "file": "preview-gameplay.html",
-        "width": 0,
-        "height": 0
-      },
-      {
-        "file": "intermission-muted.html",
-        "width": 0,
-        "height": 0
-      }
-    ],
-    "assetCategories": [
-      {
-        "name": "sponsors",
-        "title": "Sponsors",
-        "allowedTypes": [
-          "jpg",
-          "jpeg",
-          "gif",
-          "png",
-          "svg",
-          "webp"
-        ]
-      }
-    ]
-  },
-  "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
-    "dev:webpack": "cross-env NODE_ENV=development WEBPACK_WATCH=true webpack",
-    "schema-types": "trash src/types/schemas && nodecg schema-types -o ./src/types",
-    "start": "node ../..",
-    "lint": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx}",
-    "lint:fix": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx} --fix",
-    "clean": "trash node_modules/.cache && trash dashboard && trash extension && trash graphics",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
-  },
-  "repository": "https://github.com/nodecg/nodecg.git",
-  "license": "MPL 2.0",
-  "dependencies": {
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.8.4",
-    "axios": "^0.27.2",
-    "bad-words": "^3.0.4",
-    "clone": "^2.1.2",
-    "date-fns": "^2.28.0",
-    "glslCanvas": "^0.1.7",
-    "googleapis": "^102.0.0",
-    "graphql": "^16.5.0",
-    "graphql-request": "^4.3.0",
-    "gsap": "^3.10.4",
-    "needle": "^3.1.0",
-    "obs-websocket-js": "^5.0.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-draggable": "^4.4.5",
-    "react-is": "^18.2.0",
-    "react-router-dom": "^6.3.0",
-    "react-twemoji": "^0.5.0",
-    "react-twitch-embed": "^2.1.0",
-    "styled-components": "^5.3.5",
-    "tiltify-api-client": "^1.1.2",
-    "underscore": "^1.13.4",
-    "use-http": "^1.0.26",
-    "use-nodecg": "^0.4.1-1",
-    "zod": "^3.17.3"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.18.6",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
-    "@storybook/addon-actions": "^6.5.12",
-    "@storybook/addon-essentials": "^6.5.12",
-    "@storybook/addon-interactions": "^6.5.12",
-    "@storybook/addon-links": "^6.5.12",
-    "@storybook/builder-webpack5": "^6.5.12",
-    "@storybook/manager-webpack5": "^6.5.12",
-    "@storybook/react": "^6.5.12",
-    "@storybook/testing-library": "^0.0.13",
-    "@types/bad-words": "^3.0.1",
-    "@types/clone": "^2.1.1",
-    "@types/needle": "^2.5.3",
-    "@types/node": "^17.0.45",
-    "@types/react": "^18.0.12",
-    "@types/react-dom": "^18.0.5",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/styled-components": "^5.1.25",
-    "@types/twemoji": "^13.1.1",
-    "@types/underscore": "^1.11.4",
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
-    "@typescript-eslint/parser": "^5.28.0",
-    "babel-loader": "^8.2.5",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.17.0",
-    "eslint-plugin-react": "^7.30.0",
-    "eslint-plugin-react-hooks": "^4.5.0",
-    "eslint-plugin-storybook": "^0.6.4",
-    "file-loader": "^6.2.0",
-    "globby": "^11.0.4",
-    "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.6.0",
-    "prettier": "^2.7.0",
-    "react-refresh": "^0.13.0",
-    "react-refresh-typescript": "^2.0.5",
-    "trash-cli": "^5.0.0",
-    "ts-loader": "^9.3.0",
-    "twemoji": "^14.0.2",
-    "typescript": "^4.7.3",
-    "webpack": "^5.73.0",
-    "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-merge": "^5.8.0",
-    "webpack-node-externals": "^3.0.0",
-    "webpackbar": "^5.0.2"
-  }
+	"name": "asm-graphics",
+	"version": "2.0.0",
+	"homepage": "AusSpeedruns.com",
+	"author": {
+		"name": "Ewan 'Clubwho' Lyon"
+	},
+	"nodecg": {
+		"compatibleRange": "^1.8.1",
+		"bundleDependencies": {
+			"nodecg-speedcontrol": "^2.0.0"
+		},
+		"dashboardPanels": [
+			{
+				"name": "couch",
+				"title": "Couch",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "couch.html"
+			},
+			{
+				"name": "ads",
+				"title": "Ads",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "ads.html"
+			},
+			{
+				"name": "audioindicator",
+				"title": "Audio Indicator",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "audio-indicator.html"
+			},
+			{
+				"name": "donations",
+				"title": "Donations",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "donations.html",
+				"workspace": "ASM Misc"
+			},
+			{
+				"name": "stream",
+				"title": "Stream",
+				"width": 3,
+				"headerColor": "#9146FF",
+				"file": "stream.html"
+			},
+			{
+				"name": "twitter",
+				"title": "Tweets",
+				"width": 3,
+				"headerColor": "#1da1f2",
+				"file": "twitter.html",
+				"workspace": "ASM Misc"
+			},
+			{
+				"name": "staffmessages",
+				"title": "Host Message",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "staff-messages.html"
+			},
+			{
+				"name": "twitch-chat",
+				"title": "Twitch Chat",
+				"width": 3,
+				"headerColor": "#9146FF",
+				"file": "twitch-chat.html"
+			},
+			{
+				"name": "settings",
+				"title": "Settings",
+				"width": 3,
+				"headerColor": "#FF0000",
+				"file": "settings.html",
+				"workspace": "Run Modifications"
+			},
+			{
+				"name": "special-obs",
+				"title": "Special OBS",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "special-obs.html",
+				"workspace": "ASM Misc"
+			}
+		],
+		"graphics": [
+			{
+				"file": "ticker.html",
+				"width": 1920,
+				"height": 64
+			},
+			{
+				"file": "intermission.html",
+				"width": 1920,
+				"height": 1080
+			},
+			{
+				"file": "transition.html",
+				"width": 1920,
+				"height": 1080
+			},
+			{
+				"file": "gameplay-overlay.html",
+				"width": 1920,
+				"height": 1080
+			},
+			{
+				"file": "stream.html",
+				"width": 1920,
+				"height": 1080
+			},
+			{
+				"file": "host-dashboard.html",
+				"width": 0,
+				"height": 0
+			},
+			{
+				"file": "preview-gameplay.html",
+				"width": 0,
+				"height": 0
+			},
+			{
+				"file": "intermission-muted.html",
+				"width": 0,
+				"height": 0
+			}
+		],
+		"assetCategories": [
+			{
+				"name": "sponsors",
+				"title": "Sponsors",
+				"allowedTypes": [
+					"jpg",
+					"jpeg",
+					"gif",
+					"png",
+					"svg",
+					"webp"
+				]
+			}
+		]
+	},
+	"scripts": {
+		"build": "run-s build:*",
+		"build:browser": "vite build",
+		"build:extension": "tsc -b tsconfig.extension.json",
+		"build-storybook": "build-storybook",
+		"clean": "trash node_modules/.cache && trash dashboard && trash extension && trash graphics",
+		"lint": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx}",
+		"lint:fix": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx} --fix",
+		"schema-types": "trash src/types/schemas && nodecg schema-types -o ./src/types",
+		"start": "node ../..",
+		"storybook": "start-storybook -p 6006",
+		"watch": "run-s watch:*",
+		"watch:browser": "vite",
+		"watch:extension": "tsc -b tsconfig.extension.json -w"
+	},
+	"repository": "https://github.com/nodecg/nodecg.git",
+	"license": "MPL 2.0",
+	"dependencies": {
+		"@emotion/react": "^11.9.3",
+		"@emotion/styled": "^11.9.3",
+		"@mui/icons-material": "^5.8.4",
+		"@mui/material": "^5.8.4",
+		"axios": "^0.27.2",
+		"bad-words": "^3.0.4",
+		"clone": "^2.1.2",
+		"date-fns": "^2.28.0",
+		"glslCanvas": "^0.1.7",
+		"googleapis": "^102.0.0",
+		"graphql": "^16.5.0",
+		"graphql-request": "^4.3.0",
+		"gsap": "^3.10.4",
+		"needle": "^3.1.0",
+		"npm-run-all": "^4.1.5",
+		"obs-websocket-js": "^5.0.0",
+		"react": "^18.1.0",
+		"react-dom": "^18.1.0",
+		"react-draggable": "^4.4.5",
+		"react-is": "^18.2.0",
+		"react-router-dom": "^6.3.0",
+		"react-twemoji": "^0.5.0",
+		"react-twitch-embed": "^3.0.1",
+		"styled-components": "^5.3.5",
+		"tiltify-api-client": "^1.1.2",
+		"underscore": "^1.13.4",
+		"use-http": "^1.0.26",
+		"use-nodecg": "^0.4.1-1",
+		"zod": "^3.17.3"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.18.6",
+		"@storybook/addon-actions": "^6.5.12",
+		"@storybook/addon-essentials": "^6.5.12",
+		"@storybook/addon-interactions": "^6.5.12",
+		"@storybook/addon-links": "^6.5.12",
+		"@storybook/builder-webpack5": "^6.5.12",
+		"@storybook/manager-webpack5": "^6.5.12",
+		"@storybook/react": "^6.5.12",
+		"@storybook/testing-library": "^0.0.13",
+		"@types/bad-words": "^3.0.1",
+		"@types/clone": "^2.1.1",
+		"@types/needle": "^2.5.3",
+		"@types/node": "^17.0.45",
+		"@types/react": "^18.0.12",
+		"@types/react-dom": "^18.0.5",
+		"@types/react-router-dom": "^5.3.3",
+		"@types/styled-components": "^5.1.25",
+		"@types/twemoji": "^13.1.1",
+		"@types/underscore": "^1.11.4",
+		"@typescript-eslint/eslint-plugin": "^5.28.0",
+		"@typescript-eslint/parser": "^5.28.0",
+		"@vitejs/plugin-react": "^2.1.0",
+		"babel-loader": "^8.2.5",
+		"cross-env": "^7.0.3",
+		"eslint": "^8.17.0",
+		"eslint-plugin-react": "^7.30.0",
+		"eslint-plugin-react-hooks": "^4.5.0",
+		"eslint-plugin-storybook": "^0.6.4",
+		"file-loader": "^6.2.0",
+		"globby": "^11.0.4",
+		"prettier": "^2.7.0",
+		"react-refresh": "^0.13.0",
+		"react-refresh-typescript": "^2.0.5",
+		"trash-cli": "^5.0.0",
+		"ts-loader": "^9.3.0",
+		"twemoji": "^14.0.2",
+		"typescript": "^4.8.4",
+		"vite": "^3.1.8",
+		"vite-plugin-html": "^3.2.0",
+		"vite-plugin-nodecg": "^1.0.2"
+	}
 }

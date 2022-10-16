@@ -2,16 +2,19 @@
 	"compilerOptions": {
 		"jsx": "react",
 		"strict": true,
+		// "noEmit": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"target": "es2017",
-		"lib": ["esnext"],
+		"lib": ["esnext", "dom"],
 		"esModuleInterop": true,
 		"moduleResolution": "node",
-		"importHelpers": true
+		"importHelpers": true,
+		"module": "esnext"
 	},
+	"include": ["**/*.ts", "**/*.tsx", "src/types/**/*.d.ts"],
 	"exclude": [
         "./node_modules"
     ]

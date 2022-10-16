@@ -2,14 +2,19 @@
 <html>
 	<head>
 		<meta charset="UTF-8" />
-		<title><%= htmlWebpackPlugin.options.title %></title>
+		<link rel="stylesheet" href="../shared/colours.css" />
 		<style>
 			body {
-				--main-col: #2b315c;
-				--sec-col: #0082c8;
-				--asm-orange: #cc7722;
+				margin: 15px;
 			}
 		</style>
+		<script type="module">
+			import RefreshRuntime from 'http://localhost:3000/@react-refresh';
+			RefreshRuntime.injectIntoGlobalHook(window);
+			window.$RefreshReg$ = () => {};
+			window.$RefreshSig$ = () => (type) => type;
+			window.__vite_plugin_react_preamble_installed__ = true;
+		</script>
 	</head>
 	<body>
 		<div id="root"></div>

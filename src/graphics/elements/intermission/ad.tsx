@@ -2,9 +2,6 @@ import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
 
-import GameOnCancerVid from '../../media/Sponsors/GameOnCancer.mp4';
-import HyperXVid from '../../media/Sponsors/HyperX.mp4';
-
 const IntermissionAdsContainer = styled.div`
 	width: 955px;
 	display: flex;
@@ -57,7 +54,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			switch (ad) {
 				case 'HyperX':
 					adData = {
-						src: HyperXVid,
+						src: '../shared/sponsors/HyperX.mp4',
 						length: 30,
 						volume: 0.8,
 					};
@@ -65,7 +62,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 
 				case 'GOC':
 					adData = {
-						src: GameOnCancerVid,
+						src: '../shared/sponsors/GameOnCancer.mp4',
 						length: 43,
 						volume: 1,
 					};
@@ -96,7 +93,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 	return (
 		<IntermissionAdsContainer className={props.className} style={props.style} ref={containerRef}>
 			<VideoBox>
-				<Video src={GameOnCancerVid} ref={videoRef} />
+				<Video ref={videoRef} />
 			</VideoBox>
 		</IntermissionAdsContainer>
 	);

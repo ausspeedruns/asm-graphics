@@ -10,7 +10,7 @@
 			"properties": {
 				"enabled": {
 					"type": "boolean",
-					"default": true
+					"default": false
 				},
 				"port": {
 					"type": "number",
@@ -43,7 +43,7 @@
 			"properties": {
 				"enabled": {
 					"type": "boolean",
-					"default": true
+					"default": false
 				},
 				"key": {
 					"type": "string",
@@ -98,7 +98,7 @@
 				},
 				"event": {
 					"type": "string",
-					"default": "ASM2022"
+					"default": ""
 				}
 			},
 			"required": ["url"]
