@@ -1,8 +1,7 @@
-# asm-layouts
+# asm-graphics
 
-> The on-stream graphics used during AusSpeedruns's "marathon" events.
+> The on-stream graphics used during AusSpeedruns's marathon events.
 
-This is a [NodeCG](https://www.nodecg.dev/) v1.9.0 bundle. You must have NodeCG installed for this to run.
 
 ## Before using
 
@@ -13,16 +12,15 @@ This is only intended to be used as an education tool. Please learn from the cod
 - [NodeCG](https://www.nodecg.dev/): 1.9.0
 - [nodecg-speedcontrol](https://github.com/speedcontrol): 2.4.0
 
-To use the audio indicators you must have [OBS-WebSocket](https://github.com/obsproject/obs-websocket) version 5.0.0. This plugin comes by default in OBS v28.
+To use the OBS audio indicators you must have [OBS-WebSocket](https://github.com/obsproject/obs-websocket) version 5.0.0. This plugin comes by default in OBS v28.
 
 ## Installation
 
 Currently no automated builds are active. You must install and build this manually.
 
-- [NodeCG installation](https://www.nodecg.dev/docs/installing)
-- [nodecg-speedcontrol installation](https://github.com/speedcontrol/nodecg-speedcontrol#installation)
-
-Starting from the *root* NodeCG folder
+1. Install [NodeCG](https://www.nodecg.dev/docs/installing)
+2. Install [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol#installation)
+3. Starting from the *root* NodeCG folder
 
 ```bash
 cd bundles
@@ -51,7 +49,7 @@ If you have [nodecg-cli](https://github.com/nodecg/nodecg-cli) installed just ru
   - `parents`: String[]
     - [Twitch embed parameter](https://dev.twitch.tv/docs/embed/everything#embed-parameters)
 - `twitter`
-  - Get tweets about the event to display on stream
+  - Get tweets about the event to display on stream. *Will work for ~30 mins and then break.*
   - `enabled`: Boolean
   - `key`: String
     - Twitter API key
@@ -99,5 +97,6 @@ asm-graphics is provided under the Mozilla Public License v2.0, which is availab
 
 ## Credits
 
-- [fit-text.tsx](https://github.com/ausspeedruns/asm-graphics/blob/main/src/graphics/elements/fit-text.tsx). modified from a version originally written by [Hoishin](https://github.com/Hoishin), [Original Source](https://github.com/JapaneseRestream/jr-layouts/blob/master/src/browser/graphics/components/fit-text.tsx).
-- [obs.ts](https://github.com/ausspeedruns/asm-graphics/blob/main/src/extensions/util/obs.ts), modified from a version originally written by [zoton2](https://github.com/zoton2), [Original Source](https://github.com/esamarathon/esa-layouts/blob/master/src/extension/util/obs.ts).
+- [fit-text.tsx](https://github.com/ausspeedruns/asm-graphics/blob/main/src/graphics/elements/fit-text.tsx) Modified from a version originally written by [Hoishin](https://github.com/Hoishin), [Original Source](https://github.com/JapaneseRestream/jr-layouts/blob/master/src/browser/graphics/components/fit-text.tsx).
+- [obs.ts](https://github.com/ausspeedruns/asm-graphics/blob/main/src/extensions/util/obs.ts) Modified from a version originally written by [zoton2](https://github.com/zoton2), [Original Source](https://github.com/esamarathon/esa-layouts/blob/master/src/extension/util/obs.ts).
+- [Tiltify Utils](https://github.com/ausspeedruns/asm-graphics/tree/main/src/extensions/donations/util) Modified from a version originally written by [daniellockard](https://github.com/daniellockard), [Original Source](https://github.com/daniellockard/tiltify-api-client).
