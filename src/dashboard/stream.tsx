@@ -6,7 +6,7 @@ import { Config } from '../types/ConfigSchema';
 import { NoMargin } from './elements/no-margin';
 
 // @ts-ignore
-import { TwitchPlayer } from 'react-twitch-embed';
+// import { TwitchPlayer } from 'react-twitch-embed';
 
 const TWITCHPARENTS = (nodecg.bundleConfig as Config).twitch.parents;
 
@@ -14,7 +14,7 @@ const Stream: React.FC = () => {
 	return (
 		<>
 			<NoMargin />
-			<TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={416} height={234} />
+			{/* <TwitchPlayer channel="ausspeedruns" parents={TWITCHPARENTS} width={416} height={234} /> */}
 		</>
 	);
 };

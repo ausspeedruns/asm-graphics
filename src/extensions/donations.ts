@@ -32,13 +32,13 @@ nodecg.listenFor('manual-donations:new', (dono: Donation) => {
 	newObj.push(dono);
 
 	manualDonationsRep.value = newObj;
-	manualDonationTotalRep.value += dono.amount;
+	manualDonationTotalRep.value! += dono.amount;
 });
 
 nodecg.listenFor('manual-donations:remove', (id: string) => {
 	const donationIndex = manualDonationsRep.value.findIndex(donation => donation.id === id);
 
-	manualDonationTotalRep.value -= manualDonationsRep.value[donationIndex].amount;
+	manualDonationTotalRep.value! -= manualDonationsRep.value[donationIndex].amount;
 
 	const newObj = _.clone(manualDonationsRep.value);
 	newObj.splice(donationIndex, 1);

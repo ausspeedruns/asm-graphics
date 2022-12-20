@@ -51,3 +51,8 @@ nodecg.Replicant<boolean>('obsConnection', { defaultValue: false, persistent: fa
 
 /* Credits */
 nodecg.Replicant<{ name: string, title: string }>('credits-name', { defaultValue: { name: '', title: '' } });
+
+/* Schedule Import */
+
+/* X32 */
+

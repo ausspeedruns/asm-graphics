@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-export interface Config {
+export interface MutableConfig {
 	obs: {
 		enabled: boolean;
 		port: number;
@@ -27,13 +27,15 @@ export interface Config {
 	tiltify?: {
 		enabled: boolean;
 		key: string;
-		capaign: string;
+		campaign: string;
 	};
 	graphql?: {
 		url: string;
 		event: string;
 	}
 }
+
+export type Config = Readonly<MutableConfig>;
 
 interface GoogleCredentials {
 	enabled: boolean; // Custom added

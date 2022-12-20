@@ -38,10 +38,11 @@ async function init() {
 	}
 
 	if (ncgConfig?.tiltify?.enabled) {
-		require('./donations/tiltify')
+		require('./donations/tiltify');
 	}
 
 	require('./incentives');
 	require('./staff-messages');
 	require('./donations');
+	require('./schedule-import');
 }

@@ -5,7 +5,7 @@ import { Config } from '../../types/ConfigSchema';
 import * as TwitterTypes from '../../types/Twitter';
 
 const nodecg = nodecgApiContext.get();
-const ncgTwitterConfig = (nodecg.bundleConfig as Config).twitter;
+const ncgTwitterConfig = (nodecg.bundleConfig as Readonly<Config>).twitter;
 
 const token = ncgTwitterConfig.bearer || '';
 

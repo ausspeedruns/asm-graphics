@@ -1,13 +1,13 @@
 'use strict';
 
-import { NodeCG } from '../types/nodecg';
+import NodeCG from '@alvancamp/test-nodecg-types';
 
-let context: NodeCG;
+let context: NodeCG.ServerAPI;
 
-export function get(): NodeCG {
+export function get(): NodeCG.ServerAPI {
 	return context;
 }
 
-export function set(ctx: NodeCG): void {
+export function set(ctx: NodeCG.ServerAPI): void {
 	context = ctx;
 }

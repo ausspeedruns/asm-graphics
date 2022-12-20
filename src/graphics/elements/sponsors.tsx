@@ -4,6 +4,7 @@ import gsap from 'gsap';
 
 import { Tweet } from './tweet';
 
+import NodeCG from '@alvancamp/test-nodecg-types';
 import { Tweet as ITweet } from '../../types/Twitter';
 
 const SponsorsContainer = styled.img`
@@ -13,18 +14,8 @@ const SponsorsContainer = styled.img`
 	width: 100%;
 `;
 
-interface Asset {
-	base: string;
-	bundleName: string;
-	category: string;
-	ext: string;
-	name: string;
-	sum: string;
-	url: string;
-}
-
 interface Props {
-	sponsors?: Asset[];
+	sponsors?: NodeCG.AssetFile[];
 	start?: number;
 	style?: React.CSSProperties;
 	className?: string;
@@ -79,7 +70,7 @@ const SponsorsBoxContainer = styled.div`
 
 interface FullBoxProps {
 	// tweet: ITweet;
-	sponsors: Asset[];
+	sponsors: NodeCG.AssetFile[];
 	style?: React.CSSProperties;
 	className?: string;
 	sponsorStyle?: React.CSSProperties;

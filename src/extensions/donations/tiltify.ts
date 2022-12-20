@@ -3,26 +3,29 @@ import * as nodecgApiContext from '../nodecg-api-context';
 import { Donation } from '../../types/Donations';
 import TiltifyClient from './util/tiltify-api';
 import _ from 'underscore';
+import { Config } from '@asm-graphics/types/ConfigSchema';
 
 const nodecg = nodecgApiContext.get();
 const donationTotalRep = nodecg.Replicant<number>('donationTotal');
 const donationsListRep = nodecg.Replicant<Donation[]>('donations');
 
-if (nodecg.bundleConfig.tiltify.key === "") {
+if ((nodecg.bundleConfig as Config).tiltify?.key === "") {
 	nodecg.log.info("[Tiltify] API Key not set");
 }
 
-if (nodecg.bundleConfig.tiltify.campaign === "") {
+if ((nodecg.bundleConfig as Config).tiltify?.campaign === "") {
 	nodecg.log.info(
 		"[Tiltify] Campaign id not set"
 	);
 }
 
-const client = new TiltifyClient(nodecg.bundleConfig.tiltify.key);
+const client = new TiltifyClient((nodecg.bundleConfig as Config).tiltify!.key);
 
 async function askTiltifyForAllDonations() {
+	if (!(nodecg.bundleConfig as Config).tiltify?.campaign) return;
+
 	client.Campaigns.getDonations(
-		nodecg.bundleConfig.tiltify.campaign,
+		(nodecg.bundleConfig as Config).tiltify!.campaign,
 		(allDonations) => {
 			// New donations
 			const newDonos = allDonations.filter(donation => donationsListRep.value.findIndex(oldDono => oldDono.id === donation.id.toString()) === -1);
@@ -47,7 +50,7 @@ async function askTiltifyForAllDonations() {
 }
 
 async function askTiltifyForTotal() {
-	client.Campaigns.get(nodecg.bundleConfig.tiltify.campaign, (campaign) => {
+	client.Campaigns.get((nodecg.bundleConfig as Config).tiltify!.campaign, (campaign) => {
 		donationTotalRep.value = campaign.amountRaised;
 	});
 }

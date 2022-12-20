@@ -3,6 +3,7 @@ import { Goal, War } from '../types/Incentives';
 import * as nodecgApiContext from './nodecg-api-context';
 import { request, gql } from 'graphql-request';
 import { z } from 'zod';
+import { Config } from '@asm-graphics/types/ConfigSchema';
 
 const nodecg = nodecgApiContext.get();
 
@@ -55,9 +56,9 @@ const incentiveSchema = z.object({
 			}),
 		}),
 	]))
-})
+});
 
-if (nodecg.bundleConfig?.graphql.url) {
+if ((nodecg.bundleConfig as Config).graphql?.url) {
 	setInterval(async () => {
 		getIncentives();
 	}, 5000);
@@ -74,12 +75,14 @@ nodecg.listenFor('updateIncentives', () => {
 });
 
 async function getIncentives() {
+	if ((nodecg.bundleConfig as Config)?.graphql === undefined) return;
+
 	try {
 		const results = await request(
-			nodecg.bundleConfig?.graphql.url,
+			(nodecg.bundleConfig as Config).graphql!.url,
 			gql`
 				query {
-					incentives(where: { event: { shortname: { equals: "${nodecg.bundleConfig?.graphql.event}" } } }) {
+					incentives(where: { event: { shortname: { equals: "${(nodecg.bundleConfig as Config).graphql!.event}" } } }) {
 						id
 						run {
 							game

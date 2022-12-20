@@ -5,7 +5,7 @@ import clone from 'clone';
 import { useListenFor, useReplicant } from 'use-nodecg';
 import gsap from 'gsap';
 import { format } from 'date-fns';
-import { useFetch } from 'use-http';
+// import { useFetch } from 'use-http';
 
 import { RunDataArray, RunDataActiveRun } from '../types/RunData';
 import { Tweet as ITweet } from '../types/Twitter';
@@ -20,7 +20,6 @@ import Mic from '@mui/icons-material/Mic';
 
 import MusicIconImg from './media/MusicIcon.svg';
 import ASAP2022Vertical from './media/Sponsors/PAXVertical.svg';
-import { Asset } from '../types/nodecg';
 import { SponsorsBox } from './elements/sponsors';
 import { Goal, War } from '../types/Incentives';
 import { IntermissionAds, IntermissionAdsRef } from './elements/intermission/ad';
@@ -29,6 +28,7 @@ import { PaxCircles } from './elements/pax-circles';
 // @ts-ignore
 import Twemoji from 'react-twemoji';
 import _ from 'underscore';
+import NodeCG from '@alvancamp/test-nodecg-types';
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -237,7 +237,7 @@ const Tweet = styled.div`
 `;
 
 export const Intermission: React.FC = () => {
-	const [sponsorsRep] = useReplicant<Asset[], Asset[]>('assets:sponsors', []);
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[], NodeCG.AssetFile[]>('assets:sponsors', []);
 	const [incentivesRep] = useReplicant<(Goal | War)[], (Goal | War)[]>('incentives', []);
 	const [runDataArrayRep] = useReplicant<RunDataArray, []>('runDataArray', [], { namespace: 'nodecg-speedcontrol' });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
@@ -306,38 +306,38 @@ interface IntermissionProps {
 	host?: CouchPerson;
 	donation: number;
 	muted?: boolean;
-	sponsors?: Asset[];
+	sponsors?: NodeCG.AssetFile[];
 	incentives?: (Goal | War)[];
 }
 
 export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps>((props, ref) => {
 	const [currentTime, setCurrentTime] = useState('00:00:00');
-	const [currentSong, setCurrentSong] = useState('');
+	const [currentSong] = useState('');
 	const songEl = useRef<HTMLDivElement>(null);
 	const [tweet, setTweet] = useState<ITweet | undefined>(undefined);
 	const tweetRef = useRef<HTMLDivElement>(null);
 	const adsRef = useRef<IntermissionAdsRef>(null);
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const bottomBlockRef = useRef<HTMLDivElement>(null);
-	const { get, cache } = useFetch('https://rainwave.cc/api4');
+	// const { get, cache } = useFetch('https://rainwave.cc/api4');
 
-	async function getCurrentSong() {
-		const song = await get('/info_all?sid=2');
-		cache.clear();
-		setCurrentSong(
-			`${song.all_stations_info[2].title} – ${song.all_stations_info[2].artists} – ${song.all_stations_info[2].album}`,
-		);
-	}
+	// async function getCurrentSong() {
+	// 	const song = await get('/info_all?sid=2');
+	// 	cache.clear();
+	// 	setCurrentSong(
+	// 		`${song.all_stations_info[2].title} – ${song.all_stations_info[2].artists} – ${song.all_stations_info[2].album}`,
+	// 	);
+	// }
 
 	useEffect(() => {
-		getCurrentSong();
+		// getCurrentSong();
 		setCurrentTime(format(new Date(), 'E do MMM - h:mm:ss a'));
 
 		const interval = setInterval(() => {
 			setCurrentTime(format(new Date(), 'E do MMM - h:mm:ss a'));
 		}, 500);
 		const songInterval = setInterval(() => {
-			getCurrentSong();
+			// getCurrentSong();
 		}, 3000);
 
 		return () => {
