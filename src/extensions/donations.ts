@@ -1,7 +1,7 @@
 import * as nodecgApiContext from './nodecg-api-context';
 import _ from 'underscore';
 
-import { Donation } from '../types/Donations';
+import { Donation } from '@asm-graphics/types/Donations';
 
 const nodecg = nodecgApiContext.get();
 

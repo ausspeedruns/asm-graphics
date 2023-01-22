@@ -2,9 +2,9 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { useReplicant } from 'use-nodecg';
 
-import { RunDataArray, RunDataActiveRun } from '../types/RunData';
+import { RunDataArray, RunDataActiveRun } from '@asm-graphics/types/RunData';
 
-import { Goal, War } from '../types/Incentives';
+import { Goal, War } from '@asm-graphics/types/Incentives';
 import { Ticker } from './elements/ticker';
 
 export const TickerOverlay: React.FC = () => {

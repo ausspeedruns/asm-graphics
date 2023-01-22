@@ -1,10 +1,10 @@
 import * as nodecgApiContext from './nodecg-api-context';
 import obs from './util/obs';
 
-import { RunDataActiveRun } from '../types/RunData';
-import { OBSAudioIndicator } from '../types/Audio';
+import { RunDataActiveRun } from '@asm-graphics/types/RunData';
+import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 import _ from 'underscore';
-// import { Stream } from '../types/Streams';
+// import { Stream } from '@asm-graphics/types/Streams';
 
 const nodecg = nodecgApiContext.get();
 

@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps, OverlayRef } from '../../types/OverlayProps';
+import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
 
 import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
 import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';

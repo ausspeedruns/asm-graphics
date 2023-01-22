@@ -1,6 +1,6 @@
-import { OverlayProps } from '../../types/OverlayProps';
-import { RunDataPlayer } from '../../types/RunData';
-import { Timer } from '../../types/Timer';
+import { OverlayProps } from '@asm-graphics/types/OverlayProps';
+import { RunDataPlayer } from '@asm-graphics/types/RunData';
+import { Timer } from '@asm-graphics/types/Timer';
 
 export const DefaultTimer: Timer = {
 	milliseconds: 45296700,

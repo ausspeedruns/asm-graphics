@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { TextField, Button } from '@mui/material';
-import { CouchInformation, CouchPerson } from '../../types/OverlayProps';
+import { CouchPerson } from '@asm-graphics/types/OverlayProps';
 import { useReplicant } from 'use-nodecg';
 import { useEffect } from 'react';
 
@@ -23,10 +23,10 @@ export const HostName: React.FC<Props> = (props: Props) => {
 	const [hostName, setHostName] = useState('');
 	const [hostPronouns, setHostPronouns] = useState('');
 	// const [hostDiscord, setHostDiscord] = useState('');
-	const [couchRep] = useReplicant<CouchInformation, CouchInformation>('couch-names', { current: [], preview: [] });
+	const [couchRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
 
 	useEffect(() => {
-		const host = couchRep?.current.find((couch) => couch.host);
+		const host = couchRep.find((couch) => couch.host);
 		setHostName(host?.name ?? '');
 		setHostPronouns(host?.pronouns ?? '');
 		// setHostDiscord(host?.discordID ?? '');

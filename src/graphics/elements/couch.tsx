@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CouchPerson } from '../../types/OverlayProps';
-import { OBSAudioIndicator } from '../../types/Audio';
+import { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 
 const CouchContainer = styled.div`
 	font-family: Nasalization;
@@ -53,7 +53,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 						<PersonCompressed
 							key={person.name}
 							person={person}
-							speaking={props.audio?.find((audio) => audio.id == person.name)?.active}
+							speaking={props.audio?.find((audio) => audio.id == person.microphone)?.active}
 						/>
 					);
 				})}
@@ -61,7 +61,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 					<PersonCompressed
 						key={'Host'}
 						person={host}
-						speaking={props.audio?.find((audio) => audio.id == host.name)?.active}
+						speaking={props.audio?.find((audio) => audio.id == host.microphone)?.active}
 						host
 					/>
 				)}

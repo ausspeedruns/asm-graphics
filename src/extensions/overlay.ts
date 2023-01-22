@@ -1,9 +1,9 @@
 import * as nodecgApiContext from './nodecg-api-context';
 import obs from './util/obs';
 
-import { CurrentOverlay } from '../types/CurrentOverlay';
-import { Stream } from '../types/Streams';
-// import { CouchInformation, NoCam } from '../types/OverlayProps';
+import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
+import { Stream } from '@asm-graphics/types/Streams';
+// import { CouchInformation, NoCam } from '@asm-graphics/types/OverlayProps';
 
 const nodecg = nodecgApiContext.get();
 

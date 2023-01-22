@@ -5,10 +5,10 @@ import { HashRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { useListenFor, useReplicant } from 'use-nodecg';
 import _ from 'underscore';
 
-// import { CurrentOverlay } from '../types/CurrentOverlay';
-import { RunDataActiveRun, RunDataArray } from '../types/RunData';
-import { Timer } from '../types/Timer';
-import { CouchInformation, NoCam, OverlayRef } from '../types/OverlayProps';
+// import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
+import { RunDataActiveRun, RunDataArray } from '@asm-graphics/types/RunData';
+import { Timer } from '@asm-graphics/types/Timer';
+import { CouchPerson, OverlayRef } from '@asm-graphics/types/OverlayProps';
 
 // import { TickerOverlay } from './ticker';
 import { Standard } from './overlays/standard';
@@ -24,9 +24,9 @@ import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
 import { ThreeDS } from './overlays/3ds';
 import { CreditsOverlay } from './overlays/credits';
-import { Asset } from '../types/nodecg';
-import { Tweet } from '../types/Twitter';
-import { OBSAudioIndicator } from '../types/Audio';
+import type NodeCG from '@alvancamp/test-nodecg-types';
+import type { Tweet } from '@asm-graphics/types/Twitter';
+import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -50,7 +50,7 @@ interface GameplayOverlayProps {
 }
 
 // https://stackoverflow.com/questions/58220995/cannot-read-property-history-of-undefined-usehistory-hook-of-react-router-5
-export const GameplayRouterParent: React.FC<GameplayOverlayProps> = (props: GameplayOverlayProps) => {
+export const GameplayRouterParent = (props: GameplayOverlayProps) => {
 	return (
 		<Router>
 			<GameplayOverlay preview={props.preview} />
@@ -58,33 +58,26 @@ export const GameplayRouterParent: React.FC<GameplayOverlayProps> = (props: Game
 	);
 };
 
-const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayProps) => {
+const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
 	const [timerRep] = useReplicant<Timer, undefined>('timer', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [hostNamesRep] = useReplicant<CouchInformation, CouchInformation>('couch-names', {
-		current: [],
-		preview: [],
-	});
+	const [hostNamesRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [noCamRep] = useReplicant<NoCam, NoCam>('no-cam', { current: false, preview: false });
-	const [sponsorsRep] = useReplicant<Asset[], Asset[]>('assets:sponsors', []);
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[], NodeCG.AssetFile[]>('assets:sponsors', []);
 	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
-	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('obs-audio-indicator', []);
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('audio-indicators', []);
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
-
-	console.log(audioIndicatorRep)
 
 	const overlayArgs = {
 		runData: displayingRun,
 		timer: timerRep,
 		couchInformation: hostNamesRep,
 		preview: props.preview,
-		noCam: noCamRep,
 		sponsors: sponsorsRep,
 		obsAudioIndicator: obsAudioIndicatorRep,
 	};
@@ -102,7 +95,13 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: 'Standard',
 		},
 		{
-			component: <Standard2 {...overlayArgs} audioIndicator={audioIndicatorRep} ref={(el: OverlayRef) => (overlayRefs.current[2] = el)} />,
+			component: (
+				<Standard2
+					{...overlayArgs}
+					audioIndicator={audioIndicatorRep}
+					ref={(el: OverlayRef) => (overlayRefs.current[2] = el)}
+				/>
+			),
 			name: 'Standard-2',
 		},
 		{
@@ -110,7 +109,13 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 			name: 'Widescreen',
 		},
 		{
-			component: <Widescreen2 {...overlayArgs} audioIndicator={audioIndicatorRep} ref={(el: OverlayRef) => (overlayRefs.current[4] = el)} />,
+			component: (
+				<Widescreen2
+					{...overlayArgs}
+					audioIndicator={audioIndicatorRep}
+					ref={(el: OverlayRef) => (overlayRefs.current[4] = el)}
+				/>
+			),
 			name: 'Widescreen-2',
 		},
 		{
@@ -158,7 +163,6 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 	// });
 
 	useListenFor('showTweet', (newVal: Tweet) => {
-		console.log(overlayRefs.current);
 		overlayRefs.current.forEach((ref) => {
 			if (ref) ref.showTweet?.(newVal);
 		});
@@ -166,14 +170,15 @@ const GameplayOverlay: React.FC<GameplayOverlayProps> = (props: GameplayOverlayP
 
 	useEffect(() => {
 		if (props.preview) {
-			nodecg.readReplicant('runDataArray', 'nodecg-speedcontrol', (runData: RunDataArray) => {
-				nodecg.readReplicant(
-					'runDataActiveRunSurrounding',
-					'nodecg-speedcontrol',
-					(surrounding: { previous?: string; current?: string; next?: string }) => {
-						setDisplayingRun(runData.find((run) => run.id === surrounding.next));
-					},
-				);
+			nodecg.readReplicant('runDataArray', 'nodecg-speedcontrol', (runData) => {
+				nodecg.readReplicant('runDataActiveRunSurrounding', 'nodecg-speedcontrol', (surrounding) => {
+					setDisplayingRun(
+						(runData as RunDataArray).find(
+							(run) =>
+								run.id === (surrounding as { previous?: string; current?: string; next?: string }).next,
+						),
+					);
+				});
 			});
 		} else {
 			setDisplayingRun(runDataActiveRep);

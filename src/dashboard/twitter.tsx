@@ -4,15 +4,17 @@ import styled, { keyframes } from 'styled-components';
 import { useReplicant, useListenFor } from 'use-nodecg';
 import _ from 'underscore';
 
-import { Tweet } from '../types/Twitter';
-import { Config } from '../types/ConfigSchema';
+import { DeepReadonly } from '@alvancamp/test-nodecg-types/faux_modules/ts-essentials';
+import { Tweet } from '@asm-graphics/types/Twitter';
+import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
+
 
 import { GreenButton, RedButton } from './elements/styled-ui';
 import { Box, Button } from '@mui/material';
 import UndoIcon from '@mui/icons-material/Undo';
 import Delete from '@mui/icons-material/Delete';
 
-const ncgConfig = nodecg.bundleConfig as Config;
+const ncgConfig = nodecg.bundleConfig as DeepReadonly<ConfigSchema>;
 
 const TwitterContainer = styled.div`
 	height: 235px;

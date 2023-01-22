@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import _ from 'underscore';
 
-import {Donation} from '../types/Donations';
+import {Donation} from '@asm-graphics/types/Donations';
 
 import {darkTheme} from './theme';
 import { Box, Grid, ThemeProvider } from '@mui/material';

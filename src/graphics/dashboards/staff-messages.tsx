@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { StaffMessage } from '../../types/StaffMessages';
+import { StaffMessage } from '@asm-graphics/types/StaffMessages';
 
 import {
 	Box,
@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Close, Check } from '@mui/icons-material';
 import { RedButton, GreenButton } from '../../dashboard/elements/styled-ui';
-import { CouchPerson } from '../../types/OverlayProps';
+import { CouchPerson } from '@asm-graphics/types/OverlayProps';
 
 const StaffMessagesContainer = styled.div`
 	height: calc(100% - 56px);

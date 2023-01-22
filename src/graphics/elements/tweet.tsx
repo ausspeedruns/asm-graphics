@@ -4,7 +4,7 @@ import _ from 'underscore';
 // @ts-ignore
 import Twemoji from 'react-twemoji';
 
-import { Tweet as ITweet } from '../../types/Twitter';
+import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
 
 const TweetContainer = styled.div`
 	position: absolute;

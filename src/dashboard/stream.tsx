@@ -1,14 +1,14 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { Config } from '../types/ConfigSchema';
+
 
 import { NoMargin } from './elements/no-margin';
 
 // @ts-ignore
 // import { TwitchPlayer } from 'react-twitch-embed';
 
-const TWITCHPARENTS = (nodecg.bundleConfig as Config).twitch.parents;
+const TWITCHPARENTS = nodecg.bundleConfig.twitch.parents;
 
 const Stream: React.FC = () => {
 	return (

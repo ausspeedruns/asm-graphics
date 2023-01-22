@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import styled, { keyframes } from 'styled-components';
 
-import { StaffMessage } from '../types/StaffMessages';
+import { StaffMessage } from '@asm-graphics/types/StaffMessages';
 
 import { darkTheme } from './theme';
 import { GreenButton, LightTextfield } from './elements/styled-ui';

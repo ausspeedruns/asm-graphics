@@ -33,8 +33,9 @@ This is only intended to be used as an *education tool*. Please learn from the c
 
 ## Features
 
-- Ticket/Omnibar system
-- Support for 12 aspect ratios
+- Ticker/Omnibar system
+- Support for 12 different game layouts
+- Race and Co-op
 - Couch and Host names
 - Audio indicators
 - Intermission screen
@@ -118,6 +119,7 @@ If you have [nodecg-cli](https://github.com/nodecg/nodecg-cli) installed just ru
 
 ## Events used in
 
+- ASGX2023
 - ASAP2022
 - ASM2022
 - PAX2021
@@ -137,7 +139,7 @@ asm-graphics is provided under the Mozilla Public License v2.0, which is availab
 
 ## Contributing
 
-Thank you for your interest in contributing to this project. While we welcome any issues or pull requests that you may have, please be aware that we may not be able to address all submissions or provide a response. If you would like to help with the development of this project, we recommend reaching out to us directly via the AusSpeedruns [Discord](http://discord.ausspeedruns.com/) or [Twitter](http://twitter.ausspeedruns.com/). This will allow us to discuss potential contributions and determine the best way for you to get involved. Thank you for your understanding.
+Thank you for your interest in contributing to this project. While we welcome any issues or pull requests that you may have, please be aware that we may not be able to address them or provide a response. If you would like to help with the development of this project, we recommend reaching out to us directly via the AusSpeedruns [Discord](http://discord.ausspeedruns.com/) or [Twitter](http://twitter.ausspeedruns.com/). This will allow us to discuss potential contributions and determine the best way for you to get involved.
 
 ## Credits
 

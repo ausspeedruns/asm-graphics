@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps, OverlayRef } from '../../types/OverlayProps';
+import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
 
 import { IVerticalStyling, VerticalInfo } from '../elements/info-box/vertical';
 import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
@@ -112,6 +112,9 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		},
 	}));
 
+	console.log(JSON.stringify(props.obsAudioIndicator))
+	// console.log(props.runData?.teams)
+
 	return (
 		<StandardContainer>
 			<Sidebar>
@@ -126,13 +129,12 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					height={352}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
-					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 					audioIndicator={props.obsAudioIndicator}
 				/>
 				<InfoBoxBG>
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch
-						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
+						couch={props.couchInformation}
 						audio={props.obsAudioIndicator}
 					/>
 					<SponsorBoxS

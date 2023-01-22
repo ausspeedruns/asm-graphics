@@ -1,21 +1,22 @@
 import * as nodecgApiContext from './nodecg-api-context';
 
-import { CouchInformation, NoCam } from '../types/OverlayProps';
-import { Donation } from '../types/Donations';
-import { Goal, War } from '../types/Incentives';
-import { Stream } from 'stream';
-import { CurrentOverlay } from '../types/CurrentOverlay';
-import { StaffMessage } from '../types/StaffMessages';
-import { Tweet } from '../types/Twitter';
-import { OBSAudioIndicator } from '../types/Audio';
+import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import type { Donation } from '@asm-graphics/types/Donations';
+import type { Goal, War } from '@asm-graphics/types/Incentives';
+import type { Stream } from '@asm-graphics/types/Streams';
+import type { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
+import type { StaffMessage } from '@asm-graphics/types/StaffMessages';
+import type { Tweet } from '@asm-graphics/types/Twitter';
+import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import type { User as AusSpeedrunsUser } from '@asm-graphics/types/AusSpeedrunsWebsite';
+import { X32Status } from '@asm-graphics/types/X32';
 
 const nodecg = nodecgApiContext.get();
 
 nodecg.log.info('Setting up replicants');
 
 /* Couch */
-nodecg.Replicant<CouchInformation>('couch-names', { defaultValue: { current: [], preview: [] } });
-nodecg.Replicant<NoCam>('no-cam', { defaultValue: { current: false, preview: false } });
+nodecg.Replicant<CouchPerson[]>('couch-names', { defaultValue: [] });
 
 /* Donations */
 nodecg.Replicant<number>('donationTotal', { defaultValue: 0 });
@@ -25,9 +26,8 @@ nodecg.Replicant<number>('manual-donation-total', { defaultValue: 0 });
 
 /* Audio */
 nodecg.Replicant<string>('audio-indicator', { defaultValue: '' });
-nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator', { defaultValue: [], persistenceInterval: 10 * 1000 });
-nodecg.Replicant<string[]>('obs-audio-inputs', { defaultValue: [] });
-nodecg.Replicant<number>('obs-audio-gate', { defaultValue: 0.7 });
+nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator', { defaultValue: [], persistent: false });
+nodecg.Replicant<number>('obs-audio-gate', { defaultValue: -10 });
 
 /* Incentives */
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
@@ -53,6 +53,7 @@ nodecg.Replicant<boolean>('obsConnection', { defaultValue: false, persistent: fa
 nodecg.Replicant<{ name: string, title: string }>('credits-name', { defaultValue: { name: '', title: '' } });
 
 /* Schedule Import */
+nodecg.Replicant<AusSpeedrunsUser[]>('all-usernames', { defaultValue: [] });
 
 /* X32 */
-
+nodecg.Replicant<X32Status>('x32:status', { defaultValue: "disconnected", persistent: false });

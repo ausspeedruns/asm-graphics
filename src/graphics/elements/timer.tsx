@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Timer as TimerType } from '../../types/Timer';
+import { Timer as TimerType } from '@asm-graphics/types/Timer';
 
 const TimerContainer = styled.div`
 	display: flex;

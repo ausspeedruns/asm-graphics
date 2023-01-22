@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-export interface MutableConfig {
+export interface ConfigSchema {
 	obs: {
 		enabled: boolean;
 		port: number;
@@ -34,8 +34,6 @@ export interface MutableConfig {
 		event: string;
 	}
 }
-
-export type Config = Readonly<MutableConfig>;
 
 interface GoogleCredentials {
 	enabled: boolean; // Custom added

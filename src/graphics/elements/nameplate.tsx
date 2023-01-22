@@ -4,7 +4,7 @@ import gsap from 'gsap';
 
 // @ts-ignore
 import TwitchLogo from '../media/TwitchGlitchPurple.svg';
-import { RunDataPlayer } from '../../types/RunData';
+import { RunDataPlayer } from '@asm-graphics/types/RunData';
 
 import { FitText } from './fit-text';
 
@@ -104,7 +104,7 @@ interface NameplateSide {
 // How many seconds it takes to fade between twitch and normal name
 const nameLoopLength = 90;
 
-export const Nameplate: React.FC<Props> = (props: Props) => {
+export const Nameplate = (props: Props) => {
 	const normalNameEl = useRef<HTMLDivElement>(null);
 	const twitchNameEl = useRef<HTMLDivElement>(null);
 

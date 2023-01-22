@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps } from '../../types/OverlayProps';
+import { OverlayProps } from '@asm-graphics/types/OverlayProps';
 
 import { VerticalInfo } from '../elements/info-box/vertical';
 import { SponsorsBox } from '../elements/sponsors';

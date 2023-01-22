@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { CouchInformation, CouchPerson } from '../types/OverlayProps';
+import { CouchPerson } from '@asm-graphics/types/OverlayProps';
 
 import {
 	Button,
@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import { darkTheme } from './theme';
-import { OBSAudioIndicator } from '../types/Audio';
+import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 
 const GreenButton = styled(Button)`
 	background-color: #4caf50 !important;
@@ -71,10 +71,7 @@ export const DashCouch: React.FC = () => {
 	const [localHostName, setLocalHostName] = useState('');
 	const [localHostPronoun, setLocalHostPronoun] = useState('');
 	const [localAudioGate, setLocalAudioGate] = useState(-25);
-	const [couchNamesRep] = useReplicant<CouchInformation, CouchInformation>('couch-names', {
-		current: [],
-		preview: [],
-	});
+	const [couchNamesRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
 	const [obsInputsRep] = useReplicant<string[], string[]>('obs-audio-inputs', []);
 	const [obsGateRep] = useReplicant<number, number>('obs-audio-gate', -25);
 	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('obs-audio-indicator', []);
@@ -93,10 +90,10 @@ export const DashCouch: React.FC = () => {
 
 	const addHost = () => {
 		let newNamesArray: CouchPerson[];
-		if (couchNamesRep.current.length > 0) {
-			newNamesArray = [...couchNamesRep.current, { name: localHostName, pronouns: localHostPronoun }];
+		if (couchNamesRep.length > 0) {
+			newNamesArray = [...couchNamesRep, { id: Date.now().toString(), name: localHostName, pronouns: localHostPronoun }];
 		} else {
-			newNamesArray = [{ name: localHostName, pronouns: localHostPronoun }];
+			newNamesArray = [{ id:  Date.now().toString(), name: localHostName, pronouns: localHostPronoun }];
 		}
 
 		nodecg.sendMessage('update-hostnames', newNamesArray);
@@ -106,12 +103,11 @@ export const DashCouch: React.FC = () => {
 	};
 
 	const updateAudioGate = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const value = parseFloat(event.target.value);
-		setLocalAudioGate(value);
-		nodecg.sendMessage('update-obs-gate', value);
+		setLocalAudioGate(event.target.valueAsNumber);
+		nodecg.sendMessage('update-obs-gate', event.target.valueAsNumber);
 	};
 
-	const allHostNames = couchNamesRep.current.map((person, index) => {
+	const allHostNames = couchNamesRep.map((person, index) => {
 		return (
 			<HostComponent
 				person={person}

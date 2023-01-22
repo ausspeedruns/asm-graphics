@@ -1,5 +1,5 @@
 import { OBSAudioIndicator } from './Audio';
-import { Asset } from './nodecg';
+import type NodeCG from '@alvancamp/test-nodecg-types';
 import { RunDataActiveRun } from './RunData';
 import { Timer } from './Timer';
 import { Tweet } from './Twitter';
@@ -11,27 +11,17 @@ export interface OverlayRef {
 export interface OverlayProps {
 	runData: RunDataActiveRun | undefined;
 	timer: Timer | undefined;
-	couchInformation: CouchInformation;
+	couchInformation: CouchPerson[];
 	preview?: boolean;
-	noCam: NoCam;
-	sponsors: Asset[];
+	sponsors: NodeCG.AssetFile[];
 	audioIndicator?: string;
 	obsAudioIndicator?: OBSAudioIndicator[];
 }
 
-export interface CouchInformation {
-	current: CouchPerson[];
-	preview: CouchPerson[];
-}
-
 export interface CouchPerson {
+	id: string;
 	name: string;
 	pronouns: string;
-	discordID?: string;
 	host?: boolean;
-}
-
-export interface NoCam {
-	preview: boolean;
-	current: boolean;
+	microphone?: string;
 }

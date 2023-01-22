@@ -1,4 +1,4 @@
-import { Donation, Campaign as CampaignData } from '../../../types/Tiltify';
+import { Donation, Campaign as CampaignData } from '@asm-graphics/types/Tiltify';
 import TiltifyClient from './tiltify-api';
 
 class Campaign {

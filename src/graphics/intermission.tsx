@@ -7,9 +7,9 @@ import gsap from 'gsap';
 import { format } from 'date-fns';
 // import { useFetch } from 'use-http';
 
-import { RunDataArray, RunDataActiveRun } from '../types/RunData';
-import { Tweet as ITweet } from '../types/Twitter';
-import { CouchInformation, CouchPerson } from '../types/OverlayProps';
+import { RunDataArray, RunDataActiveRun } from '@asm-graphics/types/RunData';
+import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
+import { CouchInformation, CouchPerson } from '@asm-graphics/types/OverlayProps';
 
 import { InterCTA } from './elements/intermission/cta';
 import { InterIncentives } from './elements/intermission/incentives';
@@ -21,14 +21,14 @@ import Mic from '@mui/icons-material/Mic';
 import MusicIconImg from './media/MusicIcon.svg';
 import ASAP2022Vertical from './media/Sponsors/PAXVertical.svg';
 import { SponsorsBox } from './elements/sponsors';
-import { Goal, War } from '../types/Incentives';
+import { Goal, War } from '@asm-graphics/types/Incentives';
 import { IntermissionAds, IntermissionAdsRef } from './elements/intermission/ad';
 import { PaxCircles } from './elements/pax-circles';
 
 // @ts-ignore
 import Twemoji from 'react-twemoji';
 import _ from 'underscore';
-import NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@alvancamp/test-nodecg-types';
 
 const IntermissionContainer = styled.div`
 	position: relative;

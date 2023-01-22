@@ -4,8 +4,8 @@ import styled, { keyframes } from 'styled-components';
 import { useReplicant, useListenFor } from 'use-nodecg';
 import _ from 'underscore';
 
-import { Tweet } from '../../types/Twitter';
-import { Config } from '../../types/ConfigSchema';
+import { Tweet } from '@asm-graphics/types/Twitter';
+
 
 import { GreenButton, RedButton } from '../../dashboard/elements/styled-ui';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';

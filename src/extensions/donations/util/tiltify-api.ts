@@ -69,7 +69,7 @@ export class TiltifyClient {
 		const options: AxiosRequestConfig = {
 			url: url,
 			headers: {
-				Authorization: `Bearer ${this.apiKey}`
+				Authorization: `Bearer ${this.apiKey}`,
 			},
 			responseType: 'json',
 			httpsAgent: httpsAgent
@@ -86,7 +86,7 @@ export class TiltifyClient {
 	 * _sendRequest is used for all endpoints, but only has a recursive
 	 * effect when called againt an endpoint that contains a `links.prev` string
 	 * @param {string} path The path, without /api/v3/.
-	 * @param {function} callback A function to call when we're done processing.
+	 * @param {Function} callback A function to call when we're done processing.
 	 */
 	async _sendRequest<TItem>(path: string, callback: (results: TItem) => void) {
 		const response = await this._doRequest(path)

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps } from '../../types/OverlayProps';
+import { OverlayProps } from '@asm-graphics/types/OverlayProps';
 
 import { ISmallStyling, SmallInfo } from '../elements/info-box/small';
 import { Facecam } from '../elements/facecam';

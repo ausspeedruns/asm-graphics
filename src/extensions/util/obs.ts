@@ -2,10 +2,8 @@
 import * as nodecgApiContext from '../nodecg-api-context';
 import OBSWebSocket, { EventSubscription } from 'obs-websocket-js';
 
-import { Config } from '../../types/ConfigSchema';
-
 const nodecg = nodecgApiContext.get();
-const ncgOBSConfig = (nodecg.bundleConfig as Readonly<Config>).obs;
+const ncgOBSConfig = nodecg.bundleConfig.obs;
 const obsConnectionRep = nodecg.Replicant<boolean>('obsConnection');
 
 // Extending the OBS library with some of our own functions.

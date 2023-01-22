@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import clone from 'clone';
 
-import { RunDataArray, RunData } from '../../types/RunData';
+import { RunDataArray, RunData } from '@asm-graphics/types/RunData';
 
 import { Box } from '@mui/material';
 

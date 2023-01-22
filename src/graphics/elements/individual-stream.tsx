@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Config } from '../../types/ConfigSchema';
 
-const PARENTS = (nodecg.bundleConfig as Config).twitch.parents;
+
+const PARENTS = nodecg.bundleConfig.twitch.parents;
 
 interface ASMStreamProps {
 	channel: string;

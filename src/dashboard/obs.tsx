@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { CurrentOverlay } from '../types/CurrentOverlay';
-import { Stream as TwitchStream } from '../types/Streams';
-// import { RunDataActiveRun } from '../types/RunData';
-import { Config } from '../types/ConfigSchema';
+import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
+import { Stream as TwitchStream } from '@asm-graphics/types/Streams';
+// import { RunDataActiveRun } from '@asm-graphics/types/RunData';
+
 
 import {
 	ThemeProvider,
@@ -32,8 +32,8 @@ import { darkTheme } from './theme';
 import { ASMStream } from '../graphics/elements/individual-stream';
 import { StreamSwitcher } from './elements/stream-switcher';
 import { StreamAudio } from './elements/stream-audio';
-import { RunData } from '../types/RunData';
-import { OBSAudioIndicator } from '../types/Audio';
+import { RunData } from '@asm-graphics/types/RunData';
+import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 
 const SideTitle = styled.span`
 	font-weight: bold;

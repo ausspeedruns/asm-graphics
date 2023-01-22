@@ -1,7 +1,7 @@
 import * as nodecgApiContext from './nodecg-api-context';
 import Filter from 'bad-words';
 
-import { Tweet } from '../types/Twitter';
+import { Tweet } from '@asm-graphics/types/Twitter';
 
 const nodecg = nodecgApiContext.get();
 

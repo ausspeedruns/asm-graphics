@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useListenFor, useReplicant } from 'use-nodecg';
-import { Goal, War } from '../types/Incentives';
-import { Asset } from '../types/nodecg';
-import { CouchInformation } from '../types/OverlayProps';
-import { RunDataArray, RunDataActiveRun } from '../types/RunData';
-import { Tweet } from '../types/Twitter';
+import { Goal, War } from '@asm-graphics/types/Incentives';
+import { Asset } from '@asm-graphics/types/nodecg';
+import { CouchInformation } from '@asm-graphics/types/OverlayProps';
+import { RunDataArray, RunDataActiveRun } from '@asm-graphics/types/RunData';
+import { Tweet } from '@asm-graphics/types/Twitter';
 
 import { IntermissionElement, IntermissionRef } from './intermission';
 

@@ -1,9 +1,9 @@
 // Mostly handles the activation and deactivation of incentives
-import { Goal, War } from '../types/Incentives';
+import { Goal, War } from '@asm-graphics/types/Incentives';
 import * as nodecgApiContext from './nodecg-api-context';
 import { request, gql } from 'graphql-request';
 import { z } from 'zod';
-import { Config } from '@asm-graphics/types/ConfigSchema';
+
 
 const nodecg = nodecgApiContext.get();
 
@@ -58,7 +58,7 @@ const incentiveSchema = z.object({
 	]))
 });
 
-if ((nodecg.bundleConfig as Config).graphql?.url) {
+if (nodecg.bundleConfig.graphql?.url) {
 	setInterval(async () => {
 		getIncentives();
 	}, 5000);
@@ -75,14 +75,14 @@ nodecg.listenFor('updateIncentives', () => {
 });
 
 async function getIncentives() {
-	if ((nodecg.bundleConfig as Config)?.graphql === undefined) return;
+	if (nodecg.bundleConfig?.graphql === undefined) return;
 
 	try {
 		const results = await request(
-			(nodecg.bundleConfig as Config).graphql!.url,
+			nodecg.bundleConfig.graphql!.url,
 			gql`
 				query {
-					incentives(where: { event: { shortname: { equals: "${(nodecg.bundleConfig as Config).graphql!.event}" } } }) {
+					incentives(where: { event: { shortname: { equals: "${nodecg.bundleConfig.graphql!.event}" } } }) {
 						id
 						run {
 							game

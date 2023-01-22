@@ -1,6 +1,6 @@
 import * as nodecgApiContext from './nodecg-api-context';
 
-import {StaffMessage} from '../types/StaffMessages';
+import {StaffMessage} from '@asm-graphics/types/StaffMessages';
 
 const nodecg = nodecgApiContext.get();
 

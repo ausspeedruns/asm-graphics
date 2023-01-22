@@ -4,45 +4,14 @@ import { z } from 'zod';
 import { RunDataArray, RunDataPlayer, RunDataTeam } from '@asm-graphics/types/RunData';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
-import { Config } from '@asm-graphics/types/ConfigSchema';
 
 const nodecg = nodecgApiContext.get();
 
 const SPEEDCONTROL_runDataArray = nodecg.Replicant<RunDataArray>('runDataArray', 'nodecg-speedcontrol');
 
-// const scheduleEventsListRep = nodecg.Replicant<string[]>('schedule-import:events');
-
-// const scheduleEventsListSchema = z.object({
-// 	events: z.array(z.object({
-// 		shortname: z.string()
-// 	})),
-// });
-
-// async function getEventsList() {
-// 	try {
-// 		console.log("Getting events list")
-// 		const results = await request(
-// 			nodecg.bundleConfig?.graphql.url,
-// 			gql`
-// 				query {
-// 					events {
-// 						shortname
-// 					}
-// 				}
-// 		`);
-// 		console.log(results)
-
-// 		scheduleEventsListRep.value = scheduleEventsListSchema.parse(results).events.map(event => event.shortname);
-// 	} catch (error) {
-// 		nodecg.log.error('[GraphQL Schedule Import]: ' + error);
-// 	}
-// }
-
-// getEventsList();
-
 const SCHEDULE_QUERY = gql`
 	query {
-		event(where: { shortname: "${(nodecg.bundleConfig as Config).graphql?.event}" }) {
+		event(where: { shortname: "${nodecg.bundleConfig.graphql?.event}" }) {
 			runs(orderBy: {scheduledTime: asc}) {
 				id
 				game
@@ -85,10 +54,10 @@ const scheduleSchema = z.object({
 });
 
 async function getSchedule() {
-	if ((nodecg.bundleConfig as Config).graphql === undefined) return;
+	if (nodecg.bundleConfig.graphql === undefined) return;
 
 	try {
-		const results = await request((nodecg.bundleConfig as Config).graphql!.url, SCHEDULE_QUERY);
+		const results = await request(nodecg.bundleConfig.graphql.url, SCHEDULE_QUERY);
 
 		return scheduleSchema.parse(results).event.runs;
 	} catch (error) {

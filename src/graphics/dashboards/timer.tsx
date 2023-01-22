@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { Timer as TimerI } from '../../types/Timer';
+import { Timer as TimerI } from '@asm-graphics/types/Timer';
 
 import { Button, Box, Tooltip } from '@mui/material';
 import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from '@mui/icons-material';
-import { RunDataActiveRun, RunDataTeam } from '../../types/RunData';
+import { RunDataActiveRun, RunDataTeam } from '@asm-graphics/types/RunData';
 
 const TimerContainer = styled.div`
 	padding: 8px;

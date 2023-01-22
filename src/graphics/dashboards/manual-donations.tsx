@@ -5,7 +5,7 @@ import _, { uniqueId } from 'underscore';
 import { Box, Grid, TextField, Tooltip } from '@mui/material';
 import { Check } from '@mui/icons-material';
 
-import { Donation } from '../../types/Donations';
+import { Donation } from '@asm-graphics/types/Donations';
 
 import { GreenButton, RedButton } from '../../dashboard/elements/styled-ui';
 

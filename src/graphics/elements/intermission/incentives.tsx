@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
 
-import { Goal, War } from '../../../types/Incentives';
+import { Goal, War } from '@asm-graphics/types/Incentives';
 
 import { InterIncentWars, WarGame } from './incent-wars';
 import { GoalBar, InterIncentGoal } from './incent-goal';

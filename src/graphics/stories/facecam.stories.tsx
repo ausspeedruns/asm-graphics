@@ -9,7 +9,7 @@ export default {
 	component: Facecam,
 } as ComponentMeta<typeof Facecam>;
 
-const Template: ComponentStory<typeof Facecam> = (args) => <Facecam {...args} />;
+const Template: ComponentStory<typeof Facecam> = (args) => <div style={{maxWidth: 550, border: '2px solid red'}}><Facecam {...args} /></div>;
 
 export const Primary = Template.bind({});
 Primary.args = {

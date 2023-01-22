@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { OverlayProps, OverlayRef } from '../../types/OverlayProps';
+import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
 
 import { WideInfo } from '../elements/info-box/wide';
 import { Facecam } from '../elements/facecam';

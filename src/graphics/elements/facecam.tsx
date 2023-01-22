@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { OBSAudioIndicator } from '../../types/Audio';
+import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 
-import { RunDataTeam } from '../../types/RunData';
+import { RunDataTeam } from '@asm-graphics/types/RunData';
 
 import { Nameplate } from './nameplate';
 
@@ -37,7 +37,7 @@ interface FacecamProps {
 const NAMEPLATE_HEIGHT = 41;
 const NAMEPLATE_HEIGHT_VERTICAL = 61;
 
-export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
+export const Facecam = (props: FacecamProps) => {
 	let allRunnerNames: JSX.Element[] = [];
 
 	if (!props.teams) {
@@ -103,7 +103,7 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 								fontSize: 25,
 							}}
 							key={player.id}
-							speaking={props.audioIndicator?.find((audio) => audio.id === player.id)?.active}
+							speaking={props.audioIndicator?.find((audio) => audio.id === player.customData.microphone)?.active}
 						/>,
 					);
 					allRunnerNames.push(
@@ -136,7 +136,7 @@ export const Facecam: React.FC<FacecamProps> = (props: FacecamProps) => {
 					maxWidth={props.maxNameWidth}
 					key={player.id}
 					player={player}
-					speaking={props.audioIndicator?.find((audio) => audio.id === player.id)?.active}
+					speaking={props.audioIndicator?.find((audio) => audio.id === player.customData.microphone)?.active}
 					vertical={props.teams![0].players.length > 1 ? props.verticalCoop : false}
 				/>,
 			);

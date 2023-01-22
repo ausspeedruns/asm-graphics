@@ -1,14 +1,15 @@
+import type NodeCG from '@alvancamp/test-nodecg-types';
+import type { DeepReadonly } from '@alvancamp/test-nodecg-types/faux_modules/ts-essentials';
+import type { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
 import * as nodecgApiContext from './nodecg-api-context';
 
-import { Config } from '../types/ConfigSchema';
+let ncgConfig: DeepReadonly<ConfigSchema>;
 
-let ncgConfig: Config;
-
-module.exports = (nodecg: any) => {
+module.exports = (nodecg: NodeCG.ServerAPI<ConfigSchema>) => {
 	// Store a reference to this nodecg API context in a place where other libs can easily access it.
 	// This must be done before any other files are `require`d.
 	nodecgApiContext.set(nodecg);
-	ncgConfig = nodecg.bundleConfig as Config;
+	ncgConfig = nodecg.bundleConfig;
 	init().then(() => {
 		nodecg.log.info('Initialization successful.');
 	}).catch(error => {
@@ -45,4 +46,6 @@ async function init() {
 	require('./staff-messages');
 	require('./donations');
 	require('./schedule-import');
+	require('./ausspeedruns-website');
+	require('./x32');
 }

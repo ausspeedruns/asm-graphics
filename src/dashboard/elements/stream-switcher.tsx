@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Stream } from '../../types/Streams';
+import { Stream } from '@asm-graphics/types/Streams';
 
 // import { Button, ButtonGroup, SvgIcon } from '@mui/material';
 import { Close } from '@mui/icons-material';

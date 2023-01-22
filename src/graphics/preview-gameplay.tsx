@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
 import { GameplayRouterParent } from './gameplay-overlay';
-import { Stream as TwitchStream } from '../types/Streams';
+import { Stream as TwitchStream } from '@asm-graphics/types/Streams';
 
 import { ASMStream } from './elements/individual-stream';
 

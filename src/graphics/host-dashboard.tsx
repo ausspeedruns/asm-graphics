@@ -26,9 +26,9 @@ import { Twitter } from './dashboards/tweets';
 import { ManualDonations } from './dashboards/manual-donations';
 import { Timer } from './dashboards/timer';
 import { HostName } from './dashboards/host-name';
-import { Config } from '../types/ConfigSchema';
 
-const TWITCHPARENTS = (nodecg.bundleConfig as Config).twitch.parents;
+
+const TWITCHPARENTS = nodecg.bundleConfig.twitch.parents;
 
 const HostDashContainer = styled.div`
 	// height: 1007px;

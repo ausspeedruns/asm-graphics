@@ -4,8 +4,8 @@ import gsap from 'gsap';
 
 import { Tweet } from './tweet';
 
-import NodeCG from '@alvancamp/test-nodecg-types';
-import { Tweet as ITweet } from '../../types/Twitter';
+import type NodeCG from '@alvancamp/test-nodecg-types';
+import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
 
 const SponsorsContainer = styled.img`
 	object-fit: contain;

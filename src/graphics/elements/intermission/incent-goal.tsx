@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { Goal } from '../../../types/Incentives';
+import { Goal } from '@asm-graphics/types/Incentives';
 import { TickerItemHandles } from './incentives';
 
 import { FitText } from '../fit-text';

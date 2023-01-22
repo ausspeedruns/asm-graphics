@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 
 import { FitText } from '../fit-text';
 
-import { RunData } from '../../../types/RunData';
+import { RunData } from '@asm-graphics/types/RunData';
 
 const InterNextRunItemContainer = styled.div`
 	height: 100%;

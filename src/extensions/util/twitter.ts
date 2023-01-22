@@ -1,11 +1,10 @@
 import * as nodecgApiContext from '../nodecg-api-context';
 import needle from 'needle';
 
-import { Config } from '../../types/ConfigSchema';
-import * as TwitterTypes from '../../types/Twitter';
+import * as TwitterTypes from '@asm-graphics/types/Twitter';
 
 const nodecg = nodecgApiContext.get();
-const ncgTwitterConfig = (nodecg.bundleConfig as Readonly<Config>).twitter;
+const ncgTwitterConfig = nodecg.bundleConfig.twitter;
 
 const token = ncgTwitterConfig.bearer || '';
 

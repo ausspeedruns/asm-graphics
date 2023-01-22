@@ -4,8 +4,8 @@ import { useReplicant } from 'use-nodecg';
 
 import { Box, Grid } from '@mui/material';
 
-import { Goal, War } from '../../types/Incentives';
-import { RunData } from '../../types/RunData';
+import { Goal, War } from '@asm-graphics/types/Incentives';
+import { RunData } from '@asm-graphics/types/RunData';
 
 const IncentivesContainer = styled.div`
 	display: flex;
