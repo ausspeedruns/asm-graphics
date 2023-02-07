@@ -10,13 +10,20 @@ import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { PersonCompressed } from '../elements/couch';
-
-import { PaxCircles } from '../elements/pax-circles';
-import PAXStars from '../media/Stars.png';
+import { Egg } from '../elements/greeble/tgx/egg';
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
+`;
+
+const WholeGraphicClip = styled.div`
+	position: absolute;
+	width: 1920px;
+	height: 1016px;
+	/* clip-path: path('M1920 0H0V340H666V0H1254V340H1920ZM1920 882H0V1016H1920Z'); */
+	clip-path: path('M 1920 0 H 1254 V 341 H 1921 Z M 666 0 H 0 V 341 H 666 M 1920 882 H 0 V 1016 H 1920 Z');
+	background: var(--main);
 `;
 
 const Topbar = styled.div`
@@ -34,35 +41,6 @@ const RightBox = styled.div`
 	/* background: var(--main); */
 	display: flex;
 	flex-direction: column;
-`;
-
-const PAXGlow = styled.div`
-	position: absolute;
-	width: 1920px;
-	height: 1156px;
-	left: 0px;
-	top: -102px;
-
-	background: radial-gradient(50% 50% at 50% 50%, #785E16 36.97%, #000000 100%);
-
-	clip-path: path('M1920 0H0V443H666V102H1254V443H1920ZM1920 984H0V1118H1920Z');
-`;
-
-const PaxCirclesStyled = styled(PaxCircles)`
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: flex;
-	height: 1080px;
-	width: 1920px;
-	justify-content: center;
-	align-items: center;
-	clip-path: path('M1920 0H0V341H666V0H1254V341H1920Z	M1920 882H0V1016H1920Z');
-
-	& img {
-		width: 150%;
-		height: auto;
-	}
 `;
 
 const SponsorSize = {
@@ -90,9 +68,7 @@ const BottomBlock = styled.div`
 	top: 881px;
 	height: 135px;
 	width: 1920px;
-	background: var(--main);
-	background-image: url('${PAXStars}');
-	border-bottom: 1px solid var(--sec);
+	/* border-bottom: 1px solid var(--sec); */
 	border-top: 1px solid var(--sec);
 	box-sizing: border-box;
 	overflow: hidden;
@@ -103,6 +79,24 @@ const BottomBlock = styled.div`
 	background-position: center;
 	background-size: cover;
 	mix-blend-mode: screen;
+`;
+
+const TGXDivider = styled.div`
+	position: absolute;
+	bottom: -34px;
+	width: 1920px;
+	height: 1px;
+	background: linear-gradient(
+		90deg,
+		var(--tgx-red) 0%,
+		var(--tgx-red) 25%,
+		var(--tgx-yellow) 25%,
+		var(--tgx-yellow) 50%,
+		var(--tgx-blue) 50%,
+		var(--tgx-blue) 75%,
+		var(--tgx-green) 75%,
+		var(--tgx-green) 100%
+	);
 `;
 
 const BespokeCouch = styled.div`
@@ -127,6 +121,35 @@ const customSmallStyling: ISmallStyling = {
 		// background: 'var(--main)',
 	},
 };
+
+// TGX EGGS
+const RedEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(-83deg);
+    top: 796px;
+    left: 1743px;
+`;
+
+const YellowEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(138deg);
+    top: -188px;
+    left: 1212px;
+`;
+
+const BlueEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(103deg);
+    top: -6px;
+    left: -202px;
+`;
+
+const GreenEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(19deg);
+    top: 925px;
+    left: -51px;
+`;
 
 export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	const sponsorRef = useRef<SponsorBoxRef>(null);
@@ -195,20 +218,19 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 	}
 
 	// Custom couch so here is couch code
-	const host = (props.preview ? props.couchInformation.preview : props.couchInformation.current).find(
-		(person) => person.host,
-	);
+	const host = props.couchInformation.find((person) => person.host);
 
 	// Remove host from array now
-	const couch = (props.preview ? props.couchInformation.preview : props.couchInformation.current).filter(
-		(person) => !person.host,
-	);
+	const couch = props.couchInformation.filter((person) => !person.host);
 
 	return (
 		<Widescreen2Container>
-			<PAXGlow />
-			<PaxCirclesStyled />
-
+			<WholeGraphicClip>
+				<RedEgg colour="Red" />
+				<YellowEgg colour="Yellow" />
+				<BlueEgg colour="Blue" />
+				<GreenEgg colour="Green" />
+			</WholeGraphicClip>
 			<Topbar>
 				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 
@@ -237,7 +259,6 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					}}
 					teams={props.runData?.teams}
 					maxNameWidth={190}
-					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 					audioIndicator={props.obsAudioIndicator}
 				/>
 
@@ -257,9 +278,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 			<CentralDivider />
 			<BottomBlock>
 				<BespokeCouch>
-					<CouchLabel>
-						{props.couchInformation.current.length > 1 ? 'Commentators' : 'Commentator'}
-					</CouchLabel>
+					<CouchLabel>{props.couchInformation.length > 1 ? 'Commentators' : 'Commentator'}</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
 					{couch.map((person) => {
 						return (
@@ -280,6 +299,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					)}
 				</BespokeCouch>
 			</BottomBlock>
+			<TGXDivider />
 
 			{/* <svg id="widescreen2Clip">
 				<defs>

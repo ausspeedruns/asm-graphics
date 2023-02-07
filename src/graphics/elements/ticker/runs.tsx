@@ -33,7 +33,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 		.slice(currentRunIndex + 1)
 		.slice(0, numOfUpcomingRuns);
 
-	const RunsArray = upcomingRuns.map((run) => {
+	const RunsArray = upcomingRuns.map((run, i) => {
 		let playerNames;
 		if (run.teams.length === 0) {
 			playerNames = '';
@@ -45,7 +45,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 				.join(' vs ');
 		}
 
-		return <TickerItem title={run.game || ''} sub={playerNames || ''} key={run.id} />;
+		return <TickerItem title={run.game || ''} sub={playerNames || ''} key={run.id} index={i} />;
 	});
 
 	useImperativeHandle(ref, () => ({
@@ -63,7 +63,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 
 	return (
 		<TickerRunsContainer ref={containerRef}>
-			<TickerTitle>Coming Up</TickerTitle>
+			<TickerTitle style={{background: 'var(--tgx-red)', color: 'var(--text-light)'}}>Coming Up</TickerTitle>
 			{RunsArray}
 		</TickerRunsContainer>
 	);

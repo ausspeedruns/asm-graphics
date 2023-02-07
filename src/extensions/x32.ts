@@ -55,7 +55,7 @@ const HEARTBEAT_TIMEOUT = HEARTBEAT_INTERVAL * 6;
 
 const channelToReplicantMap: { [key: number]: ChannelObject } = {};
 const mixerConfig: MixerConfig = {
-	address: "169.254.240.215",
+	address: nodecg.bundleConfig.x32?.ip,
 	gameAudioChannels: [{ hd: 1 }]
 };
 mixerConfig.gameAudioChannels.forEach((item, index) => {

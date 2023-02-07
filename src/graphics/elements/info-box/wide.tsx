@@ -7,12 +7,9 @@ import { Timer as ITimer } from '@asm-graphics/types/Timer';
 import { Timer } from '../timer';
 import * as RunInfo from '../run-info';
 
-import { PaxCircles } from '../pax-circles';
-
 const WideInfoContainer = styled.div`
-	/* background: linear-gradient(0deg, #FFC629 0%, rgba(255, 198, 41, 0) 33.34%, rgba(255, 198, 41, 0) 66.67%, #FFC629 100%); */
-	background: linear-gradient(90deg, #785E16 0% 0%, #000000 33.34%, #000000 66.67%, #785E16 100%);
-	border-bottom: 1px var(--sec) solid;
+	background: var(--main);
+	/* border-bottom: 1px var(--sec) solid; */
 	position: absolute;
 	height: 156px;
 	width: 1920px;
@@ -69,7 +66,6 @@ export const WideInfo: React.FC<Props> = (props: Props) => {
 	const styles = {...DefaultWideStyling, ...props.style};
 	return (
 		<WideInfoContainer className={props.className} style={styles.mainStyle}>
-			<PaxCircles style={{position: 'absolute', width: '100%'}} />
 			<VerticalStack style={{ flexGrow: 1 }}>
 				<RunInfo.GameTitle
 					maxWidth={styles.maxTextWidth!}

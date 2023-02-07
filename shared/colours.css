@@ -1,13 +1,20 @@
 body {
 	margin: 0;
-	--main: #000000;
-	--main-dark: #16223a;
-	--sec: #ffc62f;
-	--accent: #cdde00;
+	--main: #191919;
+	--main-lighter: #606060;
+	--sec: #ffffff;
+	--accent: #ffffff;
 	--asm-orange: #cc7722;
 	--text-light: #ffffff;
 	--text-dark: #000000;
 	--orange-400: #ffa651;
 	--orange-600: #964a00;
 	--orange-500: #cc7722;
+	--tgx-red: #f80023;
+	--tgx-yellow: #ffc300;
+	--tgx-blue: #007eff;
+	--tgx-green: #00c091;
+	--main-font: 'Helvetica Now Display';
+	--seconday-font: 'Helvetica Now Display';
+	--mono-font: 'Noto Sans';
 }

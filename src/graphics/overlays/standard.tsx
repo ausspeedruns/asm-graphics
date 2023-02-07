@@ -7,9 +7,7 @@ import { IVerticalStyling, VerticalInfo } from '../elements/info-box/vertical';
 import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { Couch } from '../elements/couch';
-
-import StarsBG from '../media/Stars.png';
-import { PaxCircles } from '../elements/pax-circles';
+import { Egg } from '../elements/greeble/tgx/egg';
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -24,52 +22,30 @@ const Sidebar = styled.div`
 	overflow: hidden;
 `;
 
-const Background = styled.img`
-	mix-blend-mode: screen;
-	position: absolute;
-	bottom: 20px;
-	width: 200%;
-	transform-origin: center;
-	transform: translateY(50%);
-`;
-
-const Background2 = styled(Background)`
-	right: 0;
-`;
-
-const PAXGlow = styled.div`
-	position: absolute;
-	width: 1114px;
-	height: 673px;
-	left: -274px;
-	bottom: 0;
-	transform-origin: center;
-	transform: translateY(50%);
-
-	background: radial-gradient(50% 50% at 50% 50%, rgba(255, 198, 41, 0.96) 0%, rgba(255, 198, 41, 0) 100%);
-	background-blend-mode: screen;
-	mix-blend-mode: screen;
-	opacity: 0.5;
-`;
-
-const PAXCirclesStandard = styled(PaxCircles)`
-	position: absolute;
-	width: 300%;
-	bottom: 0;
-	display: flex;
-	justify-content: center;
-	transform: translate(-33.5%, 50%);
-	clip-path: path('M0 180H2000V1080H0Z');
+const TGXDivider = styled.div`
+	height: 1px;
+	background: linear-gradient(
+		90deg,
+		var(--tgx-red) 0%,
+		var(--tgx-red) 25%,
+		var(--tgx-yellow) 25%,
+		var(--tgx-yellow) 50%,
+		var(--tgx-blue) 50%,
+		var(--tgx-blue) 75%,
+		var(--tgx-green) 75%,
+		var(--tgx-green) 100%
+	);
 `;
 
 const InfoBoxBG = styled.div`
-	border-top: 1px solid var(--sec);
+	/* border-top: 1px solid var(--sec); */
 	background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
 	height: 664px;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -103,6 +79,36 @@ const customVerticalStyle: IVerticalStyling = {
 	timerStackHeight: 200,
 };
 
+// TGX EGGS
+const RedEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(-49deg);
+	top: 687px;
+	left: 503px;
+`;
+
+const YellowEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(169deg);
+	top: 122px;
+    left: 371px;
+`;
+
+const BlueEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(130deg);
+	top: 364px;
+	left: -182px;
+	z-index: -1;
+`;
+
+const GreenEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(32deg);
+	top: 825px;
+    left: -171px;
+`;
+
 export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	const sponsorRef = useRef<SponsorBoxRef>(null);
 
@@ -112,31 +118,28 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		},
 	}));
 
-	console.log(JSON.stringify(props.obsAudioIndicator))
+	console.log(JSON.stringify(props.obsAudioIndicator));
 	// console.log(props.runData?.teams)
 
 	return (
 		<StandardContainer>
 			<Sidebar>
-				{/* <div style={{ position: 'absolute', bottom: 0 }}> */}
-				<PAXCirclesStandard />
-				{/* </div> */}
-				<Background src={StarsBG} />
-				<Background2 src={StarsBG} />
-				<PAXGlow />
 				<Facecam
 					maxNameWidth={400}
 					height={352}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
 					audioIndicator={props.obsAudioIndicator}
+					verticalCoop
 				/>
+				<TGXDivider />
 				<InfoBoxBG>
+					<RedEgg colour='Red' />
+					<YellowEgg colour='Yellow' />
+					<BlueEgg colour='Blue' />
+					<GreenEgg colour='Green' />
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-					<Couch
-						couch={props.couchInformation}
-						audio={props.obsAudioIndicator}
-					/>
+					<Couch couch={props.couchInformation} audio={props.obsAudioIndicator} />
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

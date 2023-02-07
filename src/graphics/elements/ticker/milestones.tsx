@@ -30,7 +30,6 @@ const NextMilestone = styled.div`
 
 const NextMilestoneEvent = styled.span`
 	font-size: 20px;
-	margin-bottom: -10px;
 `;
 
 const NextMilestoneTotal = styled.span`
@@ -73,34 +72,53 @@ const CurrentAmount = styled(NextMilestoneTotal)`
 	text-align: right;
 `;
 
-const MILESTONES = [
+const NUMBER_MILESTONES = [
 	{ event: 'Start', total: 0 },
+	{ event: '', total: 1000 },
+	{ event: '', total: 2000 },
+	{ event: '', total: 5000 },
+	{ event: '', total: 7500 },
+	{ event: '', total: 10000 },
+	{ event: '', total: 25000 },
+	{ event: '', total: 50000 },
+	{ event: '', total: 75000 },
+	{ event: '', total: 100000 },
+].sort((a, b) => a.total - b.total);
+
+// @ts-ignore
+const ASM_MILESTONES = [
 	{ event: 'ASM2016', total: 3066.52 },
-	{ event: 'PAX2017', total: 3200 },
 	{ event: 'ASM2017', total: 3271 },
 	{ event: 'ASM2018', total: 5091.84 },
 	{ event: 'ASM2019', total: 7026.63 },
-	{ event: 'PAX2019', total: 7181.73 },
 	{ event: 'ASM2020', total: 13069.69 },
-	{ event: 'FAST2020', total: 7033 },
 	{ event: 'ASM2021', total: 15000 },
-	{ event: 'PAX2021', total: 7222.37 },
 	{ event: 'ASM2022', total: 24551 },
-	{ event: '$30K?', total: 30000 },
-	{ event: '$50K?', total: 50000 },
-	{ event: '$75K?', total: 75000 },
-	{ event: '$100K?!', total: 100000 },
 ].sort((a, b) => a.total - b.total);
+
+// @ts-ignore
+const PAX_MILESTONES = [
+	{ event: 'PAX2017', total: 3200 },
+	{ event: 'PAX2019', total: 7181.73 },
+	{ event: 'PAX2021', total: 7222.37 },
+	{ event: 'ASAP2022', total: 8348.56 },
+].sort((a, b) => a.total - b.total);
+
+// @ts-ignore
+const MISC_MILESTONES = [{ event: 'FAST2020', total: 7033 }].sort((a, b) => a.total - b.total);
 
 interface Props {
 	currentTotal: number;
 }
 
+// Milestones to use for the events
+const MILESTONES = NUMBER_MILESTONES;
+
 export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 
-	const prevMilestoneArray = MILESTONES.filter((milestone) => props.currentTotal > milestone.total);
+	const prevMilestoneArray = MILESTONES.filter((milestone) => props.currentTotal >= milestone.total);
 	const nextMilestone = MILESTONES.find((milestone) => props.currentTotal < milestone.total);
 
 	if (prevMilestoneArray.length === 0) prevMilestoneArray.push({ event: 'Start!', total: 0 });
@@ -115,10 +133,6 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
-			if (!percentage) {
-				return tl;
-			}
-
 			// Start
 			tl.set(progressBarRef.current, { width: 0 });
 			tl.set(containerRef.current, { y: -64 });
@@ -166,7 +180,9 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 				</ProgressBarContainer>
 			</ProgressContainer>
 			<NextMilestone>
-				<NextMilestoneEvent>{nextMilestone.event}</NextMilestoneEvent>
+				<NextMilestoneEvent style={{ marginBottom: nextMilestone.event ? -14 : 0 }}>
+					{nextMilestone.event}
+				</NextMilestoneEvent>
 				<NextMilestoneTotal>${Math.floor(nextMilestone.total).toLocaleString()}</NextMilestoneTotal>
 			</NextMilestone>
 		</TickerMilestonesContainer>

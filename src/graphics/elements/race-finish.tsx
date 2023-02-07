@@ -17,7 +17,7 @@ const AnimatedContainer = styled.div`
 	box-sizing: border-box;
 	font-size: 22px;
 	color: #ffffff;
-	font-family: Nasalization;
+	font-family: var(--main-font);
 `;
 
 const Position = styled.div`

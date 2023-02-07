@@ -7,6 +7,9 @@ import { DefaultPlayer } from './defaults';
 export default {
 	title: 'Ticker',
 	component: Ticker,
+	argTypes: {
+		donationAmount: { control: { type: 'range', min: 0, max: 100000, step: 1 } }
+	}
 } as ComponentMeta<typeof Ticker>;
 
 const Template: ComponentStory<typeof Ticker> = (args) => <Ticker {...args} />;

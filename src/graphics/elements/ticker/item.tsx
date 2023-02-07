@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const TickerItemContainer = styled.div`
 	height: 64px;
 	width: fit-content;
-	font-family: Nasalization;
+	font-family: var(--main-font);
 	color: var(--text-light);
 	display: flex;
 	align-items: center;
@@ -28,7 +28,7 @@ const Subtitle = styled.span`
 	font-size: 17px;
 	white-space: nowrap;
 	/* margin-top: -8px; */
-	font-family: Orbitron;
+	font-family: var(--secondary-font);
 `;
 
 const BorderItem = styled.div`
@@ -40,6 +40,27 @@ const BorderItem = styled.div`
 interface Props {
 	title: string;
 	sub: string;
+	index?: number;
+}
+
+export function tgxColour(index = -1, redStart = false) {
+	let modulo = index % 4;
+	if (!redStart) modulo++;
+
+	switch (modulo) {
+		case 0:
+			return 'var(--tgx-red)';
+		case 1:
+			return 'var(--tgx-yellow)';
+		case 2:
+			return 'var(--tgx-blue)';
+		case 3:
+			return 'var(--tgx-green)';
+		case 4:
+			return 'var(--tgx-red)';
+		default:
+			return undefined;
+	}
 }
 
 export const TickerItem: React.FC<Props> = (props: Props) => {
@@ -49,7 +70,7 @@ export const TickerItem: React.FC<Props> = (props: Props) => {
 				<Title>{props.title}</Title>
 				<Subtitle>{props.sub}</Subtitle>
 			</VerticalStack>
-			<BorderItem />
+			<BorderItem style={{ background: tgxColour(props.index) }} />
 		</TickerItemContainer>
 	);
 };

@@ -18,7 +18,7 @@ const TweetContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	height: 100%;
-	font-family: Noto Sans;
+	font-family: var(--main-font);
 	border: 1px solid var(--sec);
 `;
 

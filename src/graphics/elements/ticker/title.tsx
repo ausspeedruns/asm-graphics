@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const TickerTitleContainer = styled.div`
 	height: 64px;
 	width: fit-content;
-	font-family: Nasalization;
+	font-family: var(--secondary-font);
 	font-weight: bold;
 	font-size: 20px;
 	color: var(--text-dark);

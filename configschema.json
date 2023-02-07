@@ -102,6 +102,21 @@
 				}
 			},
 			"required": ["url"]
+		},
+		"x32": {
+			"type": "object",
+			"description": "Reads incentive data off the website",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false
+				},
+				"ip": {
+					"type": "string",
+					"default": ""
+				}
+			},
+			"required": ["enabled", "ip"]
 		}
 	},
 	"required": ["obs", "twitch", "twitter", "tiltify"]

@@ -5,7 +5,7 @@ import { CouchPerson } from '@asm-graphics/types/OverlayProps';
 import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 
 const CouchContainer = styled.div`
-	font-family: Nasalization;
+	font-family: var(--main-font);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -79,6 +79,10 @@ const PersonCompressedContainer = styled.div`
 	margin: 4px;
 	box-sizing: border-box;
 	position: relative;
+	background: var(--main);
+	padding: 8px;
+	border-radius: 8px;
+	border: 1px solid var(--accent);
 `;
 
 const SpeakingColour = styled.div`
@@ -86,12 +90,7 @@ const SpeakingColour = styled.div`
 	width: 100%;
 	height: 100%;
 	opacity: ${(props: SpeakingProps) => (props.speaking ? 1 : 0)};
-	background: linear-gradient(
-		90deg,
-		rgba(255, 198, 41, 0) 0%,
-		rgba(255, 198, 41, 0.588) 50%,
-		rgba(255, 198, 41, 0) 100%
-	);
+	background-color: var(--secondary-colour);
 	transition-duration: 0.2s;
 	transition-delay: ${(props: SpeakingProps) => (props.speaking ? undefined : '0.5s')};
 `;
@@ -100,24 +99,15 @@ interface SpeakingProps {
 	speaking?: boolean;
 }
 
-const GradientBorder = styled.div`
-	height: 2px;
-	width: 100%;
-	background: linear-gradient(90deg, rgba(255, 198, 41, 0) 0%, #ffc629 50%, rgba(255, 198, 41, 0) 100%);
-	z-index: 2;
-`;
-
 const Name = styled.span`
 	font-weight: bold;
-	padding: 0 8px;
 	z-index: 2;
 `;
 
 const Pronouns = styled.div`
 	font-size: 15px;
-	padding: 0 8px;
 	text-transform: uppercase;
-	font-family: 'Orbitron';
+	font-family: var(--secondary-font);;
 	z-index: 2;
 `;
 
@@ -131,13 +121,11 @@ export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
 		<PersonCompressedContainer>
 			<SpeakingColour speaking={props.speaking} />
-			<GradientBorder style={{ marginBottom: 6 }} />
 			<Name>{props.person.name}</Name>
 			<Pronouns>
 				<span style={{ fontWeight: 'bold' }}>{props.host && 'Host '}</span>
 				{props.person.pronouns}
 			</Pronouns>
-			<GradientBorder style={{ marginTop: 6 }} />
 		</PersonCompressedContainer>
 	);
 };

@@ -26,9 +26,11 @@ import { Twitter } from './dashboards/tweets';
 import { ManualDonations } from './dashboards/manual-donations';
 import { Timer } from './dashboards/timer';
 import { HostName } from './dashboards/host-name';
+import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
+import { NodeCGAPIClient } from '@alvancamp/test-nodecg-types/client/api/api.client';
 
-
-const TWITCHPARENTS = nodecg.bundleConfig.twitch.parents;
+const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
+const TWITCHPARENTS = nodecgConfig.twitch.parents;
 
 const HostDashContainer = styled.div`
 	// height: 1007px;
@@ -78,7 +80,7 @@ export const HostDash: React.FC = () => {
 	const [currentTime, setCurrentTime] = useState('00:00:00');
 	const [showScript, setShowScript] = useState(false);
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
-	const [copyNotif, setCopyNotif] = useState(false); // False: 24hr, True: 12 Hour
+	const [copyNotification, setCopyNotification] = useState(false);
 	const [showStream, setShowStream] = useState(false);
 
 	useEffect(() => {
@@ -121,12 +123,12 @@ export const HostDash: React.FC = () => {
 
 	const copyDonateCommand = () => {
 		navigator.clipboard.writeText('!donate').then(() => {
-			setCopyNotif(true);
+			setCopyNotification(true);
 		});
 	};
 
-	const closeCopyNotif = () => {
-		setCopyNotif(false);
+	const closeCopyNotification = () => {
+		setCopyNotification(false);
 	};
 
 	return (
@@ -141,7 +143,7 @@ export const HostDash: React.FC = () => {
 				<span
 					style={{ width: 500, textAlign: 'right', cursor: 'pointer' }}
 					onClick={() => setShowStream(!showStream)}>
-					ASAP2022
+					{nodecgConfig.graphql?.event ?? ''}
 				</span>
 			</TopBar>
 			{/* , height: 926  */}
@@ -266,12 +268,12 @@ export const HostDash: React.FC = () => {
 					vertical: 'bottom',
 					horizontal: 'right',
 				}}
-				open={copyNotif}
+				open={copyNotification}
 				autoHideDuration={5000}
-				onClose={closeCopyNotif}
+				onClose={closeCopyNotification}
 				message="Copied '!donate' to clipboard"
 				action={
-					<IconButton size="small" aria-label="close" color="inherit" onClick={closeCopyNotif}>
+					<IconButton size="small" aria-label="close" color="inherit" onClick={closeCopyNotification}>
 						<Close fontSize="small" />
 					</IconButton>
 				}

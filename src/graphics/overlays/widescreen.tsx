@@ -7,12 +7,17 @@ import { WideInfo } from '../elements/info-box/wide';
 import { Facecam } from '../elements/facecam';
 import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Couch } from '../elements/couch';
-
-import Stars from '../media/PAXStarsWidescreen.png';
+import { Egg } from '../elements/greeble/tgx/egg';
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
+`;
+
+const TopBar = styled.div`
+	height: 157px;
+	width: 100%;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 `;
 
 const Sidebar = styled.div`
@@ -25,18 +30,19 @@ const Sidebar = styled.div`
 	overflow: hidden;
 `;
 
-const PaxGlow = styled.div`
-	position: absolute;
-	width: 1114px;
-	height: 670px;
-	left: -345px;
-	bottom: 0;
-	transform: translateY(50%);
-
-	background: radial-gradient(50% 50% at 50% 50%, rgb(255, 198, 41) 0%, rgba(255, 198, 41, 0) 100%);
-	background-blend-mode: screen;
-	mix-blend-mode: screen;
-	opacity: 0.5;
+const TGXDivider = styled.div`
+	height: 1px;
+	background: linear-gradient(
+		90deg,
+		var(--tgx-red) 0%,
+		var(--tgx-red) 25%,
+		var(--tgx-yellow) 25%,
+		var(--tgx-yellow) 50%,
+		var(--tgx-blue) 50%,
+		var(--tgx-blue) 75%,
+		var(--tgx-green) 75%,
+		var(--tgx-green) 100%
+	);
 `;
 
 const SidebarBG = styled.div`
@@ -47,14 +53,9 @@ const SidebarBG = styled.div`
 	align-items: center;
 	height: 446.5px;
 	padding-top: 14px;
-	border-top: 1px solid var(--sec);
+	/* border-top: 1px solid var(--sec); */
 	overflow: hidden;
-`;
-
-const PaxStars = styled.img`
-	mix-blend-mode: screen;
-	position: absolute;
-	bottom: 0;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -81,6 +82,37 @@ const TwitterSize = {
 	marginTop: -41,
 };
 
+// TGX EGGS
+const RedEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(-92deg);
+	top: 26px;
+    left: 1803px;
+    z-index: 2;
+`;
+
+const YellowEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(140deg);
+    top: -168px;
+    left: -29px;
+    z-index: 2;
+`;
+
+const BlueEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(72deg);
+    top: 314px;
+    left: -172px;
+`;
+
+const GreenEgg = styled(Egg)`
+	position: absolute;
+	transform: rotate(-19deg);
+    top: 745px;
+    left: 229px;
+`;
+
 export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	const sponsorRef = useRef<SponsorBoxRef>(null);
 
@@ -92,24 +124,32 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 
 	return (
 		<WidescreenContainer>
-			<WideInfo timer={props.timer} runData={props.runData} />
+			<TopBar>
+				<RedEgg colour="Red" />
+				<YellowEgg colour="Yellow" />
+				<WideInfo timer={props.timer} runData={props.runData} />
+				<TGXDivider
+					style={{
+						position: 'absolute',
+						top: 156,
+						width: 1920,
+					}}
+				/>
+			</TopBar>
 			<Sidebar>
 				<Facecam
 					maxNameWidth={270}
 					height={400}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
-					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 					audioIndicator={props.obsAudioIndicator}
 					verticalCoop
 				/>
+				<TGXDivider />
 				<SidebarBG>
-					<PaxStars src={Stars} />
-					<PaxGlow />
-					<Couch
-						couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
-						audio={props.obsAudioIndicator}
-					/>
+					<BlueEgg colour="Blue" />
+					<GreenEgg colour="Green" />
+					<Couch couch={props.couchInformation} audio={props.obsAudioIndicator} />
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

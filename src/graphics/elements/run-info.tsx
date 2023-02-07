@@ -8,13 +8,13 @@ interface FontProps {
 }
 
 const BaseStyle = styled.div`
-	font-family: 'Nasalization';
+	font-family: var(--main-font);
 	color: var(--text-light);
 `;
 
 /*			CATEGORY			*/
 const CategoryContainer = styled(BaseStyle)`
-	font-family: 'Orbitron';
+	font-family: var(--secondary-font);
 	font-weight: bold;
 	font-size: 42px;
 	text-transform: uppercase;

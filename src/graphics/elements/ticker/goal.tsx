@@ -138,7 +138,7 @@ export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Pr
 
 	return (
 		<TickerGoalsContainer ref={containerRef}>
-			<TickerTitle>
+			<TickerTitle style={{background: 'var(--tgx-yellow)', color: 'var(--text-light)'}}>
 				Challenge
 				<br />
 				Goals

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import GoCLogo from '../../media/Sponsors/GoCCWhiteColour.svg';
-import PAXStars from '../../media/Stars.png';
 
 const InterCTAContainer = styled.div`
 	height: 184px;
@@ -15,9 +14,6 @@ const InterCTAContainer = styled.div`
 	justify-content: center;
 	font-size: 42px;
 	color: var(--text-light);
-	background: url('${PAXStars}');
-	background-size: cover;
-	background-position: center;
 	border-bottom: 1px solid var(--sec);
 `;
 

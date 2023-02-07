@@ -10,8 +10,6 @@ import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { Couch } from '../elements/couch';
 
-import { PaxCircles } from '../elements/pax-circles';
-
 const Standard2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -32,37 +30,6 @@ const RightBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-`;
-
-const PAXGlow = styled.div`
-	position: absolute;
-	width: 1920px;
-	height: 1156px;
-	left: 0px;
-	top: -102px;
-
-	background: radial-gradient(50% 50% at 50% 50%, #785E16 36.97%, #000000 100%);
-
-	clip-path: path('M0 0H1920V397H1254V0H667V397H0Z');
-`;
-
-const PaxCirclesStyled = styled(PaxCircles)`
-	position: absolute;
-	z-index: 0;
-	top: 0;
-	left: 0;
-	display: flex;
-	height: 1080px;
-	width: 1920px;
-	justify-content: center;
-	align-items: center;
-
-	& img {
-		width: 150%;
-		height: auto;
-	}
-
-	clip-path: path('M0 0H1920V820H1254V0H667V820H0Z');
 `;
 
 const SponsorSize = {
@@ -163,8 +130,6 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<Standard2Container>
 			<Topbar>
-				<PAXGlow />
-				<PaxCirclesStyled />
 				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 
 				<AudioIndicator
@@ -191,7 +156,6 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						borderLeft: '1px solid var(--sec)',
 					}}
 					teams={props.runData?.teams}
-					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 					audioIndicator={props.obsAudioIndicator}
 				/>
 
@@ -207,7 +171,7 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							alignItems: 'center',
 						}}>
 						<Couch
-							couch={props.preview ? props.couchInformation.preview : props.couchInformation.current}
+							couch={props.couchInformation}
 							style={{ width: '30%', zIndex: 3 }}
 							audio={props.obsAudioIndicator}
 						/>

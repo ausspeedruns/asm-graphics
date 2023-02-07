@@ -6,6 +6,7 @@ import { TickerItemHandles } from '../ticker';
 
 import { TickerTitle } from './title';
 import { FitText } from '../fit-text';
+import { tgxColour } from './item';
 
 const TickerWarContainer = styled.div`
 	position: absolute;
@@ -66,7 +67,7 @@ const ProgressContainer = styled.div`
 	max-width: 50%;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid #FFFFFF;
+	border: 1px solid #ffffff;
 	position: relative;
 	overflow: hidden;
 `;
@@ -74,7 +75,7 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	width: 0px;
-	background: #FFFFFF;
+	background: #ffffff;
 	border-right: 5px solid var(--accent);
 	display: flex;
 	align-items: center;
@@ -138,7 +139,7 @@ export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Prop
 
 	return (
 		<TickerWarContainer ref={containerRef}>
-			<TickerTitle>
+			<TickerTitle style={{ background: 'var(--tgx-blue)', color: 'var(--text-light)' }}>
 				Challenge
 				<br />
 				Wars
@@ -196,7 +197,7 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	});
 
 	let allOptions = [];
-	const sortedOptions = props.war.options.map(option => ({...option}));
+	const sortedOptions = props.war.options.map((option) => ({ ...option }));
 	sortedOptions.sort((a, b) => a.total - b.total);
 	for (let i = 0; i < Math.min(props.war.options.length, 5); i++) {
 		const option = sortedOptions[props.war.options.length - 1 - i];
@@ -205,6 +206,7 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 				animLabel={animLabel}
 				option={option}
 				highest={highest}
+				index={i}
 				key={option.name}
 				ref={(el) => {
 					if (el) {
@@ -254,6 +256,7 @@ interface WarChoiceProps {
 	option: War['options'][0];
 	highest: number;
 	animLabel: string;
+	index?: number;
 }
 
 const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: WarChoiceProps, ref) => {
@@ -271,7 +274,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 
 	return (
 		<ProgressContainer>
-			<ProgressBarContainer ref={progressBarRef} />
+			<ProgressBarContainer ref={progressBarRef} style={{ borderColor: tgxColour(props.index) }} />
 			<TextDiv>
 				<div
 					style={{

@@ -15,14 +15,14 @@ import { LerpNum } from './ticker/lerp-num';
 import { TickerPrizes } from './ticker/prizes';
 
 // import ASMGif from '../media/ASM-Gif.gif';
-import PAXBug from '../media/PAXBug.svg';
+import TGXBug from '../media/TGXBug.svg';
 import GoCLogo from '../media/Sponsors/GoCWhite.svg';
 
 const TickerContainer = styled.div`
 	height: 64px;
 	width: 1920px;
 	background: var(--main);
-	font-family: Noto Sans;
+	font-family: var(--main-font);
 	display: flex;
 	justify-content: space-between;
 	overflow: hidden;
@@ -32,14 +32,12 @@ const ASMLogo = styled.img`
 	height: 64px;
 	width: auto;
 	padding: 0 12px;
-	background: linear-gradient(90deg, #624C10 0%, rgba(255, 198, 41, 0) 100%);
 `;
 
 const DonationArea = styled.div`
 	height: 100%;
 	width: fit-content;
 	float: right;
-	background: linear-gradient(-90deg, #624C10 0%, rgba(255, 198, 41, 0) 100%);
 	font-size: 37px;
 
 	display: flex;
@@ -47,7 +45,7 @@ const DonationArea = styled.div`
 	padding: 0 10px;
 	color: var(--text-light);
 	font-weight: bold;
-	font-family: Noto Sans;
+	font-family: var(--mono-font);
 `;
 
 const CurrentTimeArea = styled.div`
@@ -64,7 +62,7 @@ const CurrentTimeArea = styled.div`
 	display: flex;
 	align-items: center;
 	line-height: 20px;
-	font-family: NasalizationMono;
+	font-family: var(--mono-font);
 `;
 
 const ContentArea = styled.div`
@@ -75,7 +73,7 @@ const ContentArea = styled.div`
 	flex-direction: column;
 	overflow: hidden;
 	position: relative;
-	font-family: Orbitron;
+	font-family: var(--main-font);
 `;
 
 const CharityLogo = styled.img`
@@ -86,6 +84,12 @@ const CharityLogo = styled.img`
 
 const LeftBlock = styled.div`
 	display: flex;
+`;
+
+const TGXLine = styled.div`
+	height: 100%;
+	width: 10px;
+	background: linear-gradient(var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
 `;
 
 export interface TickerItemHandles {
@@ -185,7 +189,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 		if (props.tickerOrder.length === 0) return;
 
 		runLoop();
-		console.log('running again bruh')
+		console.log('running again bruh');
 	}, []);
 
 	useEffect(() => {
@@ -198,7 +202,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 	return (
 		<TickerContainer>
 			<LeftBlock>
-				<ASMLogo src={PAXBug} />
+				<ASMLogo src={TGXBug} />
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={props.runDataActive} runArray={props.runDataArray} />
@@ -208,6 +212,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 				<TickerWar wars={warIncentives} ref={warsRef} />
 				<TickerPrizes ref={prizesRef} />
 			</ContentArea>
+			<TGXLine />
 			<CurrentTimeArea>
 				{format(currentTime, 'E d')}
 				<br />

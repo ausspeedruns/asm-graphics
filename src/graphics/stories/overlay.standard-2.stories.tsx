@@ -14,9 +14,7 @@ const Template: ComponentStory<typeof Standard2> = (args) => <Standard2 {...args
 export const Primary = Template.bind({});
 
 Primary.args = {
-	noCam: { current: false, preview: false },
-	preview: false,
-	couchInformation: { current: [{ name: 'Couch 1', pronouns: 'He/Him' }], preview: [] },
+	couchInformation:[{ name: 'Couch 1', pronouns: 'He/Him', id: '' }],
 	runData: {
 		game: 'Long Game Title',
 		category: 'Any%',

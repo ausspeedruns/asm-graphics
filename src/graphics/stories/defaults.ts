@@ -23,15 +23,11 @@ export const DefaultPlayer: RunDataPlayer = {
 }
 
 export const DefaultOverlay: OverlayProps = {
-	noCam: { current: false, preview: false },
 	preview: false,
-	couchInformation: {
-		current: [
-			{ name: 'Couch 1', pronouns: 'He/Him' },
-			{ name: 'Host Name', pronouns: 'She/Her', host: true },
-		],
-		preview: [],
-	},
+	couchInformation: [
+		{ name: 'Couch 1', pronouns: 'He/Him', id: '' },
+		{ name: 'Host Name', pronouns: 'She/Her', host: true, id: '' },
+	],
 	runData: {
 		game: 'Long Game Title',
 		category: 'Any%',
@@ -44,4 +40,4 @@ export const DefaultOverlay: OverlayProps = {
 	},
 	sponsors: [],
 	timer: DefaultTimer,
-}
+};

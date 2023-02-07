@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 
 import { RunDataArray, RunDataActiveRun } from '@asm-graphics/types/RunData';
 import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
-import { CouchInformation, CouchPerson } from '@asm-graphics/types/OverlayProps';
+import { CouchPerson } from '@asm-graphics/types/OverlayProps';
 
 import { InterCTA } from './elements/intermission/cta';
 import { InterIncentives } from './elements/intermission/incentives';
@@ -23,7 +23,6 @@ import ASAP2022Vertical from './media/Sponsors/PAXVertical.svg';
 import { SponsorsBox } from './elements/sponsors';
 import { Goal, War } from '@asm-graphics/types/Incentives';
 import { IntermissionAds, IntermissionAdsRef } from './elements/intermission/ad';
-import { PaxCircles } from './elements/pax-circles';
 
 // @ts-ignore
 import Twemoji from 'react-twemoji';
@@ -53,13 +52,6 @@ const PAXGlow = styled.div`
 	bottom: 0;
 	background: radial-gradient(50% 50% at 50% 50%, #ffc629 0%, #000000 100%);
 	z-index: 0;
-`;
-
-const PAXCircles = styled(PaxCircles)`
-	position: absolute;
-	width: 955px;
-	height: 890px;
-	bottom: 0;
 `;
 
 const NextRuns = styled.div`
@@ -243,7 +235,7 @@ export const Intermission: React.FC = () => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [hostName] = useReplicant<CouchInformation, CouchInformation>('couch-names', { current: [], preview: [] });
+	const [hostName] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
 	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
 	const [manualDonationRep] = useReplicant<number, number>('manual-donation-total', 0);
 
@@ -263,7 +255,7 @@ export const Intermission: React.FC = () => {
 			activeRun={runDataActiveRep}
 			runArray={runDataArrayRep}
 			donation={donationRep + manualDonationRep}
-			host={hostName.current.find((person) => person.host)}
+			host={hostName.find((person) => person.host)}
 			sponsors={sponsorsRep}
 			incentives={incentivesRep}
 		/>
@@ -456,7 +448,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			<Half style={{ backgroundColor: 'var(--main)', borderRight: '10px solid var(--sec)' }}>
 				<PAXGlow />
 				<InterCTA donation={props.donation} style={{ zIndex: 1 }} />
-				<PAXCircles />
 				<NextRuns>
 					<Time>{currentTime}</Time>
 					<RunsList>

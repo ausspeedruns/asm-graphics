@@ -5,6 +5,10 @@ import { format } from 'date-fns';
 import { FitText } from '../fit-text';
 
 import { RunData } from '@asm-graphics/types/RunData';
+import { NodeCGAPIClient } from '@alvancamp/test-nodecg-types/client/api/api.client';
+import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
+
+const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
 
 const InterNextRunItemContainer = styled.div`
 	height: 100%;
@@ -178,7 +182,7 @@ export const EndRunItem: React.FC = () => {
 				<b>
 					Thank you for watching
 					<br />
-					ASAP2022!
+					{nodecgConfig.graphql?.event ?? ''}!
 				</b>
 			</span>
 		</EndRunCont>

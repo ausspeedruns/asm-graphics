@@ -5,6 +5,10 @@ import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 import { RunDataTeam } from '@asm-graphics/types/RunData';
 
 import { Nameplate } from './nameplate';
+import { NodeCGAPIClient } from '@alvancamp/test-nodecg-types/client/api/api.client';
+import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
+
+const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
 
 const FacecamContainer = styled.div`
 	position: relative;
@@ -37,6 +41,12 @@ interface FacecamProps {
 const NAMEPLATE_HEIGHT = 41;
 const NAMEPLATE_HEIGHT_VERTICAL = 61;
 
+const RunnerNameDivider = styled.div`
+	background: var(--sec);
+	min-width: 2px;
+	height: ${NAMEPLATE_HEIGHT}px;
+`;
+
 export const Facecam = (props: FacecamProps) => {
 	let allRunnerNames: JSX.Element[] = [];
 
@@ -49,11 +59,11 @@ export const Facecam = (props: FacecamProps) => {
 				maxWidth={props.maxNameWidth}
 				key={'No Player'}
 				player={{
-					name: 'ASAP2022',
+					name: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
 					social: { twitch: 'AusSpeedruns' },
 					pronouns: 'They/Them',
-					id: 'ASAP2022',
-					teamID: 'ASAP2022',
+					id: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
+					teamID: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
 					customData: {},
 				}}
 			/>,
@@ -103,19 +113,12 @@ export const Facecam = (props: FacecamProps) => {
 								fontSize: 25,
 							}}
 							key={player.id}
-							speaking={props.audioIndicator?.find((audio) => audio.id === player.customData.microphone)?.active}
+							speaking={
+								props.audioIndicator?.find((audio) => audio.id === player.customData.microphone)?.active
+							}
 						/>,
 					);
-					allRunnerNames.push(
-						<div
-							key={id + '-divider'}
-							style={{
-								background: '#FFC629',
-								minWidth: 2,
-								height: NAMEPLATE_HEIGHT,
-							}}
-						/>,
-					);
+					allRunnerNames.push(<RunnerNameDivider key={id + '-divider'} />);
 				});
 			}
 		});
@@ -129,6 +132,12 @@ export const Facecam = (props: FacecamProps) => {
 			if (props.dontAlternatePronouns) {
 				alternatingPronounSides = props.pronounStartSide === 'right';
 			}
+
+			let height = NAMEPLATE_HEIGHT;
+			if (props.verticalCoop && props.teams![0].players.some(player => player.pronouns)) {
+				height = NAMEPLATE_HEIGHT_VERTICAL;
+			}
+
 			allRunnerNames.push(
 				<Nameplate
 					icon={props.icons ? props.icons[i] : undefined}
@@ -141,16 +150,13 @@ export const Facecam = (props: FacecamProps) => {
 				/>,
 			);
 			allRunnerNames.push(
-				<div
+				<RunnerNameDivider
 					key={player.id + '-divider'}
-					style={{
-						background: 'var(--sec)',
-						minWidth: 2,
-						height: props.verticalCoop ? NAMEPLATE_HEIGHT_VERTICAL : NAMEPLATE_HEIGHT,
-					}}
+					style={{ height: height }}
 				/>,
 			);
 		});
+
 		allRunnerNames.pop();
 	}
 

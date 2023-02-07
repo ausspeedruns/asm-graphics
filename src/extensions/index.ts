@@ -47,5 +47,8 @@ async function init() {
 	require('./donations');
 	require('./schedule-import');
 	require('./ausspeedruns-website');
-	require('./x32');
+
+	if (ncgConfig.x32?.enabled) {
+		require('./x32');
+	}
 }

@@ -8,7 +8,7 @@ import { RunDataPlayer } from '@asm-graphics/types/RunData';
 
 import { FitText } from './fit-text';
 
-function nameplateDirection(data: NameplateSide) {
+function nameplateDirection(data: NameplateStyleProps) {
 	if (data.vertical) {
 		return 'column';
 	}
@@ -23,35 +23,35 @@ function nameplateDirection(data: NameplateSide) {
 const NameplateContainer = styled.div`
 	color: var(--text-light);
 	width: 100%;
-	/* height: ${(props: NameplateSide) => (props.vertical ? '100%' : '')}; */
+	/* height: ${(props: NameplateStyleProps) => (props.vertical ? '100%' : '')}; */
 	font-size: 30px;
-	font-family: Nasalization;
+	font-family: 'Helvetica Now Display';
 
 	display: flex;
-	flex-direction: ${(props: NameplateSide) => nameplateDirection(props)};
+	flex-direction: ${(props: NameplateStyleProps) => nameplateDirection(props)};
 	justify-content: space-between;
 	align-items: center;
 `;
 
 const Names = styled.div`
-	background: linear-gradient(90deg, #785e16, #000000 20%, #000000 80%, #785e16);
+	background: var(--main);
 	display: flex;
 	flex-grow: 1;
 	justify-content: center;
 	align-items: center;
 	height: 100%;
-	width: ${(props: NameplateSide) => (props.vertical ? '100%' : '')};
+	width: ${(props: NameplateStyleProps) => (props.vertical ? '100%' : '')};
 	position: relative;
 `;
 
 const SpeakingGlow = styled.div`
-	opacity: ${(props: NameplateSide) => (props.speaking ? 1 : 0)};
-	background: linear-gradient(90deg, var(--sec), #000000 20%, #000000 80%, var(--sec));
+	opacity: ${(props: NameplateStyleProps) => (props.speaking ? 1 : 0)};
+	background: var(--main-lighter);
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	transition-duration: 0.2s;
-	transition-delay: ${(props: NameplateSide) => (props.speaking ? undefined : '0.5s')};
+	/* transition-duration: 0.2s; */
+	/* transition-delay: ${(props: NameplateStyleProps) => (props.speaking ? undefined : '0.5s')}; */
 `;
 
 const NormalName = styled(FitText)``;
@@ -64,7 +64,6 @@ const TwitchDiv = styled.div`
 
 const PronounBox = styled.div`
 	background: var(--sec);
-	font-family: Orbitron;
 	font-weight: 400;
 	font-size: 20px;
 	text-transform: uppercase;
@@ -74,7 +73,7 @@ const PronounBox = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: ${(props: NameplateSide) => (props.vertical ? '100%' : '')};
+	width: ${(props: NameplateStyleProps) => (props.vertical ? '100%' : '')};
 	box-sizing: border-box;
 `;
 
@@ -93,16 +92,28 @@ interface Props {
 	className?: string;
 	speaking?: boolean;
 	vertical?: boolean;
+	speakingValue?: number;
 }
 
-interface NameplateSide {
-	nameplateLeft?: boolean;
-	speaking?: boolean;
-	vertical?: boolean;
-}
+type NameplateStyleProps = Pick<Props, 'nameplateLeft' | 'speaking' | 'vertical'>;
 
 // How many seconds it takes to fade between twitch and normal name
-const nameLoopLength = 90;
+const NAME_LOOP_DURATION = 90;
+
+function clamp(input: number, min: number, max: number): number {
+	return input < min ? min : input > max ? max : input;
+}
+
+function map(current: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
+	const mapped: number = ((current - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+	return clamp(mapped, out_min, out_max);
+}
+
+function dbToOpacity(db: number) {
+	if (db === -Infinity) return 0;
+
+	return map(db, -40, 10, 0, 1);
+}
 
 export const Nameplate = (props: Props) => {
 	const normalNameEl = useRef<HTMLDivElement>(null);
@@ -113,12 +124,12 @@ export const Nameplate = (props: Props) => {
 		if (props.player.social.twitch && props.player.name !== props.player.social.twitch) {
 			const tl = gsap.timeline({
 				repeat: -1,
-				repeatDelay: nameLoopLength,
+				repeatDelay: NAME_LOOP_DURATION,
 			});
 			tl.set(normalNameEl.current, { opacity: 1 });
 			tl.to(normalNameEl.current, { opacity: 0, duration: 1 });
 			tl.to(twitchNameEl.current, { opacity: 1, duration: 1 });
-			tl.to(twitchNameEl.current, { opacity: 0, duration: 1 }, `+=${nameLoopLength}`);
+			tl.to(twitchNameEl.current, { opacity: 0, duration: 1 }, `+=${NAME_LOOP_DURATION}`);
 			tl.to(normalNameEl.current, { opacity: 1, duration: 1 });
 		}
 	}, [props.player.name, props.player.social.twitch]);
@@ -136,7 +147,7 @@ export const Nameplate = (props: Props) => {
 			vertical={props.vertical}>
 			{props.icon}
 			<Names speaking={props.speaking} vertical={props.vertical}>
-				<SpeakingGlow speaking={props.speaking} />
+				<SpeakingGlow speaking={props.speaking} style={{ opacity: dbToOpacity(props.speakingValue ?? 0) }} />
 				<div ref={normalNameEl} style={{ opacity: sameNameAndTwitch ? 0 : 1, zIndex: 2 }}>
 					<NormalName style={{ maxWidth: maxWidth }} text={props.player.name} />
 				</div>
