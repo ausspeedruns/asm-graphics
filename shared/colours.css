@@ -5,8 +5,8 @@ body {
 	--sec: #ffffff;
 	--accent: #ffffff;
 	--asm-orange: #cc7722;
-	--text-light: #ffffff;
-	--text-dark: #000000;
+	--text-light: var(--sec);
+	--text-dark: var(--main);
 	--orange-400: #ffa651;
 	--orange-600: #964a00;
 	--orange-500: #cc7722;
@@ -15,6 +15,6 @@ body {
 	--tgx-blue: #007eff;
 	--tgx-green: #00c091;
 	--main-font: 'Helvetica Now Display';
-	--seconday-font: 'Helvetica Now Display';
+	--secondary-font: 'Helvetica Now Display';
 	--mono-font: 'Noto Sans';
 }

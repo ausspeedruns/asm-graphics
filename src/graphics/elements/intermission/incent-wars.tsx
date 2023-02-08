@@ -117,19 +117,20 @@ const AllOptionContainer = styled.div`
 `;
 
 const Game = styled(FitText)`
-	max-width: 400px;
+	max-width: 470px;
 `;
 
 const IncentiveName = styled(FitText)`
 	font-weight: bold;
-	max-width: 400px;
-	font-family: Orbitron;
+	max-width: 470px;
+	font-family: var(--secondary-font);
 `;
 
 interface GoalProps {
 	war: War;
 }
 
+const MAX_OPTIONS = 4;
 export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
@@ -178,7 +179,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 	// 	);
 	// });
 	const allOptions = [];
-	for (let i = 0; i < Math.min(3, sortedOptions.length); i++) {
+	for (let i = 0; i < Math.min(MAX_OPTIONS, sortedOptions.length); i++) {
 		const option = sortedOptions[i];
 		allOptions.push(
 			<WarChoice
@@ -196,7 +197,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 		);
 	}
 
-	if (sortedOptions.length > 3) {
+	if (sortedOptions.length > MAX_OPTIONS) {
 		allOptions.push(
 			<WarChoice
 				animLabel={animLabel}
@@ -207,7 +208,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 				index={0}
 				ref={(el) => {
 					if (el) {
-						optionRefs.current[3] = el;
+						optionRefs.current[MAX_OPTIONS] = el;
 					}
 				}}
 			/>,
@@ -239,7 +240,7 @@ const OptionContainer = styled.div`
 	padding: 10px;
 	box-sizing: border-box;
 	transform: translate(-1000px, 0);
-	font-family: Orbitron;
+	font-family: var(--secondary-font);
 	border: 1px solid var(--sec);
 `;
 
@@ -261,7 +262,7 @@ const ProgressContainer = styled.div`
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
-	background: #000;
+	background: var(--main);
 	display: flex;
 	align-items: flex-end;
 	border: 1px solid var(--sec);

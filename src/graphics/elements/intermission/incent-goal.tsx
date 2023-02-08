@@ -129,7 +129,7 @@ const IncentiveName = styled(FitText)`
 	/* display: inline-block; */
 	font-weight: bold;
 	max-width: 400px;
-	font-family: Orbitron;
+	font-family: var(--secondary-font);
 `;
 
 const BottomBar = styled.div`

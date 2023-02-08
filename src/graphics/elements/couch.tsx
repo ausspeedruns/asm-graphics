@@ -107,7 +107,7 @@ const Name = styled.span`
 const Pronouns = styled.div`
 	font-size: 15px;
 	text-transform: uppercase;
-	font-family: var(--secondary-font);;
+	font-family: var(--secondary-font);
 	z-index: 2;
 `;
 

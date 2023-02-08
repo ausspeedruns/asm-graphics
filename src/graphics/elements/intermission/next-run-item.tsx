@@ -13,7 +13,7 @@ const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
 const InterNextRunItemContainer = styled.div`
 	height: 100%;
 	width: 100%;
-	font-family: Nasalization;
+	font-family: var(--main-font);
 	background: var(--main);
 	display: flex;
 	flex-direction: column;
@@ -23,7 +23,7 @@ const InterNextRunItemContainer = styled.div`
 const InterFutureRunItemContainer = styled.div`
 	height: 100%;
 	width: 100%;
-	font-family: Nasalization;
+	font-family: var(--main-font);
 	background: var(--main);
 	display: flex;
 	border: 1px solid var(--sec);
@@ -57,7 +57,7 @@ const InfoBlock = styled.div`
 const GameTitle = styled(FitText)`
 	font-size: 33px;
 	/* font-weight: bold; */
-	max-width: 330px;
+	max-width: 360px;
 `;
 
 const TopText = styled.div`
@@ -71,7 +71,7 @@ const TopText = styled.div`
 const Category = styled(FitText)`
 	max-width: 200px;
 	font-size: 27px;
-	font-family: Orbitron;
+	font-family: var(--secondary-font);
 `;
 
 const System = styled.span`
