@@ -173,6 +173,8 @@ const StaticMusicText = styled.span`
 	position: absolute;
 	width: 520px;
 	text-align: center;
+	top: 0;
+	left: 0;
 `;
 
 const MusicIcon = styled.img`
