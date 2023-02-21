@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
+import { RTAudio } from './dashboards/runner-tablet/audio';
 import { RTNames } from './dashboards/runner-tablet/names';
 
 const NavBar = styled.div`
@@ -23,6 +24,24 @@ const NavBarButton = styled.button`
 	padding: 0 3rem;
 	background: ${({ active }: NavBarButtonProps) => (active ? 'var(--orange-400)' : 'var(--orange-500)')};
 	transition: 100ms;
+`;
+
+const RightSide = styled.div`
+	float: right;
+	height: 100%;
+`;
+
+const HostName = styled.div`
+	display: inline-block;
+	color: white;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 1rem;
+	font-size: 1.5rem;
+
+	span {
+		font-weight: normal;
+	}
 `;
 
 const ReadyButton = styled(NavBarButton)`
@@ -46,7 +65,7 @@ type ObjectValues<T> = T[keyof T];
 type TabsValues = ObjectValues<typeof TABS>;
 
 const RunnerTablet: React.FC = () => {
-	const [tab, setTab] = useState<TabsValues>('names');
+	const [tab, setTab] = useState<TabsValues>('audio');
 	const [couchNames] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
 
 	const host = couchNames.find((person) => person.host);
@@ -56,7 +75,9 @@ const RunnerTablet: React.FC = () => {
 		case 'names':
 			currentTabBody = <RTNames />;
 			break;
-
+		case 'audio':
+			currentTabBody = <RTAudio />;
+			break;
 		default:
 			break;
 	}
@@ -70,11 +91,18 @@ const RunnerTablet: React.FC = () => {
 				<NavBarButton onClick={() => setTab('audio')} active={tab === 'audio'}>
 					Audio
 				</NavBarButton>
-				<ReadyButton>READY UP</ReadyButton>
+
+				<RightSide>
+					<HostName>
+						<span>Host</span>
+						<br />
+						{host?.name}
+						<br />
+						{host?.pronouns}
+					</HostName>
+					<ReadyButton>READY UP</ReadyButton>
+				</RightSide>
 			</NavBar>
-			<div>
-				Host: {host?.name} | {host?.pronouns}
-			</div>
 			<Body>{currentTabBody}</Body>
 		</div>
 	);

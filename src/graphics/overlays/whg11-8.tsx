@@ -62,11 +62,10 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 				<Facecam
 					height={352}
 					teams={props.runData?.teams}
-					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 				/>
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
+					<Couch couch={props.couchInformation} />
 					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>

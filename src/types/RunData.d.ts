@@ -42,3 +42,9 @@ export interface RunDataPlayer {
 export type RunDataArray = RunData[];
 
 export type RunDataActiveRun = RunData | undefined;
+
+export interface RunDataActiveRunSurrounding {
+	previous?: string;
+	current?: string;
+	next?: string;
+}

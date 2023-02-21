@@ -9,7 +9,7 @@ import type { StaffMessage } from '@asm-graphics/types/StaffMessages';
 import type { Tweet } from '@asm-graphics/types/Twitter';
 import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 import type { User as AusSpeedrunsUser } from '@asm-graphics/types/AusSpeedrunsWebsite';
-import { X32Status } from '@asm-graphics/types/X32';
+import type { ConnectionStatus } from '@asm-graphics/types/Connections';
 
 const nodecg = nodecgApiContext.get();
 
@@ -47,7 +47,7 @@ nodecg.Replicant<Tweet[]>('tweets', { persistent: false, defaultValue: [] });
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
 
 /* OBS */
-nodecg.Replicant<boolean>('obsConnection', { defaultValue: false, persistent: false });
+nodecg.Replicant<ConnectionStatus>('obs:status', { defaultValue: "disconnected", persistent: false });
 
 /* Credits */
 nodecg.Replicant<{ name: string, title: string }>('credits-name', { defaultValue: { name: '', title: '' } });
@@ -56,4 +56,4 @@ nodecg.Replicant<{ name: string, title: string }>('credits-name', { defaultValue
 nodecg.Replicant<AusSpeedrunsUser[]>('all-usernames', { defaultValue: [] });
 
 /* X32 */
-nodecg.Replicant<X32Status>('x32:status', { defaultValue: "disconnected", persistent: false });
+nodecg.Replicant<ConnectionStatus>('x32:status', { defaultValue: "disconnected", persistent: false });

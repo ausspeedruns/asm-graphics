@@ -24,7 +24,8 @@ async function init() {
 	// The order of these is literally just the chronological order of when they were made, a.k.a the best way to watch Star Wars
 
 	if (ncgConfig.obs.enabled) {
-		require('./util/obs');
+		// require('./util/obs');
+		require('./obs-local');
 	}
 
 	require('./overlay');
@@ -49,6 +50,6 @@ async function init() {
 	require('./ausspeedruns-website');
 
 	if (ncgConfig.x32?.enabled) {
-		require('./x32');
+		require('./x32-audio');
 	}
 }

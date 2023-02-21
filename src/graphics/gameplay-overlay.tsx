@@ -10,7 +10,7 @@ import { RunDataActiveRun, RunDataArray } from '@asm-graphics/types/RunData';
 import { Timer } from '@asm-graphics/types/Timer';
 import { CouchPerson, OverlayRef } from '@asm-graphics/types/OverlayProps';
 
-// import { TickerOverlay } from './ticker';
+import { TickerOverlay } from './ticker';
 import { Standard } from './overlays/standard';
 import { Standard2 } from './overlays/standard-2';
 import { Widescreen } from './overlays/widescreen';
@@ -79,7 +79,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		couchInformation: hostNamesRep,
 		preview: props.preview,
 		sponsors: sponsorsRep,
-		obsAudioIndicator: obsAudioIndicatorRep,
+		obsAudioIndicator: [],
 	};
 
 	// console.log(displayingRun)
@@ -88,7 +88,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		{
 			component: <Standard {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[0] = el)} />,
 			name: '',
-			// Defualt as standard
+			// Default as standard
 		},
 		{
 			component: <Standard {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[1] = el)} />,
@@ -205,7 +205,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		<GameplayOverlayCont>
 			<GameplayContainer>
 				<Routes>{RouteData}</Routes>
-				{/* <TickerOverlay /> */}
+				<TickerOverlay />
 			</GameplayContainer>
 
 			{DevLinks}

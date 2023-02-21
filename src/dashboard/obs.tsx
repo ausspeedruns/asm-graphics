@@ -32,8 +32,10 @@ import { darkTheme } from './theme';
 import { ASMStream } from '../graphics/elements/individual-stream';
 import { StreamSwitcher } from './elements/stream-switcher';
 import { StreamAudio } from './elements/stream-audio';
-import { RunData } from '@asm-graphics/types/RunData';
-import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import type { RunData } from '@asm-graphics/types/RunData';
+import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import type { ConnectionStatus } from '@asm-graphics/types/Connections';
+import type { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
 
 const SideTitle = styled.span`
 	font-weight: bold;
@@ -86,11 +88,11 @@ const DashOBS: React.FC = () => {
 	// 	namespace: 'nodecg-speedcontrol',
 	// });
 	const ncgConfig = nodecg.config;
-	const bundleConfig = nodecg.bundleConfig as Config;
+	const bundleConfig = nodecg.bundleConfig as unknown as ConfigSchema;
 	const [currentOverlay] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
 	const [twitchStreamsRep] = useReplicant<TwitchStream[], TwitchStream[]>('twitchStreams', []);
 	const [currentSceneRep] = useReplicant<string, string>('obsCurrentScene', 'Game Overlay');
-	const [connectionRep] = useReplicant<boolean, boolean>('obsConnection', false);
+	const [connectionRep] = useReplicant<ConnectionStatus, ConnectionStatus>('obs:status', "disconnected");
 	const [showKeys, setShowKeys] = useState(false);
 	const [showRefreshDialog, setShowRefreshDialog] = useState(false);
 
@@ -154,7 +156,7 @@ const DashOBS: React.FC = () => {
 		<ThemeProvider theme={darkTheme}>
 			<Flex>
 				<VFlex>
-					{connectionRep ? (
+					{connectionRep === 'connected' ? (
 						<OBSIndicator style={{ color: '#4caf50' }}>OBS Connected</OBSIndicator>
 					) : (
 						<OBSIndicator style={{ color: 'red', fontWeight: 'bolder' }}>
@@ -225,13 +227,13 @@ const DashOBS: React.FC = () => {
 						<Button
 							variant="contained"
 							onClick={gameplayTransition}
-							disabled={currentSceneRep === 'Game Overlay' || !connectionRep}>
+							disabled={currentSceneRep === 'Game Overlay' || connectionRep === "disconnected"}>
 							Transition
 						</Button>
 						<Button
 							variant="contained"
 							onClick={goToIntermission}
-							disabled={currentSceneRep === 'Intermission' || !connectionRep}>
+							disabled={currentSceneRep === 'Intermission' || connectionRep === "disconnected"}>
 							Intermission
 						</Button>
 					</ButtonGroup>
@@ -429,7 +431,7 @@ export const DashAudio: React.FC = () => {
 	const runnerOptions = runDataRep?.teams.map((team) => {
 		return team.players.map((player, i) => {
 			return (
-				<div>
+				<div key={player.id}>
 					<FormControlLabel value={player.id} control={<RadioStyled />} label={player.name} key={player.id} />
 
 					<FormControl size="medium">

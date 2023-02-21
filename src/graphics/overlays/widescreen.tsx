@@ -18,6 +18,7 @@ const TopBar = styled.div`
 	height: 157px;
 	width: 100%;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+	background-color: var(--main);
 `;
 
 const Sidebar = styled.div`
@@ -51,7 +52,7 @@ const SidebarBG = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	height: 446.5px;
+	height: 446px;
 	padding-top: 14px;
 	/* border-top: 1px solid var(--sec); */
 	overflow: hidden;
@@ -96,7 +97,6 @@ const YellowEgg = styled(Egg)`
 	transform: rotate(140deg);
     top: -168px;
     left: -29px;
-    z-index: 2;
 `;
 
 const BlueEgg = styled(Egg)`
@@ -133,6 +133,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						position: 'absolute',
 						top: 156,
 						width: 1920,
+						zIndex: 2,
 					}}
 				/>
 			</TopBar>

@@ -3,9 +3,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import type { RunDataActiveRun, RunDataPlayer } from '@asm-graphics/types/RunData';
+import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
 import type { User } from '@asm-graphics/types/AusSpeedrunsWebsite';
 import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import { Headset, HEADSETS } from './headsets';
 
 const RTNamesContainer = styled.div`
 	height: 100%;
@@ -108,29 +109,34 @@ function generateRunnerLabels(noOfRunners: number, noOfNames = 4) {
 	});
 }
 
-const PRONOUN_OPTIONS = [
-	'He/Him',
-	'She/Her',
-	'They/Them',
-	'He/They',
-	'She/They',
-	'They/He',
-	'They/She',
-	'Any/All',
-	'Other',
-];
+const PRONOUN_OPTIONS = ['He/Him', 'She/Her', 'They/Them', 'He/They', 'She/They', 'They/He', 'They/She', 'Any/All'];
+
+interface Runner {
+	id: string;
+	name: string;
+	pronouns?: string;
+	twitch?: string;
+	saved: boolean;
+	teamId?: string;
+}
 
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
 }
 
-const HEADSETS = [
-	{ name: 'Mario Red', colour: '#f00', textColour: '#fff' },
-	{ name: 'Sonic Blue', colour: '#00f', textColour: '#fff' },
-	{ name: 'Pikachu Yellow', colour: '#ff0', textColour: '#000' },
-	{ name: 'Link Green', colour: '#006400', textColour: '#fff' },
-] as const;
+type HeadsetRunner = Headset & {
+	runner: Runner;
+};
+
+const baseRunner: Runner = { id: '', name: '', saved: true };
+
+const NEW_HEADSETS: HeadsetRunner[] = [
+	{ ...HEADSETS[0], runner: { ...baseRunner, id: 'R1' } },
+	{ ...HEADSETS[1], runner: { ...baseRunner, id: 'C1' } },
+	{ ...HEADSETS[2], runner: { ...baseRunner, id: 'C2' } },
+	{ ...HEADSETS[3], runner: { ...baseRunner, id: 'C3' } },
+];
 
 export const RTNames: React.FC<Props> = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
@@ -144,64 +150,161 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 		[runDataActiveRep],
 	);
 
-	const [rawPlayerData, setRawPlayerData] = useState<RunDataPlayer[]>([]);
-	const [nameValues, setNameValues] = useState<string[]>([]);
-	const [pronounValues, setPronounValues] = useState<string[]>([]);
-	const [needToSave, setNeedToSave] = useState<boolean[]>([]);
-	const [teamIds, setTeamId] = useState<string[]>([]);
+	const [headsets, setHeadsets] = useState(NEW_HEADSETS);
 
-	const runnerLabels = generateRunnerLabels(numberOfRunners, nameValues.length);
+	const runnerLabels = generateRunnerLabels(numberOfRunners, headsets.length);
 
 	// Fill runner names when run changes
 	useEffect(() => {
 		if (runDataActiveRep) {
-			const names: string[] = [];
-			const pronouns: string[] = [];
-			const runnerData: RunDataPlayer[] = [];
-			const teamIdMutable: string[] = [];
+			const newHeadsets = [...NEW_HEADSETS];
 
+			let headsetIndex = 0;
 			runDataActiveRep.teams.forEach((team) => {
 				team.players.forEach((player) => {
-					names.push(player.name);
-					pronouns.push(player.pronouns ?? '');
-					runnerData.push(player);
-					teamIdMutable.push(team.id);
+					if (headsetIndex < newHeadsets.length) {
+						newHeadsets[headsetIndex].runner = {
+							...baseRunner,
+							id: player.id,
+							name: player.name,
+							pronouns: player.pronouns,
+							twitch: player.social.twitch,
+							teamId: team.id,
+						};
+					} else {
+						console.log('Not enough headsets. No headset for:', player);
+					}
+
+					headsetIndex++;
 				});
 			});
 
 			couchNamesRep.forEach((person) => {
 				if (person.host) return;
-				names.push(person.name);
-				pronouns.push(person.pronouns);
+
+				if (headsetIndex < newHeadsets.length) {
+					newHeadsets[headsetIndex].runner = {
+						...baseRunner,
+						id: newHeadsets[headsetIndex].name,
+						name: person.name,
+						pronouns: person.pronouns,
+					};
+				}
+
+				headsetIndex++;
 			});
 
-			while (names.length < HEADSETS.length) {
-				names.push('');
-				pronouns.push('');
-			}
-
-			setNameValues(names);
-			setPronounValues(pronouns);
-			setNeedToSave([]);
-			setRawPlayerData(runnerData);
-			setTeamId(teamIdMutable);
+			setHeadsets(newHeadsets);
 		}
 	}, [runDataActiveRep, couchNamesRep]);
 
 	// Autofill pronouns when user found when typing
-	useEffect(() => {
-		nameValues.forEach((name, index) => {
-			const foundUser = allUsersRep.find((user) => user.username === name);
-			if (foundUser) {
-				setPronounValues((prevPronounValues) => {
-					if (prevPronounValues[index]) return prevPronounValues;
-					const newPronounValues = [...prevPronounValues];
-					newPronounValues[index] = foundUser?.pronouns ?? '';
-					return newPronounValues;
-				});
+	function handleNameSelected(name: string | null, headsetName: string) {
+		if (name === null) return;
+
+		// Find the name that was selected
+		const foundUser = allUsersRep.find((user) => user.username === name);
+
+		// Set the pronouns as that name
+		if (foundUser) {
+			setHeadsets(
+				headsets.map((headset) => {
+					if (headset.name === headsetName) {
+						return {
+							...headset,
+							runner: {
+								...headset.runner,
+								id: foundUser.id,
+								name: foundUser.username,
+								pronouns: foundUser.pronouns,
+								twitch: foundUser.twitch,
+								saved: false,
+							},
+						};
+					} else {
+						return headset;
+					}
+				}),
+			);
+		}
+	}
+
+	function setRunnerProperty(property: string, newValue: any, headsetName: string) {
+		setHeadsets(
+			headsets.map((headset) => {
+				if (headset.name === headsetName) {
+					return {
+						...headset,
+						runner: {
+							...headset.runner,
+							[property]: newValue,
+							saved: false,
+						},
+					};
+				} else {
+					return headset;
+				}
+			}),
+		);
+	}	
+
+	function saveRunner(headset: HeadsetRunner, index: number) {
+		if (!runDataActiveRep) return;
+
+		// Set save to false
+		setHeadsets(
+			headsets.map((headsetEl) => {
+				if (headsetEl.name === headset.name) {
+					return {
+						...headsetEl,
+						runner: {
+							...headsetEl.runner,
+							saved: true,
+						},
+					};
+				}
+
+				return headsetEl;
+			}),
+		);
+
+		// Determine if runners or couch needs updating
+		if (index < numberOfRunners) {
+			// Runner
+			// Find team index
+			const teamIndex = runDataActiveRep.teams.findIndex((team) => team.id === headset.runner.teamId);
+			// Find player index
+			const playerIndex = runDataActiveRep.teams[teamIndex].players.findIndex(
+				(player) => player.id === headset.runner.id,
+			);
+			// Update run data
+			if (playerIndex >= 0) {
+				let newRunData = { ...runDataActiveRep };
+				newRunData.teams[teamIndex].players[playerIndex].name = headset.runner.name;
+				newRunData.teams[teamIndex].players[playerIndex].pronouns = headset.runner.pronouns;
+				newRunData.teams[teamIndex].players[playerIndex].social.twitch = headset.runner.twitch;
+				newRunData.teams[teamIndex].players[playerIndex].customData = {
+					...newRunData.teams[teamIndex].players[playerIndex].customData,
+					microphone: headset.name,
+				};
+
+				if (!headset.runner.twitch) {
+					delete(newRunData.teams[teamIndex].players[playerIndex].social.twitch);
+				}
+
+				// Send to update data
+				nodecg.sendMessageToBundle('modifyRun', 'nodecg-speedcontrol', { runData: newRunData });
 			}
-		});
-	}, [nameValues, allUsernames, allUsersRep]);
+		} else {
+			// Couch
+			nodecg.sendMessage('rename-couch', {
+				id: headset.name,
+				name: headset.runner.name,
+				pronouns: headset.runner.pronouns,
+				microphone: headset.name,
+			} as CouchPerson);
+		}
+	}
 
 	return (
 		<RTNamesContainer className={props.className} style={props.style}>
@@ -221,72 +324,10 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				</Data>
 			</RunInfo>
 			<NameInputs>
-				{HEADSETS.map((headset, index) => {
-					if (nameValues[index] === undefined || !runDataActiveRep) return;
-
-					const setSave = (value = true) => {
-						setNeedToSave((prevSaveValues) => {
-							const newSaveValues = [...prevSaveValues];
-							newSaveValues[index] = value;
-							return newSaveValues;
-						});
-					};
-
-					const setName = (newName: string) => {
-						setNameValues((prevNameValues) => {
-							const newNameValues = [...prevNameValues];
-							newNameValues[index] = newName;
-							setSave();
-							return newNameValues;
-						});
-					};
-
-					const setPronouns = (newPronouns: string) => {
-						setPronounValues((prevPronounValues) => {
-							const newPronounValues = [...prevPronounValues];
-							newPronounValues[index] = newPronouns;
-							setSave();
-							return newPronounValues;
-						});
-					};
-
-					const savePerson = () => {
-						setSave(false);
-
-						if (index < numberOfRunners) {
-							// Runner
-							// Find team index
-							const teamIndex = runDataActiveRep.teams.findIndex((team) => team.id === teamIds[index]);
-							// Find player index
-							const playerIndex = runDataActiveRep.teams[teamIndex].players.findIndex(
-								(player) => player.id === rawPlayerData[index].id,
-							);
-							// Update run data
-							if (playerIndex >= 0) {
-								let newRunData = { ...runDataActiveRep };
-								newRunData.teams[teamIndex].players[playerIndex].name = nameValues[index];
-								newRunData.teams[teamIndex].players[playerIndex].pronouns = pronounValues[index];
-								newRunData.teams[teamIndex].players[playerIndex].customData = {
-									...newRunData.teams[teamIndex].players[playerIndex].customData,
-									microphone: headset.name,
-								};
-
-								// Send to update data
-								nodecg.sendMessageToBundle('modifyRun', 'nodecg-speedcontrol', { runData: newRunData });
-							}
-						} else {
-							// Commentator
-							nodecg.sendMessage('rename-couch', {
-								id: headset.name,
-								name: nameValues[index],
-								pronouns: pronounValues[index],
-								microphone: headset.name,
-							} as CouchPerson);
-						}
-					};
-
+				{headsets.map((headset, index) => {
+					const isRunner = runnerLabels[index].startsWith('R');
 					return (
-						<NameRow key={index}>
+						<NameRow key={headset.name}>
 							<HeadsetName
 								style={{
 									background: headset.colour,
@@ -295,11 +336,14 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 								{headset.name}
 							</HeadsetName>
 							<Autocomplete
-								style={{ minWidth: '40vw', marginRight: '5vw', fontSize: '2rem !important' }}
+								style={{ minWidth: isRunner ? '24vw' : '40vw', marginRight: isRunner ? '1vw' : '5vw', fontSize: '2rem !important' }}
 								freeSolo
 								options={allUsernames}
-								inputValue={nameValues[index]}
-								onInputChange={(_, newVal) => setName(newVal)}
+								onChange={(_, newVal) => {
+									handleNameSelected(newVal, headset.name);
+								}}
+								inputValue={headset.runner.name}
+								onInputChange={(_, newVal) => setRunnerProperty('name', newVal, headset.name)}
 								renderInput={(params) => (
 									<TextField
 										{...params}
@@ -308,12 +352,21 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 									/>
 								)}
 							/>
+							{isRunner && (
+								<TextField
+									style={{ width: '15vw', marginRight: '5vw', fontSize: '2rem !important' }}
+									value={headset.runner.twitch ?? ''}
+									onChange={(e) => {setRunnerProperty('twitch', e.target.value, headset.name)}}
+									label={`${runnerLabels[index]} Twitch`}
+									InputProps={{ style: { fontSize: '2rem' } }}
+								/>
+							)}
 							<Autocomplete
-								style={{ minWidth: '30vw', fontSize: '2rem' }}
+								style={{ minWidth: '10vw', fontSize: '2rem' }}
 								freeSolo
 								options={PRONOUN_OPTIONS}
-								inputValue={pronounValues[index]}
-								onInputChange={(_, newVal) => setPronouns(newVal)}
+								inputValue={headset.runner.pronouns ?? ''}
+								onInputChange={(_, newVal) => setRunnerProperty('pronouns', newVal, headset.name)}
 								renderInput={(params) => (
 									<TextField
 										{...params}
@@ -322,7 +375,14 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 									/>
 								)}
 							/>
-							{needToSave[index] && <Save onClick={savePerson}>Save</Save>}
+							{!headset.runner.saved && (
+								<Save
+									onClick={() => {
+										saveRunner(headset, index);
+									}}>
+									Save
+								</Save>
+							)}
 						</NameRow>
 					);
 				})}

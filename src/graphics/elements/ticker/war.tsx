@@ -274,7 +274,10 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 
 	return (
 		<ProgressContainer>
-			<ProgressBarContainer ref={progressBarRef} style={{ borderColor: tgxColour(props.index) }} />
+			<ProgressBarContainer
+				ref={progressBarRef}
+				style={{ borderColor: isColor(props.option.name) ? props.option.name : tgxColour(props.index) }}
+			/>
 			<TextDiv>
 				<div
 					style={{
@@ -327,3 +330,9 @@ const MoreChoices: React.FC<MoreChoicesProps> = (props: MoreChoicesProps) => {
 TickerWar.displayName = 'TickerWar';
 WarGame.displayName = 'WarGame';
 WarChoice.displayName = 'WarChoice';
+
+function isColor(strColor: string) {
+	const s = new Option().style;
+	s.color = strColor;
+	return s.color !== '';
+}

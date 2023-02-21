@@ -132,9 +132,9 @@ const BottomBlock = styled.div`
 
 const Time = styled.span`
 	font-weight: bold;
-	font-size: 33px;
+	font-size: 38px;
 	color: var(--text-light);
-	margin-bottom: 20px;
+	margin-bottom: 11px;
 	z-index: 1;
 	font-family: var(--mono-font);
 `;
@@ -162,7 +162,7 @@ const HostPronoun = styled.span`
 const MusicLabel = styled.div`
 	width: 520px;
 	color: var(--text-light);
-	font-size: 22px;
+	font-size: 28px;
 	white-space: nowrap;
 	margin: 0 16px;
 	font-family: var(--secondary-font);
@@ -216,7 +216,7 @@ const LocationBug = styled.div`
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
-	width: 95%;
+	width: 95.5%;
 `;
 
 // ASGX

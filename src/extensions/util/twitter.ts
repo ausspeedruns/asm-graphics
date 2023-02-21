@@ -21,7 +21,7 @@ const twitterSearch = [
 	'expansions=author_id',
 	'user.fields=username',
 	'tweet.fields=created_at',
-	'query=%23ASAP2022'
+	'query=%23ASGX2023'
 ];
 
 // Edit rules as desired here below
@@ -191,7 +191,7 @@ function firstTimeLoad() {
 
 	// Listen to the stream.
 	// This reconnection logic will attempt to reconnect when a disconnection is detected.
-	// To avoid rate limites, this logic implements exponential backoff, so the wait time
+	// To avoid rate limits, this logic implements exponential backoff, so the wait time
 	// will increase if the client cannot reconnect to the stream.
 	firstTimeLoad();
 	const filteredStream = streamConnect();

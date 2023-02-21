@@ -14,6 +14,7 @@ const QUERY_USERS = gql`
 			id
 			username
 			pronouns
+			twitch
 		}
 	}
 `;
@@ -23,6 +24,7 @@ const queryUsers = z.object({
 		id: z.string(),
 		username: z.string(),
 		pronouns: z.string().optional(),
+		twitch: z.string().optional(),
 	}).array()
 });
 

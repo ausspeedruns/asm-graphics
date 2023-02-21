@@ -12,7 +12,7 @@ const audioIndicatorRep = nodecg.Replicant<string>('audio-indicator');
 const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 // const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams');
 // const obsConnectionRep = nodecg.Replicant<boolean>('obsConnection');
-const obsAudioIndictorRep = nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator');
+const obsAudioIndicatorRep = nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator');
 const obsAudioInputs = nodecg.Replicant<string[]>('obs-audio-inputs');
 const obsAudioGate = nodecg.Replicant<number>('obs-audio-gate');
 
@@ -88,22 +88,22 @@ nodecg.listenFor('update-obs-gate', (value: number) => {
 });
 
 nodecg.listenFor('update-obs-audio', (data: { id: string, inputName: string }) => {
-	const foundAudioIndex = obsAudioIndictorRep.value.findIndex(indicator => indicator.id === data.id);
+	const foundAudioIndex = obsAudioIndicatorRep.value.findIndex(indicator => indicator.id === data.id);
 
 	if (foundAudioIndex > -1) {
-		obsAudioIndictorRep.value[foundAudioIndex].inputName = data.inputName;
+		obsAudioIndicatorRep.value[foundAudioIndex].inputName = data.inputName;
 	} else {
-		obsAudioIndictorRep.value.push({ active: false, id: data.id, inputName: data.inputName });
+		obsAudioIndicatorRep.value.push({ active: false, id: data.id, inputName: data.inputName });
 	}
 });
 
 nodecg.listenFor('remove-obs-audio', (id: string) => {
-	const foundAudioIndex = obsAudioIndictorRep.value.findIndex(indicator => indicator.id === id);
+	const foundAudioIndex = obsAudioIndicatorRep.value.findIndex(indicator => indicator.id === id);
 
 	if (foundAudioIndex > -1) {
-		const mutableArray = _.clone(obsAudioIndictorRep.value);
+		const mutableArray = _.clone(obsAudioIndicatorRep.value);
 		mutableArray.splice(foundAudioIndex, 1);
-		obsAudioIndictorRep.value = mutableArray;
+		obsAudioIndicatorRep.value = mutableArray;
 	}
 });
 
@@ -114,7 +114,7 @@ obs.on('InputVolumeMeters', data => {
 		obsAudioInputs.value = audioInputs;
 	}
 
-	const mutableArray = _.clone(obsAudioIndictorRep.value);
+	const mutableArray = _.clone(obsAudioIndicatorRep.value);
 
 	// data.inputs.forEach(element => {
 	// 	if (element.inputName == "RED Runner")	console.log(mulToDB((element?.inputLevelsMul as number[][])[0][2]));
@@ -124,7 +124,7 @@ obs.on('InputVolumeMeters', data => {
 		mutableArray[i].active = mulToDB(((data.inputs.find(input => (input.inputName?.toString() ?? '') === mutableArray[i].inputName)?.inputLevelsMul as number[][])[0][2] ?? 0)) >= obsAudioGate.value;
 	}
 
-	obsAudioIndictorRep.value = mutableArray;
+	obsAudioIndicatorRep.value = mutableArray;
 });
 
 function mulToDB(mul: number) {

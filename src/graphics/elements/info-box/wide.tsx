@@ -8,8 +8,6 @@ import { Timer } from '../timer';
 import * as RunInfo from '../run-info';
 
 const WideInfoContainer = styled.div`
-	background: var(--main);
-	/* border-bottom: 1px var(--sec) solid; */
 	position: absolute;
 	height: 156px;
 	width: 1920px;

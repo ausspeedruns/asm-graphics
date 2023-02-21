@@ -77,11 +77,10 @@ export const Widescreen1610 = forwardRef<OverlayRef, OverlayProps>((props, ref) 
 				<Facecam
 					height={401}
 					teams={props.runData?.teams}
-					noCam={props.preview ? props.noCam.preview : props.noCam.current}
 					audioIndicator={props.obsAudioIndicator}
 				/>
 				<SidebarBG>
-					<Couch couch={props.preview ? props.couchInformation.preview : props.couchInformation.current} />
+					<Couch couch={props.couchInformation} />
 					<SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}
