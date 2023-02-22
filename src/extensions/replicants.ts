@@ -57,3 +57,6 @@ nodecg.Replicant<AusSpeedrunsUser[]>('all-usernames', { defaultValue: [] });
 
 /* X32 */
 nodecg.Replicant<ConnectionStatus>('x32:status', { defaultValue: "disconnected", persistent: false });
+
+/* Runner Tablet */
+nodecg.Replicant<boolean>('runner:ready', { defaultValue: false });

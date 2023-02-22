@@ -52,4 +52,6 @@ async function init() {
 	if (ncgConfig.x32?.enabled) {
 		require('./x32-audio');
 	}
+
+	require('./runner-tablet');
 }

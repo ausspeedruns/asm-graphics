@@ -2,13 +2,17 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 
-
 import useCurrentTime from '../hooks/useCurrentTime';
 import useSurroundingRuns from '../hooks/useSurroundingRuns';
 import { useReplicant } from 'use-nodecg';
 import type { ConnectionStatus } from '@asm-graphics/types/Connections';
 
-const StatusContainer = styled.div``;
+const StatusContainer = styled.div`
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+`;
+
+const Column = styled.div``;
 
 const TimeToNextContainer = styled.div`
 	display: flex;
@@ -33,11 +37,15 @@ const ConnectionStatus = styled.div`
 
 const Header = styled.h1`
 	text-align: center;
-	border-top: 1px solid white;
-	padding-top: 1rem;
+	border-top: ${(props: HeaderProps) => (props.noBorder ? '' : '1px solid white')};
+	padding-top: ${(props: HeaderProps) => (props.noBorder ? '' : '1rem')};
 `;
 
-function connectionStatusStyle(status: ConnectionStatus): { text: string; colour: string } {
+interface HeaderProps {
+	noBorder?: boolean;
+}
+
+function connectionStatusStyle(status: ConnectionStatus | boolean): { text: string; colour: string } {
 	switch (status) {
 		case 'disconnected':
 			return { text: 'Disconnected', colour: '#757575' };
@@ -47,6 +55,10 @@ function connectionStatusStyle(status: ConnectionStatus): { text: string; colour
 			return { text: 'Error', colour: '#D32F2F' };
 		case 'warning':
 			return { text: 'Missed Heartbeat', colour: '#FF9800' };
+		case true:
+			return { text: 'READY', colour: '#4CAF50' };
+		case false:
+			return { text: 'NOT READY', colour: '#D32F2F' };
 		default:
 			return { text: status, colour: '#ff008c' };
 	}
@@ -65,7 +77,7 @@ function durationToTime(duration?: number) {
 function timeColour(duration?: number) {
 	if (!duration) return 'rgba(255, 255, 255, 0.5)';
 
-	if ((duration <= 60 * 1000)) {
+	if (duration <= 60 * 1000) {
 		// Below 1 min / late
 		return '#FF0000';
 	} else if (duration <= 15 * 60 * 1000) {
@@ -83,39 +95,61 @@ export const Status: React.FC = () => {
 	const currentTime = useCurrentTime();
 	// const currentTime = new Date('2024-09-23');
 	const [_, currentRun, nextRun] = useSurroundingRuns();
+	const [runnerReadyRep] = useReplicant<boolean, boolean>('runner:ready', false);
 	const [x32StatusRep] = useReplicant<ConnectionStatus, ConnectionStatus>('x32:status', 'disconnected');
 	const [obsStatusRep] = useReplicant<ConnectionStatus, ConnectionStatus>('obs:status', 'disconnected');
 
+	const runnerReadyInfo = connectionStatusStyle(runnerReadyRep);
 	const x32StatusInfo = connectionStatusStyle(x32StatusRep);
 	const obsStatusInfo = connectionStatusStyle(obsStatusRep);
 
 	const timeToCurrentRunStart = new Date(currentRun?.scheduled ?? 0).getTime() - currentTime.getTime();
-	const timeToCurrentRunEnd = new Date(((currentRun?.scheduledS ?? 0) + (currentRun?.estimateS ?? 0)) * 1000 ?? 0).getTime() - currentTime.getTime();
+	const timeToCurrentRunEnd =
+		new Date(((currentRun?.scheduledS ?? 0) + (currentRun?.estimateS ?? 0)) * 1000 ?? 0).getTime() -
+		currentTime.getTime();
 	const timeToNextRunStart = new Date(nextRun?.scheduled ?? 0).getTime() - currentTime.getTime();
 
-	console.log(timeToCurrentRunEnd)
+	console.log(timeToCurrentRunEnd);
 
 	return (
 		<StatusContainer>
-			<TimeToNextContainer>
-				Time until current run starts{' '}
-				<Time style={{ color: timeColour(timeToCurrentRunStart) }}>
-					{durationToTime(timeToCurrentRunStart)}
-				</Time>
-			</TimeToNextContainer>
-			<TimeToNextContainer>
-				Time until run finish{' '}
-				<Time style={{ color: timeColour(timeToCurrentRunEnd) }}>{durationToTime(timeToCurrentRunEnd)}</Time>
-			</TimeToNextContainer>
-			<TimeToNextContainer>
-				Time until next run{' '}
-				<Time style={{ color: timeColour(timeToNextRunStart) }}>{durationToTime(timeToNextRunStart)}</Time>
-			</TimeToNextContainer>
-			<Header>OBS</Header>
-			<ConnectionStatus style={{ backgroundColor: obsStatusInfo.colour }}>{obsStatusInfo.text}</ConnectionStatus>
-			<Header>X32</Header>
-			<ConnectionStatus style={{ backgroundColor: x32StatusInfo.colour }}>{x32StatusInfo.text}</ConnectionStatus>
-
+			<Column>
+				<Header noBorder>TIME</Header>
+				<TimeToNextContainer>
+					Currently
+					<Time style={{ color: timeColour(timeToCurrentRunStart) }}>{new Date().toLocaleTimeString()}</Time>
+				</TimeToNextContainer>
+				<TimeToNextContainer>
+					Time until current run starts{' '}
+					<Time style={{ color: timeColour(timeToCurrentRunStart) }}>
+						{durationToTime(timeToCurrentRunStart)}
+					</Time>
+				</TimeToNextContainer>
+				<TimeToNextContainer>
+					Time until run finish{' '}
+					<Time style={{ color: timeColour(timeToCurrentRunEnd) }}>
+						{durationToTime(timeToCurrentRunEnd)}
+					</Time>
+				</TimeToNextContainer>
+				<TimeToNextContainer>
+					Time until next run{' '}
+					<Time style={{ color: timeColour(timeToNextRunStart) }}>{durationToTime(timeToNextRunStart)}</Time>
+				</TimeToNextContainer>
+			</Column>
+			<Column>
+				<Header noBorder>Runner</Header>
+				<ConnectionStatus style={{ backgroundColor: runnerReadyInfo.colour }}>
+					{runnerReadyInfo.text}
+				</ConnectionStatus>
+				<Header>OBS</Header>
+				<ConnectionStatus style={{ backgroundColor: obsStatusInfo.colour }}>
+					{obsStatusInfo.text}
+				</ConnectionStatus>
+				<Header>X32</Header>
+				<ConnectionStatus style={{ backgroundColor: x32StatusInfo.colour }}>
+					{x32StatusInfo.text}
+				</ConnectionStatus>
+			</Column>
 		</StatusContainer>
 	);
 };

@@ -157,16 +157,17 @@ export const HostDash: React.FC = () => {
 					justifyContent="space-around"
 					direction="column"
 					xs
+					gap={1}
 					style={{ padding: 8, height: '100%' }}>
-					<Paper style={{ height: '14%', overflowY: 'auto', overflowX: 'hidden' }}>
+					<Paper style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden' }}>
 						<Header text="Your Name :)" />
 						<HostName />
 					</Paper>
-					<Paper style={{ height: '42%', overflowY: 'auto', overflowX: 'hidden' }}>
+					<Paper style={{ flexGrow: 6, overflowY: 'auto', overflowX: 'hidden' }}>
 						<Header text="Tweets" />
 						<Twitter />
 					</Paper>
-					<Paper style={{ height: '42%', overflowY: 'auto', overflowX: 'hidden' }}>
+					<Paper style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden' }}>
 						<Header
 							text="Incentives"
 							url="https://docs.google.com/spreadsheets/d/1IsMrjs3Z09WfCmnj0r46WSTK3sbFPD9dXlkIsgMNIe8">
@@ -186,10 +187,10 @@ export const HostDash: React.FC = () => {
 					xs
 					style={{ padding: 8, gap: 8, height: '100%' }}>
 					<TotalBox>${(donationRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
-					<Paper style={{ overflow: 'hidden', height: 238, minHeight: 238 }}>
+					<Paper style={{ overflow: 'hidden', height: 300, minHeight: 300 }}>
 						<Timer />
 					</Paper>
-					<Paper style={{ overflow: 'hidden' }}>
+					<Paper style={{ overflow: 'hidden', flexGrow: 1 }}>
 						<Header text="Donations" style={{ cursor: 'pointer' }} onClick={copyDonateCommand} />
 						<Donations />
 					</Paper>

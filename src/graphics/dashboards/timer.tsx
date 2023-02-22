@@ -31,6 +31,13 @@ const MainButtons = styled.div`
 
 const TeamBlock = styled.div``;
 
+const RunnerReadyText = styled.div`
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.5rem;
+	margin-bottom: 8px;
+`;
+
 export const Timer: React.FC = () => {
 	const [timerRep] = useReplicant<TimerI, undefined>('timer', undefined, {
 		namespace: 'nodecg-speedcontrol',
@@ -38,6 +45,7 @@ export const Timer: React.FC = () => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
+	const [runnerReadyRep] = useReplicant<boolean, boolean>('runner:ready', false);
 	// const [disableTime, setDisableTime] = useState(false);
 	// const [currentTime, setCurrentTime] = useState('00:00:00');
 	// const timerRef = useRef<HTMLDivElement>(null);
@@ -103,6 +111,7 @@ export const Timer: React.FC = () => {
 				// ref={timerRef}
 				// onKeyUp={timerEdit}
 			/> */}
+			<RunnerReadyText>{runnerReadyRep ? 'RUNNER IS READY!' : 'Runner not ready'}</RunnerReadyText>
 			<CurrentTime
 				style={{
 					background: timerRep?.state === 'finished' ? '#388E3C' : '',
@@ -229,7 +238,7 @@ const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 	};
 
 	return (
-		<Tooltip title='Undo'>
+		<Tooltip title="Undo">
 			<Button
 				fullWidth={props.fullWidth}
 				variant="contained"

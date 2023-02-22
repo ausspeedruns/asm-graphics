@@ -49,5 +49,7 @@ obs.on('SceneTransitionStarted', async () => {
 nodecg.listenFor('transition:toIntermission', (data: { to: string; from: string }) => {
 	if (!data.from.startsWith("GAMEPLAY")) return;
 	
-	nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
+	setTimeout(() => {
+		nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
+	}, 1500);
 });

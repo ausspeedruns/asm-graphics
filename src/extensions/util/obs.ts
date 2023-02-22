@@ -34,8 +34,7 @@ if (ncgOBSConfig.enabled) {
 		setTimeout(connect, 5000);
 	});
 
-	// @ts-ignore: Pretty sure this emits an error.
-	obs.on('error', (err) => {
+	obs.on('ConnectionError', (err) => {
 		// nodecg.log.warn('[OBS] Connection error');
 		nodecg.log.warn('[OBS] Connection error:', err);
 		obsConnectionRep.value = "disconnected";

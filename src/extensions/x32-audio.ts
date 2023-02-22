@@ -10,6 +10,7 @@ const nodecg = nodecgApiContext.get();
 const x32StatusRep = nodecg.Replicant<ConnectionStatus>('x32:status');
 const audioIndicatorRep = nodecg.Replicant<OBSAudioIndicator[]>('audio-indicators', { defaultValue: [], persistent: false });
 const audioGateRep = nodecg.Replicant<number>('audio-gate', { defaultValue: -10 });
+const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 
 // X32 Scenes
 // Gameplay
@@ -59,17 +60,17 @@ const HOST_MIC_CHANNEL = 5;
 const SPECIAL_MIC_CHANNEL = 6;
 
 // On transition to game view
-nodecg.listenFor('transition:toGame', (toScene: string) => {
+nodecg.listenFor('transition:toGame', (data: {to: string, from: string}) => {
 	// Unmute mics for speakers and stream
 	const micIndexes = getMicrophoneIndexesOfPeopleTalking();
 
 	const gameChannels = [GAME_CHANNELS[0]];
 
-	if (toScene.indexOf("2p") > 0) {
+	if (data.to.indexOf("2p") > 0) {
 		gameChannels.push(GAME_CHANNELS[1]);
-	} else if (toScene.indexOf("3p") > 0) {
+	} else if (data.to.indexOf("3p") > 0) {
 		gameChannels.push(GAME_CHANNELS[1], GAME_CHANNELS[2]);
-	} else if (toScene.indexOf("4p") > 0) {
+	} else if (data.to.indexOf("4p") > 0) {
 		gameChannels.push(GAME_CHANNELS[1], GAME_CHANNELS[2], GAME_CHANNELS[3]);
 	}
 
@@ -178,4 +179,19 @@ function fadeMute(channel: number, mixBus: number) {
 
 nodecg.listenFor('x32:setFader', (data: { mixBus: number, float: number, channel: number }) => {
 	x32.setFaderLevel(data.channel, data.mixBus, data.float);
+});
+
+runDataActiveRep.on('change', (newVal, oldVal) => {
+	if (newVal?.id !== oldVal?.id) {
+		// Must be a new run
+
+		let headsetIndex = 0;
+		newVal?.teams.forEach(team => {
+			team.players.forEach(player => {
+				if (headsetIndex >= MICROPHONE_CHANNELS.length) return;
+				player.customData.microphone = MICROPHONE_CHANNELS[headsetIndex].name;
+				headsetIndex++;
+			});
+		})
+	}
 });

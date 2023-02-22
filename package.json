@@ -21,16 +21,9 @@
 			{
 				"name": "status",
 				"title": "Status",
-				"width": 3,
+				"width": 5,
 				"headerColor": "#CC7722",
 				"file": "status.html"
-			},
-			{
-				"name": "ads",
-				"title": "Ads",
-				"width": 3,
-				"headerColor": "#CC7722",
-				"file": "ads.html"
 			},
 			{
 				"name": "audioindicator",
@@ -63,13 +56,6 @@
 				"workspace": "ASM Misc"
 			},
 			{
-				"name": "staffmessages",
-				"title": "Host Message",
-				"width": 3,
-				"headerColor": "#CC7722",
-				"file": "staff-messages.html"
-			},
-			{
 				"name": "twitch-chat",
 				"title": "Twitch Chat",
 				"width": 3,
@@ -83,14 +69,6 @@
 				"headerColor": "#FF0000",
 				"file": "settings.html",
 				"workspace": "Run Modifications"
-			},
-			{
-				"name": "special-obs",
-				"title": "Special OBS",
-				"width": 3,
-				"headerColor": "#CC7722",
-				"file": "special-obs.html",
-				"workspace": "ASM Misc"
 			},
 			{
 				"name": "schedule-importer",
@@ -200,6 +178,7 @@
 		"obs-websocket-js": "^5.0.2",
 		"osc": "^2.4.3",
 		"react": "^18.2.0",
+		"react-countdown-hook": "^1.1.1",
 		"react-dom": "^18.2.0",
 		"react-draggable": "^4.4.5",
 		"react-is": "^18.2.0",

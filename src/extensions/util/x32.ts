@@ -200,7 +200,7 @@ class X32 extends TypedEmitter<X32Class> {
 	}
 
 	static channelIndex = [
-		'X32 IS 1 INDEXED',
+		'X32 IS 1 INDEXED', // OR MAIN FADER
 		'Runner 1',		// 'Ch 01'
 		'Runner 2',		// 'Ch 02'
 		'Runner 3',		// 'Ch 03'
@@ -279,6 +279,8 @@ class X32 extends TypedEmitter<X32Class> {
 		'Runner 3 L/(R)',
 		'Runner 4 (L)/R',
 		'Runner 4 L/(R)',
+		'Host (L)/R',
+		'Host L/(R)',
 		'Fx 1',
 		'Fx 2',
 		'Fx 3',
@@ -306,9 +308,8 @@ class X32 extends TypedEmitter<X32Class> {
 	setFaderLevel = (channel: number, mixBus: number, dangerousFaderLevel: number) => {
 		const faderLevel = Math.min(Math.max(dangerousFaderLevel, 0), 1);
 
-		console.log(faderLevel)
 		this.oscSocket.send({
-			address: X32.generateChannelAddress(isMainMixBus(mixBus) ? 'fader' : 'level', channel, mixBus),
+			address: X32.generateChannelAddress(X32.isMainMixBus(mixBus) || X32.isMainFader(channel) ? 'fader' : 'level', channel, mixBus),
 			args: [
 				{ type: 'f', value: faderLevel },
 			]
@@ -318,8 +319,8 @@ class X32 extends TypedEmitter<X32Class> {
 	// https://github.com/esamarathon/esa-layouts-shared/blob/master/extension/x32/src/index.ts#L133
 	// This function performs a fade on a specified value over a given duration.
 	fade(channelNum: number, mixBusNum: number, startValue: number, endValue: number, milliseconds: number): void {
-		const channel = oscNum(channelNum);
-		const mixBus = oscNum(mixBusNum);
+		const channel = X32.oscNum(channelNum);
+		const mixBus = X32.oscNum(mixBusNum);
 		const name = `${channel}/${mixBus}`;
 		// If a fade is already in progress for the specified name, cancel it to ensure safety.
 		if (this.fadersFading[name]) {
@@ -345,7 +346,7 @@ class X32 extends TypedEmitter<X32Class> {
 				delete this.fadersFading[name];
 			}
 
-			const message = X32.generateChannelAddress(isMainMixBus(mixBus) ? 'fader' : 'level', channel, mixBus);
+			const message = X32.generateChannelAddress(X32.isMainMixBus(mixBus) ? 'fader' : 'level', channel, mixBus);
 			// console.log(message)
 			this.oscSocket.send({ address: message, args: [{ type: 'f', value: currentValue }] });
 
@@ -359,23 +360,30 @@ class X32 extends TypedEmitter<X32Class> {
 	}
 
 	static generateChannelAddress(endpoint: string, channelNum: number | string, mixBusNum?: number | string) {
-		const channel = oscNum(channelNum);
-		if (isMainMixBus(mixBusNum)) {
+		const channel = X32.oscNum(channelNum);
+		const mixBus = X32.oscNum(mixBusNum);
+
+		if (X32.isMainMixBus(mixBusNum)) {
 			return `/ch/${channel}/mix/${endpoint}`;
+		} else if (X32.isMainFader(channel)) {
+			return `/bus/${mixBus}/mix/${endpoint}`;
 		} else {
-			const mixBus = oscNum(mixBusNum!); // Undefined is check in the isMainMixBus check
 			return `/ch/${channel}/mix/${mixBus}/${endpoint}`;
 		}
 	}
-}
 
-function oscNum(num: number | string) {
-	if (typeof num === 'string') return num;
-	return String(num).padStart(2, "0");
-}
+	static isMainMixBus(mixBus?: number | string) {
+		return typeof mixBus === 'undefined' || mixBus === 0 || mixBus === "00";
+	}
 
-function isMainMixBus(mixBus?: number | string) {
-	return typeof mixBus === 'undefined' || mixBus === 0 || mixBus === "00";
+	static isMainFader(channel?: number | string) {
+		return typeof channel === 'undefined' || channel === 0 || channel === "00";
+	}
+
+	static oscNum(num: number | string | undefined) {
+		if (typeof num === 'string') return num;
+		return String(num).padStart(2, "0");
+	}
 }
 
 export default X32;

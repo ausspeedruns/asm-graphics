@@ -324,7 +324,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				</Data>
 			</RunInfo>
 			<NameInputs>
-				{headsets.map((headset, index) => {
+				{headsets.filter((headset) => headset.name !== 'Host').map((headset, index) => {
 					const isRunner = runnerLabels[index].startsWith('R');
 					return (
 						<NameRow key={headset.name}>

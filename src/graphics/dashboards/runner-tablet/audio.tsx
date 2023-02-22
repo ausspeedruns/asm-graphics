@@ -1,3 +1,4 @@
+import { CouchPerson } from '@asm-graphics/types/OverlayProps';
 import { RunDataActiveRun } from '@asm-graphics/types/RunData';
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -36,7 +37,7 @@ const MixingContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 8rem;
+	gap: 4rem;
 	padding: 2rem;
 `;
 
@@ -49,13 +50,31 @@ export const RTAudio = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
+	const [couchNamesRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
 	const numberOfRunners = useMemo(
 		() => runDataActiveRep?.teams.reduce((total, team) => total + team.players.length, 0) ?? 0,
 		[runDataActiveRep],
 	);
+	const headsetUserMap = useMemo(() => {
+		const map = new Map(HEADSETS.map((headset) => [headset.name, headset.name]));
+		runDataActiveRep?.teams.map((team) => {
+			team.players.map((player) => {
+				if ('microphone' in player.customData) map.set(player.customData.microphone, player.name);
+			});
+		});
+
+		couchNamesRep.map((couch) => {
+			if (couch.microphone) map.set(couch.microphone, couch.name);
+		});
+
+		return map;
+	}, [runDataActiveRep, couchNamesRep]);
 
 	const [selectedHeadset, setSelectedHeadset] = useState(HEADSETS[0].name);
 	const selectedHeadsetObj = HEADSETS.find((headset) => headset.name === selectedHeadset);
+
+	// MixBus falls back to 16 since it is an unused bus (FX4)
+	const mixBus = selectedHeadsetObj?.mixBus ?? 16;
 
 	return (
 		<RTAudioContainer className={props.className} style={props.style}>
@@ -70,30 +89,31 @@ export const RTAudio = (props: Props) => {
 								fontWeight: selectedHeadset === headset.name ? 'bold' : '',
 							}}
 							onClick={() => setSelectedHeadset(headset.name)}>
-							{headset.name}
+							{headsetUserMap.get(headset.name) ?? headset.name}
 						</HeadsetName>
 					);
 				})}
 			</HeadsetSelectors>
 			<MixingContainer
 				style={{ borderColor: selectedHeadsetObj?.colour, background: `${selectedHeadsetObj?.colour}22` }}>
+				<AudioFader key={'MASTER'} label={`MASTER`} mixBus={mixBus} channel={0} style={{marginRight: '6rem'}} />
 				{[...Array(numberOfRunners).keys()].map((number) => {
 					return (
-						<AudioFader
-							key={number}
-							label={`Game ${number}`}
-							mixBus={selectedHeadsetObj?.mixBus ?? 11}
-							channel={9 + number}
-						/>
+						<AudioFader key={number} label={`Game ${number + 1}`} mixBus={mixBus} channel={9 + number} />
 					);
 				})}
-				{HEADSETS.map((headset) => {
+				{HEADSETS.map((headset, i) => {
 					return (
 						<AudioFader
 							key={headset.name}
-							label={headset.name}
-							mixBus={selectedHeadsetObj?.mixBus ?? 11}
+							label={
+								headset.name === selectedHeadset
+									? 'You'
+									: headsetUserMap.get(headset.name) ?? headset.name
+							}
+							mixBus={mixBus}
 							channel={headset.channel}
+							style={{marginLeft: i === 0 ? '6rem' : ''}}
 						/>
 					);
 				})}
