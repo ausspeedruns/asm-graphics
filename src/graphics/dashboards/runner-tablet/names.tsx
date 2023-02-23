@@ -182,7 +182,16 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 			couchNamesRep.forEach((person) => {
 				if (person.host) return;
 
-				if (headsetIndex < newHeadsets.length) {
+				const foundHeadset = newHeadsets.findIndex((headset) => headset.name === person.microphone);
+				if (foundHeadset !== -1) {
+					newHeadsets[foundHeadset].runner = {
+						...baseRunner,
+						id: newHeadsets[headsetIndex].name,
+						name: person.name,
+						pronouns: person.pronouns,
+					};
+				} else if (headsetIndex < newHeadsets.length) {
+					// Else pop them in the next spot
 					newHeadsets[headsetIndex].runner = {
 						...baseRunner,
 						id: newHeadsets[headsetIndex].name,
@@ -237,8 +246,8 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 						...headset,
 						runner: {
 							...headset.runner,
-							[property]: newValue,
 							saved: false,
+							[property]: newValue,
 						},
 					};
 				} else {
@@ -246,27 +255,13 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				}
 			}),
 		);
-	}	
+	}
 
 	function saveRunner(headset: HeadsetRunner, index: number) {
 		if (!runDataActiveRep) return;
 
 		// Set save to false
-		setHeadsets(
-			headsets.map((headsetEl) => {
-				if (headsetEl.name === headset.name) {
-					return {
-						...headsetEl,
-						runner: {
-							...headsetEl.runner,
-							saved: true,
-						},
-					};
-				}
-
-				return headsetEl;
-			}),
-		);
+		setRunnerProperty('saved', false, headset.name);
 
 		// Determine if runners or couch needs updating
 		if (index < numberOfRunners) {
@@ -289,7 +284,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				};
 
 				if (!headset.runner.twitch) {
-					delete(newRunData.teams[teamIndex].players[playerIndex].social.twitch);
+					delete newRunData.teams[teamIndex].players[playerIndex].social.twitch;
 				}
 
 				// Send to update data
@@ -324,68 +319,76 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				</Data>
 			</RunInfo>
 			<NameInputs>
-				{headsets.filter((headset) => headset.name !== 'Host').map((headset, index) => {
-					const isRunner = runnerLabels[index].startsWith('R');
-					return (
-						<NameRow key={headset.name}>
-							<HeadsetName
-								style={{
-									background: headset.colour,
-									color: headset.textColour,
-								}}>
-								{headset.name}
-							</HeadsetName>
-							<Autocomplete
-								style={{ minWidth: isRunner ? '24vw' : '40vw', marginRight: isRunner ? '1vw' : '5vw', fontSize: '2rem !important' }}
-								freeSolo
-								options={allUsernames}
-								onChange={(_, newVal) => {
-									handleNameSelected(newVal, headset.name);
-								}}
-								inputValue={headset.runner.name}
-								onInputChange={(_, newVal) => setRunnerProperty('name', newVal, headset.name)}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label={`${runnerLabels[index]} Name`}
-										InputProps={{ ...params.InputProps, style: { fontSize: '2rem' } }}
-									/>
-								)}
-							/>
-							{isRunner && (
-								<TextField
-									style={{ width: '15vw', marginRight: '5vw', fontSize: '2rem !important' }}
-									value={headset.runner.twitch ?? ''}
-									onChange={(e) => {setRunnerProperty('twitch', e.target.value, headset.name)}}
-									label={`${runnerLabels[index]} Twitch`}
-									InputProps={{ style: { fontSize: '2rem' } }}
-								/>
-							)}
-							<Autocomplete
-								style={{ minWidth: '10vw', fontSize: '2rem' }}
-								freeSolo
-								options={PRONOUN_OPTIONS}
-								inputValue={headset.runner.pronouns ?? ''}
-								onInputChange={(_, newVal) => setRunnerProperty('pronouns', newVal, headset.name)}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label={`${runnerLabels[index]} Pronouns`}
-										InputProps={{ ...params.InputProps, style: { fontSize: '2rem' } }}
-									/>
-								)}
-							/>
-							{!headset.runner.saved && (
-								<Save
-									onClick={() => {
-										saveRunner(headset, index);
+				{headsets
+					.filter((headset) => headset.name !== 'Host')
+					.map((headset, index) => {
+						const isRunner = runnerLabels[index].startsWith('R');
+						return (
+							<NameRow key={headset.name}>
+								<HeadsetName
+									style={{
+										background: headset.colour,
+										color: headset.textColour,
 									}}>
-									Save
-								</Save>
-							)}
-						</NameRow>
-					);
-				})}
+									{headset.name}
+								</HeadsetName>
+								<Autocomplete
+									style={{
+										minWidth: isRunner ? '24vw' : '40vw',
+										marginRight: isRunner ? '1vw' : '5vw',
+										fontSize: '2rem !important',
+									}}
+									freeSolo
+									options={allUsernames}
+									onChange={(_, newVal) => {
+										handleNameSelected(newVal, headset.name);
+									}}
+									inputValue={headset.runner.name}
+									onInputChange={(_, newVal) => setRunnerProperty('name', newVal, headset.name)}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label={`${runnerLabels[index]} Name`}
+											InputProps={{ ...params.InputProps, style: { fontSize: '2rem' } }}
+										/>
+									)}
+								/>
+								{isRunner && (
+									<TextField
+										style={{ width: '15vw', marginRight: '5vw', fontSize: '2rem !important' }}
+										value={headset.runner.twitch ?? ''}
+										onChange={(e) => {
+											setRunnerProperty('twitch', e.target.value, headset.name);
+										}}
+										label={`${runnerLabels[index]} Twitch`}
+										InputProps={{ style: { fontSize: '2rem' } }}
+									/>
+								)}
+								<Autocomplete
+									style={{ minWidth: '10vw', fontSize: '2rem' }}
+									freeSolo
+									options={PRONOUN_OPTIONS}
+									inputValue={headset.runner.pronouns ?? ''}
+									onInputChange={(_, newVal) => setRunnerProperty('pronouns', newVal, headset.name)}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label={`${runnerLabels[index]} Pronouns`}
+											InputProps={{ ...params.InputProps, style: { fontSize: '2rem' } }}
+										/>
+									)}
+								/>
+								{!headset.runner.saved && (
+									<Save
+										onClick={() => {
+											saveRunner(headset, index);
+										}}>
+										Save
+									</Save>
+								)}
+							</NameRow>
+						);
+					})}
 			</NameInputs>
 		</RTNamesContainer>
 	);

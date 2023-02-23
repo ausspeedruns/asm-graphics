@@ -97,7 +97,7 @@ interface Props {
 	nextRun?: boolean;
 }
 
-export const InterNextRunItem: React.FC<Props> = (props: Props) => {
+export const InterNextRunItem = (props: Props) => {
 	// If one team then combine
 	// If more then combine team names and add vs
 	let playerNames;

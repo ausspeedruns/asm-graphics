@@ -285,7 +285,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 							<PersonCompressed
 								key={person.name}
 								person={person}
-								speaking={props.obsAudioIndicator?.find((audio) => audio.id == person.name)?.active}
+								speaking={props.obsAudioIndicator?.[person.microphone ?? '']}
 							/>
 						);
 					})}
@@ -293,7 +293,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 						<PersonCompressed
 							key={'Host'}
 							person={host}
-							speaking={props.obsAudioIndicator?.find((audio) => audio.id == host.name)?.active}
+							speaking={props.obsAudioIndicator?.[host.microphone ?? '']}
 							host
 						/>
 					)}

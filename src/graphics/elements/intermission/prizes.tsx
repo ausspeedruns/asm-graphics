@@ -107,7 +107,6 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 		<InterPrizesContainer ref={containerRef}>
 			<PrizesTitle>Prizes (AUS Only)</PrizesTitle>
 			<MultiGoalContainer>
-				{/* <PrizePage index='1' donationTotal="$20" prizes={["Pingas"]} ref={(el) => el = el ? prizeRefs.current[0] : null}/> */}
 				<PrizePage
 					index="0"
 					donationTotal="$40 Donation"
@@ -115,28 +114,6 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[0] = el;
-						}
-					}}
-				/>
-				<PrizePage
-					index="0"
-					donationTotal="$20 Donation"
-					prizes={['HyperX Cloud Gaming Earbuds']}
-					ref={(el) => {
-						if (el) {
-							prizeRefs.current[1] = el;
-						}
-					}}
-				/>
-				<PrizePage
-					index="1"
-					donationTotal="$10 Donation"
-					prizes={[
-						'Landfall Games Pack (TABS, Clustertruck, Knightfall)',
-					]}
-					ref={(el) => {
-						if (el) {
-							prizeRefs.current[2] = el;
 						}
 					}}
 				/>

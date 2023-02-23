@@ -4,9 +4,9 @@ import gsap from 'gsap';
 
 import { Goal, War } from '@asm-graphics/types/Incentives';
 
-import { InterIncentWars, WarGame } from './incent-wars';
-import { GoalBar, InterIncentGoal } from './incent-goal';
-import { InterPrizes } from './prizes';
+import { WarGame } from './incent-wars';
+import { GoalBar } from './incent-goal';
+// import { InterPrizes } from './prizes';
 
 const InterIncentivesContainer = styled.div`
 	overflow: hidden;
@@ -23,35 +23,13 @@ interface IncentivesProps {
 	incentives: (Goal | War)[];
 }
 
-export const InterIncentives: React.FC<IncentivesProps> = (props) => {
-	const goalsRef = useRef<TickerItemHandles>(null);
-	const warsRef = useRef<TickerItemHandles>(null);
-	const prizesRef = useRef<TickerItemHandles>(null);
+export const InterIncentives = (props: IncentivesProps) => {
+	// const prizesRef = useRef<TickerItemHandles>(null);
 	const incentivesRef = useRef<TickerItemHandles[]>([]);
 	const mainTl = useRef<gsap.core.Timeline>(gsap.timeline({paused:true, repeat: -1 }));
 
-	let goalIncentives: Goal[] = [];
-	let warIncentives: War[] = [];
 	let allIncentives:JSX.Element[] = [];
 	if (props.incentives) {
-		goalIncentives = props.incentives
-			.filter((incentive) => {
-				if (incentive.active && incentive.type === 'Goal') {
-					return incentive;
-				}
-
-				return undefined;
-			}) as Goal[];
-
-		warIncentives = props.incentives
-			.filter((incentive) => {
-				if (incentive.active && incentive.type === 'War') {
-					return incentive;
-				}
-
-				return undefined;
-			}) as War[];
-
 		allIncentives = props.incentives.filter((incentive) => incentive.active).map((incentive, i) => {
 			switch (incentive.type) {
 				case 'Goal':
@@ -74,11 +52,6 @@ export const InterIncentives: React.FC<IncentivesProps> = (props) => {
 		incentivesRef.current.forEach(incentiveEl => {
 			mainTl.current.add(showContent(incentiveEl));
 		})
-		// mainTl.add(showContent(goalsRef.current!));
-		// mainTl.add(showContent(warsRef.current!));
-		// mainTl.current.add(showContent(prizesRef.current!));
-
-		// mainTl.current.eventCallback('onComplete', runLoop);
 		mainTl.current.play();
 	}, []);
 
@@ -86,15 +59,12 @@ export const InterIncentives: React.FC<IncentivesProps> = (props) => {
 		gsap.defaults({ ease: 'power2.inOut' });
 		const timer = setTimeout(runLoop, 1000);
 		return () => clearTimeout(timer);
-		// runLoop();
 	}, [runLoop]);
 
 	return (
 		<InterIncentivesContainer>
-			{/* <InterIncentWars wars={warIncentives} ref={warsRef} />
-			<InterIncentGoal goals={goalIncentives} ref={goalsRef} /> */}
 			{allIncentives}
-			<InterPrizes ref={prizesRef} />
+			{/* <InterPrizes ref={prizesRef} /> */}
 		</InterIncentivesContainer>
 	);
 };

@@ -58,7 +58,7 @@ interface Props {
 }
 
 export const InterCTA: React.FC<Props> = (props: Props) => {
-	const testDonationAmount = 10000;
+	const testDonationAmount = 0;
 
 	return (
 		<InterCTAContainer className={props.className} style={props.style}>

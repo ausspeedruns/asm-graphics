@@ -79,7 +79,7 @@ const ProgressBarContainer = styled.div`
 `;
 
 const CurrentAmount = styled.span`
-	color: var(--main-dark);
+	color: var(--text-dark);
 	margin-right: 5px;
 	font-weight: normal;
 	width: 100px;

@@ -148,6 +148,7 @@ const ProgressContainer = styled.div`
 	height: 100%;
 	width: 100%;
 	border: 1px solid var(--sec);
+	background: var(--main);
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
@@ -159,7 +160,6 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	background: var(--sec);
-	/* background: linear-gradient(180deg, #F2DAB2 0%, #E8E8E8 100%); */
 	/* border-right: 5px solid var(--sec); */
 	display: flex;
 	justify-content: flex-end;

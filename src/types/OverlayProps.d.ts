@@ -1,4 +1,4 @@
-import { OBSAudioIndicator } from './Audio';
+import { AudioIndicator } from './Audio';
 import type NodeCG from '@alvancamp/test-nodecg-types';
 import { RunDataActiveRun } from './RunData';
 import { Timer } from './Timer';
@@ -15,7 +15,7 @@ export interface OverlayProps {
 	preview?: boolean;
 	sponsors: NodeCG.AssetFile[];
 	audioIndicator?: string;
-	obsAudioIndicator?: OBSAudioIndicator[];
+	obsAudioIndicator?: AudioIndicator;
 }
 
 export interface CouchPerson {

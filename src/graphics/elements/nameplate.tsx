@@ -50,8 +50,8 @@ const SpeakingGlow = styled.div`
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	/* transition-duration: 0.2s; */
-	/* transition-delay: ${(props: NameplateStyleProps) => (props.speaking ? undefined : '0.5s')}; */
+	transition-duration: 0.2s;
+	transition-delay: ${(props: NameplateStyleProps) => (props.speaking ? undefined : '0.5s')};
 `;
 
 const NormalName = styled(FitText)``;
@@ -100,20 +100,20 @@ type NameplateStyleProps = Pick<Props, 'nameplateLeft' | 'speaking' | 'vertical'
 // How many seconds it takes to fade between twitch and normal name
 const NAME_LOOP_DURATION = 90;
 
-function clamp(input: number, min: number, max: number): number {
-	return input < min ? min : input > max ? max : input;
-}
+// function clamp(input: number, min: number, max: number): number {
+// 	return input < min ? min : input > max ? max : input;
+// }
 
-function map(current: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
-	const mapped: number = ((current - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
-	return clamp(mapped, out_min, out_max);
-}
+// function map(current: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
+// 	const mapped: number = ((current - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+// 	return clamp(mapped, out_min, out_max);
+// }
 
-function dbToOpacity(db: number) {
-	if (db === -Infinity) return 0;
+// function dbToOpacity(db: number) {
+// 	if (db === -Infinity) return 0;
 
-	return map(db, -40, 10, 0, 1);
-}
+// 	return map(db, -40, 10, 0, 1);
+// }
 
 export const Nameplate = (props: Props) => {
 	const normalNameEl = useRef<HTMLDivElement>(null);
@@ -147,7 +147,7 @@ export const Nameplate = (props: Props) => {
 			vertical={props.vertical}>
 			{props.icon}
 			<Names speaking={props.speaking} vertical={props.vertical}>
-				<SpeakingGlow speaking={props.speaking} style={{ opacity: dbToOpacity(props.speakingValue ?? 0) }} />
+				<SpeakingGlow speaking={props.speaking} />
 				<div ref={normalNameEl} style={{ opacity: sameNameAndTwitch ? 0 : 1, zIndex: 2 }}>
 					<NormalName style={{ maxWidth: maxWidth }} text={props.player.name} />
 				</div>

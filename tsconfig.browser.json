@@ -13,10 +13,11 @@
 		"moduleResolution": "node",
 		"importHelpers": true,
 		"module": "esnext",
+		"baseUrl": "./src/",
 		"paths": {
-			"@asm-graphics/*": ["src/extension/*"],
-			"@asm-graphics/types": ["src/types"],
-			"@asm-graphics/types/*": ["src/types/*"]
+			"@asm-graphics/*": ["extension/*"],
+			"@asm-graphics/types": ["types"],
+			"@asm-graphics/types/*": ["types/*"]
 		}
 	},
 	"include": [

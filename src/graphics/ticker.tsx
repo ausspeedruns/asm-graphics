@@ -27,7 +27,7 @@ export const TickerOverlay: React.FC = () => {
 				{ type: 'nextruns' },
 				{ type: 'goals' },
 				{ type: 'wars' },
-				{ type: 'prizes' },
+				// { type: 'prizes' },
 				{ type: 'milestone' },
 			]}
 		/>

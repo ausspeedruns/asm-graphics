@@ -13,6 +13,7 @@ import type NodeCG from '@alvancamp/test-nodecg-types';
 
 import { InterCTA } from './elements/intermission/cta';
 import { InterIncentives } from './elements/intermission/incentives';
+import { InterIncentivesFallback } from './elements/intermission/incentives-fallback';
 import { InterNextRunItem, EndRunItem } from './elements/intermission/next-run-item';
 import Mic from '@mui/icons-material/Mic';
 
@@ -97,8 +98,7 @@ const IncentiveBlock = styled.div`
 	color: var(--text-light);
 	font-family: var(--main-font);
 	width: 100%;
-	margin-top: 46px;
-	height: 220px;
+	height: 235px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -111,7 +111,7 @@ const MiddleContent = styled.div`
 	align-items: center;
 	z-index: 10;
 	position: absolute;
-	top: 690px;
+	top: 727px;
 	width: 100%;
 `;
 
@@ -307,7 +307,7 @@ export const Intermission: React.FC = () => {
 			donation={donationRep + manualDonationRep}
 			host={hostName.find((person) => person.host)}
 			sponsors={sponsorsRep}
-			incentives={incentivesRep}
+			incentives={incentivesRep.filter(incentive => incentive.active)}
 		/>
 	);
 };
@@ -349,7 +349,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 		const interval = setInterval(() => {
 			setCurrentTime(format(new Date(), 'E do MMM - h:mm:ss a'));
-		}, 500);
+		}, 1000);
 		const songInterval = setInterval(() => {
 			getCurrentSong();
 		}, 3000);
@@ -422,10 +422,14 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 								<marquee>{currentSong}</marquee>
 							</MusicLabel> */}
 							<MusicLabel>
-								<MusicMarquee style={{opacity: showMarquee ? 1 : 0}}>
-									<MarqueeText style={{animationDuration: `${currentSong.length * 0.35}s`}}>{currentSong}</MarqueeText>
+								<MusicMarquee style={{ opacity: showMarquee ? 1 : 0 }}>
+									<MarqueeText style={{ animationDuration: `${currentSong.length * 0.35}s` }}>
+										{currentSong}
+									</MarqueeText>
 								</MusicMarquee>
-								<StaticMusicText ref={songEl} style={{opacity: showMarquee ? 0 : 1}}>{currentSong}</StaticMusicText>
+								<StaticMusicText ref={songEl} style={{ opacity: showMarquee ? 0 : 1 }}>
+									{currentSong}
+								</StaticMusicText>
 							</MusicLabel>
 							<MusicIcon src={MusicIconImg} />
 						</div>
@@ -443,7 +447,11 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				<InterCTA donation={props.donation} style={{ zIndex: 1 }} />
 				<MiddleContent>
 					<IncentiveBlock>
-						<InterIncentives incentives={props.incentives ?? []} />
+						{props.incentives && props.incentives.length > 0 ? (
+							<InterIncentives incentives={props.incentives} />
+						) : (
+							<InterIncentivesFallback />
+						)}
 					</IncentiveBlock>
 				</MiddleContent>
 				<BottomBlock ref={bottomBlockRef}>

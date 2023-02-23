@@ -109,8 +109,6 @@ export const Status: React.FC = () => {
 		currentTime.getTime();
 	const timeToNextRunStart = new Date(nextRun?.scheduled ?? 0).getTime() - currentTime.getTime();
 
-	console.log(timeToCurrentRunEnd);
-
 	return (
 		<StatusContainer>
 			<Column>

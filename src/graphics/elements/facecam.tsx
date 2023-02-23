@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import { AudioIndicator } from '@asm-graphics/types/Audio';
 
 import { RunDataTeam } from '@asm-graphics/types/RunData';
 
@@ -32,7 +32,7 @@ interface FacecamProps {
 	dontAlternatePronouns?: boolean;
 	pronounStartSide?: 'left' | 'right';
 	icons?: React.ReactNode[];
-	audioIndicator?: OBSAudioIndicator[];
+	audioIndicator?: AudioIndicator;
 	className?: string;
 	style?: React.CSSProperties;
 	verticalCoop?: boolean;
@@ -92,7 +92,9 @@ export const Facecam = (props: FacecamProps) => {
 							fontSize: 25,
 						}}
 						key={team.id}
-						speaking={props.audioIndicator?.find((audio) => audio.id === team.id)?.active}
+						speaking={team.players.some((player) =>
+							props.audioIndicator?.[player.customData.microphone],
+						)}
 					/>,
 				);
 			} else {
@@ -113,9 +115,7 @@ export const Facecam = (props: FacecamProps) => {
 								fontSize: 25,
 							}}
 							key={player.id}
-							speaking={
-								props.audioIndicator?.find((audio) => audio.id === player.customData.microphone)?.active
-							}
+							speaking={props.audioIndicator?.[player.customData.microphone]}
 						/>,
 					);
 					allRunnerNames.push(<RunnerNameDivider key={id + '-divider'} />);
@@ -134,7 +134,7 @@ export const Facecam = (props: FacecamProps) => {
 			}
 
 			let height = NAMEPLATE_HEIGHT;
-			if (props.verticalCoop && props.teams![0].players.some(player => player.pronouns)) {
+			if (props.verticalCoop && props.teams![0].players.some((player) => player.pronouns)) {
 				height = NAMEPLATE_HEIGHT_VERTICAL;
 			}
 
@@ -145,16 +145,11 @@ export const Facecam = (props: FacecamProps) => {
 					maxWidth={props.maxNameWidth}
 					key={player.id}
 					player={player}
-					speaking={props.audioIndicator?.find((audio) => audio.id === player.customData.microphone)?.active}
+					speaking={props.audioIndicator?.[player.customData.microphone]}
 					vertical={props.teams![0].players.length > 1 ? props.verticalCoop : false}
 				/>,
 			);
-			allRunnerNames.push(
-				<RunnerNameDivider
-					key={player.id + '-divider'}
-					style={{ height: height }}
-				/>,
-			);
+			allRunnerNames.push(<RunnerNameDivider key={player.id + '-divider'} style={{ height: height }} />);
 		});
 
 		allRunnerNames.pop();

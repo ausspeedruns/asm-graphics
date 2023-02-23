@@ -26,7 +26,7 @@ import { ThreeDS } from './overlays/3ds';
 import { CreditsOverlay } from './overlays/credits';
 import type NodeCG from '@alvancamp/test-nodecg-types';
 import type { Tweet } from '@asm-graphics/types/Twitter';
-import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import type { AudioIndicator } from '@asm-graphics/types/Audio';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -69,7 +69,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[], NodeCG.AssetFile[]>('assets:sponsors', []);
 	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
-	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('audio-indicators', []);
+	const [obsAudioIndicatorRep] = useReplicant<AudioIndicator, AudioIndicator>('audio-indicators', {});
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
@@ -79,7 +79,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		couchInformation: hostNamesRep,
 		preview: props.preview,
 		sponsors: sponsorsRep,
-		obsAudioIndicator: [],
+		obsAudioIndicator: obsAudioIndicatorRep,
 	};
 
 	// console.log(displayingRun)

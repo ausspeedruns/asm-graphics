@@ -152,7 +152,6 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 
 	const runLoop = useCallback(() => {
 		const localTl = gsap.timeline({ onComplete: runLoop });
-		console.log(localTl);
 
 		// -=1.02 so that the animation "overlaps" and if it was just -1 there would be a 1px tall gap
 		props.tickerOrder.forEach((type) => {
@@ -189,7 +188,6 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 		if (props.tickerOrder.length === 0) return;
 
 		runLoop();
-		console.log('running again bruh');
 	}, []);
 
 	useEffect(() => {

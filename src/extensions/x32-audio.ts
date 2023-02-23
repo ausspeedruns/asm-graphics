@@ -1,4 +1,4 @@
-import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import { AudioIndicator } from '@asm-graphics/types/Audio';
 import { CouchPerson } from '@asm-graphics/types/OverlayProps';
 import { RunDataActiveRun } from '@asm-graphics/types/RunData';
 import * as nodecgApiContext from './nodecg-api-context';
@@ -8,8 +8,8 @@ import type { ConnectionStatus } from '@asm-graphics/types/Connections';
 const nodecg = nodecgApiContext.get();
 
 const x32StatusRep = nodecg.Replicant<ConnectionStatus>('x32:status');
-const audioIndicatorRep = nodecg.Replicant<OBSAudioIndicator[]>('audio-indicators', { defaultValue: [], persistent: false });
-const audioGateRep = nodecg.Replicant<number>('audio-gate', { defaultValue: -10 });
+const audioIndicatorsRep = nodecg.Replicant<AudioIndicator>('audio-indicators');
+const audioGateRep = nodecg.Replicant<number>('audio-gate');
 const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 
 // X32 Scenes
@@ -19,6 +19,16 @@ const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 
 // Speech
 
 const x32 = new X32();
+
+const MICROPHONE_CHANNELS = [
+	{ name: "Mario Red", channel: 1 },
+	{ name: "Sonic Blue", channel: 2 },
+	{ name: "Pikachu Yellow", channel: 3 },
+	// { name: "Link Green", channel: 4 },
+] as const;
+const GAME_CHANNELS = [9, 11, 13, 15]; // Channels are paired as stereo pairs so we only need to mute just one side
+const HOST_MIC_CHANNEL = 5;
+const SPECIAL_MIC_CHANNEL = 6;
 
 let faderValues: number[] = [];
 let mutedChannels: boolean[] = [];
@@ -32,8 +42,11 @@ x32.on('faders', (faders) => {
 });
 
 x32.on('meters', (meters) => {
-	meters.forEach((meter, ch) => {
-		updateAudioIndicator(meter, ch);
+	// meters.forEach((meter, ch) => {
+	// 	updateAudioIndicator(meter, ch);
+	// });
+	MICROPHONE_CHANNELS.forEach(mic => {
+		updateAudioIndicator(meters[mic.channel], mic);
 	});
 });
 
@@ -41,26 +54,14 @@ x32.on('mutes', mutes => {
 	mutedChannels = mutes;
 });
 
-function updateAudioIndicator(float: number, channel: number) {
-	if (!MICROPHONE_CHANNELS[channel]) return;
-
-	const active = X32.floatToDB(float) + faderValues[channel] >= audioGateRep.value;
-
-	const index = audioIndicatorRep.value.findIndex(audio => audio.id === MICROPHONE_CHANNELS[channel]?.name);
-	if (index === -1) {
-		audioIndicatorRep.value.push({ id: MICROPHONE_CHANNELS[channel].name, inputName: MICROPHONE_CHANNELS[channel].name, active: active })
-	} else {
-		audioIndicatorRep.value[index] = { ...audioIndicatorRep.value[index], active: active }
-	}
+function updateAudioIndicator(float: number, mic: typeof MICROPHONE_CHANNELS[number]) {
+	const active = X32.floatToDB(float) + faderValues[mic.channel] >= audioGateRep.value;
+	// console.log(typeof audioIndicatorsRep.value, audioIndicatorsRep.value)
+	audioIndicatorsRep.value[mic.name] = active;
 }
 
-const MICROPHONE_CHANNELS = [{ name: "Mario Red", channel: 1 }, { name: "Sonic Blue", channel: 2 }, { name: "Pikachu Yellow", channel: 3 }, { name: "Link Green", channel: 4 }] as const;
-const GAME_CHANNELS = [9, 11, 13, 15]; // Channels are paired as stereo pairs so we only need to mute just one side
-const HOST_MIC_CHANNEL = 5;
-const SPECIAL_MIC_CHANNEL = 6;
-
 // On transition to game view
-nodecg.listenFor('transition:toGame', (data: {to: string, from: string}) => {
+nodecg.listenFor('transition:toGame', (data: { to: string, from: string }) => {
 	// Unmute mics for speakers and stream
 	const micIndexes = getMicrophoneIndexesOfPeopleTalking();
 

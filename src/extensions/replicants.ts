@@ -7,7 +7,7 @@ import type { Stream } from '@asm-graphics/types/Streams';
 import type { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
 import type { StaffMessage } from '@asm-graphics/types/StaffMessages';
 import type { Tweet } from '@asm-graphics/types/Twitter';
-import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import type { AudioIndicator, OBSAudioIndicator } from '@asm-graphics/types/Audio';
 import type { User as AusSpeedrunsUser } from '@asm-graphics/types/AusSpeedrunsWebsite';
 import type { ConnectionStatus } from '@asm-graphics/types/Connections';
 
@@ -24,10 +24,16 @@ nodecg.Replicant<Donation[]>('donations', { defaultValue: [] });
 nodecg.Replicant<Donation[]>('manual-donations', { defaultValue: [] });
 nodecg.Replicant<number>('manual-donation-total', { defaultValue: 0 });
 
-/* Audio */
-nodecg.Replicant<string>('audio-indicator', { defaultValue: '' });
-nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator', { defaultValue: [], persistent: false });
+/* Audio Shared */
 nodecg.Replicant<number>('obs-audio-gate', { defaultValue: -10 });
+nodecg.Replicant<string>('audio-indicator', { defaultValue: '' });
+
+/* OBS Audio */
+nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator', { defaultValue: [], persistent: false });
+
+/* X32 Audio */
+nodecg.Replicant<ConnectionStatus>('x32:status', { defaultValue: "disconnected", persistent: false });
+nodecg.Replicant<AudioIndicator>('audio-indicators', { defaultValue: {} });
 
 /* Incentives */
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
@@ -54,9 +60,6 @@ nodecg.Replicant<{ name: string, title: string }>('credits-name', { defaultValue
 
 /* Schedule Import */
 nodecg.Replicant<AusSpeedrunsUser[]>('all-usernames', { defaultValue: [] });
-
-/* X32 */
-nodecg.Replicant<ConnectionStatus>('x32:status', { defaultValue: "disconnected", persistent: false });
 
 /* Runner Tablet */
 nodecg.Replicant<boolean>('runner:ready', { defaultValue: false });

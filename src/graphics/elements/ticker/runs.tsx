@@ -54,7 +54,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
 			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, '+=10');
+			tl.to(containerRef.current, { y: 64, duration: 1 }, '+=1');
 			tl.set(containerRef.current, { y: -64, duration: 1 });
 
 			return tl;

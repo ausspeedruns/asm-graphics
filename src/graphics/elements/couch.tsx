@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { CouchPerson } from '@asm-graphics/types/OverlayProps';
-import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import { AudioIndicator } from '@asm-graphics/types/Audio';
 
 const CouchContainer = styled.div`
 	font-family: var(--main-font);
@@ -29,7 +29,7 @@ const PeopleContainer = styled.div`
 
 interface Props {
 	couch: CouchPerson[];
-	audio?: OBSAudioIndicator[];
+	audio?: AudioIndicator;
 	style?: React.CSSProperties;
 	className?: string;
 }
@@ -42,6 +42,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 	// Remove host from array now
 	const couch = props.couch.filter((person) => !person.host);
 
+	// console.log(props.audio)
 	return (
 		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar>
@@ -49,21 +50,17 @@ export const Couch: React.FC<Props> = (props: Props) => {
 			</MenuBar>
 			<PeopleContainer>
 				{couch.map((person) => {
+					console.log(props.audio?.[person.microphone ?? '']);
 					return (
 						<PersonCompressed
 							key={person.name}
 							person={person}
-							speaking={props.audio?.find((audio) => audio.id == person.microphone)?.active}
+							speaking={props.audio?.[person.microphone ?? '']}
 						/>
 					);
 				})}
 				{host && (
-					<PersonCompressed
-						key={'Host'}
-						person={host}
-						speaking={props.audio?.find((audio) => audio.id == host.microphone)?.active}
-						host
-					/>
+					<PersonCompressed key={'Host'} person={host} speaking={props.audio?.[host.microphone ?? '']} host />
 				)}
 			</PeopleContainer>
 		</CouchContainer>
@@ -87,10 +84,13 @@ const PersonCompressedContainer = styled.div`
 
 const SpeakingColour = styled.div`
 	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 8px;
 	width: 100%;
 	height: 100%;
 	opacity: ${(props: SpeakingProps) => (props.speaking ? 1 : 0)};
-	background-color: var(--secondary-colour);
+	background-color: #ffffff53;
 	transition-duration: 0.2s;
 	transition-delay: ${(props: SpeakingProps) => (props.speaking ? undefined : '0.5s')};
 `;
