@@ -50,6 +50,7 @@ const NameInputs = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	width: 100%;
 `;
 
 const NameRow = styled.div`
@@ -223,7 +224,6 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 							...headset,
 							runner: {
 								...headset.runner,
-								id: foundUser.id,
 								name: foundUser.username,
 								pronouns: foundUser.pronouns,
 								twitch: foundUser.twitch,
@@ -258,6 +258,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 	}
 
 	function saveRunner(headset: HeadsetRunner, index: number) {
+		console.log(runDataActiveRep, index, numberOfRunners)
 		if (!runDataActiveRep) return;
 
 		// Set save to false
@@ -273,6 +274,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				(player) => player.id === headset.runner.id,
 			);
 			// Update run data
+			console.log(playerIndex, headset)
 			if (playerIndex >= 0) {
 				let newRunData = { ...runDataActiveRep };
 				newRunData.teams[teamIndex].players[playerIndex].name = headset.runner.name;
@@ -289,6 +291,8 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 
 				// Send to update data
 				nodecg.sendMessageToBundle('modifyRun', 'nodecg-speedcontrol', { runData: newRunData });
+
+				console.log(newRunData)
 			}
 		} else {
 			// Couch
@@ -334,7 +338,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 								</HeadsetName>
 								<Autocomplete
 									style={{
-										minWidth: isRunner ? '24vw' : '40vw',
+										minWidth: isRunner ? '30vw' : '51vw',
 										marginRight: isRunner ? '1vw' : '5vw',
 										fontSize: '2rem !important',
 									}}
@@ -355,7 +359,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 								/>
 								{isRunner && (
 									<TextField
-										style={{ width: '15vw', marginRight: '5vw', fontSize: '2rem !important' }}
+										style={{ width: '20vw', marginRight: '5vw', fontSize: '2rem !important' }}
 										value={headset.runner.twitch ?? ''}
 										onChange={(e) => {
 											setRunnerProperty('twitch', e.target.value, headset.name);
@@ -365,7 +369,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 									/>
 								)}
 								<Autocomplete
-									style={{ minWidth: '10vw', fontSize: '2rem' }}
+									style={{ minWidth: '20vw', fontSize: '2rem' }}
 									freeSolo
 									options={PRONOUN_OPTIONS}
 									inputValue={headset.runner.pronouns ?? ''}

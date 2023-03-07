@@ -32,6 +32,8 @@ const SCHEDULE_QUERY = gql`
 	}
 `;
 
+const DUMB_RUN_QUERY = gql``;
+
 const scheduleSchema = z.object({
 	event: z.object({
 		runs: z.array(z.object({
@@ -49,6 +51,8 @@ const scheduleSchema = z.object({
 				pronouns: z.string(),
 				twitch: z.string(),
 			})),
+			// techPlatform: z.string(),
+			// specialReqs: z.string(),
 		}))
 	}),
 });
@@ -66,24 +70,7 @@ async function getSchedule() {
 	}
 }
 
-interface AusSpeedrunsScheduleItem {
-	id: string;
-	game: string;
-	category: string;
-	platform: string;
-	race: boolean;
-	coop: boolean;
-	estimate: string;
-	scheduledTime: Date;
-	runners: {
-		id: string;
-		username: string;
-		pronouns: string;
-		twitch: string;
-	}[];
-};
-
-function convertScheduleToSpeedcontrol(runs: AusSpeedrunsScheduleItem[]): RunDataArray {
+function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>['event']['runs']): RunDataArray {
 	return runs.map(run => {
 		const teams: RunDataTeam[] = [];
 
@@ -111,6 +98,12 @@ function convertScheduleToSpeedcontrol(runs: AusSpeedrunsScheduleItem[]): RunDat
 				teams[0].players.push(player);
 			}
 		});
+
+		// let customData = {};
+		// customData = {
+		// 	techPlatform: run.techPlatform,
+		// 	specialRequirements: run.specialReqs,
+		// };
 
 		return {
 			id: run.id,

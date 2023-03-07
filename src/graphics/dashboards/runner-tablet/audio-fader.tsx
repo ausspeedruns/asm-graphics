@@ -1,13 +1,13 @@
 import { Slider } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FitText } from '../../elements/fit-text';
 
 const AudioFaderContainer = styled.div`
 	height: 100%;
-	width: 7rem;
-	min-width: 7rem;
-	max-width: 7rem;
+	width: 5rem;
+	min-width: 5rem;
+	max-width: 5rem;
 	display: flex;
 	flex-direction: column;
 	align-content: center;
@@ -16,7 +16,7 @@ const AudioFaderContainer = styled.div`
 
 const DBValue = styled.p`
 	text-align: center;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	margin: 0;
 	margin-bottom: 1rem;
 `;
@@ -25,7 +25,7 @@ const FaderLabel = styled(FitText)`
 	text-align: center;
 	min-height: 2rem;
 	max-height: 2rem;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	margin: 0;
 	display: flex;
 	justify-content: center;
@@ -76,18 +76,20 @@ interface Props {
 	label: string;
 	channel: number;
 	mixBus: number;
+	value: number | undefined;
+	onChange: (value: number) => void;
 }
 
 export const AudioFader = (props: Props) => {
-	const [faderVal, setFaderVal] = useState(0.75);
+	const [faderVal, setFaderVal] = useState<number | undefined>(undefined);
 
-	function updateFader(value: number) {
-		setFaderVal(value);
+	useEffect(() => {
+		if (typeof props.value !== 'undefined') {
+			setFaderVal(props.value);
+		};
+	}, [props.value]);	
 
-		nodecg.sendMessage('x32:setFader', { float: value, channel: props.channel, mixBus: props.mixBus });
-	}
-
-	const dbVal = floatToDB(faderVal);
+	const dbVal = floatToDB(faderVal ?? NaN);
 
 	return (
 		<AudioFaderContainer className={props.className} style={props.style}>
@@ -108,9 +110,14 @@ export const AudioFader = (props: Props) => {
 				style={{ margin: 'auto' }}
 				size="medium"
 				orientation="vertical"
-				value={faderVal}
+				// value={props.value}
+				value={faderVal ?? 0}
 				onChange={(_, newVal) => {
-					if (!Array.isArray(newVal)) updateFader(newVal);
+					// if (!Array.isArray(newVal)) updateFader(newVal);
+					if (!Array.isArray(newVal)) {
+						setFaderVal(newVal);
+						props.onChange(newVal);
+					}
 				}}
 				min={0}
 				max={1}

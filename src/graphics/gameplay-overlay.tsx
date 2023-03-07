@@ -23,7 +23,7 @@ import { GBC } from './overlays/gbc';
 import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
 import { ThreeDS } from './overlays/3ds';
-import { CreditsOverlay } from './overlays/credits';
+import { NoGraphics } from './overlays/no-graphics';
 import type NodeCG from '@alvancamp/test-nodecg-types';
 import type { Tweet } from '@asm-graphics/types/Twitter';
 import type { AudioIndicator } from '@asm-graphics/types/Audio';
@@ -151,7 +151,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: '3DS',
 		},
 		{
-			component: <CreditsOverlay />,
+			component: <NoGraphics />,
 			name: 'None',
 		},
 	];

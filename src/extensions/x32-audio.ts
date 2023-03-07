@@ -11,6 +11,8 @@ const x32StatusRep = nodecg.Replicant<ConnectionStatus>('x32:status');
 const audioIndicatorsRep = nodecg.Replicant<AudioIndicator>('audio-indicators');
 const audioGateRep = nodecg.Replicant<number>('audio-gate');
 const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
+const graphicAudioIndicatorRep = nodecg.Replicant<string>('audio-indicator');
+const x32BusFadersRep = nodecg.Replicant<number[][]>('x32:busFaders', { defaultValue: [] });
 
 // X32 Scenes
 // Gameplay
@@ -30,32 +32,41 @@ const GAME_CHANNELS = [9, 11, 13, 15]; // Channels are paired as stereo pairs so
 const HOST_MIC_CHANNEL = 5;
 const SPECIAL_MIC_CHANNEL = 6;
 
-let faderValues: number[] = [];
-let mutedChannels: boolean[] = [];
+let faderValues: number[][] = [];
 
 x32.on('status', (status) => {
 	x32StatusRep.value = status;
 })
 
-x32.on('faders', (faders) => {
-	faderValues = faders;
+x32.on('faders', (faders, bus) => {
+	const prevMainBus = faderValues[bus]?.[0];
+	faderValues[bus] = faders;
+	faderValues[bus][0] = prevMainBus;
 });
 
+x32.on('mainFaders', (faders) => {
+	faders.forEach((fader, i) => {
+		if (typeof fader === 'undefined') return;
+		
+		if (!faderValues[i]) faderValues[i] = [];
+		faderValues[i][0] = fader;
+	});
+});
+
+// Update x32BusFadersRep on an interval
+setInterval(() => {
+	x32BusFadersRep.value = faderValues;
+}, 200);
+
 x32.on('meters', (meters) => {
-	// meters.forEach((meter, ch) => {
-	// 	updateAudioIndicator(meter, ch);
-	// });
 	MICROPHONE_CHANNELS.forEach(mic => {
 		updateAudioIndicator(meters[mic.channel], mic);
 	});
 });
 
-x32.on('mutes', mutes => {
-	mutedChannels = mutes;
-});
 
 function updateAudioIndicator(float: number, mic: typeof MICROPHONE_CHANNELS[number]) {
-	const active = X32.floatToDB(float) + faderValues[mic.channel] >= audioGateRep.value;
+	const active = X32.floatToDB(float) + X32.floatToDB((faderValues[0]?.[mic.channel] ?? 0.75)) >= audioGateRep.value;
 	// console.log(typeof audioIndicatorsRep.value, audioIndicatorsRep.value)
 	audioIndicatorsRep.value[mic.name] = active;
 }
@@ -65,28 +76,16 @@ nodecg.listenFor('transition:toGame', (data: { to: string, from: string }) => {
 	// Unmute mics for speakers and stream
 	const micIndexes = getMicrophoneIndexesOfPeopleTalking();
 
-	const gameChannels = [GAME_CHANNELS[0]];
-
-	if (data.to.indexOf("2p") > 0) {
-		gameChannels.push(GAME_CHANNELS[1]);
-	} else if (data.to.indexOf("3p") > 0) {
-		gameChannels.push(GAME_CHANNELS[1], GAME_CHANNELS[2]);
-	} else if (data.to.indexOf("4p") > 0) {
-		gameChannels.push(GAME_CHANNELS[1], GAME_CHANNELS[2], GAME_CHANNELS[3]);
-	}
-
 	loopAllX32((channel, mixBus) => {
 		// Only set mics that have someone using them to be unmuted
-		if (micIndexes.includes(channel) || gameChannels.includes(channel)) {
-			// x32.unmuteChannel(channel, mixBus);
-			// x32.fade(channel, mixBus, 0, 0.8, 1500);
+		if (micIndexes.includes(channel) || channel === GAME_CHANNELS[0]) {
 			fadeUnmute(channel, mixBus);
 		} else {
-			// x32.muteChannel(channel, mixBus);
-			// x32.fade(channel, mixBus, 0.8, 0, 1500);
 			fadeMute(channel, mixBus);
 		}
 	}, 32, 1);
+
+	graphicAudioIndicatorRep.value = runDataActiveRep.value?.teams[0].players[0].id ?? '';
 });
 
 // On transition to intermission
@@ -95,12 +94,8 @@ nodecg.listenFor('transition:toIntermission', () => {
 	loopAllX32((channel, mixBus) => {
 		// Don't even attempt to mute the channels since sometimes it gets lost
 		if (channel === HOST_MIC_CHANNEL && mixBus <= 1) {
-			// x32.unmuteChannel(channel, mixBus);
-			// x32.fade(channel, mixBus, 0, 0.8);
 			fadeUnmute(channel, mixBus);
 		} else {
-			// x32.muteChannel(channel, mixBus);
-			// x32.fade(channel, mixBus, 0.8, 0, 1500);
 			fadeMute(channel, mixBus);
 		}
 	}, 32, 1);
@@ -112,10 +107,8 @@ nodecg.listenFor('transition:toIRL', () => {
 	loopAllX32((channel, mixBus) => {
 		// Don't even attempt to mute the channels since sometimes it gets lost
 		if (channel === SPECIAL_MIC_CHANNEL && mixBus <= 1) {
-			// x32.unmuteChannel(channel, mixBus);
 			x32.unmuteChannel(channel, mixBus);
 		} else {
-			// x32.muteChannel(channel, mixBus);
 			x32.muteChannel(channel, mixBus);
 		}
 	});
@@ -162,8 +155,8 @@ function findMicrophoneChannel(name?: string) {
 // This will look to see if a channel is either unmuted or set to something above -∞
 function fadeUnmute(channel: number, mixBus: number) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
-	if (faderValues[channel] === 0) {
-		console.log(`UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[channel] === 0 ? "| ACTIONING" : ''}`);
+	if (faderValues[0]?.[channel] === 0) {
+		nodecg.log.debug(`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ''}`);
 		// Unmute
 		x32.fade(channel, mixBus, 0, 0.75, 1500);
 	}
@@ -171,10 +164,10 @@ function fadeUnmute(channel: number, mixBus: number) {
 
 // This will look to see if a channel is either muted or set to -∞ already 
 function fadeMute(channel: number, mixBus: number) {
-	if (faderValues[channel] > 0) {
-		console.log(`MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[channel] > 0 ? "| ACTIONING" : ''}`);
+	if (faderValues[0]?.[channel] > 0) {
+		nodecg.log.debug(`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ''}`);
 		// Mute
-		x32.fade(channel, mixBus, faderValues[channel], 0, 1500);
+		x32.fade(channel, mixBus, faderValues[0]?.[channel], 0, 1500);
 	}
 }
 
@@ -195,4 +188,40 @@ runDataActiveRep.on('change', (newVal, oldVal) => {
 			});
 		})
 	}
+});
+
+// Indexed to game number
+nodecg.listenFor('x32:changeGameAudio', (playerID: string) => {
+	// Find playerID game index
+	const teamIndex = runDataActiveRep.value?.teams.findIndex(team => team.players.some(player => player.id === playerID)) ?? -1;
+	const playerIndex = runDataActiveRep.value?.teams[teamIndex].players.findIndex(player => player.id === playerID) ?? -1;
+	const gameChannelIndex = GAME_CHANNELS[teamIndex + playerIndex]; // THIS WILL BREAK IF ON COOP AND USING THE SAME CONSOLE
+
+	if (teamIndex + playerIndex < 0) {
+		nodecg.log.error(`[X32 Audio] Tried changing game audio to player: ${playerID}. But could not find the player.`);
+		return;
+	}
+
+	// Get current active game audio
+	// Highest is considered active
+	let highestFaderVal = Number.NEGATIVE_INFINITY;
+	let activeIndex = -1;
+	for (let i = GAME_CHANNELS[0]; i < (GAME_CHANNELS.at(-1) ?? GAME_CHANNELS[0]); i++) {
+		const value = faderValues[0]?.[i];
+		if (value > highestFaderVal) {
+			highestFaderVal = value;
+			activeIndex = i;
+		}
+	}
+
+	nodecg.log.debug(`[X32 Audio] Changing audio from ${activeIndex}/${X32.channelIndex[activeIndex]} to ${gameChannelIndex}/${X32.channelIndex[gameChannelIndex]}`);
+
+	x32.fade(activeIndex, 0, highestFaderVal, 0, 1500);
+
+	// Wait for fade of previous game
+	setTimeout(() => {
+		// Assume that the audio level the previous game was at will also be ok
+		x32.fade(gameChannelIndex, 0, 0, highestFaderVal, 1500);
+		graphicAudioIndicatorRep.value = playerID;
+	}, 1500);
 });

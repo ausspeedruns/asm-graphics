@@ -127,7 +127,7 @@ export const Facecam = (props: FacecamProps) => {
 	} else {
 		let alternatingPronounSides = props.pronounStartSide === 'right';
 		// Single Player/Coop, display each player's name
-		props.teams[0].players.forEach((player, i) => {
+		props.teams[0]?.players.forEach((player, i) => {
 			alternatingPronounSides = !alternatingPronounSides;
 			if (props.dontAlternatePronouns) {
 				alternatingPronounSides = props.pronounStartSide === 'right';

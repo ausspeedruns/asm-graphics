@@ -115,7 +115,7 @@ export const Status: React.FC = () => {
 				<Header noBorder>TIME</Header>
 				<TimeToNextContainer>
 					Currently
-					<Time style={{ color: timeColour(timeToCurrentRunStart) }}>{new Date().toLocaleTimeString()}</Time>
+					<Time>{new Date().toLocaleTimeString()}</Time>
 				</TimeToNextContainer>
 				<TimeToNextContainer>
 					Time until current run starts{' '}

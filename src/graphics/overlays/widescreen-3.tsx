@@ -10,8 +10,6 @@ import { Facecam } from '../elements/facecam';
 import { Timer } from '../elements/timer';
 import * as RunInfo from '../elements/run-info';
 
-import BGLeft from '../media/pixel/Wide 3p Left.png';
-import BGRight from '../media/pixel/Wide 3p Right.png';
 import GameplayBL from '../media/Widescreen-3-BL.svg';
 import GameplayTL from '../media/Widescreen-3-TL.svg';
 import GameplayTR from '../media/Widescreen-3-TR.svg';
@@ -61,22 +59,6 @@ const CentralDivider = styled.div`
 	top: 297px;
 	left: 959px;
 	background: var(--sec);
-`;
-
-const LeftBorderImage = styled.img`
-	background: var(--main);
-	position: absolute;
-	top: 0;
-	left: 0;
-	border-right: 1px solid var(--sec);
-`;
-
-const RightBorderImage = styled.img`
-	/* background: var(--main); */
-	position: absolute;
-	top: 0;
-	right: 0;
-	border-left: 1px solid var(--sec);
 `;
 
 // const Facecam = styled.div`
@@ -202,8 +184,6 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 			<WideAudioIndicator active={currentAudio === 1} side="top" style={{ left: 1262 }} />
 			<WideAudioIndicator active={currentAudio === 2} side="top" style={{ left: 1563 }} />
 			<RightBG />
-			<LeftBorderImage src={BGLeft} />
-			<RightBorderImage src={BGRight} />
 			<TopBar>
 				<Screen />
 				<Screen />

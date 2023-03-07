@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import { Credits } from '../elements/credits';
+import { NameLowerThird } from '../elements/name-lowerthird';
 
-const CreditsOverlayContainer = styled.div`
+const NoGraphicsContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
 	position: relative;
@@ -42,21 +43,24 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-export const CreditsOverlay: React.FC<Props> = (props: Props) => {
+export const NoGraphics: React.FC<Props> = (props: Props) => {
 	const [creditsNameRep] = useReplicant<{ name: string; title: string }, { name: string; title: string }>(
 		'credits-name',
 		{ name: '', title: '' },
 	);
 	return (
-		<CreditsOverlayContainer className={props.className} style={props.style}>
+		<NoGraphicsContainer className={props.className} style={props.style}>
 			<Credits />
-			<LowerThird
+			<div style={{ display: 'flex', justifyContent: 'center', width: '100%', paddingTop: 825 }}>
+				<NameLowerThird name={creditsNameRep.name} subtitle={creditsNameRep.title} />
+			</div>
+			{/* <LowerThird
 				style={{
 					visibility: creditsNameRep.name === '' && creditsNameRep.title === '' ? 'hidden' : 'visible',
 				}}>
 				<Name>{creditsNameRep.name}</Name>
 				<Title>{creditsNameRep.title}</Title>
-			</LowerThird>
-		</CreditsOverlayContainer>
+			</LowerThird> */}
+		</NoGraphicsContainer>
 	);
 };

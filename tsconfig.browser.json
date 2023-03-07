@@ -18,7 +18,8 @@
 			"@asm-graphics/*": ["extension/*"],
 			"@asm-graphics/types": ["types"],
 			"@asm-graphics/types/*": ["types/*"]
-		}
+		},
+		"forceConsistentCasingInFileNames": true
 	},
 	"include": [
 		"**/*.ts",

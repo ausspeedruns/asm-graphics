@@ -8,9 +8,10 @@ const nodecg = nodecgApiContext.get();
 
 interface X32Class {
 	'status': (status: ConnectionStatus) => void;
-	'faders': (faders: number[]) => void;
+	'faders': (faders: number[], mixBus: number) => void;
+	'mainFaders': (mainFaders: number[]) => void;
 	'meters': (meters: number[]) => void;
-	'mutes': (meters: boolean[]) => void;
+	// 'mutes': (mutes: boolean[]) => void;
 }
 
 class X32 extends TypedEmitter<X32Class> {
@@ -52,7 +53,7 @@ class X32 extends TypedEmitter<X32Class> {
 
 		this.oscSocket.open();
 
-		this.intervalSubscriptions = setInterval(this.renewSubscriptions.bind(this), 10000);
+		this.intervalSubscriptions = setInterval(this.renewSubscriptions.bind(this), 9000);
 		this.intervalHeartbeat = setInterval(this.sendHeartbeat.bind(this), this.HEARTBEAT_INTERVAL);
 	}
 
@@ -82,6 +83,8 @@ class X32 extends TypedEmitter<X32Class> {
 		let channelNumber = 1;
 		let valueBytes;
 
+		// Number.NEGATIVE_INFINITY is there because the arrays are 1 indexed, not 0
+
 		if (str.startsWith('/info')) {
 			// Heartbeat
 			this.emit('status', 'connected');
@@ -89,22 +92,22 @@ class X32 extends TypedEmitter<X32Class> {
 			clearTimeout(this.heartbeatTimeout);
 			this.heartbeatAttempts = 0;
 			this.heartbeatTimeout = setTimeout(this.handleMissedHeartbeat.bind(this), this.HEARTBEAT_TIMEOUT);
-		} else if (str.startsWith('/chMutes')) {
+		// } else if (str.startsWith('/chMutes')) {
 			// MUTES
 			// For this particular message, we know that the values start at byte 22 and stop 2 bytes from the end.
-			valueBytes = buffer.subarray(22, -2);
-			const mutes = [false];
+			// valueBytes = buffer.subarray(22, -2);
+			// const mutes = [false];
 
-			for (let i = 0; i < valueBytes.length; i += 4) {
-				mutes[channelNumber] = !valueBytes.readFloatBE(i);
-				channelNumber++;
-			}
+			// for (let i = 0; i < valueBytes.length; i += 4) {
+			// 	mutes[channelNumber] = !valueBytes.readFloatBE(i);
+			// 	channelNumber++;
+			// }
 
-			this.emit('mutes', mutes);
+			// this.emit('mutes', mutes);
 		} else if (str.startsWith('/chFaders')) {
 			// For this particular message, we know that the values start at byte 24
 			valueBytes = buffer.subarray(24);
-			const faders = [Number.NEGATIVE_INFINITY];
+			const faders = [];
 
 			for (let i = 0; i < valueBytes.length; i += 4) {
 				// faders[channelNumber] = X32.floatToDB(valueBytes.readFloatLE(i));
@@ -113,11 +116,11 @@ class X32 extends TypedEmitter<X32Class> {
 				channelNumber++;
 			}
 
-			this.emit('faders', faders);
+			this.emit('faders', faders, 0);
 		} else if (str.startsWith('/chMeters')) {
 			// Detect input volumes
 			valueBytes = buffer.subarray(24, -64);
-			const meters = [Number.NEGATIVE_INFINITY];
+			const meters: number[] = [];
 
 			for (let i = 0; i < valueBytes.length; i += 4) {
 				meters[channelNumber] = valueBytes.readFloatLE(i);
@@ -128,9 +131,41 @@ class X32 extends TypedEmitter<X32Class> {
 			}
 
 			this.emit('meters', meters);
+		} else if (/\/bus(\d{2})Faders/.test(str)) {
+			const bus = parseInt(str.match(/\/bus(\d{2})Faders/)?.[1] ?? "-1");
+			if (bus === -1) {
+				nodecg.log.error(`[X32] Unknown bus: ${str}`);
+				return;
+			}
+
+			valueBytes = buffer.subarray(28);
+			const faders = [];
+			for (let i = 0; i < valueBytes.length; i += 4) {
+				faders[channelNumber] = valueBytes.readFloatLE(i);
+
+				// console.log(`${X32.mixBusIndex[bus]} ${channelNumber} ${X32.channelIndex[channelNumber]} ${valueBytes.readFloatLE(i)}`);
+
+				channelNumber++;
+			}
+
+			this.emit('faders', faders, bus)
+		} else if (/\/busMasters/.test(str)) {
+			valueBytes = buffer.subarray(24);
+
+			let bus = 3; // We start at 3 and go to 12
+			const faders = [];
+			for (let i = 0; i < valueBytes.length; i += 4) {
+				faders[bus] = valueBytes.readFloatLE(i);
+
+				// console.log(`${X32.mixBusIndex[bus]} ${bus} ${valueBytes.readFloatLE(i)}`);
+
+				bus++;
+			}
+
+			this.emit('mainFaders', faders)
 		}
 		else {
-			nodecg.log.info(`[X32] Unknown command: ${str}`);
+			nodecg.log.debug(`[X32] Unknown command: ${str}`);
 		}
 	}
 
@@ -146,17 +181,19 @@ class X32 extends TypedEmitter<X32Class> {
 	 * Renews subscriptions with the X32 (they expire every 10s).
 	 */
 	renewSubscriptions = () => {
-		this.oscSocket.send({
-			address: '/batchsubscribe',
-			args: [
-				{ type: 's', value: '/chMutes' },
-				{ type: 's', value: '/mix/on' },
-				{ type: 'i', value: 0 },
-				{ type: 'i', value: 63 },
-				{ type: 'i', value: 10 }
-			]
-		});
+		// MAIN BUS MUTES
+		// this.oscSocket.send({
+		// 	address: '/batchsubscribe',
+		// 	args: [
+		// 		{ type: 's', value: '/chMutes' },
+		// 		{ type: 's', value: '/mix/on' },
+		// 		{ type: 'i', value: 0 },
+		// 		{ type: 'i', value: 63 },
+		// 		{ type: 'i', value: 10 }
+		// 	]
+		// });
 
+		// MAIN BUS FADERS
 		this.oscSocket.send({
 			address: '/batchsubscribe',
 			args: [
@@ -168,6 +205,7 @@ class X32 extends TypedEmitter<X32Class> {
 			]
 		});
 
+		// INPUT CHANNEL METERS
 		this.oscSocket.send({
 			address: '/batchsubscribe',
 			args: [
@@ -176,6 +214,31 @@ class X32 extends TypedEmitter<X32Class> {
 				{ type: 'i', value: 0 },
 				{ type: 'i', value: 0 },
 				{ type: 'i', value: 10 }
+			]
+		});
+
+		// GET MIXBUS FADERS
+		["03", "05", "07", "11"].forEach(bus => {
+			this.oscSocket.send({
+				address: '/formatsubscribe',
+				args: [
+					{ type: 's', value: `/bus${bus}Faders` },
+					{ type: 's', value: `/ch/**/mix/${bus}/level` },
+					{ type: 'i', value: 1 },
+					{ type: 'i', value: 16 },
+					{ type: 'i', value: 10 },
+				]
+			});
+		});
+
+		this.oscSocket.send({
+			address: '/formatsubscribe',
+			args: [
+				{ type: 's', value: `/busMasters` },
+				{ type: 's', value: `/bus/**/mix/fader` },
+				{ type: 'i', value: 3 },
+				{ type: 'i', value: 12 },
+				{ type: 'i', value: 10 },
 			]
 		});
 	}
@@ -200,7 +263,7 @@ class X32 extends TypedEmitter<X32Class> {
 	}
 
 	static channelIndex = [
-		'X32 IS 1 INDEXED', // OR MAIN FADER
+		'MAIN FADER',
 		'Runner 1',		// 'Ch 01'
 		'Runner 2',		// 'Ch 02'
 		'Runner 3',		// 'Ch 03'
@@ -211,12 +274,12 @@ class X32 extends TypedEmitter<X32Class> {
 		'Ch 08',
 		'Game 1 (L)/R',	// 'Ch 09'
 		'Game 1 L/(R)',	// 'Ch 10'
-		'Game 1 (L)/R',	// 'Ch 11'
-		'Game 1 L/(R)',	// 'Ch 12'
-		'Game 1 (L)/R',	// 'Ch 13'
-		'Game 1 L/(R)',	// 'Ch 14'
-		'Game 1 (L)/R',	// 'Ch 15'
-		'Game 1 L/(R)',	// 'Ch 16'
+		'Game 2 (L)/R',	// 'Ch 11'
+		'Game 2 L/(R)',	// 'Ch 12'
+		'Game 3 (L)/R',	// 'Ch 13'
+		'Game 3 L/(R)',	// 'Ch 14'
+		'Game 4 (L)/R',	// 'Ch 15'
+		'Game 4 L/(R)',	// 'Ch 16'
 		'Ch 17',
 		'Ch 18',
 		'Ch 19',
@@ -305,8 +368,8 @@ class X32 extends TypedEmitter<X32Class> {
 		});
 	}
 
-	setFaderLevel = (channel: number, mixBus: number, dangerousFaderLevel: number) => {
-		const faderLevel = Math.min(Math.max(dangerousFaderLevel, 0), 1);
+	setFaderLevel = (channel: number, mixBus: number, faderFloat: number) => {
+		const faderLevel = Math.min(Math.max(faderFloat, 0), 1);
 
 		this.oscSocket.send({
 			address: X32.generateChannelAddress(X32.isMainMixBus(mixBus) || X32.isMainFader(channel) ? 'fader' : 'level', channel, mixBus),

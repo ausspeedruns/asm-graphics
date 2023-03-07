@@ -41,7 +41,7 @@ const HostName = styled.div`
 	font-weight: bold;
 	text-align: right;
 	padding-right: 1rem;
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 
 	span {
 		font-weight: normal;
