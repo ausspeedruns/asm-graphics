@@ -1,11 +1,12 @@
 import * as nodecgApiContext from './nodecg-api-context';
-import { CouchPerson } from '@asm-graphics/types/OverlayProps';
-import { RunDataActiveRun } from '@asm-graphics/types/RunData';
+import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
+import type NodeCG from '@alvancamp/test-nodecg-types';
 
 const nodecg = nodecgApiContext.get();
 
-const couchNamesRep = nodecg.Replicant<CouchPerson[]>('couch-names');
-const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
+const couchNamesRep = nodecg.Replicant('couch-names') as unknown as NodeCG.ServerReplicantWithSchemaDefault<CouchPerson[]>;
+const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 
 nodecg.listenFor('update-hostname', (data: CouchPerson) => {
 	// hostNameRep.value = data;

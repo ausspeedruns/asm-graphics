@@ -1,18 +1,20 @@
-import { AudioIndicator } from '@asm-graphics/types/Audio';
-import { CouchPerson } from '@asm-graphics/types/OverlayProps';
-import { RunDataActiveRun } from '@asm-graphics/types/RunData';
 import * as nodecgApiContext from './nodecg-api-context';
 import X32 from './util/x32';
+
+import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
+import type { AudioIndicator } from '@asm-graphics/types/Audio';
 import type { ConnectionStatus } from '@asm-graphics/types/Connections';
+import type NodeCG from '@alvancamp/test-nodecg-types';
 
 const nodecg = nodecgApiContext.get();
 
-const x32StatusRep = nodecg.Replicant<ConnectionStatus>('x32:status');
-const audioIndicatorsRep = nodecg.Replicant<AudioIndicator>('audio-indicators');
-const audioGateRep = nodecg.Replicant<number>('audio-gate');
-const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
-const graphicAudioIndicatorRep = nodecg.Replicant<string>('audio-indicator');
-const x32BusFadersRep = nodecg.Replicant<number[][]>('x32:busFaders', { defaultValue: [] });
+const x32StatusRep = nodecg.Replicant('x32:status') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ConnectionStatus>;
+const audioIndicatorsRep = nodecg.Replicant('audio-indicators') as unknown as NodeCG.ServerReplicantWithSchemaDefault<AudioIndicator>;
+const audioGateRep = nodecg.Replicant('audio-gate') as unknown as NodeCG.ServerReplicantWithSchemaDefault<number>;
+const runDataActiveRep = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
+const graphicAudioIndicatorRep = nodecg.Replicant('audio-indicator') as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
+const x32BusFadersRep = nodecg.Replicant('x32:busFaders', { defaultValue: [] }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<number[][]>;
 
 // X32 Scenes
 // Gameplay
@@ -214,14 +216,18 @@ nodecg.listenFor('x32:changeGameAudio', (playerID: string) => {
 		}
 	}
 
+	let highestSpeakerFaderVal = faderValues[1][activeIndex];
+
 	nodecg.log.debug(`[X32 Audio] Changing audio from ${activeIndex}/${X32.channelIndex[activeIndex]} to ${gameChannelIndex}/${X32.channelIndex[gameChannelIndex]}`);
 
 	x32.fade(activeIndex, 0, highestFaderVal, 0, 1500);
+	x32.fade(activeIndex, 1, highestSpeakerFaderVal, 0, 1500);
 
 	// Wait for fade of previous game
 	setTimeout(() => {
 		// Assume that the audio level the previous game was at will also be ok
 		x32.fade(gameChannelIndex, 0, 0, highestFaderVal, 1500);
+		x32.fade(gameChannelIndex, 1, 0, highestSpeakerFaderVal, 1500);
 		graphicAudioIndicatorRep.value = playerID;
 	}, 1500);
 });

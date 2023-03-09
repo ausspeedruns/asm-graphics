@@ -2,6 +2,7 @@ import * as nodecgApiContext from './nodecg-api-context';
 import obs from './util/obs';
 
 const nodecg = nodecgApiContext.get();
+const ncgLog = new nodecg.Logger("OBS-Local");
 
 let previewScene: string;
 let programScene: string;
@@ -42,7 +43,8 @@ obs.on('SceneTransitionStarted', async () => {
 		nodecg.sendMessage('transition:UNKNOWN', { to: toScene, from: fromScene });
 	}
 
-	nodecg.log.info(logString);
+	ncgLog.info(logString);
+	nodecg.sendMessage('runTransitionGraphic');
 });
 
 // AUTOMATICALLY ADVANCE RUN WHEN TRANSITIONING FROM GAME TO INTERMISSION

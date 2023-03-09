@@ -6,4 +6,5 @@ export interface Donation {
 	name: string;
 	amount: number;
 	currencySymbol: string;
+	currencyCode?: string;
 }

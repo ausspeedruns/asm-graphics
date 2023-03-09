@@ -28,6 +28,7 @@ export interface ConfigSchema {
 		enabled: boolean;
 		key: string;
 		campaign: string;
+		id: string;
 	};
 	graphql?: {
 		url: string;

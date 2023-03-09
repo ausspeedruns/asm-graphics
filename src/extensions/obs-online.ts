@@ -1,15 +1,15 @@
 import * as nodecgApiContext from './nodecg-api-context';
 import obs from './util/obs';
 
-import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
-import { Stream } from '@asm-graphics/types/Streams';
-// import { CouchInformation, NoCam } from '@asm-graphics/types/OverlayProps';
+import type { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
+import type { Stream } from '@asm-graphics/types/Streams';
+import type NodeCG from '@alvancamp/test-nodecg-types';
 
 const nodecg = nodecgApiContext.get();
 
-const currentOverlayRep = nodecg.Replicant<CurrentOverlay>('currentOverlay');
-const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams');
-const currentSceneRep = nodecg.Replicant<string>('obsCurrentScene');
+const currentOverlayRep = nodecg.Replicant('currentOverlay') as unknown as NodeCG.ServerReplicantWithSchemaDefault<CurrentOverlay>;
+const twitchStreamsRep = nodecg.Replicant('twitchStreams') as unknown as NodeCG.ServerReplicantWithSchemaDefault<Stream[]>;
+const currentSceneRep = nodecg.Replicant('obsCurrentScene') as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
 // const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names');
 // const noCamRep = nodecg.Replicant<NoCam>('no-cam');
 

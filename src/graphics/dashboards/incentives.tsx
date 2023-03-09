@@ -88,7 +88,7 @@ const WarContainer = styled.div`
 
 const WarItem = styled(Box)`
 	background: #ddd;
-	font-weight: bold;
+	/* font-weight: bold; */
 	padding: 2%;
 	font-size: 1.2rem;
 
@@ -111,7 +111,7 @@ const GoalContainer = styled(Box)`
 	justify-content: space-evenly;
 	font-size: 1.3rem;
 	background: #ddd;
-	font-weight: bold;
+	/* font-weight: bold; */
 	padding: 1%;
 	margin: 1% 1% 1% 0;
 `;

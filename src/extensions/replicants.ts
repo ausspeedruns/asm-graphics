@@ -64,3 +64,4 @@ nodecg.Replicant<AusSpeedrunsUser[]>('all-usernames', { defaultValue: [] });
 
 /* Runner Tablet */
 nodecg.Replicant<boolean>('runner:ready', { defaultValue: false });
+nodecg.Replicant<boolean>('tech:ready', { defaultValue: false });

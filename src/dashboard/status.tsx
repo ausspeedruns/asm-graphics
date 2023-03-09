@@ -6,6 +6,7 @@ import useCurrentTime from '../hooks/useCurrentTime';
 import useSurroundingRuns from '../hooks/useSurroundingRuns';
 import { useReplicant } from 'use-nodecg';
 import type { ConnectionStatus } from '@asm-graphics/types/Connections';
+import { Button } from '@mui/material';
 
 const StatusContainer = styled.div`
 	display: grid;
@@ -139,6 +140,14 @@ export const Status: React.FC = () => {
 				<ConnectionStatus style={{ backgroundColor: runnerReadyInfo.colour }}>
 					{runnerReadyInfo.text}
 				</ConnectionStatus>
+				<Header noBorder>Tech</Header>
+				<ConnectionStatus style={{ backgroundColor: runnerReadyInfo.colour }}>
+					{runnerReadyInfo.text}
+				</ConnectionStatus>
+				<div style={{display: 'flex'}}>
+					<Button variant="contained" onClick={() => nodecg.sendMessage('tech:setNotReady')} fullWidth>Unready</Button>
+					<Button variant="contained" onClick={() => nodecg.sendMessage('tech:setReady')} fullWidth>Ready</Button>
+				</div>
 				<Header>OBS</Header>
 				<ConnectionStatus style={{ backgroundColor: obsStatusInfo.colour }}>
 					{obsStatusInfo.text}

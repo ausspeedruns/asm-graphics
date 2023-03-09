@@ -1,13 +1,14 @@
 import * as nodecgApiContext from './nodecg-api-context';
 import _ from 'underscore';
 
-import { Donation } from '@asm-graphics/types/Donations';
+import type { Donation } from '@asm-graphics/types/Donations';
+import type NodeCG from '@alvancamp/test-nodecg-types';
 
 const nodecg = nodecgApiContext.get();
 
-const donationsRep = nodecg.Replicant<Donation[]>('donations');
-const manualDonationsRep = nodecg.Replicant<Donation[]>('manual-donations');
-const manualDonationTotalRep = nodecg.Replicant<number>('manual-donation-total');
+const donationsRep = nodecg.Replicant('donations') as unknown as NodeCG.ServerReplicantWithSchemaDefault<Donation[]>;
+const manualDonationsRep = nodecg.Replicant('manual-donations') as unknown as NodeCG.ServerReplicantWithSchemaDefault<Donation[]>;
+const manualDonationTotalRep = nodecg.Replicant('manual-donation-total') as unknown as NodeCG.ServerReplicantWithSchemaDefault<number>;
 
 nodecg.listenFor('donations:toggleRead', (id: string) => {
 	const donationIndex = donationsRep.value.findIndex(donation => donation.id === id);

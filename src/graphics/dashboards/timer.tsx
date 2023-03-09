@@ -46,6 +46,7 @@ export const Timer: React.FC = () => {
 		namespace: 'nodecg-speedcontrol',
 	});
 	const [runnerReadyRep] = useReplicant<boolean, boolean>('runner:ready', false);
+	const [techReadyRep] = useReplicant<boolean, boolean>('tech:ready', false);
 	// const [disableTime, setDisableTime] = useState(false);
 	// const [currentTime, setCurrentTime] = useState('00:00:00');
 	// const timerRef = useRef<HTMLDivElement>(null);
@@ -111,7 +112,7 @@ export const Timer: React.FC = () => {
 				// ref={timerRef}
 				// onKeyUp={timerEdit}
 			/> */}
-			<RunnerReadyText>{runnerReadyRep ? 'RUNNER IS READY!' : 'Runner not ready'}</RunnerReadyText>
+			<RunnerReadyText>{runnerReadyRep ? 'RUNNER IS READY!' : 'Runner not ready'}{techReadyRep ? '\t|\tTECH IS READY!' : '\t|\tTech not ready'}</RunnerReadyText>
 			<CurrentTime
 				style={{
 					background: timerRep?.state === 'finished' ? '#388E3C' : '',

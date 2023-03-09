@@ -1,20 +1,20 @@
 import * as nodecgApiContext from './nodecg-api-context';
 import obs from './util/obs';
-
-import { RunDataActiveRun } from '@asm-graphics/types/RunData';
-import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
 import _ from 'underscore';
-// import { Stream } from '@asm-graphics/types/Streams';
+
+import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
+import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+import type NodeCG from '@alvancamp/test-nodecg-types';
 
 const nodecg = nodecgApiContext.get();
 
-const audioIndicatorRep = nodecg.Replicant<string>('audio-indicator');
-const runDataActiveRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
+const audioIndicatorRep = nodecg.Replicant('audio-indicator') as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
+const runDataActiveRep = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 // const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams');
 // const obsConnectionRep = nodecg.Replicant<boolean>('obsConnection');
-const obsAudioIndicatorRep = nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator');
-const obsAudioInputs = nodecg.Replicant<string[]>('obs-audio-inputs');
-const obsAudioGate = nodecg.Replicant<number>('obs-audio-gate');
+const obsAudioIndicatorRep = nodecg.Replicant('obs-audio-indicator') as unknown as NodeCG.ServerReplicantWithSchemaDefault<OBSAudioIndicator[]>;
+const obsAudioInputs = nodecg.Replicant('obs-audio-inputs') as unknown as NodeCG.ServerReplicantWithSchemaDefault<string[]>;
+const obsAudioGate = nodecg.Replicant('obs-audio-gate') as unknown as NodeCG.ServerReplicantWithSchemaDefault<number>;
 
 nodecg.listenFor('update-audioindicator', (teamId: string) => {
 	audioIndicatorRep.value = teamId;

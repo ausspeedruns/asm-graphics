@@ -4,10 +4,11 @@ import * as nodecgApiContext from './nodecg-api-context';
 import { request, gql } from 'graphql-request';
 import { z } from 'zod';
 
+import type NodeCG from '@alvancamp/test-nodecg-types';
 
 const nodecg = nodecgApiContext.get();
 
-const incentivesRep = nodecg.Replicant<(Goal | War)[]>('incentives');
+const incentivesRep = nodecg.Replicant('incentives') as unknown as NodeCG.ServerReplicantWithSchemaDefault<(Goal | War)[]>;
 
 nodecg.listenFor('disableIncentive', (index: number) => {
 	const incentiveIndex = incentivesRep.value.findIndex(incentive => incentive.index === index);

@@ -28,8 +28,6 @@ async function init() {
 		require('./obs-local');
 	}
 
-	require('./overlay');
-	require('./audio');
 	require('./couch');
 
 	if (ncgConfig.twitter.enabled) {
@@ -40,7 +38,8 @@ async function init() {
 	}
 
 	if (ncgConfig?.tiltify?.enabled) {
-		require('./donations/tiltify');
+		// require('./donations/tiltify');
+		require('./donations/tiltify-v5');
 	}
 
 	require('./incentives');

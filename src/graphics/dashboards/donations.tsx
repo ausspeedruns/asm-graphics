@@ -38,7 +38,8 @@ const DonationsContainer = styled.div`
 export const Donations: React.FC = () => {
 	const [donations] = useReplicant<Donation[], Donation[]>('donations', []);
 
-	const allDonations = donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];
+	const allDonations =
+		donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];
 
 	return (
 		<DonationsContainer>
@@ -109,7 +110,10 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 		<DonationContainer boxShadow={2}>
 			<Grid direction="column" container>
 				<div>
-					<Amount>${props.donation.amount.toLocaleString()}</Amount>
+					<Amount>
+						${props.donation.amount.toLocaleString()}
+						{props.donation.currencyCode !== 'AUD' ? ` ${props.donation.currencyCode}` : ''}
+					</Amount>
 					<Name>{props.donation.name}</Name>
 				</div>
 				<DateText>{timeText}</DateText>
