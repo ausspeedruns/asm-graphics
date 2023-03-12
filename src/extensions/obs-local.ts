@@ -34,8 +34,10 @@ obs.on('SceneTransitionStarted', async () => {
 			logString += " | Calling transition:toGame message";
 		}
 	} else if (toScene.startsWith("INTERMISSION")) {
-		nodecg.sendMessage('transition:toIntermission', { to: toScene, from: fromScene });
-		logString += " | Calling transition:toIntermission message";
+		if (!fromScene.startsWith("INTERMISSION")) {
+			nodecg.sendMessage('transition:toIntermission', { to: toScene, from: fromScene });
+			logString += " | Calling transition:toIntermission message";
+		}
 	} else if (toScene.startsWith('IRL')) {
 		nodecg.sendMessage('transition:toIRL', { to: toScene, from: fromScene });
 		logString += " | Calling transition:toIRL message";

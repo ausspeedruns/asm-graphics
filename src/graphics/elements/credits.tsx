@@ -28,7 +28,7 @@ const AllCredits = styled.div`
 	align-items: center;
 	justify-content: center;
 	font-family: Noto Sans;
-	background: #00000083;
+	background: #000000c4;
 	color: var(--text-light);
 	margin: auto;
 	padding-top: 1016px;
@@ -102,13 +102,13 @@ export const Credits: React.FC = () => {
 				<Title>AusSpeedruns Committee</Title>
 				<NameContainer>
 					<NameWithRoles>
+						ASGX Coordinator<br />Hardware Coordinator<Name>nei_</Name>
+					</NameWithRoles>
+					<NameWithRoles>
 						Coordinator<Name>Softman25</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Coordinator<Name>Astrious</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						ASGX Coordinator<br />Hardware Coordinator<Name>nei_</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Software Coordinator<Name>Clubwho</Name>
@@ -117,7 +117,7 @@ export const Credits: React.FC = () => {
 						Head of Runner Management<Name>Sten</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Social Media Management<Name>nase</Name>
+						Head of Marketing<Name>nase</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Head of General Committee<Name>werster</Name>

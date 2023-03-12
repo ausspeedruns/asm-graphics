@@ -22,11 +22,6 @@ nodecg.listenFor('update-hostnames', (names: CouchPerson[]) => {
 });
 
 nodecg.listenFor('rename-couch', (data: CouchPerson) => {
-	if (data.name === "") {
-		nodecg.sendMessage('remove-hostname', data.id);
-		return;
-	}
-
 	const hostNamesMutable = [...couchNamesRep.value];
 	const index = hostNamesMutable.findIndex(couch => couch.id === data.id);
 	if (index === -1) {

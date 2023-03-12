@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import * as nodecgApiContext from '../nodecg-api-context';
 import type NodeCG from '@alvancamp/test-nodecg-types';
@@ -21,6 +21,7 @@ async function getAccessToken() {
 	if (res.data.access_token) {
 		ncgLog.info('Got access token!');
 		accessToken = res.data.access_token;
+		ncgLog.info('Token data', JSON.stringify(res.data));
 	}
 }
 
@@ -31,7 +32,11 @@ async function getCampaignData() {
 		const res = await axios.get<null, AxiosResponse<TiltifyCampaignReturn>>(`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}`, { headers: { Authorization: `Bearer ${accessToken}` } });
 		if (res.data?.data?.amount_raised) donationTotalRep.value = parseFloat(res.data.data.amount_raised.value);
 	} catch (error) {
+		if ((error as any).status === 401) {
+			getAccessToken();
+		}
 		ncgLog.error("Total", JSON.stringify(error));
+		ncgLog.error("Potential Tiltify Error", JSON.stringify((error as any).response));
 	}
 }
 
@@ -62,7 +67,11 @@ async function getDonationsData() {
 			donationsListRep.value = mutableDonations.concat(parsedDonos);
 		}
 	} catch (error) {
+		if ((error as any).status === 401) {
+			getAccessToken();
+		}
 		ncgLog.error("Donations", JSON.stringify(error));
+		ncgLog.error("Potential Tiltify Error", JSON.stringify((error as any).response));
 	}
 }
 

@@ -213,7 +213,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 				});
 			});
 		} else {
-			currentAudio = props.runData.teams[0].players.findIndex((player) => props.audioIndicator === player.id);
+			currentAudio = props.runData.teams[0]?.players.findIndex((player) => props.audioIndicator === player.id);
 		}
 	}
 
@@ -281,6 +281,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					<CouchLabel>{props.couchInformation.length > 1 ? 'Commentators' : 'Commentator'}</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
 					{couch.map((person) => {
+						if (person.name === "") return <></>;
 						return (
 							<PersonCompressed
 								key={person.name}
@@ -293,7 +294,8 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 						<PersonCompressed
 							key={'Host'}
 							person={host}
-							speaking={props.obsAudioIndicator?.[host.microphone ?? '']}
+							// speaking={props.obsAudioIndicator?.[host.microphone ?? '']}
+							speaking={false}
 							host
 						/>
 					)}

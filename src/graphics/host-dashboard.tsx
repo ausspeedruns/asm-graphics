@@ -14,6 +14,10 @@ import {
 	DialogContentText,
 	DialogTitle,
 	Snackbar,
+	FromGroup,
+	FormControlLabel,
+	Checkbox,
+	FormGroup
 } from '@mui/material';
 import { Close, Refresh } from '@mui/icons-material';
 import Draggable from 'react-draggable';
@@ -36,7 +40,7 @@ const HostDashContainer = styled.div`
 	// height: 1007px;
 	height: 100vh;
 	// width: 1920px;
-	font-family: Noto Sans;
+	font-family: Noto Sans, sans-serif;
 	// overflow: hidden;
 `;
 
@@ -82,6 +86,9 @@ export const HostDash: React.FC = () => {
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
 	const [copyNotification, setCopyNotification] = useState(false);
 	const [showStream, setShowStream] = useState(false);
+
+	const [muted, setMuted] = useState(false);
+	const [headset, setHeadset] = useState<3 | 5>(3);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -130,6 +137,22 @@ export const HostDash: React.FC = () => {
 	const closeCopyNotification = () => {
 		setCopyNotification(false);
 	};
+
+	function muteOrUnmute() {
+		if (muted) {
+			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: 0.75, channel: headset });
+			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: 0.75, channel: headset });
+			setMuted(false);
+		} else {
+			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: 0, channel: headset });
+			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: 0, channel: headset });
+			setMuted(true);
+		}
+	}
+
+	function swapHeadsets() {
+		setHeadset(headset === 3 ? 5 : 3);
+	}
 
 	return (
 		<HostDashContainer>
@@ -190,6 +213,12 @@ export const HostDash: React.FC = () => {
 					<Paper style={{ overflow: 'hidden', height: 300, minHeight: 300 }}>
 						<Timer />
 					</Paper>
+					<div style={{display: 'flex'}}>
+						<FormGroup>
+							<FormControlLabel control={<Checkbox checked={headset === 3} onChange={() => { swapHeadsets() }} />} label="Using Pikachu?" />
+						</FormGroup>
+						<Button fullWidth color={muted ? "error" : "success"} onClick={muteOrUnmute} variant="contained">{muted ? "UNMUTE" : "Mute"}</Button>
+					</div>
 					<Paper style={{ overflow: 'hidden', flexGrow: 1 }}>
 						<Header text="Donations" style={{ cursor: 'pointer' }} onClick={copyDonateCommand} />
 						<Donations />

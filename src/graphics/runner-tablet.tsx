@@ -129,7 +129,7 @@ const RunnerTablet: React.FC = () => {
 	}
 
 	return (
-		<div style={{ height: '100%', width: '100%' }}>
+		<div style={{ height: '100%', width: '100%', fontFamily: 'sans-serif' }}>
 			<NavBar>
 				<NavBarButton onClick={() => setTab('names')} active={tab === 'names'}>
 					Names

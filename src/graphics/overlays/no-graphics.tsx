@@ -51,7 +51,7 @@ export const NoGraphics: React.FC<Props> = (props: Props) => {
 	return (
 		<NoGraphicsContainer className={props.className} style={props.style}>
 			<Credits />
-			<div style={{ display: 'flex', justifyContent: 'center', width: '100%', paddingTop: 825 }}>
+			<div style={{ position: 'absolute', width: 1920, display: 'flex', justifyContent: 'center', marginTop: -216 }}>
 				<NameLowerThird name={creditsNameRep.name} subtitle={creditsNameRep.title} />
 			</div>
 			{/* <LowerThird

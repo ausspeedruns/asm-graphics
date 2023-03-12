@@ -31,7 +31,7 @@ const MICROPHONE_CHANNELS = [
 	// { name: "Link Green", channel: 4 },
 ] as const;
 const GAME_CHANNELS = [9, 11, 13, 15]; // Channels are paired as stereo pairs so we only need to mute just one side
-const HOST_MIC_CHANNEL = 5;
+const HOST_MIC_CHANNEL = 3;
 const SPECIAL_MIC_CHANNEL = 6;
 
 let faderValues: number[][] = [];
@@ -160,7 +160,7 @@ function fadeUnmute(channel: number, mixBus: number) {
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ''}`);
 		// Unmute
-		x32.fade(channel, mixBus, 0, 0.75, 1500);
+		x32.fade(channel, mixBus, 0, 0.6, 1500);
 	}
 }
 

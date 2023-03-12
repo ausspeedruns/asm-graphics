@@ -97,9 +97,11 @@ export const Status: React.FC = () => {
 	// const currentTime = new Date('2024-09-23');
 	const [_, currentRun, nextRun] = useSurroundingRuns();
 	const [runnerReadyRep] = useReplicant<boolean, boolean>('runner:ready', false);
+	const [techReadyRep] = useReplicant<boolean, boolean>('tech:ready', false);
 	const [x32StatusRep] = useReplicant<ConnectionStatus, ConnectionStatus>('x32:status', 'disconnected');
 	const [obsStatusRep] = useReplicant<ConnectionStatus, ConnectionStatus>('obs:status', 'disconnected');
 
+	const techReadyInfo = connectionStatusStyle(techReadyRep);
 	const runnerReadyInfo = connectionStatusStyle(runnerReadyRep);
 	const x32StatusInfo = connectionStatusStyle(x32StatusRep);
 	const obsStatusInfo = connectionStatusStyle(obsStatusRep);
@@ -141,8 +143,8 @@ export const Status: React.FC = () => {
 					{runnerReadyInfo.text}
 				</ConnectionStatus>
 				<Header noBorder>Tech</Header>
-				<ConnectionStatus style={{ backgroundColor: runnerReadyInfo.colour }}>
-					{runnerReadyInfo.text}
+				<ConnectionStatus style={{ backgroundColor: techReadyInfo.colour }}>
+					{techReadyInfo.text}
 				</ConnectionStatus>
 				<div style={{display: 'flex'}}>
 					<Button variant="contained" onClick={() => nodecg.sendMessage('tech:setNotReady')} fullWidth>Unready</Button>

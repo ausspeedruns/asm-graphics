@@ -51,6 +51,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 			<PeopleContainer>
 				{couch.map((person) => {
 					console.log(props.audio?.[person.microphone ?? '']);
+					if (person.name === "") { return <></> }
 					return (
 						<PersonCompressed
 							key={person.name}
@@ -60,7 +61,9 @@ export const Couch: React.FC<Props> = (props: Props) => {
 					);
 				})}
 				{host && (
-					<PersonCompressed key={'Host'} person={host} speaking={props.audio?.[host.microphone ?? '']} host />
+					<PersonCompressed key={'Host'} person={host}
+						// speaking={props.audio?.[host.microphone ?? '']}
+						speaking={false} host />
 				)}
 			</PeopleContainer>
 		</CouchContainer>
