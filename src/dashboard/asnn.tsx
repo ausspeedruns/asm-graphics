@@ -60,7 +60,7 @@ function Ticker({ text, index, removeFunc }: { text: string; index: number; remo
 	);
 }
 
-const TickerList = React.memo(function TickerList({
+function TickerList({
 	texts,
 	setState,
 }: {
@@ -70,7 +70,7 @@ const TickerList = React.memo(function TickerList({
 	return texts.map((text, index) => (
 		<Ticker text={text} index={index} key={text} removeFunc={() => setState(texts.filter((el) => el !== text))} />
 	));
-});
+}
 
 function HeadlineItem({
 	text,
@@ -104,7 +104,7 @@ function HeadlineItem({
 	);
 }
 
-const HeadlineList = React.memo(function HeadlineList({
+function HeadlineList({
 	texts,
 	setState,
 	showFunc,
@@ -125,7 +125,7 @@ const HeadlineList = React.memo(function HeadlineList({
 			showing={currentState == text}
 		/>
 	));
-});
+}
 
 export const ASNNDash = () => {
 	const [asnnHeadline, setAsnnHeadline] = useReplicant<string>('asnn:headline', '');

@@ -174,9 +174,7 @@ export const ASNN = () => {
 		const interval = setInterval(() => {
 			setCurrentTime(format(new Date(), 'h:mm a'));
 		}, 1000);
-
-		document.body.style.background = "red";
-		document.body.style.overflow = "hidden";
+		
 		return () => {
 			clearInterval(interval);
 		};

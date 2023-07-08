@@ -69,3 +69,7 @@ nodecg.Replicant<boolean>('tech:ready', { defaultValue: false });
 
 /* ASMM */
 nodecg.Replicant<number>('asmm:totalKM', { defaultValue: 0 });
+
+/* ASNN */
+nodecg.Replicant<string>('asnn:headline', { defaultValue: '' });
+nodecg.Replicant<string[]>('asnn:ticker', { defaultValue: [] });

@@ -251,6 +251,9 @@ export const Credits: React.FC = () => {
 					<NameWithRoles style={{ marginTop: 15 }}>
 						Audio Equipment<Name>domuel</Name>
 					</NameWithRoles>
+					<NameWithRoles style={{ marginTop: 15 }}>
+						Camera Equipment<Name>Clockdistrict</Name>
+					</NameWithRoles>
 					<NameWithRoles>
 						Developers of<Name>OBS</Name>
 						<Name>NodeCG</Name>
