@@ -2,15 +2,19 @@ import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
 
+import adEntry from '../../media/ASM23/ad_ENTRY.webm';
+import adExit from '../../media/ASM23/ad_EXIT.webm';
+import { ASMM } from './asmm';
+
 const IntermissionAdsContainer = styled.div`
-	width: 955px;
+	width: 720px;
 	display: flex;
 	flex-direction: column;
-	opacity: 0;
-	background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%);
-	border-top: 1px solid var(--sec);
-	border-bottom: 1px solid var(--sec);
-	height: 221px;
+	/* opacity: 0; */
+	/* background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%); */
+	/* border-top: 1px solid var(--sec);
+	border-bottom: 1px solid var(--sec); */
+	height: 439px;
 `;
 
 const VideoBox = styled.div`
@@ -20,14 +24,19 @@ const VideoBox = styled.div`
 	justify-content: center;
 	top: 0;
 	width: 100%;
-	height: 458px;
+	height: 100%;
 `;
 
 const Video = styled.video`
-	width: 720px;
+	width: 640px;
 	height: auto;
 	z-index: 2;
 	opacity: 0;
+`;
+
+const EntryExitVids = styled.video`
+	opacity: 0;
+	position: absolute;
 `;
 
 interface Props {
@@ -42,6 +51,8 @@ export interface IntermissionAdsRef {
 export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const videoRef = useRef<HTMLVideoElement>(null);
+	const entryRef = useRef<HTMLVideoElement>(null);
+	const exitRef = useRef<HTMLVideoElement>(null);
 
 	useImperativeHandle(ref, () => ({
 		showAd(ad) {
@@ -75,26 +86,53 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 
 			const tl = gsap.timeline();
 
-			tl.to(containerRef.current, { opacity: 1, duration: 2 });
-			tl.to(containerRef.current, { height: 459, duration: 2 });
-			tl.to(videoRef.current, { opacity: 1 });
+			// Prepare ad contents
 			tl.call(() => {
 				if (!videoRef.current) return;
 				videoRef.current.volume = adData.volume;
 				videoRef.current.src = adData.src;
+			});
+
+			// Prepare entry vid
+			tl.set(entryRef.current, { opacity: 1 });
+
+			// Run entry
+			tl.call(() => {
+				if (!entryRef.current) return;
+				entryRef.current?.play();
+			});
+
+			// Wait for entry finish and then fade ad in
+			tl.to(videoRef.current, { opacity: 1 }, '+=2');
+
+			// Run ad
+			tl.call(() => {
+				if (!videoRef.current) return;
 				videoRef.current?.play();
 			});
+
+			// Fade out ad
 			tl.to(videoRef.current, { opacity: 0 }, `+=${adData.length + 1}`);
-			tl.to(containerRef.current, { height: 221, duration: 2 });
-			tl.to(containerRef.current, { opacity: 0 });
+
+			// Swap from entry to exit
+			tl.set(entryRef.current, { opacity: 0 });
+			tl.set(exitRef.current, { opacity: 1 });
+
+			// Run exit
+			tl.call(() => {
+				if (!exitRef.current) return;
+				exitRef.current?.play();
+			});
 		},
 	}));
 
 	return (
 		<IntermissionAdsContainer className={props.className} style={props.style} ref={containerRef}>
+			<EntryExitVids ref={entryRef} src={adEntry} muted />
 			<VideoBox>
 				<Video ref={videoRef} />
 			</VideoBox>
+			<EntryExitVids ref={exitRef} src={adExit} muted />
 		</IntermissionAdsContainer>
 	);
 });

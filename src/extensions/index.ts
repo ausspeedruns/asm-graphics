@@ -1,9 +1,8 @@
-import type NodeCG from '@alvancamp/test-nodecg-types';
-import type { DeepReadonly } from '@alvancamp/test-nodecg-types/faux_modules/ts-essentials';
+import type NodeCG from '@nodecg/types';
 import type { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
 import * as nodecgApiContext from './nodecg-api-context';
 
-let ncgConfig: DeepReadonly<ConfigSchema>;
+let ncgConfig: NodeCG.ServerAPI<ConfigSchema>['bundleConfig'];
 
 module.exports = (nodecg: NodeCG.ServerAPI<ConfigSchema>) => {
 	// Store a reference to this nodecg API context in a place where other libs can easily access it.
@@ -53,4 +52,9 @@ async function init() {
 	}
 
 	require('./runner-tablet');
+
+	if (ncgConfig.asmm?.enabled)
+	{
+		require('./asmm');
+	}
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import GoCLogo from '../../media/Sponsors/GOCCCFullColour.svg';
+import GoCLogo from '../../media/Sponsors/GoCCCWhite.svg';
 
 const InterCTAContainer = styled.div`
 	height: 300px;
@@ -13,9 +13,9 @@ const InterCTAContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	font-size: 52px;
-	color: var(--text-dark);
+	color: var(--text-light);
 	/* border-bottom: 1px solid var(--sec); */
-	background: var(--sec);
+	/* background: var(--sec); */
 `;
 
 const Horizontal = styled.div`

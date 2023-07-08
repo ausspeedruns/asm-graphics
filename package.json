@@ -6,7 +6,7 @@
 		"name": "Ewan 'Clubwho' Lyon"
 	},
 	"nodecg": {
-		"compatibleRange": "^1.8.1",
+		"compatibleRange": "^2.1.8",
 		"bundleDependencies": {
 			"nodecg-speedcontrol": "^2.0.0"
 		},
@@ -63,12 +63,20 @@
 				"file": "twitch-chat.html"
 			},
 			{
-				"name": "settings",
-				"title": "Settings",
+				"name": "fullcam",
+				"title": "Full Cam",
 				"width": 3,
-				"headerColor": "#FF0000",
+				"headerColor": "#CC7722",
 				"file": "settings.html",
-				"workspace": "Run Modifications"
+				"workspace": "ASM Misc"
+			},
+			{
+				"name": "asnn",
+				"title": "ASNN",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "asnn.html",
+				"workspace": "ASM Misc"
 			},
 			{
 				"name": "schedule-importer",
@@ -131,6 +139,11 @@
 				"file": "runner-tablet.html",
 				"width": 0,
 				"height": 0
+			},
+			{
+				"file": "asnn.html",
+				"width": 1920,
+				"height": 1080
 			}
 		],
 		"assetCategories": [
@@ -176,6 +189,7 @@
 		"@emotion/styled": "^11.10.6",
 		"@mui/icons-material": "^5.11.11",
 		"@mui/material": "^5.11.12",
+		"@nodecg/types": "^2.1.8",
 		"axios": "1.3.4",
 		"bad-words": "^3.0.4",
 		"clone": "^2.1.2",
@@ -187,12 +201,13 @@
 		"graphql-request": "^5.2.0",
 		"gsap": "^3.11.4",
 		"moment": "^2.29.4",
+		"mssql": "^9.1.1",
 		"needle": "^3.2.0",
 		"npm-run-all": "^4.1.5",
 		"obs-websocket-js": "^5.0.2",
 		"osc": "^2.4.3",
 		"react": "^18.2.0",
-		"react-countdown-hook": "^1.1.1",
+		"react-beautiful-dnd": "^13.1.1",
 		"react-dom": "^18.2.0",
 		"react-draggable": "^4.4.5",
 		"react-is": "^18.2.0",
@@ -202,12 +217,11 @@
 		"tiltify-api-client": "^1.1.2",
 		"tiny-typed-emitter": "^2.1.0",
 		"underscore": "^1.13.6",
-		"use-nodecg": "^0.4.1-1",
+		"use-nodecg": "^0.4.1-2",
 		"ws": "^8.12.1",
 		"zod": "^3.21.4"
 	},
 	"devDependencies": {
-		"@alvancamp/test-nodecg-types": "^1.9.33",
 		"@babel/core": "^7.21.0",
 		"@storybook/addon-actions": "^6.5.16",
 		"@storybook/addon-essentials": "^6.5.16",
@@ -217,9 +231,11 @@
 		"@storybook/testing-library": "^0.0.13",
 		"@types/bad-words": "^3.0.1",
 		"@types/clone": "^2.1.1",
+		"@types/mssql": "^8.1.2",
 		"@types/needle": "^3.2.0",
 		"@types/node": "^18.14.6",
 		"@types/react": "^18.0.28",
+		"@types/react-beautiful-dnd": "^13.1.4",
 		"@types/react-dom": "^18.0.11",
 		"@types/react-router-dom": "^5.3.3",
 		"@types/styled-components": "^5.1.26",

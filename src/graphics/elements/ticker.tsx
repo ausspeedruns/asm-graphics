@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import gsap from 'gsap';
 import { format } from 'date-fns';
@@ -13,10 +13,12 @@ import { TickerGoals } from './ticker/goal';
 import { TickerWar } from './ticker/war';
 import { LerpNum } from './ticker/lerp-num';
 import { TickerPrizes } from './ticker/prizes';
+import { TickerASMM } from './ticker/asmm';
 
-// import ASMGif from '../media/ASM-Gif.gif';
-import TGXBug from '../media/TGXBug.svg';
+import ChannelBug from '../media/ASM-Gif.gif';
+// import ChannelBug from '../media/TGXBug.svg';
 import GoCLogo from '../media/Sponsors/GoCWhite.svg';
+import TickerGreeble from '../media/ASM23/ticker.png';
 
 const TickerContainer = styled.div`
 	height: 64px;
@@ -31,7 +33,6 @@ const TickerContainer = styled.div`
 const ASMLogo = styled.img`
 	height: 64px;
 	width: auto;
-	padding: 0 12px;
 `;
 
 const DonationArea = styled.div`
@@ -86,12 +87,6 @@ const LeftBlock = styled.div`
 	display: flex;
 `;
 
-const TGXLine = styled.div`
-	height: 100%;
-	width: 10px;
-	background: linear-gradient(var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
-`;
-
 export interface TickerItemHandles {
 	animation(tl: gsap.core.Timeline): gsap.core.Timeline;
 }
@@ -101,14 +96,16 @@ export interface TickerProps {
 	runDataActive: RunDataActiveRun;
 	incentives?: (Goal | War)[];
 	donationAmount: number;
+	asmm?: number;
 	tickerOrder: {
-		type: 'cta' | 'milestone' | 'prizes' | 'goals' | 'wars' | 'nextruns';
+		type: 'cta' | 'milestone' | 'prizes' | 'goals' | 'wars' | 'nextruns' | 'asmm';
 		id?: number;
 	}[];
 }
 
 export const Ticker: React.FC<TickerProps> = (props) => {
 	const [currentTime, setCurrentTime] = useState(new Date());
+	const [numberOfLoops, setNumberOfLoops] = useState(0);
 	const contentRef = useRef<HTMLDivElement>(null);
 	const runsRef = useRef<TickerItemHandles>(null);
 	const ctaRef = useRef<TickerItemHandles>(null);
@@ -116,6 +113,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 	const goalsRef = useRef<TickerItemHandles>(null);
 	const warsRef = useRef<TickerItemHandles>(null);
 	const prizesRef = useRef<TickerItemHandles>(null);
+	const asmmRef = useRef<TickerItemHandles>(null);
 
 	let goalIncentives: Goal[] = [];
 	let warIncentives: War[] = [];
@@ -141,7 +139,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 			.slice(0, 3) as War[];
 	}
 
-	const showContent = (element: TickerItemHandles) => {
+	const showContent = (element: TickerItemHandles | null) => {
 		const tl = gsap.timeline();
 
 		if (!element) return tl;
@@ -150,29 +148,33 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 		return tl;
 	};
 
-	const runLoop = useCallback(() => {
+	const runLoop = () => {
+		setNumberOfLoops(numberOfLoops + 1);
 		const localTl = gsap.timeline({ onComplete: runLoop });
 
 		// -=1.02 so that the animation "overlaps" and if it was just -1 there would be a 1px tall gap
 		props.tickerOrder.forEach((type) => {
 			switch (type.type) {
 				case 'cta':
-					localTl.add(showContent(ctaRef.current!), '-=1.02');
+					localTl.add(showContent(ctaRef.current), '-=1.02');
 					break;
 				case 'nextruns':
-					localTl.add(showContent(runsRef.current!), '-=1.02');
+					localTl.add(showContent(runsRef.current), '-=1.02');
 					break;
 				case 'prizes':
-					localTl.add(showContent(prizesRef.current!), '-=1.02');
+					localTl.add(showContent(prizesRef.current), '-=1.02');
 					break;
 				case 'goals':
-					localTl.add(showContent(goalsRef.current!), '-=1.02');
+					localTl.add(showContent(goalsRef.current), '-=1.02');
 					break;
 				case 'wars':
-					localTl.add(showContent(warsRef.current!), '-=1.02');
+					localTl.add(showContent(warsRef.current), '-=1.02');
 					break;
 				case 'milestone':
-					localTl.add(showContent(milestoneRef.current!), '-=1.02');
+					localTl.add(showContent(milestoneRef.current), '-=1.02');
+					break;
+				case 'asmm':
+					localTl.add(showContent(asmmRef.current), '-=1.02');
 					break;
 				default:
 					break;
@@ -180,7 +182,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 		});
 
 		localTl.play();
-	}, []);
+	};
 
 	useEffect(() => {
 		gsap.defaults({ ease: 'power2.inOut' });
@@ -200,7 +202,7 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 	return (
 		<TickerContainer>
 			<LeftBlock>
-				<ASMLogo src={TGXBug} />
+				<ASMLogo src={ChannelBug} />
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={props.runDataActive} runArray={props.runDataArray} />
@@ -209,8 +211,12 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 				<TickerGoals goals={goalIncentives} ref={goalsRef} />
 				<TickerWar wars={warIncentives} ref={warsRef} />
 				<TickerPrizes ref={prizesRef} />
+				<TickerASMM ref={asmmRef} totalKM={props.asmm ?? 0} />
+				<img
+					src={TickerGreeble}
+					style={{ height: '100%', width: 'auto', position: 'absolute', right: 0, zIndex: 1 }}
+				/>
 			</ContentArea>
-			<TGXLine />
 			<CurrentTimeArea>
 				{format(currentTime, 'E d')}
 				<br />

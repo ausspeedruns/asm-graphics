@@ -21,6 +21,7 @@ const TickerGoalsContainer = styled.div`
 	font-size: 37px;
 	transform: translate(0, -64px);
 	overflow: hidden;
+	z-index: 2;
 `;
 
 const MultiGoalContainer = styled.div`
@@ -138,7 +139,7 @@ export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Pr
 
 	return (
 		<TickerGoalsContainer ref={containerRef}>
-			<TickerTitle style={{background: 'var(--tgx-yellow)', color: 'var(--text-light)'}}>
+			<TickerTitle style={{color: 'var(--text-light)'}}>
 				Challenge
 				<br />
 				Goals

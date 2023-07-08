@@ -8,6 +8,8 @@ import { SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { Couch } from '../elements/couch';
 
+import GBABG from '../media/ASM23/gba.png';
+
 const WHGContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -18,14 +20,12 @@ const Sidebar = styled.div`
 	height: 1016px;
 	width: 424px;
 	box-sizing: border-box;
-	border-right: 1px solid var(--pax-gold);
+	border-right: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
 const InfoBoxBG = styled.div`
-	background-image: url('../shared/design/contour-maps/standard.svg');
-	background-size: cover;
-	background-position: center;
+	background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -59,13 +59,14 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 	return (
 		<WHGContainer>
 			<Sidebar>
-				<Facecam
-					height={352}
-					teams={props.runData?.teams}
-				/>
+				<Facecam height={352} teams={props.runData?.teams} />
 				<InfoBoxBG>
+					<img
+						src={GBABG}
+						style={{ position: 'absolute', height: 'auto', width: '100%', objectFit: 'contain', bottom: 0 }}
+					/>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-					<Couch couch={props.couchInformation} />
+					<Couch couch={props.couchInformation} style={{ zIndex: 3 }} />
 					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>

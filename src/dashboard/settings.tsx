@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
+import { GreenButton, RedButton } from './elements/styled-ui';
 
-import {
-	Button,
-	TextField,
-	ThemeProvider,
-} from '@mui/material';
+import { Button, TextField, ThemeProvider } from '@mui/material';
 import { darkTheme } from './theme';
 import { useReplicant } from 'use-nodecg';
-import useDebounce from '../hooks/useDebounce';
 
 const Row = styled.div`
 	display: flex;
@@ -18,17 +14,17 @@ const Row = styled.div`
 `;
 
 export const Settings: React.FC = () => {
-	const [creditsNameRep, setCreditsNameRep] = useReplicant<
-		{ name: string; title: string },
-		{ name: string; title: string }
-	>('credits-name', { name: '', title: '' });
-	// const debouncedCreditsName = useDebounce(creditsNameRep);
+	const [creditsNameRep, setCreditsNameRep] = useReplicant<{ name: string; title: string }>('credits-name', {
+		name: '',
+		title: '',
+	});
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<Button variant="contained" fullWidth onClick={() => nodecg.sendMessage('start-credits')}>
+			<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage('start-credits')}>
 				Run Credits
-			</Button>
+			</GreenButton>
+			<hr style={{margin: '24px 0'}} />
 			<Row>
 				<TextField
 					fullWidth
@@ -44,12 +40,27 @@ export const Settings: React.FC = () => {
 				/>
 			</Row>
 			<Row>
-				<Button variant="contained" fullWidth onClick={() => nodecg.sendMessage('hide-lowerthird')}>
-					Hide Lowerthird
-				</Button>
-				<Button variant="contained" fullWidth onClick={() => nodecg.sendMessage('show-lowerthird')}>
+				<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage('show-lowerthird')}>
 					Show Lowerthird
-				</Button>
+				</GreenButton>
+				<RedButton variant="contained" fullWidth onClick={() => nodecg.sendMessage('hide-lowerthird')}>
+					Hide Lowerthird
+				</RedButton>
+			</Row>
+			<hr style={{margin: '24px 0'}} />
+			<Row>
+				<GreenButton
+					variant="contained"
+					fullWidth
+					onClick={() => nodecg.sendMessage('show-acknowledgementofcountry')}>
+					Show AoC
+				</GreenButton>
+				<RedButton
+					variant="contained"
+					fullWidth
+					onClick={() => nodecg.sendMessage('hide-acknowledgementofcountry')}>
+					Hide AoC
+				</RedButton>
 			</Row>
 		</ThemeProvider>
 	);

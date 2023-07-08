@@ -36,7 +36,7 @@ const DonationsContainer = styled.div`
 // }
 
 export const Donations: React.FC = () => {
-	const [donations] = useReplicant<Donation[], Donation[]>('donations', []);
+	const [donations] = useReplicant<Donation[]>('donations', []);
 
 	const allDonations =
 		donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];

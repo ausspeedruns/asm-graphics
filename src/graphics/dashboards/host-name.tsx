@@ -23,7 +23,7 @@ export const HostName: React.FC<Props> = (props: Props) => {
 	const [hostName, setHostName] = useState('');
 	const [hostPronouns, setHostPronouns] = useState('');
 	// const [hostDiscord, setHostDiscord] = useState('');
-	const [couchRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
+	const [couchRep] = useReplicant<CouchPerson[]>('couch-names', []);
 
 	useEffect(() => {
 		const host = couchRep.find((couch) => couch.host);

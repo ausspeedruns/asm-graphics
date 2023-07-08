@@ -25,7 +25,7 @@ const NameplateContainer = styled.div`
 	width: 100%;
 	/* height: ${(props: NameplateStyleProps) => (props.vertical ? '100%' : '')}; */
 	font-size: 30px;
-	font-family: 'Helvetica Now Display';
+	font-family: var(--secondary-font);
 
 	display: flex;
 	flex-direction: ${(props: NameplateStyleProps) => nameplateDirection(props)};
@@ -34,7 +34,7 @@ const NameplateContainer = styled.div`
 `;
 
 const Names = styled.div`
-	background: var(--main);
+	background: var(--nameplate);
 	display: flex;
 	flex-grow: 1;
 	justify-content: center;
@@ -46,7 +46,7 @@ const Names = styled.div`
 
 const SpeakingGlow = styled.div`
 	opacity: ${(props: NameplateStyleProps) => (props.speaking ? 1 : 0)};
-	background: var(--main-lighter);
+	background: var(--nameplate-lighter);
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -75,6 +75,7 @@ const PronounBox = styled.div`
 	justify-content: center;
 	width: ${(props: NameplateStyleProps) => (props.vertical ? '100%' : '')};
 	box-sizing: border-box;
+	font-family: var(--main-font);
 `;
 
 const TwitchLogoImg = styled.img`
@@ -100,21 +101,6 @@ type NameplateStyleProps = Pick<Props, 'nameplateLeft' | 'speaking' | 'vertical'
 // How many seconds it takes to fade between twitch and normal name
 const NAME_LOOP_DURATION = 90;
 
-// function clamp(input: number, min: number, max: number): number {
-// 	return input < min ? min : input > max ? max : input;
-// }
-
-// function map(current: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
-// 	const mapped: number = ((current - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
-// 	return clamp(mapped, out_min, out_max);
-// }
-
-// function dbToOpacity(db: number) {
-// 	if (db === -Infinity) return 0;
-
-// 	return map(db, -40, 10, 0, 1);
-// }
-
 export const Nameplate = (props: Props) => {
 	const normalNameEl = useRef<HTMLDivElement>(null);
 	const twitchNameEl = useRef<HTMLDivElement>(null);
@@ -136,7 +122,8 @@ export const Nameplate = (props: Props) => {
 
 	const sameNameAndTwitch = props.player.name === props.player.social.twitch;
 
-	const maxWidth = props.vertical ? (props.maxWidth ?? 999) * 0.7 : props.maxWidth ?? 999;
+	const maxWidth = props.maxWidth ?? 999;
+	// const maxWidth = props.vertical ? (props.maxWidth ?? 999) * 0.7 : props.maxWidth ?? 999;
 
 	return (
 		<NameplateContainer

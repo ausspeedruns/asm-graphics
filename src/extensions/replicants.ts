@@ -52,6 +52,7 @@ nodecg.Replicant<Tweet[]>('tweets', { persistent: false, defaultValue: [] });
 
 /* GraphQL */
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });
+nodecg.Replicant<number | undefined>('incentives:updated-at', { defaultValue: undefined });
 
 /* OBS */
 nodecg.Replicant<ConnectionStatus>('obs:status', { defaultValue: "disconnected", persistent: false });
@@ -65,3 +66,6 @@ nodecg.Replicant<AusSpeedrunsUser[]>('all-usernames', { defaultValue: [] });
 /* Runner Tablet */
 nodecg.Replicant<boolean>('runner:ready', { defaultValue: false });
 nodecg.Replicant<boolean>('tech:ready', { defaultValue: false });
+
+/* ASMM */
+nodecg.Replicant<number>('asmm:totalKM', { defaultValue: 0 });

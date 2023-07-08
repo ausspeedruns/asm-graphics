@@ -98,12 +98,14 @@ const GoalBarContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	transform: translate(-1000px, 0);
+	padding: 0 150px;
+	box-sizing: border-box;
 `;
 
 const GoalDiv = styled.div`
 	display: flex;
 	justify-content: center;
-	margin: 0 10px;
+	margin-left: 10px;
 	font-weight: bold;
 	font-size: 37px;
 `;
@@ -111,24 +113,25 @@ const GoalDiv = styled.div`
 const IncentiveContainer = styled.div`
 	// position: absolute;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
-	align-items: center;
-	margin-top: -10px;
-	margin-bottom: 10px;
-	flex-direction: row;
-	gap: 20px;
+	align-items: flex-start;
+	/* margin-top: -10px; */
+	margin-bottom: 5px;
 	font-size: 30px;
+	width: 100%;
 `;
 
 const Game = styled(FitText)`
 	/* display: inline-block; */
-	max-width: 400px;
+	max-width: 100%;
+	margin-bottom: -5px;
 `;
 
 const IncentiveName = styled(FitText)`
 	/* display: inline-block; */
 	font-weight: bold;
-	max-width: 400px;
+	max-width: 100%;
 	font-family: var(--secondary-font);
 `;
 
@@ -139,14 +142,14 @@ const BottomBar = styled.div`
 	height: 50%;
 	width: 100%;
 	box-sizing: border-box;
-	padding: 0 5%;
+	/* padding: 0 5%; */
 `;
 
 // Determines full size
 const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
-	width: 100%;
+	/* width: 100%; */
 	border: 1px solid var(--sec);
 	background: var(--main);
 	position: relative;
@@ -236,11 +239,11 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 							${Math.floor(props.goal.total).toLocaleString()}
 						</CurrentAmount>
 					</ProgressBarContainer>
-					<RemainingAmount style={{ display: percentage > 88 ? 'none' : undefined }}>
+					{/* <RemainingAmount style={{ display: percentage > 88 ? 'none' : undefined }}>
 						${Math.ceil(props.goal.goal - props.goal.total).toLocaleString()}
 						<br />
 						to go!
-					</RemainingAmount>
+					</RemainingAmount> */}
 				</ProgressContainer>
 				<GoalDiv>
 					<IncentiveName text={`$${props.goal.goal}`}></IncentiveName>

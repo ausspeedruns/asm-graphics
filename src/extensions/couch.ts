@@ -1,7 +1,7 @@
 import * as nodecgApiContext from './nodecg-api-context';
 import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
 import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 
 const nodecg = nodecgApiContext.get();
 

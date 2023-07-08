@@ -55,7 +55,7 @@ const TwitterSize = {
 };
 
 export const DS2: React.FC<OverlayProps> = (props) => {
-	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
+	const [audioIndicatorRep] = useReplicant<string>('audio-indicator', '');
 
 	const leftTeamID = props.runData?.teams[0]?.id || '';
 	const rightTeamID = props.runData?.teams[1]?.id || '';

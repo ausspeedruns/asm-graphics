@@ -5,7 +5,7 @@ import { AudioIndicator } from '@asm-graphics/types/Audio';
 import { RunDataTeam } from '@asm-graphics/types/RunData';
 
 import { Nameplate } from './nameplate';
-import { NodeCGAPIClient } from '@alvancamp/test-nodecg-types/client/api/api.client';
+import { NodeCGAPIClient } from '@nodecg/types/client/api/api.client';
 import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
 
 const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
@@ -42,7 +42,7 @@ const NAMEPLATE_HEIGHT = 41;
 const NAMEPLATE_HEIGHT_VERTICAL = 61;
 
 const RunnerNameDivider = styled.div`
-	background: var(--sec);
+	background: var(--asm-orange);
 	min-width: 2px;
 	height: ${NAMEPLATE_HEIGHT}px;
 `;
@@ -61,7 +61,7 @@ export const Facecam = (props: FacecamProps) => {
 				player={{
 					name: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
 					social: { twitch: 'AusSpeedruns' },
-					pronouns: 'They/Them',
+					pronouns: nodecgConfig.graphql?.event,
 					id: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
 					teamID: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
 					customData: {},
@@ -92,9 +92,7 @@ export const Facecam = (props: FacecamProps) => {
 							fontSize: 25,
 						}}
 						key={team.id}
-						speaking={team.players.some((player) =>
-							props.audioIndicator?.[player.customData.microphone],
-						)}
+						speaking={team.players.some((player) => props.audioIndicator?.[player.customData.microphone])}
 					/>,
 				);
 			} else {
@@ -134,7 +132,7 @@ export const Facecam = (props: FacecamProps) => {
 			}
 
 			let height = NAMEPLATE_HEIGHT;
-			if (props.verticalCoop && props.teams![0].players.some((player) => player.pronouns)) {
+			if (props.verticalCoop && props.teams![0].players,length > 1 && props.teams![0].players.some((player) => player.pronouns)) {
 				height = NAMEPLATE_HEIGHT_VERTICAL;
 			}
 
@@ -147,6 +145,7 @@ export const Facecam = (props: FacecamProps) => {
 					player={player}
 					speaking={props.audioIndicator?.[player.customData.microphone]}
 					vertical={props.teams![0].players.length > 1 ? props.verticalCoop : false}
+					style={{ height: height }}
 				/>,
 			);
 			allRunnerNames.push(<RunnerNameDivider key={player.id + '-divider'} style={{ height: height }} />);
@@ -179,7 +178,7 @@ const NoCamContainer = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	position: relative;
-	font-family: Noto Sans;
+	font-family: var(--main-font);
 
 	& canvas {
 		width: 100%;

@@ -2,7 +2,7 @@ import * as nodecgApiContext from './nodecg-api-context';
 import { request, gql } from 'graphql-request';
 import { z } from 'zod';
 
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 import type { User as AusSpeedrunsUser } from '@asm-graphics/types/AusSpeedrunsWebsite';
 
 const nodecg = nodecgApiContext.get();

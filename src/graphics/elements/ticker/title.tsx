@@ -5,13 +5,12 @@ const TickerTitleContainer = styled.div`
 	height: 64px;
 	width: fit-content;
 	font-family: var(--secondary-font);
-	font-weight: bold;
 	font-size: 20px;
-	color: var(--text-dark);
+	color: var(--text-light);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--sec);
+	background: var(--asm-blue);
 	white-space: nowrap;
 	padding: 0 10px;
 	text-align: center;

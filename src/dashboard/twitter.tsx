@@ -4,7 +4,7 @@ import styled, { keyframes } from 'styled-components';
 import { useReplicant, useListenFor } from 'use-nodecg';
 import _ from 'underscore';
 
-import { DeepReadonly } from '@alvancamp/test-nodecg-types/faux_modules/ts-essentials';
+import { DeepReadonly } from '@nodecg/types/faux_modules/ts-essentials';
 import { Tweet } from '@asm-graphics/types/Twitter';
 import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
 

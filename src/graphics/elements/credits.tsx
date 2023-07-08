@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import gsap from 'gsap';
 import { useListenFor } from 'use-nodecg';
 
-import EventLogo from '../media/ASGX23/ASGX23Logo.png';
+import EventLogo from '../media/ASM23/logo.png';
 
 const CreditsContainer = styled.div`
 	position: relative;
@@ -86,24 +86,19 @@ export const Credits: React.FC = () => {
 		const tl = gsap.timeline();
 		// Start credits
 		tl.to(allCreditsRef.current, { width: 500, duration: 2 });
-		tl.to(allCreditsRef.current, { marginTop: -5473, duration: 50, ease: 'none' }, '+=1');
+		tl.to(allCreditsRef.current, { marginTop: -9750, duration: 120, ease: 'none' }, '+=1');
 		tl.to(allCreditsRef.current, { width: 0, duration: 2 });
 	});
 
 	return (
 		<CreditsContainer ref={creditsBGRef}>
 			<AllCredits ref={allCreditsRef}>
-				<EventImg><img style={{ width: '90%', height: 'auto' }} src={EventLogo} /></EventImg>
-				<Title>
-					AusSpeedruns @
-					<br />
-					The Game Expo 2023
-				</Title>
+				<EventImg>
+					<img style={{ width: '90%', height: 'auto' }} src={EventLogo} />
+				</EventImg>
+				<Title>Australian Speedrun<br />Marathon 2023</Title>
 				<Title>AusSpeedruns Committee</Title>
 				<NameContainer>
-					<NameWithRoles>
-						ASGX Coordinator<br />Hardware Coordinator<Name>nei_</Name>
-					</NameWithRoles>
 					<NameWithRoles>
 						Coordinator<Name>Softman25</Name>
 					</NameWithRoles>
@@ -112,6 +107,9 @@ export const Credits: React.FC = () => {
 					</NameWithRoles>
 					<NameWithRoles>
 						Software Coordinator<Name>Clubwho</Name>
+					</NameWithRoles>
+					<NameWithRoles>
+						Hardware Coordinator<Name>nei_</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Head of Runner Management<Name>Sten</Name>
@@ -131,61 +129,127 @@ export const Credits: React.FC = () => {
 				</NameContainer>
 				<Title>Tech</Title>
 				<NameContainer>
+					<Name>Alecat</Name>
 					<Name>Clockdistrict</Name>
 					<Name>Clubwho</Name>
 					<Name>CurtMantis</Name>
-					<Name>Shyguy</Name>
+					<Name>LaceyStripes</Name>
 					<Name>nei_</Name>
+					<Name>NitrosTwitch</Name>
 				</NameContainer>
 				<Title>Runner Management</Title>
 				<NameContainer>
-					<Name>Kenorah</Name>
+					<Name>Astrious</Name>
+					<Name>HeyItsRykon</Name>
+					<Name>ins0mnia</Name>
 					<Name>LaceyStripes</Name>
+					<Name>neo_</Name>
+					<Name>Nicosar</Name>
 					<Name>Noops</Name>
 					<Name>Sten</Name>
+					<Name>Softman25</Name>
+					<Name>Upjohn</Name>
 				</NameContainer>
 				<Title>Social Media</Title>
 				<NameContainer>
+					<Name>Grandma</Name>
 					<Name>HoshinoHaru</Name>
+					<Name>Kenorah</Name>
 					<Name>Kuiperbole</Name>
+					<Name>limchi</Name>
 					<Name>nase</Name>
 				</NameContainer>
 				<Title>Hosts</Title>
 				<NameContainer>
-					<Name>Arahpthos</Name>
-					<Name>jksessions</Name>
+					<Name>AggytheAron</Name>
+					<Name>ConicalFlak</Name>
+					<Name>Galasrinie</Name>
+					<Name>Genba</Name>
+					<Name>HeyItsRykon</Name>
+					<Name>ins0mnia</Name>
 					<Name>Kenorah</Name>
+					<Name>LaceyStripes</Name>
+					<Name>MikamiHero</Name>
+					<Name>neo_</Name>
 					<Name>Noops</Name>
+					<Name>Sten</Name>
+					<Name>werster</Name>
 				</NameContainer>
 				<Title>Runners</Title>
 				<NameContainer>
 					<Name>AeonFrodo</Name>
-					<Name>Arahpthos</Name>
-					<Name>AtomicCaleb</Name>
-					<Name>Austamate</Name>
+					<Name>AggytheAron</Name>
+					<Name>Alecat</Name>
+					<Name>Arma260</Name>
+					<Name>BalakehB </Name>
 					<Name>Baphy</Name>
-					<Name>Bksilv3r</Name>
-					<Name>Bored_Banana</Name>
+					<Name>cane</Name>
+					<Name>Chokocchi</Name>
 					<Name>Clockdistrict</Name>
+					<Name>ConicalFlak</Name>
 					<Name>CurtMantis</Name>
+					<Name>cyanidesugar</Name>
+					<Name>d13sel</Name>
+					<Name>DaMidget2000</Name>
+					<Name>Damosk </Name>
+					<Name>Danicker</Name>
+					<Name>Dezinator94</Name>
+					<Name>Duk700</Name>
+					<Name>Firery</Name>
+					<Name>FroSteeMate</Name>
+					<Name>Galasrinie</Name>
+					<Name>Glint</Name>
+					<Name>GLPhoenix</Name>
+					<Name>Hans_Stockmann</Name>
+					<Name>Heckson</Name>
+					<Name>HeyItsRykon</Name>
+					<Name>hsblue</Name>
+					<Name>ICEMAN</Name>
+					<Name>ins0mnia</Name>
+					<Name>Joester98 </Name>
+					<Name>jymmyboi</Name>
+					<Name>Kenorah</Name>
+					<Name>KthRam</Name>
+					<Name>lim</Name>
+					<Name>LiquidWiFi</Name>
+					<Name>LittleCrowShae</Name>
+					<Name>lucilletea</Name>
+					<Name>MangoPunch</Name>
+					<Name>meatr0o</Name>
+					<Name>MikamiHero</Name>
+					<Name>Miku_DS</Name>
+					<Name>nase</Name>
+					<Name>nei</Name>
+					<Name>neo_</Name>
+					<Name>Nicosar</Name>
 					<Name>Ninten</Name>
+					<Name>Noops</Name>
 					<Name>Perigon</Name>
-					<Name>Raikou</Name>
-					<Name>Slivenius</Name>
+					<Name>rad_shaz</Name>
+					<Name>Rexaaayyy</Name>
+					<Name>Saiyanz </Name>
+					<Name>Softman25</Name>
 					<Name>srd_27</Name>
-					<Name>TasmaniaJones</Name>
-					<Name>Thom</Name>
-					<Name>Ticker</Name>
+					<Name>Sten</Name>
+					<Name>stylonide</Name>
+					<Name>syo</Name>
+					<Name>tim_trollgasm </Name>
 					<Name>VGmaster</Name>
+					<Name>werster</Name>
+					<Name>WOT7N</Name>
 					<Name>Yuki~Layla</Name>
 				</NameContainer>
 				<Title>Special Thanks</Title>
 				<NameContainer>
-					<NameWithRoles>The Game Expo</NameWithRoles>
 					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
 					<NameWithRoles>Game On Cancer</NameWithRoles>
+					<NameWithRoles>Elgato</NameWithRoles>
+					<NameWithRoles>Adelaide Rockford</NameWithRoles>
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
+					</NameWithRoles>
+					<NameWithRoles style={{ marginTop: 15 }}>
+						Audio Equipment<Name>domuel</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Developers of<Name>OBS</Name>
@@ -193,9 +257,9 @@ export const Credits: React.FC = () => {
 						<Name>nodecg-speedcontrol</Name>
 						<Name>obs-websocket</Name>
 					</NameWithRoles>
-					<Name>All commentators</Name>
-					<Name>All donators</Name>
-					<Name>{'and especially you <3'}</Name>
+					<NameWithRoles>All commentators</NameWithRoles>
+					<NameWithRoles>All donators</NameWithRoles>
+					<NameWithRoles>{'and especially you <3'}</NameWithRoles>
 				</NameContainer>
 			</AllCredits>
 		</CreditsContainer>

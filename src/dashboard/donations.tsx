@@ -24,8 +24,10 @@ const DonationsList = styled.div`
 `;
 
 export const Donations: React.FC = () => {
-	const [donationTotalRep] = useReplicant<number, number>('donationTotal', 0);
-	const [donations] = useReplicant<Donation[], Donation[]>('donations', []);
+	const [donationTotalRep] = useReplicant<number>('donationTotal', 0);
+	const [donations] = useReplicant<Donation[]>('donations', []);
+	const [asmmRep] = useReplicant<number>('asmm:totalKM', 0);
+
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<DonationTotal>${donationTotalRep.toLocaleString()}</DonationTotal>
@@ -34,6 +36,7 @@ export const Donations: React.FC = () => {
 					return <DonationEl donation={donation} />
 				}).reverse()}
 			</DonationsList>
+			<DonationTotal>ASMM: {asmmRep} KM</DonationTotal>
 		</ThemeProvider>
 	);
 };

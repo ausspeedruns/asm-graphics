@@ -2,7 +2,7 @@ import * as nodecgApiContext from './nodecg-api-context';
 import Filter from 'bad-words';
 
 import type { Tweet } from '@asm-graphics/types/Twitter';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 
 const nodecg = nodecgApiContext.get();
 

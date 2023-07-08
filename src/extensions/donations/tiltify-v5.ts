@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import * as nodecgApiContext from '../nodecg-api-context';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 import type { Donation } from '@asm-graphics/types/Donations';
 import { TiltifyCampaignReturn, TiltifyDonationsReturn } from '@asm-graphics/types/TiltifyReturn';
 import _ from 'underscore';

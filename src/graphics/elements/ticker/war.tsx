@@ -6,7 +6,7 @@ import { TickerItemHandles } from '../ticker';
 
 import { TickerTitle } from './title';
 import { FitText } from '../fit-text';
-import { tgxColour } from './item';
+// import { tgxColour } from './item';
 
 const TickerWarContainer = styled.div`
 	position: absolute;
@@ -22,6 +22,7 @@ const TickerWarContainer = styled.div`
 	font-size: 30px;
 	transform: translate(0, -64px);
 	overflow: hidden;
+	z-index: 2;
 `;
 
 const MultiGoalContainer = styled.div`
@@ -139,8 +140,8 @@ export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Prop
 
 	return (
 		<TickerWarContainer ref={containerRef}>
-			<TickerTitle style={{ background: 'var(--tgx-blue)', color: 'var(--text-light)' }}>
-				Challenge
+			<TickerTitle>
+				Incentives
 				<br />
 				Wars
 			</TickerTitle>
@@ -276,7 +277,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 		<ProgressContainer>
 			<ProgressBarContainer
 				ref={progressBarRef}
-				style={{ borderColor: isColor(props.option.name) ? props.option.name : tgxColour(props.index) }}
+				style={{ borderColor: isColor(props.option.name) ? props.option.name : 'var(--asm-orange)' }}
 			/>
 			<TextDiv>
 				<div

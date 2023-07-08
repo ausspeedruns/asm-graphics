@@ -15,6 +15,7 @@ const TickerPrizesContainer = styled.div`
 	display: flex;
 	align-items: center;
 	transform: translate(0px, -64px);
+	z-index: 2;
 `;
 
 const PrizesScroller = styled.div`

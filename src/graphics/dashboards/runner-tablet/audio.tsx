@@ -48,11 +48,11 @@ interface Props {
 }
 
 export const RTAudio = (props: Props) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [couchNamesRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
-	const [busFadersRep] = useReplicant<number[][], number[][]>('x32:busFaders', []);
+	const [couchNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
+	const [busFadersRep] = useReplicant<number[][]>('x32:busFaders', []);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 	// const debouncedFadersRep = useDebounce(busFadersRep, 100);
 

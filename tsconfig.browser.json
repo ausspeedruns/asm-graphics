@@ -25,6 +25,6 @@
 		"**/*.ts",
 		"**/*.tsx",
 		"src/types/**/*.d.ts",
-		"node_modules/@alvancamp/test-nodecg-types/augment-window.d.ts"
+		"node_modules/@nodecg/types/augment-window.d.ts"
 	]
 }

@@ -14,10 +14,6 @@ import {
 	DialogContentText,
 	DialogTitle,
 	Snackbar,
-	FromGroup,
-	FormControlLabel,
-	Checkbox,
-	FormGroup
 } from '@mui/material';
 import { Close, Refresh } from '@mui/icons-material';
 import Draggable from 'react-draggable';
@@ -26,12 +22,12 @@ import { Header } from './dashboards/header';
 import { Donations } from './dashboards/donations';
 import { Upcoming } from './dashboards/upcoming';
 import { Incentives } from './dashboards/incentives';
-import { Twitter } from './dashboards/tweets';
 import { ManualDonations } from './dashboards/manual-donations';
 import { Timer } from './dashboards/timer';
 import { HostName } from './dashboards/host-name';
 import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
-import { NodeCGAPIClient } from '@alvancamp/test-nodecg-types/client/api/api.client';
+import { NodeCGAPIClient } from '@nodecg/types/client/api/api.client';
+import format from 'date-fns/format';
 
 const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
 const TWITCHPARENTS = nodecgConfig.twitch.parents;
@@ -79,8 +75,9 @@ const TwitchFloating = styled.div`
 export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
 	// Implement donation total
-	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
-	const [manualDonationRep] = useReplicant<number, number>('manual-donation-total', 100);
+	const [donationRep] = useReplicant<number>('donationTotal', 100);
+	const [manualDonationRep] = useReplicant<number>('manual-donation-total', 100);
+	const [incentivesUpdatedRep] = useReplicant<number | undefined>('incentives:updated-at', undefined);
 	const [currentTime, setCurrentTime] = useState('00:00:00');
 	const [showScript, setShowScript] = useState(false);
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
@@ -88,7 +85,6 @@ export const HostDash: React.FC = () => {
 	const [showStream, setShowStream] = useState(false);
 
 	const [muted, setMuted] = useState(false);
-	const [headset, setHeadset] = useState<3 | 5>(3);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -108,7 +104,6 @@ export const HostDash: React.FC = () => {
 				break;
 			case 400:
 				break;
-
 			default:
 				nodecg.log.error('[Host dashboard] Unexpected status code: ' + statusCode);
 				break;
@@ -140,18 +135,14 @@ export const HostDash: React.FC = () => {
 
 	function muteOrUnmute() {
 		if (muted) {
-			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: 0.75, channel: headset });
-			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: 0.75, channel: headset });
+			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: 0.75, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: 0.75, channel: 5 });
 			setMuted(false);
 		} else {
-			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: 0, channel: headset });
-			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: 0, channel: headset });
+			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: 0, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: 0, channel: 5 });
 			setMuted(true);
 		}
-	}
-
-	function swapHeadsets() {
-		setHeadset(headset === 3 ? 5 : 3);
 	}
 
 	return (
@@ -186,13 +177,9 @@ export const HostDash: React.FC = () => {
 						<Header text="Your Name :)" />
 						<HostName />
 					</Paper>
-					<Paper style={{ flexGrow: 6, overflowY: 'auto', overflowX: 'hidden' }}>
-						<Header text="Tweets" />
-						<Twitter />
-					</Paper>
-					<Paper style={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden' }}>
+					<Paper style={{ overflowY: 'auto', overflowX: 'hidden', maxHeight: '82%' }}>
 						<Header
-							text="Incentives"
+							text={`Incentives – Last Updated: ${incentivesUpdatedRep ? format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"}`}
 							url="https://docs.google.com/spreadsheets/d/1IsMrjs3Z09WfCmnj0r46WSTK3sbFPD9dXlkIsgMNIe8">
 							<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
 								<Refresh fontSize="small" />
@@ -213,11 +200,14 @@ export const HostDash: React.FC = () => {
 					<Paper style={{ overflow: 'hidden', height: 300, minHeight: 300 }}>
 						<Timer />
 					</Paper>
-					<div style={{display: 'flex'}}>
-						<FormGroup>
-							<FormControlLabel control={<Checkbox checked={headset === 3} onChange={() => { swapHeadsets() }} />} label="Using Pikachu?" />
-						</FormGroup>
-						<Button fullWidth color={muted ? "error" : "success"} onClick={muteOrUnmute} variant="contained">{muted ? "UNMUTE" : "Mute"}</Button>
+					<div style={{ display: 'flex', height: 75 }}>
+						<Button
+							fullWidth
+							color={muted ? 'error' : 'success'}
+							onClick={muteOrUnmute}
+							variant="contained">
+							{muted ? 'UNMUTE' : 'Mute'}
+						</Button>
 					</div>
 					<Paper style={{ overflow: 'hidden', flexGrow: 1 }}>
 						<Header text="Donations" style={{ cursor: 'pointer' }} onClick={copyDonateCommand} />
@@ -232,7 +222,7 @@ export const HostDash: React.FC = () => {
 					xs
 					style={{ padding: 8, height: '100%' }}>
 					<Paper style={{ height: '49%', overflow: 'hidden' }}>
-						<Header text="Upcoming Runs" url="https://horaro.org/asmpax2021/schedule" />
+						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASM2023/schedule" />
 						<Upcoming style={{ height: 'calc(100% - 56px)', overflowY: 'auto', overflowX: 'hidden' }} />
 					</Paper>
 					<Paper style={{ height: '49%', overflow: 'hidden' }}>
@@ -245,8 +235,8 @@ export const HostDash: React.FC = () => {
 				<Draggable defaultPosition={{ x: 25, y: -900 }}>
 					<TwitchFloating>
 						<iframe
-							height={468}
-							width={300}
+							height={800}
+							width={500}
 							src={`https://www.twitch.tv/embed/ausspeedruns/chat?${TWITCHPARENTS.map((parent) => {
 								return `&parent=${parent}`;
 							}).join('')}&darkpopout`}
@@ -259,11 +249,13 @@ export const HostDash: React.FC = () => {
 				<DialogContent>
 					<DialogContentText>
 						<div>
-							<Button onClick={() => nodecg.sendMessage('playAd', 'HyperX')}>HyperX (30 seconds)</Button>
-							<Button onClick={() => nodecg.sendMessage('playAd', 'GOC')}>
+							<p>Video Ads</p>
+							<Button variant="outlined" onClick={() => nodecg.sendMessage('playAd', 'GOC')}>
 								Game On Cancer (43 seconds)
 							</Button>
 						</div>
+						<hr />
+						<br />
 						&quot;We are AusSpeedruns, a group doing speedrun events to raise money for charity. For this
 						event we&apos;re raising money for Game on Cancer, a charity which funds early-career cancer
 						researchers who are working across all areas of cancer research. If you&apos;d like to donate,
@@ -277,14 +269,6 @@ export const HostDash: React.FC = () => {
 						Remember, this is just a guide, so slight modifications to feel more natural to you is fine (in
 						fact, encouraged).
 						<br />
-						<br />
-						HyperX are our major sponsor for this event and it's terrific to have them on board to support
-						the Game on Cancer initiative. HyperX make fantastic headsets, microphones, keyboards, mice, and
-						plenty more products so no matter what you play, if you&apos;re into gaming, they have something
-						for you. We&apos;re thrilled to have HyperX on board to support the event this year, Cure Cancer
-						and the Game on Cancer initiative are doing amazing work and it's great to have that work
-						supported by HyperX. They believe that everyone can achieve their best with the gaming spirit,
-						and are proud to put theirs to work in supporting such a great cause as Game on Cancer.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

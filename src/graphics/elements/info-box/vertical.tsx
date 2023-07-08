@@ -14,6 +14,7 @@ const VerticalInfoContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
+	padding: 16px 0;
 `;
 
 const VerticalStack = styled.div`
@@ -25,9 +26,11 @@ const VerticalStack = styled.div`
 `;
 
 const Divider = styled.div`
+	min-height: 1px;
 	height: 1px;
 	width: 80%;
 	background-color: var(--sec);
+	margin: 20px 0;
 `;
 
 export interface IVerticalStyling {
@@ -40,18 +43,20 @@ export interface IVerticalStyling {
 	gameTitleSize?: number;
 	gameInfoSize?: number;
 	mainStyle?: React.CSSProperties;
+	categorySize?: number;
 }
 
 const DefaultVerticalStyling: IVerticalStyling = {
 	timerStackHeight: 180,
 	timerSize: 110,
-	timerStyle: { marginBottom: -15 },
+	timerStyle: { marginBottom: -5 },
 	estimateSize: 30,
 	maxTextWidth: 500,
 	gameStackHeight: 100,
 	gameTitleSize: 37,
-	gameInfoSize: 25
-}
+	gameInfoSize: 25,
+	categorySize: 34,
+};
 
 interface Props {
 	className?: string;
@@ -61,7 +66,7 @@ interface Props {
 }
 
 export const VerticalInfo: React.FC<Props> = (props: Props) => {
-	const styles = {...DefaultVerticalStyling, ...props.style};
+	const styles = { ...DefaultVerticalStyling, ...props.style };
 
 	return (
 		<VerticalInfoContainer className={props.className} style={styles.mainStyle}>
@@ -70,15 +75,25 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate || ''} />
 			</VerticalStack>
 			<Divider />
-			<RunInfo.Category maxWidth={styles.maxTextWidth!} category={props.runData?.category || ''} />
-			<Divider />
 			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: '100%' }}>
-				<RunInfo.GameTitle maxWidth={styles.maxTextWidth!} game={props.runData?.game || ''} style={{ fontSize: styles.gameTitleSize }} />
+				<RunInfo.GameTitle
+					maxWidth={styles.maxTextWidth!}
+					game={props.runData?.game || ''}
+					style={{ fontSize: styles.gameTitleSize, lineHeight: `${styles.gameTitleSize}px` }}
+				/>
 				<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
-					<RunInfo.System system={props.runData?.system || ''} style={{ fontSize: styles.gameInfoSize, zIndex: 2 }} />
-					<RunInfo.Year year={props.runData?.release || ''} style={{ fontSize: styles.gameInfoSize, zIndex: 2 }} />
+					<RunInfo.System
+						system={props.runData?.system || ''}
+						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
+					/>
+					<RunInfo.Year
+						year={props.runData?.release || ''}
+						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
+					/>
 				</div>
 			</VerticalStack>
+			<Divider />
+			<RunInfo.Category maxWidth={styles.maxTextWidth!} category={props.runData?.category || ''} fontSize={styles.categorySize} />
 		</VerticalInfoContainer>
 	);
 };

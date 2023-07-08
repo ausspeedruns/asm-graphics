@@ -10,7 +10,10 @@ import { AudioIndicator } from '../elements/audio-indicator';
 import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { PersonCompressed } from '../elements/couch';
-import { Egg } from '../elements/greeble/tgx/egg';
+
+import WidescreenLeft from '../media/ASM23/widescreen-2-left.png';
+import WidescreenRight from '../media/ASM23/widescreen-2-right.png';
+import WidescreenBottom from '../media/ASM23/widescreen-2-bottom.png';
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -32,7 +35,15 @@ const Topbar = styled.div`
 	height: 341px;
 	width: 1920px;
 	overflow: hidden;
-	border-bottom: 1px solid var(--sec);
+	border-bottom: 1px solid var(--asm-orange);
+`;
+
+const LeftBox = styled.div`
+	width: 666px;
+	height: 100%;
+	display: flex;
+	background: var(--main);
+	position: relative;
 `;
 
 const RightBox = styled.div`
@@ -41,6 +52,7 @@ const RightBox = styled.div`
 	/* background: var(--main); */
 	display: flex;
 	flex-direction: column;
+	position: relative;
 `;
 
 const SponsorSize = {
@@ -60,7 +72,7 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 341px;
 	left: 959px;
-	background: var(--sec);
+	background: var(--asm-orange);
 `;
 
 const BottomBlock = styled.div`
@@ -68,8 +80,8 @@ const BottomBlock = styled.div`
 	top: 881px;
 	height: 135px;
 	width: 1920px;
-	/* border-bottom: 1px solid var(--sec); */
-	border-top: 1px solid var(--sec);
+	/* border-bottom: 1px solid var(--asm-orange); */
+	border-top: 1px solid var(--asm-orange);
 	box-sizing: border-box;
 	overflow: hidden;
 	display: flex;
@@ -79,24 +91,6 @@ const BottomBlock = styled.div`
 	background-position: center;
 	background-size: cover;
 	mix-blend-mode: screen;
-`;
-
-const TGXDivider = styled.div`
-	position: absolute;
-	bottom: -34px;
-	width: 1920px;
-	height: 1px;
-	background: linear-gradient(
-		90deg,
-		var(--tgx-red) 0%,
-		var(--tgx-red) 25%,
-		var(--tgx-yellow) 25%,
-		var(--tgx-yellow) 50%,
-		var(--tgx-blue) 50%,
-		var(--tgx-blue) 75%,
-		var(--tgx-green) 75%,
-		var(--tgx-green) 100%
-	);
 `;
 
 const BespokeCouch = styled.div`
@@ -114,42 +108,29 @@ const CouchLabel = styled.span`
 const customSmallStyling: ISmallStyling = {
 	gameTitleSize: 60,
 	gameTitleWidth: 640,
-	categoryWidth: 320,
+	categoryWidth: 262,
+	timerStackHeight: 248,
 	mainStyle: {
 		width: 666,
 		height: '100%',
 		// background: 'var(--main)',
+		padding: 0,
+		zIndex: 2,
+	},
+	gameNameStyle: {
+		lineHeight: '50px',
+	},
+	lowerStackHeight: 188,
+	lowerStackStyle: {
+		justifyContent: 'space-between',
+	},
+	timerStyle: {
+		flexGrow: 1,
+	},
+	categoryStyle: {
+		width: 284,
 	},
 };
-
-// TGX EGGS
-const RedEgg = styled(Egg)`
-	position: absolute;
-	transform: rotate(-83deg);
-    top: 796px;
-    left: 1743px;
-`;
-
-const YellowEgg = styled(Egg)`
-	position: absolute;
-	transform: rotate(138deg);
-    top: -188px;
-    left: 1212px;
-`;
-
-const BlueEgg = styled(Egg)`
-	position: absolute;
-	transform: rotate(103deg);
-    top: -6px;
-    left: -202px;
-`;
-
-const GreenEgg = styled(Egg)`
-	position: absolute;
-	transform: rotate(19deg);
-    top: 925px;
-    left: -51px;
-`;
 
 export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	const sponsorRef = useRef<SponsorBoxRef>(null);
@@ -225,14 +206,15 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 
 	return (
 		<Widescreen2Container>
-			<WholeGraphicClip>
-				<RedEgg colour="Red" />
-				<YellowEgg colour="Yellow" />
-				<BlueEgg colour="Blue" />
-				<GreenEgg colour="Green" />
-			</WholeGraphicClip>
+			<WholeGraphicClip></WholeGraphicClip>
 			<Topbar>
-				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+				<LeftBox>
+					<img
+						src={WidescreenLeft}
+						style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
+					/>
+					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+				</LeftBox>
 
 				<AudioIndicator
 					active={currentAudio === 0}
@@ -253,8 +235,8 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 				<Facecam
 					width={588}
 					style={{
-						borderRight: '1px solid var(--sec)',
-						borderLeft: '1px solid var(--sec)',
+						borderRight: '1px solid var(--asm-orange)',
+						borderLeft: '1px solid var(--asm-orange)',
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams}
@@ -266,6 +248,10 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 				<RaceFinish style={{ top: 265, left: 960, zIndex: 3 }} time={rightTeamTime} place={rightTeamPlace} />
 
 				<RightBox>
+					<img
+						src={WidescreenRight}
+						style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover', left: 0 }}
+					/>
 					<SponsorsBox
 						ref={sponsorRef}
 						style={{ flexGrow: 1 }}
@@ -277,11 +263,15 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 			</Topbar>
 			<CentralDivider />
 			<BottomBlock>
+				<img
+					src={WidescreenBottom}
+					style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
+				/>
 				<BespokeCouch>
 					<CouchLabel>{props.couchInformation.length > 1 ? 'Commentators' : 'Commentator'}</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
 					{couch.map((person) => {
-						if (person.name === "") return <></>;
+						if (person.name === '') return <></>;
 						return (
 							<PersonCompressed
 								key={person.name}
@@ -301,7 +291,6 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					)}
 				</BespokeCouch>
 			</BottomBlock>
-			<TGXDivider />
 
 			{/* <svg id="widescreen2Clip">
 				<defs>

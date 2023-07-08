@@ -4,7 +4,7 @@ import gsap from 'gsap';
 
 import { Tweet } from './tweet';
 
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
 
 const SponsorsContainer = styled.img`
@@ -24,7 +24,7 @@ interface Props {
 const AD_LENGTH = 30;
 
 export const Sponsors: React.FC<Props> = (props: Props) => {
-	const [imgIndex, setImgIndex] = useState(props.start || 1);
+	const [imgIndex, setImgIndex] = useState(props.start || 0);
 	const imageRef = useRef<HTMLImageElement>(null);
 
 	useEffect(() => {

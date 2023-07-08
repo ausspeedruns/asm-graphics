@@ -17,6 +17,7 @@ const TickerCTAContainer = styled.div`
 	color: var(--text-light);
 	font-size: 27px;
 	transform: translate(0px, -64px);
+	z-index: 2;
 `;
 
 const CTALine = styled.div`
@@ -26,6 +27,10 @@ const CTALine = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+`;
+
+const EmphasisFont = styled.span`
+	font-family: var(--secondary-font);
 `;
 
 interface CTAProps {
@@ -90,11 +95,11 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 		<TickerCTAContainer ref={containerRef}>
 			<CTALine ref={donateRef} style={{ fontSize: 37 }}>
 				<span>Donate at&nbsp;</span>
-				<b>ausspeedruns.com</b>
+				<EmphasisFont>ausspeedruns.com</EmphasisFont>
 			</CTALine>
 			<CTALine ref={incentiveRef} style={{ transform: 'translate(100%, 0)' }}>
 				<span>Check out challenges at&nbsp;</span>
-				<b>challenges.ausspeedruns.com</b>
+				<EmphasisFont>challenges.ausspeedruns.com</EmphasisFont>
 			</CTALine>
 			<CTALine ref={factRef} style={{ transform: 'translate(100%, 0)' }}>
 				<span dangerouslySetInnerHTML={{ __html: fact }}></span>

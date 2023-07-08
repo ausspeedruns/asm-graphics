@@ -5,7 +5,7 @@ import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
 import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
 import type { AudioIndicator } from '@asm-graphics/types/Audio';
 import type { ConnectionStatus } from '@asm-graphics/types/Connections';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 
 const nodecg = nodecgApiContext.get();
 

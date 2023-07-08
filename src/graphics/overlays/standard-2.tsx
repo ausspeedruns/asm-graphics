@@ -10,6 +10,9 @@ import { Facecam } from '../elements/facecam';
 import { RaceFinish } from '../elements/race-finish';
 import { Couch } from '../elements/couch';
 
+import StandardLeft from '../media/ASM23/standard-2-left.png';
+import StandardRight from '../media/ASM23/standard-2-right.png';
+
 const Standard2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -20,8 +23,16 @@ const Topbar = styled.div`
 	position: absolute;
 	height: 295px;
 	width: 1920px;
-	border-bottom: 1px solid var(--sec);
+	border-bottom: 1px solid var(--asm-orange);
 	overflow: hidden;
+`;
+
+const LeftBox = styled.div`
+	width: 666px;
+	height: 100%;
+	display: flex;
+	background: var(--main);
+	position: relative;
 `;
 
 const RightBox = styled.div`
@@ -30,6 +41,8 @@ const RightBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	background: var(--main);
+	position: relative;
 `;
 
 const SponsorSize = {
@@ -44,20 +57,36 @@ const TwitterSize = {
 };
 
 const CentralDivider = styled.div`
-	height: 719px;
+	height: 720px;
 	width: 2px;
 	position: absolute;
-	top: 297px;
+	top: 296px;
 	left: 959px;
-	background: var(--sec);
+	background: var(--asm-orange);
 `;
 
 const customSmallStyling: ISmallStyling = {
-	categoryWidth: 320,
+	categoryWidth: 260,
+	timerStackHeight: 148,
+	lowerStackHeight: 148,
+	gameNameBottomMargin: -40,
 	mainStyle: {
 		height: '100%',
-		width: 666,
+		width: '100%',
 		zIndex: 1,
+		padding: 0,
+	},
+	lowerStackStyle: {
+		justifyContent: 'space-between',
+	},
+	timerStyle: {
+		flexGrow: 1,
+	},
+	gameNameStyle: {
+		lineHeight: '42px',
+	},
+	categoryStyle: {
+		width: 284,
 	},
 };
 
@@ -123,14 +152,20 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				});
 			});
 		} else {
-			currentAudio = props.runData.teams[0].players.findIndex((player) => props.audioIndicator === player.id);
+			currentAudio = props.runData.teams[0]?.players.findIndex((player) => props.audioIndicator === player.id);
 		}
 	}
 
 	return (
 		<Standard2Container>
 			<Topbar>
-				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+				<LeftBox>
+					<img
+						style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
+						src={StandardLeft}
+					/>
+					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+				</LeftBox>
 
 				<AudioIndicator
 					active={currentAudio === 0}
@@ -152,8 +187,8 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					width={586}
 					maxNameWidth={190}
 					style={{
-						borderRight: '1px solid var(--sec)',
-						borderLeft: '1px solid var(--sec)',
+						borderRight: '1px solid var(--asm-orange)',
+						borderLeft: '1px solid var(--asm-orange)',
 					}}
 					teams={props.runData?.teams}
 					audioIndicator={props.obsAudioIndicator}
@@ -163,6 +198,10 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<RaceFinish style={{ top: 220, left: 960 }} time={rightTeamTime} place={rightTeamPlace} />
 
 				<RightBox>
+					<img
+						style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
+						src={StandardRight}
+					/>
 					<div
 						style={{
 							display: 'flex',

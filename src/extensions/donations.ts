@@ -2,7 +2,7 @@ import * as nodecgApiContext from './nodecg-api-context';
 import _ from 'underscore';
 
 import type { Donation } from '@asm-graphics/types/Donations';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 
 const nodecg = nodecgApiContext.get();
 

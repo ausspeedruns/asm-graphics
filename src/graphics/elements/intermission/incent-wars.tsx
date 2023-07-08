@@ -88,13 +88,13 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 const IncentiveContainer = styled.div`
 	// position: absolute;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
-	align-items: center;
-	margin-top: -10px;
-	margin-bottom: 10px;
-	flex-direction: row;
-	gap: 20px;
+	align-items: flex-start;
+	/* margin-top: -10px; */
+	margin-bottom: 5px;
 	font-size: 30px;
+	width: 100%;
 `;
 
 const WarChoiceContainer = styled.div`
@@ -106,23 +106,25 @@ const WarChoiceContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	transform: translate(-1000px, 0);
+	padding: 0 150px;
+	box-sizing: border-box;
 `;
 
 const AllOptionContainer = styled.div`
 	display: flex;
 	align-items: center;
 	width: 100%;
-	justify-content: center;
+	justify-content: flex-start;
 	gap: 15px;
 `;
 
 const Game = styled(FitText)`
-	max-width: 470px;
+	max-width: 615px;
 `;
 
 const IncentiveName = styled(FitText)`
 	font-weight: bold;
-	max-width: 470px;
+	max-width: 615px;
 	font-family: var(--secondary-font);
 `;
 
@@ -346,7 +348,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 const NoChoicesContainer = styled.div`
 	flex-grow: 1;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	font-weight: bold;
 	text-transform: uppercase;

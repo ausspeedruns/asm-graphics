@@ -41,11 +41,12 @@ const OrangeFAB = styled(Fab)`
 `;
 
 export const StaffMessages: React.FC = () => {
-	const [staffMessagesRep] = useReplicant<StaffMessage[], StaffMessage[]>(
+	const [staffMessagesRep] = useReplicant<StaffMessage[]>(
 		'staff-messages',
 		[],
 	);
-	const [host] = useReplicant<CouchPerson, CouchPerson>('host', {
+	const [host] = useReplicant<CouchPerson>('host', {
+		id: '',
 		name: '',
 		pronouns: '',
 	});

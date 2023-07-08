@@ -4,11 +4,12 @@ import * as nodecgApiContext from './nodecg-api-context';
 import { request, gql } from 'graphql-request';
 import { z } from 'zod';
 
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 
 const nodecg = nodecgApiContext.get();
 
 const incentivesRep = nodecg.Replicant('incentives') as unknown as NodeCG.ServerReplicantWithSchemaDefault<(Goal | War)[]>;
+const incentivesUpdatedRep = nodecg.Replicant<number | undefined>('incentives:updated-at', { defaultValue: undefined }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<number | undefined>;
 
 nodecg.listenFor('disableIncentive', (index: number) => {
 	const incentiveIndex = incentivesRep.value.findIndex(incentive => incentive.index === index);
@@ -129,6 +130,7 @@ async function getIncentives() {
 		parsedIncentives.forEach((incentive, i) => (parsedIncentives[i] = { ...incentive, index: i }));
 
 		incentivesRep.value = parsedIncentives;
+		incentivesUpdatedRep.value = Date.now();
 		return true;
 	} catch (error) {
 		nodecg.log.error('[GraphQL Incentives]: ' + error);

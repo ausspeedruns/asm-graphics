@@ -11,7 +11,7 @@ import { GreenButton, RedButton } from '../../dashboard/elements/styled-ui';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Delete, Undo } from '@mui/icons-material';
 
-const ncgConfig = nodecg.bundleConfig as Config;
+const ncgConfig = nodecg.bundleConfig;
 
 const TwitterContainer = styled.div`
 	height: calc(100% - 56px);
@@ -51,7 +51,7 @@ const fakeTweet: Tweet = {
 }; */
 
 export const Twitter: React.FC = () => {
-	const [tweetList] = useReplicant<Tweet[], Tweet[]>('tweets', []);
+	const [tweetList] = useReplicant<Tweet[]>('tweets', []);
 	const [canUndo, setCanUndo] = useState(false);
 	const [showingTweet, setShowingTweet] = useState<Tweet | undefined>(undefined);
 	const [showDialog, setShowDialog] = useState(false);
@@ -65,7 +65,7 @@ export const Twitter: React.FC = () => {
 	}
 
 	let noTweets;
-	if (!ncgConfig.twitter.enabled) {
+	if (!(ncgConfig.twitter as any).enabled) {
 		noTweets = <NoTweetsMsg>Twitter is not enabled</NoTweetsMsg>;
 	} else if (!tweetList) {
 		noTweets = <NoTweetsMsg>There are no recent tweets :(</NoTweetsMsg>;

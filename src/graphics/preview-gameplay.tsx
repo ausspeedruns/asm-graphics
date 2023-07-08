@@ -16,7 +16,7 @@ const PreviewStream = styled(ASMStream)`
 `;
 
 const PreviewGameplayStream: React.FC = () => {
-	const [twitchStreamsRep] = useReplicant<TwitchStream[], TwitchStream[]>('twitchStreams', []);
+	const [twitchStreamsRep] = useReplicant<TwitchStream[]>('twitchStreams', []);
 
 	// Preview twitch streams
 	const previewStreamElements = twitchStreamsRep

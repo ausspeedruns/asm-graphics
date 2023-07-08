@@ -19,14 +19,16 @@ import { Widescreen3 } from './overlays/widescreen-3';
 import { Widescreen1610 } from './overlays/widescreen16-10';
 import { DS } from './overlays/ds';
 import { GBA } from './overlays/gba';
+import { GBA2 } from './overlays/gba-2';
 import { GBC } from './overlays/gbc';
 import { DS2 } from './overlays/ds2';
 import { WHG } from './overlays/whg11-8';
 import { ThreeDS } from './overlays/3ds';
 import { NoGraphics } from './overlays/no-graphics';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 import type { Tweet } from '@asm-graphics/types/Twitter';
 import type { AudioIndicator } from '@asm-graphics/types/Audio';
+import { StandardVertical } from './overlays/standard-vertical';
 
 const GameplayOverlayCont = styled.div``;
 
@@ -59,17 +61,17 @@ export const GameplayRouterParent = (props: GameplayOverlayProps) => {
 };
 
 const GameplayOverlay = (props: GameplayOverlayProps) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [timerRep] = useReplicant<Timer, undefined>('timer', undefined, {
+	const [timerRep] = useReplicant<Timer | undefined>('timer', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [hostNamesRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
+	const [hostNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[], NodeCG.AssetFile[]>('assets:sponsors', []);
-	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
-	const [obsAudioIndicatorRep] = useReplicant<AudioIndicator, AudioIndicator>('audio-indicators', {});
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>('assets:sponsors', []);
+	const [audioIndicatorRep] = useReplicant<string>('audio-indicator', '');
+	const [obsAudioIndicatorRep] = useReplicant<AudioIndicator>('audio-indicators', {});
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
@@ -139,6 +141,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: 'GBA',
 		},
 		{
+			component: <GBA2 {...overlayArgs} />,
+			name: 'GBA-2',
+		},
+		{
 			component: <GBC {...overlayArgs} />,
 			name: 'GBC',
 		},
@@ -149,6 +155,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		{
 			component: <ThreeDS {...overlayArgs} />,
 			name: '3DS',
+		},
+		{
+			component: <StandardVertical {...overlayArgs} />,
+			name: 'Standard-Vertical',
 		},
 		{
 			component: <NoGraphics />,

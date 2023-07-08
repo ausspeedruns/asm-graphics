@@ -41,11 +41,16 @@ export interface ISmallStyling {
 	timerStyle?: React.CSSProperties;
 	categoryWidth?: number;
 	estimateSize?: number;
+	lowerStackHeight?: number;
 	gameTitleWidth?: number;
 	gameStackHeight?: number;
 	gameTitleSize?: number;
 	gameInfoSize?: number;
 	mainStyle?: React.CSSProperties;
+	lowerStackStyle?: React.CSSProperties;
+	gameNameStyle?: React.CSSProperties;
+	categoryStyle?: React.CSSProperties;
+	gameNameBottomMargin?: number;
 }
 
 const DefaultSmallStyling: ISmallStyling = {
@@ -56,8 +61,9 @@ const DefaultSmallStyling: ISmallStyling = {
 	gameTitleWidth: 540,
 	gameStackHeight: 80,
 	gameTitleSize: 45,
-	gameInfoSize: 25
-}
+	gameInfoSize: 25,
+	gameNameBottomMargin: -10,
+};
 
 interface Props {
 	className?: string;
@@ -67,22 +73,28 @@ interface Props {
 }
 
 export const SmallInfo: React.FC<Props> = (props: Props) => {
-	const styles = {...DefaultSmallStyling, ...props.style};
+	const styles = { ...DefaultSmallStyling, ...props.style };
 	return (
 		<SmallInfoContainer className={props.className} style={styles.mainStyle}>
 			<VerticalStack style={{ height: styles.timerStackHeight, width: '100%' }}>
 				<RunInfo.GameTitle
 					maxWidth={styles.gameTitleWidth!}
 					game={props.runData?.game || ''}
-					style={{ fontSize: styles.gameTitleSize, marginBottom: -10 }}
+					style={{ fontSize: styles.gameTitleSize, marginBottom: styles.gameNameBottomMargin, ...styles.gameNameStyle }}
 				/>
 				<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
-					<RunInfo.System system={props.runData?.system || ''} style={{ fontSize: styles.gameInfoSize, zIndex: 2 }} />
-					<RunInfo.Year year={props.runData?.release || ''} style={{ fontSize: styles.gameInfoSize, zIndex: 2 }} />
+					<RunInfo.System
+						system={props.runData?.system || ''}
+						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
+					/>
+					<RunInfo.Year
+						year={props.runData?.release || ''}
+						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
+					/>
 				</div>
 			</VerticalStack>
-			<InfoSubBox>
-				<VerticalStack style={{ height: styles.gameStackHeight }}>
+			<InfoSubBox style={{ ...styles.lowerStackStyle, height: styles.lowerStackHeight }}>
+				<VerticalStack style={{ height: styles.gameStackHeight, ...styles.categoryStyle }}>
 					<RunInfo.Category maxWidth={styles.categoryWidth!} category={props.runData?.category || ''} />
 					<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate || ''} />
 				</VerticalStack>

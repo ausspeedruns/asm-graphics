@@ -5,6 +5,7 @@ export interface ConfigSchema {
 		port: number;
 		ip: string;
 		password: string;
+		customTransitionsFolder?: string;
 	};
 	twitch: {
 		parents: string[];
@@ -37,7 +38,12 @@ export interface ConfigSchema {
 	x32?: {
 		enabled: boolean;
 		ip: string;
-	}
+	};
+	asmm?: {
+		enabled: boolean;
+		url: string;
+		password: string;
+	};
 }
 
 interface GoogleCredentials {

@@ -7,12 +7,27 @@ import styled from 'styled-components';
 
 export const Text = styled.div`
 	white-space: nowrap;
+	text-align: center;
 `;
+
+const renderTextWithLineBreaks = (text: string) => {
+	const lines = text.split('\\n');
+	console.log(lines.length);
+	if (lines.length > 1) console.log(text);
+	return lines.map((line, index) => (
+		<React.Fragment key={index}>
+			{line}
+			{index !== lines.length - 1 && <br />}
+		</React.Fragment>
+	));
+};
 
 interface Props {
 	text: string;
 	style?: React.CSSProperties;
 	className?: string;
+	allowNewlines?: boolean;
+	alignment?: 'centre' | 'left' | 'right';
 }
 
 export const FitText: React.FunctionComponent<Props> = React.memo((props: Props) => {
@@ -35,12 +50,30 @@ export const FitText: React.FunctionComponent<Props> = React.memo((props: Props)
 		text.style.transform = newTransform;
 	});
 
+	let justifyContent = 'center';
+	let transformOrigin = 'center';
+	switch (props.alignment) {
+		case 'left':
+			justifyContent = 'left';
+			transformOrigin = 'left';
+			break;
+		case 'right':
+			justifyContent = 'right';
+			transformOrigin = 'right';
+			break;
+		case 'centre':
+		default:
+			break;
+	}
+
 	return (
 		<div
 			className={props.className}
-			style={{ display: 'flex', justifyContent: 'center', ...props.style }}
+			style={{ display: 'flex', justifyContent: justifyContent, ...props.style }}
 			ref={containerRef}>
-			<Text ref={textRef}>{props.text}</Text>
+			<Text ref={textRef} style={{ transformOrigin: transformOrigin }}>
+				{props.allowNewlines ? renderTextWithLineBreaks(props.text) : props.text.replaceAll('\\n', ' ')}
+			</Text>
 		</div>
 	);
 });

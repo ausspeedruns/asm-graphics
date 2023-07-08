@@ -22,6 +22,9 @@
 				},
 				"password": {
 					"type": "string"
+				},
+				"customTransitionsFolder": {
+					"type": "string"
 				}
 			},
 			"required": ["enabled"]
@@ -109,7 +112,7 @@
 		},
 		"x32": {
 			"type": "object",
-			"description": "Reads incentive data off the website",
+			"description": "Controls the Behringer X32 and gets audio information",
 			"properties": {
 				"enabled": {
 					"type": "boolean",
@@ -121,6 +124,25 @@
 				}
 			},
 			"required": ["enabled", "ip"]
+		},
+		"asmm": {
+			"type": "object",
+			"description": "Reads Australian Speedrun Marathon Marathon data off the server",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false
+				},
+				"url": {
+					"type": "string",
+					"default": ""
+				},
+				"password": {
+					"type": "string",
+					"default": ""
+				}
+			},
+			"required": ["enabled", "url", "password"]
 		}
 	},
 	"required": ["obs", "twitch", "twitter", "tiltify"]

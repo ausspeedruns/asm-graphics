@@ -8,6 +8,8 @@ import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
 import { Facecam } from '../elements/facecam';
 import { Couch } from '../elements/couch';
 
+import GBABG from '../media/ASM23/gba.png';
+
 const GBAContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -71,12 +73,13 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					audioIndicator={props.obsAudioIndicator}
 				/>
 				<InfoBoxBG>
+					<img
+						src={GBABG}
+						style={{ position: 'absolute', height: 'auto', width: '100%', objectFit: 'contain', bottom: 0 }}
+					/>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
-					<Couch
-						couch={props.couchInformation}
-						audio={props.obsAudioIndicator}
-					/>
+					<Couch couch={props.couchInformation} audio={props.obsAudioIndicator} />
 					<SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

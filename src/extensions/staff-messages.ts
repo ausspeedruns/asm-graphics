@@ -1,7 +1,7 @@
 import * as nodecgApiContext from './nodecg-api-context';
 
 import type { StaffMessage } from '@asm-graphics/types/StaffMessages';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 
 const nodecg = nodecgApiContext.get();
 

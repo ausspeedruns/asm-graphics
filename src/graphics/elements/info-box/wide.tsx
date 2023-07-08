@@ -50,7 +50,7 @@ const DefaultWideStyling: IWideStyling = {
 	gameStackHeight: 100,
 	gameTitleSize: 37,
 	gameInfoSize: 25,
-	bottomRowMargin: -37,
+	bottomRowMargin: -24,
 }
 
 interface Props {
@@ -68,7 +68,7 @@ export const WideInfo: React.FC<Props> = (props: Props) => {
 				<RunInfo.GameTitle
 					maxWidth={styles.maxTextWidth!}
 					game={props.runData?.game || ''}
-					style={{ marginBottom: styles.bottomRowMargin, marginTop: -4 }}
+					style={{ marginBottom: styles.bottomRowMargin, lineHeight: '42px' }}
 				/>
 				<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
 					<RunInfo.System system={props.runData?.system || ''} />

@@ -1,10 +1,9 @@
 import { createRoot } from 'react-dom/client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useListenFor, useReplicant } from 'use-nodecg';
-import useCountdown from 'react-countdown-hook';
 
-import type { Timer } from '@asm-graphics/types/Timer';
+// import type { Timer } from '@asm-graphics/types/Timer';
 import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
 
 import { RTAudio } from './dashboards/runner-tablet/audio';
@@ -67,16 +66,12 @@ type ObjectValues<T> = T[keyof T];
 
 type TabsValues = ObjectValues<typeof TABS>;
 
-const TIME_TIL_TRANSITION = 30 * 1000;
-
 const RunnerTablet: React.FC = () => {
 	const [tab, setTab] = useState<TabsValues>('audio');
-	const [couchNames] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
-	const [runnerReadyRep] = useReplicant<boolean, boolean>('runner:ready', false);
-	const [timerRep] = useReplicant<Timer, undefined>('timer', undefined, { namespace: 'nodecg-speedcontrol' });
+	const [couchNames] = useReplicant<CouchPerson[]>('couch-names', []);
+	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 
 	const [live, setLive] = useState(false);
-	const [timeLeft, { start }] = useCountdown(0, 100);
 
 	const host = couchNames.find((person) => person.host);
 
@@ -92,22 +87,9 @@ const RunnerTablet: React.FC = () => {
 			break;
 	}
 
-	function toggleReady() {
-		nodecg.sendMessage(runnerReadyRep ? 'runner:setNotReady' : 'runner:setReady');
-	}
-
-	useEffect(() => {
-		if (timerRep?.state === 'finished') {
-			restart();
-		}
-	}, [timerRep?.state]);
-
-	const restart = useCallback(() => {
-		// you can start existing timer with an arbitrary value
-		// if new value is not passed timer will start with initial value
-		const newTime = TIME_TIL_TRANSITION;
-		start(newTime);
-	}, []);
+	// function toggleReady() {
+	// 	nodecg.sendMessage(runnerReadyRep ? 'runner:setNotReady' : 'runner:setReady');
+	// }
 
 	useListenFor('transition:toGame', () => {
 		setLive(true);
@@ -118,14 +100,10 @@ const RunnerTablet: React.FC = () => {
 	});
 
 	let buttonText = 'ERROR';
-	if (timeLeft > 0) {
-		buttonText = (timeLeft/1000).toFixed(1).toString();
-	} else if (live) {
+	if (live) {
 		buttonText = 'LIVE';
-	} else if (runnerReadyRep) {
-		buttonText = 'READY!';
 	} else {
-		buttonText = 'READY UP';
+		buttonText = 'INTERMISSION';
 	}
 
 	return (
@@ -147,8 +125,7 @@ const RunnerTablet: React.FC = () => {
 						{host?.pronouns}
 					</HostName>
 					<ReadyButton
-						onClick={toggleReady}
-						style={{ background: live ? '#0066ff' : runnerReadyRep ? '#5ab95a' : '#ff0000' }}>
+						style={{ background: live ? '#0066ff' : '#ff0000' }}>
 						{buttonText}
 					</ReadyButton>
 				</RightSide>

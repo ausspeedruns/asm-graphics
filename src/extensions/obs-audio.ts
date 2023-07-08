@@ -4,7 +4,7 @@ import _ from 'underscore';
 
 import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
 import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 
 const nodecg = nodecgApiContext.get();
 

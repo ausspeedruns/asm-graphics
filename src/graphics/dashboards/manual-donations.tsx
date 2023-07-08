@@ -46,7 +46,7 @@ const FormTopRow = styled.div`
 // }
 
 export const ManualDonations: React.FC = () => {
-	const [donations] = useReplicant<Donation[], Donation[]>('manual-donations', []);
+	const [donations] = useReplicant<Donation[]>('manual-donations', []);
 	const [author, setAuthor] = useState('');
 	const [message, setMessage] = useState('');
 	const [amount, setAmount] = useState('');

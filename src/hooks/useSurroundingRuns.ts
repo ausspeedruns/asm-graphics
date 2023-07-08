@@ -2,10 +2,10 @@ import { useReplicant } from 'use-nodecg';
 import { RunData, RunDataActiveRunSurrounding, RunDataArray } from '@asm-graphics/types/RunData';
 
 function useSurroundingRuns(): readonly [RunData | undefined, RunData | undefined, RunData | undefined] {
-	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding, RunDataActiveRunSurrounding>('runDataActiveRunSurrounding', {}, {
+	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding>('runDataActiveRunSurrounding', {}, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [runDataArrayRep] = useReplicant<RunDataArray, RunDataArray>('runDataArray', [], {
+	const [runDataArrayRep] = useReplicant<RunDataArray>('runDataArray', [], {
 		namespace: 'nodecg-speedcontrol',
 	});
 

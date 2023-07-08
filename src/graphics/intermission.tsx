@@ -3,13 +3,13 @@ import styled, { keyframes } from 'styled-components';
 import { createRoot } from 'react-dom/client';
 import clone from 'clone';
 import { useListenFor, useReplicant } from 'use-nodecg';
-// import gsap from 'gsap';
+import gsap from 'gsap';
 import { format } from 'date-fns';
 
 import { RunDataArray, RunDataActiveRun } from '@asm-graphics/types/RunData';
 import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
 import { CouchPerson } from '@asm-graphics/types/OverlayProps';
-import type NodeCG from '@alvancamp/test-nodecg-types';
+import type NodeCG from '@nodecg/types';
 
 import { InterCTA } from './elements/intermission/cta';
 import { InterIncentives } from './elements/intermission/incentives';
@@ -26,9 +26,11 @@ import _ from 'underscore';
 
 // Assets
 import MusicIconImg from './media/MusicIcon.svg';
-import ASGXBorder from './media/ASGX23/border.webm';
-import ASGXLogo from './media/ASGX23/ASGX23Logo.png';
-import { Egg } from './elements/greeble/tgx/egg';
+import ASM23Right from './media/ASM23/intermission-right.png';
+import ASM23Left from './media/ASM23/intermission-left.png';
+import EventLogo from './media/ASM23/logo.png';
+import { Sponsors } from './elements/sponsors';
+import { IntermissionAds, IntermissionAdsRef } from './elements/intermission/ad';
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -40,29 +42,30 @@ const IntermissionContainer = styled.div`
 	/* clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 960 V 120 H 0'); */
 `;
 
-const ClippedBackground = styled.div`
-	height: 1080px;
-	width: 1920px;
-	position: absolute;
-	clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 945 V 120 H 0');
-	background: var(--main);
-`;
+// const ClippedBackground = styled.div`
+// 	height: 1080px;
+// 	width: 1920px;
+// 	position: absolute;
+// 	clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 945 V 120 H 0');
+// 	background: var(--main);
+// `;
 
 const Half = styled.div`
 	height: 100%;
-	width: 954px;
+	width: 960px;
 	position: relative;
 	overflow: hidden;
 `;
 
 const NextRuns = styled.div`
+	margin: auto;
 	color: var(--text-light);
-	width: 100%;
-	height: 390px;
+	width: 788px;
+	height: 362px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding-top: 37px;
+	padding-top: 25px;
 	z-index: 2;
 `;
 
@@ -70,12 +73,14 @@ const RunsList = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-grow: 1;
+	/* flex-grow: 1; */
 	width: 100%;
-	gap: 16px;
+	/* height: 100%; */
+	height: 272px;
+	gap: 8px;
 	z-index: 1;
 	/* margin-top: 10px; */
-	padding: 16px;
+	padding: 8px;
 	box-sizing: border-box;
 `;
 
@@ -85,23 +90,25 @@ const FutureRuns = styled.div`
 	justify-content: space-between;
 	flex-grow: 1;
 	height: 100%;
-	gap: 16px;
+	gap: 8px;
 `;
 
 const DirectNextRun = styled.div`
 	flex-grow: 1;
 	height: 100%;
-	min-width: 454px;
+	/* min-width: 384px; */
 `;
 
 const IncentiveBlock = styled.div`
 	color: var(--text-light);
 	font-family: var(--main-font);
 	width: 100%;
-	height: 235px;
+	height: 200px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	clip-path: path('M 120 0 V 120 H 80 V 200 H 880 V 120 H 840 V 0 Z');
+	/* clip-path: path('M 120 0 V 40 H 80 V 80 H 40 V 200 H 920 V 80 H 880 V 40 H 840 V 0 Z'); */
 `;
 
 const MiddleContent = styled.div`
@@ -111,13 +118,12 @@ const MiddleContent = styled.div`
 	align-items: center;
 	z-index: 10;
 	position: absolute;
-	top: 727px;
+	top: 599px;
 	width: 100%;
 `;
 
 const Music = styled.div`
 	text-align: center;
-	margin-top: 20px;
 `;
 
 const BottomBlock = styled.div`
@@ -126,8 +132,9 @@ const BottomBlock = styled.div`
 	height: 113px;
 	width: 100%;
 	display: flex;
-	justify-content: center;
+	justify-content: space-evenly;
 	box-sizing: border-box;
+	align-items: center;
 `;
 
 const Time = styled.span`
@@ -144,11 +151,11 @@ const HostName = styled.div`
 	color: var(--text-light);
 	display: flex;
 	align-items: center;
+	font-family: var(--secondary-font);
 `;
 
 const HostPronoun = styled.span`
 	font-size: 20px;
-	font-family: var(--secondary-font);
 	font-weight: 400;
 	color: #000000;
 	text-transform: uppercase;
@@ -157,21 +164,22 @@ const HostPronoun = styled.span`
 	height: 28px;
 	padding: 0 4px;
 	line-height: 28px;
+	font-family: var(--main-font);
 `;
 
+const MUSIC_WIDTH = 400;
 const MusicLabel = styled.div`
-	width: 520px;
+	width: ${MUSIC_WIDTH}px;
 	color: var(--text-light);
 	font-size: 28px;
 	white-space: nowrap;
 	margin: 0 16px;
-	font-family: var(--secondary-font);
 	position: relative;
 `;
 
 const StaticMusicText = styled.span`
 	position: absolute;
-	width: 520px;
+	width: ${MUSIC_WIDTH}px;
 	text-align: center;
 	top: 0;
 	left: 0;
@@ -183,7 +191,7 @@ const MusicIcon = styled.img`
 `;
 
 const MusicMarquee = styled.div`
-	width: 520px;
+	width: ${MUSIC_WIDTH}px;
 	margin: 0 auto;
 	overflow: hidden;
 	box-sizing: border-box;
@@ -206,88 +214,36 @@ const MarqueeText = styled.span`
 `;
 
 const LocationBug = styled.div`
-	color: var(--text-dark);
-	background: var(--sec);
+	color: var(--text-light);
+	/* background: var(--sec); */
 	width: fit-content;
-	padding: 10px;
-	font-size: 21px;
-	font-weight: bold;
+	padding: 15px 40px;
+	font-size: 40px;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
-	width: 95.5%;
-`;
-
-// ASGX
-const ASGXBorderVideo = styled.video`
 	position: absolute;
-	z-index: 100;
-	transform: scale(0.66);
-	left: -256px;
-	top: -120px;
-	pointer-events: none;
-`;
-
-const ASGXLogoContainer = styled.div`
-	/* background: var(--main); */
-	height: 135px;
+	bottom: 0px;
 	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	box-sizing: border-box;
 `;
 
-const ASGXCameraBox = styled.div`
-	height: 757px;
-`;
-
-const ASGXBottomBar = styled.div`
-	/* background: var(--main); */
-	height: 143px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-const RedEgg = styled(Egg)`
-	position: absolute;
-	transform: rotate(-49deg);
-	top: 887px;
-	left: 1703px;
-`;
-
-const YellowEgg = styled(Egg)`
-	position: absolute;
-	transform: rotate(-148deg);
-	top: -78px;
-	left: 1771px;
-`;
-
-const BlueEgg = styled(Egg)`
-	position: absolute;
-	transform: rotate(130deg);
-	top: -54px;
-	left: -126px;
-`;
-
-const GreenEgg = styled(Egg)`
-	position: absolute;
-	transform: rotate(32deg);
-	top: 972px;
-	left: -71px;
+const CameraBox = styled.div`
+	height: 1080px;
 `;
 
 export const Intermission: React.FC = () => {
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[], NodeCG.AssetFile[]>('assets:sponsors', []);
-	const [incentivesRep] = useReplicant<(Goal | War)[], (Goal | War)[]>('incentives', []);
-	const [runDataArrayRep] = useReplicant<RunDataArray, []>('runDataArray', [], { namespace: 'nodecg-speedcontrol' });
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>('assets:sponsors', []);
+	const [incentivesRep] = useReplicant<(Goal | War)[]>('incentives', []);
+	const [runDataArrayRep] = useReplicant<RunDataArray>('runDataArray', [], { namespace: 'nodecg-speedcontrol' });
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [hostName] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
-	const [donationRep] = useReplicant<number, number>('donationTotal', 100);
-	const [manualDonationRep] = useReplicant<number, number>('manual-donation-total', 0);
+	const [hostName] = useReplicant<CouchPerson[]>('couch-names', []);
+	const [donationRep] = useReplicant<number>('donationTotal', 100);
+	const [manualDonationRep] = useReplicant<number>('manual-donation-total', 0);
+	const [asmmRep] = useReplicant<number>('asmm:totalKM', 0);
 
 	const intermissionRef = useRef<IntermissionRef>(null);
 
@@ -307,7 +263,8 @@ export const Intermission: React.FC = () => {
 			donation={donationRep + manualDonationRep}
 			host={hostName.find((person) => person.host)}
 			sponsors={sponsorsRep}
-			incentives={incentivesRep.filter(incentive => incentive.active)}
+			incentives={incentivesRep.filter((incentive) => incentive.active)}
+			asmm={asmmRep}
 		/>
 	);
 };
@@ -325,15 +282,18 @@ interface IntermissionProps {
 	muted?: boolean;
 	sponsors?: NodeCG.AssetFile[];
 	incentives?: (Goal | War)[];
+	asmm?: number;
 }
 
 export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps>((props, ref) => {
 	const [currentTime, setCurrentTime] = useState('00:00:00');
 	const [currentSong, setCurrentSong] = useState('');
 	const [showMarquee, setShowMarquee] = useState(false);
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>('assets:sponsors', []);
 	const songEl = useRef<HTMLSpanElement>(null);
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const bottomBlockRef = useRef<HTMLDivElement>(null);
+	const adsRef = useRef<IntermissionAdsRef>(null);
 
 	async function getCurrentSong() {
 		const song = await fetch('https://rainwave.cc/api4/info_all?sid=2', { method: 'GET' });
@@ -345,10 +305,10 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	useEffect(() => {
 		getCurrentSong();
-		setCurrentTime(format(new Date(), 'E do MMM - h:mm:ss a'));
+		setCurrentTime(format(new Date(), 'E do MMM – h:mm:ss a'));
 
 		const interval = setInterval(() => {
-			setCurrentTime(format(new Date(), 'E do MMM - h:mm:ss a'));
+			setCurrentTime(format(new Date(), 'E do MMM – h:mm:ss a'));
 		}, 1000);
 		const songInterval = setInterval(() => {
 			getCurrentSong();
@@ -367,7 +327,50 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	useImperativeHandle(ref, () => ({
 		showTweet(_newVal) {},
-		showAd(_ad) {},
+		showAd(ad) {
+			let adDuration = 0;
+			switch (ad) {
+				case 'HyperX':
+					adDuration = 30;
+					break;
+
+				case 'GOC':
+					adDuration = 43;
+					break;
+				default:
+					return;
+			}
+
+			if (adsRef.current) {
+				if (!audioRef.current) return;
+
+				const tl = gsap.timeline();
+				tl.set(audioRef.current, { x: 1 });
+				tl.to(audioRef.current, {
+					x: 0,
+					duration: 1,
+					onUpdate: () => {
+						if (!audioRef.current) return;
+						const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;
+						audioRef.current.volume = parseFloat(dummyElPos.toString());
+					},
+				});
+				tl.call(() => adsRef.current?.showAd(ad));
+				tl.to(
+					audioRef.current,
+					{
+						x: 1,
+						duration: 5,
+						onUpdate: () => {
+							if (!audioRef.current) return;
+							const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;
+							audioRef.current.volume = parseFloat(dummyElPos.toString());
+						},
+					},
+					`+=${adDuration + 10}`,
+				);
+			}
+		},
 	}));
 
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.activeRun?.id);
@@ -390,22 +393,58 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	return (
 		<IntermissionContainer>
-			<ClippedBackground>
-				<RedEgg colour="Red" />
-				<YellowEgg colour="Yellow" />
-				<BlueEgg colour="Blue" />
-				<GreenEgg colour="Green" />
-			</ClippedBackground>
+			{/* <ClippedBackground>
+			</ClippedBackground> */}
 			<Half>
-				<ASGXLogoContainer>
-					<img src={ASGXLogo} width="auto" height="77" style={{ marginTop: -23 }} />
-				</ASGXLogoContainer>
-				<ASGXCameraBox />
+				<IntermissionAds ref={adsRef} style={{ position: 'absolute', left: 120, top: 40 }} />
+				<CameraBox />
+				<img style={{ position: 'absolute', bottom: 0 }} src={ASM23Left} />
 				<LocationBug>
-					<span>The Game Expo 2023</span>
-					<span>Melbourne Exhibition Centre</span>
+					<img src={EventLogo} style={{ width: 'auto', height: '80px' }} />
+					<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+						<span style={{ fontWeight: 'bold', marginBottom: -17 }}>Adelaide</span>
+						<span>South Australia</span>
+					</div>
 				</LocationBug>
-				<ASGXBottomBar>
+			</Half>
+			<Half style={{ background: 'var(--main)' }}>
+				<img style={{ position: 'absolute' }} src={ASM23Right} />
+				<NextRuns>
+					<Time>{currentTime}</Time>
+					<RunsList>
+						<DirectNextRun>{NextRun}</DirectNextRun>
+						<FutureRuns>{RunsArray}</FutureRuns>
+					</RunsList>
+				</NextRuns>
+				<InterCTA donation={props.donation} style={{ zIndex: 1, position: 'absolute', top: 336 }} />
+				<MiddleContent>
+					<IncentiveBlock>
+						{props.incentives && props.incentives.length > 0 ? (
+							<InterIncentives incentives={props.incentives} asmm={props.asmm} />
+						) : (
+							<InterIncentivesFallback />
+						)}
+					</IncentiveBlock>
+				</MiddleContent>
+				<div
+					style={{
+						width: '100%',
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						position: 'absolute',
+						bottom: 100,
+					}}>
+					<Sponsors sponsors={sponsorsRep} style={{ width: 600, height: 160 }} />
+				</div>
+				<BottomBlock ref={bottomBlockRef}>
+					{props.host && (
+						<HostName>
+							<Mic style={{ height: '2.5rem', width: '2.5rem' }} />
+							{props.host.name}
+							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
+						</HostName>
+					)}
 					<Music>
 						<audio
 							style={{ transform: 'translate(100px, 0px)' }}
@@ -418,9 +457,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						</audio>
 						<div style={{ display: 'flex' }}>
 							<MusicIcon src={MusicIconImg} />
-							{/* <MusicLabel ref={songEl}>
-								<marquee>{currentSong}</marquee>
-							</MusicLabel> */}
 							<MusicLabel>
 								<MusicMarquee style={{ opacity: showMarquee ? 1 : 0 }}>
 									<MarqueeText style={{ animationDuration: `${currentSong.length * 0.35}s` }}>
@@ -434,37 +470,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							<MusicIcon src={MusicIconImg} />
 						</div>
 					</Music>
-				</ASGXBottomBar>
-			</Half>
-			<Half style={{ width: 966 }}>
-				<NextRuns>
-					<Time>{currentTime}</Time>
-					<RunsList>
-						<DirectNextRun>{NextRun}</DirectNextRun>
-						<FutureRuns>{RunsArray}</FutureRuns>
-					</RunsList>
-				</NextRuns>
-				<InterCTA donation={props.donation} style={{ zIndex: 1 }} />
-				<MiddleContent>
-					<IncentiveBlock>
-						{props.incentives && props.incentives.length > 0 ? (
-							<InterIncentives incentives={props.incentives} />
-						) : (
-							<InterIncentivesFallback />
-						)}
-					</IncentiveBlock>
-				</MiddleContent>
-				<BottomBlock ref={bottomBlockRef}>
-					{props.host && (
-						<HostName>
-							<Mic style={{ height: '2.5rem', width: '2.5rem' }} />
-							{props.host.name}
-							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
-						</HostName>
-					)}
 				</BottomBlock>
 			</Half>
-			<ASGXBorderVideo src={ASGXBorder} autoPlay loop muted />
 		</IntermissionContainer>
 	);
 });

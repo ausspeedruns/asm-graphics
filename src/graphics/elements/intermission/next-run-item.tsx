@@ -5,14 +5,16 @@ import { format } from 'date-fns';
 import { FitText } from '../fit-text';
 
 import { RunData } from '@asm-graphics/types/RunData';
-import { NodeCGAPIClient } from '@alvancamp/test-nodecg-types/client/api/api.client';
+import { NodeCGAPIClient } from '@nodecg/types/client/api/api.client';
 import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
 
 const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
 
+const NEXT_RUN_WIDTH = 386;
+
 const InterNextRunItemContainer = styled.div`
-	height: 100%;
-	width: 100%;
+	height: 254px;
+	width: ${NEXT_RUN_WIDTH}px;
 	font-family: var(--main-font);
 	background: var(--main);
 	display: flex;
@@ -22,7 +24,7 @@ const InterNextRunItemContainer = styled.div`
 
 const InterFutureRunItemContainer = styled.div`
 	height: 100%;
-	width: 100%;
+	width: ${NEXT_RUN_WIDTH}px;
 	font-family: var(--main-font);
 	background: var(--main);
 	display: flex;
@@ -30,8 +32,9 @@ const InterFutureRunItemContainer = styled.div`
 `;
 
 const Time = styled.div`
-	width: 20%;
-	font-size: 28px;
+	width: 60px;
+	min-width: 60px;
+	font-size: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -41,7 +44,7 @@ const Time = styled.div`
 `;
 
 const InfoBlock = styled.div`
-	width: 100%;
+	width: 84%;
 	height: fit-content;
 	display: flex;
 	flex-direction: column;
@@ -55,9 +58,10 @@ const InfoBlock = styled.div`
 `;
 
 const GameTitle = styled(FitText)`
-	font-size: 33px;
+	font-size: 27px;
 	/* font-weight: bold; */
-	max-width: 360px;
+	max-width: 95%;
+	font-family: var(--secondary-font);
 `;
 
 const TopText = styled.div`
@@ -69,9 +73,9 @@ const TopText = styled.div`
 `;
 
 const Category = styled(FitText)`
-	max-width: 200px;
-	font-size: 27px;
-	font-family: var(--secondary-font);
+	max-width: 150px;
+	font-size: 20px;
+	font-family: var(--main-font);
 `;
 
 const System = styled.span`
@@ -83,6 +87,7 @@ const System = styled.span`
 const Runners = styled(FitText)`
 	max-width: 95%;
 	font-size: 23px;
+	font-family: var(--secondary-font);
 `;
 
 const FutureRunsEstRow = styled.div`
@@ -123,12 +128,12 @@ export const InterNextRunItem = (props: Props) => {
 	if (props.nextRun) {
 		return (
 			<InterNextRunItemContainer>
-				<Time style={{ width: '100%', fontSize: 38, padding: 5, boxSizing: 'border-box' }}>
-					Up Next - {time}
+				<Time style={{ width: '100%', fontSize: 25, padding: 5, boxSizing: 'border-box' }}>
+					Up Next – {time}
 				</Time>
-				<InfoBlock>
-					<GameTitle style={{ fontSize: 40, maxWidth: 430 }} text={props.run.game || ''} />
-					<Category style={{ fontSize: 32, maxWidth: 430 }} text={props.run.category?.toUpperCase() || ''} />
+				<InfoBlock style={{ width: '100%' }}>
+					<GameTitle style={{ fontSize: 40 }} text={props.run.game || ''} />
+					<Category style={{ fontSize: 32, maxWidth: 350 }} text={props.run.category?.toUpperCase() || ''} />
 					<TopText>
 						<span style={{ fontSize: 32, minWidth: 143, textAlign: 'right', maxWidth: '50%' }}>
 							<span style={{ fontSize: 20 }}>EST </span>
@@ -148,7 +153,7 @@ export const InterNextRunItem = (props: Props) => {
 					<GameTitle text={props.run.game || ''} />
 					<FutureRunsEstRow>
 						<Category text={props.run.category?.toUpperCase() || ''} />
-						<span style={{ fontSize: 27, minWidth: 143, textAlign: 'right', maxWidth: '50%' }}>
+						<span style={{ fontSize: 27, minWidth: 130, textAlign: 'right', maxWidth: '50%' }}>
 							<span style={{ fontSize: 14 }}>EST </span>
 							{correctedEstimate}
 						</span>

@@ -140,11 +140,11 @@ const NEW_HEADSETS: HeadsetRunner[] = [
 ];
 
 export const RTNames: React.FC<Props> = (props: Props) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [allUsersRep] = useReplicant<User[], User[]>('all-usernames', []);
-	const [couchNamesRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
+	const [allUsersRep] = useReplicant<User[]>('all-usernames', []);
+	const [couchNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
 	const allUsernames = useMemo(() => allUsersRep.map((user) => user.username), [allUsersRep]);
 	const numberOfRunners = useMemo(
 		() => runDataActiveRep?.teams.reduce((total, team) => total + team.players.length, 0) ?? 0,
@@ -311,9 +311,9 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				<TechWarning>If any data is wrong please let Tech know</TechWarning>
 				<Data>
 					<span>Game</span>
-					<span>{runDataActiveRep?.game ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
+					<span>{runDataActiveRep?.game?.replaceAll("\\n", " ") ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
 					<span>Category</span>
-					<span>{runDataActiveRep?.category ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
+					<span>{runDataActiveRep?.category?.replaceAll("\\n", " ") ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
 					<span>Estimate</span>
 					<span>{runDataActiveRep?.estimate ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
 					<span>Console</span>

@@ -24,8 +24,8 @@ function removeExtrasInName(name: string) {
 }
 
 export const Incentives: React.FC<Props> = (props: Props) => {
-	const [incentivesRep] = useReplicant<(Goal | War)[], (Goal | War)[]>('incentives', []);
-	const [runDataActiveRep] = useReplicant<RunData, undefined>('runDataActiveRun', undefined, {
+	const [incentivesRep] = useReplicant<(Goal | War)[]>('incentives', []);
+	const [runDataActiveRep] = useReplicant<RunData | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
 

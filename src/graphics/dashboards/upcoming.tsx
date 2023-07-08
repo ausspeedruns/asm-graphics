@@ -26,10 +26,10 @@ interface Props {
 }
 
 export const Upcoming: React.FC<Props> = (props: Props) => {
-	const [runDataArrayRep] = useReplicant<RunDataArray, RunDataArray>('runDataArray', [], {
+	const [runDataArrayRep] = useReplicant<RunDataArray>('runDataArray', [], {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [runDataActiveRep] = useReplicant<RunData, undefined>('runDataActiveRun', undefined, {
+	const [runDataActiveRep] = useReplicant<RunData | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
 
@@ -113,8 +113,8 @@ const SingleRun: React.FC<RunProps> = (props: RunProps) => {
 	return (
 		<SingleRunContainer boxShadow={2} active={props.active ? 'true' : 'false'} style={props.style}>
 			<RunDataContainer>
-				<Game>{props.run.game}</Game>
-				<Category>{props.run.category}</Category>
+				<Game>{props.run.game?.replaceAll("\\n", " ")}</Game>
+				<Category>{props.run.category?.replaceAll("\\n", " ")}</Category>
 			</RunDataContainer>
 			<RunDataContainer>
 				<Names>{playerNames}</Names>

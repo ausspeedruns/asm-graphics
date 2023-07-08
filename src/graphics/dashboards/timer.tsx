@@ -39,14 +39,14 @@ const RunnerReadyText = styled.div`
 `;
 
 export const Timer: React.FC = () => {
-	const [timerRep] = useReplicant<TimerI, undefined>('timer', undefined, {
+	const [timerRep] = useReplicant<TimerI | undefined>('timer', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [runnerReadyRep] = useReplicant<boolean, boolean>('runner:ready', false);
-	const [techReadyRep] = useReplicant<boolean, boolean>('tech:ready', false);
+	const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
+	const [techReadyRep] = useReplicant<boolean>('tech:ready', false);
 	// const [disableTime, setDisableTime] = useState(false);
 	// const [currentTime, setCurrentTime] = useState('00:00:00');
 	// const timerRef = useRef<HTMLDivElement>(null);

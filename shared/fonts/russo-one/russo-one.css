@@ -2,3 +2,9 @@
 	font-family: 'Russo One';
 	src: url('RussoOne-Regular.ttf');
 }
+
+@font-face {
+	font-family: 'Russo One';
+	font-weight: bold;
+	src: url('RussoOne-Regular.ttf');
+}

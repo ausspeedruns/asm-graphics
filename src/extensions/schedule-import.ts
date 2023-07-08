@@ -17,6 +17,8 @@ const SCHEDULE_QUERY = gql`
 				game
 				category
 				platform
+				techPlatform
+				specialRequirements
 				race
 				coop
 				estimate
@@ -31,8 +33,6 @@ const SCHEDULE_QUERY = gql`
 		}
 	}
 `;
-
-const DUMB_RUN_QUERY = gql``;
 
 const scheduleSchema = z.object({
 	event: z.object({
@@ -51,8 +51,8 @@ const scheduleSchema = z.object({
 				pronouns: z.string(),
 				twitch: z.string(),
 			})),
-			// techPlatform: z.string(),
-			// specialReqs: z.string(),
+			techPlatform: z.string(),
+			specialRequirements: z.string(),
 		}))
 	}),
 });
@@ -99,11 +99,11 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>['ev
 			}
 		});
 
-		// let customData = {};
-		// customData = {
-		// 	techPlatform: run.techPlatform,
-		// 	specialRequirements: run.specialReqs,
-		// };
+		let customData = {};
+		customData = {
+			techPlatform: run.techPlatform,
+			specialRequirements: run.specialRequirements,
+		};
 
 		return {
 			id: run.id,
@@ -114,7 +114,7 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>['ev
 			scheduled: run.scheduledTime.toISOString(),
 			scheduledS: run.scheduledTime.getTime() / 1000,
 			system: run.platform,
-			customData: {},
+			customData: customData,
 			teams: teams,
 		};
 	});

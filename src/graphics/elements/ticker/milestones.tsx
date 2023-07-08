@@ -17,6 +17,7 @@ const TickerMilestonesContainer = styled.div`
 	text-transform: uppercase;
 	color: var(--text-light);
 	font-size: 37px;
+	z-index: 2;
 `;
 
 const NextMilestone = styled.div`
@@ -72,6 +73,7 @@ const CurrentAmount = styled(NextMilestoneTotal)`
 	text-align: right;
 `;
 
+// @ts-ignore
 const NUMBER_MILESTONES = [
 	{ event: 'Start', total: 0 },
 	{ event: '', total: 1000 },
@@ -105,14 +107,17 @@ const PAX_MILESTONES = [
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
-const MISC_MILESTONES = [{ event: 'FAST2020', total: 7033 }].sort((a, b) => a.total - b.total);
+const MISC_MILESTONES = [
+	{ event: 'FAST2020', total: 7033 },
+	{ event: 'ASGX2023', total: 2316 },
+].sort((a, b) => a.total - b.total);
 
 interface Props {
 	currentTotal: number;
 }
 
 // Milestones to use for the events
-const MILESTONES = NUMBER_MILESTONES;
+const MILESTONES = ASM_MILESTONES;
 
 export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
 	const containerRef = useRef(null);
