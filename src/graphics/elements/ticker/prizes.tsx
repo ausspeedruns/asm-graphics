@@ -59,7 +59,11 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 			</TickerTitle>
 			<div style={{width: '100%', position: 'relative'}}>
 				<PrizesScroller ref={prizesRef}>
-					<TickerItem title="5 Cloud Gaming Earbuds" sub="$20 Donation" />
+					<TickerItem title="3 Elgato Streamer Packs" sub="$100 Donation" />
+					<TickerItem title="1 Rockford Hotel Superior King Room" sub="$50 Donation" />
+					<TickerItem title="3 Sonic Origins Plus (Switch/PS5)" sub="$30 Donation" />
+					<TickerItem title="5 Heavenly Bodies codes" sub="$10 Donation" />
+					<TickerItem title="3 Speaking Simulator codes" sub="$5 Donation" />
 				</PrizesScroller>
 			</div>
 		</TickerPrizesContainer>

@@ -6,7 +6,7 @@ import useCurrentTime from '../hooks/useCurrentTime';
 import useSurroundingRuns from '../hooks/useSurroundingRuns';
 import { useReplicant } from 'use-nodecg';
 import type { ConnectionStatus } from '@asm-graphics/types/Connections';
-import { Button } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material';
 
 const StatusContainer = styled.div`
 	display: grid;
@@ -93,24 +93,24 @@ function timeColour(duration?: number) {
 }
 
 export const Status: React.FC = () => {
-	const currentTime = useCurrentTime();
+	// const currentTime = useCurrentTime();
 	// const currentTime = new Date('2024-09-23');
-	const [_, currentRun, nextRun] = useSurroundingRuns();
-	const [runnerReadyRep] = useReplicant<boolean, boolean>('runner:ready', false);
-	const [techReadyRep] = useReplicant<boolean, boolean>('tech:ready', false);
-	const [x32StatusRep] = useReplicant<ConnectionStatus, ConnectionStatus>('x32:status', 'disconnected');
-	const [obsStatusRep] = useReplicant<ConnectionStatus, ConnectionStatus>('obs:status', 'disconnected');
+	// const [_, currentRun, nextRun] = useSurroundingRuns();
+	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
+	const [techReadyRep] = useReplicant<boolean>('tech:ready', false);
+	const [x32StatusRep] = useReplicant<ConnectionStatus>('x32:status', 'disconnected');
+	const [obsStatusRep] = useReplicant<ConnectionStatus>('obs:status', 'disconnected');
 
 	const techReadyInfo = connectionStatusStyle(techReadyRep);
-	const runnerReadyInfo = connectionStatusStyle(runnerReadyRep);
+	// const runnerReadyInfo = connectionStatusStyle(runnerReadyRep);
 	const x32StatusInfo = connectionStatusStyle(x32StatusRep);
 	const obsStatusInfo = connectionStatusStyle(obsStatusRep);
 
-	const timeToCurrentRunStart = new Date(currentRun?.scheduled ?? 0).getTime() - currentTime.getTime();
-	const timeToCurrentRunEnd =
-		new Date(((currentRun?.scheduledS ?? 0) + (currentRun?.estimateS ?? 0)) * 1000 ?? 0).getTime() -
-		currentTime.getTime();
-	const timeToNextRunStart = new Date(nextRun?.scheduled ?? 0).getTime() - currentTime.getTime();
+	// const timeToCurrentRunStart = new Date(currentRun?.scheduled ?? 0).getTime() - currentTime.getTime();
+	// const timeToCurrentRunEnd =
+	// 	new Date(((currentRun?.scheduledS ?? 0) + (currentRun?.estimateS ?? 0)) * 1000 ?? 0).getTime() -
+	// 	currentTime.getTime();
+	// const timeToNextRunStart = new Date(nextRun?.scheduled ?? 0).getTime() - currentTime.getTime();
 
 	return (
 		<StatusContainer>
@@ -120,7 +120,15 @@ export const Status: React.FC = () => {
 					Currently
 					<Time>{new Date().toLocaleTimeString()}</Time>
 				</TimeToNextContainer>
-				<TimeToNextContainer>
+				<FormGroup>
+					<FormLabel>Setup</FormLabel>
+					<FormControlLabel control={<Checkbox />} label="Console plugged in" />
+					<FormControlLabel control={<Checkbox />} label="Controllers plugged in" />
+					<FormControlLabel control={<Checkbox />} label="Video in OBS" />
+					<FormControlLabel control={<Checkbox />} label="Video cropped" />
+					<FormControlLabel control={<Checkbox />} label="Disabled" />
+				</FormGroup>
+				{/* <TimeToNextContainer>
 					Time until current run starts{' '}
 					<Time style={{ color: timeColour(timeToCurrentRunStart) }}>
 						{durationToTime(timeToCurrentRunStart)}
@@ -135,20 +143,24 @@ export const Status: React.FC = () => {
 				<TimeToNextContainer>
 					Time until next run{' '}
 					<Time style={{ color: timeColour(timeToNextRunStart) }}>{durationToTime(timeToNextRunStart)}</Time>
-				</TimeToNextContainer>
+				</TimeToNextContainer> */}
 			</Column>
 			<Column>
 				<Header noBorder>Runner</Header>
-				<ConnectionStatus style={{ backgroundColor: runnerReadyInfo.colour }}>
+				{/* <ConnectionStatus style={{ backgroundColor: runnerReadyInfo.colour }}>
 					{runnerReadyInfo.text}
-				</ConnectionStatus>
+				</ConnectionStatus> */}
 				<Header noBorder>Tech</Header>
 				<ConnectionStatus style={{ backgroundColor: techReadyInfo.colour }}>
 					{techReadyInfo.text}
 				</ConnectionStatus>
-				<div style={{display: 'flex'}}>
-					<Button variant="contained" onClick={() => nodecg.sendMessage('tech:setNotReady')} fullWidth>Unready</Button>
-					<Button variant="contained" onClick={() => nodecg.sendMessage('tech:setReady')} fullWidth>Ready</Button>
+				<div style={{ display: 'flex' }}>
+					<Button variant="contained" onClick={() => nodecg.sendMessage('tech:setNotReady')} fullWidth>
+						Unready
+					</Button>
+					<Button variant="contained" onClick={() => nodecg.sendMessage('tech:setReady')} fullWidth>
+						Ready
+					</Button>
 				</div>
 				<Header>OBS</Header>
 				<ConnectionStatus style={{ backgroundColor: obsStatusInfo.colour }}>

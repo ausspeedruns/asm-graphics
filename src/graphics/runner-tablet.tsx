@@ -99,7 +99,7 @@ const RunnerTablet: React.FC = () => {
 		setLive(false);
 	});
 
-	let buttonText = 'ERROR';
+let buttonText = 'ERROR';
 	if (live) {
 		buttonText = 'LIVE';
 	} else {
@@ -124,10 +124,10 @@ const RunnerTablet: React.FC = () => {
 						<br />
 						{host?.pronouns}
 					</HostName>
-					<ReadyButton
+					{/* <ReadyButton
 						style={{ background: live ? '#0066ff' : '#ff0000' }}>
 						{buttonText}
-					</ReadyButton>
+					</ReadyButton> */}
 				</RightSide>
 			</NavBar>
 			<Body>{currentTabBody}</Body>

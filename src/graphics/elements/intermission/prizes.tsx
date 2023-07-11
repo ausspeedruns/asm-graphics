@@ -109,11 +109,51 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 			<MultiGoalContainer>
 				<PrizePage
 					index="0"
-					donationTotal="$40 Donation"
-					prizes={['HyperX Cloud II Headsets']}
+					donationTotal="$100 Donation"
+					prizes={['Elgato Streamer Packs']}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[0] = el;
+						}
+					}}
+				/>
+				<PrizePage
+					index="0"
+					donationTotal="$50 Donation"
+					prizes={['1 night at the Rockford Hotel Superior King Room']}
+					ref={(el) => {
+						if (el) {
+							prizeRefs.current[1] = el;
+						}
+					}}
+				/>
+				<PrizePage
+					index="0"
+					donationTotal="$30 Donation"
+					prizes={['Sonic Origins Plus (Switch/PS5)']}
+					ref={(el) => {
+						if (el) {
+							prizeRefs.current[2] = el;
+						}
+					}}
+				/>
+				<PrizePage
+					index="0"
+					donationTotal="$20 Donation"
+					prizes={['Heavenly Bodies codes']}
+					ref={(el) => {
+						if (el) {
+							prizeRefs.current[3] = el;
+						}
+					}}
+				/>
+				<PrizePage
+					index="0"
+					donationTotal="$10 Donation"
+					prizes={['Speaking Simulator codes']}
+					ref={(el) => {
+						if (el) {
+							prizeRefs.current[4] = el;
 						}
 					}}
 				/>
