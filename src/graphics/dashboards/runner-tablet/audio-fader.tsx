@@ -70,6 +70,27 @@ const marks = [
 	},
 ];
 
+const StyledSlider = styled(Slider)`
+	width: 5px !important;
+
+	& .MuiSlider-thumb
+	{
+		height: 35px;
+		width: 20px;
+		border-radius: 5px;
+		background-color: #000;
+	}
+
+	& .MuiSlider-rail {
+		border: 2px solid black;
+		background: white;
+	}
+
+	& .MuiSlider-track {
+		border: 0;
+	}
+`;
+
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
@@ -78,6 +99,7 @@ interface Props {
 	mixBus: number;
 	value: number | undefined;
 	onChange: (value: number) => void;
+	colour?: string;
 }
 
 export const AudioFader = (props: Props) => {
@@ -87,7 +109,7 @@ export const AudioFader = (props: Props) => {
 		if (typeof props.value !== 'undefined') {
 			setFaderVal(props.value);
 		};
-	}, [props.value]);	
+	}, [props.value]);
 
 	const dbVal = floatToDB(faderVal ?? NaN);
 
@@ -106,7 +128,7 @@ export const AudioFader = (props: Props) => {
 				{/* <br/>
 				{faderVal} */}
 			</DBValue>
-			<Slider
+			<StyledSlider
 				style={{ margin: 'auto' }}
 				size="medium"
 				orientation="vertical"
@@ -123,6 +145,11 @@ export const AudioFader = (props: Props) => {
 				max={1}
 				step={0.001}
 				marks={marks}
+				sx={{
+					'& .MuiSlider-track': {
+						background: `linear-gradient(0deg, ${props.colour}, black)`
+					}
+				}}
 			/>
 		</AudioFaderContainer>
 	);

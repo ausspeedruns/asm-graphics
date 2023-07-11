@@ -90,7 +90,6 @@ const BottomBlock = styled.div`
 	justify-content: center;
 	background-position: center;
 	background-size: cover;
-	mix-blend-mode: screen;
 `;
 
 const BespokeCouch = styled.div`

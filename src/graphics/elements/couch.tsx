@@ -41,7 +41,6 @@ export const Couch: React.FC<Props> = (props: Props) => {
 
 	// Remove host from array now
 	const couch = props.couch.filter((person) => !person.host);
-
 	// console.log(props.audio)
 	return (
 		<CouchContainer className={props.className} style={props.style}>
@@ -50,7 +49,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 			</MenuBar>
 			<PeopleContainer>
 				{couch.map((person) => {
-					console.log(props.audio?.[person.microphone ?? '']);
+					// console.log(props.audio?.[person.microphone ?? '']);
 					if (person.name === "") { return <></> }
 					return (
 						<PersonCompressed
@@ -62,8 +61,8 @@ export const Couch: React.FC<Props> = (props: Props) => {
 				})}
 				{host && (
 					<PersonCompressed key={'Host'} person={host}
-						// speaking={props.audio?.[host.microphone ?? '']}
-						speaking={false} host />
+						speaking={props.audio?.["Host"]}
+						host />
 				)}
 			</PeopleContainer>
 		</CouchContainer>

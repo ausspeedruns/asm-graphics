@@ -18,6 +18,7 @@ const InterIncentivesContainer = styled.div`
 
 export interface TickerItemHandles {
 	animation(tl: gsap.core.Timeline): gsap.core.Timeline;
+	reset(tl: gsap.core.Timeline): gsap.core.Timeline;
 }
 
 interface IncentivesProps {
@@ -31,17 +32,17 @@ export const InterIncentives = (props: IncentivesProps) => {
 	// const mainTl = useRef<gsap.core.Timeline>(gsap.timeline({ paused: true, repeat: -1 }));
 
 	let allIncentives:JSX.Element[] = [];
-	// if (props.incentives) {
-	// 	allIncentives = props.incentives.filter((incentive) => incentive.active).map((incentive, i) => {
-	// 		switch (incentive.type) {
-	// 			case 'Goal':
-	// 				return (<GoalBar key={incentive.index} goal={incentive} ref={el => el ? incentivesRef.current[i] = el : undefined} />)
+	if (props.incentives) {
+		allIncentives = props.incentives.filter((incentive) => incentive.active).map((incentive, i) => {
+			switch (incentive.type) {
+				case 'Goal':
+					return (<GoalBar key={incentive.index} goal={incentive} ref={el => el ? incentivesRef.current[i] = el : undefined} />)
 
-	// 			case 'War':
-	// 				return (<WarGame key={incentive.index} war={incentive} ref={el => el ? incentivesRef.current[i] = el : undefined} />)
-	// 		}
-	// 	});
-	// }
+				case 'War':
+					return (<WarGame key={incentive.index} war={incentive} ref={el => el ? incentivesRef.current[i] = el : undefined} />)
+			}
+		});
+	}
 
 	if (typeof props.asmm !== 'undefined' || props.asmm == 0)
 	{

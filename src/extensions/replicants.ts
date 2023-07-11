@@ -27,6 +27,7 @@ nodecg.Replicant<number>('manual-donation-total', { defaultValue: 0 });
 /* Audio Shared */
 nodecg.Replicant<number>('obs-audio-gate', { defaultValue: -10 });
 nodecg.Replicant<string>('audio-indicator', { defaultValue: '' });
+nodecg.Replicant<number>('audio-gate', { defaultValue: -10 });
 
 /* OBS Audio */
 nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator', { defaultValue: [], persistent: false });

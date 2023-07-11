@@ -13,7 +13,7 @@ const HeadsetSelectors = styled.div`
 	display: flex;
 	justify-content: center;
 	gap: 2rem;
-	margin-top: 2rem;
+	margin-top: 1rem;
 `;
 
 const HeadsetName = styled.button`
@@ -29,17 +29,22 @@ const HeadsetName = styled.button`
 `;
 
 const MixingContainer = styled.div`
-	width: 80%;
-	height: 60vh;
-	border: 5px solid black;
-	border-radius: 20px;
+	width: 100%;
+	height: 500px;
+	border-top: 5px solid black;
 	margin: auto;
-	margin-top: 2rem;
+	margin-top: 1rem;
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	gap: 4vw;
-	padding: 1vw;
+	justify-content: space-around;
+	padding-top: 16px;
+	padding-bottom: 48px;
+`;
+
+const MixingDivide = styled.div`
+	height: 546px;
+	width: 5px;
+	margin-top: 11px;
 `;
 
 interface Props {
@@ -129,10 +134,11 @@ export const RTAudio = (props: Props) => {
 					label={`MASTER`}
 					mixBus={mixBus}
 					channel={0}
-					style={{ marginRight: '2vw' }}
 					value={faderValues[mixBus]?.[0]}
 					onChange={(float) => handleFaderChange(float, mixBus, 0)}
+					colour={selectedHeadsetObj?.colour}
 				/>
+				<MixingDivide style={{ background: selectedHeadsetObj?.colour }} />
 				{[...Array(numberOfRunners).keys()].map((number) => {
 					return (
 						<AudioFader
@@ -142,9 +148,11 @@ export const RTAudio = (props: Props) => {
 							channel={9 + (number * 2)}
 							value={faderValues[mixBus]?.[9 + number + (number * 2)]}
 							onChange={(float) => handleFaderChange(float, mixBus, 9 + (number * 2))}
+							colour={selectedHeadsetObj?.colour}
 						/>
 					);
 				})}
+				<MixingDivide style={{ background: selectedHeadsetObj?.colour }} />
 				{HEADSETS.map((headset, i) => {
 					return (
 						<AudioFader
@@ -156,9 +164,9 @@ export const RTAudio = (props: Props) => {
 							}
 							mixBus={mixBus}
 							channel={headset.channel}
-							style={{ marginLeft: i === 0 ? '6rem' : '' }}
 							value={faderValues[mixBus]?.[headset.channel]}
 							onChange={(float) => handleFaderChange(float, mixBus, headset.channel)}
+							colour={selectedHeadsetObj?.colour}
 						/>
 					);
 				})}

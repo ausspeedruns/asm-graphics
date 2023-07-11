@@ -24,15 +24,16 @@ const x32BusFadersRep = nodecg.Replicant('x32:busFaders', { defaultValue: [] }) 
 
 const x32 = new X32();
 
+const HOST_MIC_CHANNEL = 5;
+const GAME_CHANNELS = [9, 11, 13, 15]; // Channels are paired as stereo pairs so we only need to mute just one side
+const SPECIAL_MIC_CHANNEL = 6;
 const MICROPHONE_CHANNELS = [
 	{ name: "Mario Red", channel: 1 },
 	{ name: "Sonic Blue", channel: 2 },
 	{ name: "Pikachu Yellow", channel: 3 },
-	// { name: "Link Green", channel: 4 },
+	{ name: "Link Green", channel: 4 },
+	{ name: "Host", channel: HOST_MIC_CHANNEL },
 ] as const;
-const GAME_CHANNELS = [9, 11, 13, 15]; // Channels are paired as stereo pairs so we only need to mute just one side
-const HOST_MIC_CHANNEL = 3;
-const SPECIAL_MIC_CHANNEL = 6;
 
 let faderValues: number[][] = [];
 
@@ -69,6 +70,7 @@ x32.on('meters', (meters) => {
 
 function updateAudioIndicator(float: number, mic: typeof MICROPHONE_CHANNELS[number]) {
 	const active = X32.floatToDB(float) + X32.floatToDB((faderValues[0]?.[mic.channel] ?? 0.75)) >= audioGateRep.value;
+	// console.log(`${mic.name}: ${float} ${audioGateRep.value} ${X32.floatToDB(float) + X32.floatToDB((faderValues[0]?.[mic.channel] ?? 0.75))} ${active}`);
 	// console.log(typeof audioIndicatorsRep.value, audioIndicatorsRep.value)
 	audioIndicatorsRep.value[mic.name] = active;
 }

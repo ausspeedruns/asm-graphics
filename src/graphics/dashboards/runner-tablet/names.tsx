@@ -15,6 +15,7 @@ const RTNamesContainer = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
+	padding-bottom: 48px;
 `;
 
 const RunInfo = styled.div`
@@ -38,7 +39,7 @@ const Data = styled.div`
 
 	span {
 		white-space: nowrap;
-		font-size: 1.5rem;
+		font-size: 1rem;
 	}
 
 	span:nth-child(even) {
@@ -51,6 +52,7 @@ const NameInputs = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
+	padding-bottom: 75px;
 `;
 
 const NameRow = styled.div`

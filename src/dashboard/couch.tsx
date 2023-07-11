@@ -71,10 +71,10 @@ export const DashCouch: React.FC = () => {
 	const [localHostName, setLocalHostName] = useState('');
 	const [localHostPronoun, setLocalHostPronoun] = useState('');
 	const [localAudioGate, setLocalAudioGate] = useState(-25);
-	const [couchNamesRep] = useReplicant<CouchPerson[], CouchPerson[]>('couch-names', []);
-	const [obsInputsRep] = useReplicant<string[], string[]>('obs-audio-inputs', []);
-	const [obsGateRep] = useReplicant<number, number>('obs-audio-gate', -25);
-	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('obs-audio-indicator', []);
+	const [couchNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
+	const [obsInputsRep] = useReplicant<string[]>('obs-audio-inputs', []);
+	const [obsGateRep] = useReplicant<number>('obs-audio-gate', -25);
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>('obs-audio-indicator', []);
 
 	useEffect(() => {
 		setLocalAudioGate(obsGateRep);
@@ -151,14 +151,14 @@ export const DashCouch: React.FC = () => {
 					}}>
 					{allHostNames}
 				</div>
-				<div style={{ marginTop: 16 }}>
+				{/* <div style={{ marginTop: 16 }}>
 					<TextfieldStyled
 						value={localAudioGate}
 						onChange={updateAudioGate}
 						type="number"
 						label="Audio Activity Sensitivity / Gate"
 					/>
-				</div>
+				</div> */}
 			</div>
 		</ThemeProvider>
 	);

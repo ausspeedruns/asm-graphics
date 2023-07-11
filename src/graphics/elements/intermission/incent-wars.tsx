@@ -58,6 +58,9 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 
 			return tl;
 		},
+		reset(tl) {
+			return tl;
+		},
 	}));
 
 	if (props.wars.length === 0) {
@@ -132,7 +135,7 @@ interface GoalProps {
 	war: War;
 }
 
-const MAX_OPTIONS = 4;
+const MAX_OPTIONS = 2;
 export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
@@ -153,6 +156,13 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			tl.to(containerRef.current, { x: 1000, duration: 1 }, '+=10');
 			tl.set(containerRef.current, { x: -1000 });
 
+			optionRefs.current.forEach((optionRef) => {
+				tl.add(optionRef.reset(tl));
+			});
+
+			return tl;
+		},
+		reset(tl) {
 			return tl;
 		},
 	}));
@@ -190,6 +200,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 				highest={highest}
 				key={option.name}
 				index={sortedOptions.length - 1 - i}
+				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length)}
 				ref={(el) => {
 					if (el) {
 						optionRefs.current[i] = el;
@@ -208,6 +219,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 				key={'More Options'}
 				moreOptions
 				index={0}
+				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length)}
 				ref={(el) => {
 					if (el) {
 						optionRefs.current[MAX_OPTIONS] = el;
@@ -287,6 +299,7 @@ interface WarChoiceProps {
 	animLabel: string;
 	index: number;
 	moreOptions?: boolean;
+	numberOfItems: number;
 }
 
 const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: WarChoiceProps, ref) => {
@@ -304,6 +317,12 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 			tl.to(progressBarRef.current, { height: `${percentage}%`, duration: 2 }, props.animLabel);
 			return tl;
 		},
+		reset: (tl) => {
+			tl.set(progressBarRef.current, { height: 0 });
+			tl.set(containerRef.current, { x: -1000 });
+
+			return tl;
+		}
 	}));
 
 	if (props.moreOptions) {
@@ -316,6 +335,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 							flexDirection: 'column',
 							padding: '0 10px',
 							maxWidth: '80%',
+							fontSize: 25 - (props.numberOfItems)
 						}}>
 						<OptionName text={'More online!'} />
 					</div>
@@ -333,6 +353,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 						flexDirection: 'column',
 						padding: '0 10px',
 						maxWidth: '80%',
+						fontSize: 25 - (props.numberOfItems)
 					}}>
 					<OptionName text={props.option.name} />
 					<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>

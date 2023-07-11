@@ -59,7 +59,13 @@ export const InterIncentGoal = React.forwardRef<TickerItemHandles, Props>((props
 
 			// End
 			tl.to(containerRef.current, { x: 1000, duration: 1 }, '-=1');
+			for (let i = 0; i < props.goals.length; i++) {
+				tl.add(goalRefs.current[i].reset(tl));
+			}
 
+			return tl;
+		},
+		reset(tl) {
 			return tl;
 		},
 	}));
@@ -216,6 +222,12 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 
 			return tl;
 		},
+		reset: (tl) => {
+			tl.set(progressBarRef.current, { width: 0 });
+			tl.set(containerRef.current, { x: -1000 });
+
+			return tl;
+		}
 	}));
 
 	let textOnRightSide: React.CSSProperties = {};

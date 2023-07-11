@@ -20,11 +20,11 @@ function isNumeric(str: string) {
 
 export const DashboardAudio: React.FC = () => {
 	const [manualMode, setManualMode] = useState(false);
-	const [audioIndicatorRep, DANGEROUS_setAudioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
-	const [runDataRep] = useReplicant<RunData, undefined>('runDataActiveRun', undefined, {
+	const [audioIndicatorRep, DANGEROUS_setAudioIndicatorRep] = useReplicant<string>('audio-indicator', '');
+	const [runDataRep] = useReplicant<RunData | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
-	const [audioGateRep, setAudioGateRep] = useReplicant<number, number>('audio-gate', -5);
+	const [audioGateRep, setAudioGateRep] = useReplicant<number>('audio-gate', -5);
 
 	function updateAudioIndicator(_event: React.ChangeEvent<HTMLInputElement>, value: string) {
 		if (manualMode) {

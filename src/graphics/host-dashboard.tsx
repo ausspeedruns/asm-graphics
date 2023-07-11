@@ -269,6 +269,31 @@ export const HostDash: React.FC = () => {
 						Remember, this is just a guide, so slight modifications to feel more natural to you is fine (in
 						fact, encouraged).
 						<br />
+						<p>
+							Elgato are our major sponsor for this event and it's fantastic to have them on board to support the Game on Cancer initiative.
+							Elgato are a world leading provider of audiovisual technology for content creators that make premium webcams, microphones, Stream Deck controllers, capture cards, and so much more -
+							<br />
+							-Including the Wave DX Microphone that I'm using here, and the green screen and key lights being used throughout ASM.
+							We (also) have some prizes you can win for donating during this event for people within Australia.
+							<br />
+							These prizes include Elgato Streamer packs, which consist of an Elgato Stream Deck Mk2 and a Wave 3 Microphone.
+							We're also giving away plenty of games - including 3 physical copies of Sonic Origins Plus, provided by Five Star Games, 5 digital copies of Heavenly Bodies by 2pt Interactive, and 3 digital copies of Speaking Simulator by Affable Games.
+							<br />
+							To enter into the pool for all these prizes a minimum donation of $100 is required, but even as little as $5 could see you winning one of these games.
+							<br />
+							For more information and the full terms and conditions, make sure to visit prizes.ausspeedruns.com.
+							<br />
+							And we'd like to thank Elgato, Five Star Games, 2pt Interactive, and Affable Games for providing these wonderful prizes!
+						</p>
+						<p>
+							(Again, recommend typing !prizes in chat to trigger the bot to post the link)
+							proposed reads
+							the prizes one is long, and its somewhat redundant to mention sponsor throughout and at the end, but feels better to throw in at mention of specific game for clarity
+							given elgato havent given anything specific in their wants, coming up with a secondary read feels frivilous - on proposal their 'secondary' read would be from us during ASNN, but is obviously conditional on the green screen actually arriving
+
+							(and 'third' read being the mention during prizes)
+							(also havent added the rockford thing to prizes cause unsure if thats landed yet, given its a different type it'd extend the read quite a bit further, and i'd probably recommend to not read all the prizes all the time if we added it in)
+						</p>
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

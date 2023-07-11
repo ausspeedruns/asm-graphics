@@ -22,6 +22,7 @@ const TopBar = styled.div`
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-color: var(--main);
 	position: relative;
+	border-bottom: 1px solid var(--asm-orange);
 `;
 
 const Sidebar = styled.div`
@@ -29,7 +30,7 @@ const Sidebar = styled.div`
 	top: 156px;
 	height: 860px;
 	width: 390px;
-	border-right: 1px solid var(--sec);
+	border-right: 1px solid var(--asm-orange);
 	z-index: -1;
 	overflow: hidden;
 `;

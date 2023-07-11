@@ -13,7 +13,7 @@ import InstagramLogo from '../../media/instagram.svg';
 const IncentivesFallbackContainer = styled.div`
 	height: 100%;
 	width: 100%;
-	font-size: 40px;
+	font-size: 35px;
 `;
 
 const Page = styled.div`
@@ -65,7 +65,13 @@ const SocialLogo = styled.img`
 	/* margin-bottom: 6px; */
 `;
 
-const SocialLinks = styled.div``;
+const SocialLinks = styled.div`
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 77%;
+	justify-content: center;
+`;
 
 const SocialElement = styled.div`
 	font-size: 28px;
@@ -86,9 +92,9 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
+const PANEL_DURATIONS = 1;
 export const InterIncentivesFallback = (props: Props) => {
 	const ThankYouRef = useRef<HTMLDivElement>(null);
-	const NextEventRef = useRef<HTMLDivElement>(null);
 	const SocialsRef = useRef<HTMLDivElement>(null);
 	const mainTl = useRef<gsap.core.Timeline>(gsap.timeline({ paused: true, repeat: -1 }));
 
@@ -96,13 +102,10 @@ export const InterIncentivesFallback = (props: Props) => {
 		if (!mainTl.current) return;
 
 		mainTl.current.to(ThankYouRef.current, { opacity: 1, duration: 1 });
-		mainTl.current.to(ThankYouRef.current, { opacity: 0, duration: 1 }, '+=30');
-		
-		mainTl.current.to(NextEventRef.current, { opacity: 1, duration: 1 });
-		mainTl.current.to(NextEventRef.current, { opacity: 0, duration: 1 }, '+=30');
+		mainTl.current.to(ThankYouRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
 		
 		mainTl.current.to(SocialsRef.current, { opacity: 1, duration: 1 });
-		mainTl.current.to(SocialsRef.current, { opacity: 0, duration: 1 }, '+=30');
+		mainTl.current.to(SocialsRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
 
 		mainTl.current.play();
 	}, []);
@@ -118,12 +121,8 @@ export const InterIncentivesFallback = (props: Props) => {
 			<ThankYou ref={ThankYouRef} style={{ opacity: 0 }}>
 				Thank you for watching and donating to
 				<br />
-				<b>AusSpeedruns × The Game Expo 2023</b>
+				<b>Australian Speedrun Marathon 2023</b>
 			</ThankYou>
-			<NextEvent ref={NextEventRef} style={{ opacity: 0 }}>
-				Our next event is in Adelaide for
-				<NextEventLogo src={ASMLogo} />
-			</NextEvent>
 			<Socials ref={SocialsRef} style={{ opacity: 0 }}>
 				<SocialBox>
 					<SocialLogo src={AusSpeedrunsLogo} />
@@ -139,23 +138,6 @@ export const InterIncentivesFallback = (props: Props) => {
 						<SocialElement>
 							<SocialImage src={WebsiteLogo} />
 							AusSpeedruns.com
-						</SocialElement>
-					</SocialLinks>
-				</SocialBox>
-				<SocialBox>
-					<SocialLogo src={TheGameExpoLogo} />
-					<SocialLinks>
-						<SocialElement>
-							<SocialImage src={InstagramLogo} />
-							@TheGameExpo
-						</SocialElement>
-						<SocialElement>
-							<SocialImage src={TwitterLogo} />
-							@TheGameExpo
-						</SocialElement>
-						<SocialElement>
-							<SocialImage src={WebsiteLogo} />
-							TheGameExpo.com
 						</SocialElement>
 					</SocialLinks>
 				</SocialBox>

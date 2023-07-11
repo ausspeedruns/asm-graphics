@@ -12,8 +12,6 @@ export const Text = styled.div`
 
 const renderTextWithLineBreaks = (text: string) => {
 	const lines = text.split('\\n');
-	console.log(lines.length);
-	if (lines.length > 1) console.log(text);
 	return lines.map((line, index) => (
 		<React.Fragment key={index}>
 			{line}
@@ -65,6 +63,8 @@ export const FitText: React.FunctionComponent<Props> = React.memo((props: Props)
 		default:
 			break;
 	}
+
+	console.log(props.text, props.text.replaceAll('\\n', ' '))
 
 	return (
 		<div

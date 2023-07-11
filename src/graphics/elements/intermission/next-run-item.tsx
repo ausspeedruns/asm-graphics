@@ -76,6 +76,7 @@ const Category = styled(FitText)`
 	max-width: 150px;
 	font-size: 20px;
 	font-family: var(--main-font);
+	text-transform: uppercase;
 `;
 
 const System = styled.span`
@@ -85,7 +86,7 @@ const System = styled.span`
 `;
 
 const Runners = styled(FitText)`
-	max-width: 95%;
+	max-width: 70%;
 	font-size: 23px;
 	font-family: var(--secondary-font);
 `;
@@ -133,7 +134,7 @@ export const InterNextRunItem = (props: Props) => {
 				</Time>
 				<InfoBlock style={{ width: '100%' }}>
 					<GameTitle style={{ fontSize: 40 }} text={props.run.game || ''} />
-					<Category style={{ fontSize: 32, maxWidth: 350 }} text={props.run.category?.toUpperCase() || ''} />
+					<Category style={{ fontSize: 32, maxWidth: 350 }} text={props.run.category || ''} />
 					<TopText>
 						<span style={{ fontSize: 32, minWidth: 143, textAlign: 'right', maxWidth: '50%' }}>
 							<span style={{ fontSize: 20 }}>EST </span>
