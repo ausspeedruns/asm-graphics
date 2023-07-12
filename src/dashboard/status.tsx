@@ -115,11 +115,11 @@ export const Status: React.FC = () => {
 	return (
 		<StatusContainer>
 			<Column>
-				<Header noBorder>TIME</Header>
-				<TimeToNextContainer>
+				{/* <Header noBorder>TIME</Header> */}
+				{/* <TimeToNextContainer>
 					Currently
 					<Time>{new Date().toLocaleTimeString()}</Time>
-				</TimeToNextContainer>
+				</TimeToNextContainer> */}
 				<FormGroup>
 					<FormLabel>Setup</FormLabel>
 					<FormControlLabel control={<Checkbox />} label="Console plugged in" />

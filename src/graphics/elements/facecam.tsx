@@ -132,7 +132,7 @@ export const Facecam = (props: FacecamProps) => {
 			}
 
 			let height = NAMEPLATE_HEIGHT;
-			if (props.verticalCoop && props.teams![0].players,length > 1 && props.teams![0].players.some((player) => player.pronouns)) {
+			if (props.verticalCoop && props.teams![0].players.length > 1 && props.teams![0].players.some((player) => player.pronouns)) {
 				height = NAMEPLATE_HEIGHT_VERTICAL;
 			}
 

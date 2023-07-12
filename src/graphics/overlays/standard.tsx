@@ -53,6 +53,7 @@ const TwitterSize = {
 
 const VerticalInfoS = styled(VerticalInfo)`
 	height: 348px;
+	z-index: 1;
 `;
 
 const customVerticalStyle: IVerticalStyling = {

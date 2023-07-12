@@ -137,13 +137,18 @@
 			},
 			{
 				"file": "runner-tablet.html",
-				"width": 0,
-				"height": 0
+				"width": 1280,
+				"height": 800
 			},
 			{
 				"file": "asnn.html",
 				"width": 1920,
 				"height": 1080
+			},
+			{
+				"file": "host-dashboard-audio.html",
+				"width": 0,
+				"height": 0
 			}
 		],
 		"assetCategories": [

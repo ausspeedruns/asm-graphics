@@ -153,7 +153,7 @@ export const RTAudio = (props: Props) => {
 					);
 				})}
 				<MixingDivide style={{ background: selectedHeadsetObj?.colour }} />
-				{HEADSETS.map((headset, i) => {
+				{HEADSETS.map((headset) => {
 					return (
 						<AudioFader
 							key={headset.name}

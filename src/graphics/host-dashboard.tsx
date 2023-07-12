@@ -74,17 +74,17 @@ const TwitchFloating = styled.div`
 
 export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
-	// Implement donation total
 	const [donationRep] = useReplicant<number>('donationTotal', 100);
 	const [manualDonationRep] = useReplicant<number>('manual-donation-total', 100);
 	const [incentivesUpdatedRep] = useReplicant<number | undefined>('incentives:updated-at', undefined);
+	const [hostLevelRep] = useReplicant<number>('x32:host-level', 0.75);
 	const [currentTime, setCurrentTime] = useState('00:00:00');
 	const [showScript, setShowScript] = useState(false);
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
 	const [copyNotification, setCopyNotification] = useState(false);
 	const [showStream, setShowStream] = useState(false);
 
-	const [muted, setMuted] = useState(false);
+	const [muted, setMuted] = useState(true);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -133,14 +133,23 @@ export const HostDash: React.FC = () => {
 		setCopyNotification(false);
 	};
 
+	// TODO Clean this shizz up
 	function muteOrUnmute() {
 		if (muted) {
-			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: 0.75, channel: 5 });
-			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: 0.75, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: hostLevelRep, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: hostLevelRep, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 2, float: hostLevelRep, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 3, float: hostLevelRep, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 4, float: hostLevelRep, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 5, float: hostLevelRep, channel: 5 });
 			setMuted(false);
 		} else {
 			nodecg.sendMessage('x32:setFader', { mixBus: 0, float: 0, channel: 5 });
 			nodecg.sendMessage('x32:setFader', { mixBus: 1, float: 0, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 2, float: 0, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 3, float: 0, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 4, float: 0, channel: 5 });
+			nodecg.sendMessage('x32:setFader', { mixBus: 5, float: 0, channel: 5 });
 			setMuted(true);
 		}
 	}

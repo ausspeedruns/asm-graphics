@@ -35,21 +35,23 @@ obs.on('SceneTransitionStarted', async () => {
 		if (!fromScene.startsWith("GAMEPLAY")) {
 			nodecg.sendMessage('transition:toGame', { to: toScene, from: fromScene });
 			logString += " | Calling transition:toGame message";
+			nodecg.sendMessage('runTransitionGraphic');
 		}
 	} else if (toScene.startsWith("INTERMISSION")) {
 		if (!fromScene.startsWith("INTERMISSION")) {
 			nodecg.sendMessage('transition:toIntermission', { to: toScene, from: fromScene });
 			logString += " | Calling transition:toIntermission message";
+			nodecg.sendMessage('runTransitionGraphic');
 		}
 	} else if (toScene.startsWith('IRL')) {
 		nodecg.sendMessage('transition:toIRL', { to: toScene, from: fromScene });
 		logString += " | Calling transition:toIRL message";
+		nodecg.sendMessage('runTransitionGraphic');
 	} else {
 		nodecg.sendMessage('transition:UNKNOWN', { to: toScene, from: fromScene });
 	}
 
 	ncgLog.info(logString);
-	nodecg.sendMessage('runTransitionGraphic');
 });
 
 // AUTOMATICALLY ADVANCE RUN WHEN TRANSITIONING FROM GAME TO INTERMISSION
