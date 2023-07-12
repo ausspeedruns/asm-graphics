@@ -252,6 +252,7 @@ export const Intermission: React.FC = () => {
 	});
 
 	useListenFor('playAd', (newVal: string) => {
+		console.log(newVal, 'playAd');
 		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
 	});
 
@@ -333,7 +334,18 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				case 'HyperX':
 					adDuration = 30;
 					break;
-
+				case 'Elgato_GreenScreen':
+					adDuration = 30;
+					break;
+				case 'Elgato_KeyLight':
+					adDuration = 45;
+					break;
+				case 'Elgato_WaveDX':
+					adDuration = 20;
+					break;
+				case 'Elgato_WaveMicArm':
+					adDuration = 53;
+					break;
 				case 'GOC':
 					adDuration = 43;
 					break;
@@ -348,7 +360,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				tl.set(audioRef.current, { x: 1 });
 				tl.to(audioRef.current, {
 					x: 0,
-					duration: 1,
+					duration: 5,
 					onUpdate: () => {
 						if (!audioRef.current) return;
 						const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;

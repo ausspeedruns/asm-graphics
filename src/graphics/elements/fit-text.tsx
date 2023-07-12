@@ -64,8 +64,6 @@ export const FitText: React.FunctionComponent<Props> = React.memo((props: Props)
 			break;
 	}
 
-	console.log(props.text, props.text.replaceAll('\\n', ' '))
-
 	return (
 		<div
 			className={props.className}

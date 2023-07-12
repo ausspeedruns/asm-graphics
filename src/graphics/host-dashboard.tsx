@@ -262,6 +262,18 @@ export const HostDash: React.FC = () => {
 							<Button variant="outlined" onClick={() => nodecg.sendMessage('playAd', 'GOC')}>
 								Game On Cancer (43 seconds)
 							</Button>
+							<Button variant="outlined" onClick={() => nodecg.sendMessage('playAd', 'Elgato_WaveDX')}>
+								ELGATO Wave DX (20 seconds)
+							</Button>
+							<Button variant="outlined" onClick={() => nodecg.sendMessage('playAd', 'Elgato_KeyLight')}>
+								ELGATO Keylight (45 seconds)
+							</Button>
+							<Button variant="outlined" onClick={() => nodecg.sendMessage('playAd', 'Elgato_GreenScreen')}>
+								ELGATO Green Screen (30 seconds)
+							</Button>
+							<Button variant="outlined" onClick={() => nodecg.sendMessage('playAd', 'Elgato_WaveMicArm')}>
+								ELGATO Wave Mic Arm (53 seconds)
+							</Button>
 						</div>
 						<hr />
 						<br />
