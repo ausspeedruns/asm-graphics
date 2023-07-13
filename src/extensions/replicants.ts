@@ -37,6 +37,7 @@ nodecg.Replicant<OBSAudioIndicator[]>('obs-audio-indicator', { defaultValue: [],
 nodecg.Replicant<ConnectionStatus>('x32:status', { defaultValue: "disconnected", persistent: false });
 nodecg.Replicant<AudioIndicator>('audio-indicators', { defaultValue: {} });
 nodecg.Replicant<number[][]>('x32:busFaders', { defaultValue: [], persistent: false });
+nodecg.Replicant<boolean>('x32:swap-runner-mics', { defaultValue: false });
 
 /* Incentives */
 nodecg.Replicant<(Goal | War)[]>('incentives', { defaultValue: [] });

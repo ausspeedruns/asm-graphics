@@ -60,6 +60,7 @@ function isNumeric(str: string) {
 export const DashboardAudio: React.FC = () => {
 	const [manualMode, setManualMode] = useState(false);
 	const [audioIndicatorRep, DANGEROUS_setAudioIndicatorRep] = useReplicant<string>('audio-indicator', '');
+	const [swapRunnerMics, DANGEROUS_setSwapRunnerMics] = useReplicant<boolean>('x32:swap-runner-mics', false);
 	const [runDataRep] = useReplicant<RunData | undefined>('runDataActiveRun', undefined, {
 		namespace: 'nodecg-speedcontrol',
 	});
@@ -80,6 +81,13 @@ export const DashboardAudio: React.FC = () => {
 				<FormControlLabel
 					control={<Checkbox checked={manualMode} onChange={(e) => setManualMode(e.target.checked)} />}
 					label="Manual Mode"
+				/>
+			</FormGroup>
+			{/* TODO MAKE THIS MORE GENERIC/SUPPORT MULTIPLE PEEPS */}
+			<FormGroup>
+				<FormControlLabel
+					control={<Checkbox checked={swapRunnerMics} onChange={(e) => DANGEROUS_setSwapRunnerMics(e.target.checked)} />}
+					label="Swap runner mics"
 				/>
 			</FormGroup>
 			<hr />

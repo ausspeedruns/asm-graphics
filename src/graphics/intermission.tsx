@@ -252,7 +252,6 @@ export const Intermission: React.FC = () => {
 	});
 
 	useListenFor('playAd', (newVal: string) => {
-		console.log(newVal, 'playAd');
 		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
 	});
 

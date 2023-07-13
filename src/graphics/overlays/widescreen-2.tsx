@@ -57,7 +57,7 @@ const RightBox = styled.div`
 
 const SponsorSize = {
 	height: 230,
-	width: 340,
+	width: 540,
 };
 
 const TwitterSize = {
