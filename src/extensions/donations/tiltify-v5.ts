@@ -17,11 +17,16 @@ let accessToken = "";
 
 // Get access token
 async function getAccessToken() {
-	const res = await axios.post(`https://v5api.tiltify.com/oauth/token?client_id=${tiltifyConfig.id}&client_secret=${tiltifyConfig.key}&grant_type=client_credentials`);
-	if (res.data.access_token) {
-		ncgLog.info('Got access token!');
-		accessToken = res.data.access_token;
-		ncgLog.info('Token data', JSON.stringify(res.data));
+	try {
+		const res = await axios.post(`https://v5api.tiltify.com/oauth/token?client_id=${tiltifyConfig.id}&client_secret=${tiltifyConfig.key}&grant_type=client_credentials`);
+		if (res.data.access_token) {
+			ncgLog.info('Got access token!');
+			accessToken = res.data.access_token;
+			ncgLog.info('Token data', JSON.stringify(res.data));
+		}
+	} catch (error) {
+		ncgLog.error("Get Access Token", JSON.stringify(error));
+		ncgLog.error("Potential Tiltify Error", JSON.stringify((error as any).response));
 	}
 }
 
