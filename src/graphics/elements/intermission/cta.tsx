@@ -29,6 +29,7 @@ const Horizontal = styled.div`
 const DonateText = styled.span`
 	text-transform: uppercase;
 	z-index: 2;
+	margin-top: -16px;
 `;
 
 const CharityLogo = styled.img`

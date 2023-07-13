@@ -251,11 +251,9 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 							${Math.floor(props.goal.total).toLocaleString()}
 						</CurrentAmount>
 					</ProgressBarContainer>
-					{/* <RemainingAmount style={{ display: percentage > 88 ? 'none' : undefined }}>
-						${Math.ceil(props.goal.goal - props.goal.total).toLocaleString()}
-						<br />
-						to go!
-					</RemainingAmount> */}
+					<RemainingAmount style={{ display: percentage > 88 ? 'none' : undefined }}>
+						${Math.floor(props.goal.total).toLocaleString()}
+					</RemainingAmount>
 				</ProgressContainer>
 				<GoalDiv>
 					<IncentiveName text={`$${props.goal.goal}`}></IncentiveName>

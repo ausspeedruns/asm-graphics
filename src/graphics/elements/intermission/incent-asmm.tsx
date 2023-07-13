@@ -91,6 +91,9 @@ export const InterIncentASMM = React.forwardRef<TickerItemHandles, Props>((props
 
 			return tl;
 		},
+		reset(tl) {
+			return tl;
+		},
 	}));
 
 	return (
