@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
-import { useListenFor } from 'use-nodecg';
+import { useListenFor, useReplicant } from 'use-nodecg';
 import gsap from 'gsap';
 
 // import ASMLogo from './media/ASM2022 Logo.svg';
@@ -14,6 +14,8 @@ import Clip2 from './media/audio/crystal.mp3';
 import Clip3 from './media/audio/heartcontainer1.mp3';
 import Clip4 from './media/audio/heartpiece1.mp3';
 import Clip5 from './media/audio/itemget1.mp3';
+
+import SPECIAL_AUDIO from './media/audio/SPECIAL.mp3';
 
 const ClipArray = [
 	Clip1,
@@ -40,6 +42,7 @@ const TransitionDiv = styled.div`
 `;
 
 export const Transition: React.FC = () => {
+	const [specialAudio] = useReplicant<boolean>('SPECIAL_AUDIO', false);
 	const audioRef = useRef<HTMLAudioElement>(null);
 	useListenFor('runTransitionGraphic', () => {
 		console.log('Transitioning');
@@ -53,9 +56,13 @@ export const Transition: React.FC = () => {
 		tl.call(() => {
 			if (!audioRef.current) return;
 
-			audioRef.current.src = ClipArray[Math.floor(Math.random()*ClipArray.length)];
+			if (specialAudio) {
+				audioRef.current.src = SPECIAL_AUDIO;
+			} else {
+				audioRef.current.src = ClipArray[Math.floor(Math.random()*ClipArray.length)];
+			}
 			audioRef.current.play();
-		}, [], '+=1.2')
+		}, [], specialAudio ? undefined : '+=1.2')
 	}
 
 	const changeBGColor = (col: string) => {

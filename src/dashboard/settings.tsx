@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import { GreenButton, RedButton } from './elements/styled-ui';
 
-import { Button, TextField, ThemeProvider } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, TextField, ThemeProvider } from '@mui/material';
 import { darkTheme } from './theme';
 import { useReplicant } from 'use-nodecg';
 
@@ -18,13 +18,14 @@ export const Settings: React.FC = () => {
 		name: '',
 		title: '',
 	});
+	const [specialAudio, setSpecialAudio] = useReplicant<boolean>('SPECIAL_AUDIO', false);
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage('start-credits')}>
 				Run Credits
 			</GreenButton>
-			<hr style={{margin: '24px 0'}} />
+			<hr style={{ margin: '24px 0' }} />
 			<Row>
 				<TextField
 					fullWidth
@@ -47,7 +48,7 @@ export const Settings: React.FC = () => {
 					Hide Lowerthird
 				</RedButton>
 			</Row>
-			<hr style={{margin: '24px 0'}} />
+			<hr style={{ margin: '24px 0' }} />
 			<Row>
 				<GreenButton
 					variant="contained"
@@ -61,6 +62,19 @@ export const Settings: React.FC = () => {
 					onClick={() => nodecg.sendMessage('hide-acknowledgementofcountry')}>
 					Hide AoC
 				</RedButton>
+			</Row>
+			<Row>
+				<FormGroup>
+					<FormControlLabel
+						control={
+							<Checkbox
+								checked={specialAudio}
+								onChange={(e) => setSpecialAudio(e.target.checked)}
+							/>
+						}
+						label="SPECIAL AUDIO NO TOUCHY TOUCHY"
+					/>
+				</FormGroup>
 			</Row>
 		</ThemeProvider>
 	);

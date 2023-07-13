@@ -16,6 +16,8 @@ const runDataActiveRep = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontr
 const graphicAudioIndicatorRep = nodecg.Replicant('audio-indicator') as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
 const x32BusFadersRep = nodecg.Replicant('x32:busFaders', { defaultValue: [] }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<number[][]>;
 
+const SPECIAL_AUDIO = nodecg.Replicant<boolean>('SPECIAL_AUDIO');
+
 // X32 Scenes
 // Gameplay
 //	- Host and other mics on (dependant on the names)
@@ -80,15 +82,29 @@ nodecg.listenFor('transition:toGame', (data: { to: string, from: string }) => {
 	// Unmute mics for speakers and stream
 	const micIndexes = getMicrophoneIndexesOfPeopleTalking();
 
-	loopAllX32((channel, mixBus) => {
-		// Only set mics that have someone using them to be unmuted
-		if (micIndexes.includes(channel) || channel === GAME_CHANNELS[0]) {
-			fadeUnmute(channel, mixBus);
-		} else {
-			fadeMute(channel, mixBus);
-		}
-	}, 32, 1);
-
+	if (SPECIAL_AUDIO)
+	{
+		setTimeout(() => {
+			loopAllX32((channel, mixBus) => {
+				// Only set mics that have someone using them to be unmuted
+				if (micIndexes.includes(channel) || channel === GAME_CHANNELS[0]) {
+					fadeUnmute(channel, mixBus);
+				} else {
+					fadeMute(channel, mixBus);
+				}
+			}, 32, 1);
+		}, 35000);
+	} else {
+		loopAllX32((channel, mixBus) => {
+			// Only set mics that have someone using them to be unmuted
+			if (micIndexes.includes(channel) || channel === GAME_CHANNELS[0]) {
+				fadeUnmute(channel, mixBus);
+			} else {
+				fadeMute(channel, mixBus);
+			}
+		}, 32, 1);
+	}
+		
 	graphicAudioIndicatorRep.value = runDataActiveRep.value?.teams[0].players[0].id ?? '';
 });
 

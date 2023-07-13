@@ -76,3 +76,5 @@ nodecg.Replicant<number>('asmm:totalKM', { defaultValue: 0 });
 /* ASNN */
 nodecg.Replicant<string>('asnn:headline', { defaultValue: '' });
 nodecg.Replicant<string[]>('asnn:ticker', { defaultValue: [] });
+
+nodecg.Replicant<boolean>('SPECIAL_AUDIO', { defaultValue: false });
