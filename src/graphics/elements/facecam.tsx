@@ -7,6 +7,7 @@ import { RunDataTeam } from '@asm-graphics/types/RunData';
 import { Nameplate } from './nameplate';
 import { NodeCGAPIClient } from '@nodecg/types/client/api/api.client';
 import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
+import { useReplicant } from 'use-nodecg';
 
 const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
 
@@ -48,6 +49,8 @@ const RunnerNameDivider = styled.div`
 `;
 
 export const Facecam = (props: FacecamProps) => {
+	const [swapRunnerMics] = useReplicant<boolean>('x32:swap-runner-mics', false);
+
 	let allRunnerNames: JSX.Element[] = [];
 
 	if (!props.teams) {
@@ -97,7 +100,18 @@ export const Facecam = (props: FacecamProps) => {
 				);
 			} else {
 				// Versus does not have a team name, display each name
+
 				team.players.forEach((player) => {
+					let correctMic = player.customData.microphone;
+					if (swapRunnerMics) {
+						if (correctMic === "Mario Red")
+						{
+							correctMic = "Sonic Blue";
+						} else if (correctMic === "Sonic Blue")
+						{
+							correctMic = "Mario Red";
+						}
+					}
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {
@@ -113,7 +127,7 @@ export const Facecam = (props: FacecamProps) => {
 								fontSize: 25,
 							}}
 							key={player.id}
-							speaking={props.audioIndicator?.[player.customData.microphone]}
+							speaking={props.audioIndicator?.[correctMic]}
 						/>,
 					);
 					allRunnerNames.push(<RunnerNameDivider key={id + '-divider'} />);

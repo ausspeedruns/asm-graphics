@@ -74,15 +74,6 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [obsAudioIndicatorRep] = useReplicant<AudioIndicator>('audio-indicators', {});
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
-	const [swapRunnerMics] = useReplicant<boolean>('x32:swap-runner-mics', false);
-
-	let mutableAudioIndicators = obsAudioIndicatorRep;
-	if (swapRunnerMics)
-	{
-		const oldRed = JSON.parse(JSON.stringify(obsAudioIndicatorRep["Mario Red"]));
-		const oldBlue = JSON.parse(JSON.stringify(obsAudioIndicatorRep["Sonic Blue"]));
-		mutableAudioIndicators = Object.assign(obsAudioIndicatorRep, {"Sonic Blue": oldRed, "Mario Red": oldBlue});
-	}
 
 	const overlayArgs = {
 		runData: displayingRun,
@@ -90,7 +81,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		couchInformation: hostNamesRep,
 		preview: props.preview,
 		sponsors: sponsorsRep,
-		obsAudioIndicator: mutableAudioIndicators,
+		obsAudioIndicator: obsAudioIndicatorRep,
 	};
 
 	// console.log(displayingRun)
