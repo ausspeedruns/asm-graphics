@@ -82,7 +82,7 @@ nodecg.listenFor('transition:toGame', (data: { to: string, from: string }) => {
 	// Unmute mics for speakers and stream
 	const micIndexes = getMicrophoneIndexesOfPeopleTalking();
 
-	if (SPECIAL_AUDIO)
+	if (SPECIAL_AUDIO.value)
 	{
 		setTimeout(() => {
 			loopAllX32((channel, mixBus) => {
