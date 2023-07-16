@@ -184,7 +184,7 @@ export const Credits: React.FC = () => {
 					<Name>BalakehB </Name>
 					<Name>Baphy</Name>
 					<Name>cane</Name>
-					<Name>Chokocchi</Name>
+					<Name>chokocchi</Name>
 					<Name>Clockdistrict</Name>
 					<Name>ConicalFlak</Name>
 					<Name>CurtMantis</Name>
@@ -210,7 +210,7 @@ export const Credits: React.FC = () => {
 					<Name>jymmyboi</Name>
 					<Name>Kenorah</Name>
 					<Name>KthRam</Name>
-					<Name>lim</Name>
+					<Name>limchi</Name>
 					<Name>LiquidWiFi</Name>
 					<Name>LittleCrowShae</Name>
 					<Name>lucilletea</Name>
@@ -244,7 +244,7 @@ export const Credits: React.FC = () => {
 					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
 					<NameWithRoles>Game On Cancer</NameWithRoles>
 					<NameWithRoles>Elgato</NameWithRoles>
-					<NameWithRoles>Adelaide Rockford</NameWithRoles>
+					<NameWithRoles>Rockford Adelaide</NameWithRoles>
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
 					</NameWithRoles>

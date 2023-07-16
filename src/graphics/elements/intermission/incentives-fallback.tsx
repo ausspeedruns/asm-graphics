@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import gsap from 'gsap';
+import gsap, { Power2 } from 'gsap';
 
 import ASMLogo from '../../media/ASGX23/ASM2023Logo.png';
 import AusSpeedrunsLogo from '../../media/AusSpeedruns-Logo.svg';
@@ -51,11 +51,13 @@ const Socials = styled(Page)`
 `;
 
 const SocialBox = styled.div`
-	height: 100%;
+	height: 86%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
+	width: 73%;
+	margin-top: -28px;
 `;
 
 const SocialLogo = styled.img`
@@ -68,8 +70,8 @@ const SocialLogo = styled.img`
 const SocialLinks = styled.div`
 	display: flex;
 	flex-direction: row;
-	flex-wrap: wrap;
-	width: 77%;
+	/* flex-wrap: wrap; */
+	width: 90%;
 	justify-content: center;
 `;
 
@@ -79,6 +81,7 @@ const SocialElement = styled.div`
 	display: flex;
 	align-items: center;
 	margin-top: 12px;
+	justify-content: center;
 `;
 
 const SocialImage = styled.img`
@@ -87,27 +90,94 @@ const SocialImage = styled.img`
 	margin-right: 16px;
 `;
 
+const InterIncentASMMContainer = styled.div`
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: var(--text-light);
+	font-size: 37px;
+	overflow: hidden;
+	padding: 10px 120px;
+	box-sizing: border-box;
+`;
+
+const Header = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	/* height: 100%; */
+	position: relative;
+	text-align: center;
+`;
+
+const Total = styled.div`
+	font-size: 80px;
+	font-weight: bold;
+	line-height: 95px;
+`;
+
+const KM = styled.span`
+	font-size: 60px;
+	font-weight: normal;
+`;
+
+const LearnMore = styled.div`
+	font-size: 20px;
+	font-weight: light;
+`;
+
+const Website = styled.span`
+	/* font-weight: bold; */
+	font-family: var(--secondary-font);
+`;
+
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
+	asmm?: number;
 }
 
-const PANEL_DURATIONS = 1;
+const PANEL_DURATIONS = 90;
 export const InterIncentivesFallback = (props: Props) => {
-	const ThankYouRef = useRef<HTMLDivElement>(null);
+	// const ThankYouRef = useRef<HTMLDivElement>(null);
 	const SocialsRef = useRef<HTMLDivElement>(null);
-	const mainTl = useRef<gsap.core.Timeline>(gsap.timeline({ paused: true, repeat: -1 }));
+	const ASNNRef = useRef<HTMLDivElement>(null);
+	const ASNNDummyRef = useRef<HTMLDivElement>(null);
+	const [asnnValue, setASNNValue] = useState(0);
 
 	const runLoop = useCallback(() => {
-		if (!mainTl.current) return;
+		const localTl = gsap.timeline({ onComplete: runLoop });
 
-		mainTl.current.to(ThankYouRef.current, { opacity: 1, duration: 1 });
-		mainTl.current.to(ThankYouRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
-		
-		mainTl.current.to(SocialsRef.current, { opacity: 1, duration: 1 });
-		mainTl.current.to(SocialsRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
+		// localTl.to(ThankYouRef.current, { opacity: 1, duration: 1 });
+		// localTl.to(ThankYouRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
 
-		mainTl.current.play();
+		localTl.to(SocialsRef.current, { opacity: 1, duration: 1 });
+		localTl.to(SocialsRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
+
+		localTl.set(ASNNDummyRef.current, { x: 0 });
+		localTl.call(() => {
+			setASNNValue(0);
+		});
+		localTl.to(ASNNRef.current, { opacity: 1, duration: 1 });
+		localTl.to(
+			ASNNDummyRef.current,
+			{
+				ease: Power2.easeOut,
+				duration: 5,
+				x: 1000 / 100,
+				onUpdate: () => {
+					const dummyElPos = gsap.getProperty(ASNNDummyRef.current, 'x') ?? 0;
+					setASNNValue(parseFloat(dummyElPos.toString()) * 100);
+				},
+			},
+			'-=0.5',
+		);
+		localTl.to(ASNNRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
+
+		localTl.play();
 	}, []);
 
 	useEffect(() => {
@@ -118,15 +188,16 @@ export const InterIncentivesFallback = (props: Props) => {
 
 	return (
 		<IncentivesFallbackContainer className={props.className} style={props.style}>
-			<ThankYou ref={ThankYouRef} style={{ opacity: 0 }}>
+			{/* <ThankYou ref={ThankYouRef} style={{ opacity: 0 }}>
 				Thank you for watching and donating to
 				<br />
 				<b>Australian Speedrun Marathon 2023</b>
-			</ThankYou>
+			</ThankYou> */}
+			{/* <Socials ref={SocialsRef}> */}
 			<Socials ref={SocialsRef} style={{ opacity: 0 }}>
 				<SocialBox>
 					<SocialLogo src={AusSpeedrunsLogo} />
-					<SocialLinks>
+					<SocialLinks style={{ justifyContent: 'space-between' }}>
 						<SocialElement>
 							<SocialImage src={YoutubeLogo} />
 							@AusSpeedruns
@@ -135,6 +206,8 @@ export const InterIncentivesFallback = (props: Props) => {
 							<SocialImage src={TwitterLogo} />
 							@AusSpeedruns
 						</SocialElement>
+					</SocialLinks>
+					<SocialLinks>
 						<SocialElement>
 							<SocialImage src={WebsiteLogo} />
 							AusSpeedruns.com
@@ -142,6 +215,17 @@ export const InterIncentivesFallback = (props: Props) => {
 					</SocialLinks>
 				</SocialBox>
 			</Socials>
+			<InterIncentASMMContainer ref={ASNNRef} style={{ opacity: 0 }}>
+				<Header>The ASM2023 attendees have walked</Header>
+				<Total>
+					<span style={{width: 190, display: 'inline-block', textAlign: 'center'}}>{asnnValue.toFixed(0)}</span>
+					<KM>KM!</KM>
+				</Total>
+				<LearnMore>
+					Learn more about ASMM at <Website>AusSpeedruns.com/ASMM</Website>
+				</LearnMore>
+				<div ref={ASNNDummyRef} />
+			</InterIncentASMMContainer>
 		</IncentivesFallbackContainer>
 	);
 };

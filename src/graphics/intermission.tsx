@@ -433,7 +433,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						{props.incentives && props.incentives.length > 0 ? (
 							<InterIncentives incentives={props.incentives} asmm={props.asmm} />
 						) : (
-							<InterIncentivesFallback />
+							<InterIncentivesFallback asmm={props.asmm} />
 						)}
 					</IncentiveBlock>
 				</MiddleContent>
