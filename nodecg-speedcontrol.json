@@ -1,0 +1,12 @@
+{
+	"twitch": {
+		"enabled": true,
+		"clientID": "CLIENT_ID",
+		"clientSecret": "CLIENT_SECRET",
+		"redirectURI": "http://localhost:9090/nodecg-speedcontrol/twitchauth",
+		"streamTitle": "ASAP2023: {{game}} by {{players}}",
+		"tagPlayersInStreamTitle": true,
+		"streamDefaultGame": "Games + Demos",
+		"ffzIntegration": false
+	}
+}
