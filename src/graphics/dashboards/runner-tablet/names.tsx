@@ -278,7 +278,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 			// Update run data
 			console.log(playerIndex, headset);
 			if (playerIndex >= 0) {
-				let newRunData = { ...runDataActiveRep };
+				const newRunData = { ...runDataActiveRep };
 				newRunData.teams[teamIndex].players[playerIndex].name = headset.runner.name;
 				newRunData.teams[teamIndex].players[playerIndex].pronouns = headset.runner.pronouns;
 				newRunData.teams[teamIndex].players[playerIndex].social.twitch = headset.runner.twitch;

@@ -48,7 +48,7 @@ const MICROPHONE_CHANNELS = [
 	{ name: "Host", channel: HOST_MIC_CHANNEL },
 ] as const;
 
-let faderValues: number[][] = [];
+const faderValues: number[][] = [];
 
 x32.on("status", (status) => {
 	x32StatusRep.value = status;
@@ -160,7 +160,7 @@ function loopAllX32(callback: (value1: number, value2: number) => void, max1 = 3
 	let current2 = 0;
 
 	while (current1 <= max1) {
-		let value = [current1, current2] as const;
+		const value = [current1, current2] as const;
 		callback(...value);
 
 		if (++current2 > max2) {
@@ -267,7 +267,7 @@ nodecg.listenFor("x32:changeGameAudio", (playerID: string) => {
 		}
 	}
 
-	let highestSpeakerFaderVal = faderValues[1][activeIndex];
+	const highestSpeakerFaderVal = faderValues[1][activeIndex];
 
 	nodecg.log.debug(
 		`[X32 Audio] Changing audio from ${activeIndex}/${X32.channelIndex[activeIndex]} to ${gameChannelIndex}/${X32.channelIndex[gameChannelIndex]}`,

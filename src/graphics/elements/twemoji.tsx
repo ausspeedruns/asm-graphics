@@ -11,10 +11,6 @@ interface Props {
 const Twemoji = React.forwardRef((props: Props, ref) => {
 	const [childrenRefs, setChildrenRefs] = useState<any[]>([]);
 	useEffect(() => {
-		_parseTwemoji();
-	}, []);
-
-	function _parseTwemoji() {
 		if (props.noWrapper) {
 			for (const i in childrenRefs) {
 				const node = childrenRefs[i].current;
@@ -24,10 +20,10 @@ const Twemoji = React.forwardRef((props: Props, ref) => {
 			const node = ref;
 			twemoji.parse(node as any, props.options);
 		}
-	}
+	}, [childrenRefs, props.noWrapper, props.options, ref]);
 
 	if (props.noWrapper) {
-		let newChildrenRefs = [...childrenRefs];
+		const newChildrenRefs = [...childrenRefs];
 		return (
 			<>
 				{React.Children.map(props.children, (c, i) => {
@@ -46,6 +42,8 @@ const Twemoji = React.forwardRef((props: Props, ref) => {
 		return React.createElement(props.tag || "div", { ref }, props.children);
 	}
 });
+
+Twemoji.displayName = "Twemoji";
 
 export default Twemoji;
 

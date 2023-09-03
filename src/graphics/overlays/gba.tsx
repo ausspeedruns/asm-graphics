@@ -91,3 +91,5 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		</GBAContainer>
 	);
 });
+
+GBA.displayName = "GBA";

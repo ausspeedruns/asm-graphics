@@ -229,3 +229,5 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		</Standard2Container>
 	);
 });
+
+GBA2.displayName = "GBA2";

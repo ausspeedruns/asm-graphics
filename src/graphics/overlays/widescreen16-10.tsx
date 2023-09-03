@@ -88,3 +88,5 @@ export const Widescreen1610 = forwardRef<OverlayRef, OverlayProps>((props, ref) 
 		</WidescreenContainer>
 	);
 });
+
+Widescreen1610.displayName = "Widescreen1610";

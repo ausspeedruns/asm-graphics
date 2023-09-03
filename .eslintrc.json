@@ -41,5 +41,11 @@
 				"no-unused-vars": "off"
 			}
 		}
+	],
+	"ignorePatterns": [
+		"shared/dist/*",
+		"extension/*",
+		"graphics/*",
+		"dashboard/*"
 	]
 }

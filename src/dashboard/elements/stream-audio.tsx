@@ -76,7 +76,7 @@ export const StreamAudio: React.FC<StreamAudioProps> = (props: StreamAudioProps)
 				volume: volumeNum,
 			});
 		}
-	}, [volumeNum]);
+	}, [props.source, volumeNum]);
 
 	return (
 		<StreamAudioContainer disabled={props.disabled}>

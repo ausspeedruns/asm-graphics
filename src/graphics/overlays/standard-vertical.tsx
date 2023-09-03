@@ -127,3 +127,5 @@ export const StandardVertical = forwardRef<OverlayRef, OverlayProps>((props, ref
 		</StandardContainer>
 	);
 });
+
+StandardVertical.displayName = "StandardVertical";

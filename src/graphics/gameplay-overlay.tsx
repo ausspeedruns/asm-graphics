@@ -193,7 +193,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		} else {
 			setDisplayingRun(runDataActiveRep);
 		}
-	}, [runDataActiveRep]);
+	}, [props.preview, runDataActiveRep]);
 
 	const RouteData = Overlays.map((overlay) => {
 		return <Route path={`/${overlay.name}`} key={overlay.name} element={overlay.component} />;

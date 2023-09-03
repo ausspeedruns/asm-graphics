@@ -197,7 +197,11 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 						dontAlternatePronouns
 						pronounStartSide="right"
 						teams={props.runData?.teams}
-						icons={[<NPIcon src={GameplayBL} />, <NPIcon src={GameplayTL} />, <NPIcon src={GameplayTR} />]}
+						icons={[
+							<NPIcon src={GameplayBL} key="BL" />,
+							<NPIcon src={GameplayTL} key="TL" />,
+							<NPIcon src={GameplayTR} key="TR" />,
+						]}
 						style={{ borderRight: "1px solid var(--sec)" }}
 						audioIndicator={props.obsAudioIndicator}
 					/>

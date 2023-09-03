@@ -158,3 +158,5 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 		</IntermissionAdsContainer>
 	);
 });
+
+IntermissionAds.displayName = "IntermissionAds";

@@ -116,3 +116,5 @@ export const SponsorsBox = forwardRef<SponsorBoxRef, FullBoxProps>((props, ref) 
 		</SponsorsBoxContainer>
 	);
 });
+
+SponsorsBox.displayName = "SponsorsBox";

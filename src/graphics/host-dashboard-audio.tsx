@@ -85,7 +85,7 @@ export const HostDashAudio: React.FC = () => {
 		<MixingContainer>
 			<AudioFader
 				key={"MASTER"}
-				label={`MASTER`}
+				label={"MASTER"}
 				mixBus={HOST_MIXBUS}
 				channel={0}
 				value={faderValues[HOST_MIXBUS]?.[0]}

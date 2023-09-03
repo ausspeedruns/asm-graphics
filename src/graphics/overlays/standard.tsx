@@ -105,3 +105,5 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		</StandardContainer>
 	);
 });
+
+Standard.displayName = "Standard";

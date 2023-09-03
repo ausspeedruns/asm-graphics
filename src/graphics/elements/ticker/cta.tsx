@@ -37,6 +37,26 @@ interface CTAProps {
 	currentTotal?: number;
 }
 
+function getFact(total?: number) {
+	if (!total) return "Let's break our record!";
+	let maxFacts = -1;
+	if (total >= 75) maxFacts++;
+	// if (total >= 150) maxFacts++;
+	if (total >= 1000) maxFacts++;
+	// if (total >= 10000) maxFacts++;
+
+	const random = Math.round(Math.random() * maxFacts);
+
+	if (maxFacts === -1) return "Let's break our record!";
+
+	return [
+		`We have funded <b>${~~(total / 75)}</b> hours of research!`,
+		// `We have funded <b>${~~(total / 150)}</b> microscopy imaging sessions!`,
+		`We have funded <b>${~~(total / 1000)}</b> small scale drug screening studies!`,
+		// `We have funded <b>${~~(total / 10000)}</b> genomic analysis of cancer cells!`,
+	][random];
+}
+
 export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, ref) => {
 	const containerRef = useRef(null);
 	const donateRef = useRef(null);
@@ -45,13 +65,13 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 	const [fact, setFact] = useState("");
 
 	useEffect(() => {
-		setFact(getFact());
-	}, []);
+		setFact(getFact(props.currentTotal));
+	}, [props.currentTotal]);
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.call(() => setFact(getFact()));
+			tl.call(() => setFact(getFact(props.currentTotal)));
 			tl.set(containerRef.current, { y: -64 });
 			tl.to(containerRef.current, { y: 0, duration: 1 }, "+=1");
 
@@ -71,25 +91,7 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 		},
 	}));
 
-	function getFact() {
-		if (!props.currentTotal) return "Let's break our record!";
-		let maxFacts = -1;
-		if (props.currentTotal >= 75) maxFacts++;
-		// if (props.currentTotal >= 150) maxFacts++;
-		if (props.currentTotal >= 1000) maxFacts++;
-		// if (props.currentTotal >= 10000) maxFacts++;
-
-		const random = Math.round(Math.random() * maxFacts);
-
-		if (maxFacts === -1) return "Let's break our record!";
-
-		return [
-			`We have funded <b>${~~(props.currentTotal / 75)}</b> hours of research!`,
-			// `We have funded <b>${~~(props.currentTotal / 150)}</b> microscopy imaging sessions!`,
-			`We have funded <b>${~~(props.currentTotal / 1000)}</b> small scale drug screening studies!`,
-			// `We have funded <b>${~~(props.currentTotal / 10000)}</b> genomic analysis of cancer cells!`,
-		][random];
-	}
+	
 
 	return (
 		<TickerCTAContainer ref={containerRef}>

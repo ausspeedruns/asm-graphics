@@ -489,4 +489,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	);
 });
 
+IntermissionElement.displayName = "Intermission";
+
 createRoot(document.getElementById("root")!).render(<Intermission />);

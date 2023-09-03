@@ -301,3 +301,5 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 		</Widescreen2Container>
 	);
 });
+
+Widescreen2.displayName = "Widescreen2";

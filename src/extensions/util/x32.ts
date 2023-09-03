@@ -209,7 +209,7 @@ class X32 extends TypedEmitter<X32Class> {
 		this.oscSocket.send({
 			address: "/batchsubscribe",
 			args: [
-				{ type: "s", value: `/chMeters` },
+				{ type: "s", value: "/chMeters" },
 				{ type: "s", value: "/meters/13" },
 				{ type: "i", value: 0 },
 				{ type: "i", value: 0 },
@@ -234,8 +234,8 @@ class X32 extends TypedEmitter<X32Class> {
 		this.oscSocket.send({
 			address: "/formatsubscribe",
 			args: [
-				{ type: "s", value: `/busMasters` },
-				{ type: "s", value: `/bus/**/mix/fader` },
+				{ type: "s", value: "/busMasters" },
+				{ type: "s", value: "/bus/**/mix/fader" },
 				{ type: "i", value: 3 },
 				{ type: "i", value: 12 },
 				{ type: "i", value: 10 },

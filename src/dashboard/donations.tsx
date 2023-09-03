@@ -34,7 +34,7 @@ export const Donations: React.FC = () => {
 			<DonationsList>
 				{donations
 					.map((donation) => {
-						return <DonationEl donation={donation} />;
+						return <DonationEl key={donation.id} donation={donation} />;
 					})
 					.reverse()}
 			</DonationsList>

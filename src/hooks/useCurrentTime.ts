@@ -11,7 +11,7 @@ function useCurrentTime(updateInterval = 1000) {
 		return () => {
 			clearInterval(intervalId);
 		};
-	}, []);
+	}, [updateInterval]);
 
 	return time;
 }

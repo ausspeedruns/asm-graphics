@@ -88,10 +88,10 @@ const DashOBS: React.FC = () => {
 	// });
 	const ncgConfig = nodecg.config;
 	const bundleConfig = nodecg.bundleConfig as unknown as ConfigSchema;
-	const [currentOverlay] = useReplicant<CurrentOverlay, undefined>("currentOverlay", undefined);
-	const [twitchStreamsRep] = useReplicant<TwitchStream[], TwitchStream[]>("twitchStreams", []);
-	const [currentSceneRep] = useReplicant<string, string>("obsCurrentScene", "Game Overlay");
-	const [connectionRep] = useReplicant<ConnectionStatus, ConnectionStatus>("obs:status", "disconnected");
+	const [currentOverlay] = useReplicant<CurrentOverlay | undefined>("currentOverlay", undefined);
+	const [twitchStreamsRep] = useReplicant<TwitchStream[]>("twitchStreams", []);
+	const [currentSceneRep] = useReplicant<string>("obsCurrentScene", "Game Overlay");
+	const [connectionRep] = useReplicant<ConnectionStatus>("obs:status", "disconnected");
 	const [showKeys, setShowKeys] = useState(false);
 	const [showRefreshDialog, setShowRefreshDialog] = useState(false);
 
@@ -212,7 +212,7 @@ const DashOBS: React.FC = () => {
 							<MenuItem value="3ds">Nintendo 3DS</MenuItem>
 							<MenuItem value="ds">Nintendo DS</MenuItem>
 							<MenuItem value="ds-2">Nintendo DS 2p</MenuItem>
-							<MenuItem value="whg">World's Hardest Game (11:8)</MenuItem>
+							<MenuItem value="whg">World&apos;s Hardest Game (11:8)</MenuItem>
 							<MenuItem value="none">None</MenuItem>
 						</Select>
 					</FormControl>
@@ -416,12 +416,12 @@ const RadioStyled = styled(Radio)`
 `;
 
 export const DashAudio: React.FC = () => {
-	const [audioIndicatorRep] = useReplicant<string, string>("audio-indicator", "");
-	const [runDataRep] = useReplicant<RunData, undefined>("runDataActiveRun", undefined, {
+	const [audioIndicatorRep] = useReplicant<string>("audio-indicator", "");
+	const [runDataRep] = useReplicant<RunData | undefined>("runDataActiveRun", undefined, {
 		namespace: "nodecg-speedcontrol",
 	});
-	const [obsInputsRep] = useReplicant<string[], string[]>("obs-audio-inputs", []);
-	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>("obs-audio-indicator", []);
+	const [obsInputsRep] = useReplicant<string[]>("obs-audio-inputs", []);
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>("obs-audio-indicator", []);
 
 	const AudioInputOptions = obsInputsRep.map((input) => (
 		<MenuItem key={input} value={input}>

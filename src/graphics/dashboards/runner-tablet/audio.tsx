@@ -133,7 +133,7 @@ export const RTAudio = (props: Props) => {
 			>
 				<AudioFader
 					key={"MASTER"}
-					label={`MASTER`}
+					label={"MASTER"}
 					mixBus={mixBus}
 					channel={0}
 					value={faderValues[mixBus]?.[0]}

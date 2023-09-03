@@ -36,9 +36,7 @@ const HostDashContainer = styled.div`
 	// height: 1007px;
 	height: 100vh;
 	// width: 1920px;
-	font-family:
-		Noto Sans,
-		sans-serif;
+	font-family: Noto Sans, sans-serif;
 	// overflow: hidden;
 `;
 
@@ -167,8 +165,7 @@ export const HostDash: React.FC = () => {
 				</span>
 				<span
 					style={{ width: 500, textAlign: "right", cursor: "pointer" }}
-					onClick={() => setShowStream(!showStream)}
-				>
+					onClick={() => setShowStream(!showStream)}>
 					{nodecgConfig.graphql?.event ?? ""}
 				</span>
 			</TopBar>
@@ -176,8 +173,7 @@ export const HostDash: React.FC = () => {
 			<Grid
 				container
 				justifyContent="space-around"
-				style={{ background: "#ececec", height: "calc(100% - 60px)" }}
-			>
+				style={{ background: "#ececec", height: "calc(100% - 60px)" }}>
 				<Grid
 					item
 					container
@@ -185,8 +181,7 @@ export const HostDash: React.FC = () => {
 					direction="column"
 					xs
 					gap={1}
-					style={{ padding: 8, height: "100%" }}
-				>
+					style={{ padding: 8, height: "100%" }}>
 					<Paper style={{ flexGrow: 1, overflowY: "auto", overflowX: "hidden" }}>
 						<Header text="Your Name :)" />
 						<HostName />
@@ -196,8 +191,7 @@ export const HostDash: React.FC = () => {
 							text={`Incentives – Last Updated: ${
 								incentivesUpdatedRep ? format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"
 							}`}
-							url="https://docs.google.com/spreadsheets/d/1IsMrjs3Z09WfCmnj0r46WSTK3sbFPD9dXlkIsgMNIe8"
-						>
+							url="https://docs.google.com/spreadsheets/d/1IsMrjs3Z09WfCmnj0r46WSTK3sbFPD9dXlkIsgMNIe8">
 							<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
 								<Refresh fontSize="small" />
 							</IconButton>
@@ -212,8 +206,7 @@ export const HostDash: React.FC = () => {
 					wrap="nowrap"
 					direction="column"
 					xs
-					style={{ padding: 8, gap: 8, height: "100%" }}
-				>
+					style={{ padding: 8, gap: 8, height: "100%" }}>
 					<TotalBox>${(donationRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
 					<Paper style={{ overflow: "hidden", height: 300, minHeight: 300 }}>
 						<Timer />
@@ -223,8 +216,7 @@ export const HostDash: React.FC = () => {
 							fullWidth
 							color={muted ? "error" : "success"}
 							onClick={muteOrUnmute}
-							variant="contained"
-						>
+							variant="contained">
 							{muted ? "UNMUTE" : "Mute"}
 						</Button>
 					</div>
@@ -239,8 +231,7 @@ export const HostDash: React.FC = () => {
 					justifyContent="space-around"
 					direction="column"
 					xs
-					style={{ padding: 8, height: "100%" }}
-				>
+					style={{ padding: 8, height: "100%" }}>
 					<Paper style={{ height: "49%", overflow: "hidden" }}>
 						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASM2023/schedule" />
 						<Upcoming style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
@@ -281,14 +272,12 @@ export const HostDash: React.FC = () => {
 							</Button>
 							<Button
 								variant="outlined"
-								onClick={() => nodecg.sendMessage("playAd", "Elgato_GreenScreen")}
-							>
+								onClick={() => nodecg.sendMessage("playAd", "Elgato_GreenScreen")}>
 								ELGATO Green Screen (30 seconds)
 							</Button>
 							<Button
 								variant="outlined"
-								onClick={() => nodecg.sendMessage("playAd", "Elgato_WaveMicArm")}
-							>
+								onClick={() => nodecg.sendMessage("playAd", "Elgato_WaveMicArm")}>
 								ELGATO Wave Mic Arm (53 seconds)
 							</Button>
 						</div>
@@ -308,17 +297,17 @@ export const HostDash: React.FC = () => {
 						fact, encouraged).
 						<br />
 						<p>
-							Elgato are our major sponsor for this event and it's fantastic to have them on board to
+							Elgato are our major sponsor for this event and it&apos;s fantastic to have them on board to
 							support the Game on Cancer initiative. Elgato are a world leading provider of audiovisual
 							technology for content creators that make premium webcams, microphones, Stream Deck
 							controllers, capture cards, and so much more -
 							<br />
-							-Including the Wave DX Microphone that I'm using here, and the green screen and key lights
+							-Including the Wave DX Microphone that I&apos;m using here, and the green screen and key lights
 							being used throughout ASM. We (also) have some prizes you can win for donating during this
 							event for people within Australia.
 							<br />
 							These prizes include Elgato Streamer packs, which consist of an Elgato Stream Deck Mk2 and a
-							Wave 3 Microphone. We're also giving away plenty of games - including 3 physical copies of
+							Wave 3 Microphone. We&apos;re also giving away plenty of games - including 3 physical copies of
 							Sonic Origins Plus, provided by Five Star Games, 5 digital copies of Heavenly Bodies by 2pt
 							Interactive, and 3 digital copies of Speaking Simulator by Affable Games.
 							<br />
@@ -328,19 +317,20 @@ export const HostDash: React.FC = () => {
 							For more information and the full terms and conditions, make sure to visit
 							prizes.ausspeedruns.com.
 							<br />
-							And we'd like to thank Elgato, Five Star Games, 2pt Interactive, and Affable Games for
+							And we&apos;d like to thank Elgato, Five Star Games, 2pt Interactive, and Affable Games for
 							providing these wonderful prizes!
 						</p>
 						<p>
 							(Again, recommend typing !prizes in chat to trigger the bot to post the link) proposed reads
 							the prizes one is long, and its somewhat redundant to mention sponsor throughout and at the
 							end, but feels better to throw in at mention of specific game for clarity given elgato
-							havent given anything specific in their wants, coming up with a secondary read feels
-							frivilous - on proposal their 'secondary' read would be from us during ASNN, but is
-							obviously conditional on the green screen actually arriving (and 'third' read being the
-							mention during prizes) (also havent added the rockford thing to prizes cause unsure if thats
-							landed yet, given its a different type it'd extend the read quite a bit further, and i'd
-							probably recommend to not read all the prizes all the time if we added it in)
+							haven&apos;t given anything specific in their wants, coming up with a secondary read feels
+							frivolous - on proposal their &apos;secondary&apos; read would be from us during ASNN, but
+							is obviously conditional on the green screen actually arriving (and &apos;third&apos; read
+							being the mention during prizes) (also haven&apos;t added the rockford thing to prizes cause
+							unsure if that&apos;s landed yet, given its a different type it&apos;d extend the read quite
+							a bit further, and i&apos;d probably recommend to not read all the prizes all the time if we
+							added it in)
 						</p>
 					</DialogContentText>
 				</DialogContent>

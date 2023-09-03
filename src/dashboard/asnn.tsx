@@ -141,7 +141,7 @@ export const ASNNDash = () => {
 		if (asnnHeadline && !headlineItems.includes(asnnHeadline)) {
 			setHeadlineItems([asnnHeadline, ...headlineItems]);
 		}
-	}, [asnnHeadline, headlineItems]);
+	}, [asnnHeadline, headlineItems, setHeadlineItems]);
 
 	useEffect(() => {
 		setTicker(asnnTicker);

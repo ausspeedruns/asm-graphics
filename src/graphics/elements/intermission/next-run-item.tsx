@@ -118,7 +118,7 @@ export const InterNextRunItem = (props: Props) => {
 	}
 
 	// Thanks setup block
-	let time = props.run.scheduled ? format(new Date(props.run.scheduled), "h:mm a") : "--:--";
+	const time = props.run.scheduled ? format(new Date(props.run.scheduled), "h:mm a") : "--:--";
 	// if (props.nextRun) time = 'Up Next';
 
 	let correctedEstimate = props.run.estimate || "";

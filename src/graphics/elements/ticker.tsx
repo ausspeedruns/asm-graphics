@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
 import { format } from "date-fns";
@@ -148,12 +148,12 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 		return tl;
 	};
 
-	const runLoop = () => {
+	const runLoop = useCallback((order: { type: string; id?: number }[]) => {
 		setNumberOfLoops(numberOfLoops + 1);
 		const localTl = gsap.timeline({ onComplete: runLoop });
 
 		// -=1.02 so that the animation "overlaps" and if it was just -1 there would be a 1px tall gap
-		props.tickerOrder.forEach((type) => {
+		order.forEach((type) => {
 			switch (type.type) {
 				case "cta":
 					localTl.add(showContent(ctaRef.current), "-=1.02");
@@ -182,15 +182,15 @@ export const Ticker: React.FC<TickerProps> = (props) => {
 		});
 
 		localTl.play();
-	};
+	}, [numberOfLoops]);
 
 	useEffect(() => {
 		gsap.defaults({ ease: "power2.inOut" });
 
 		if (props.tickerOrder.length === 0) return;
 
-		runLoop();
-	}, []);
+		runLoop(props.tickerOrder);
+	}, [props.tickerOrder, runLoop]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
