@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
-import { FormControlLabel, Grid } from '@mui/material';
-import { GreenCheckbox } from '../../dashboard/elements/styled-ui';
+import { FormControlLabel, Grid } from "@mui/material";
+import { GreenCheckbox } from "../../dashboard/elements/styled-ui";
 
 const ChecklistContainer = styled.div``;
 
@@ -28,8 +28,8 @@ const ChecklistItemContainer = styled.div`
 	margin: 4px;
 	padding-left: 8px;
 	box-sizing: border-box;
-	border: 1px solid ${(props: Checked) => (props.checked ? '#9bd279' : 'black')};
-	${(props: Checked) => (props.checked ? 'background-color: #9bd279;' : '')}
+	border: 1px solid ${(props: Checked) => (props.checked ? "#9bd279" : "black")};
+	${(props: Checked) => (props.checked ? "background-color: #9bd279;" : "")}
 `;
 
 interface ItemProps {
@@ -50,7 +50,7 @@ const ChecklistItem: React.FC<ItemProps> = (props: ItemProps) => {
 	return (
 		<ChecklistItemContainer checked={checked}>
 			<FormControlLabel
-				style={{ width: '100%' }}
+				style={{ width: "100%" }}
 				control={<GreenCheckbox checked={checked} onChange={changeEventHandler} />}
 				label={props.name}
 			/>

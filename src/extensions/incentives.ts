@@ -1,29 +1,35 @@
 // Mostly handles the activation and deactivation of incentives
-import { Goal, War } from '@asm-graphics/types/Incentives';
-import * as nodecgApiContext from './nodecg-api-context';
-import { request, gql } from 'graphql-request';
-import { z } from 'zod';
+import { Goal, War } from "@asm-graphics/types/Incentives";
+import * as nodecgApiContext from "./nodecg-api-context";
+import { request, gql } from "graphql-request";
+import { z } from "zod";
 
-import type NodeCG from '@nodecg/types';
+import type NodeCG from "@nodecg/types";
 
 const nodecg = nodecgApiContext.get();
 
-const incentivesRep = nodecg.Replicant('incentives') as unknown as NodeCG.ServerReplicantWithSchemaDefault<(Goal | War)[]>;
-const incentivesUpdatedRep = nodecg.Replicant<number | undefined>('incentives:updated-at', { defaultValue: undefined }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<number | undefined>;
+const incentivesRep = nodecg.Replicant("incentives") as unknown as NodeCG.ServerReplicantWithSchemaDefault<
+	(Goal | War)[]
+>;
+const incentivesUpdatedRep = nodecg.Replicant<number | undefined>("incentives:updated-at", {
+	defaultValue: undefined,
+}) as unknown as NodeCG.ServerReplicantWithSchemaDefault<number | undefined>;
 
-nodecg.listenFor('disableIncentive', (index: number) => {
-	const incentiveIndex = incentivesRep.value.findIndex(incentive => incentive.index === index);
+nodecg.listenFor("disableIncentive", (index: number) => {
+	const incentiveIndex = incentivesRep.value.findIndex((incentive) => incentive.index === index);
 
-	if (incentiveIndex === -1) return nodecg.log.error(`[Incentives] Tried to disable incentive index: ${index} but could not find in list.`);
+	if (incentiveIndex === -1)
+		return nodecg.log.error(`[Incentives] Tried to disable incentive index: ${index} but could not find in list.`);
 
 	incentivesRep.value[incentiveIndex].active = false;
 });
 
 // Dunno why this would be used but just in case :)
-nodecg.listenFor('activateIncentive', (index: number) => {
-	const incentiveIndex = incentivesRep.value.findIndex(incentive => incentive.index === index);
+nodecg.listenFor("activateIncentive", (index: number) => {
+	const incentiveIndex = incentivesRep.value.findIndex((incentive) => incentive.index === index);
 
-	if (incentiveIndex === -1) return nodecg.log.error(`[Incentives] Tried to activate incentive index: ${index} but could not find in list.`);
+	if (incentiveIndex === -1)
+		return nodecg.log.error(`[Incentives] Tried to activate incentive index: ${index} but could not find in list.`);
 
 	incentivesRep.value[incentiveIndex].active = true;
 });
@@ -40,24 +46,28 @@ const baseIncentiveSchema = z.object({
 });
 
 const incentiveSchema = z.object({
-	incentives: z.array(z.discriminatedUnion("type", [
-		baseIncentiveSchema.extend({
-			type: z.literal("goal"),
-			data: z.object({
-				goal: z.number(),
-				current: z.number(),
+	incentives: z.array(
+		z.discriminatedUnion("type", [
+			baseIncentiveSchema.extend({
+				type: z.literal("goal"),
+				data: z.object({
+					goal: z.number(),
+					current: z.number(),
+				}),
 			}),
-		}),
-		baseIncentiveSchema.extend({
-			type: z.literal("war"),
-			data: z.object({
-				options: z.array(z.object({
-					name: z.string(),
-					total: z.number(),
-				}))
+			baseIncentiveSchema.extend({
+				type: z.literal("war"),
+				data: z.object({
+					options: z.array(
+						z.object({
+							name: z.string(),
+							total: z.number(),
+						}),
+					),
+				}),
 			}),
-		}),
-	]))
+		]),
+	),
 });
 
 if (nodecg.bundleConfig.graphql?.url) {
@@ -66,12 +76,12 @@ if (nodecg.bundleConfig.graphql?.url) {
 	}, 5000);
 }
 
-nodecg.listenFor('updateIncentives', () => {
-	getIncentives().then(success => {
+nodecg.listenFor("updateIncentives", () => {
+	getIncentives().then((success) => {
 		if (success) {
-			nodecg.sendMessage('incentivesUpdated', 200);
+			nodecg.sendMessage("incentivesUpdated", 200);
 		} else {
-			nodecg.sendMessage('incentivesUpdated', 418);
+			nodecg.sendMessage("incentivesUpdated", 418);
 		}
 	});
 });
@@ -97,12 +107,13 @@ async function getIncentives() {
 						active
 					}
 				}
-		`);
+		`,
+		);
 
 		const rawIncentives = incentiveSchema.parse(results).incentives;
-		const parsedIncentives = rawIncentives.map(incentive => {
+		const parsedIncentives = rawIncentives.map((incentive) => {
 			switch (incentive.type) {
-				case 'goal':
+				case "goal":
 					return {
 						active: incentive.active,
 						game: incentive.run.game,
@@ -113,7 +124,7 @@ async function getIncentives() {
 						total: incentive.data.current,
 						type: capitalizeFirstLetter(incentive.type),
 					} as Goal;
-				case 'war':
+				case "war":
 					return {
 						active: incentive.active,
 						game: incentive.run.game,
@@ -133,7 +144,7 @@ async function getIncentives() {
 		incentivesUpdatedRep.value = Date.now();
 		return true;
 	} catch (error) {
-		nodecg.log.error('[GraphQL Incentives]: ' + error);
+		nodecg.log.error("[GraphQL Incentives]: " + error);
 		return false;
 	}
 }

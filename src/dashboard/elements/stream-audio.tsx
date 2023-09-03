@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
-import { Button, Input, Slider } from '@mui/material';
-import lightBlue from '@mui/material/colors/lightBlue';
-import { VolumeUp, VolumeOff } from '@mui/icons-material';
+import { Button, Input, Slider } from "@mui/material";
+import lightBlue from "@mui/material/colors/lightBlue";
+import { VolumeUp, VolumeOff } from "@mui/icons-material";
 
 interface DisabledProps {
 	readonly disabled?: boolean;
@@ -14,9 +14,7 @@ const StreamAudioContainer = styled.div`
 	align-items: center;
 	flex-direction: column;
 	flex-grow: 1;
-	border: 1px solid
-		${(props: DisabledProps) =>
-			props.disabled ? 'rgb(255 255 255 / 12%)' : lightBlue[500]};
+	border: 1px solid ${(props: DisabledProps) => (props.disabled ? "rgb(255 255 255 / 12%)" : lightBlue[500])};
 	border-radius: 20px;
 	margin: 8px 4px;
 	padding: 8px;
@@ -24,28 +22,27 @@ const StreamAudioContainer = styled.div`
 
 const SourceLabel = styled.span`
 	font-weight: bold;
-	color: ${(props: DisabledProps) =>
-		props.disabled ? 'rgba(255, 255, 255, 0.3)' : '#ffffff'};
+	color: ${(props: DisabledProps) => (props.disabled ? "rgba(255, 255, 255, 0.3)" : "#ffffff")};
 `;
 
 const VolumeMarks = [
 	{
 		value: 100,
-		label: '100%',
+		label: "100%",
 	},
 	{
 		value: 75,
 	},
 	{
 		value: 50,
-		label: '50%',
+		label: "50%",
 	},
 	{
 		value: 25,
 	},
 	{
 		value: 0,
-		label: '0%',
+		label: "0%",
 	},
 ];
 
@@ -54,29 +51,27 @@ interface StreamAudioProps {
 	disabled?: boolean;
 }
 
-export const StreamAudio: React.FC<StreamAudioProps> = (
-	props: StreamAudioProps,
-) => {
+export const StreamAudio: React.FC<StreamAudioProps> = (props: StreamAudioProps) => {
 	const [mute, setMute] = useState(false);
 	const [volumeNum, setVolumeNum] = useState(100);
 
 	const muteHandler = () => {
 		setMute(!mute);
-		nodecg.sendMessage('muteSourceAudio', {
+		nodecg.sendMessage("muteSourceAudio", {
 			source: props.source,
 			mute: !mute,
 		});
 	};
 
 	const volumeHandler = (_event: any, newValue: number | number[]) => {
-		if (typeof newValue === 'number') {
+		if (typeof newValue === "number") {
 			setVolumeNum(newValue);
 		}
 	};
 
 	useEffect(() => {
-		if (typeof volumeNum === 'number') {
-			nodecg.sendMessage('changeSourceAudio', {
+		if (typeof volumeNum === "number") {
+			nodecg.sendMessage("changeSourceAudio", {
 				source: props.source,
 				volume: volumeNum,
 			});
@@ -90,7 +85,8 @@ export const StreamAudio: React.FC<StreamAudioProps> = (
 				disabled={props.disabled}
 				onClick={muteHandler}
 				variant="outlined"
-				style={{ margin: '4px 0 12px 0' }}>
+				style={{ margin: "4px 0 12px 0" }}
+			>
 				{mute || props.disabled ? <VolumeOff /> : <VolumeUp />}
 			</Button>
 			{/* <Button
@@ -114,12 +110,12 @@ export const StreamAudio: React.FC<StreamAudioProps> = (
 			<Input
 				value={volumeNum}
 				margin="dense"
-				onChange={(e) => setVolumeNum(parseInt(e.target.value || '100', 10))}
+				onChange={(e) => setVolumeNum(parseInt(e.target.value || "100", 10))}
 				inputProps={{
 					step: 1,
 					min: 0,
 					max: 1995,
-					type: 'number',
+					type: "number",
 				}}
 			/>
 		</StreamAudioContainer>

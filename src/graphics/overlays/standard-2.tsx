@@ -1,17 +1,17 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, ISmallStyling } from '../elements/info-box/small';
-import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
-import { AudioIndicator } from '../elements/audio-indicator';
-import { Facecam } from '../elements/facecam';
-import { RaceFinish } from '../elements/race-finish';
-import { Couch } from '../elements/couch';
+import { SmallInfo, ISmallStyling } from "../elements/info-box/small";
+import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { AudioIndicator } from "../elements/audio-indicator";
+import { Facecam } from "../elements/facecam";
+import { RaceFinish } from "../elements/race-finish";
+import { Couch } from "../elements/couch";
 
-import StandardLeft from '../media/ASM23/standard-2-left.png';
-import StandardRight from '../media/ASM23/standard-2-right.png';
+import StandardLeft from "../media/ASM23/standard-2-left.png";
+import StandardRight from "../media/ASM23/standard-2-right.png";
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -72,19 +72,19 @@ const customSmallStyling: ISmallStyling = {
 	lowerStackHeight: 148,
 	gameNameBottomMargin: -40,
 	mainStyle: {
-		height: '100%',
-		width: '100%',
+		height: "100%",
+		width: "100%",
 		zIndex: 1,
 		padding: 0,
 	},
 	lowerStackStyle: {
-		justifyContent: 'space-between',
+		justifyContent: "space-between",
 	},
 	timerStyle: {
 		flexGrow: 1,
 	},
 	gameNameStyle: {
-		lineHeight: '42px',
+		lineHeight: "42px",
 	},
 	categoryStyle: {
 		width: 284,
@@ -100,21 +100,21 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		},
 	}));
 
-	const leftTeamID = props.runData?.teams[0]?.id || '';
-	const rightTeamID = props.runData?.teams[1]?.id || '';
+	const leftTeamID = props.runData?.teams[0]?.id || "";
+	const rightTeamID = props.runData?.teams[1]?.id || "";
 	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
 		? props.timer.teamFinishTimes[leftTeamID].time
-		: '';
+		: "";
 	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID)
 		? props.timer.teamFinishTimes[rightTeamID].time
-		: '';
+		: "";
 	const leftTeamPlace = findPlace(leftTeamID);
 	const rightTeamPlace = findPlace(rightTeamID);
 
 	function findPlace(teamID: string) {
 		if (props.timer?.teamFinishTimes.hasOwnProperty(teamID)) {
 			// Forfeit dont get a place (sorry runner)
-			if (props.timer.teamFinishTimes[teamID].state === 'forfeit') {
+			if (props.timer.teamFinishTimes[teamID].state === "forfeit") {
 				return -1;
 			} else {
 				// On a scale of 1 to fucked this is probably just a weird look
@@ -162,7 +162,7 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 			<Topbar>
 				<LeftBox>
 					<img
-						style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
+						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 						src={StandardLeft}
 					/>
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
@@ -171,13 +171,13 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<AudioIndicator
 					active={currentAudio === 0}
 					side="left"
-					style={{ position: 'absolute', top: 255, left: 625 }}
+					style={{ position: "absolute", top: 255, left: 625 }}
 				/>
 				<AudioIndicator
 					active={currentAudio === 1}
 					side="right"
 					style={{
-						position: 'absolute',
+						position: "absolute",
 						top: 255,
 						right: 625,
 						zIndex: 2,
@@ -188,8 +188,8 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					width={586}
 					maxNameWidth={190}
 					style={{
-						borderRight: '1px solid var(--asm-orange)',
-						borderLeft: '1px solid var(--asm-orange)',
+						borderRight: "1px solid var(--asm-orange)",
+						borderLeft: "1px solid var(--asm-orange)",
 					}}
 					teams={props.runData?.teams}
 					audioIndicator={props.obsAudioIndicator}
@@ -200,19 +200,20 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 
 				<RightBox>
 					<img
-						style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
+						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 						src={StandardRight}
 					/>
 					<div
 						style={{
-							display: 'flex',
-							width: '100%',
+							display: "flex",
+							width: "100%",
 							flexGrow: 1,
-							alignItems: 'center',
-						}}>
+							alignItems: "center",
+						}}
+					>
 						<Couch
 							couch={props.couchInformation}
-							style={{ width: '30%', zIndex: 3 }}
+							style={{ width: "30%", zIndex: 3 }}
 							audio={props.obsAudioIndicator}
 						/>
 						<SponsorsBox

@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { CouchPerson } from '@asm-graphics/types/OverlayProps';
-import { RunDataActiveRun } from '@asm-graphics/types/RunData';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
-import { AudioFader } from './audio-fader';
-import { HEADSETS } from './headsets';
+import React, { useEffect, useMemo, useState } from "react";
+import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
+import { AudioFader } from "./audio-fader";
+import { HEADSETS } from "./headsets";
 // import useDebounce from '../../../hooks/useDebounce';
 
 const RTAudioContainer = styled.div``;
@@ -53,11 +53,11 @@ interface Props {
 }
 
 export const RTAudio = (props: Props) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [couchNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
-	const [busFadersRep] = useReplicant<number[][]>('x32:busFaders', []);
+	const [couchNamesRep] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 	// const debouncedFadersRep = useDebounce(busFadersRep, 100);
 
@@ -69,7 +69,7 @@ export const RTAudio = (props: Props) => {
 		const map = new Map(HEADSETS.map((headset) => [headset.name, headset.name]));
 		runDataActiveRep?.teams.map((team) => {
 			team.players.map((player) => {
-				if ('microphone' in player.customData) map.set(player.customData.microphone, player.name);
+				if ("microphone" in player.customData) map.set(player.customData.microphone, player.name);
 			});
 		});
 
@@ -106,31 +106,33 @@ export const RTAudio = (props: Props) => {
 		});
 
 		setFaderValues(nextFaderValues);
-		nodecg.sendMessage('x32:setFader', { float: float, channel: channel, mixBus: mixBus });
+		nodecg.sendMessage("x32:setFader", { float: float, channel: channel, mixBus: mixBus });
 	};
 
 	return (
 		<RTAudioContainer className={props.className} style={props.style}>
 			<HeadsetSelectors>
-				{HEADSETS.filter((headset) => headset.name !== 'Host').map((headset) => {
+				{HEADSETS.filter((headset) => headset.name !== "Host").map((headset) => {
 					return (
 						<HeadsetName
 							key={headset.name}
 							style={{
 								background: headset.colour,
 								color: headset.textColour,
-								fontWeight: selectedHeadset === headset.name ? 'bold' : '',
+								fontWeight: selectedHeadset === headset.name ? "bold" : "",
 							}}
-							onClick={() => setSelectedHeadset(headset.name)}>
+							onClick={() => setSelectedHeadset(headset.name)}
+						>
 							{headsetUserMap.get(headset.name) ?? headset.name}
 						</HeadsetName>
 					);
 				})}
 			</HeadsetSelectors>
 			<MixingContainer
-				style={{ borderColor: selectedHeadsetObj?.colour, background: `${selectedHeadsetObj?.colour}22` }}>
+				style={{ borderColor: selectedHeadsetObj?.colour, background: `${selectedHeadsetObj?.colour}22` }}
+			>
 				<AudioFader
-					key={'MASTER'}
+					key={"MASTER"}
 					label={`MASTER`}
 					mixBus={mixBus}
 					channel={0}
@@ -145,9 +147,9 @@ export const RTAudio = (props: Props) => {
 							key={number}
 							label={`Game ${number + 1}`}
 							mixBus={mixBus}
-							channel={9 + (number * 2)}
-							value={faderValues[mixBus]?.[9 + number + (number * 2)]}
-							onChange={(float) => handleFaderChange(float, mixBus, 9 + (number * 2))}
+							channel={9 + number * 2}
+							value={faderValues[mixBus]?.[9 + number + number * 2]}
+							onChange={(float) => handleFaderChange(float, mixBus, 9 + number * 2)}
 							colour={selectedHeadsetObj?.colour}
 						/>
 					);
@@ -159,7 +161,7 @@ export const RTAudio = (props: Props) => {
 							key={headset.name}
 							label={
 								headset.name === selectedHeadset
-									? 'You'
+									? "You"
 									: headsetUserMap.get(headset.name) ?? headset.name
 							}
 							mixBus={mixBus}

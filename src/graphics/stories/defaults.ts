@@ -1,41 +1,41 @@
-import { OverlayProps } from '@asm-graphics/types/OverlayProps';
-import { RunDataPlayer } from '@asm-graphics/types/RunData';
-import { Timer } from '@asm-graphics/types/Timer';
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import { RunDataPlayer } from "@asm-graphics/types/RunData";
+import { Timer } from "@asm-graphics/types/Timer";
 
 export const DefaultTimer: Timer = {
 	milliseconds: 45296700,
 	state: "running",
 	time: "12:34:56",
 	timestamp: 0,
-	teamFinishTimes: {}
-}
+	teamFinishTimes: {},
+};
 
 export const DefaultPlayer: RunDataPlayer = {
 	name: "TestName",
 	pronouns: "He/Him",
 	social: {
-		twitch: "TestTwitch"
+		twitch: "TestTwitch",
 	},
-	country: 'AU',
-	teamID: '0',
+	country: "AU",
+	teamID: "0",
 	customData: {},
-	id: '0',
-}
+	id: "0",
+};
 
 export const DefaultOverlay: OverlayProps = {
 	preview: false,
 	couchInformation: [
-		{ name: 'Couch 1', pronouns: 'He/Him', id: '' },
-		{ name: 'Host Name', pronouns: 'She/Her', host: true, id: '' },
+		{ name: "Couch 1", pronouns: "He/Him", id: "" },
+		{ name: "Host Name", pronouns: "She/Her", host: true, id: "" },
 	],
 	runData: {
-		game: 'Long Game Title',
-		category: 'Any%',
-		estimate: '1:00:00',
-		release: '2000',
-		system: 'SNES',
-		id: '',
-		teams: [{ players: [DefaultPlayer], name: '', id: '0' }],
+		game: "Long Game Title",
+		category: "Any%",
+		estimate: "1:00:00",
+		release: "2000",
+		system: "SNES",
+		id: "",
+		teams: [{ players: [DefaultPlayer], name: "", id: "0" }],
 		customData: {},
 	},
 	sponsors: [],

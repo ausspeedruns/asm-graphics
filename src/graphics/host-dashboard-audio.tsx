@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
+import React, { useEffect, useState, useMemo } from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
 
-import { useReplicant } from 'use-nodecg';
-import { HEADSETS } from './dashboards/runner-tablet/headsets';
-import { AudioFader } from './dashboards/runner-tablet/audio-fader';
-import { RunDataActiveRun } from '@asm-graphics/types/RunData';
-import { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import { useReplicant } from "use-nodecg";
+import { HEADSETS } from "./dashboards/runner-tablet/headsets";
+import { AudioFader } from "./dashboards/runner-tablet/audio-fader";
+import { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import { CouchPerson } from "@asm-graphics/types/OverlayProps";
 
 const MixingContainer = styled.div`
-	font-family: Noto Sans, sans-serif;
+	font-family:
+		Noto Sans,
+		sans-serif;
 	width: 100%;
 	height: 500px;
 	border: 5px solid black;
@@ -30,11 +32,11 @@ const MixingDivide = styled.div`
 const HOST_MIXBUS = 11;
 
 export const HostDashAudio: React.FC = () => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [couchNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
-	const [busFadersRep] = useReplicant<number[][]>('x32:busFaders', []);
+	const [couchNamesRep] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 
 	const numberOfRunners = useMemo(
@@ -45,7 +47,7 @@ export const HostDashAudio: React.FC = () => {
 		const map = new Map(HEADSETS.map((headset) => [headset.name, headset.name]));
 		runDataActiveRep?.teams.map((team) => {
 			team.players.map((player) => {
-				if ('microphone' in player.customData) map.set(player.customData.microphone, player.name);
+				if ("microphone" in player.customData) map.set(player.customData.microphone, player.name);
 			});
 		});
 
@@ -76,50 +78,50 @@ export const HostDashAudio: React.FC = () => {
 		});
 
 		setFaderValues(nextFaderValues);
-		nodecg.sendMessage('x32:setFader', { float: float, channel: channel, mixBus: mixBus });
+		nodecg.sendMessage("x32:setFader", { float: float, channel: channel, mixBus: mixBus });
 	};
 
-	return (<MixingContainer>
-		<AudioFader
-			key={'MASTER'}
-			label={`MASTER`}
-			mixBus={HOST_MIXBUS}
-			channel={0}
-			value={faderValues[HOST_MIXBUS]?.[0]}
-			onChange={(float) => handleFaderChange(float, HOST_MIXBUS, 0)}
-			colour={'#000'}
-		/>
-		<MixingDivide />
-		{[...Array(numberOfRunners).keys()].map((number) => {
-			return (
-				<AudioFader
-					key={number}
-					label={`Game ${number + 1}`}
-					mixBus={HOST_MIXBUS}
-					channel={9 + (number * 2)}
-					value={faderValues[HOST_MIXBUS]?.[9 + number + (number * 2)]}
-					onChange={(float) => handleFaderChange(float, HOST_MIXBUS, 9 + (number * 2))}
-					colour={'#000'}
-				/>
-			);
-		})}
-		<MixingDivide />
-		{HEADSETS.map((headset) => {
-			return (
-				<AudioFader
-					key={headset.name}
-					label={
-						headsetUserMap.get(headset.name) ?? headset.name
-					}
-					mixBus={HOST_MIXBUS}
-					channel={headset.channel}
-					value={faderValues[HOST_MIXBUS]?.[headset.channel]}
-					onChange={(float) => handleFaderChange(float, HOST_MIXBUS, headset.channel)}
-					colour={'#000'}
-				/>
-			);
-		})}
-	</MixingContainer>)
+	return (
+		<MixingContainer>
+			<AudioFader
+				key={"MASTER"}
+				label={`MASTER`}
+				mixBus={HOST_MIXBUS}
+				channel={0}
+				value={faderValues[HOST_MIXBUS]?.[0]}
+				onChange={(float) => handleFaderChange(float, HOST_MIXBUS, 0)}
+				colour={"#000"}
+			/>
+			<MixingDivide />
+			{[...Array(numberOfRunners).keys()].map((number) => {
+				return (
+					<AudioFader
+						key={number}
+						label={`Game ${number + 1}`}
+						mixBus={HOST_MIXBUS}
+						channel={9 + number * 2}
+						value={faderValues[HOST_MIXBUS]?.[9 + number + number * 2]}
+						onChange={(float) => handleFaderChange(float, HOST_MIXBUS, 9 + number * 2)}
+						colour={"#000"}
+					/>
+				);
+			})}
+			<MixingDivide />
+			{HEADSETS.map((headset) => {
+				return (
+					<AudioFader
+						key={headset.name}
+						label={headsetUserMap.get(headset.name) ?? headset.name}
+						mixBus={HOST_MIXBUS}
+						channel={headset.channel}
+						value={faderValues[HOST_MIXBUS]?.[headset.channel]}
+						onChange={(float) => handleFaderChange(float, HOST_MIXBUS, headset.channel)}
+						colour={"#000"}
+					/>
+				);
+			})}
+		</MixingContainer>
+	);
 };
 
-createRoot(document.getElementById('root')!).render(<HostDashAudio />);
+createRoot(document.getElementById("root")!).render(<HostDashAudio />);

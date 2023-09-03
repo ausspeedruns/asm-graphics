@@ -1,12 +1,12 @@
-import React, { useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
-import clone from 'clone';
+import React, { useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
+import clone from "clone";
 
-import { TickerItem } from './item';
-import { TickerTitle } from './title';
+import { TickerItem } from "./item";
+import { TickerTitle } from "./title";
 
-import { TickerItemHandles } from '../ticker';
-import { RunDataArray, RunDataActiveRun } from '@asm-graphics/types/RunData';
+import { TickerItemHandles } from "../ticker";
+import { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 
 const TickerRunsContainer = styled.div`
 	position: absolute;
@@ -37,16 +37,16 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 	const RunsArray = upcomingRuns.map((run, i) => {
 		let playerNames;
 		if (run.teams.length === 0) {
-			playerNames = '';
+			playerNames = "";
 		} else {
 			playerNames = run?.teams
 				.map((team) => {
-					return team.players.map((player) => player.name).join(', ');
+					return team.players.map((player) => player.name).join(", ");
 				})
-				.join(' vs ');
+				.join(" vs ");
 		}
 
-		return <TickerItem title={run.game || ''} sub={playerNames || ''} key={run.id} index={i} />;
+		return <TickerItem title={run.game || ""} sub={playerNames || ""} key={run.id} index={i} />;
 	});
 
 	useImperativeHandle(ref, () => ({
@@ -55,7 +55,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
 			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, '+=10');
+			tl.to(containerRef.current, { y: 64, duration: 1 }, "+=10");
 			tl.set(containerRef.current, { y: -64, duration: 1 });
 
 			return tl;
@@ -70,4 +70,4 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 	);
 });
 
-TickerRuns.displayName = 'TickerRuns';
+TickerRuns.displayName = "TickerRuns";

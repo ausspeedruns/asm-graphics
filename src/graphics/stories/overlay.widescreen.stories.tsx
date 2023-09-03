@@ -1,11 +1,11 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Widescreen } from '../overlays/widescreen';
-import { DefaultOverlay, DefaultPlayer } from './defaults';
+import { Widescreen } from "../overlays/widescreen";
+import { DefaultOverlay, DefaultPlayer } from "./defaults";
 
 export default {
-	title: 'Overlay/Widesceeen 16:9',
+	title: "Overlay/Widesceeen 16:9",
 	component: Widescreen,
 } as ComponentMeta<typeof Widescreen>;
 
@@ -23,8 +23,8 @@ Coop.args = {
 	runData: {
 		...DefaultOverlay.runData,
 		customData: {},
-		id: '',
-		teams: [{ players: [DefaultPlayer, { ...DefaultPlayer, pronouns: '' }], name: '', id: '0' }],
+		id: "",
+		teams: [{ players: [DefaultPlayer, { ...DefaultPlayer, pronouns: "" }], name: "", id: "0" }],
 	},
 };
 
@@ -33,8 +33,8 @@ CoopBothPronouns.args = {
 	runData: {
 		...DefaultOverlay.runData,
 		customData: {},
-		id: '',
-		teams: [{ players: [DefaultPlayer, DefaultPlayer], name: '', id: '0' }],
+		id: "",
+		teams: [{ players: [DefaultPlayer, DefaultPlayer], name: "", id: "0" }],
 	},
 };
 
@@ -43,15 +43,15 @@ CoopNoPronouns.args = {
 	runData: {
 		...DefaultOverlay.runData,
 		customData: {},
-		id: '',
+		id: "",
 		teams: [
 			{
 				players: [
-					{ ...DefaultPlayer, pronouns: '' },
-					{ ...DefaultPlayer, pronouns: '' },
+					{ ...DefaultPlayer, pronouns: "" },
+					{ ...DefaultPlayer, pronouns: "" },
 				],
-				name: '',
-				id: '0',
+				name: "",
+				id: "0",
 			},
 		],
 	},

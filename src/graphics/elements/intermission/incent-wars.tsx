@@ -1,9 +1,9 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
-import styled from 'styled-components';
+import React, { useImperativeHandle, useRef, useState } from "react";
+import styled from "styled-components";
 
-import { War } from '@asm-graphics/types/Incentives';
-import { TickerItemHandles } from './incentives';
-import { FitText } from '../fit-text';
+import { War } from "@asm-graphics/types/Incentives";
+import { TickerItemHandles } from "./incentives";
+import { FitText } from "../fit-text";
 
 const InterIncentWarsContainer = styled.div`
 	position: absolute;
@@ -44,7 +44,7 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 			}
 
 			// Start
-			tl.addLabel('warStart');
+			tl.addLabel("warStart");
 			tl.set(containerRef.current, { x: -1000 });
 			tl.to(containerRef.current, { x: 0, duration: 1 });
 
@@ -53,7 +53,7 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 			}
 
 			// End
-			tl.to(containerRef.current, { x: 1000, duration: 1 }, '-=1');
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, "-=1");
 			tl.set(containerRef.current, { x: -1000, duration: 1 });
 
 			return tl;
@@ -139,21 +139,21 @@ const MAX_OPTIONS = 2;
 export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
-	const [animLabel] = useState(props.war.index.toString() + 'a');
+	const [animLabel] = useState(props.war.index.toString() + "a");
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.to(containerRef.current, { x: 0, duration: 1 }, '-=0.5');
+			tl.to(containerRef.current, { x: 0, duration: 1 }, "-=0.5");
 
-			tl.addLabel('idkstagger');
+			tl.addLabel("idkstagger");
 			tl.addLabel(animLabel, `+=${props.war.options.length / 4}`);
 			optionRefs.current.reverse().forEach((optionRef) => {
-				tl.add(optionRef.animation(tl), '-=1');
+				tl.add(optionRef.animation(tl), "-=1");
 			});
 
 			// End
-			tl.to(containerRef.current, { x: 1000, duration: 1 }, '+=10');
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, "+=10");
 			tl.set(containerRef.current, { x: -1000 });
 
 			optionRefs.current.forEach((optionRef) => {
@@ -214,9 +214,9 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 		allOptions.push(
 			<WarChoice
 				animLabel={animLabel}
-				option={{ name: '', total: 0 }}
+				option={{ name: "", total: 0 }}
 				highest={highest}
-				key={'More Options'}
+				key={"More Options"}
 				moreOptions
 				index={0}
 				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length)}
@@ -294,7 +294,7 @@ const ProgressBarContainer = styled.div`
 const CurrentAmount = styled.span``;
 
 interface WarChoiceProps {
-	option: War['options'][0];
+	option: War["options"][0];
 	highest: number;
 	animLabel: string;
 	index: number;
@@ -310,8 +310,8 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(progressBarRef.current, { height: 0 }, 'warStart');
-			tl.set(containerRef.current, { x: -1000 }, 'warStart');
+			tl.set(progressBarRef.current, { height: 0 }, "warStart");
+			tl.set(containerRef.current, { x: -1000 }, "warStart");
 
 			tl.to(containerRef.current, { x: 0 }, `idkstagger+=${props.index / 4}`);
 			tl.to(progressBarRef.current, { height: `${percentage}%`, duration: 2 }, props.animLabel);
@@ -322,7 +322,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 			tl.set(containerRef.current, { x: -1000 });
 
 			return tl;
-		}
+		},
 	}));
 
 	if (props.moreOptions) {
@@ -331,13 +331,14 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 				<TextDiv>
 					<div
 						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							padding: '0 10px',
-							maxWidth: '80%',
-							fontSize: 25 - (props.numberOfItems)
-						}}>
-						<OptionName text={'More online!'} />
+							display: "flex",
+							flexDirection: "column",
+							padding: "0 10px",
+							maxWidth: "80%",
+							fontSize: 25 - props.numberOfItems,
+						}}
+					>
+						<OptionName text={"More online!"} />
 					</div>
 				</TextDiv>
 			</OptionContainer>
@@ -349,12 +350,13 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 			<TextDiv>
 				<div
 					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						padding: '0 10px',
-						maxWidth: '80%',
-						fontSize: 25 - (props.numberOfItems)
-					}}>
+						display: "flex",
+						flexDirection: "column",
+						padding: "0 10px",
+						maxWidth: "80%",
+						fontSize: 25 - props.numberOfItems,
+					}}
+				>
 					<OptionName text={props.option.name} />
 					<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
 				</div>
@@ -381,6 +383,6 @@ const NoChoicesMade: React.FC = () => {
 	return <NoChoicesContainer>No names submitted</NoChoicesContainer>;
 };
 
-InterIncentWars.displayName = 'InterIncentWars';
-WarGame.displayName = 'WarGame';
-WarChoice.displayName = 'WarChoice';
+InterIncentWars.displayName = "InterIncentWars";
+WarGame.displayName = "WarGame";
+WarChoice.displayName = "WarChoice";

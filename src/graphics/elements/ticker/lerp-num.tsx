@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import gsap, { Power2 } from 'gsap';
+import React, { useState, useEffect, useRef } from "react";
+import gsap, { Power2 } from "gsap";
 
 interface LerpNumProps {
 	value: number;
@@ -37,7 +37,7 @@ export const LerpNum: React.FC<LerpNumProps> = (props: LerpNumProps) => {
 				duration: timeInterval,
 				x: props.value / 100,
 				onUpdate: () => {
-					const dummyElPos = gsap.getProperty(dummyEl.current, 'x') ?? 0;
+					const dummyElPos = gsap.getProperty(dummyEl.current, "x") ?? 0;
 					setDisplayValue(parseFloat(dummyElPos.toString()) * 100);
 				},
 			});

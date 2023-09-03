@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
-import { useListenFor } from 'use-nodecg';
-import gsap from 'gsap';
+import React, { useRef, useState } from "react";
+import styled from "styled-components";
+import { useListenFor } from "use-nodecg";
+import gsap from "gsap";
 
-import AusSpeedrunsLogo from '../media/AusSpeedruns-Icon.svg';
-import IndigenousFlags from '../media/IndigenousFlags.png';
+import AusSpeedrunsLogo from "../media/AusSpeedruns-Icon.svg";
+import IndigenousFlags from "../media/IndigenousFlags.png";
 
 const NameLowerThirdContainer = styled.div`
 	display: flex;
@@ -66,14 +66,14 @@ export const NameLowerThird = (props: Props) => {
 	const TextRef = useRef(null);
 	const [tl] = useState(gsap.timeline);
 
-	useListenFor('show-lowerthird', () => {
+	useListenFor("show-lowerthird", () => {
 		tl.clear();
 		tl.set([LogoRef.current, TextRef.current], { width: 0 });
-		tl.to([LogoRef.current, TextRef.current], { width: 'auto', duration: 1 });
+		tl.to([LogoRef.current, TextRef.current], { width: "auto", duration: 1 });
 		tl.play();
 	});
 
-	useListenFor('hide-lowerthird', () => {
+	useListenFor("hide-lowerthird", () => {
 		tl.clear();
 		tl.to([LogoRef.current, TextRef.current], { width: 0, duration: 1 });
 		// tl.set([LogoRef.current, TextRef.current], { width: 0 });
@@ -93,7 +93,6 @@ export const NameLowerThird = (props: Props) => {
 	);
 };
 
-
 const IndigenousFlagsImage = styled.img`
 	height: 256px;
 	width: 203px;
@@ -109,7 +108,6 @@ const AcknowledgementText = styled.div`
 	width: 1034px;
 `;
 
-
 interface AcknowledgementOfCountryProps {
 	className?: string;
 	style?: React.CSSProperties;
@@ -120,16 +118,16 @@ export const AcknowledgementOfCountry = (props: AcknowledgementOfCountryProps) =
 	const TextRef = useRef(null);
 	const [tl] = useState(gsap.timeline);
 
-	useListenFor('show-acknowledgementofcountry', () => {
+	useListenFor("show-acknowledgementofcountry", () => {
 		tl.clear();
 		tl.set([LogoRef.current, TextRef.current], { width: 0 });
-		tl.addLabel('open');
-		tl.to(LogoRef.current, { width: 'auto', duration: 1 }, 'open');
-		tl.to(TextRef.current, { width: 1082, duration: 1 }, 'open');
+		tl.addLabel("open");
+		tl.to(LogoRef.current, { width: "auto", duration: 1 }, "open");
+		tl.to(TextRef.current, { width: 1082, duration: 1 }, "open");
 		tl.play();
 	});
 
-	useListenFor('hide-acknowledgementofcountry', () => {
+	useListenFor("hide-acknowledgementofcountry", () => {
 		tl.clear();
 		tl.to([LogoRef.current, TextRef.current], { width: 0, duration: 1 });
 		// tl.set([LogoRef.current, TextRef.current], { width: 0 });

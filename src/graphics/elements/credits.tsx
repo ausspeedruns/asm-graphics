@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
-import { useListenFor } from 'use-nodecg';
+import React, { useRef } from "react";
+import styled from "styled-components";
+import gsap from "gsap";
+import { useListenFor } from "use-nodecg";
 
-import EventLogo from '../media/ASM23/logo.png';
+import EventLogo from "../media/ASM23/logo.png";
 
 const CreditsContainer = styled.div`
 	position: relative;
@@ -49,7 +49,9 @@ const Title = styled.div`
 	justify-content: center;
 	font-size: 30px;
 	margin-top: 30px;
-	font-family: Russo One, sans-serif;
+	font-family:
+		Russo One,
+		sans-serif;
 	text-align: center;
 `;
 
@@ -82,11 +84,11 @@ export const Credits: React.FC = () => {
 	const creditsBGRef = useRef<HTMLDivElement>(null);
 	const allCreditsRef = useRef<HTMLDivElement>(null);
 
-	useListenFor('start-credits', () => {
+	useListenFor("start-credits", () => {
 		const tl = gsap.timeline();
 		// Start credits
 		tl.to(allCreditsRef.current, { width: 500, duration: 2 });
-		tl.to(allCreditsRef.current, { marginTop: -9750, duration: 120, ease: 'none' }, '+=1');
+		tl.to(allCreditsRef.current, { marginTop: -9750, duration: 120, ease: "none" }, "+=1");
 		tl.to(allCreditsRef.current, { width: 0, duration: 2 });
 	});
 
@@ -94,9 +96,13 @@ export const Credits: React.FC = () => {
 		<CreditsContainer ref={creditsBGRef}>
 			<AllCredits ref={allCreditsRef}>
 				<EventImg>
-					<img style={{ width: '90%', height: 'auto' }} src={EventLogo} />
+					<img style={{ width: "90%", height: "auto" }} src={EventLogo} />
 				</EventImg>
-				<Title>Australian Speedrun<br />Marathon 2023</Title>
+				<Title>
+					Australian Speedrun
+					<br />
+					Marathon 2023
+				</Title>
 				<Title>AusSpeedruns Committee</Title>
 				<NameContainer>
 					<NameWithRoles>
@@ -262,7 +268,7 @@ export const Credits: React.FC = () => {
 					</NameWithRoles>
 					<NameWithRoles>All commentators</NameWithRoles>
 					<NameWithRoles>All donators</NameWithRoles>
-					<NameWithRoles>{'and especially you <3'}</NameWithRoles>
+					<NameWithRoles>{"and especially you <3"}</NameWithRoles>
 				</NameContainer>
 			</AllCredits>
 		</CreditsContainer>

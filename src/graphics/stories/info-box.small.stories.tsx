@@ -1,11 +1,11 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { SmallInfo } from '../elements/info-box/small';
-import { DefaultTimer } from './defaults';
+import { SmallInfo } from "../elements/info-box/small";
+import { DefaultTimer } from "./defaults";
 
 export default {
-	title: 'Info Box/Small',
+	title: "Info Box/Small",
 	component: SmallInfo,
 } as ComponentMeta<typeof SmallInfo>;
 
@@ -19,12 +19,12 @@ export const Primary = Template.bind({});
 
 Primary.args = {
 	runData: {
-		game: 'Long Game Title',
-		category: 'Any%',
-		estimate: '1:00:00',
-		release: '2000',
-		system: 'SNES',
-		id: '',
+		game: "Long Game Title",
+		category: "Any%",
+		estimate: "1:00:00",
+		release: "2000",
+		system: "SNES",
+		id: "",
 		teams: [],
 		customData: {},
 	},

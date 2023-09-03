@@ -93,7 +93,7 @@
 					"default": ""
 				}
 			},
-			"required": ["enabled","key", "campaign", "id"]
+			"required": ["enabled", "key", "campaign", "id"]
 		},
 		"graphql": {
 			"type": "object",

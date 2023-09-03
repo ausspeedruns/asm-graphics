@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import _ from 'underscore';
+import React from "react";
+import styled from "styled-components";
+import _ from "underscore";
 // @ts-ignore
-import Twemoji from 'react-twemoji';
+import Twemoji from "react-twemoji";
 
-import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
+import { Tweet as ITweet } from "@asm-graphics/types/Twitter";
 
 const TweetContainer = styled.div`
 	position: absolute;
@@ -71,25 +71,25 @@ interface Props {
 const twitterImgRegex = new RegExp(/https:\/\/t\.co\/\w*/);
 
 export const Tweet: React.FC<Props> = (props: Props) => {
-	if (typeof props.tweet === 'undefined') {
+	if (typeof props.tweet === "undefined") {
 		return <></>;
 	}
 
 	const dangerBold = () => {
 		if (props.tweet) {
-			let tweetText = props.tweet.data.text.replace('#ASM2022', '<b>#ASM2022</b>');
-			tweetText = tweetText.replace(twitterImgRegex, ' ');
+			let tweetText = props.tweet.data.text.replace("#ASM2022", "<b>#ASM2022</b>");
+			tweetText = tweetText.replace(twitterImgRegex, " ");
 
 			return { __html: _.unescape(tweetText) };
 		}
 
-		return { __html: '' };
+		return { __html: "" };
 	};
 
 	return (
 		<TweetContainer className={props.className} style={props.style}>
-			<div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: 13 }}>
-				<TwitterLogo src={'../shared/design/Twitter white.svg'} />
+			<div style={{ width: "100%", display: "flex", justifyContent: "center", paddingTop: 13 }}>
+				<TwitterLogo src={"../shared/design/Twitter white.svg"} />
 				<Username>@{props.tweet.includes.users[0].username}</Username>
 			</div>
 			<Twemoji noWrapper={true}>

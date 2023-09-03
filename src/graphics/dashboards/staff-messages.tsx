@@ -1,23 +1,13 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { useReplicant } from 'use-nodecg';
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
+import { useReplicant } from "use-nodecg";
 
-import { StaffMessage } from '@asm-graphics/types/StaffMessages';
+import { StaffMessage } from "@asm-graphics/types/StaffMessages";
 
-import {
-	Box,
-	Grid,
-	Fab,
-	Dialog,
-	Button,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	TextField,
-} from '@mui/material';
-import { Close, Check } from '@mui/icons-material';
-import { RedButton, GreenButton } from '../../dashboard/elements/styled-ui';
-import { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import { Box, Grid, Fab, Dialog, Button, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Close, Check } from "@mui/icons-material";
+import { RedButton, GreenButton } from "../../dashboard/elements/styled-ui";
+import { CouchPerson } from "@asm-graphics/types/OverlayProps";
 
 const StaffMessagesContainer = styled.div`
 	height: calc(100% - 56px);
@@ -41,17 +31,14 @@ const OrangeFAB = styled(Fab)`
 `;
 
 export const StaffMessages: React.FC = () => {
-	const [staffMessagesRep] = useReplicant<StaffMessage[]>(
-		'staff-messages',
-		[],
-	);
-	const [host] = useReplicant<CouchPerson>('host', {
-		id: '',
-		name: '',
-		pronouns: '',
+	const [staffMessagesRep] = useReplicant<StaffMessage[]>("staff-messages", []);
+	const [host] = useReplicant<CouchPerson>("host", {
+		id: "",
+		name: "",
+		pronouns: "",
 	});
 	const [replyDialog, setReplyDialog] = useState(false);
-	const [replyMsg, setReplyMsg] = useState('');
+	const [replyMsg, setReplyMsg] = useState("");
 
 	const messageMap = staffMessagesRep
 		.map((msg) => {
@@ -61,11 +48,12 @@ export const StaffMessages: React.FC = () => {
 					key={date.getTime()}
 					message={msg}
 					style={{
-						margin: msg.fromHost ? '0 0 0 32px' : '0 32px 0 0',
+						margin: msg.fromHost ? "0 0 0 32px" : "0 32px 0 0",
 					}}
 				/>
 			);
-		}).reverse();
+		})
+		.reverse();
 
 	const sendStaffMessage = () => {
 		const msg: StaffMessage = {
@@ -75,8 +63,8 @@ export const StaffMessages: React.FC = () => {
 			fromHost: true,
 		};
 
-		nodecg.sendMessage('staff-sendMessage', msg);
-		setReplyMsg('');
+		nodecg.sendMessage("staff-sendMessage", msg);
+		setReplyMsg("");
 		setReplyDialog(false);
 	};
 
@@ -85,15 +73,10 @@ export const StaffMessages: React.FC = () => {
 			<Grid container direction="column" style={{ padding: 8, gap: 4 }}>
 				{messageMap}
 			</Grid>
-			<OrangeFAB
-				variant="extended"
-				onClick={() => setReplyDialog(true)}>
+			<OrangeFAB variant="extended" onClick={() => setReplyDialog(true)}>
 				Reply
 			</OrangeFAB>
-			<Dialog
-				open={replyDialog}
-				onClose={() => setReplyDialog(false)}
-				fullWidth>
+			<Dialog open={replyDialog} onClose={() => setReplyDialog(false)} fullWidth>
 				<DialogTitle id="form-dialog-title">Reply</DialogTitle>
 				<DialogContent>
 					<TextField
@@ -108,9 +91,7 @@ export const StaffMessages: React.FC = () => {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setReplyDialog(false)}>
-						Cancel
-					</Button>
+					<Button onClick={() => setReplyDialog(false)}>Cancel</Button>
 					<Button onClick={sendStaffMessage}>Send</Button>
 				</DialogActions>
 			</Dialog>
@@ -139,8 +120,8 @@ const MessageContainer = styled(Box)`
 	border-radius: 7px;
 	animation-name: ${NewFlash};
 	animation-duration: 3s;
-	background-color: ${(props: ReadProps) => props.read ? '#eee' : '#FF0000'};
-	color: ${(props: ReadProps) => props.read ? '#000' : '#fff'};
+	background-color: ${(props: ReadProps) => (props.read ? "#eee" : "#FF0000")};
+	color: ${(props: ReadProps) => (props.read ? "#000" : "#fff")};
 	position: relative;
 `;
 
@@ -182,9 +163,7 @@ const Message: React.FC<MessageProps> = (props: MessageProps) => {
 					<DateText>{date.toLocaleTimeString()}</DateText>
 					<Author>{props.message.author}</Author>
 				</div>
-				<span style={{ whiteSpace: 'pre-wrap' }}>
-					{props.message.message}
-				</span>
+				<span style={{ whiteSpace: "pre-wrap" }}>{props.message.message}</span>
 			</Grid>
 			{!props.message.fromHost &&
 				(read ? (

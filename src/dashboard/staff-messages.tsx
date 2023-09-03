@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import styled, { keyframes } from 'styled-components';
+import React, { useState } from "react";
+import { createRoot } from "react-dom/client";
+import styled, { keyframes } from "styled-components";
 
-import { StaffMessage } from '@asm-graphics/types/StaffMessages';
+import { StaffMessage } from "@asm-graphics/types/StaffMessages";
 
-import { darkTheme } from './theme';
-import { GreenButton, LightTextfield } from './elements/styled-ui';
-import { Box, Grid, Snackbar, ThemeProvider, Alert } from '@mui/material';
-import { useReplicant } from 'use-nodecg';
+import { darkTheme } from "./theme";
+import { GreenButton, LightTextfield } from "./elements/styled-ui";
+import { Box, Grid, Snackbar, ThemeProvider, Alert } from "@mui/material";
+import { useReplicant } from "use-nodecg";
 
 const StaffMessagesContainer = styled.div``;
 
@@ -20,13 +20,10 @@ const MessageList = styled.div`
 `;
 
 export const StaffMessages: React.FC = () => {
-	const [author, setAuthor] = useState('');
-	const [message, setMessage] = useState('');
+	const [author, setAuthor] = useState("");
+	const [message, setMessage] = useState("");
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
-	const [staffMessagesRep] = useReplicant<StaffMessage[], StaffMessage[]>(
-		'staff-messages',
-		[],
-	);
+	const [staffMessagesRep] = useReplicant<StaffMessage[], StaffMessage[]>("staff-messages", []);
 
 	const sendMessage = () => {
 		const msg: StaffMessage = {
@@ -35,9 +32,9 @@ export const StaffMessages: React.FC = () => {
 			message: message,
 		};
 
-		nodecg.sendMessage('staff-sendMessage', msg);
-		setAuthor('');
-		setMessage('');
+		nodecg.sendMessage("staff-sendMessage", msg);
+		setAuthor("");
+		setMessage("");
 		setSnackbarOpen(true);
 	};
 
@@ -49,7 +46,7 @@ export const StaffMessages: React.FC = () => {
 					key={date.getTime()}
 					message={msg}
 					style={{
-						margin: msg.fromHost ? '0 32px 0 0' : '0 0 0 32px',
+						margin: msg.fromHost ? "0 32px 0 0" : "0 0 0 32px",
 					}}
 				/>
 			);
@@ -60,12 +57,7 @@ export const StaffMessages: React.FC = () => {
 		<ThemeProvider theme={darkTheme}>
 			<MessageList>{messageMap}</MessageList>
 			<StaffMessagesContainer>
-				<LightTextfield
-					onChange={(e) => setAuthor(e.target.value)}
-					value={author}
-					label="Author"
-					fullWidth
-				/>
+				<LightTextfield onChange={(e) => setAuthor(e.target.value)} value={author} label="Author" fullWidth />
 				<LightTextfield
 					onChange={(e) => setMessage(e.target.value)}
 					value={message}
@@ -74,21 +66,11 @@ export const StaffMessages: React.FC = () => {
 					multiline
 					rows={4}
 				/>
-				<GreenButton
-					variant="contained"
-					onClick={sendMessage}
-					style={{ marginTop: 8, float: 'right' }}>
+				<GreenButton variant="contained" onClick={sendMessage} style={{ marginTop: 8, float: "right" }}>
 					Send
 				</GreenButton>
-				<Snackbar
-					open={snackbarOpen}
-					autoHideDuration={5000}
-					onClose={() => setSnackbarOpen(false)}>
-					<Alert
-						elevation={6}
-						variant="filled"
-						onClose={() => setSnackbarOpen(false)}
-						severity="success">
+				<Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={() => setSnackbarOpen(false)}>
+					<Alert elevation={6} variant="filled" onClose={() => setSnackbarOpen(false)} severity="success">
 						Message sent!
 					</Alert>
 				</Snackbar>
@@ -117,7 +99,7 @@ const MessageContainer = styled(Box)`
 	border-radius: 7px;
 	animation-name: ${NewFlash};
 	animation-duration: 0.5s;
-	background-color: #4D5E80;
+	background-color: #4d5e80;
 	position: relative;
 `;
 
@@ -140,12 +122,10 @@ const Message: React.FC<MessageProps> = (props: MessageProps) => {
 					<DateText>{date.toLocaleTimeString()}</DateText>
 					<Author>{props.message.author}</Author>
 				</div>
-				<span style={{ whiteSpace: 'pre-wrap' }}>
-					{props.message.message}
-				</span>
+				<span style={{ whiteSpace: "pre-wrap" }}>{props.message.message}</span>
 			</Grid>
 		</MessageContainer>
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<StaffMessages />);
+createRoot(document.getElementById("root")!).render(<StaffMessages />);

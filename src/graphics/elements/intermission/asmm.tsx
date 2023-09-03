@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
-import gsap, { Power2 } from 'gsap';
+import React, { useRef, useState } from "react";
+import styled from "styled-components";
+import gsap, { Power2 } from "gsap";
 
 const ASMMContainer = styled.div`
 	height: 359px;
@@ -49,7 +49,7 @@ export const ASMM = (props: Props) => {
 		duration: 5,
 		x: props.totalKM / 100,
 		onUpdate: () => {
-			const dummyElPos = gsap.getProperty(dummyEl.current, 'x') ?? 0;
+			const dummyElPos = gsap.getProperty(dummyEl.current, "x") ?? 0;
 			setDisplayValue(parseFloat(dummyElPos.toString()) * 100);
 		},
 	});
@@ -57,7 +57,10 @@ export const ASMM = (props: Props) => {
 	return (
 		<ASMMContainer className={props.className} style={props.style}>
 			<Text>The ASM2023 attendees have walked</Text>
-			<Total>{displayValue}<KM>KM!</KM></Total>
+			<Total>
+				{displayValue}
+				<KM>KM!</KM>
+			</Total>
 			<LearnMore>Learn more at AusSpeedruns.com</LearnMore>
 		</ASMMContainer>
 	);

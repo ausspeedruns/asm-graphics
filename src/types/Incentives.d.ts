@@ -9,7 +9,7 @@ interface BaseIncentive {
 export interface Goal extends BaseIncentive {
 	goal: number;
 	total: number;
-	type: 'Goal';
+	type: "Goal";
 }
 
 export interface War extends BaseIncentive {
@@ -17,5 +17,5 @@ export interface War extends BaseIncentive {
 		name: string;
 		total: number;
 	}[];
-	type: 'War';
+	type: "War";
 }

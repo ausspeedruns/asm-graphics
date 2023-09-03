@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
+import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
+import styled from "styled-components";
+import gsap from "gsap";
 
-import { Tweet } from './tweet';
+import { Tweet } from "./tweet";
 
-import type NodeCG from '@nodecg/types';
-import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
+import type NodeCG from "@nodecg/types";
+import { Tweet as ITweet } from "@asm-graphics/types/Twitter";
 
 const SponsorsContainer = styled.img`
 	object-fit: contain;
@@ -38,7 +38,7 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 					imageRef.current.src = props.sponsors[imgIndex]?.url;
 				}
 			});
-			tl.to(imageRef.current, { duration: 1, opacity: 1 }, '+=0.5');
+			tl.to(imageRef.current, { duration: 1, opacity: 1 }, "+=0.5");
 			tl.call(() => {
 				if (!props.sponsors) return;
 				setImgIndex(imgIndex + 1 >= props.sponsors.length ? 0 : imgIndex + 1);
@@ -99,7 +99,7 @@ export const SponsorsBox = forwardRef<SponsorBoxRef, FullBoxProps>((props, ref) 
 			tl.set(tweetRef.current, { opacity: 0 });
 			tl.to(sponsorMainRef.current, { opacity: 0, duration: 1 });
 			tl.to(tweetRef.current, { opacity: 1, duration: 1 });
-			tl.to(tweetRef.current, { opacity: 0, duration: 1 }, '+=10');
+			tl.to(tweetRef.current, { opacity: 0, duration: 1 }, "+=10");
 			tl.to(sponsorMainRef.current, { opacity: 1, duration: 1 });
 		},
 	}));

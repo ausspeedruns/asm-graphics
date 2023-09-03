@@ -1,9 +1,9 @@
 // From jr-layouts by Hoishin https://github.com/JapaneseRestream/jr-layouts
 // Slightly modified by Ewan Lyon
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Text = styled.div`
 	white-space: nowrap;
@@ -11,7 +11,7 @@ export const Text = styled.div`
 `;
 
 const renderTextWithLineBreaks = (text: string) => {
-	const lines = text.split('\\n');
+	const lines = text.split("\\n");
 	return lines.map((line, index) => (
 		<React.Fragment key={index}>
 			{line}
@@ -25,7 +25,7 @@ interface Props {
 	style?: React.CSSProperties;
 	className?: string;
 	allowNewlines?: boolean;
-	alignment?: 'centre' | 'left' | 'right';
+	alignment?: "centre" | "left" | "right";
 }
 
 export const FitText: React.FunctionComponent<Props> = React.memo((props: Props) => {
@@ -48,18 +48,18 @@ export const FitText: React.FunctionComponent<Props> = React.memo((props: Props)
 		text.style.transform = newTransform;
 	});
 
-	let justifyContent = 'center';
-	let transformOrigin = 'center';
+	let justifyContent = "center";
+	let transformOrigin = "center";
 	switch (props.alignment) {
-		case 'left':
-			justifyContent = 'left';
-			transformOrigin = 'left';
+		case "left":
+			justifyContent = "left";
+			transformOrigin = "left";
 			break;
-		case 'right':
-			justifyContent = 'right';
-			transformOrigin = 'right';
+		case "right":
+			justifyContent = "right";
+			transformOrigin = "right";
 			break;
-		case 'centre':
+		case "centre":
 		default:
 			break;
 	}
@@ -67,13 +67,14 @@ export const FitText: React.FunctionComponent<Props> = React.memo((props: Props)
 	return (
 		<div
 			className={props.className}
-			style={{ display: 'flex', justifyContent: justifyContent, ...props.style }}
-			ref={containerRef}>
+			style={{ display: "flex", justifyContent: justifyContent, ...props.style }}
+			ref={containerRef}
+		>
 			<Text ref={textRef} style={{ transformOrigin: transformOrigin }}>
-				{props.allowNewlines ? renderTextWithLineBreaks(props.text) : props.text.replaceAll('\\n', ' ')}
+				{props.allowNewlines ? renderTextWithLineBreaks(props.text) : props.text.replaceAll("\\n", " ")}
 			</Text>
 		</div>
 	);
 });
 
-FitText.displayName = 'FitText';
+FitText.displayName = "FitText";

@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const OrangeStripeContainer = styled.div`
 	display: flex;
@@ -8,22 +8,18 @@ const OrangeStripeContainer = styled.div`
 const BigStripe = styled.div`
 	background: var(--asm-orange);
 
-	height: ${(props: Props) =>
-		props.side === 'top' || props.side === 'bottom' ? '20px' : '100%'};
-	width: ${(props: Props) =>
-		props.side === 'top' || props.side === 'bottom' ? '100%' : '20px'};
+	height: ${(props: Props) => (props.side === "top" || props.side === "bottom" ? "20px" : "100%")};
+	width: ${(props: Props) => (props.side === "top" || props.side === "bottom" ? "100%" : "20px")};
 `;
 
 const SmallStripe = styled(BigStripe)`
 	background: var(--asm-orange);
-	height: ${(props: Props) =>
-		props.side === 'top' || props.side === 'bottom' ? '4px' : '100%'};
-	width: ${(props: Props) =>
-		props.side === 'top' || props.side === 'bottom' ? '100%' : '4px'};
+	height: ${(props: Props) => (props.side === "top" || props.side === "bottom" ? "4px" : "100%")};
+	width: ${(props: Props) => (props.side === "top" || props.side === "bottom" ? "100%" : "4px")};
 `;
 
 interface Props {
-	side: 'top' | 'right' | 'bottom' | 'left';
+	side: "top" | "right" | "bottom" | "left";
 	style?: React.CSSProperties;
 	className?: string;
 }
@@ -32,25 +28,25 @@ export const OrangeStripe: React.FC<Props> = (props: Props) => {
 	let flexDirection: React.CSSProperties = {};
 	let bigStripeStyle: React.CSSProperties = {};
 	switch (props.side) {
-		case 'top':
-			flexDirection = {flexDirection: 'column-reverse', width: '100%'};
-			bigStripeStyle = {marginBottom: 8}
+		case "top":
+			flexDirection = { flexDirection: "column-reverse", width: "100%" };
+			bigStripeStyle = { marginBottom: 8 };
 			break;
-		case 'right':
-			flexDirection = {flexDirection: 'row', height: '100%'};
-			bigStripeStyle = {marginLeft: 8}
+		case "right":
+			flexDirection = { flexDirection: "row", height: "100%" };
+			bigStripeStyle = { marginLeft: 8 };
 			break;
-		case 'bottom':
-			flexDirection = {flexDirection: 'column', width: '100%'};
-			bigStripeStyle = {marginTop: 8}
+		case "bottom":
+			flexDirection = { flexDirection: "column", width: "100%" };
+			bigStripeStyle = { marginTop: 8 };
 			break;
-		case 'left':
-			flexDirection = {flexDirection: 'row-reverse', height: '100%'};
-			bigStripeStyle = {marginRight: 8}
+		case "left":
+			flexDirection = { flexDirection: "row-reverse", height: "100%" };
+			bigStripeStyle = { marginRight: 8 };
 			break;
 		default:
-			flexDirection = {flexDirection: 'row'};
-			bigStripeStyle = {marginTop: 8}
+			flexDirection = { flexDirection: "row" };
+			bigStripeStyle = { marginTop: 8 };
 			break;
 	}
 	return (

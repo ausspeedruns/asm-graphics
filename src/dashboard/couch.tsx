@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
 
-import { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import { CouchPerson } from "@asm-graphics/types/OverlayProps";
 
 import {
 	Button,
@@ -14,20 +14,24 @@ import {
 	SelectChangeEvent,
 	TextField,
 	ThemeProvider,
-} from '@mui/material';
-import { Add, Remove } from '@mui/icons-material';
-import { darkTheme } from './theme';
-import { OBSAudioIndicator } from '@asm-graphics/types/Audio';
+} from "@mui/material";
+import { Add, Remove } from "@mui/icons-material";
+import { darkTheme } from "./theme";
+import { OBSAudioIndicator } from "@asm-graphics/types/Audio";
 
 const GreenButton = styled(Button)`
 	background-color: #4caf50 !important;
 	color: #fff !important;
-	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+	box-shadow:
+		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
 		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		background-color: #00e676 !important;
-		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		box-shadow:
+			0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+			0px 4px 5px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 	}
 
@@ -41,12 +45,16 @@ const GreenButton = styled(Button)`
 const RedButton = styled(Button)`
 	background-color: #f44336 !important;
 	min-width: 0px !important;
-	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+	box-shadow:
+		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
 		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		background-color: #ff5252 !important;
-		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		box-shadow:
+			0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+			0px 4px 5px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 	}
 `;
@@ -68,13 +76,13 @@ const TextfieldStyled = styled(TextField)`
 `;
 
 export const DashCouch: React.FC = () => {
-	const [localHostName, setLocalHostName] = useState('');
-	const [localHostPronoun, setLocalHostPronoun] = useState('');
+	const [localHostName, setLocalHostName] = useState("");
+	const [localHostPronoun, setLocalHostPronoun] = useState("");
 	const [localAudioGate, setLocalAudioGate] = useState(-25);
-	const [couchNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
-	const [obsInputsRep] = useReplicant<string[]>('obs-audio-inputs', []);
-	const [obsGateRep] = useReplicant<number>('obs-audio-gate', -25);
-	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>('obs-audio-indicator', []);
+	const [couchNamesRep] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [obsInputsRep] = useReplicant<string[]>("obs-audio-inputs", []);
+	const [obsGateRep] = useReplicant<number>("obs-audio-gate", -25);
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>("obs-audio-indicator", []);
 
 	useEffect(() => {
 		setLocalAudioGate(obsGateRep);
@@ -91,20 +99,23 @@ export const DashCouch: React.FC = () => {
 	const addHost = () => {
 		let newNamesArray: CouchPerson[];
 		if (couchNamesRep.length > 0) {
-			newNamesArray = [...couchNamesRep, { id: Date.now().toString(), name: localHostName, pronouns: localHostPronoun }];
+			newNamesArray = [
+				...couchNamesRep,
+				{ id: Date.now().toString(), name: localHostName, pronouns: localHostPronoun },
+			];
 		} else {
-			newNamesArray = [{ id:  Date.now().toString(), name: localHostName, pronouns: localHostPronoun }];
+			newNamesArray = [{ id: Date.now().toString(), name: localHostName, pronouns: localHostPronoun }];
 		}
 
-		nodecg.sendMessage('update-hostnames', newNamesArray);
+		nodecg.sendMessage("update-hostnames", newNamesArray);
 
-		setLocalHostName('');
-		setLocalHostPronoun('');
+		setLocalHostName("");
+		setLocalHostPronoun("");
 	};
 
 	const updateAudioGate = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocalAudioGate(event.target.valueAsNumber);
-		nodecg.sendMessage('update-obs-gate', event.target.valueAsNumber);
+		nodecg.sendMessage("update-obs-gate", event.target.valueAsNumber);
 	};
 
 	const allHostNames = couchNamesRep.map((person, index) => {
@@ -122,33 +133,34 @@ export const DashCouch: React.FC = () => {
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<div style={{ position: 'relative' }}>
-				<div style={{ display: 'flex', gap: 8 }}>
+			<div style={{ position: "relative" }}>
+				<div style={{ display: "flex", gap: 8 }}>
 					<TextfieldStyled fullWidth label="Name" value={localHostName} onChange={handleChange} />
 				</div>
-				<div style={{ display: 'flex' }}>
+				<div style={{ display: "flex" }}>
 					<TextfieldStyled
 						style={{ flexShrink: 1 }}
 						label="Pronouns"
 						value={localHostPronoun}
 						onChange={handlePronounChange}
 					/>
-					<Button onClick={() => setLocalHostPronoun('He/Him')}>He/Him</Button>
-					<Button onClick={() => setLocalHostPronoun('She/Her')}>She/Her</Button>
-					<Button onClick={() => setLocalHostPronoun('They/Them')}>They/Them</Button>
+					<Button onClick={() => setLocalHostPronoun("He/Him")}>He/Him</Button>
+					<Button onClick={() => setLocalHostPronoun("She/Her")}>She/Her</Button>
+					<Button onClick={() => setLocalHostPronoun("They/Them")}>They/Them</Button>
 				</div>
 				<div>
-					<GreenButton fullWidth startIcon={<Add />} onClick={addHost} disabled={localHostName === ''}>
+					<GreenButton fullWidth startIcon={<Add />} onClick={addHost} disabled={localHostName === ""}>
 						Add Host
 					</GreenButton>
 				</div>
 				<div
 					style={{
-						display: 'flex',
-						flexDirection: 'column',
+						display: "flex",
+						flexDirection: "column",
 						gap: 5,
 						marginTop: 5,
-					}}>
+					}}
+				>
 					{allHostNames}
 				</div>
 				{/* <div style={{ marginTop: 16 }}>
@@ -203,7 +215,7 @@ interface HostComponentProps {
 }
 
 const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) => {
-	const [input, setInput] = useState('');
+	const [input, setInput] = useState("");
 
 	useEffect(() => {
 		if (props.audioIndicator) setInput(props.audioIndicator.inputName);
@@ -211,20 +223,20 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 
 	const removeName = () => {
 		if (props.preview) {
-			nodecg.sendMessage('remove-preview-hostname', props.index);
+			nodecg.sendMessage("remove-preview-hostname", props.index);
 		} else {
-			nodecg.sendMessage('remove-hostname', props.index);
-			nodecg.sendMessage('remove-obs-audio', props.person);
+			nodecg.sendMessage("remove-hostname", props.index);
+			nodecg.sendMessage("remove-obs-audio", props.person);
 		}
 	};
 
 	const updateObsIndicator = (event: SelectChangeEvent<string>) => {
 		setInput(event.target.value);
 
-		if (event.target.value === '') {
-			nodecg.sendMessage('remove-obs-audio', props.person.name);
+		if (event.target.value === "") {
+			nodecg.sendMessage("remove-obs-audio", props.person.name);
 		} else {
-			nodecg.sendMessage('update-obs-audio', { id: props.person.name, inputName: event.target.value });
+			nodecg.sendMessage("update-obs-audio", { id: props.person.name, inputName: event.target.value });
 		}
 	};
 
@@ -239,7 +251,7 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 		<HostComponentContainer>
 			{props.host && <IsHost>HOST</IsHost>}
 			<HostName>
-				{props.person.name === '' ? <i style={{ fontWeight: 'lighter' }}>No Host</i> : props.person.name}
+				{props.person.name === "" ? <i style={{ fontWeight: "lighter" }}>No Host</i> : props.person.name}
 			</HostName>
 			<Pronoun>{props.person.pronouns}</Pronoun>
 			{props.inputs && (
@@ -250,8 +262,9 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 						id={`obs-input-${props.index}`}
 						value={input}
 						label="Audio Input"
-						onChange={updateObsIndicator}>
-						<MenuItem key={props.index} value={''}>
+						onChange={updateObsIndicator}
+					>
+						<MenuItem key={props.index} value={""}>
 							<i>None</i>
 						</MenuItem>
 						{AudioInputOptions}
@@ -260,7 +273,7 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 			)}
 
 			{!props.host && (
-				<RedButton style={{ alignSelf: 'flex-end' }} onClick={removeName}>
+				<RedButton style={{ alignSelf: "flex-end" }} onClick={removeName}>
 					<Remove />
 				</RedButton>
 			)}
@@ -268,4 +281,4 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<DashCouch />);
+createRoot(document.getElementById("root")!).render(<DashCouch />);

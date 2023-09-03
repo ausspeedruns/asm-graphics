@@ -1,60 +1,61 @@
-import type NodeCG from '@nodecg/types';
-import type { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
-import * as nodecgApiContext from './nodecg-api-context';
+import type NodeCG from "@nodecg/types";
+import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
+import * as nodecgApiContext from "./nodecg-api-context";
 
-let ncgConfig: NodeCG.ServerAPI<ConfigSchema>['bundleConfig'];
+let ncgConfig: NodeCG.ServerAPI<ConfigSchema>["bundleConfig"];
 
 module.exports = (nodecg: NodeCG.ServerAPI<ConfigSchema>) => {
 	// Store a reference to this nodecg API context in a place where other libs can easily access it.
 	// This must be done before any other files are `require`d.
 	nodecgApiContext.set(nodecg);
 	ncgConfig = nodecg.bundleConfig;
-	init().then(() => {
-		nodecg.log.info('Initialization successful.');
-	}).catch(error => {
-		nodecg.log.error('Failed to initialize:', error);
-	});
+	init()
+		.then(() => {
+			nodecg.log.info("Initialization successful.");
+		})
+		.catch((error) => {
+			nodecg.log.error("Failed to initialize:", error);
+		});
 };
 
 async function init() {
 	const nodecg = nodecgApiContext.get();
-	require('./replicants');
+	require("./replicants");
 
 	// The order of these is literally just the chronological order of when they were made, a.k.a the best way to watch Star Wars
 
 	if (ncgConfig.obs.enabled) {
 		// require('./util/obs');
-		require('./obs-local');
+		require("./obs-local");
 	}
 
-	require('./couch');
+	require("./couch");
 
 	if (ncgConfig.twitter.enabled) {
-		require('./twitter');
-		require('./util/twitter');
+		require("./twitter");
+		require("./util/twitter");
 	} else {
-		nodecg.log.info('Twitter not enabled. Showing tweets will not work');
+		nodecg.log.info("Twitter not enabled. Showing tweets will not work");
 	}
 
 	if (ncgConfig?.tiltify?.enabled) {
 		// require('./donations/tiltify');
-		require('./donations/tiltify-v5');
+		require("./donations/tiltify-v5");
 	}
 
-	require('./incentives');
-	require('./staff-messages');
-	require('./donations');
-	require('./schedule-import');
-	require('./ausspeedruns-website');
+	require("./incentives");
+	require("./staff-messages");
+	require("./donations");
+	require("./schedule-import");
+	require("./ausspeedruns-website");
 
 	if (ncgConfig.x32?.enabled) {
-		require('./x32-audio');
+		require("./x32-audio");
 	}
 
-	require('./runner-tablet');
+	require("./runner-tablet");
 
-	if (ncgConfig.asmm?.enabled)
-	{
-		require('./asmm');
+	if (ncgConfig.asmm?.enabled) {
+		require("./asmm");
 	}
 }

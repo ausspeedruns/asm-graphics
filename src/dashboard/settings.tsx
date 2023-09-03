@@ -1,11 +1,11 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
-import { GreenButton, RedButton } from './elements/styled-ui';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
+import { GreenButton, RedButton } from "./elements/styled-ui";
 
-import { Checkbox, FormControlLabel, FormGroup, TextField, ThemeProvider } from '@mui/material';
-import { darkTheme } from './theme';
-import { useReplicant } from 'use-nodecg';
+import { Checkbox, FormControlLabel, FormGroup, TextField, ThemeProvider } from "@mui/material";
+import { darkTheme } from "./theme";
+import { useReplicant } from "use-nodecg";
 
 const Row = styled.div`
 	display: flex;
@@ -14,18 +14,18 @@ const Row = styled.div`
 `;
 
 export const Settings: React.FC = () => {
-	const [creditsNameRep, setCreditsNameRep] = useReplicant<{ name: string; title: string }>('credits-name', {
-		name: '',
-		title: '',
+	const [creditsNameRep, setCreditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name", {
+		name: "",
+		title: "",
 	});
-	const [specialAudio, setSpecialAudio] = useReplicant<boolean>('SPECIAL_AUDIO', false);
+	const [specialAudio, setSpecialAudio] = useReplicant<boolean>("SPECIAL_AUDIO", false);
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage('start-credits')}>
+			<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage("start-credits")}>
 				Run Credits
 			</GreenButton>
-			<hr style={{ margin: '24px 0' }} />
+			<hr style={{ margin: "24px 0" }} />
 			<Row>
 				<TextField
 					fullWidth
@@ -41,25 +41,27 @@ export const Settings: React.FC = () => {
 				/>
 			</Row>
 			<Row>
-				<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage('show-lowerthird')}>
+				<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage("show-lowerthird")}>
 					Show Lowerthird
 				</GreenButton>
-				<RedButton variant="contained" fullWidth onClick={() => nodecg.sendMessage('hide-lowerthird')}>
+				<RedButton variant="contained" fullWidth onClick={() => nodecg.sendMessage("hide-lowerthird")}>
 					Hide Lowerthird
 				</RedButton>
 			</Row>
-			<hr style={{ margin: '24px 0' }} />
+			<hr style={{ margin: "24px 0" }} />
 			<Row>
 				<GreenButton
 					variant="contained"
 					fullWidth
-					onClick={() => nodecg.sendMessage('show-acknowledgementofcountry')}>
+					onClick={() => nodecg.sendMessage("show-acknowledgementofcountry")}
+				>
 					Show AoC
 				</GreenButton>
 				<RedButton
 					variant="contained"
 					fullWidth
-					onClick={() => nodecg.sendMessage('hide-acknowledgementofcountry')}>
+					onClick={() => nodecg.sendMessage("hide-acknowledgementofcountry")}
+				>
 					Hide AoC
 				</RedButton>
 			</Row>
@@ -67,10 +69,7 @@ export const Settings: React.FC = () => {
 				<FormGroup>
 					<FormControlLabel
 						control={
-							<Checkbox
-								checked={specialAudio}
-								onChange={(e) => setSpecialAudio(e.target.checked)}
-							/>
+							<Checkbox checked={specialAudio} onChange={(e) => setSpecialAudio(e.target.checked)} />
 						}
 						label="SPECIAL AUDIO NO TOUCHY TOUCHY"
 					/>
@@ -80,4 +79,4 @@ export const Settings: React.FC = () => {
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<Settings />);
+createRoot(document.getElementById("root")!).render(<Settings />);

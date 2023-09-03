@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 function useCurrentTime(updateInterval = 1000) {
-  const [time, setTime] = useState(new Date());
+	const [time, setTime] = useState(new Date());
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTime(new Date());
-    }, updateInterval);
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			setTime(new Date());
+		}, updateInterval);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+		return () => {
+			clearInterval(intervalId);
+		};
+	}, []);
 
-  return time;
+	return time;
 }
 
 export default useCurrentTime;

@@ -1,36 +1,36 @@
-import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { createRoot } from 'react-dom/client';
-import clone from 'clone';
-import { useListenFor, useReplicant } from 'use-nodecg';
-import gsap from 'gsap';
-import { format } from 'date-fns';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
+import styled, { keyframes } from "styled-components";
+import { createRoot } from "react-dom/client";
+import clone from "clone";
+import { useListenFor, useReplicant } from "use-nodecg";
+import gsap from "gsap";
+import { format } from "date-fns";
 
-import { RunDataArray, RunDataActiveRun } from '@asm-graphics/types/RunData';
-import { Tweet as ITweet } from '@asm-graphics/types/Twitter';
-import { CouchPerson } from '@asm-graphics/types/OverlayProps';
-import type NodeCG from '@nodecg/types';
+import { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
+import { Tweet as ITweet } from "@asm-graphics/types/Twitter";
+import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import type NodeCG from "@nodecg/types";
 
-import { InterCTA } from './elements/intermission/cta';
-import { InterIncentives } from './elements/intermission/incentives';
-import { InterIncentivesFallback } from './elements/intermission/incentives-fallback';
-import { InterNextRunItem, EndRunItem } from './elements/intermission/next-run-item';
-import Mic from '@mui/icons-material/Mic';
+import { InterCTA } from "./elements/intermission/cta";
+import { InterIncentives } from "./elements/intermission/incentives";
+import { InterIncentivesFallback } from "./elements/intermission/incentives-fallback";
+import { InterNextRunItem, EndRunItem } from "./elements/intermission/next-run-item";
+import Mic from "@mui/icons-material/Mic";
 
 // import { SponsorsBox } from './elements/sponsors';
-import { Goal, War } from '@asm-graphics/types/Incentives';
+import { Goal, War } from "@asm-graphics/types/Incentives";
 
 // @ts-ignore
-import Twemoji from 'react-twemoji';
-import _ from 'underscore';
+import Twemoji from "react-twemoji";
+import _ from "underscore";
 
 // Assets
-import MusicIconImg from './media/MusicIcon.svg';
-import ASM23Right from './media/ASM23/intermission-right.png';
-import ASM23Left from './media/ASM23/intermission-left.png';
-import EventLogo from './media/ASM23/logo.png';
-import { Sponsors } from './elements/sponsors';
-import { IntermissionAds, IntermissionAdsRef } from './elements/intermission/ad';
+import MusicIconImg from "./media/MusicIcon.svg";
+import ASM23Right from "./media/ASM23/intermission-right.png";
+import ASM23Left from "./media/ASM23/intermission-left.png";
+import EventLogo from "./media/ASM23/logo.png";
+import { Sponsors } from "./elements/sponsors";
+import { IntermissionAds, IntermissionAdsRef } from "./elements/intermission/ad";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -107,7 +107,7 @@ const IncentiveBlock = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	clip-path: path('M 120 0 V 120 H 80 V 200 H 880 V 120 H 840 V 0 Z');
+	clip-path: path("M 120 0 V 120 H 80 V 200 H 880 V 120 H 840 V 0 Z");
 	/* clip-path: path('M 120 0 V 40 H 80 V 80 H 40 V 200 H 920 V 80 H 880 V 40 H 840 V 0 Z'); */
 `;
 
@@ -234,24 +234,24 @@ const CameraBox = styled.div`
 `;
 
 export const Intermission: React.FC = () => {
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>('assets:sponsors', []);
-	const [incentivesRep] = useReplicant<(Goal | War)[]>('incentives', []);
-	const [runDataArrayRep] = useReplicant<RunDataArray>('runDataArray', [], { namespace: 'nodecg-speedcontrol' });
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", []);
+	const [incentivesRep] = useReplicant<(Goal | War)[]>("incentives", []);
+	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", [], { namespace: "nodecg-speedcontrol" });
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [hostName] = useReplicant<CouchPerson[]>('couch-names', []);
-	const [donationRep] = useReplicant<number>('donationTotal', 100);
-	const [manualDonationRep] = useReplicant<number>('manual-donation-total', 0);
-	const [asmmRep] = useReplicant<number>('asmm:totalKM', 0);
+	const [hostName] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [donationRep] = useReplicant<number>("donationTotal", 100);
+	const [manualDonationRep] = useReplicant<number>("manual-donation-total", 0);
+	const [asmmRep] = useReplicant<number>("asmm:totalKM", 0);
 
 	const intermissionRef = useRef<IntermissionRef>(null);
 
-	useListenFor('showTweet', (newVal: ITweet) => {
+	useListenFor("showTweet", (newVal: ITweet) => {
 		if (intermissionRef.current) intermissionRef.current.showTweet(newVal);
 	});
 
-	useListenFor('playAd', (newVal: string) => {
+	useListenFor("playAd", (newVal: string) => {
 		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
 	});
 
@@ -286,17 +286,17 @@ interface IntermissionProps {
 }
 
 export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps>((props, ref) => {
-	const [currentTime, setCurrentTime] = useState('00:00:00');
-	const [currentSong, setCurrentSong] = useState('');
+	const [currentTime, setCurrentTime] = useState("00:00:00");
+	const [currentSong, setCurrentSong] = useState("");
 	const [showMarquee, setShowMarquee] = useState(false);
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>('assets:sponsors', []);
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", []);
 	const songEl = useRef<HTMLSpanElement>(null);
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const bottomBlockRef = useRef<HTMLDivElement>(null);
 	const adsRef = useRef<IntermissionAdsRef>(null);
 
 	async function getCurrentSong() {
-		const song = await fetch('https://rainwave.cc/api4/info_all?sid=2', { method: 'GET' });
+		const song = await fetch("https://rainwave.cc/api4/info_all?sid=2", { method: "GET" });
 		const songJson = await song.json();
 		setCurrentSong(
 			`${songJson.all_stations_info[2].title} – ${songJson.all_stations_info[2].artists} – ${songJson.all_stations_info[2].album}`,
@@ -305,10 +305,10 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	useEffect(() => {
 		getCurrentSong();
-		setCurrentTime(format(new Date(), 'E do MMM – h:mm:ss a'));
+		setCurrentTime(format(new Date(), "E do MMM – h:mm:ss a"));
 
 		const interval = setInterval(() => {
-			setCurrentTime(format(new Date(), 'E do MMM – h:mm:ss a'));
+			setCurrentTime(format(new Date(), "E do MMM – h:mm:ss a"));
 		}, 1000);
 		const songInterval = setInterval(() => {
 			getCurrentSong();
@@ -330,22 +330,22 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 		showAd(ad) {
 			let adDuration = 0;
 			switch (ad) {
-				case 'HyperX':
+				case "HyperX":
 					adDuration = 30;
 					break;
-				case 'Elgato_GreenScreen':
+				case "Elgato_GreenScreen":
 					adDuration = 30;
 					break;
-				case 'Elgato_KeyLight':
+				case "Elgato_KeyLight":
 					adDuration = 45;
 					break;
-				case 'Elgato_WaveDX':
+				case "Elgato_WaveDX":
 					adDuration = 20;
 					break;
-				case 'Elgato_WaveMicArm':
+				case "Elgato_WaveMicArm":
 					adDuration = 53;
 					break;
-				case 'GOC':
+				case "GOC":
 					adDuration = 43;
 					break;
 				default:
@@ -362,7 +362,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					duration: 5,
 					onUpdate: () => {
 						if (!audioRef.current) return;
-						const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;
+						const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
 						audioRef.current.volume = parseFloat(dummyElPos.toString());
 					},
 				});
@@ -374,7 +374,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						duration: 5,
 						onUpdate: () => {
 							if (!audioRef.current) return;
-							const dummyElPos = gsap.getProperty(audioRef.current, 'x') ?? 0;
+							const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
 							audioRef.current.volume = parseFloat(dummyElPos.toString());
 						},
 					},
@@ -407,19 +407,19 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			{/* <ClippedBackground>
 			</ClippedBackground> */}
 			<Half>
-				<IntermissionAds ref={adsRef} style={{ position: 'absolute', left: 120, top: 40 }} />
+				<IntermissionAds ref={adsRef} style={{ position: "absolute", left: 120, top: 40 }} />
 				<CameraBox />
-				<img style={{ position: 'absolute', bottom: 0 }} src={ASM23Left} />
+				<img style={{ position: "absolute", bottom: 0 }} src={ASM23Left} />
 				<LocationBug>
-					<img src={EventLogo} style={{ width: 'auto', height: '80px' }} />
-					<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-						<span style={{ fontWeight: 'bold', marginBottom: -17 }}>Adelaide</span>
+					<img src={EventLogo} style={{ width: "auto", height: "80px" }} />
+					<div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+						<span style={{ fontWeight: "bold", marginBottom: -17 }}>Adelaide</span>
 						<span>South Australia</span>
 					</div>
 				</LocationBug>
 			</Half>
-			<Half style={{ background: 'var(--main)' }}>
-				<img style={{ position: 'absolute' }} src={ASM23Right} />
+			<Half style={{ background: "var(--main)" }}>
+				<img style={{ position: "absolute" }} src={ASM23Right} />
 				<NextRuns>
 					<Time>{currentTime}</Time>
 					<RunsList>
@@ -427,7 +427,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						<FutureRuns>{RunsArray}</FutureRuns>
 					</RunsList>
 				</NextRuns>
-				<InterCTA donation={props.donation} style={{ zIndex: 1, position: 'absolute', top: 336 }} />
+				<InterCTA donation={props.donation} style={{ zIndex: 1, position: "absolute", top: 336 }} />
 				<MiddleContent>
 					<IncentiveBlock>
 						{props.incentives && props.incentives.length > 0 ? (
@@ -439,34 +439,36 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				</MiddleContent>
 				<div
 					style={{
-						width: '100%',
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						position: 'absolute',
+						width: "100%",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						position: "absolute",
 						bottom: 100,
-					}}>
+					}}
+				>
 					<Sponsors sponsors={sponsorsRep} style={{ width: 600, height: 160 }} />
 				</div>
 				<BottomBlock ref={bottomBlockRef}>
 					{props.host && (
 						<HostName>
-							<Mic style={{ height: '2.5rem', width: '2.5rem' }} />
+							<Mic style={{ height: "2.5rem", width: "2.5rem" }} />
 							{props.host.name}
 							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
 						</HostName>
 					)}
 					<Music>
 						<audio
-							style={{ transform: 'translate(100px, 0px)' }}
+							style={{ transform: "translate(100px, 0px)" }}
 							id="intermission-music"
 							autoPlay
 							preload="auto"
 							muted={props.muted}
-							ref={audioRef}>
+							ref={audioRef}
+						>
 							<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 						</audio>
-						<div style={{ display: 'flex' }}>
+						<div style={{ display: "flex" }}>
 							<MusicIcon src={MusicIconImg} />
 							<MusicLabel>
 								<MusicMarquee style={{ opacity: showMarquee ? 1 : 0 }}>
@@ -487,4 +489,4 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	);
 });
 
-createRoot(document.getElementById('root')!).render(<Intermission />);
+createRoot(document.getElementById("root")!).render(<Intermission />);

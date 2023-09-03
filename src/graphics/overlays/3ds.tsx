@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { OverlayProps } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { WideInfo, IWideStyling } from '../elements/info-box/wide';
-import { Facecam } from '../elements/facecam';
+import { WideInfo, IWideStyling } from "../elements/info-box/wide";
+import { Facecam } from "../elements/facecam";
 
 const ThreeDSContainer = styled.div`
 	height: 1016px;

@@ -1,12 +1,12 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { IWideStyling, WideInfo } from '../elements/info-box/wide';
-import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
-import { Facecam } from '../elements/facecam';
-import { Couch } from '../elements/couch';
+import { IWideStyling, WideInfo } from "../elements/info-box/wide";
+import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { Facecam } from "../elements/facecam";
+import { Couch } from "../elements/couch";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -32,7 +32,7 @@ const SponsorsBoxS = styled(SponsorsBox)`
 `;
 
 const SidebarBG = styled.div`
-	background-image: url('../shared/design/contour-maps/widescreen-1-bottom.svg');
+	background-image: url("../shared/design/contour-maps/widescreen-1-bottom.svg");
 	background-size: cover;
 	background-position: center;
 	display: flex;
@@ -74,11 +74,7 @@ export const Widescreen1610 = forwardRef<OverlayRef, OverlayProps>((props, ref) 
 			<WideInfo timer={props.timer} runData={props.runData} style={customWideStyling} />
 
 			<Sidebar>
-				<Facecam
-					height={401}
-					teams={props.runData?.teams}
-					audioIndicator={props.obsAudioIndicator}
-				/>
+				<Facecam height={401} teams={props.runData?.teams} audioIndicator={props.obsAudioIndicator} />
 				<SidebarBG>
 					<Couch couch={props.couchInformation} />
 					<SponsorsBoxS

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
 
-import { darkTheme } from './theme';
-import { Checkbox, FormControlLabel, ThemeProvider } from '@mui/material';
+import { darkTheme } from "./theme";
+import { Checkbox, FormControlLabel, ThemeProvider } from "@mui/material";
 
 const SpecialOBSContainer = styled.div``;
 
@@ -11,7 +11,7 @@ export const SpecialOBS: React.FC = () => {
 	const [widescreen3p, setWidescreen3p] = useState(false);
 
 	const widescreen3pHandler = (_e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-		nodecg.sendMessage('widescreen3p-mask', checked);
+		nodecg.sendMessage("widescreen3p-mask", checked);
 		setWidescreen3p(checked);
 	};
 
@@ -28,4 +28,4 @@ export const SpecialOBS: React.FC = () => {
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<SpecialOBS />);
+createRoot(document.getElementById("root")!).render(<SpecialOBS />);

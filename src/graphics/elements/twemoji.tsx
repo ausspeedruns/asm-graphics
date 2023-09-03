@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import twemoji from 'twemoji';
+import React, { useEffect, useState } from "react";
+import twemoji from "twemoji";
 
 interface Props {
 	noWrapper?: boolean;
@@ -31,11 +31,11 @@ const Twemoji = React.forwardRef((props: Props, ref) => {
 		return (
 			<>
 				{React.Children.map(props.children, (c, i) => {
-					if (typeof c === 'string') {
+					if (typeof c === "string") {
 						console.warn(`Twemoji can't parse string child when noWrapper is set. Skipping child "${c}"`);
 						return c;
 					}
-					
+
 					newChildrenRefs[i] = childrenRefs[i] || React.createRef();
 					setChildrenRefs(newChildrenRefs);
 					return React.cloneElement(c as React.ReactElement, { ref: childrenRefs[i] });
@@ -43,7 +43,7 @@ const Twemoji = React.forwardRef((props: Props, ref) => {
 			</>
 		);
 	} else {
-		return React.createElement(props.tag || 'div', { ref }, props.children);
+		return React.createElement(props.tag || "div", { ref }, props.children);
 	}
 });
 

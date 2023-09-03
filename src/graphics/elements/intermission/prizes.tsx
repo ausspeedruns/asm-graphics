@@ -1,8 +1,8 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
-import styled from 'styled-components';
+import React, { useImperativeHandle, useRef, useState } from "react";
+import styled from "styled-components";
 
-import { TickerItemHandles } from './incentives';
-import { FitText } from '../fit-text';
+import { TickerItemHandles } from "./incentives";
+import { FitText } from "../fit-text";
 
 const InterPrizesContainer = styled.div`
 	position: absolute;
@@ -87,7 +87,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.addLabel('warStart');
+			tl.addLabel("warStart");
 			tl.set(containerRef.current, { x: -1000 });
 			tl.to(containerRef.current, { x: 0, duration: 1 });
 
@@ -96,7 +96,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 			}
 
 			// End
-			tl.to(containerRef.current, { x: 1000, duration: 1 }, '-=1');
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, "-=1");
 			tl.set(containerRef.current, { x: -1000, duration: 1 });
 
 			return tl;
@@ -110,7 +110,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 				<PrizePage
 					index="0"
 					donationTotal="$100 Donation"
-					prizes={['Elgato Streamer Packs']}
+					prizes={["Elgato Streamer Packs"]}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[0] = el;
@@ -120,7 +120,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 				<PrizePage
 					index="0"
 					donationTotal="$50 Donation"
-					prizes={['1 night at the Rockford Hotel Superior King Room']}
+					prizes={["1 night at the Rockford Hotel Superior King Room"]}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[1] = el;
@@ -130,7 +130,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 				<PrizePage
 					index="0"
 					donationTotal="$30 Donation"
-					prizes={['Sonic Origins Plus (Switch/PS5)']}
+					prizes={["Sonic Origins Plus (Switch/PS5)"]}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[2] = el;
@@ -140,7 +140,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 				<PrizePage
 					index="0"
 					donationTotal="$20 Donation"
-					prizes={['Heavenly Bodies codes']}
+					prizes={["Heavenly Bodies codes"]}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[3] = el;
@@ -150,7 +150,7 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 				<PrizePage
 					index="0"
 					donationTotal="$10 Donation"
-					prizes={['Speaking Simulator codes']}
+					prizes={["Speaking Simulator codes"]}
 					ref={(el) => {
 						if (el) {
 							prizeRefs.current[4] = el;
@@ -193,21 +193,21 @@ interface GoalProps {
 const PrizePage = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
-	const [animLabel] = useState(props.index + 'a');
+	const [animLabel] = useState(props.index + "a");
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.to(containerRef.current, { x: 0, duration: 1 }, '-=0.5');
+			tl.to(containerRef.current, { x: 0, duration: 1 }, "-=0.5");
 
-			tl.addLabel('idkstagger');
+			tl.addLabel("idkstagger");
 			tl.addLabel(animLabel, `+=${props.prizes.length / 4}`);
 			optionRefs.current.reverse().forEach((optionRef) => {
-				tl.add(optionRef.animation(tl), '-=1');
+				tl.add(optionRef.animation(tl), "-=1");
 			});
 
 			// End
-			tl.to(containerRef.current, { x: 1000, duration: 1 }, '+=10');
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, "+=10");
 			tl.set(containerRef.current, { x: -1000 });
 
 			return tl;
@@ -263,7 +263,7 @@ const PrizeItem = React.forwardRef<TickerItemHandles, PrizeItemProps>((props: Pr
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(containerRef.current, { x: -1000 }, 'warStart');
+			tl.set(containerRef.current, { x: -1000 }, "warStart");
 
 			tl.to(containerRef.current, { x: 0 }, `idkstagger+=${1 - props.index / 4}`);
 			return tl;
@@ -278,6 +278,6 @@ const PrizeItem = React.forwardRef<TickerItemHandles, PrizeItemProps>((props: Pr
 	);
 });
 
-InterPrizes.displayName = 'InterPrizes';
-PrizePage.displayName = 'PrizePage';
-PrizeItem.displayName = 'PrizeItem';
+InterPrizes.displayName = "InterPrizes";
+PrizePage.displayName = "PrizePage";
+PrizeItem.displayName = "PrizeItem";

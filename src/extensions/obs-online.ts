@@ -1,45 +1,54 @@
-import * as nodecgApiContext from './nodecg-api-context';
-import obs from './util/obs';
+import * as nodecgApiContext from "./nodecg-api-context";
+import obs from "./util/obs";
 
-import type { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
-import type { Stream } from '@asm-graphics/types/Streams';
-import type NodeCG from '@nodecg/types';
+import type { CurrentOverlay } from "@asm-graphics/types/CurrentOverlay";
+import type { Stream } from "@asm-graphics/types/Streams";
+import type NodeCG from "@nodecg/types";
 
 const nodecg = nodecgApiContext.get();
 
-const currentOverlayRep = nodecg.Replicant('currentOverlay') as unknown as NodeCG.ServerReplicantWithSchemaDefault<CurrentOverlay>;
-const twitchStreamsRep = nodecg.Replicant('twitchStreams') as unknown as NodeCG.ServerReplicantWithSchemaDefault<Stream[]>;
-const currentSceneRep = nodecg.Replicant('obsCurrentScene') as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
+const currentOverlayRep = nodecg.Replicant(
+	"currentOverlay",
+) as unknown as NodeCG.ServerReplicantWithSchemaDefault<CurrentOverlay>;
+const twitchStreamsRep = nodecg.Replicant("twitchStreams") as unknown as NodeCG.ServerReplicantWithSchemaDefault<
+	Stream[]
+>;
+const currentSceneRep = nodecg.Replicant(
+	"obsCurrentScene",
+) as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
 // const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names');
 // const noCamRep = nodecg.Replicant<NoCam>('no-cam');
 
 // Manual obs connections
-nodecg.listenFor('connectOBS', () => {
-	obs.connect().then(() => {}, (err) => {
-		nodecg.log.error(`[Overlay] Failed to connect to OBS: ${JSON.stringify(err)}`)
-	});
+nodecg.listenFor("connectOBS", () => {
+	obs.connect().then(
+		() => {},
+		(err) => {
+			nodecg.log.error(`[Overlay] Failed to connect to OBS: ${JSON.stringify(err)}`);
+		},
+	);
 });
 
-nodecg.listenFor('disconnectOBS', () => {
+nodecg.listenFor("disconnectOBS", () => {
 	try {
 		obs.disconnect();
 	} catch (error) {
-		nodecg.log.error(`[Overlay] Failed to disconnect to OBS: ${error}`)
+		nodecg.log.error(`[Overlay] Failed to disconnect to OBS: ${error}`);
 	}
 });
 
-nodecg.listenFor('changeOverlayPreview', (newVal: string) => {
+nodecg.listenFor("changeOverlayPreview", (newVal: string) => {
 	currentOverlayRep.value.preview = newVal;
 });
 
 // This should only be used for developer testing purposes
-nodecg.listenFor('changeOverlayLive', (newVal: string) => {
+nodecg.listenFor("changeOverlayLive", (newVal: string) => {
 	currentOverlayRep.value.live = newVal;
 });
 
 // Twitch stream commands, could probably combine these to one since I am logging even hidden ones
-nodecg.listenFor('newTwitchStream', (newVal: Stream) => {
-	const index = twitchStreamsRep.value.findIndex(stream => stream.channel === newVal.channel);
+nodecg.listenFor("newTwitchStream", (newVal: Stream) => {
+	const index = twitchStreamsRep.value.findIndex((stream) => stream.channel === newVal.channel);
 	if (index === -1) {
 		// Add new stream
 		twitchStreamsRep.value.push(newVal);
@@ -47,10 +56,10 @@ nodecg.listenFor('newTwitchStream', (newVal: Stream) => {
 		// Update size
 		twitchStreamsRep.value[index].size = newVal.size;
 
-		if (twitchStreamsRep.value[index].state === 'live') {
-			twitchStreamsRep.value[index].state = 'both';
+		if (twitchStreamsRep.value[index].state === "live") {
+			twitchStreamsRep.value[index].state = "both";
 		} else {
-			twitchStreamsRep.value[index].state = 'preview';
+			twitchStreamsRep.value[index].state = "preview";
 		}
 	}
 
@@ -65,14 +74,14 @@ nodecg.listenFor('newTwitchStream', (newVal: Stream) => {
 	twitchStreamsRep.value = clonedArray;
 });
 
-nodecg.listenFor('removeTwitchStream', (newVal: string) => {
-	const index = twitchStreamsRep.value.findIndex(stream => stream.channel === newVal);
+nodecg.listenFor("removeTwitchStream", (newVal: string) => {
+	const index = twitchStreamsRep.value.findIndex((stream) => stream.channel === newVal);
 	if (index === -1) {
 		nodecg.log.warn(`[OBS] Tried removing Stream ${newVal} but it couldn't be found`);
-	} else if (twitchStreamsRep.value[index].state === 'preview') {
-		twitchStreamsRep.value[index].state = 'hidden';
-	} else if (twitchStreamsRep.value[index].state === 'both') {
-		twitchStreamsRep.value[index].state = 'live';
+	} else if (twitchStreamsRep.value[index].state === "preview") {
+		twitchStreamsRep.value[index].state = "hidden";
+	} else if (twitchStreamsRep.value[index].state === "both") {
+		twitchStreamsRep.value[index].state = "live";
 	}
 });
 
@@ -109,7 +118,6 @@ nodecg.listenFor('removeTwitchStream', (newVal: string) => {
 // 		current: noCamRep.value.preview,
 // 		preview: noCamRep.value.current
 // 	}
-
 
 // 	// Change livestreams
 // 	const liveStreams = twitchStreamsRep.value.map(stream => {
@@ -162,7 +170,6 @@ nodecg.listenFor('removeTwitchStream', (newVal: string) => {
 // 	nodecg.sendMessage('updateAudioMutes');
 // }
 
-
 // Intermission
 // nodecg.listenFor('goToIntermission', () => {
 // 	nodecg.sendMessage('runTransitionGraphic');
@@ -170,29 +177,28 @@ nodecg.listenFor('removeTwitchStream', (newVal: string) => {
 // });
 
 // If a transition is done from OBS
-obs.on('SceneTransitionStarted', () => {
-	nodecg.sendMessage('runTransitionGraphic');
+obs.on("SceneTransitionStarted", () => {
+	nodecg.sendMessage("runTransitionGraphic");
 });
 
 // CURRENT SCENE
 // Change current scene replicant on scene change
-obs.on('CurrentPreviewSceneChanged', () => {
+obs.on("CurrentPreviewSceneChanged", () => {
 	getCurrentScene();
 });
 
 // Set replicant value on connection
-obs.on('ConnectionOpened', () => {
+obs.on("ConnectionOpened", () => {
 	// getCurrentScene();
 });
 
-
 function getCurrentScene() {
 	try {
-		obs.call('GetCurrentProgramScene').then((val) => {
+		obs.call("GetCurrentProgramScene").then((val) => {
 			currentSceneRep.value = val.currentProgramSceneName;
 		});
 	} catch (error) {
-		nodecg.log.error('Could not get the current scene from OBS:', error);
+		nodecg.log.error("Could not get the current scene from OBS:", error);
 	}
 }
 

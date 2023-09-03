@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { OverlayProps } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
-import { SponsorsBox } from '../elements/sponsors';
-import { Facecam } from '../elements/facecam';
-import { Couch } from '../elements/couch';
+import { VerticalInfo, IVerticalStyling } from "../elements/info-box/vertical";
+import { SponsorsBox } from "../elements/sponsors";
+import { Facecam } from "../elements/facecam";
+import { Couch } from "../elements/couch";
 
 const GBCContainer = styled.div`
 	height: 1016px;
@@ -29,7 +29,7 @@ const RightSidebar = styled.div`
 	width: 224px;
 	border-left: 1px solid var(--pax-gold);
 	overflow: hidden;
-	background-image: url('../shared/design/contour-maps/standard.svg');
+	background-image: url("../shared/design/contour-maps/standard.svg");
 	background-size: cover;
 `;
 
@@ -50,7 +50,7 @@ const TwitterSize = {
 };
 
 const InfoBoxBG = styled.div`
-	background-image: url('../shared/design/contour-maps/standard.svg');
+	background-image: url("../shared/design/contour-maps/standard.svg");
 	background-size: cover;
 	background-position: center;
 	display: flex;
@@ -67,17 +67,10 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 	return (
 		<GBCContainer>
 			<Sidebar>
-				<Facecam
-					height={352}
-					teams={props.runData?.teams}
-					audioIndicator={props.obsAudioIndicator}
-				/>
+				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.obsAudioIndicator} />
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
-					<Couch
-						couch={props.couchInformation}
-						audio={props.obsAudioIndicator}
-					/>
+					<Couch couch={props.couchInformation} audio={props.obsAudioIndicator} />
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>

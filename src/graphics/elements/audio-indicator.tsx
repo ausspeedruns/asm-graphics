@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
+import gsap from "gsap";
 
-import { VolumeUp } from '@mui/icons-material';
+import { VolumeUp } from "@mui/icons-material";
 
 const SIZE = 41;
 
@@ -13,7 +13,7 @@ const AudioIndicatorContainer = styled.div`
 const IconBGContainer = styled.div`
 	height: ${SIZE}px;
 	width: ${SIZE}px;
-	background: #FFFFFF;
+	background: #ffffff;
 	color: var(--main);
 	font-size: 30px;
 	display: flex;
@@ -22,7 +22,7 @@ const IconBGContainer = styled.div`
 `;
 
 interface Props {
-	side: 'left' | 'right' | 'top';
+	side: "left" | "right" | "top";
 	active?: boolean;
 	style?: React.CSSProperties;
 	className?: string;
@@ -34,11 +34,11 @@ export const AudioIndicator: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		if (props.active) {
 			gsap.to(containerRef.current, { x: 0, y: 0, duration: 1 });
-		} else if (props.side === 'right') {
+		} else if (props.side === "right") {
 			gsap.to(containerRef.current, { x: -SIZE, duration: 1 });
-		} else if (props.side === 'left') {
+		} else if (props.side === "left") {
 			gsap.to(containerRef.current, { x: SIZE, duration: 1 });
-		} else if (props.side === 'top') {
+		} else if (props.side === "top") {
 			gsap.to(containerRef.current, { y: SIZE, duration: 1 });
 		}
 	}, [props.active, props.side]);
@@ -46,7 +46,7 @@ export const AudioIndicator: React.FC<Props> = (props: Props) => {
 	return (
 		<AudioIndicatorContainer style={props.style} className={props.className}>
 			<IconBGContainer ref={containerRef}>
-				<VolumeUp style={{ fontSize: 'inherit' }} />
+				<VolumeUp style={{ fontSize: "inherit" }} />
 			</IconBGContainer>
 		</AudioIndicatorContainer>
 	);

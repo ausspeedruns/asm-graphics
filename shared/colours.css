@@ -6,7 +6,7 @@ body {
 	--nameplate-lighter: #6fa6b9;
 	--sec: #ffffff;
 	--accent: var(--asm-blue);
-	
+
 	--asm-orange: #cc7722;
 	--asm-blue: #437c90;
 
@@ -22,7 +22,7 @@ body {
 	--tgx-blue: #007eff;
 	--tgx-green: #00c091;
 
-	--main-font: 'Noto Sans';
-	--secondary-font: 'Russo One';
-	--mono-font: 'Noto Sans';
+	--main-font: "Noto Sans";
+	--secondary-font: "Russo One";
+	--mono-font: "Noto Sans";
 }

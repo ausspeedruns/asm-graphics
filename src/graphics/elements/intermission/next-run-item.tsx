@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import { format } from 'date-fns';
+import React from "react";
+import styled from "styled-components";
+import { format } from "date-fns";
 
-import { FitText } from '../fit-text';
+import { FitText } from "../fit-text";
 
-import { RunData } from '@asm-graphics/types/RunData';
-import { NodeCGAPIClient } from '@nodecg/types/client/api/api.client';
-import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
+import { RunData } from "@asm-graphics/types/RunData";
+import { NodeCGAPIClient } from "@nodecg/types/client/api/api.client";
+import { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
 
 const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
 
@@ -108,41 +108,41 @@ export const InterNextRunItem = (props: Props) => {
 	// If more then combine team names and add vs
 	let playerNames;
 	if (props.run.teams.length === 0) {
-		playerNames = '';
+		playerNames = "";
 	} else {
 		playerNames = props.run?.teams
 			.map((team) => {
-				return team.players.map((player) => player.name).join(', ');
+				return team.players.map((player) => player.name).join(", ");
 			})
-			.join(' vs ');
+			.join(" vs ");
 	}
 
 	// Thanks setup block
-	let time = props.run.scheduled ? format(new Date(props.run.scheduled), 'h:mm a') : '--:--';
+	let time = props.run.scheduled ? format(new Date(props.run.scheduled), "h:mm a") : "--:--";
 	// if (props.nextRun) time = 'Up Next';
 
-	let correctedEstimate = props.run.estimate || '';
-	if (correctedEstimate[0] === '0') {
+	let correctedEstimate = props.run.estimate || "";
+	if (correctedEstimate[0] === "0") {
 		correctedEstimate = correctedEstimate.substring(1);
 	}
 
 	if (props.nextRun) {
 		return (
 			<InterNextRunItemContainer>
-				<Time style={{ width: '100%', fontSize: 25, padding: 5, boxSizing: 'border-box' }}>
+				<Time style={{ width: "100%", fontSize: 25, padding: 5, boxSizing: "border-box" }}>
 					Up Next – {time}
 				</Time>
-				<InfoBlock style={{ width: '100%' }}>
-					<GameTitle style={{ fontSize: 40 }} text={props.run.game || ''} />
-					<Category style={{ fontSize: 32, maxWidth: 350 }} text={props.run.category || ''} />
+				<InfoBlock style={{ width: "100%" }}>
+					<GameTitle style={{ fontSize: 40 }} text={props.run.game || ""} />
+					<Category style={{ fontSize: 32, maxWidth: 350 }} text={props.run.category || ""} />
 					<TopText>
-						<span style={{ fontSize: 32, minWidth: 143, textAlign: 'right', maxWidth: '50%' }}>
+						<span style={{ fontSize: 32, minWidth: 143, textAlign: "right", maxWidth: "50%" }}>
 							<span style={{ fontSize: 20 }}>EST </span>
 							{correctedEstimate}
 						</span>
 						<System style={{ fontSize: 32 }}>{props.run.system}</System>
 					</TopText>
-					<Runners style={{ fontSize: 36 }} text={playerNames || ''} />
+					<Runners style={{ fontSize: 36 }} text={playerNames || ""} />
 				</InfoBlock>
 			</InterNextRunItemContainer>
 		);
@@ -151,10 +151,10 @@ export const InterNextRunItem = (props: Props) => {
 			<InterFutureRunItemContainer>
 				<Time>{time}</Time>
 				<InfoBlock>
-					<GameTitle text={props.run.game || ''} />
+					<GameTitle text={props.run.game || ""} />
 					<FutureRunsEstRow>
-						<Category text={props.run.category?.toUpperCase() || ''} />
-						<span style={{ fontSize: 27, minWidth: 130, textAlign: 'right', maxWidth: '50%' }}>
+						<Category text={props.run.category?.toUpperCase() || ""} />
+						<span style={{ fontSize: 27, minWidth: 130, textAlign: "right", maxWidth: "50%" }}>
 							<span style={{ fontSize: 14 }}>EST </span>
 							{correctedEstimate}
 						</span>
@@ -162,7 +162,7 @@ export const InterNextRunItem = (props: Props) => {
 
 					<TopText>
 						<System>{props.run.system}</System>
-						<Runners text={playerNames || ''} />
+						<Runners text={playerNames || ""} />
 					</TopText>
 				</InfoBlock>
 			</InterFutureRunItemContainer>
@@ -188,7 +188,7 @@ export const EndRunItem: React.FC = () => {
 				<b>
 					Thank you for watching
 					<br />
-					{nodecgConfig.graphql?.event ?? ''}!
+					{nodecgConfig.graphql?.event ?? ""}!
 				</b>
 			</span>
 		</EndRunCont>

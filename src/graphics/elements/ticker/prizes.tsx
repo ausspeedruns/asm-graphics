@@ -1,10 +1,10 @@
-import React, { useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
 
-import { TickerItemHandles } from '../ticker';
+import { TickerItemHandles } from "../ticker";
 
-import { TickerItem } from './item';
-import { TickerTitle } from './title';
+import { TickerItem } from "./item";
+import { TickerTitle } from "./title";
 
 const TickerPrizesContainer = styled.div`
 	position: absolute;
@@ -38,13 +38,13 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(prizesRef.current, { right: '' });
+			tl.set(prizesRef.current, { right: "" });
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
-			tl.to(prizesRef.current, { right: 0, ease: "slow(0.999, 0.05, false)", duration: 10 }, '+=5');
+			tl.to(prizesRef.current, { right: 0, ease: "slow(0.999, 0.05, false)", duration: 10 }, "+=5");
 
 			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, '+=5');
+			tl.to(containerRef.current, { y: 64, duration: 1 }, "+=5");
 			tl.set(containerRef.current, { y: -64, duration: 1 });
 
 			return tl;
@@ -53,11 +53,11 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 
 	return (
 		<TickerPrizesContainer ref={containerRef} className={props.className} style={props.style}>
-			<TickerTitle style={{ display: 'flex', flexDirection: 'column', zIndex: 2 }}>
+			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2 }}>
 				<span>Prizes</span>
-				<span style={{ fontWeight: 'lighter', fontSize: 16 }}>AUS Only</span>
+				<span style={{ fontWeight: "lighter", fontSize: 16 }}>AUS Only</span>
 			</TickerTitle>
-			<div style={{width: '100%', position: 'relative'}}>
+			<div style={{ width: "100%", position: "relative" }}>
 				<PrizesScroller ref={prizesRef}>
 					<TickerItem title="3 Elgato Streamer Packs" sub="$100 Donation" />
 					<TickerItem title="1 Rockford Hotel Superior King Room" sub="$50 Donation" />
@@ -70,4 +70,4 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 	);
 });
 
-TickerPrizes.displayName = 'TickerPrizes';
+TickerPrizes.displayName = "TickerPrizes";

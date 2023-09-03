@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { OverlayProps } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { ISmallStyling, SmallInfo } from '../elements/info-box/small';
-import { Facecam } from '../elements/facecam';
+import { ISmallStyling, SmallInfo } from "../elements/info-box/small";
+import { Facecam } from "../elements/facecam";
 
 const DSContainer = styled.div`
 	height: 1016px;
@@ -27,7 +27,7 @@ const DSSecondScreen = styled.div`
 
 const customSmallStyle: ISmallStyling = {
 	mainStyle: {
-		background: 'var(--main)',
+		background: "var(--main)",
 		height: 239,
 	},
 	timerSize: 65,

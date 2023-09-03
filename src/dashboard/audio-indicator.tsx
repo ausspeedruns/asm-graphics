@@ -1,10 +1,19 @@
-import { RunData } from '@asm-graphics/types/RunData';
-import { ThemeProvider, FormControlLabel, RadioGroup, Radio, Checkbox, FormGroup, TextField, Slider } from '@mui/material';
-import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
-import { darkTheme } from './theme';
+import { RunData } from "@asm-graphics/types/RunData";
+import {
+	ThemeProvider,
+	FormControlLabel,
+	RadioGroup,
+	Radio,
+	Checkbox,
+	FormGroup,
+	TextField,
+	Slider,
+} from "@mui/material";
+import React, { useState } from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
+import { darkTheme } from "./theme";
 
 const RadioStyled = styled(Radio)`
 	color: #fff !important;
@@ -16,62 +25,62 @@ const RadioStyled = styled(Radio)`
 const marks = [
 	{
 		value: 1,
-		label: '+10',
+		label: "+10",
 	},
 	{
 		value: 0.876,
-		label: '5',
+		label: "5",
 	},
 	{
 		value: 0.75,
-		label: '0',
+		label: "0",
 	},
 	{
 		value: 0.626,
-		label: '-5',
+		label: "-5",
 	},
 	{
 		value: 0.5,
-		label: '-10',
+		label: "-10",
 	},
 	{
 		value: 0.374,
-		label: '-20',
+		label: "-20",
 	},
 	{
 		value: 0.253,
-		label: '-30',
+		label: "-30",
 	},
 	{
 		value: 0.13,
-		label: '-50',
+		label: "-50",
 	},
 	{
 		value: 0,
-		label: '-∞',
+		label: "-∞",
 	},
 ];
 
 function isNumeric(str: string) {
-	if (typeof str != 'string') return false; // we only process strings!
+	if (typeof str != "string") return false; // we only process strings!
 	return !isNaN(parseFloat(str)); // ...and ensure strings of whitespace fail
 }
 
 export const DashboardAudio: React.FC = () => {
 	const [manualMode, setManualMode] = useState(false);
-	const [audioIndicatorRep, DANGEROUS_setAudioIndicatorRep] = useReplicant<string>('audio-indicator', '');
-	const [swapRunnerMics, DANGEROUS_setSwapRunnerMics] = useReplicant<boolean>('x32:swap-runner-mics', false);
-	const [runDataRep] = useReplicant<RunData | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [audioIndicatorRep, DANGEROUS_setAudioIndicatorRep] = useReplicant<string>("audio-indicator", "");
+	const [swapRunnerMics, DANGEROUS_setSwapRunnerMics] = useReplicant<boolean>("x32:swap-runner-mics", false);
+	const [runDataRep] = useReplicant<RunData | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [audioGateRep, setAudioGateRep] = useReplicant<number>('audio-gate', -5);
-	const [hostLevelRep, setHostLevelRep] = useReplicant<number>('x32:host-level', 0.75);
+	const [audioGateRep, setAudioGateRep] = useReplicant<number>("audio-gate", -5);
+	const [hostLevelRep, setHostLevelRep] = useReplicant<number>("x32:host-level", 0.75);
 
 	function updateAudioIndicator(_event: React.ChangeEvent<HTMLInputElement>, value: string) {
 		if (manualMode) {
 			DANGEROUS_setAudioIndicatorRep(value);
 		} else {
-			nodecg.sendMessage('x32:changeGameAudio', value);
+			nodecg.sendMessage("x32:changeGameAudio", value);
 		}
 	}
 
@@ -86,7 +95,12 @@ export const DashboardAudio: React.FC = () => {
 			{/* TODO MAKE THIS MORE GENERIC/SUPPORT MULTIPLE PEEPS */}
 			<FormGroup>
 				<FormControlLabel
-					control={<Checkbox checked={swapRunnerMics} onChange={(e) => DANGEROUS_setSwapRunnerMics(e.target.checked)} />}
+					control={
+						<Checkbox
+							checked={swapRunnerMics}
+							onChange={(e) => DANGEROUS_setSwapRunnerMics(e.target.checked)}
+						/>
+					}
 					label="Swap runner mics"
 				/>
 			</FormGroup>
@@ -114,7 +128,7 @@ export const DashboardAudio: React.FC = () => {
 				type="number"
 			/>
 			<Slider
-				style={{ margin: 'auto' }}
+				style={{ margin: "auto" }}
 				size="small"
 				value={hostLevelRep ?? 0}
 				onChange={(_, newVal) => {
@@ -127,9 +141,8 @@ export const DashboardAudio: React.FC = () => {
 				step={0.001}
 				marks={marks}
 			/>
-			
 		</ThemeProvider>
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<DashboardAudio />);
+createRoot(document.getElementById("root")!).render(<DashboardAudio />);

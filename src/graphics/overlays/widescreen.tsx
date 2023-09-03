@@ -1,15 +1,15 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { WideInfo } from '../elements/info-box/wide';
-import { Facecam } from '../elements/facecam';
-import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
-import { Couch } from '../elements/couch';
+import { WideInfo } from "../elements/info-box/wide";
+import { Facecam } from "../elements/facecam";
+import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { Couch } from "../elements/couch";
 
-import WidescreenTop from '../media/ASM23/widescreen-top.png';
-import WidescreenBottom from '../media/ASM23/widescreen-bottom.png';
+import WidescreenTop from "../media/ASM23/widescreen-top.png";
+import WidescreenBottom from "../media/ASM23/widescreen-bottom.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -89,7 +89,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 			<TopBar>
 				<img
 					src={WidescreenTop}
-					style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
+					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 				/>
 				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
@@ -105,7 +105,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<SidebarBG>
 					<img
 						src={WidescreenBottom}
-						style={{ position: 'absolute', height: 'auto', width: '100%', top: 0 }}
+						style={{ position: "absolute", height: "auto", width: "100%", top: 0 }}
 					/>
 					<Couch style={{ zIndex: 2 }} couch={props.couchInformation} audio={props.obsAudioIndicator} />
 					<SponsorBoxS
@@ -119,3 +119,5 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		</WidescreenContainer>
 	);
 });
+
+Widescreen.displayName = "Widescreen";

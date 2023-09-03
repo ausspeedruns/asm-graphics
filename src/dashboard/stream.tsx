@@ -1,9 +1,7 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-
-
-import { NoMargin } from './elements/no-margin';
+import { NoMargin } from "./elements/no-margin";
 
 // @ts-ignore
 // import { TwitchPlayer } from 'react-twitch-embed';
@@ -19,4 +17,4 @@ const Stream: React.FC = () => {
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<Stream />);
+createRoot(document.getElementById("root")!).render(<Stream />);

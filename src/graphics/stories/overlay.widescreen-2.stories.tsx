@@ -1,11 +1,11 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Widescreen2 } from '../overlays/widescreen-2';
-import { DefaultPlayer, DefaultTimer } from './defaults';
+import { Widescreen2 } from "../overlays/widescreen-2";
+import { DefaultPlayer, DefaultTimer } from "./defaults";
 
 export default {
-	title: 'Overlay/Widescreen 16:9 2P',
+	title: "Overlay/Widescreen 16:9 2P",
 	component: Widescreen2,
 } as ComponentMeta<typeof Widescreen2>;
 
@@ -15,21 +15,21 @@ export const Primary = Template.bind({});
 
 Primary.args = {
 	preview: false,
-	couchInformation: [{ name: 'Couch 1', pronouns: 'He/Him', id: '' }],
+	couchInformation: [{ name: "Couch 1", pronouns: "He/Him", id: "" }],
 	runData: {
-		game: 'Long Game Title',
-		category: 'Any%',
-		estimate: '1:00:00',
-		release: '2000',
-		system: 'SNES',
-		id: '',
+		game: "Long Game Title",
+		category: "Any%",
+		estimate: "1:00:00",
+		release: "2000",
+		system: "SNES",
+		id: "",
 		teams: [
-			{ players: [DefaultPlayer], name: '', id: '0' },
-			{ players: [{ ...DefaultPlayer, id: '1' }], name: '', id: '1' },
+			{ players: [DefaultPlayer], name: "", id: "0" },
+			{ players: [{ ...DefaultPlayer, id: "1" }], name: "", id: "1" },
 		],
 		customData: {},
 	},
-	audioIndicator: '0',
+	audioIndicator: "0",
 	sponsors: [],
 	timer: DefaultTimer,
 };

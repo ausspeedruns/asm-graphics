@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
+import React, { useRef, useEffect } from "react";
+import styled from "styled-components";
+import gsap from "gsap";
 
 const RaceFinishContainer = styled.div`
 	overflow: hidden;
@@ -69,7 +69,7 @@ export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) =>
 	const animRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (props.time === '') {
+		if (props.time === "") {
 			gsap.to(animRef.current, { y: 35 });
 			return;
 		}
@@ -102,28 +102,26 @@ export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) =>
 	// 	}
 	// }
 
-	let bgColour = '#e0e0e0';
+	let bgColour = "#e0e0e0";
 	switch (props.place) {
 		case 1:
-			bgColour = '#dab509';
+			bgColour = "#dab509";
 			break;
 
 		case 2:
-			bgColour = '#a1a1a1';
+			bgColour = "#a1a1a1";
 			break;
 
 		case 3:
-			bgColour = '#ae7058';
+			bgColour = "#ae7058";
 			break;
 	}
 
 	return (
 		<RaceFinishContainer className={props.className} style={props.style}>
 			<AnimatedContainer ref={animRef} style={{ backgroundColor: bgColour }}>
-				<Position>{props.place === -1 ? 'X' : props.place}</Position>
-				<FinalTime>
-					{timeFormat(props.time)}
-				</FinalTime>
+				<Position>{props.place === -1 ? "X" : props.place}</Position>
+				<FinalTime>{timeFormat(props.time)}</FinalTime>
 			</AnimatedContainer>
 		</RaceFinishContainer>
 	);

@@ -1,9 +1,9 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
-import styled from 'styled-components';
-import gsap, { Power2 } from 'gsap';
+import React, { useImperativeHandle, useRef, useState } from "react";
+import styled from "styled-components";
+import gsap, { Power2 } from "gsap";
 
 // import { War } from '@asm-graphics/types/Incentives';
-import { TickerItemHandles } from './incentives';
+import { TickerItemHandles } from "./incentives";
 // import { FitText } from '../fit-text';
 
 const InterIncentASMMContainer = styled.div`
@@ -54,8 +54,7 @@ const Website = styled.span`
 	font-family: var(--secondary-font);
 `;
 
-interface Props
-{
+interface Props {
 	totalKM: number;
 }
 
@@ -70,9 +69,9 @@ export const InterIncentASMM = React.forwardRef<TickerItemHandles, Props>((props
 
 			tl.call(() => {
 				setDisplayValue(0);
-			})
+			});
 			tl.set(dummyEl.current, { x: 0 });
-			tl.addLabel('warStart');
+			tl.addLabel("warStart");
 			tl.set(containerRef.current, { x: -1000 });
 			tl.to(containerRef.current, { x: 0, duration: 1 });
 			tl.to(dummyEl.current, {
@@ -80,13 +79,13 @@ export const InterIncentASMM = React.forwardRef<TickerItemHandles, Props>((props
 				duration: 5,
 				x: props.totalKM / 100,
 				onUpdate: () => {
-					const dummyElPos = gsap.getProperty(dummyEl.current, 'x') ?? 0;
+					const dummyElPos = gsap.getProperty(dummyEl.current, "x") ?? 0;
 					setDisplayValue(parseFloat(dummyElPos.toString()) * 100);
 				},
 			});
 
 			// End
-			tl.to(containerRef.current, { x: 1000, duration: 1 }, '+20');
+			tl.to(containerRef.current, { x: 1000, duration: 1 }, "+20");
 			tl.set(containerRef.current, { x: -1000, duration: 1 });
 
 			return tl;
@@ -99,11 +98,16 @@ export const InterIncentASMM = React.forwardRef<TickerItemHandles, Props>((props
 	return (
 		<InterIncentASMMContainer ref={containerRef}>
 			<Header>The ASM2023 attendees have walked</Header>
-			<Total>{displayValue.toFixed(0)}<KM>KM!</KM></Total>
-			<LearnMore>Learn more about ASMM at <Website>AusSpeedruns.com/ASMM</Website></LearnMore>
+			<Total>
+				{displayValue.toFixed(0)}
+				<KM>KM!</KM>
+			</Total>
+			<LearnMore>
+				Learn more about ASMM at <Website>AusSpeedruns.com/ASMM</Website>
+			</LearnMore>
 			<div ref={dummyEl} />
 		</InterIncentASMMContainer>
 	);
 });
 
-InterIncentASMM.displayName = 'InterIncentASMM';
+InterIncentASMM.displayName = "InterIncentASMM";

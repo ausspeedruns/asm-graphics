@@ -1,11 +1,11 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { DS } from '../overlays/ds';
-import { DefaultOverlay } from './defaults';
+import { DS } from "../overlays/ds";
+import { DefaultOverlay } from "./defaults";
 
 export default {
-	title: 'Overlay/DS (4:3 | 4:3)',
+	title: "Overlay/DS (4:3 | 4:3)",
 	component: DS,
 } as ComponentMeta<typeof DS>;
 

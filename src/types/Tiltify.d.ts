@@ -35,8 +35,7 @@ export interface Livestream {
 	channel: string;
 }
 
-export interface Metadata {
-}
+export interface Metadata {}
 
 export interface User {
 	id: number;
@@ -55,4 +54,3 @@ export interface Donation {
 	updatedAt: number;
 	sustained: boolean;
 }
-

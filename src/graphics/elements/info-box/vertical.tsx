@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { RunDataActiveRun } from '@asm-graphics/types/RunData';
-import { Timer as ITimer } from '@asm-graphics/types/Timer';
+import { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import { Timer as ITimer } from "@asm-graphics/types/Timer";
 
-import { Timer } from '../timer';
-import * as RunInfo from '../run-info';
+import { Timer } from "../timer";
+import * as RunInfo from "../run-info";
 
 const VerticalInfoContainer = styled.div`
 	height: 340px;
@@ -72,28 +72,32 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 		<VerticalInfoContainer className={props.className} style={styles.mainStyle}>
 			<VerticalStack style={{ height: styles.timerStackHeight }}>
 				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
-				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate || ''} />
+				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate || ""} />
 			</VerticalStack>
 			<Divider />
-			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: '100%' }}>
+			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: "100%" }}>
 				<RunInfo.GameTitle
 					maxWidth={styles.maxTextWidth!}
-					game={props.runData?.game || ''}
+					game={props.runData?.game || ""}
 					style={{ fontSize: styles.gameTitleSize, lineHeight: `${styles.gameTitleSize}px` }}
 				/>
-				<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
+				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
 					<RunInfo.System
-						system={props.runData?.system || ''}
+						system={props.runData?.system || ""}
 						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
 					/>
 					<RunInfo.Year
-						year={props.runData?.release || ''}
+						year={props.runData?.release || ""}
 						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
 					/>
 				</div>
 			</VerticalStack>
 			<Divider />
-			<RunInfo.Category maxWidth={styles.maxTextWidth!} category={props.runData?.category || ''} fontSize={styles.categorySize} />
+			<RunInfo.Category
+				maxWidth={styles.maxTextWidth!}
+				category={props.runData?.category || ""}
+				fontSize={styles.categorySize}
+			/>
 		</VerticalInfoContainer>
 	);
 };

@@ -1,11 +1,11 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Standard } from '../overlays/standard';
-import { DefaultOverlay, DefaultPlayer } from './defaults';
+import { Standard } from "../overlays/standard";
+import { DefaultOverlay, DefaultPlayer } from "./defaults";
 
 export default {
-	title: 'Overlay/Standard 4:3',
+	title: "Overlay/Standard 4:3",
 	component: Standard,
 } as ComponentMeta<typeof Standard>;
 
@@ -22,8 +22,8 @@ Coop.args = {
 	runData: {
 		...DefaultOverlay.runData,
 		customData: {},
-		id: '',
-		teams: [{ players: [DefaultPlayer, { ...DefaultPlayer, pronouns: '' }], name: '', id: '0' }],
+		id: "",
+		teams: [{ players: [DefaultPlayer, { ...DefaultPlayer, pronouns: "" }], name: "", id: "0" }],
 	},
 };
 
@@ -32,8 +32,8 @@ CoopBothPronouns.args = {
 	runData: {
 		...DefaultOverlay.runData,
 		customData: {},
-		id: '',
-		teams: [{ players: [DefaultPlayer, DefaultPlayer], name: '', id: '0' }],
+		id: "",
+		teams: [{ players: [DefaultPlayer, DefaultPlayer], name: "", id: "0" }],
 	},
 };
 
@@ -42,15 +42,15 @@ CoopNoPronouns.args = {
 	runData: {
 		...DefaultOverlay.runData,
 		customData: {},
-		id: '',
+		id: "",
 		teams: [
 			{
 				players: [
-					{ ...DefaultPlayer, pronouns: '' },
-					{ ...DefaultPlayer, pronouns: '' },
+					{ ...DefaultPlayer, pronouns: "" },
+					{ ...DefaultPlayer, pronouns: "" },
 				],
-				name: '',
-				id: '0',
+				name: "",
+				id: "0",
 			},
 		],
 	},

@@ -1,6 +1,6 @@
 export interface Timer {
 	time: string;
-	state: 'stopped' | 'running' | 'paused' | 'finished';
+	state: "stopped" | "running" | "paused" | "finished";
 	milliseconds: number;
 	timestamp: number;
 	teamFinishTimes: {
@@ -10,11 +10,11 @@ export interface Timer {
 
 export interface TeamFinishTime {
 	time: string;
-	state: 'forfeit' | 'completed';
+	state: "forfeit" | "completed";
 	milliseconds: number;
 	timestamp: number;
 }
 
 export interface RunFinishTimes {
-	[id: string]: Timer
+	[id: string]: Timer;
 }

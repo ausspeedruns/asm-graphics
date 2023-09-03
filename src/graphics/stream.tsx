@@ -1,13 +1,13 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
 
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
-import { ASMStream } from './elements/individual-stream';
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { ASMStream } from "./elements/individual-stream";
 
 const StreamContainer = styled.div``;
 
-const Streams = ['asm_station1', 'asm_station2', 'asm_station3', 'asm_station4'];
+const Streams = ["asm_station1", "asm_station2", "asm_station3", "asm_station4"];
 
 export const Stream: React.FC = () => {
 	const StreamElements = Streams.map((stream) => {
@@ -27,4 +27,4 @@ export const Stream: React.FC = () => {
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<Stream />);
+createRoot(document.getElementById("root")!).render(<Stream />);

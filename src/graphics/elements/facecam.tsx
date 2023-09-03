@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import { AudioIndicator } from '@asm-graphics/types/Audio';
+import React from "react";
+import styled from "styled-components";
+import { AudioIndicator } from "@asm-graphics/types/Audio";
 
-import { RunDataTeam } from '@asm-graphics/types/RunData';
+import { RunDataTeam } from "@asm-graphics/types/RunData";
 
-import { Nameplate } from './nameplate';
-import { NodeCGAPIClient } from '@nodecg/types/client/api/api.client';
-import { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
-import { useReplicant } from 'use-nodecg';
+import { Nameplate } from "./nameplate";
+import { NodeCGAPIClient } from "@nodecg/types/client/api/api.client";
+import { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
+import { useReplicant } from "use-nodecg";
 
 const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
 
@@ -31,7 +31,7 @@ interface FacecamProps {
 	width?: number;
 	maxNameWidth?: number;
 	dontAlternatePronouns?: boolean;
-	pronounStartSide?: 'left' | 'right';
+	pronounStartSide?: "left" | "right";
 	icons?: React.ReactNode[];
 	audioIndicator?: AudioIndicator;
 	className?: string;
@@ -49,9 +49,9 @@ const RunnerNameDivider = styled.div`
 `;
 
 export const Facecam = (props: FacecamProps) => {
-	const [swapRunnerMics] = useReplicant<boolean>('x32:swap-runner-mics', false);
+	const [swapRunnerMics] = useReplicant<boolean>("x32:swap-runner-mics", false);
 
-	let allRunnerNames: JSX.Element[] = [];
+	const allRunnerNames: JSX.Element[] = [];
 
 	if (!props.teams) {
 		// Fallback
@@ -60,22 +60,22 @@ export const Facecam = (props: FacecamProps) => {
 				icon={props.icons ? props.icons[0] : undefined}
 				nameplateLeft={false}
 				maxWidth={props.maxNameWidth}
-				key={'No Player'}
+				key={"No Player"}
 				player={{
-					name: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
-					social: { twitch: 'AusSpeedruns' },
+					name: nodecgConfig.graphql?.event ?? "AusSpeedruns",
+					social: { twitch: "AusSpeedruns" },
 					pronouns: nodecgConfig.graphql?.event,
-					id: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
-					teamID: nodecgConfig.graphql?.event ?? 'AusSpeedruns',
+					id: nodecgConfig.graphql?.event ?? "AusSpeedruns",
+					teamID: nodecgConfig.graphql?.event ?? "AusSpeedruns",
 					customData: {},
 				}}
 			/>,
 		);
 	} else if (props.teams.length > 1) {
 		// Versus
-		let alternatingPronounSides = props.pronounStartSide === 'left';
+		let alternatingPronounSides = props.pronounStartSide === "left";
 		props.teams.forEach((team, i) => {
-			let id = 'a';
+			let id = "a";
 			if (team.name) {
 				// Versus has a team name
 				id = team.id;
@@ -104,18 +104,16 @@ export const Facecam = (props: FacecamProps) => {
 				team.players.forEach((player) => {
 					let correctMic = player.customData.microphone;
 					if (swapRunnerMics) {
-						if (correctMic === "Mario Red")
-						{
+						if (correctMic === "Mario Red") {
 							correctMic = "Sonic Blue";
-						} else if (correctMic === "Sonic Blue")
-						{
+						} else if (correctMic === "Sonic Blue") {
 							correctMic = "Mario Red";
 						}
 					}
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {
-						alternatingPronounSides = props.pronounStartSide === 'left';
+						alternatingPronounSides = props.pronounStartSide === "left";
 					}
 					allRunnerNames.push(
 						<Nameplate
@@ -130,23 +128,27 @@ export const Facecam = (props: FacecamProps) => {
 							speaking={props.audioIndicator?.[correctMic]}
 						/>,
 					);
-					allRunnerNames.push(<RunnerNameDivider key={id + '-divider'} />);
+					allRunnerNames.push(<RunnerNameDivider key={id + "-divider"} />);
 				});
 			}
 		});
 
 		allRunnerNames.pop();
 	} else {
-		let alternatingPronounSides = props.pronounStartSide === 'right';
+		let alternatingPronounSides = props.pronounStartSide === "right";
 		// Single Player/Coop, display each player's name
 		props.teams[0]?.players.forEach((player, i) => {
 			alternatingPronounSides = !alternatingPronounSides;
 			if (props.dontAlternatePronouns) {
-				alternatingPronounSides = props.pronounStartSide === 'right';
+				alternatingPronounSides = props.pronounStartSide === "right";
 			}
 
 			let height = NAMEPLATE_HEIGHT;
-			if (props.verticalCoop && props.teams![0].players.length > 1 && props.teams![0].players.some((player) => player.pronouns)) {
+			if (
+				props.verticalCoop &&
+				props.teams![0].players.length > 1 &&
+				props.teams![0].players.some((player) => player.pronouns)
+			) {
 				height = NAMEPLATE_HEIGHT_VERTICAL;
 			}
 
@@ -162,7 +164,7 @@ export const Facecam = (props: FacecamProps) => {
 					style={{ height: height }}
 				/>,
 			);
-			allRunnerNames.push(<RunnerNameDivider key={player.id + '-divider'} style={{ height: height }} />);
+			allRunnerNames.push(<RunnerNameDivider key={player.id + "-divider"} style={{ height: height }} />);
 		});
 
 		allRunnerNames.pop();
@@ -177,7 +179,8 @@ export const Facecam = (props: FacecamProps) => {
 				},
 				props.style,
 			)}
-			className={props.className}>
+			className={props.className}
+		>
 			{props.noCam && <NoCam />}
 			<RunnerArea>{allRunnerNames}</RunnerArea>
 		</FacecamContainer>
@@ -237,23 +240,24 @@ export const NoCam: React.FC = () => {
 		<NoCamContainer>
 			<SocialMedia>
 				<SocialMediaItem>
-					<img src={require('../media/twitter.svg')} />
+					<img src={require("../media/twitter.svg")} />
 					<SocialMediaLabel>@ AusSpeedruns</SocialMediaLabel>
 				</SocialMediaItem>
 				<SocialMediaItem>
-					<img src={require('../media/youtube.svg')} />
+					<img src={require("../media/youtube.svg")} />
 					<SocialMediaLabel>Australian Speedruns</SocialMediaLabel>
 				</SocialMediaItem>
 				<SocialMediaItem>
-					<img src={require('../media/discord.svg')} />
+					<img src={require("../media/discord.svg")} />
 					<SocialMediaLabel>discord.ausspeedruns.com</SocialMediaLabel>
 				</SocialMediaItem>
 				<SocialMediaLabel
 					style={{
 						fontSize: 30,
-						fontWeight: 'bold',
-						color: '#F2DAB2',
-					}}>
+						fontWeight: "bold",
+						color: "#F2DAB2",
+					}}
+				>
 					#PAXxAusSpeedruns2021
 				</SocialMediaLabel>
 			</SocialMedia>

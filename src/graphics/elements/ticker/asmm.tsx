@@ -1,8 +1,8 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
+import React, { useImperativeHandle, useRef, useState } from "react";
+import styled from "styled-components";
+import gsap from "gsap";
 
-import { TickerItemHandles } from '../ticker';
+import { TickerItemHandles } from "../ticker";
 
 const TickerASMMContainer = styled.div`
 	position: absolute;
@@ -65,30 +65,30 @@ export const TickerASMM = React.forwardRef<TickerItemHandles, Props>((props, ref
 			tl.set([totalRef.current, learnRef.current], { opacity: 0 });
 			tl.set(updateRef.current, { opacity: 1 });
 			tl.set(containerRef.current, { y: -64 });
-			tl.to(containerRef.current, { y: 0, duration: 1 }, '+=1');
-			
+			tl.to(containerRef.current, { y: 0, duration: 1 }, "+=1");
+
 			tl.set(totalRef.current, { opacity: 1 });
-			tl.to(updateRef.current, { yPercent: -100, duration: 2 }, '+=5');
+			tl.to(updateRef.current, { yPercent: -100, duration: 2 }, "+=5");
 			tl.set(updateRef.current, { opacity: 0 });
-			tl.to(totalRef.current, { yPercent: -100, duration: 2 }, '-=2');
+			tl.to(totalRef.current, { yPercent: -100, duration: 2 }, "-=2");
 
 			tl.to(dummyEl.current, {
-				ease: 'power2.easeOut',
+				ease: "power2.easeOut",
 				duration: 5,
 				x: (props.totalKM ?? 100) / 100,
 				onUpdate: () => {
-					const dummyElPos = gsap.getProperty(dummyEl.current, 'x') ?? 0;
+					const dummyElPos = gsap.getProperty(dummyEl.current, "x") ?? 0;
 					setDisplayValue(parseFloat(dummyElPos.toString()) * 100);
 				},
 			});
 
 			tl.set(learnRef.current, { opacity: 1 });
-			tl.to(totalRef.current, { yPercent: -200, duration: 2 }, '+=5');
-			tl.to(learnRef.current, { yPercent: -100, duration: 2 }, '-=2');
+			tl.to(totalRef.current, { yPercent: -200, duration: 2 }, "+=5");
+			tl.to(learnRef.current, { yPercent: -100, duration: 2 }, "-=2");
 
 			// End
 			tl.set([totalRef.current, updateRef.current], { opacity: 0 });
-			tl.to(containerRef.current, { y: 96, duration: 1 }, '+=5');
+			tl.to(containerRef.current, { y: 96, duration: 1 }, "+=5");
 			tl.set(containerRef.current, { y: -64, duration: 1 });
 			tl.set(updateRef.current, { opacity: 1 });
 			tl.set(updateRef.current, { yPercent: 0 });
@@ -106,12 +106,21 @@ export const TickerASMM = React.forwardRef<TickerItemHandles, Props>((props, ref
 					<EmphasisFont>Australian Speedrun Marathon Marathon</EmphasisFont> Update
 				</span>
 			</ASMMLine>
-			<ASMMLine ref={totalRef} style={{ transform: 'translate(0, 100%)' }}>
+			<ASMMLine ref={totalRef} style={{ transform: "translate(0, 100%)" }}>
 				<span>ASM2023 attendees have walked </span>
-				<span style={{ margin: '0 8px', fontWeight: 'bold', width: (props.totalKM?.toFixed(0) ?? "").length * 22, textAlign: 'center' }}>{displayValue.toFixed(0)}</span>
+				<span
+					style={{
+						margin: "0 8px",
+						fontWeight: "bold",
+						width: (props.totalKM?.toFixed(0) ?? "").length * 22,
+						textAlign: "center",
+					}}
+				>
+					{displayValue.toFixed(0)}
+				</span>
 				<span>km!</span>
 			</ASMMLine>
-			<ASMMLine ref={learnRef} style={{ transform: 'translate(0, 100%)' }}>
+			<ASMMLine ref={learnRef} style={{ transform: "translate(0, 100%)" }}>
 				<span>Learn more at</span>
 				<EmphasisFont style={{ marginLeft: 10, marginBottom: -2 }}>AusSpeedruns.com/ASMM</EmphasisFont>
 			</ASMMLine>
@@ -120,4 +129,4 @@ export const TickerASMM = React.forwardRef<TickerItemHandles, Props>((props, ref
 	);
 });
 
-TickerASMM.displayName = 'TickerASMM';
+TickerASMM.displayName = "TickerASMM";

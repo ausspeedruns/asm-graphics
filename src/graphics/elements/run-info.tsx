@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { FitText } from './fit-text';
+import { FitText } from "./fit-text";
 
 interface FontProps {
 	fontSize: number;
@@ -29,7 +29,11 @@ interface CategoryProps {
 export const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
 	return (
 		<CategoryContainer style={props.style}>
-			<FitText allowNewlines style={{ maxWidth: props.maxWidth, lineHeight: '37px', fontSize: props.fontSize }} text={props.category} />
+			<FitText
+				allowNewlines
+				style={{ maxWidth: props.maxWidth, lineHeight: "37px", fontSize: props.fontSize }}
+				text={props.category}
+			/>
 		</CategoryContainer>
 	);
 };
@@ -53,13 +57,13 @@ interface EstimateProps {
 
 export const Estimate: React.FC<EstimateProps> = (props: EstimateProps) => {
 	let formattedEstimate = props.estimate;
-	if (formattedEstimate[0] === '0') {
+	if (formattedEstimate[0] === "0") {
 		formattedEstimate = formattedEstimate.substring(1);
 	}
 
 	return (
 		<EstimateContainer style={props.style}>
-			<EstText fontSize={props.fontSize ?? 46}>{formattedEstimate && 'EST '}</EstText>
+			<EstText fontSize={props.fontSize ?? 46}>{formattedEstimate && "EST "}</EstText>
 			<EstTime fontSize={props.fontSize ?? 46}>{formattedEstimate}</EstTime>
 		</EstimateContainer>
 	);

@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import GoCLogo from '../../media/Sponsors/GoCCCWhite.svg';
+import GoCLogo from "../../media/Sponsors/GoCCCWhite.svg";
 
 const InterCTAContainer = styled.div`
 	height: 300px;

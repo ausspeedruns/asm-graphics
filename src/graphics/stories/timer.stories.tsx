@@ -1,10 +1,10 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Timer } from '../elements/timer';
+import { Timer } from "../elements/timer";
 
 export default {
-	title: 'Timer',
+	title: "Timer",
 	component: Timer,
 } as ComponentMeta<typeof Timer>;
 
@@ -18,6 +18,6 @@ Primary.args = {
 		state: "running",
 		time: "12:34:56",
 		timestamp: 0,
-		teamFinishTimes: {}
-	}
+		teamFinishTimes: {},
+	},
 };

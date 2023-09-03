@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
+import React, { useCallback, useEffect, useRef } from "react";
+import styled from "styled-components";
+import gsap from "gsap";
 
-import { Goal, War } from '@asm-graphics/types/Incentives';
+import { Goal, War } from "@asm-graphics/types/Incentives";
 
-import { WarGame } from './incent-wars';
-import { GoalBar } from './incent-goal';
-import { InterIncentASMM } from './incent-asmm';
+import { WarGame } from "./incent-wars";
+import { GoalBar } from "./incent-goal";
+import { InterIncentASMM } from "./incent-asmm";
 // import { InterPrizes } from './prizes';
 
 const InterIncentivesContainer = styled.div`
@@ -39,7 +39,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 			.filter((_, i) => MAX_INCENTIVES === -1 || i < MAX_INCENTIVES)
 			.map((incentive, i) => {
 				switch (incentive.type) {
-					case 'Goal':
+					case "Goal":
 						return (
 							<GoalBar
 								key={incentive.index}
@@ -48,7 +48,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 							/>
 						);
 
-					case 'War':
+					case "War":
 						return (
 							<WarGame
 								key={incentive.index}
@@ -62,10 +62,10 @@ export const InterIncentives = (props: IncentivesProps) => {
 
 	const numberOfElements = allIncentives.length;
 
-	if (typeof props.asmm !== 'undefined' || props.asmm == 0) {
+	if (typeof props.asmm !== "undefined" || props.asmm == 0) {
 		allIncentives.push(
 			<InterIncentASMM
-				key={'InterIncentASMM'}
+				key={"InterIncentASMM"}
 				ref={(el) => (el ? (incentivesRef.current[numberOfElements] = el) : undefined)}
 				totalKM={props.asmm}
 			/>,
@@ -89,7 +89,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 	}, []);
 
 	useEffect(() => {
-		gsap.defaults({ ease: 'power2.inOut' });
+		gsap.defaults({ ease: "power2.inOut" });
 		const timer = setTimeout(runLoop, 1000);
 		return () => clearTimeout(timer);
 	}, [runLoop]);

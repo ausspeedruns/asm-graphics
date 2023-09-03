@@ -1,14 +1,14 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
-import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
-import { Facecam } from '../elements/facecam';
-import { Couch } from '../elements/couch';
+import { VerticalInfo, IVerticalStyling } from "../elements/info-box/vertical";
+import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { Facecam } from "../elements/facecam";
+import { Couch } from "../elements/couch";
 
-import GBABG from '../media/ASM23/gba.png';
+import GBABG from "../media/ASM23/gba.png";
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -75,7 +75,7 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<InfoBoxBG>
 					<img
 						src={GBABG}
-						style={{ position: 'absolute', height: 'auto', width: '100%', objectFit: 'contain', bottom: 0 }}
+						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 

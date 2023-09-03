@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
-import clone from 'clone';
+import React from "react";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
+import clone from "clone";
 
-import { RunDataArray, RunData } from '@asm-graphics/types/RunData';
+import { RunDataArray, RunData } from "@asm-graphics/types/RunData";
 
-import { Box } from '@mui/material';
+import { Box } from "@mui/material";
 
 const UpcomingContainer = styled.div`
 	display: flex;
@@ -26,11 +26,11 @@ interface Props {
 }
 
 export const Upcoming: React.FC<Props> = (props: Props) => {
-	const [runDataArrayRep] = useReplicant<RunDataArray>('runDataArray', [], {
-		namespace: 'nodecg-speedcontrol',
+	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", [], {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [runDataActiveRep] = useReplicant<RunData | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [runDataActiveRep] = useReplicant<RunData | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
 
 	const currentRunIndex = runDataArrayRep.findIndex((run) => run.id === runDataActiveRep?.id);
@@ -45,7 +45,7 @@ export const Upcoming: React.FC<Props> = (props: Props) => {
 
 	return (
 		<UpcomingContainer style={props.style}>
-			<SingleRun run={currentRun} active style={{ width: 'calc(100% + 16px)' }} />
+			<SingleRun run={currentRun} active style={{ width: "calc(100% + 16px)" }} />
 			<Divider />
 			{allRuns}
 		</UpcomingContainer>
@@ -62,7 +62,8 @@ const SingleRunContainer = styled(Box)`
 	border-radius: 7px;
 	width: 100%;
 	background: #eee;
-	${(props: ActiveProps) => (props.active === 'true' ? 'border-left: 8px solid #59a569; box-sizing: border-box;' : '')}
+	${(props: ActiveProps) =>
+		props.active === "true" ? "border-left: 8px solid #59a569; box-sizing: border-box;" : ""}
 `;
 
 const RunDataContainer = styled.div`
@@ -101,17 +102,17 @@ const SingleRun: React.FC<RunProps> = (props: RunProps) => {
 
 	let playerNames;
 	if (props.run.teams.length === 0) {
-		playerNames = '';
+		playerNames = "";
 	} else {
 		playerNames = props.run?.teams
 			.map((team) => {
-				return team.players.map((player) => player.name).join(', ');
+				return team.players.map((player) => player.name).join(", ");
 			})
-			.join(' vs ');
+			.join(" vs ");
 	}
 
 	return (
-		<SingleRunContainer boxShadow={2} active={props.active ? 'true' : 'false'} style={props.style}>
+		<SingleRunContainer boxShadow={2} active={props.active ? "true" : "false"} style={props.style}>
 			<RunDataContainer>
 				<Game>{props.run.game?.replaceAll("\\n", " ")}</Game>
 				<Category>{props.run.category?.replaceAll("\\n", " ")}</Category>

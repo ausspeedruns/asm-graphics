@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import styled, { keyframes } from 'styled-components';
-import { useListenFor, useReplicant } from 'use-nodecg';
-import format from 'date-fns/format';
-import gsap from 'gsap';
+import React, { useEffect, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import styled, { keyframes } from "styled-components";
+import { useListenFor, useReplicant } from "use-nodecg";
+import format from "date-fns/format";
+import gsap from "gsap";
 
-import ASNNBug from './media/ASM23/asnn.webm';
-import { TickerOverlay } from './ticker';
-import { FitText } from './elements/fit-text';
+import ASNNBug from "./media/ASM23/asnn.webm";
+import { TickerOverlay } from "./ticker";
+import { FitText } from "./elements/fit-text";
 
 const TestContainer = styled.div``;
 
@@ -135,7 +135,7 @@ const Name = styled.span`
 `;
 
 const Subtitle = styled.span`
-background: var(--asm-blue);
+	background: var(--asm-blue);
 	width: fit-content;
 	padding: 0 16px;
 	color: var(--text-light);
@@ -148,12 +148,12 @@ background: var(--asm-blue);
 const TICKER_DURATION_SCALAR = 0.3;
 
 export const ASNN = () => {
-	const [currentTime, setCurrentTime] = useState('');
+	const [currentTime, setCurrentTime] = useState("");
 	const nameEl = useRef<HTMLDivElement>(null);
 	const subtitleEl = useRef<HTMLDivElement>(null);
 	const nameplateEl = useRef<HTMLDivElement>(null);
-	const [asnnHeadline] = useReplicant<string>('asnn:headline', '');
-	const [asnnTicker] = useReplicant<string[]>('asnn:ticker', []);
+	const [asnnHeadline] = useReplicant<string>("asnn:headline", "");
+	const [asnnTicker] = useReplicant<string[]>("asnn:ticker", []);
 
 	// const tickerTexts = [
 	// 	'AUSSPEEDRUNS INTERVIEWS GONE MISSING, SEARCH PARTY NON-EXISTENT',
@@ -169,31 +169,31 @@ export const ASNN = () => {
 	}
 
 	useEffect(() => {
-		setCurrentTime(format(new Date(), 'h:mm a'));
+		setCurrentTime(format(new Date(), "h:mm a"));
 
 		const interval = setInterval(() => {
-			setCurrentTime(format(new Date(), 'h:mm a'));
+			setCurrentTime(format(new Date(), "h:mm a"));
 		}, 1000);
-		
+
 		return () => {
 			clearInterval(interval);
 		};
 	}, []);
 
-	useListenFor('asnn:showName', (data: { name: string; subtitle: string }) => {
+	useListenFor("asnn:showName", (data: { name: string; subtitle: string }) => {
 		if (!nameEl.current || !subtitleEl.current || !nameplateEl.current) return;
 
-		nameEl.current.innerHTML = data?.name ?? '';
-		subtitleEl.current.innerHTML = data?.subtitle ?? '';
+		nameEl.current.innerHTML = data?.name ?? "";
+		subtitleEl.current.innerHTML = data?.subtitle ?? "";
 
 		gsap.from([nameplateEl.current, nameEl.current, subtitleEl.current], { width: 0, duration: 1 });
 	});
 
-	useListenFor('asnn:hideName', () => {
+	useListenFor("asnn:hideName", () => {
 		if (!nameEl.current || !subtitleEl.current || !nameplateEl.current) return;
 		const tl = gsap.timeline();
 		tl.to([nameplateEl.current, nameEl.current, subtitleEl.current], { width: 0, duration: 1 });
-		tl.set([nameplateEl.current, nameEl.current, subtitleEl.current], {width: ""});
+		tl.set([nameplateEl.current, nameEl.current, subtitleEl.current], { width: "" });
 		tl.call(() => {
 			nameEl.current!.innerHTML = "";
 			subtitleEl.current!.innerHTML = "";
@@ -210,17 +210,19 @@ export const ASNN = () => {
 					</Nameplate>
 					<LowerThird>
 						<Headline>
-							<FitText alignment="left" text={asnnHeadline ?? ''} style={{ maxWidth: '100%' }} />
+							<FitText alignment="left" text={asnnHeadline ?? ""} style={{ maxWidth: "100%" }} />
 						</Headline>
 						<ChannelBug src={ASNNBug} autoPlay muted loop />
 						<Ticker>
 							<Marquee>
 								<MarqueeContent
-									style={{ animationDuration: `${tickerLength * TICKER_DURATION_SCALAR}s` }}>
+									style={{ animationDuration: `${tickerLength * TICKER_DURATION_SCALAR}s` }}
+								>
 									{tickerElements}
 								</MarqueeContent>
 								<MarqueeContent
-									style={{ animationDuration: `${tickerLength * TICKER_DURATION_SCALAR}s` }}>
+									style={{ animationDuration: `${tickerLength * TICKER_DURATION_SCALAR}s` }}
+								>
 									{tickerElements}
 								</MarqueeContent>
 							</Marquee>
@@ -231,14 +233,14 @@ export const ASNN = () => {
 				<TickerOverlay />
 			</ASNNContainer>
 			<div>
-				<button onClick={() => changeBGColor('#000')}>Black</button>
-				<button onClick={() => changeBGColor('#f00')}>Red</button>
-				<button onClick={() => changeBGColor('#0f0')}>Green</button>
-				<button onClick={() => changeBGColor('#00f')}>Blue</button>
-				<button onClick={() => changeBGColor('rgba(0, 0, 0, 0)')}>Transparent</button>
+				<button onClick={() => changeBGColor("#000")}>Black</button>
+				<button onClick={() => changeBGColor("#f00")}>Red</button>
+				<button onClick={() => changeBGColor("#0f0")}>Green</button>
+				<button onClick={() => changeBGColor("#00f")}>Blue</button>
+				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
 			</div>
 		</TestContainer>
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<ASNN />);
+createRoot(document.getElementById("root")!).render(<ASNN />);

@@ -1,13 +1,13 @@
 @font-face {
-	font-family: 'Nasalization';
-	src: url('nasalization-rg.otf');
+	font-family: "Nasalization";
+	src: url("nasalization-rg.otf");
 	font-weight: 400;
 	font-style: normal;
 }
 
 @font-face {
-	font-family: 'NasalizationMono';
-	src: url('NasalizationMono.ttf');
+	font-family: "NasalizationMono";
+	src: url("NasalizationMono.ttf");
 	font-weight: 400;
 	font-style: normal;
 }

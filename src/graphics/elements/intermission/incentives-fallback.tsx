@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import gsap, { Power2 } from 'gsap';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import gsap, { Power2 } from "gsap";
 
-import ASMLogo from '../../media/ASGX23/ASM2023Logo.png';
-import AusSpeedrunsLogo from '../../media/AusSpeedruns-Logo.svg';
-import TheGameExpoLogo from '../../media/ASGX23/TGXLogo-Wide-White.png';
-import TwitterLogo from '../../media/twitter.svg';
-import YoutubeLogo from '../../media/youtube.svg';
-import WebsiteLogo from '../../media/website.svg';
-import InstagramLogo from '../../media/instagram.svg';
+import ASMLogo from "../../media/ASGX23/ASM2023Logo.png";
+import AusSpeedrunsLogo from "../../media/AusSpeedruns-Logo.svg";
+import TheGameExpoLogo from "../../media/ASGX23/TGXLogo-Wide-White.png";
+import TwitterLogo from "../../media/twitter.svg";
+import YoutubeLogo from "../../media/youtube.svg";
+import WebsiteLogo from "../../media/website.svg";
+import InstagramLogo from "../../media/instagram.svg";
 
 const IncentivesFallbackContainer = styled.div`
 	height: 100%;
@@ -169,11 +169,11 @@ export const InterIncentivesFallback = (props: Props) => {
 				duration: 5,
 				x: 1000 / 100,
 				onUpdate: () => {
-					const dummyElPos = gsap.getProperty(ASNNDummyRef.current, 'x') ?? 0;
+					const dummyElPos = gsap.getProperty(ASNNDummyRef.current, "x") ?? 0;
 					setASNNValue(parseFloat(dummyElPos.toString()) * 100);
 				},
 			},
-			'-=0.5',
+			"-=0.5",
 		);
 		localTl.to(ASNNRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
 
@@ -181,7 +181,7 @@ export const InterIncentivesFallback = (props: Props) => {
 	}, []);
 
 	useEffect(() => {
-		gsap.defaults({ ease: 'power2.inOut' });
+		gsap.defaults({ ease: "power2.inOut" });
 		const timer = setTimeout(runLoop, 1000);
 		return () => clearTimeout(timer);
 	}, [runLoop]);
@@ -197,7 +197,7 @@ export const InterIncentivesFallback = (props: Props) => {
 			<Socials ref={SocialsRef} style={{ opacity: 0 }}>
 				<SocialBox>
 					<SocialLogo src={AusSpeedrunsLogo} />
-					<SocialLinks style={{ justifyContent: 'space-between' }}>
+					<SocialLinks style={{ justifyContent: "space-between" }}>
 						<SocialElement>
 							<SocialImage src={YoutubeLogo} />
 							@AusSpeedruns
@@ -218,7 +218,9 @@ export const InterIncentivesFallback = (props: Props) => {
 			<InterIncentASMMContainer ref={ASNNRef} style={{ opacity: 0 }}>
 				<Header>The ASM2023 attendees have walked</Header>
 				<Total>
-					<span style={{width: 190, display: 'inline-block', textAlign: 'center'}}>{asnnValue.toFixed(0)}</span>
+					<span style={{ width: 190, display: "inline-block", textAlign: "center" }}>
+						{asnnValue.toFixed(0)}
+					</span>
 					<KM>KM!</KM>
 				</Total>
 				<LearnMore>

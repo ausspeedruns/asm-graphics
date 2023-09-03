@@ -6,7 +6,7 @@ export interface RulesRes {
 		tag: string;
 		meta: {
 			sent: number;
-		}
+		};
 		errors: Object;
 	}[];
 }

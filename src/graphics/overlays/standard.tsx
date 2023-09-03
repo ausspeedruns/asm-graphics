@@ -1,14 +1,14 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { IVerticalStyling, VerticalInfo } from '../elements/info-box/vertical';
-import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
-import { Facecam } from '../elements/facecam';
-import { Couch } from '../elements/couch';
+import { IVerticalStyling, VerticalInfo } from "../elements/info-box/vertical";
+import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { Facecam } from "../elements/facecam";
+import { Couch } from "../elements/couch";
 
-import StandardBG from '../media/ASM23/standard.png';
+import StandardBG from "../media/ASM23/standard.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -90,7 +90,7 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<InfoBoxBG>
 					<img
 						src={StandardBG}
-						style={{ position: 'absolute', height: 'auto', width: '100%', objectFit: 'contain', bottom: 0 }}
+						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/>
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch style={{ zIndex: 3 }} couch={props.couchInformation} audio={props.obsAudioIndicator} />

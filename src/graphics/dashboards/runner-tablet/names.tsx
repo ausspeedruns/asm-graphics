@@ -1,12 +1,12 @@
-import { Autocomplete, TextField } from '@mui/material';
-import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
+import { Autocomplete, TextField } from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
 
-import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
-import type { User } from '@asm-graphics/types/AusSpeedrunsWebsite';
-import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
-import { Headset, HEADSETS } from './headsets';
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
+import type { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { Headset, HEADSETS } from "./headsets";
 
 const RTNamesContainer = styled.div`
 	height: 100%;
@@ -112,7 +112,7 @@ function generateRunnerLabels(noOfRunners: number, noOfNames = 4) {
 	});
 }
 
-const PRONOUN_OPTIONS = ['He/Him', 'She/Her', 'They/Them', 'He/They', 'She/They', 'They/He', 'They/She', 'Any/All'];
+const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They", "They/He", "They/She", "Any/All"];
 
 interface Runner {
 	id: string;
@@ -132,21 +132,21 @@ type HeadsetRunner = Headset & {
 	runner: Runner;
 };
 
-const baseRunner: Runner = { id: '', name: '', saved: true };
+const baseRunner: Runner = { id: "", name: "", saved: true };
 
 const NEW_HEADSETS: HeadsetRunner[] = [
-	{ ...HEADSETS[0], runner: { ...baseRunner, id: 'R1' } },
-	{ ...HEADSETS[1], runner: { ...baseRunner, id: 'C1' } },
-	{ ...HEADSETS[2], runner: { ...baseRunner, id: 'C2' } },
-	{ ...HEADSETS[3], runner: { ...baseRunner, id: 'C3' } },
+	{ ...HEADSETS[0], runner: { ...baseRunner, id: "R1" } },
+	{ ...HEADSETS[1], runner: { ...baseRunner, id: "C1" } },
+	{ ...HEADSETS[2], runner: { ...baseRunner, id: "C2" } },
+	{ ...HEADSETS[3], runner: { ...baseRunner, id: "C3" } },
 ];
 
 export const RTNames: React.FC<Props> = (props: Props) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [allUsersRep] = useReplicant<User[]>('all-usernames', []);
-	const [couchNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
+	const [allUsersRep] = useReplicant<User[]>("all-usernames", []);
+	const [couchNamesRep] = useReplicant<CouchPerson[]>("couch-names", []);
 	const allUsernames = useMemo(() => allUsersRep.map((user) => user.username), [allUsersRep]);
 	const numberOfRunners = useMemo(
 		() => runDataActiveRep?.teams.reduce((total, team) => total + team.players.length, 0) ?? 0,
@@ -175,7 +175,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 							teamId: team.id,
 						};
 					} else {
-						console.log('Not enough headsets. No headset for:', player);
+						console.log("Not enough headsets. No headset for:", player);
 					}
 
 					headsetIndex++;
@@ -260,11 +260,11 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 	}
 
 	function saveRunner(headset: HeadsetRunner, index: number) {
-		console.log(runDataActiveRep, index, numberOfRunners)
+		console.log(runDataActiveRep, index, numberOfRunners);
 		if (!runDataActiveRep) return;
 
 		// Set save to false
-		setRunnerProperty('saved', false, headset.name);
+		setRunnerProperty("saved", false, headset.name);
 
 		// Determine if runners or couch needs updating
 		if (index < numberOfRunners) {
@@ -276,7 +276,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				(player) => player.id === headset.runner.id,
 			);
 			// Update run data
-			console.log(playerIndex, headset)
+			console.log(playerIndex, headset);
 			if (playerIndex >= 0) {
 				let newRunData = { ...runDataActiveRep };
 				newRunData.teams[teamIndex].players[playerIndex].name = headset.runner.name;
@@ -292,13 +292,13 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				}
 
 				// Send to update data
-				nodecg.sendMessageToBundle('modifyRun', 'nodecg-speedcontrol', { runData: newRunData });
+				nodecg.sendMessageToBundle("modifyRun", "nodecg-speedcontrol", { runData: newRunData });
 
-				console.log(newRunData)
+				console.log(newRunData);
 			}
 		} else {
 			// Couch
-			nodecg.sendMessage('rename-couch', {
+			nodecg.sendMessage("rename-couch", {
 				id: headset.name,
 				name: headset.runner.name,
 				pronouns: headset.runner.pronouns,
@@ -313,36 +313,37 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				<TechWarning>If any data is wrong please let Tech know</TechWarning>
 				<Data>
 					<span>Game</span>
-					<span>{runDataActiveRep?.game?.replaceAll("\\n", " ") ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
+					<span>{runDataActiveRep?.game?.replaceAll("\\n", " ") ?? "UNKNOWN, PLEASE LET TECH KNOW"}</span>
 					<span>Category</span>
-					<span>{runDataActiveRep?.category?.replaceAll("\\n", " ") ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
+					<span>{runDataActiveRep?.category?.replaceAll("\\n", " ") ?? "UNKNOWN, PLEASE LET TECH KNOW"}</span>
 					<span>Estimate</span>
-					<span>{runDataActiveRep?.estimate ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
+					<span>{runDataActiveRep?.estimate ?? "UNKNOWN, PLEASE LET TECH KNOW"}</span>
 					<span>Console</span>
-					<span>{runDataActiveRep?.system ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
+					<span>{runDataActiveRep?.system ?? "UNKNOWN, PLEASE LET TECH KNOW"}</span>
 					<span>Release Year</span>
-					<span>{runDataActiveRep?.release ?? 'UNKNOWN, PLEASE LET TECH KNOW'}</span>
+					<span>{runDataActiveRep?.release ?? "UNKNOWN, PLEASE LET TECH KNOW"}</span>
 				</Data>
 			</RunInfo>
 			<NameInputs>
 				{headsets
-					.filter((headset) => headset.name !== 'Host')
+					.filter((headset) => headset.name !== "Host")
 					.map((headset, index) => {
-						const isRunner = runnerLabels[index].startsWith('R');
+						const isRunner = runnerLabels[index].startsWith("R");
 						return (
 							<NameRow key={headset.name}>
 								<HeadsetName
 									style={{
 										background: headset.colour,
 										color: headset.textColour,
-									}}>
+									}}
+								>
 									{headset.name}
 								</HeadsetName>
 								<Autocomplete
 									style={{
-										minWidth: isRunner ? '30vw' : '51vw',
-										marginRight: isRunner ? '1vw' : '5vw',
-										fontSize: '2rem !important',
+										minWidth: isRunner ? "30vw" : "51vw",
+										marginRight: isRunner ? "1vw" : "5vw",
+										fontSize: "2rem !important",
 									}}
 									freeSolo
 									options={allUsernames}
@@ -350,37 +351,37 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 										handleNameSelected(newVal, headset.name);
 									}}
 									inputValue={headset.runner.name}
-									onInputChange={(_, newVal) => setRunnerProperty('name', newVal, headset.name)}
+									onInputChange={(_, newVal) => setRunnerProperty("name", newVal, headset.name)}
 									renderInput={(params) => (
 										<TextField
 											{...params}
 											label={`${runnerLabels[index]} Name`}
-											InputProps={{ ...params.InputProps, style: { fontSize: '2rem' } }}
+											InputProps={{ ...params.InputProps, style: { fontSize: "2rem" } }}
 										/>
 									)}
 								/>
 								{isRunner && (
 									<TextField
-										style={{ width: '20vw', marginRight: '5vw', fontSize: '2rem !important' }}
-										value={headset.runner.twitch ?? ''}
+										style={{ width: "20vw", marginRight: "5vw", fontSize: "2rem !important" }}
+										value={headset.runner.twitch ?? ""}
 										onChange={(e) => {
-											setRunnerProperty('twitch', e.target.value, headset.name);
+											setRunnerProperty("twitch", e.target.value, headset.name);
 										}}
 										label={`${runnerLabels[index]} Twitch`}
-										InputProps={{ style: { fontSize: '2rem' } }}
+										InputProps={{ style: { fontSize: "2rem" } }}
 									/>
 								)}
 								<Autocomplete
-									style={{ minWidth: '20vw', fontSize: '2rem' }}
+									style={{ minWidth: "20vw", fontSize: "2rem" }}
 									freeSolo
 									options={PRONOUN_OPTIONS}
-									inputValue={headset.runner.pronouns ?? ''}
-									onInputChange={(_, newVal) => setRunnerProperty('pronouns', newVal, headset.name)}
+									inputValue={headset.runner.pronouns ?? ""}
+									onInputChange={(_, newVal) => setRunnerProperty("pronouns", newVal, headset.name)}
 									renderInput={(params) => (
 										<TextField
 											{...params}
 											label={`${runnerLabels[index]} Pronouns`}
-											InputProps={{ ...params.InputProps, style: { fontSize: '2rem' } }}
+											InputProps={{ ...params.InputProps, style: { fontSize: "2rem" } }}
 										/>
 									)}
 								/>
@@ -388,7 +389,8 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 									<Save
 										onClick={() => {
 											saveRunner(headset, index);
-										}}>
+										}}
+									>
 										Save
 									</Save>
 								)}

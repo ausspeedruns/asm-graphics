@@ -1,12 +1,12 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
 
-import { GameplayRouterParent } from './gameplay-overlay';
-import { Stream as TwitchStream } from '@asm-graphics/types/Streams';
+import { GameplayRouterParent } from "./gameplay-overlay";
+import { Stream as TwitchStream } from "@asm-graphics/types/Streams";
 
-import { ASMStream } from './elements/individual-stream';
+import { ASMStream } from "./elements/individual-stream";
 
 const PreviewStream = styled(ASMStream)`
 	z-index: -1;
@@ -16,12 +16,12 @@ const PreviewStream = styled(ASMStream)`
 `;
 
 const PreviewGameplayStream: React.FC = () => {
-	const [twitchStreamsRep] = useReplicant<TwitchStream[]>('twitchStreams', []);
+	const [twitchStreamsRep] = useReplicant<TwitchStream[]>("twitchStreams", []);
 
 	// Preview twitch streams
 	const previewStreamElements = twitchStreamsRep
 		.filter((ogStream) => {
-			if (ogStream.state === 'preview' || ogStream.state === 'both') {
+			if (ogStream.state === "preview" || ogStream.state === "both") {
 				return ogStream;
 			}
 
@@ -39,4 +39,4 @@ const PreviewGameplayStream: React.FC = () => {
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<PreviewGameplayStream />);
+createRoot(document.getElementById("root")!).render(<PreviewGameplayStream />);

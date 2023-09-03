@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { OverlayProps } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { VerticalInfo, IVerticalStyling } from '../elements/info-box/vertical';
-import { SponsorsBox } from '../elements/sponsors';
-import { Facecam } from '../elements/facecam';
-import { Couch } from '../elements/couch';
+import { VerticalInfo, IVerticalStyling } from "../elements/info-box/vertical";
+import { SponsorsBox } from "../elements/sponsors";
+import { Facecam } from "../elements/facecam";
+import { Couch } from "../elements/couch";
 
-import GBABG from '../media/ASM23/gba.png';
+import GBABG from "../media/ASM23/gba.png";
 
 const WHGContainer = styled.div`
 	height: 1016px;
@@ -63,7 +63,7 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 				<InfoBoxBG>
 					<img
 						src={GBABG}
-						style={{ position: 'absolute', height: 'auto', width: '100%', objectFit: 'contain', bottom: 0 }}
+						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch couch={props.couchInformation} style={{ zIndex: 3 }} />

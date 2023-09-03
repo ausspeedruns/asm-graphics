@@ -1,7 +1,7 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
-import { NoMargin } from './elements/no-margin';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
+import { NoMargin } from "./elements/no-margin";
 
 const TwitchChatContainer = styled.div``;
 
@@ -11,7 +11,7 @@ export const TwitchChat: React.FC = () => {
 		.map((parent: string) => {
 			return `&parent=${parent}`;
 		})
-		.join('');
+		.join("");
 
 	return (
 		<TwitchChatContainer>
@@ -21,9 +21,10 @@ export const TwitchChat: React.FC = () => {
 				height="500"
 				width="416"
 				id="twitchchat"
-				src={`https://www.twitch.tv/embed/ausspeedruns/chat?${parents}&darkpopout`}></iframe>
+				src={`https://www.twitch.tv/embed/ausspeedruns/chat?${parents}&darkpopout`}
+			></iframe>
 		</TwitchChatContainer>
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<TwitchChat />);
+createRoot(document.getElementById("root")!).render(<TwitchChat />);

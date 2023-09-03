@@ -1,19 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { OverlayProps } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { AudioIndicator } from '../elements/audio-indicator';
-import { Facecam } from '../elements/facecam';
+import { AudioIndicator } from "../elements/audio-indicator";
+import { Facecam } from "../elements/facecam";
 // import { RaceFinish } from '../elements/race-finish';
 
-import { Timer } from '../elements/timer';
-import * as RunInfo from '../elements/run-info';
+import { Timer } from "../elements/timer";
+import * as RunInfo from "../elements/run-info";
 
-import GameplayBL from '../media/Widescreen-3-BL.svg';
-import GameplayTL from '../media/Widescreen-3-TL.svg';
-import GameplayTR from '../media/Widescreen-3-TR.svg';
-import { RaceFinish } from '../elements/race-finish';
+import GameplayBL from "../media/Widescreen-3-BL.svg";
+import GameplayTL from "../media/Widescreen-3-TL.svg";
+import GameplayTR from "../media/Widescreen-3-TR.svg";
+import { RaceFinish } from "../elements/race-finish";
 
 const Widescreen3Container = styled.div`
 	height: 1016px;
@@ -116,18 +116,18 @@ const RightBG = styled.div`
 `;
 
 export const Widescreen3: React.FC<OverlayProps> = (props) => {
-	const leftTeamID = props.runData?.teams[0]?.id || '';
-	const middleTeamID = props.runData?.teams[1]?.id || '';
-	const rightTeamID = props.runData?.teams[2]?.id || '';
+	const leftTeamID = props.runData?.teams[0]?.id || "";
+	const middleTeamID = props.runData?.teams[1]?.id || "";
+	const rightTeamID = props.runData?.teams[2]?.id || "";
 	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
 		? props.timer.teamFinishTimes[leftTeamID].time
-		: '';
+		: "";
 	const middleTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(middleTeamID)
 		? props.timer.teamFinishTimes[middleTeamID].time
-		: '';
+		: "";
 	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID)
 		? props.timer.teamFinishTimes[middleTeamID].time
-		: '';
+		: "";
 	const leftTeamPlace = findPlace(leftTeamID);
 	const middleTeamPlace = findPlace(middleTeamID);
 	const rightTeamPlace = findPlace(rightTeamID);
@@ -135,7 +135,7 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 	function findPlace(teamID: string) {
 		if (props.timer?.teamFinishTimes.hasOwnProperty(teamID)) {
 			// Forfeit dont get a place (sorry runner)
-			if (props.timer.teamFinishTimes[teamID].state === 'forfeit') {
+			if (props.timer.teamFinishTimes[teamID].state === "forfeit") {
 				return -1;
 			} else {
 				// On a scale of 1 to fucked this is probably just a weird look
@@ -198,7 +198,7 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 						pronounStartSide="right"
 						teams={props.runData?.teams}
 						icons={[<NPIcon src={GameplayBL} />, <NPIcon src={GameplayTL} />, <NPIcon src={GameplayTR} />]}
-						style={{ borderRight: '1px solid var(--sec)' }}
+						style={{ borderRight: "1px solid var(--sec)" }}
 						audioIndicator={props.obsAudioIndicator}
 					/>
 
@@ -214,28 +214,28 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 						place={rightTeamPlace}
 					/>
 					<InfoBox>
-						<InfoBoxRow style={{ height: '23%' }}>
+						<InfoBoxRow style={{ height: "23%" }}>
 							<InfoBoxCell>
 								<RunInfo.GameTitle
 									style={{ fontSize: 30 }}
 									maxWidth={440}
-									game={props.runData?.game || ''}
+									game={props.runData?.game || ""}
 								/>
 							</InfoBoxCell>
 							<InfoBoxCell>
 								<RunInfo.Category
 									style={{ fontSize: 30 }}
 									maxWidth={440}
-									category={props.runData?.category || ''}
+									category={props.runData?.category || ""}
 								/>
 							</InfoBoxCell>
 						</InfoBoxRow>
-						<InfoBoxRow style={{ height: '43%' }}>
+						<InfoBoxRow style={{ height: "43%" }}>
 							<InfoBoxCell>
-								<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
-									<RunInfo.System style={{ fontSize: 34 }} system={props.runData?.system || ''} />
-									<RunInfo.Year style={{ fontSize: 34 }} year={props.runData?.release || ''} />
-									<RunInfo.Estimate fontSize={34} estimate={props.runData?.estimate || ''} />
+								<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
+									<RunInfo.System style={{ fontSize: 34 }} system={props.runData?.system || ""} />
+									<RunInfo.Year style={{ fontSize: 34 }} year={props.runData?.release || ""} />
+									<RunInfo.Estimate fontSize={34} estimate={props.runData?.estimate || ""} />
 								</div>
 							</InfoBoxCell>
 							<InfoBoxCell>

@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
+import React from "react";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
 
-import { Box, Grid } from '@mui/material';
+import { Box, Grid } from "@mui/material";
 
-import { Goal, War } from '@asm-graphics/types/Incentives';
-import { RunData } from '@asm-graphics/types/RunData';
+import { Goal, War } from "@asm-graphics/types/Incentives";
+import { RunData } from "@asm-graphics/types/RunData";
 
 const IncentivesContainer = styled.div`
 	display: flex;
@@ -20,19 +20,19 @@ interface Props {
 }
 
 function removeExtrasInName(name: string) {
-	return name.trim().replace(/[:!]/, '').toLowerCase();
+	return name.trim().replace(/[:!]/, "").toLowerCase();
 }
 
 export const Incentives: React.FC<Props> = (props: Props) => {
-	const [incentivesRep] = useReplicant<(Goal | War)[]>('incentives', []);
-	const [runDataActiveRep] = useReplicant<RunData | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [incentivesRep] = useReplicant<(Goal | War)[]>("incentives", []);
+	const [runDataActiveRep] = useReplicant<RunData | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
 
 	const removedDeadIncentives = incentivesRep.filter((incentive) => {
 		if (
 			incentive.active ||
-			removeExtrasInName(incentive.game) === removeExtrasInName(runDataActiveRep?.game || '')
+			removeExtrasInName(incentive.game) === removeExtrasInName(runDataActiveRep?.game || "")
 		) {
 			return incentive;
 		}
@@ -134,7 +134,7 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 	let incentiveData = <></>;
 
 	switch (props.incentive.type) {
-		case 'Goal': {
+		case "Goal": {
 			const amountLeft = props.incentive.goal - props.incentive.total;
 
 			incentiveData = (
@@ -146,7 +146,7 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 						{(props.incentive.total % 1 === 0
 							? props.incentive.total
 							: props.incentive.total.toFixed(2)
-						).toLocaleString()}{' '}
+						).toLocaleString()}{" "}
 						/ ${props.incentive.goal.toLocaleString()}
 					</span>
 				</GoalContainer>
@@ -154,19 +154,21 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 			break;
 		}
 
-		case 'War': {
+		case "War": {
 			let warData: JSX.Element | JSX.Element[] = <WarNoOptions boxShadow={1}>No names submitted</WarNoOptions>;
 
 			if (props.incentive.options.length !== 0) {
 				const mutableWarData = props.incentive.options.map((a) => ({ ...a }));
 				mutableWarData.sort((a, b) => a.total - b.total);
-				warData = mutableWarData.map((option) => {
-					return (
-						<WarItem boxShadow={1} key={option.name}>
-							{option.name}: ${option.total.toLocaleString()}
-						</WarItem>
-					);
-				}).reverse();
+				warData = mutableWarData
+					.map((option) => {
+						return (
+							<WarItem boxShadow={1} key={option.name}>
+								{option.name}: ${option.total.toLocaleString()}
+							</WarItem>
+						);
+					})
+					.reverse();
 			}
 
 			incentiveData = <WarContainer>{warData}</WarContainer>;

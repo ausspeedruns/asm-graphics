@@ -1,7 +1,7 @@
-import { Slider } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { FitText } from '../../elements/fit-text';
+import { Slider } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { FitText } from "../../elements/fit-text";
 
 const AudioFaderContainer = styled.div`
 	height: 100%;
@@ -34,47 +34,46 @@ const FaderLabel = styled(FitText)`
 const marks = [
 	{
 		value: 1,
-		label: '+10',
+		label: "+10",
 	},
 	{
 		value: 0.876,
-		label: '5',
+		label: "5",
 	},
 	{
 		value: 0.75,
-		label: '0',
+		label: "0",
 	},
 	{
 		value: 0.626,
-		label: '-5',
+		label: "-5",
 	},
 	{
 		value: 0.5,
-		label: '-10',
+		label: "-10",
 	},
 	{
 		value: 0.374,
-		label: '-20',
+		label: "-20",
 	},
 	{
 		value: 0.253,
-		label: '-30',
+		label: "-30",
 	},
 	{
 		value: 0.13,
-		label: '-50',
+		label: "-50",
 	},
 	{
 		value: 0,
-		label: '-∞',
+		label: "-∞",
 	},
 ];
 
 const StyledSlider = styled(Slider)`
 	width: 5px !important;
 
-	& .MuiSlider-thumb
-	{
+	& .MuiSlider-thumb {
 		height: 35px;
 		width: 20px;
 		border-radius: 5px;
@@ -106,9 +105,9 @@ export const AudioFader = (props: Props) => {
 	const [faderVal, setFaderVal] = useState<number | undefined>(undefined);
 
 	useEffect(() => {
-		if (typeof props.value !== 'undefined') {
+		if (typeof props.value !== "undefined") {
 			setFaderVal(props.value);
-		};
+		}
 	}, [props.value]);
 
 	const dbVal = floatToDB(faderVal ?? NaN);
@@ -117,19 +116,19 @@ export const AudioFader = (props: Props) => {
 		<AudioFaderContainer className={props.className} style={props.style}>
 			<FaderLabel
 				style={{
-					fontStyle: props.label === 'You' ? 'italic' : 'initial',
-					fontWeight: props.label === 'MASTER' ? 'bold' : 'normal',
+					fontStyle: props.label === "You" ? "italic" : "initial",
+					fontWeight: props.label === "MASTER" ? "bold" : "normal",
 				}}
 				text={props.label}
 			/>
 			<DBValue>
-				{dbVal > 0 && '+'}
-				{dbVal === Number.NEGATIVE_INFINITY ? '-∞' : dbVal.toFixed(1)}
+				{dbVal > 0 && "+"}
+				{dbVal === Number.NEGATIVE_INFINITY ? "-∞" : dbVal.toFixed(1)}
 				{/* <br/>
 				{faderVal} */}
 			</DBValue>
 			<StyledSlider
-				style={{ margin: 'auto' }}
+				style={{ margin: "auto" }}
 				size="medium"
 				orientation="vertical"
 				// value={props.value}
@@ -146,9 +145,9 @@ export const AudioFader = (props: Props) => {
 				step={0.001}
 				marks={marks}
 				sx={{
-					'& .MuiSlider-track': {
-						background: `linear-gradient(0deg, ${props.colour}, black)`
-					}
+					"& .MuiSlider-track": {
+						background: `linear-gradient(0deg, ${props.colour}, black)`,
+					},
 				}}
 			/>
 		</AudioFaderContainer>

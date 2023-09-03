@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
-import { Button, TextField, ThemeProvider } from '@mui/material';
-import { darkTheme } from './theme';
-import { useReplicant } from 'use-nodecg';
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
-import { GreenButton, RedButton } from './elements/styled-ui';
-import { DragIndicator } from '@mui/icons-material';
-import { useLocalStorage } from './useLocalStorage';
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
+import { Button, TextField, ThemeProvider } from "@mui/material";
+import { darkTheme } from "./theme";
+import { useReplicant } from "use-nodecg";
+import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
+import { GreenButton, RedButton } from "./elements/styled-ui";
+import { DragIndicator } from "@mui/icons-material";
+import { useLocalStorage } from "./useLocalStorage";
 
 const ASNNDashContainer = styled.div``;
 
@@ -90,7 +90,7 @@ function HeadlineItem({
 			{(provided) => (
 				<TickerItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
 					<DragIndicator />
-					<p style={{ flexGrow: 1, fontWeight: showing ? 'bold' : 'normal' }}>{text}</p>
+					<p style={{ flexGrow: 1, fontWeight: showing ? "bold" : "normal" }}>{text}</p>
 					<RedButton variant="contained" onClick={removeFunc} disabled={showing}>
 						–
 					</RedButton>
@@ -128,14 +128,14 @@ function HeadlineList({
 }
 
 export const ASNNDash = () => {
-	const [asnnHeadline, setAsnnHeadline] = useReplicant<string>('asnn:headline', '');
-	const [asnnTicker, setAsnnTicker] = useReplicant<string[]>('asnn:ticker', []);
-	const [headlineTextBox, setHeadlineTextBox] = useState('');
-	const [headlineItems, setHeadlineItems] = useLocalStorage<string[]>('asnnHeadlines', []);
-	const [tickerTextBox, setTickerTextBox] = useState('');
+	const [asnnHeadline, setAsnnHeadline] = useReplicant<string>("asnn:headline", "");
+	const [asnnTicker, setAsnnTicker] = useReplicant<string[]>("asnn:ticker", []);
+	const [headlineTextBox, setHeadlineTextBox] = useState("");
+	const [headlineItems, setHeadlineItems] = useLocalStorage<string[]>("asnnHeadlines", []);
+	const [tickerTextBox, setTickerTextBox] = useState("");
 	const [ticker, setTicker] = useState<string[]>([]);
-	const [name, setName] = useState('');
-	const [subtitle, setSubtitle] = useState('');
+	const [name, setName] = useState("");
+	const [subtitle, setSubtitle] = useState("");
 
 	useEffect(() => {
 		if (asnnHeadline && !headlineItems.includes(asnnHeadline)) {
@@ -191,14 +191,15 @@ export const ASNNDash = () => {
 					<GreenButton
 						variant="contained"
 						fullWidth
-						onClick={() => nodecg.sendMessage('asnn:showName', { name: name, subtitle: subtitle })}>
+						onClick={() => nodecg.sendMessage("asnn:showName", { name: name, subtitle: subtitle })}
+					>
 						Show Name
 					</GreenButton>
-					<RedButton variant="contained" fullWidth onClick={() => nodecg.sendMessage('asnn:hideName')}>
+					<RedButton variant="contained" fullWidth onClick={() => nodecg.sendMessage("asnn:hideName")}>
 						Hide Name
 					</RedButton>
 				</Row>
-				<hr style={{ margin: '24px 0' }} />
+				<hr style={{ margin: "24px 0" }} />
 				<Row>
 					<TextField
 						fullWidth
@@ -210,9 +211,10 @@ export const ASNNDash = () => {
 						variant="contained"
 						onClick={() => {
 							setHeadlineItems([...headlineItems, headlineTextBox]);
-							setHeadlineTextBox('');
+							setHeadlineTextBox("");
 						}}
-						disabled={!headlineTextBox}>
+						disabled={!headlineTextBox}
+					>
 						Add
 					</GreenButton>
 				</Row>
@@ -234,7 +236,7 @@ export const ASNNDash = () => {
 						</Droppable>
 					</DragDropContext>
 				</TickerListContainer>
-				<hr style={{ margin: '24px 0' }} />
+				<hr style={{ margin: "24px 0" }} />
 				<Row>
 					<TextField
 						fullWidth
@@ -246,9 +248,10 @@ export const ASNNDash = () => {
 						variant="contained"
 						onClick={() => {
 							setTicker([...ticker, tickerTextBox]);
-							setTickerTextBox('');
+							setTickerTextBox("");
 						}}
-						disabled={!tickerTextBox}>
+						disabled={!tickerTextBox}
+					>
 						Add
 					</Button>
 				</Row>
@@ -269,7 +272,8 @@ export const ASNNDash = () => {
 					fullWidth
 					variant="contained"
 					onClick={() => setAsnnTicker(ticker)}
-					disabled={asnnTicker == ticker}>
+					disabled={asnnTicker == ticker}
+				>
 					Update Ticker
 				</GreenButton>
 			</ASNNDashContainer>
@@ -277,4 +281,4 @@ export const ASNNDash = () => {
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<ASNNDash />);
+createRoot(document.getElementById("root")!).render(<ASNNDash />);

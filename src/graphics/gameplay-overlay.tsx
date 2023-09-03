@@ -1,34 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
-import { HashRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import { useListenFor, useReplicant } from 'use-nodecg';
-import _ from 'underscore';
+import React, { useEffect, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import styled from "styled-components";
+import { HashRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { useListenFor, useReplicant } from "use-nodecg";
+import _ from "underscore";
 
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
-import { RunDataActiveRun, RunDataArray } from '@asm-graphics/types/RunData';
-import { Timer } from '@asm-graphics/types/Timer';
-import { CouchPerson, OverlayRef } from '@asm-graphics/types/OverlayProps';
+import { RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
+import { Timer } from "@asm-graphics/types/Timer";
+import { CouchPerson, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { TickerOverlay } from './ticker';
-import { Standard } from './overlays/standard';
-import { Standard2 } from './overlays/standard-2';
-import { Widescreen } from './overlays/widescreen';
-import { Widescreen2 } from './overlays/widescreen-2';
-import { Widescreen3 } from './overlays/widescreen-3';
-import { Widescreen1610 } from './overlays/widescreen16-10';
-import { DS } from './overlays/ds';
-import { GBA } from './overlays/gba';
-import { GBA2 } from './overlays/gba-2';
-import { GBC } from './overlays/gbc';
-import { DS2 } from './overlays/ds2';
-import { WHG } from './overlays/whg11-8';
-import { ThreeDS } from './overlays/3ds';
-import { NoGraphics } from './overlays/no-graphics';
-import type NodeCG from '@nodecg/types';
-import type { Tweet } from '@asm-graphics/types/Twitter';
-import type { AudioIndicator } from '@asm-graphics/types/Audio';
-import { StandardVertical } from './overlays/standard-vertical';
+import { TickerOverlay } from "./ticker";
+import { Standard } from "./overlays/standard";
+import { Standard2 } from "./overlays/standard-2";
+import { Widescreen } from "./overlays/widescreen";
+import { Widescreen2 } from "./overlays/widescreen-2";
+import { Widescreen3 } from "./overlays/widescreen-3";
+import { Widescreen1610 } from "./overlays/widescreen16-10";
+import { DS } from "./overlays/ds";
+import { GBA } from "./overlays/gba";
+import { GBA2 } from "./overlays/gba-2";
+import { GBC } from "./overlays/gbc";
+import { DS2 } from "./overlays/ds2";
+import { WHG } from "./overlays/whg11-8";
+import { ThreeDS } from "./overlays/3ds";
+import { NoGraphics } from "./overlays/no-graphics";
+import type NodeCG from "@nodecg/types";
+import type { Tweet } from "@asm-graphics/types/Twitter";
+import type { AudioIndicator } from "@asm-graphics/types/Audio";
+import { StandardVertical } from "./overlays/standard-vertical";
 
 const GameplayOverlayCont = styled.div``;
 
@@ -61,17 +61,17 @@ export const GameplayRouterParent = (props: GameplayOverlayProps) => {
 };
 
 const GameplayOverlay = (props: GameplayOverlayProps) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [timerRep] = useReplicant<Timer | undefined>('timer', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [timerRep] = useReplicant<Timer | undefined>("timer", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [hostNamesRep] = useReplicant<CouchPerson[]>('couch-names', []);
+	const [hostNamesRep] = useReplicant<CouchPerson[]>("couch-names", []);
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>('assets:sponsors', []);
-	const [audioIndicatorRep] = useReplicant<string>('audio-indicator', '');
-	const [obsAudioIndicatorRep] = useReplicant<AudioIndicator>('audio-indicators', {});
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", []);
+	const [audioIndicatorRep] = useReplicant<string>("audio-indicator", "");
+	const [obsAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators", {});
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
@@ -89,12 +89,12 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const Overlays = [
 		{
 			component: <Standard {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[0] = el)} />,
-			name: '',
+			name: "",
 			// Default as standard
 		},
 		{
 			component: <Standard {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[1] = el)} />,
-			name: 'Standard',
+			name: "Standard",
 		},
 		{
 			component: (
@@ -104,11 +104,11 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 					ref={(el: OverlayRef) => (overlayRefs.current[2] = el)}
 				/>
 			),
-			name: 'Standard-2',
+			name: "Standard-2",
 		},
 		{
 			component: <Widescreen {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[3] = el)} />,
-			name: 'Widescreen',
+			name: "Widescreen",
 		},
 		{
 			component: (
@@ -118,51 +118,51 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 					ref={(el: OverlayRef) => (overlayRefs.current[4] = el)}
 				/>
 			),
-			name: 'Widescreen-2',
+			name: "Widescreen-2",
 		},
 		{
 			component: <Widescreen3 {...overlayArgs} audioIndicator={audioIndicatorRep} />,
-			name: 'Widescreen-3',
+			name: "Widescreen-3",
 		},
 		{
 			component: <Widescreen1610 {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[5] = el)} />,
-			name: 'Widescreen-1610',
+			name: "Widescreen-1610",
 		},
 		{
 			component: <DS {...overlayArgs} />,
-			name: 'DS',
+			name: "DS",
 		},
 		{
 			component: <DS2 {...overlayArgs} />,
-			name: 'DS-2',
+			name: "DS-2",
 		},
 		{
 			component: <GBA {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[6] = el)} />,
-			name: 'GBA',
+			name: "GBA",
 		},
 		{
 			component: <GBA2 {...overlayArgs} />,
-			name: 'GBA-2',
+			name: "GBA-2",
 		},
 		{
 			component: <GBC {...overlayArgs} />,
-			name: 'GBC',
+			name: "GBC",
 		},
 		{
 			component: <WHG {...overlayArgs} />,
-			name: 'WHG',
+			name: "WHG",
 		},
 		{
 			component: <ThreeDS {...overlayArgs} />,
-			name: '3DS',
+			name: "3DS",
 		},
 		{
 			component: <StandardVertical {...overlayArgs} />,
-			name: 'Standard-Vertical',
+			name: "Standard-Vertical",
 		},
 		{
 			component: <NoGraphics />,
-			name: 'None',
+			name: "None",
 		},
 	];
 
@@ -172,7 +172,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	// 	// }
 	// });
 
-	useListenFor('showTweet', (newVal: Tweet) => {
+	useListenFor("showTweet", (newVal: Tweet) => {
 		overlayRefs.current.forEach((ref) => {
 			if (ref) ref.showTweet?.(newVal);
 		});
@@ -180,8 +180,8 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 
 	useEffect(() => {
 		if (props.preview) {
-			nodecg.readReplicant('runDataArray', 'nodecg-speedcontrol', (runData) => {
-				nodecg.readReplicant('runDataActiveRunSurrounding', 'nodecg-speedcontrol', (surrounding) => {
+			nodecg.readReplicant("runDataArray", "nodecg-speedcontrol", (runData) => {
+				nodecg.readReplicant("runDataActiveRunSurrounding", "nodecg-speedcontrol", (surrounding) => {
 					setDisplayingRun(
 						(runData as RunDataArray).find(
 							(run) =>
@@ -220,15 +220,15 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 
 			{DevLinks}
 			<div>
-				<button onClick={() => changeBGColor('#000')}>Black</button>
-				<button onClick={() => changeBGColor('#f00')}>Red</button>
-				<button onClick={() => changeBGColor('#0f0')}>Green</button>
-				<button onClick={() => changeBGColor('#00f')}>Blue</button>
-				<button onClick={() => changeBGColor('rgba(0, 0, 0, 0)')}>Transparent</button>
-				<button onClick={() => nodecg.sendMessage('start-credits')}>Credits</button>
+				<button onClick={() => changeBGColor("#000")}>Black</button>
+				<button onClick={() => changeBGColor("#f00")}>Red</button>
+				<button onClick={() => changeBGColor("#0f0")}>Green</button>
+				<button onClick={() => changeBGColor("#00f")}>Blue</button>
+				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
+				<button onClick={() => nodecg.sendMessage("start-credits")}>Credits</button>
 			</div>
 		</GameplayOverlayCont>
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<GameplayRouterParent />);
+createRoot(document.getElementById("root")!).render(<GameplayRouterParent />);

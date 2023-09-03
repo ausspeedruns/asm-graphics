@@ -1,15 +1,15 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from '@asm-graphics/types/OverlayProps';
+import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { IVerticalStyling, VerticalInfo } from '../elements/info-box/vertical';
-import { SponsorBoxRef, SponsorsBox } from '../elements/sponsors';
-import { Facecam } from '../elements/facecam';
-import { Couch } from '../elements/couch';
+import { IVerticalStyling, VerticalInfo } from "../elements/info-box/vertical";
+import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { Facecam } from "../elements/facecam";
+import { Couch } from "../elements/couch";
 
-import StandardBG from '../media/ASM23/standard-vertical-left.png';
-import StandardRightBG from '../media/ASM23/standard-vertical-right.png';
+import StandardBG from "../media/ASM23/standard-vertical-left.png";
+import StandardRightBG from "../media/ASM23/standard-vertical-right.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -47,7 +47,7 @@ const RightSide = styled.div`
 	right: 0;
 	border-left: 1px solid var(--asm-orange);
 	background: var(--main);
-	background-image: url('${StandardRightBG}');
+	background-image: url("${StandardRightBG}");
 	background-position: center;
 	background-repeat: none;
 
@@ -106,9 +106,13 @@ export const StandardVertical = forwardRef<OverlayRef, OverlayProps>((props, ref
 				<InfoBoxBG>
 					<img
 						src={StandardBG}
-						style={{ position: 'absolute', height: 'auto', width: '100%', objectFit: 'contain', bottom: 0 }}
+						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/>
-					<Couch style={{ zIndex: 3, paddingTop: 32, transform: 'scale(1.2)' }} couch={props.couchInformation} audio={props.obsAudioIndicator} />
+					<Couch
+						style={{ zIndex: 3, paddingTop: 32, transform: "scale(1.2)" }}
+						couch={props.couchInformation}
+						audio={props.obsAudioIndicator}
+					/>
 				</InfoBoxBG>
 			</Sidebar>
 			<RightSide>

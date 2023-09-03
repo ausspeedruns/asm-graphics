@@ -1,11 +1,11 @@
-import React, { useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
 
-import { Goal } from '@asm-graphics/types/Incentives';
-import { TickerItemHandles } from '../ticker';
+import { Goal } from "@asm-graphics/types/Incentives";
+import { TickerItemHandles } from "../ticker";
 
-import { TickerTitle } from './title';
-import { FitText } from '../fit-text';
+import { TickerTitle } from "./title";
+import { FitText } from "../fit-text";
 
 const TickerGoalsContainer = styled.div`
 	position: absolute;
@@ -65,14 +65,14 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid #FFFFFF;
+	border: 1px solid #ffffff;
 	position: relative;
 	overflow: hidden;
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: #FFFFFF;
+	background: #ffffff;
 	border-right: 5px solid var(--sec);
 	display: flex;
 	align-items: center;
@@ -103,7 +103,7 @@ export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Pr
 			}
 
 			// Start
-			tl.addLabel('goalStart');
+			tl.addLabel("goalStart");
 			tl.set(containerRef.current, { y: -64 });
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
@@ -112,7 +112,7 @@ export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Pr
 			}
 
 			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, '-=1');
+			tl.to(containerRef.current, { y: 64, duration: 1 }, "-=1");
 
 			return tl;
 		},
@@ -139,7 +139,7 @@ export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Pr
 
 	return (
 		<TickerGoalsContainer ref={containerRef}>
-			<TickerTitle style={{color: 'var(--text-light)'}}>
+			<TickerTitle style={{ color: "var(--text-light)" }}>
 				Challenge
 				<br />
 				Goals
@@ -173,14 +173,18 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(progressBarRef.current, { width: 0 }, 'goalStart');
-			tl.set(containerRef.current, { y: -64 }, '-=0.5');
-			tl.to(containerRef.current, { y: 0, duration: 1 }, '-=0.5');
+			tl.set(progressBarRef.current, { width: 0 }, "goalStart");
+			tl.set(containerRef.current, { y: -64 }, "-=0.5");
+			tl.to(containerRef.current, { y: 0, duration: 1 }, "-=0.5");
 
-			tl.to(progressBarRef.current, { width: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) }, '+=0.1');
+			tl.to(
+				progressBarRef.current,
+				{ width: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) },
+				"+=0.1",
+			);
 
 			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, '+=10');
+			tl.to(containerRef.current, { y: 64, duration: 1 }, "+=10");
 			tl.set(containerRef.current, { y: -64, duration: 1 });
 
 			return tl;
@@ -191,8 +195,8 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	if (percentage < 50) {
 		textOnRightSide = {
 			marginRight: -110,
-			color: 'var(--text-light)',
-			textAlign: 'left',
+			color: "var(--text-light)",
+			textAlign: "left",
 		};
 	}
 
@@ -216,5 +220,5 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	);
 });
 
-TickerGoals.displayName = 'TickerGoals';
-GoalBar.displayName = 'GoalBar';
+TickerGoals.displayName = "TickerGoals";
+GoalBar.displayName = "GoalBar";

@@ -1,11 +1,11 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
-import styled from 'styled-components';
+import React, { useImperativeHandle, useRef, useState } from "react";
+import styled from "styled-components";
 
-import { War } from '@asm-graphics/types/Incentives';
-import { TickerItemHandles } from '../ticker';
+import { War } from "@asm-graphics/types/Incentives";
+import { TickerItemHandles } from "../ticker";
 
-import { TickerTitle } from './title';
-import { FitText } from '../fit-text';
+import { TickerTitle } from "./title";
+import { FitText } from "../fit-text";
 // import { tgxColour } from './item';
 
 const TickerWarContainer = styled.div`
@@ -104,7 +104,7 @@ export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Prop
 			}
 
 			// Start
-			tl.addLabel('warStart');
+			tl.addLabel("warStart");
 			tl.set(containerRef.current, { y: -64 });
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
@@ -113,7 +113,7 @@ export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Prop
 			}
 
 			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, '-=1');
+			tl.to(containerRef.current, { y: 64, duration: 1 }, "-=1");
 			tl.set(containerRef.current, { y: -64, duration: 1 });
 
 			return tl;
@@ -173,19 +173,19 @@ interface GoalProps {
 const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
-	const [animLabel] = useState(props.war.index.toString() + 'a');
+	const [animLabel] = useState(props.war.index.toString() + "a");
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.to(containerRef.current, { y: 0, duration: 1 }, '-=0.5');
+			tl.to(containerRef.current, { y: 0, duration: 1 }, "-=0.5");
 
 			for (let i = 0; i < Math.min(props.war.options.length, 5); i++) {
 				tl.add(optionRefs.current[props.war.options.length - 1 - i].animation(tl), animLabel);
 			}
 
 			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, '+=10');
+			tl.to(containerRef.current, { y: 64, duration: 1 }, "+=10");
 			tl.set(containerRef.current, { y: -64 });
 
 			return tl;
@@ -221,7 +221,7 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 	if (props.war.options.length > 6) {
 		const remaining = props.war.options.length - 6;
 		allOptions = allOptions.slice(0, 5);
-		allOptions.push(<MoreChoices key={'more'} more={remaining} />);
+		allOptions.push(<MoreChoices key={"more"} more={remaining} />);
 	}
 
 	return (
@@ -254,7 +254,7 @@ const TextDiv = styled.div`
 `;
 
 interface WarChoiceProps {
-	option: War['options'][0];
+	option: War["options"][0];
 	highest: number;
 	animLabel: string;
 	index?: number;
@@ -267,7 +267,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(progressBarRef.current, { width: 0 }, 'warStart');
+			tl.set(progressBarRef.current, { width: 0 }, "warStart");
 			tl.to(progressBarRef.current, { width: `${percentage}%`, duration: 2 }, props.animLabel);
 			return tl;
 		},
@@ -277,17 +277,18 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 		<ProgressContainer>
 			<ProgressBarContainer
 				ref={progressBarRef}
-				style={{ borderColor: isColor(props.option.name) ? props.option.name : 'var(--asm-orange)' }}
+				style={{ borderColor: isColor(props.option.name) ? props.option.name : "var(--asm-orange)" }}
 			/>
 			<TextDiv>
 				<div
 					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						background: '#FFFFFF',
-						padding: '0 10px',
-						maxWidth: '80%',
-					}}>
+						display: "flex",
+						justifyContent: "center",
+						background: "#FFFFFF",
+						padding: "0 10px",
+						maxWidth: "80%",
+					}}
+				>
 					<OptionName text={props.option.name} />
 					<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
 				</div>
@@ -328,12 +329,12 @@ const MoreChoices: React.FC<MoreChoicesProps> = (props: MoreChoicesProps) => {
 	return <MoreChoicesContainer>{props.more} more options</MoreChoicesContainer>;
 };
 
-TickerWar.displayName = 'TickerWar';
-WarGame.displayName = 'WarGame';
-WarChoice.displayName = 'WarChoice';
+TickerWar.displayName = "TickerWar";
+WarGame.displayName = "WarGame";
+WarChoice.displayName = "WarChoice";
 
 function isColor(strColor: string) {
 	const s = new Option().style;
 	s.color = strColor;
-	return s.color !== '';
+	return s.color !== "";
 }

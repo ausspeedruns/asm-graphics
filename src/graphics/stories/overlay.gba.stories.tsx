@@ -1,11 +1,11 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { GBA } from '../overlays/gba';
-import { DefaultOverlay } from './defaults';
+import { GBA } from "../overlays/gba";
+import { DefaultOverlay } from "./defaults";
 
 export default {
-	title: 'Overlay/GBA 3:2',
+	title: "Overlay/GBA 3:2",
 	component: GBA,
 } as ComponentMeta<typeof GBA>;
 

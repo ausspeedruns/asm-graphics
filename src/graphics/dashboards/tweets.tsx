@@ -1,15 +1,14 @@
 // Copy paste from dashboard version
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { useReplicant, useListenFor } from 'use-nodecg';
-import _ from 'underscore';
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
+import { useReplicant, useListenFor } from "use-nodecg";
+import _ from "underscore";
 
-import { Tweet } from '@asm-graphics/types/Twitter';
+import { Tweet } from "@asm-graphics/types/Twitter";
 
-
-import { GreenButton, RedButton } from '../../dashboard/elements/styled-ui';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Delete, Undo } from '@mui/icons-material';
+import { GreenButton, RedButton } from "../../dashboard/elements/styled-ui";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Delete, Undo } from "@mui/icons-material";
 
 const ncgConfig = nodecg.bundleConfig;
 
@@ -51,7 +50,7 @@ const fakeTweet: Tweet = {
 }; */
 
 export const Twitter: React.FC = () => {
-	const [tweetList] = useReplicant<Tweet[]>('tweets', []);
+	const [tweetList] = useReplicant<Tweet[]>("tweets", []);
 	const [canUndo, setCanUndo] = useState(false);
 	const [showingTweet, setShowingTweet] = useState<Tweet | undefined>(undefined);
 	const [showDialog, setShowDialog] = useState(false);
@@ -71,11 +70,11 @@ export const Twitter: React.FC = () => {
 		noTweets = <NoTweetsMsg>There are no recent tweets :(</NoTweetsMsg>;
 	}
 
-	useListenFor('discardTweet', () => {
+	useListenFor("discardTweet", () => {
 		setCanUndo(true);
 	});
 
-	useListenFor('showPotentialTweet', (tweet: Tweet) => {
+	useListenFor("showPotentialTweet", (tweet: Tweet) => {
 		setShowingTweet(tweet);
 		setShowDialog(true);
 		setAgreeDisabled(true);
@@ -90,7 +89,7 @@ export const Twitter: React.FC = () => {
 	};
 
 	const showTweet = () => {
-		if (showingTweet) nodecg.sendMessage('showTweet', showingTweet);
+		if (showingTweet) nodecg.sendMessage("showTweet", showingTweet);
 		hideDialog();
 	};
 
@@ -101,26 +100,28 @@ export const Twitter: React.FC = () => {
 					variant="contained"
 					size="small"
 					onClick={() => {
-						nodecg.sendMessage('refresh-tweets');
-					}}>
+						nodecg.sendMessage("refresh-tweets");
+					}}
+				>
 					Refresh
 				</Button>
 				<Button
-					style={{ float: 'right' }}
+					style={{ float: "right" }}
 					variant="contained"
 					size="small"
 					disabled={!canUndo}
 					startIcon={<Undo />}
 					onClick={() => {
-						nodecg.sendMessage('undoTweetDeletion');
+						nodecg.sendMessage("undoTweetDeletion");
 						setCanUndo(false);
-					}}>
+					}}
+				>
 					Undo
 				</Button>
 			</TopBar>
 			<div style={{ padding: 8 }}>{tweets.length === 0 ? noTweets : tweets.reverse()}</div>
 			<Dialog open={showDialog} onClose={hideDialog}>
-				<DialogTitle id="alert-dialog-title">{'Are you sure?'}</DialogTitle>
+				<DialogTitle id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>Are you sure you want to show this tweet?</DialogContentText>
 					<SingleTweet tweet={showingTweet} hideButtons />
@@ -180,11 +181,11 @@ const SingleTweet: React.FC<SingleTweetProps> = (props: SingleTweetProps) => {
 	if (!props.tweet) return <></>;
 
 	const showTweet = () => {
-		nodecg.sendMessage('showPotentialTweet', props.tweet);
+		nodecg.sendMessage("showPotentialTweet", props.tweet);
 	};
 
 	const deleteTweet = () => {
-		nodecg.sendMessage('discardTweet', props.tweet?.data.id);
+		nodecg.sendMessage("discardTweet", props.tweet?.data.id);
 	};
 
 	const tweetCreatedAt = new Date(props.tweet.data.created_at);
@@ -193,7 +194,7 @@ const SingleTweet: React.FC<SingleTweetProps> = (props: SingleTweetProps) => {
 		<SingleTweetContainer boxShadow={2}>
 			<Data>
 				<div>
-					<Time>{tweetCreatedAt.toLocaleTimeString('en-AU')}</Time>
+					<Time>{tweetCreatedAt.toLocaleTimeString("en-AU")}</Time>
 					<Username>@{props.tweet.includes.users[0].username}</Username>
 				</div>
 				<Text>{_.unescape(props.tweet.data.text)}</Text>
@@ -201,8 +202,8 @@ const SingleTweet: React.FC<SingleTweetProps> = (props: SingleTweetProps) => {
 			{props.hideButtons ? (
 				<></>
 			) : (
-				<div style={{ display: 'flex' }}>
-					<RedButton style={{ height: '100%', marginRight: 4 }} variant="contained" onClick={deleteTweet}>
+				<div style={{ display: "flex" }}>
+					<RedButton style={{ height: "100%", marginRight: 4 }} variant="contained" onClick={deleteTweet}>
 						<Delete />
 					</RedButton>
 					<GreenButton variant="contained" onClick={showTweet}>

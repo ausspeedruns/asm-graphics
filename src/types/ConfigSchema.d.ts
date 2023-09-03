@@ -15,7 +15,7 @@ export interface ConfigSchema {
 		key: string;
 		secret: string;
 		bearer?: string;
-		rules: { value: string, tag: string }[];
+		rules: { value: string; tag: string }[];
 	};
 	googleCredentials: GoogleCredentials;
 	raisely: {
@@ -23,7 +23,7 @@ export interface ConfigSchema {
 		accessToken?: string;
 		campaignId?: string;
 		profileId?: string;
-	}
+	};
 	hostname?: string;
 	tiltify?: {
 		enabled: boolean;
@@ -50,13 +50,13 @@ interface GoogleCredentials {
 	enabled: boolean; // Custom added
 	sheetname: string; // Custom added
 	spreadsheet: string;
-    installed: {
-		client_id:                string;
-		project_id:               string;
-		auth_uri:                 string;
-		token_uri:                string;
+	installed: {
+		client_id: string;
+		project_id: string;
+		auth_uri: string;
+		token_uri: string;
 		auth_provider_x509_cert_url: string;
-		client_secret:            string;
-		redirect_uris:            string[];
+		client_secret: string;
+		redirect_uris: string[];
 	};
 }

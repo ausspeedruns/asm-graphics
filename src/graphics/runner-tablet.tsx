@@ -1,13 +1,13 @@
-import { createRoot } from 'react-dom/client';
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useListenFor, useReplicant } from 'use-nodecg';
+import { createRoot } from "react-dom/client";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useListenFor, useReplicant } from "use-nodecg";
 
 // import type { Timer } from '@asm-graphics/types/Timer';
-import type { CouchPerson } from '@asm-graphics/types/OverlayProps';
+import type { CouchPerson } from "@asm-graphics/types/OverlayProps";
 
-import { RTAudio } from './dashboards/runner-tablet/audio';
-import { RTNames } from './dashboards/runner-tablet/names';
+import { RTAudio } from "./dashboards/runner-tablet/audio";
+import { RTNames } from "./dashboards/runner-tablet/names";
 
 const NavBar = styled.div`
 	width: 100%;
@@ -25,7 +25,7 @@ const NavBarButton = styled.button`
 	border-right: 5px var(--orange-600) solid;
 	font-size: 2rem;
 	padding: 0 3rem;
-	background: ${({ active }: NavBarButtonProps) => (active ? 'var(--orange-400)' : 'var(--orange-500)')};
+	background: ${({ active }: NavBarButtonProps) => (active ? "var(--orange-400)" : "var(--orange-500)")};
 	transition: 100ms;
 `;
 
@@ -58,8 +58,8 @@ const Body = styled.div`
 `;
 
 const TABS = {
-	NAMES: 'names',
-	AUDIO: 'audio',
+	NAMES: "names",
+	AUDIO: "audio",
 } as const;
 
 type ObjectValues<T> = T[keyof T];
@@ -67,8 +67,8 @@ type ObjectValues<T> = T[keyof T];
 type TabsValues = ObjectValues<typeof TABS>;
 
 const RunnerTablet: React.FC = () => {
-	const [tab, setTab] = useState<TabsValues>('audio');
-	const [couchNames] = useReplicant<CouchPerson[]>('couch-names', []);
+	const [tab, setTab] = useState<TabsValues>("audio");
+	const [couchNames] = useReplicant<CouchPerson[]>("couch-names", []);
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 
 	const [live, setLive] = useState(false);
@@ -77,10 +77,10 @@ const RunnerTablet: React.FC = () => {
 
 	let currentTabBody = <></>;
 	switch (tab) {
-		case 'names':
+		case "names":
 			currentTabBody = <RTNames />;
 			break;
-		case 'audio':
+		case "audio":
 			currentTabBody = <RTAudio />;
 			break;
 		default:
@@ -91,28 +91,28 @@ const RunnerTablet: React.FC = () => {
 	// 	nodecg.sendMessage(runnerReadyRep ? 'runner:setNotReady' : 'runner:setReady');
 	// }
 
-	useListenFor('transition:toGame', () => {
+	useListenFor("transition:toGame", () => {
 		setLive(true);
 	});
 
-	useListenFor('transition:toIntermission', () => {
+	useListenFor("transition:toIntermission", () => {
 		setLive(false);
 	});
 
-let buttonText = 'ERROR';
+	let buttonText = "ERROR";
 	if (live) {
-		buttonText = 'LIVE';
+		buttonText = "LIVE";
 	} else {
-		buttonText = 'INTERMISSION';
+		buttonText = "INTERMISSION";
 	}
 
 	return (
-		<div style={{ height: '100%', width: '100%', fontFamily: 'sans-serif' }}>
+		<div style={{ height: "100%", width: "100%", fontFamily: "sans-serif" }}>
 			<NavBar>
-				<NavBarButton onClick={() => setTab('names')} active={tab === 'names'}>
+				<NavBarButton onClick={() => setTab("names")} active={tab === "names"}>
 					Names
 				</NavBarButton>
-				<NavBarButton onClick={() => setTab('audio')} active={tab === 'audio'}>
+				<NavBarButton onClick={() => setTab("audio")} active={tab === "audio"}>
 					Audio
 				</NavBarButton>
 
@@ -135,4 +135,4 @@ let buttonText = 'ERROR';
 	);
 };
 
-createRoot(document.getElementById('root')!).render(<RunnerTablet />);
+createRoot(document.getElementById("root")!).render(<RunnerTablet />);

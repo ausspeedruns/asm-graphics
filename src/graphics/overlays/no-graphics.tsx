@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
-import { Credits } from '../elements/credits';
-import { AcknowledgementOfCountry, NameLowerThird } from '../elements/name-lowerthird';
+import React from "react";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
+import { Credits } from "../elements/credits";
+import { AcknowledgementOfCountry, NameLowerThird } from "../elements/name-lowerthird";
 
 const NoGraphicsContainer = styled.div`
 	height: 1016px;
@@ -17,14 +17,30 @@ interface Props {
 }
 
 export const NoGraphics: React.FC<Props> = (props: Props) => {
-	const [creditsNameRep] = useReplicant<{ name: string; title: string }>('credits-name', { name: '', title: '' });
+	const [creditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name", { name: "", title: "" });
 	return (
 		<NoGraphicsContainer className={props.className} style={props.style}>
 			<Credits />
-			<div style={{ position: 'absolute', width: 1920, display: 'flex', justifyContent: 'center', marginTop: -216 }}>
+			<div
+				style={{
+					position: "absolute",
+					width: 1920,
+					display: "flex",
+					justifyContent: "center",
+					marginTop: -216,
+				}}
+			>
 				<NameLowerThird name={creditsNameRep.name} subtitle={creditsNameRep.title} />
 			</div>
-			<div style={{ position: 'absolute', width: 1920, display: 'flex', justifyContent: 'center', marginTop: -400 }}>
+			<div
+				style={{
+					position: "absolute",
+					width: 1920,
+					display: "flex",
+					justifyContent: "center",
+					marginTop: -400,
+				}}
+			>
 				<AcknowledgementOfCountry />
 			</div>
 			{/* <LowerThird

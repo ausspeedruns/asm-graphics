@@ -1,9 +1,9 @@
 // From jr-layouts by Hoishin https://github.com/JapaneseRestream/jr-layouts
 // Slightly modified by Ewan Lyon
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Text = styled.div`
 	white-space: nowrap;
@@ -38,11 +38,12 @@ export const FitText: React.FunctionComponent<Props> = React.memo((props: Props)
 	return (
 		<div
 			className={props.className}
-			style={{ display: 'flex', justifyContent: 'center', ...props.style }}
-			ref={containerRef}>
+			style={{ display: "flex", justifyContent: "center", ...props.style }}
+			ref={containerRef}
+		>
 			<Text ref={textRef}>{props.text}</Text>
 		</div>
 	);
 });
 
-FitText.displayName = 'FitText';
+FitText.displayName = "FitText";

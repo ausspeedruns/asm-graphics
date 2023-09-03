@@ -1,16 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
+import React from "react";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
 
-import { Timer as TimerI } from '@asm-graphics/types/Timer';
+import { Timer as TimerI } from "@asm-graphics/types/Timer";
 
-import { Button, Box, Tooltip } from '@mui/material';
-import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from '@mui/icons-material';
-import { RunDataActiveRun, RunDataTeam } from '@asm-graphics/types/RunData';
+import { Button, Box, Tooltip } from "@mui/material";
+import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from "@mui/icons-material";
+import { RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData";
 
 const TimerContainer = styled.div`
 	padding: 8px;
-	font-family: Noto Sans, sans-serif;
+	font-family:
+		Noto Sans,
+		sans-serif;
 `;
 
 const CurrentTime = styled(Box)`
@@ -39,14 +41,14 @@ const RunnerReadyText = styled.div`
 `;
 
 export const Timer: React.FC = () => {
-	const [timerRep] = useReplicant<TimerI | undefined>('timer', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [timerRep] = useReplicant<TimerI | undefined>("timer", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
-	const [techReadyRep] = useReplicant<boolean>('tech:ready', false);
+	const [runnerReadyRep] = useReplicant<boolean>("runner:ready", false);
+	const [techReadyRep] = useReplicant<boolean>("tech:ready", false);
 	// const [disableTime, setDisableTime] = useState(false);
 	// const [currentTime, setCurrentTime] = useState('00:00:00');
 	// const timerRef = useRef<HTMLDivElement>(null);
@@ -75,26 +77,26 @@ export const Timer: React.FC = () => {
 
 	// PLAY/PAUSE
 	const playPress = () => {
-		if (timerRep?.state === 'stopped' || timerRep?.state === 'paused') {
-			nodecg.sendMessageToBundle('timerStart', 'nodecg-speedcontrol');
-		} else if (timerRep?.state === 'running') {
-			nodecg.sendMessageToBundle('timerPause', 'nodecg-speedcontrol');
+		if (timerRep?.state === "stopped" || timerRep?.state === "paused") {
+			nodecg.sendMessageToBundle("timerStart", "nodecg-speedcontrol");
+		} else if (timerRep?.state === "running") {
+			nodecg.sendMessageToBundle("timerPause", "nodecg-speedcontrol");
 		}
 	};
 
 	// RESET
 	const resetPress = () => {
-		nodecg.sendMessageToBundle('timerReset', 'nodecg-speedcontrol');
+		nodecg.sendMessageToBundle("timerReset", "nodecg-speedcontrol");
 	};
 
-	let fontColor = '#000';
+	let fontColor = "#000";
 	switch (timerRep?.state) {
-		case 'finished':
-			fontColor = '#fff';
+		case "finished":
+			fontColor = "#fff";
 			break;
 
-		case 'paused':
-			fontColor = '#949494';
+		case "paused":
+			fontColor = "#949494";
 			break;
 
 		default:
@@ -112,33 +114,39 @@ export const Timer: React.FC = () => {
 				// ref={timerRef}
 				// onKeyUp={timerEdit}
 			/> */}
-			<RunnerReadyText>{runnerReadyRep ? 'RUNNER IS READY!' : 'Runner not ready'}{techReadyRep ? '\t|\tTECH IS READY!' : '\t|\tTech not ready'}</RunnerReadyText>
+			<RunnerReadyText>
+				{runnerReadyRep ? "RUNNER IS READY!" : "Runner not ready"}
+				{techReadyRep ? "\t|\tTECH IS READY!" : "\t|\tTech not ready"}
+			</RunnerReadyText>
 			<CurrentTime
 				style={{
-					background: timerRep?.state === 'finished' ? '#388E3C' : '',
+					background: timerRep?.state === "finished" ? "#388E3C" : "",
 					color: fontColor,
 				}}
-				boxShadow={1}>
+				boxShadow={1}
+			>
 				<span>{timerRep?.time}</span>
 			</CurrentTime>
 			<MainButtons>
-				<Tooltip title={timerRep?.state === 'running' ? 'Pause' : 'Play'}>
+				<Tooltip title={timerRep?.state === "running" ? "Pause" : "Play"}>
 					<Button
 						fullWidth
 						variant="contained"
-						disabled={timerRep?.state === 'finished'}
+						disabled={timerRep?.state === "finished"}
 						onClick={playPress}
-						style={{ marginRight: 4 }}>
-						{timerRep?.state === 'running' ? <Pause /> : <PlayArrow />}
+						style={{ marginRight: 4 }}
+					>
+						{timerRep?.state === "running" ? <Pause /> : <PlayArrow />}
 					</Button>
 				</Tooltip>
 				<Tooltip title="Reset">
 					<Button
 						fullWidth
 						variant="contained"
-						disabled={timerRep?.state === 'stopped'}
+						disabled={timerRep?.state === "stopped"}
 						onClick={resetPress}
-						style={{ marginRight: 4 }}>
+						style={{ marginRight: 4 }}
+					>
 						<FastRewind />
 					</Button>
 				</Tooltip>
@@ -181,13 +189,13 @@ const TeamTimer: React.FC<TeamTimerProps> = (props: TeamTimerProps) => {
 	const state = props.timerRep.teamFinishTimes[props.team.id]?.state || undefined;
 
 	return (
-		<TeamTimerContainer style={{ margin: '4px 0' }}>
+		<TeamTimerContainer style={{ margin: "4px 0" }}>
 			<StopForfeitButton team={props.team} timerRep={props.timerRep} />
 			<StopForfeitButton forfeit team={props.team} timerRep={props.timerRep} />
 			<UndoButton team={props.team} timerRep={props.timerRep} />
 			<span>{props.team.name || props.team.players.map((player) => `${player.name}, `)}</span>
 			<span>
-				{finishTime && state === 'completed' ? finishTime : finishTime && state === 'forfeit' ? 'Forfeit' : ''}
+				{finishTime && state === "completed" ? finishTime : finishTime && state === "forfeit" ? "Forfeit" : ""}
 			</span>
 		</TeamTimerContainer>
 	);
@@ -203,23 +211,24 @@ interface StopButtonProps {
 const StopForfeitButton: React.FC<StopButtonProps> = (props: StopButtonProps) => {
 	// STOP
 	const stopPress = () => {
-		nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
+		nodecg.sendMessageToBundle("timerStop", "nodecg-speedcontrol", {
 			id: props.team.id,
 			forfeit: props.forfeit,
 		});
 	};
 
 	return (
-		<Tooltip title={props.forfeit ? 'Forfeit' : 'Stop'}>
+		<Tooltip title={props.forfeit ? "Forfeit" : "Stop"}>
 			<Button
 				fullWidth={props.fullWidth}
 				variant="contained"
 				style={{ marginRight: 4 }}
 				disabled={
 					(props.team.id && !!props.timerRep?.teamFinishTimes[props.team.id]) ||
-					props.timerRep?.state === 'stopped'
+					props.timerRep?.state === "stopped"
 				}
-				onClick={stopPress}>
+				onClick={stopPress}
+			>
 				{props.forfeit ? <Close /> : <Check />}
 			</Button>
 		</Tooltip>
@@ -235,7 +244,7 @@ interface UndoButtonProps {
 const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 	// UNDO
 	const undoPress = () => {
-		nodecg.sendMessageToBundle('timerUndo', 'nodecg-speedcontrol', props.team.id);
+		nodecg.sendMessageToBundle("timerUndo", "nodecg-speedcontrol", props.team.id);
 	};
 
 	return (
@@ -245,12 +254,13 @@ const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 				variant="contained"
 				style={{ marginRight: 4 }}
 				disabled={
-					(!props.team.id && props.timerRep?.state !== 'finished') ||
+					(!props.team.id && props.timerRep?.state !== "finished") ||
 					(!!props.team.id &&
 						(!props.timerRep?.teamFinishTimes[props.team.id] ||
-							!['running', 'finished'].includes(props.timerRep?.state || '')))
+							!["running", "finished"].includes(props.timerRep?.state || "")))
 				}
-				onClick={undoPress}>
+				onClick={undoPress}
+			>
 				<Undo />
 			</Button>
 		</Tooltip>

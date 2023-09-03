@@ -1,13 +1,13 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import { useReplicant } from 'use-nodecg';
-import _ from 'underscore';
-import { Box, Grid, Tooltip } from '@mui/material';
-import { Check } from '@mui/icons-material';
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import { useReplicant } from "use-nodecg";
+import _ from "underscore";
+import { Box, Grid, Tooltip } from "@mui/material";
+import { Check } from "@mui/icons-material";
 
-import { Donation } from '@asm-graphics/types/Donations';
+import { Donation } from "@asm-graphics/types/Donations";
 
-import { GreenButton } from '../../dashboard/elements/styled-ui';
+import { GreenButton } from "../../dashboard/elements/styled-ui";
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);
@@ -36,7 +36,7 @@ const DonationsContainer = styled.div`
 // }
 
 export const Donations: React.FC = () => {
-	const [donations] = useReplicant<Donation[]>('donations', []);
+	const [donations] = useReplicant<Donation[]>("donations", []);
 
 	const allDonations =
 		donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];
@@ -103,7 +103,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	const toggleRead = () => {
-		nodecg.sendMessage('markDonationReadUnread', props.donation.id);
+		nodecg.sendMessage("markDonationReadUnread", props.donation.id);
 	};
 
 	return (
@@ -112,13 +112,13 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				<div>
 					<Amount>
 						${props.donation.amount.toLocaleString()}
-						{props.donation.currencyCode !== 'AUD' ? ` ${props.donation.currencyCode}` : ''}
+						{props.donation.currencyCode !== "AUD" ? ` ${props.donation.currencyCode}` : ""}
 					</Amount>
 					<Name>{props.donation.name}</Name>
 				</div>
 				<DateText>{timeText}</DateText>
-				<span style={{ fontStyle: props.donation.desc ? '' : 'italic' }}>
-					{_.unescape(props.donation.desc || 'No comment').replace('&#39;', "'")}
+				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
+					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
 			</Grid>
 

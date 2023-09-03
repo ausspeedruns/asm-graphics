@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
-import { Stream } from '@asm-graphics/types/Streams';
+import { Stream } from "@asm-graphics/types/Streams";
 
 // import { Button, ButtonGroup, SvgIcon } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Close } from "@mui/icons-material";
+import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 
 // @ts-ignore
-import Widescreen from '../media/Widescreen.svg';
+import Widescreen from "../media/Widescreen.svg";
 // @ts-ignore
-import Left from '../media/Left.svg';
+import Left from "../media/Left.svg";
 // @ts-ignore
-import Right from '../media/Right.svg';
+import Right from "../media/Right.svg";
 
 const StreamEl = styled.div`
 	display: flex;
@@ -32,7 +32,7 @@ interface StreamSwitcherProps {
 
 export const StreamSwitcher: React.FC<StreamSwitcherProps> = (props: StreamSwitcherProps) => {
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+		<div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
 			<StreamSizeSelection currentStreams={props.currentStreams} channel="asm_station1" displayName="ASM 1" />
 			<StreamSizeSelection currentStreams={props.currentStreams} channel="asm_station2" displayName="ASM 2" />
 			<StreamSizeSelection currentStreams={props.currentStreams} channel="asm_station3" displayName="ASM 3" />
@@ -48,13 +48,17 @@ interface SizeSelection {
 }
 
 const StreamSizeSelection: React.FC<SizeSelection> = (props: SizeSelection) => {
-	const [size, setSize] = useState('X');
+	const [size, setSize] = useState("X");
 	// const [disabled, setDisabled] = useState(false);
 
 	useEffect(() => {
 		const index = props.currentStreams.findIndex((stream) => stream.channel === props.channel);
-		if (index === -1 || props.currentStreams[index].state === 'hidden' || props.currentStreams[index].state === 'live') {
-			setSize('X');
+		if (
+			index === -1 ||
+			props.currentStreams[index].state === "hidden" ||
+			props.currentStreams[index].state === "live"
+		) {
+			setSize("X");
 			// setDisabled(false);
 		} else {
 			// setDisabled(props.currentStreams[index].state === 'live'); // Disable if they are live so they can't be changed
@@ -62,21 +66,21 @@ const StreamSizeSelection: React.FC<SizeSelection> = (props: SizeSelection) => {
 		}
 	}, [props.channel, props.currentStreams]);
 
-	function updateSize(size: 'left' | 'right' | 'whole' | 'X') {
-		if (size === 'X') {
-			nodecg.sendMessage('removeTwitchStream', props.channel);
+	function updateSize(size: "left" | "right" | "whole" | "X") {
+		if (size === "X") {
+			nodecg.sendMessage("removeTwitchStream", props.channel);
 			return;
 		}
 
-		const streamObj: Stream = { channel: props.channel, size: size, state: 'preview' };
-		nodecg.sendMessage('newTwitchStream', streamObj);
+		const streamObj: Stream = { channel: props.channel, size: size, state: "preview" };
+		nodecg.sendMessage("newTwitchStream", streamObj);
 	}
 
 	const handleChange = (_e: React.MouseEvent<HTMLElement, MouseEvent>, v: any) => {
 		if (v.length) {
 			updateSize(v);
 		}
-	}
+	};
 
 	return (
 		<StreamEl>

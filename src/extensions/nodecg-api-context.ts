@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-import type NodeCG from '@nodecg/types';
-import type { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
+import type NodeCG from "@nodecg/types";
+import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
 
 let context: NodeCG.ServerAPI<ConfigSchema>;
 

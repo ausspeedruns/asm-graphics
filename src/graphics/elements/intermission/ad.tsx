@@ -1,9 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import styled from "styled-components";
+import gsap from "gsap";
 
-import adEntry from '../../media/ASM23/ad_ENTRY.webm';
-import adExit from '../../media/ASM23/ad_EXIT.webm';
+import adEntry from "../../media/ASM23/ad_ENTRY.webm";
+import adExit from "../../media/ASM23/ad_EXIT.webm";
 
 const IntermissionAdsContainer = styled.div`
 	width: 720px;
@@ -56,44 +56,44 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 	useImperativeHandle(ref, () => ({
 		showAd(ad) {
 			let adData = {
-				src: '',
+				src: "",
 				length: 0,
 				volume: 0,
 			};
 
 			console.log(ad);
 			switch (ad) {
-				case 'Elgato_GreenScreen':
+				case "Elgato_GreenScreen":
 					adData = {
-						src: '../shared/sponsors/Green_Screen.mp4',
+						src: "../shared/sponsors/Green_Screen.mp4",
 						length: 30,
 						volume: 0.8,
 					};
 					break;
-				case 'Elgato_KeyLight':
+				case "Elgato_KeyLight":
 					adData = {
-						src: '../shared/sponsors/Key_Light.mp4',
+						src: "../shared/sponsors/Key_Light.mp4",
 						length: 45,
 						volume: 0.8,
 					};
 					break;
-				case 'Elgato_WaveDX':
+				case "Elgato_WaveDX":
 					adData = {
-						src: '../shared/sponsors/Wave_DX.mp4',
+						src: "../shared/sponsors/Wave_DX.mp4",
 						length: 20,
 						volume: 0.8,
 					};
 					break;
-				case 'Elgato_WaveMicArm':
+				case "Elgato_WaveMicArm":
 					adData = {
-						src: '../shared/sponsors/Wave_Mic_Arm.mp4',
+						src: "../shared/sponsors/Wave_Mic_Arm.mp4",
 						length: 53,
 						volume: 0.8,
 					};
 					break;
-				case 'GOC':
+				case "GOC":
 					adData = {
-						src: '../shared/sponsors/GameOnCancer.mp4',
+						src: "../shared/sponsors/GameOnCancer.mp4",
 						length: 43,
 						volume: 1,
 					};
@@ -102,7 +102,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 					return;
 			}
 
-			if (adData.src === '') return;
+			if (adData.src === "") return;
 
 			const tl = gsap.timeline();
 
@@ -118,12 +118,12 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 				if (!entryRef.current) return;
 				entryRef.current?.play();
 			});
-			
+
 			// Prepare entry vid
 			tl.set(entryRef.current, { opacity: 1 });
 
 			// Wait for entry finish and then fade ad in
-			tl.to(videoRef.current, { opacity: 1 }, '+=2');
+			tl.to(videoRef.current, { opacity: 1 }, "+=2");
 
 			// Run ad
 			tl.call(() => {

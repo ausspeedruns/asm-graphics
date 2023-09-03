@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { useReplicant } from 'use-nodecg';
-import _, { uniqueId } from 'underscore';
-import { Box, Grid, TextField, Tooltip } from '@mui/material';
-import { Check } from '@mui/icons-material';
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
+import { useReplicant } from "use-nodecg";
+import _, { uniqueId } from "underscore";
+import { Box, Grid, TextField, Tooltip } from "@mui/material";
+import { Check } from "@mui/icons-material";
 
-import { Donation } from '@asm-graphics/types/Donations';
+import { Donation } from "@asm-graphics/types/Donations";
 
-import { GreenButton, RedButton } from '../../dashboard/elements/styled-ui';
+import { GreenButton, RedButton } from "../../dashboard/elements/styled-ui";
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);
@@ -46,24 +46,24 @@ const FormTopRow = styled.div`
 // }
 
 export const ManualDonations: React.FC = () => {
-	const [donations] = useReplicant<Donation[]>('manual-donations', []);
-	const [author, setAuthor] = useState('');
-	const [message, setMessage] = useState('');
-	const [amount, setAmount] = useState('');
+	const [donations] = useReplicant<Donation[]>("manual-donations", []);
+	const [author, setAuthor] = useState("");
+	const [message, setMessage] = useState("");
+	const [amount, setAmount] = useState("");
 
 	const allDonations =
 		donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];
 
 	function newDonation() {
 		if (isNaN(parseFloat(amount))) {
-			console.error('Amount was NaN', author, message, amount);
+			console.error("Amount was NaN", author, message, amount);
 			return;
 		}
 
-		console.log('New Manual Donation', author, message, amount);
+		console.log("New Manual Donation", author, message, amount);
 		const donation = {
 			amount: parseFloat(amount),
-			currencySymbol: '$',
+			currencySymbol: "$",
 			name: author,
 			read: false,
 			time: new Date().getTime(),
@@ -71,11 +71,11 @@ export const ManualDonations: React.FC = () => {
 			id: uniqueId(),
 		} as Donation;
 
-		nodecg.sendMessage('manual-donations:new', donation);
+		nodecg.sendMessage("manual-donations:new", donation);
 
-		setAmount('');
-		setAuthor('');
-		setMessage('');
+		setAmount("");
+		setAuthor("");
+		setMessage("");
 	}
 
 	return (
@@ -107,7 +107,7 @@ export const ManualDonations: React.FC = () => {
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 				/>
-				<GreenButton variant="contained" onClick={newDonation} style={{ float: 'right' }}>
+				<GreenButton variant="contained" onClick={newDonation} style={{ float: "right" }}>
 					Add
 				</GreenButton>
 			</DonationForm>
@@ -171,11 +171,11 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	const toggleRead = () => {
-		nodecg.sendMessage('markDonationReadUnread', props.donation.id);
+		nodecg.sendMessage("markDonationReadUnread", props.donation.id);
 	};
 
 	const deleteDono = () => {
-		nodecg.sendMessage('manual-donations:remove', props.donation.id);
+		nodecg.sendMessage("manual-donations:remove", props.donation.id);
 	};
 
 	return (
@@ -186,8 +186,8 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 					<Name>{props.donation.name}</Name>
 				</div>
 				<DateText>{timeText}</DateText>
-				<span style={{ fontStyle: props.donation.desc ? '' : 'italic' }}>
-					{_.unescape(props.donation.desc || 'No comment').replace('&#39;', "'")}
+				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
+					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
 			</Grid>
 

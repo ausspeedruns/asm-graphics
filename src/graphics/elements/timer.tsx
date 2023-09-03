@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { Timer as TimerType } from '@asm-graphics/types/Timer';
+import { Timer as TimerType } from "@asm-graphics/types/Timer";
 
 const TimerContainer = styled.div`
 	display: flex;
@@ -39,7 +39,7 @@ export const Timer: React.FC<Props> = (props: Props) => {
 	}
 
 	// A run over 10 hours though possible is unlikely for now
-	let compressedTime = props?.timer?.time || '00:00:00';
+	let compressedTime = props?.timer?.time || "00:00:00";
 	if ((props?.timer?.milliseconds || 0) < 3600000) {
 		// Remove hours while under 1 hour
 		compressedTime = compressedTime?.substring(3);

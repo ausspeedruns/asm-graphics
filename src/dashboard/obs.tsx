@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 // import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
 
-import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
-import { Stream as TwitchStream } from '@asm-graphics/types/Streams';
+import { CurrentOverlay } from "@asm-graphics/types/CurrentOverlay";
+import { Stream as TwitchStream } from "@asm-graphics/types/Streams";
 // import { RunDataActiveRun } from '@asm-graphics/types/RunData';
-
 
 import {
 	ThemeProvider,
@@ -26,16 +25,16 @@ import {
 	DialogContentText,
 	DialogTitle,
 	IconButton,
-} from '@mui/material';
-import { Filter1, Filter2, Filter3, Filter4, OpenInNew } from '@mui/icons-material';
-import { darkTheme } from './theme';
-import { ASMStream } from '../graphics/elements/individual-stream';
-import { StreamSwitcher } from './elements/stream-switcher';
-import { StreamAudio } from './elements/stream-audio';
-import type { RunData } from '@asm-graphics/types/RunData';
-import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
-import type { ConnectionStatus } from '@asm-graphics/types/Connections';
-import type { ConfigSchema } from '@asm-graphics/types/ConfigSchema';
+} from "@mui/material";
+import { Filter1, Filter2, Filter3, Filter4, OpenInNew } from "@mui/icons-material";
+import { darkTheme } from "./theme";
+import { ASMStream } from "../graphics/elements/individual-stream";
+import { StreamSwitcher } from "./elements/stream-switcher";
+import { StreamAudio } from "./elements/stream-audio";
+import type { RunData } from "@asm-graphics/types/RunData";
+import type { OBSAudioIndicator } from "@asm-graphics/types/Audio";
+import type { ConnectionStatus } from "@asm-graphics/types/Connections";
+import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
 
 const SideTitle = styled.span`
 	font-weight: bold;
@@ -89,10 +88,10 @@ const DashOBS: React.FC = () => {
 	// });
 	const ncgConfig = nodecg.config;
 	const bundleConfig = nodecg.bundleConfig as unknown as ConfigSchema;
-	const [currentOverlay] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [twitchStreamsRep] = useReplicant<TwitchStream[], TwitchStream[]>('twitchStreams', []);
-	const [currentSceneRep] = useReplicant<string, string>('obsCurrentScene', 'Game Overlay');
-	const [connectionRep] = useReplicant<ConnectionStatus, ConnectionStatus>('obs:status', "disconnected");
+	const [currentOverlay] = useReplicant<CurrentOverlay, undefined>("currentOverlay", undefined);
+	const [twitchStreamsRep] = useReplicant<TwitchStream[], TwitchStream[]>("twitchStreams", []);
+	const [currentSceneRep] = useReplicant<string, string>("obsCurrentScene", "Game Overlay");
+	const [connectionRep] = useReplicant<ConnectionStatus, ConnectionStatus>("obs:status", "disconnected");
 	const [showKeys, setShowKeys] = useState(false);
 	const [showRefreshDialog, setShowRefreshDialog] = useState(false);
 
@@ -115,7 +114,7 @@ const DashOBS: React.FC = () => {
 
 	// Get list of only live streams
 	const liveStreamsList = twitchStreamsRep.filter((stream) => {
-		return currentSceneRep !== 'Intermission' && (stream.state === 'live' || stream.state === 'both');
+		return currentSceneRep !== "Intermission" && (stream.state === "live" || stream.state === "both");
 	});
 
 	// Live twitch streams
@@ -126,7 +125,7 @@ const DashOBS: React.FC = () => {
 	// Labels to say which streams are live
 	const liveStreamNotif = liveStreamsList.map((stream) => {
 		return (
-			<div key={stream.channel} style={{ display: 'inline' }}>
+			<div key={stream.channel} style={{ display: "inline" }}>
 				<b>{stream.channel}</b>: {stream.size}
 			</div>
 		);
@@ -140,39 +139,40 @@ const DashOBS: React.FC = () => {
 
 	/* FUNCTIONS */
 	const previewOverlayChange = (event: { target: { value: string } }) => {
-		nodecg.sendMessage('changeOverlayPreview', event.target.value);
+		nodecg.sendMessage("changeOverlayPreview", event.target.value);
 	};
 
 	const gameplayTransition = () => {
-		nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
-		nodecg.sendMessage('transitionGameplay');
+		nodecg.sendMessageToBundle("changeToNextRun", "nodecg-speedcontrol");
+		nodecg.sendMessage("transitionGameplay");
 	};
 
 	const goToIntermission = () => {
-		nodecg.sendMessage('goToIntermission');
+		nodecg.sendMessage("goToIntermission");
 	};
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Flex>
 				<VFlex>
-					{connectionRep === 'connected' ? (
-						<OBSIndicator style={{ color: '#4caf50' }}>OBS Connected</OBSIndicator>
+					{connectionRep === "connected" ? (
+						<OBSIndicator style={{ color: "#4caf50" }}>OBS Connected</OBSIndicator>
 					) : (
-						<OBSIndicator style={{ color: 'red', fontWeight: 'bolder' }}>
+						<OBSIndicator style={{ color: "red", fontWeight: "bolder" }}>
 							OBS NOT CONNECTED!!!!!!
 						</OBSIndicator>
 					)}
 					<SideTitle
-						style={{ cursor: 'pointer' }}
+						style={{ cursor: "pointer" }}
 						onClick={() =>
 							window.open(
-								`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${
-									bundleConfig.hostname || 'localhost'
+								`${ncgConfig.ssl?.enabled ? "https" : "http"}://${
+									bundleConfig.hostname || "localhost"
 								}:${ncgConfig.port}/bundles/asm-graphics/graphics/preview-gameplay.html`,
-								'_blank',
+								"_blank",
 							)
-						}>
+						}
+					>
 						PREVIEW
 						<OpenInNew viewBox="0 0 30 30" />
 					</SideTitle>
@@ -182,12 +182,12 @@ const DashOBS: React.FC = () => {
 								height="1080"
 								width="1920"
 								style={{
-									overflow: 'hidden',
+									overflow: "hidden",
 									border: 0,
 								}}
 								scrolling="no"
-								src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${
-									bundleConfig.hostname || 'localhost'
+								src={`${ncgConfig.ssl?.enabled ? "https" : "http"}://${
+									bundleConfig.hostname || "localhost"
 								}:${ncgConfig.port}/bundles/asm-graphics/graphics/preview-gameplay.html`}
 							/>
 						</GameplayPreview>
@@ -198,8 +198,9 @@ const DashOBS: React.FC = () => {
 						<Select
 							labelId="obs-gameplay-select-label"
 							id="obs-gameplay-select"
-							value={currentOverlay?.preview || 'standard'}
-							onChange={previewOverlayChange}>
+							value={currentOverlay?.preview || "standard"}
+							onChange={previewOverlayChange}
+						>
 							<MenuItem value="standard">Standard</MenuItem>
 							<MenuItem value="standard-2">Standard 2p</MenuItem>
 							<MenuItem value="widescreen">Widescreen</MenuItem>
@@ -219,32 +220,35 @@ const DashOBS: React.FC = () => {
 				<VFlex
 					style={{
 						flexGrow: 1,
-						margin: '0 8px',
-						paddingTop: '14%',
-						alignItems: 'center',
-					}}>
+						margin: "0 8px",
+						paddingTop: "14%",
+						alignItems: "center",
+					}}
+				>
 					<ButtonGroup orientation="vertical" fullWidth>
 						<Button
 							variant="contained"
 							onClick={gameplayTransition}
-							disabled={currentSceneRep === 'Game Overlay' || connectionRep === "disconnected"}>
+							disabled={currentSceneRep === "Game Overlay" || connectionRep === "disconnected"}
+						>
 							Transition
 						</Button>
 						<Button
 							variant="contained"
 							onClick={goToIntermission}
-							disabled={currentSceneRep === 'Intermission' || connectionRep === "disconnected"}>
+							disabled={currentSceneRep === "Intermission" || connectionRep === "disconnected"}
+						>
 							Intermission
 						</Button>
 					</ButtonGroup>
-					<span style={{ textAlign: 'center', marginTop: 8 }}>
+					<span style={{ textAlign: "center", marginTop: 8 }}>
 						Transition in: Instant
 						<br />
 						Transition out: Delay by 5s
 					</span>
 				</VFlex>
 				<VFlex>
-					<div style={{ display: 'flex' }}>
+					<div style={{ display: "flex" }}>
 						<Button variant="outlined" onClick={showDialog}>
 							Stream Keys
 						</Button>
@@ -253,18 +257,18 @@ const DashOBS: React.FC = () => {
 					<SideTitle>LIVE</SideTitle>
 					<GameplaySpacer>
 						<GameplayPreview>
-							{currentSceneRep === 'Game Overlay' && liveStreamElements}
-							{currentSceneRep === 'Game Overlay' ? (
+							{currentSceneRep === "Game Overlay" && liveStreamElements}
+							{currentSceneRep === "Game Overlay" ? (
 								<iframe
 									height="1080"
 									width="1920"
 									style={{
-										overflow: 'hidden',
+										overflow: "hidden",
 										border: 0,
 									}}
 									scrolling="no"
-									src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${
-										bundleConfig.hostname || 'localhost'
+									src={`${ncgConfig.ssl?.enabled ? "https" : "http"}://${
+										bundleConfig.hostname || "localhost"
 									}:${ncgConfig.port}/bundles/asm-graphics/graphics/gameplay-overlay.html`}
 								/>
 							) : (
@@ -272,44 +276,46 @@ const DashOBS: React.FC = () => {
 									height="1080"
 									width="1920"
 									style={{
-										overflow: 'hidden',
+										overflow: "hidden",
 										border: 0,
 									}}
 									scrolling="no"
-									src={`${ncgConfig.ssl?.enabled ? 'https' : 'http'}://${
-										bundleConfig.hostname || 'localhost'
+									src={`${ncgConfig.ssl?.enabled ? "https" : "http"}://${
+										bundleConfig.hostname || "localhost"
 									}:${ncgConfig.port}/bundles/asm-graphics/graphics/intermission-muted.html`}
 								/>
 							)}
 						</GameplayPreview>
 					</GameplaySpacer>
 
-					{currentSceneRep === 'Game Overlay' && (
-						<div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+					{currentSceneRep === "Game Overlay" && (
+						<div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
 							{liveStreamNotif}
 						</div>
 					)}
 					{streamAudioControllers.length > 1 && <DashAudio />}
 					<Flex
 						style={{
-							justifyContent: 'center',
+							justifyContent: "center",
 							flexGrow: 1,
 							minHeight: 260,
-						}}>
+						}}
+					>
 						{streamAudioControllers}
 					</Flex>
 				</VFlex>
 			</Flex>
 			<Dialog open={showKeys} onClose={hideDialog} maxWidth="md">
-				<DialogTitle id="alert-dialog-title">{'Stream keys'}</DialogTitle>
+				<DialogTitle id="alert-dialog-title">{"Stream keys"}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
 						<div>
 							ASM Station 1: live_473924910_QRkHAf9mmudxB85MoGxEqOftOmjdBB
 							<IconButton
 								onClick={() =>
-									navigator.clipboard.writeText('live_473924910_QRkHAf9mmudxB85MoGxEqOftOmjdBB')
-								}>
+									navigator.clipboard.writeText("live_473924910_QRkHAf9mmudxB85MoGxEqOftOmjdBB")
+								}
+							>
 								<Filter1 />
 							</IconButton>
 						</div>
@@ -317,8 +323,9 @@ const DashOBS: React.FC = () => {
 							ASM Station 2: live_473929210_fGqAZD4iiN0LgTfu54U5eD70QXftbO
 							<IconButton
 								onClick={() =>
-									navigator.clipboard.writeText('live_473929210_fGqAZD4iiN0LgTfu54U5eD70QXftbO')
-								}>
+									navigator.clipboard.writeText("live_473929210_fGqAZD4iiN0LgTfu54U5eD70QXftbO")
+								}
+							>
 								<Filter2 />
 							</IconButton>
 						</div>
@@ -326,8 +333,9 @@ const DashOBS: React.FC = () => {
 							ASM Station 3: live_473929692_Wqsye5ccxS3b4mEksq2AIMfIyJqofF
 							<IconButton
 								onClick={() =>
-									navigator.clipboard.writeText('live_473929692_Wqsye5ccxS3b4mEksq2AIMfIyJqofF')
-								}>
+									navigator.clipboard.writeText("live_473929692_Wqsye5ccxS3b4mEksq2AIMfIyJqofF")
+								}
+							>
 								<Filter3 />
 							</IconButton>
 						</div>
@@ -335,8 +343,9 @@ const DashOBS: React.FC = () => {
 							ASM Station 4: live_582054304_bf1NHWJcfHHafE4sIewIykjrnaislr
 							<IconButton
 								onClick={() =>
-									navigator.clipboard.writeText('live_582054304_bf1NHWJcfHHafE4sIewIykjrnaislr')
-								}>
+									navigator.clipboard.writeText("live_582054304_bf1NHWJcfHHafE4sIewIykjrnaislr")
+								}
+							>
 								<Filter4 />
 							</IconButton>
 						</div>
@@ -349,7 +358,7 @@ const DashOBS: React.FC = () => {
 				</DialogActions>
 			</Dialog>
 			<Dialog open={showRefreshDialog} onClose={() => setShowRefreshDialog(false)}>
-				<DialogTitle id="alert-dialog-title">{'Refresh graphics'}</DialogTitle>
+				<DialogTitle id="alert-dialog-title">{"Refresh graphics"}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
 						Go to the Graphics page and press reload on the graphic needing to be refreshed:
@@ -407,12 +416,12 @@ const RadioStyled = styled(Radio)`
 `;
 
 export const DashAudio: React.FC = () => {
-	const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
-	const [runDataRep] = useReplicant<RunData, undefined>('runDataActiveRun', undefined, {
-		namespace: 'nodecg-speedcontrol',
+	const [audioIndicatorRep] = useReplicant<string, string>("audio-indicator", "");
+	const [runDataRep] = useReplicant<RunData, undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
 	});
-	const [obsInputsRep] = useReplicant<string[], string[]>('obs-audio-inputs', []);
-	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>('obs-audio-indicator', []);
+	const [obsInputsRep] = useReplicant<string[], string[]>("obs-audio-inputs", []);
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[], OBSAudioIndicator[]>("obs-audio-indicator", []);
 
 	const AudioInputOptions = obsInputsRep.map((input) => (
 		<MenuItem key={input} value={input}>
@@ -421,10 +430,10 @@ export const DashAudio: React.FC = () => {
 	));
 
 	const updateObsIndicator = (data: { id: string; inputName: string }) => {
-		if (data.inputName === '') {
-			nodecg.sendMessage('remove-obs-audio', data.id);
+		if (data.inputName === "") {
+			nodecg.sendMessage("remove-obs-audio", data.id);
 		} else {
-			nodecg.sendMessage('update-obs-audio', { id: data.id, inputName: data.inputName });
+			nodecg.sendMessage("update-obs-audio", { id: data.id, inputName: data.inputName });
 		}
 	};
 
@@ -443,8 +452,9 @@ export const DashAudio: React.FC = () => {
 							label="Audio Input"
 							onChange={(e) => {
 								updateObsIndicator({ id: player.id, inputName: e.target.value });
-							}}>
-							<MenuItem key={i} value={''}>
+							}}
+						>
+							<MenuItem key={i} value={""}>
 								<i>None</i>
 							</MenuItem>
 							{AudioInputOptions}
@@ -456,7 +466,7 @@ export const DashAudio: React.FC = () => {
 	});
 
 	const updateAudioIndicator = (_event: React.ChangeEvent<HTMLInputElement>, value: string) => {
-		nodecg.sendMessage('update-audioindicator', value);
+		nodecg.sendMessage("update-audioindicator", value);
 	};
 
 	return (

@@ -1,29 +1,29 @@
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
+import gsap from "gsap";
 
 // @ts-ignore
-import TwitchLogo from '../media/TwitchGlitchPurple.svg';
-import { RunDataPlayer } from '@asm-graphics/types/RunData';
+import TwitchLogo from "../media/TwitchGlitchPurple.svg";
+import { RunDataPlayer } from "@asm-graphics/types/RunData";
 
-import { FitText } from './fit-text';
+import { FitText } from "./fit-text";
 
 function nameplateDirection(data: NameplateStyleProps) {
 	if (data.vertical) {
-		return 'column';
+		return "column";
 	}
 
 	if (data.nameplateLeft) {
-		return 'row-reverse';
+		return "row-reverse";
 	}
 
-	return 'row';
+	return "row";
 }
 
 const NameplateContainer = styled.div`
 	color: var(--text-light);
 	width: 100%;
-	/* height: ${(props: NameplateStyleProps) => (props.vertical ? '100%' : '')}; */
+	/* height: ${(props: NameplateStyleProps) => (props.vertical ? "100%" : "")}; */
 	font-size: 30px;
 	font-family: var(--secondary-font);
 
@@ -40,7 +40,7 @@ const Names = styled.div`
 	justify-content: center;
 	align-items: center;
 	height: 100%;
-	width: ${(props: NameplateStyleProps) => (props.vertical ? '100%' : '')};
+	width: ${(props: NameplateStyleProps) => (props.vertical ? "100%" : "")};
 	position: relative;
 `;
 
@@ -51,7 +51,7 @@ const SpeakingGlow = styled.div`
 	width: 100%;
 	height: 100%;
 	transition-duration: 0.2s;
-	transition-delay: ${(props: NameplateStyleProps) => (props.speaking ? undefined : '0.5s')};
+	transition-delay: ${(props: NameplateStyleProps) => (props.speaking ? undefined : "0.5s")};
 `;
 
 const NormalName = styled(FitText)``;
@@ -73,7 +73,7 @@ const PronounBox = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: ${(props: NameplateStyleProps) => (props.vertical ? '100%' : '')};
+	width: ${(props: NameplateStyleProps) => (props.vertical ? "100%" : "")};
 	box-sizing: border-box;
 	font-family: var(--main-font);
 `;
@@ -96,7 +96,7 @@ interface Props {
 	speakingValue?: number;
 }
 
-type NameplateStyleProps = Pick<Props, 'nameplateLeft' | 'speaking' | 'vertical'>;
+type NameplateStyleProps = Pick<Props, "nameplateLeft" | "speaking" | "vertical">;
 
 // How many seconds it takes to fade between twitch and normal name
 const NAME_LOOP_DURATION = 90;
@@ -131,7 +131,8 @@ export const Nameplate = (props: Props) => {
 			className={props.className}
 			nameplateLeft={props.nameplateLeft}
 			speaking={props.speaking}
-			vertical={props.vertical}>
+			vertical={props.vertical}
+		>
 			{props.icon}
 			<Names speaking={props.speaking} vertical={props.vertical}>
 				<SpeakingGlow speaking={props.speaking} />
@@ -142,7 +143,7 @@ export const Nameplate = (props: Props) => {
 					<TwitchLogoImg src={TwitchLogo} />
 
 					<div>
-						<NormalName style={{ maxWidth: maxWidth - 45 }} text={props.player.social.twitch || ''} />
+						<NormalName style={{ maxWidth: maxWidth - 45 }} text={props.player.social.twitch || ""} />
 					</div>
 				</TwitchDiv>
 			</Names>

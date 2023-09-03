@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { CouchPerson } from '@asm-graphics/types/OverlayProps';
-import { AudioIndicator } from '@asm-graphics/types/Audio';
+import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { AudioIndicator } from "@asm-graphics/types/Audio";
 
 const CouchContainer = styled.div`
 	font-family: var(--main-font);
@@ -45,25 +45,23 @@ export const Couch: React.FC<Props> = (props: Props) => {
 	return (
 		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar>
-				<div style={{ margin: '0 6px' }}>{props.couch.length > 1 ? 'Commentators' : 'Commentator'}</div>
+				<div style={{ margin: "0 6px" }}>{props.couch.length > 1 ? "Commentators" : "Commentator"}</div>
 			</MenuBar>
 			<PeopleContainer>
 				{couch.map((person) => {
 					// console.log(props.audio?.[person.microphone ?? '']);
-					if (person.name === "") { return <></> }
+					if (person.name === "") {
+						return <></>;
+					}
 					return (
 						<PersonCompressed
 							key={person.name}
 							person={person}
-							speaking={props.audio?.[person.microphone ?? '']}
+							speaking={props.audio?.[person.microphone ?? ""]}
 						/>
 					);
 				})}
-				{host && (
-					<PersonCompressed key={'Host'} person={host}
-						speaking={props.audio?.["Host"]}
-						host />
-				)}
+				{host && <PersonCompressed key={"Host"} person={host} speaking={props.audio?.["Host"]} host />}
 			</PeopleContainer>
 		</CouchContainer>
 	);
@@ -94,7 +92,7 @@ const SpeakingColour = styled.div`
 	opacity: ${(props: SpeakingProps) => (props.speaking ? 1 : 0)};
 	background-color: #ffffff53;
 	transition-duration: 0.2s;
-	transition-delay: ${(props: SpeakingProps) => (props.speaking ? undefined : '0.5s')};
+	transition-delay: ${(props: SpeakingProps) => (props.speaking ? undefined : "0.5s")};
 `;
 
 interface SpeakingProps {
@@ -127,7 +125,7 @@ export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 			<SpeakingColour speaking={props.speaking} />
 			<Name>{props.person.name}</Name>
 			<Pronouns>
-				<span style={{ fontWeight: 'bold' }}>{props.host && 'Host '}</span>
+				<span style={{ fontWeight: "bold" }}>{props.host && "Host "}</span>
 				{props.person.pronouns}
 			</Pronouns>
 		</PersonCompressedContainer>

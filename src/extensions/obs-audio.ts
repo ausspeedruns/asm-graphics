@@ -1,29 +1,38 @@
-import * as nodecgApiContext from './nodecg-api-context';
-import obs from './util/obs';
-import _ from 'underscore';
+import * as nodecgApiContext from "./nodecg-api-context";
+import obs from "./util/obs";
+import _ from "underscore";
 
-import type { RunDataActiveRun } from '@asm-graphics/types/RunData';
-import type { OBSAudioIndicator } from '@asm-graphics/types/Audio';
-import type NodeCG from '@nodecg/types';
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { OBSAudioIndicator } from "@asm-graphics/types/Audio";
+import type NodeCG from "@nodecg/types";
 
 const nodecg = nodecgApiContext.get();
 
-const audioIndicatorRep = nodecg.Replicant('audio-indicator') as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
-const runDataActiveRep = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
+const audioIndicatorRep = nodecg.Replicant(
+	"audio-indicator",
+) as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
+const runDataActiveRep = nodecg.Replicant(
+	"runDataActiveRun",
+	"nodecg-speedcontrol",
+) as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 // const twitchStreamsRep = nodecg.Replicant<Stream[]>('twitchStreams');
 // const obsConnectionRep = nodecg.Replicant<boolean>('obsConnection');
-const obsAudioIndicatorRep = nodecg.Replicant('obs-audio-indicator') as unknown as NodeCG.ServerReplicantWithSchemaDefault<OBSAudioIndicator[]>;
-const obsAudioInputs = nodecg.Replicant('obs-audio-inputs') as unknown as NodeCG.ServerReplicantWithSchemaDefault<string[]>;
-const obsAudioGate = nodecg.Replicant('obs-audio-gate') as unknown as NodeCG.ServerReplicantWithSchemaDefault<number>;
+const obsAudioIndicatorRep = nodecg.Replicant(
+	"obs-audio-indicator",
+) as unknown as NodeCG.ServerReplicantWithSchemaDefault<OBSAudioIndicator[]>;
+const obsAudioInputs = nodecg.Replicant("obs-audio-inputs") as unknown as NodeCG.ServerReplicantWithSchemaDefault<
+	string[]
+>;
+const obsAudioGate = nodecg.Replicant("obs-audio-gate") as unknown as NodeCG.ServerReplicantWithSchemaDefault<number>;
 
-nodecg.listenFor('update-audioindicator', (teamId: string) => {
+nodecg.listenFor("update-audioindicator", (teamId: string) => {
 	audioIndicatorRep.value = teamId;
 	// changeStreamMutes(teamId);
 });
 
-runDataActiveRep.on('change', newVal => {
+runDataActiveRep.on("change", (newVal) => {
 	if (!newVal?.teams) {
-		audioIndicatorRep.value = '';
+		audioIndicatorRep.value = "";
 		return;
 	}
 
@@ -82,13 +91,13 @@ runDataActiveRep.on('change', newVal => {
 // 	]
 // }
 
-nodecg.listenFor('update-obs-gate', (value: number) => {
+nodecg.listenFor("update-obs-gate", (value: number) => {
 	obsAudioGate.value = value;
 	// changeStreamMutes(teamId);
 });
 
-nodecg.listenFor('update-obs-audio', (data: { id: string, inputName: string }) => {
-	const foundAudioIndex = obsAudioIndicatorRep.value.findIndex(indicator => indicator.id === data.id);
+nodecg.listenFor("update-obs-audio", (data: { id: string; inputName: string }) => {
+	const foundAudioIndex = obsAudioIndicatorRep.value.findIndex((indicator) => indicator.id === data.id);
 
 	if (foundAudioIndex > -1) {
 		obsAudioIndicatorRep.value[foundAudioIndex].inputName = data.inputName;
@@ -97,8 +106,8 @@ nodecg.listenFor('update-obs-audio', (data: { id: string, inputName: string }) =
 	}
 });
 
-nodecg.listenFor('remove-obs-audio', (id: string) => {
-	const foundAudioIndex = obsAudioIndicatorRep.value.findIndex(indicator => indicator.id === id);
+nodecg.listenFor("remove-obs-audio", (id: string) => {
+	const foundAudioIndex = obsAudioIndicatorRep.value.findIndex((indicator) => indicator.id === id);
 
 	if (foundAudioIndex > -1) {
 		const mutableArray = _.clone(obsAudioIndicatorRep.value);
@@ -107,9 +116,9 @@ nodecg.listenFor('remove-obs-audio', (id: string) => {
 	}
 });
 
-obs.on('InputVolumeMeters', data => {
+obs.on("InputVolumeMeters", (data) => {
 	// console.log(data);
-	const audioInputs = data.inputs.map(input => input.inputName?.toString() ?? '');
+	const audioInputs = data.inputs.map((input) => input.inputName?.toString() ?? "");
 	if (!_.isEqual(audioInputs, obsAudioInputs.value)) {
 		obsAudioInputs.value = audioInputs;
 	}
@@ -121,14 +130,20 @@ obs.on('InputVolumeMeters', data => {
 	// });
 
 	for (let i = 0, n = mutableArray.length; i < n; i++) {
-		mutableArray[i].active = mulToDB(((data.inputs.find(input => (input.inputName?.toString() ?? '') === mutableArray[i].inputName)?.inputLevelsMul as number[][])[0][2] ?? 0)) >= obsAudioGate.value;
+		mutableArray[i].active =
+			mulToDB(
+				(
+					data.inputs.find((input) => (input.inputName?.toString() ?? "") === mutableArray[i].inputName)
+						?.inputLevelsMul as number[][]
+				)[0][2] ?? 0,
+			) >= obsAudioGate.value;
 	}
 
 	obsAudioIndicatorRep.value = mutableArray;
 });
 
 function mulToDB(mul: number) {
-	return mul <= 0 ? -Infinity : (20 * Math.log10(mul));
+	return mul <= 0 ? -Infinity : 20 * Math.log10(mul);
 }
 
 // nodecg.listenFor('changeSourceAudio', (data: { source: string, volume: number }) => {
