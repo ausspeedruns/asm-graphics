@@ -73,22 +73,27 @@ const CurrentAmount = styled(NextMilestoneTotal)`
 	text-align: right;
 `;
 
+type Milestone = {
+	event?: string;
+	total: number;
+};
+
 // @ts-ignore
-const NUMBER_MILESTONES = [
+const NUMBER_MILESTONES: Milestone[] = [
 	{ event: "Start", total: 0 },
-	{ event: "", total: 1000 },
-	{ event: "", total: 2000 },
-	{ event: "", total: 5000 },
-	{ event: "", total: 7500 },
-	{ event: "", total: 10000 },
-	{ event: "", total: 25000 },
-	{ event: "", total: 50000 },
-	{ event: "", total: 75000 },
-	{ event: "", total: 100000 },
+	{ total: 1000 },
+	{ total: 2000 },
+	{ total: 5000 },
+	{ total: 7500 },
+	{ total: 10000 },
+	{ total: 25000 },
+	{ total: 50000 },
+	{ total: 75000 },
+	{ total: 100000 },
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
-const ASM_MILESTONES = [
+const ASM_MILESTONES: Milestone[] = [
 	{ event: "ASM2016", total: 3066.52 },
 	{ event: "ASM2017", total: 3271 },
 	{ event: "ASM2018", total: 5091.84 },
@@ -96,10 +101,11 @@ const ASM_MILESTONES = [
 	{ event: "ASM2020", total: 13069.69 },
 	{ event: "ASM2021", total: 15000 },
 	{ event: "ASM2022", total: 24551 },
+	{ event: "ASM2023", total: 35000 },
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
-const PAX_MILESTONES = [
+const PAX_MILESTONES: Milestone[] = [
 	{ event: "PAX2017", total: 3200 },
 	{ event: "PAX2019", total: 7181.73 },
 	{ event: "PAX2021", total: 7222.37 },
@@ -107,7 +113,7 @@ const PAX_MILESTONES = [
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
-const MISC_MILESTONES = [
+const MISC_MILESTONES: Milestone[] = [
 	{ event: "FAST2020", total: 7033 },
 	{ event: "ASGX2023", total: 2316 },
 ].sort((a, b) => a.total - b.total);
@@ -117,7 +123,21 @@ interface Props {
 }
 
 // Milestones to use for the events
-const MILESTONES = ASM_MILESTONES;
+const MILESTONES = combineMilestones(ASM_MILESTONES);
+
+function combineMilestones(milestones: Milestone[]): Milestone[] {
+	// If the first array is empty, just return the second array.
+	if (milestones.length === 0) {
+		return NUMBER_MILESTONES;
+	}
+
+	const lastMilestone = milestones[milestones.length - 1].total;
+
+	// Filter out items from the second array that are less than or equal to the last item of the first array.
+	const filteredMilestones = NUMBER_MILESTONES.filter((milestone) => milestone.total > lastMilestone);
+
+	return [...milestones, ...filteredMilestones];
+}
 
 export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
 	const containerRef = useRef(null);
@@ -128,8 +148,24 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 
 	if (prevMilestoneArray.length === 0) prevMilestoneArray.push({ event: "Start!", total: 0 });
 
+	const prevMilestone = prevMilestoneArray[prevMilestoneArray.length - 1];
+
+	const moneyDifference = props.currentTotal - prevMilestone.total;
+	
+	let showMilestones = true;
+	let goalDifference = 1;
+	let percentage = 100;
+	if (nextMilestone) {
+		goalDifference = nextMilestone.total - prevMilestone.total;
+		percentage = (moneyDifference / goalDifference) * 100;
+	} else {
+		showMilestones = false;
+	}
+
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
+			if (!showMilestones) return tl;
+
 			// Start
 			tl.set(progressBarRef.current, { width: 0 });
 			tl.set(containerRef.current, { y: -64 });
@@ -150,12 +186,6 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 	}));
 
 	if (!nextMilestone) return <></>;
-
-	const prevMilestone = prevMilestoneArray[prevMilestoneArray.length - 1];
-
-	const moneyDifference = props.currentTotal - prevMilestone.total;
-	const goalDifference = nextMilestone.total - prevMilestone.total;
-	const percentage = (moneyDifference / goalDifference) * 100;
 
 	let textOnRightSide: React.CSSProperties = {};
 	if (percentage < 50) {
