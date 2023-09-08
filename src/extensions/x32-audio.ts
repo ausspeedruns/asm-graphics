@@ -140,6 +140,16 @@ nodecg.listenFor("transition:toIntermission", () => {
 		32,
 		1,
 	);
+
+	// Reset audio levels on runner audio
+	loopAllX32(
+		(channel, mixBus) => {
+			if (mixBus <= 1) return;
+			x32.setFaderLevel(channel, mixBus, 0.75);
+		},
+		32,
+		5
+	);
 });
 
 // On transition to IRL scene
@@ -155,17 +165,17 @@ nodecg.listenFor("transition:toIRL", () => {
 	});
 });
 
-function loopAllX32(callback: (value1: number, value2: number) => void, max1 = 32, max2 = 16) {
-	let current1 = 1;
-	let current2 = 0;
+function loopAllX32(callback: (channel: number, mixBus: number) => void, max1 = 32, max2 = 16) {
+	let channel = 1;
+	let mixBus = 0;
 
-	while (current1 <= max1) {
-		const value = [current1, current2] as const;
+	while (channel <= max1) {
+		const value = [channel, mixBus] as const;
 		callback(...value);
 
-		if (++current2 > max2) {
-			current1++;
-			current2 = 0;
+		if (++mixBus > max2) {
+			channel++;
+			mixBus = 0;
 		}
 	}
 }
@@ -198,8 +208,7 @@ function fadeUnmute(channel: number, mixBus: number) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
-			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
-				faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
+			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Unmute
@@ -211,8 +220,7 @@ function fadeUnmute(channel: number, mixBus: number) {
 function fadeMute(channel: number, mixBus: number) {
 	if (faderValues[0]?.[channel] > 0) {
 		nodecg.log.debug(
-			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
-				faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
+			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Mute
