@@ -162,15 +162,6 @@ export const DashCouch: React.FC = () => {
 						label="Audio Activity Sensitivity / Gate"
 					/>
 				</div> */}
-				<Button
-					onClick={() => {
-						window.parent.document
-							.getElementById("nodecg_dashboard")
-							?.shadowRoot?.getElementById("mainToast")
-							?.show({ text: "hello", duration: 3000, horizontalAlign: "right" });
-					}}>
-					Test
-				</Button>
 			</div>
 		</ThemeProvider>
 	);
