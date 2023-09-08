@@ -9,6 +9,7 @@ import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
+import { getTeams } from "../elements/team-data";
 
 import StandardLeft from "../media/ASM23/standard-2-left.png";
 import StandardRight from "../media/ASM23/standard-2-right.png";
@@ -100,62 +101,7 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		},
 	}));
 
-	const leftTeamID = props.runData?.teams[0]?.id || "";
-	const rightTeamID = props.runData?.teams[1]?.id || "";
-	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
-		? props.timer.teamFinishTimes[leftTeamID].time
-		: "";
-	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID)
-		? props.timer.teamFinishTimes[rightTeamID].time
-		: "";
-	const leftTeamPlace = findPlace(leftTeamID);
-	const rightTeamPlace = findPlace(rightTeamID);
-
-	function findPlace(teamID: string) {
-		if (props.timer?.teamFinishTimes.hasOwnProperty(teamID)) {
-			// Forfeit dont get a place (sorry runner)
-			if (props.timer.teamFinishTimes[teamID].state === "forfeit") {
-				return -1;
-			} else {
-				// On a scale of 1 to fucked this is probably just a weird look
-				// Get place
-				const allFinishTimes: [string, number][] = [];
-				for (const loopTeamID in props.timer.teamFinishTimes) {
-					allFinishTimes.push([loopTeamID, props.timer.teamFinishTimes[loopTeamID].milliseconds]);
-				}
-
-				allFinishTimes.sort((a, b) => {
-					return a[1] - b[1];
-				});
-
-				return allFinishTimes.findIndex((element) => element[0] === teamID) + 1;
-			}
-		}
-		return 4;
-	}
-
-	let currentAudio = -1;
-
-	if (props.runData?.teams) {
-		if (props.runData.teams.length > 1) {
-			let totalIndex = -1;
-			props.runData.teams.forEach((team) => {
-				team.players.forEach((player) => {
-					totalIndex++;
-					if (player.id === props.audioIndicator) {
-						currentAudio = totalIndex;
-						return;
-					}
-
-					if (currentAudio !== -1) {
-						return;
-					}
-				});
-			});
-		} else {
-			currentAudio = props.runData.teams[0]?.players.findIndex((player) => props.audioIndicator === player.id);
-		}
-	}
+	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 2);
 
 	return (
 		<Standard2Container>
@@ -169,12 +115,12 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				</LeftBox>
 
 				<AudioIndicator
-					active={currentAudio === 0}
+					active={gameAudioActive === 0}
 					side="left"
 					style={{ position: "absolute", top: 255, left: 625 }}
 				/>
 				<AudioIndicator
-					active={currentAudio === 1}
+					active={gameAudioActive === 1}
 					side="right"
 					style={{
 						position: "absolute",
@@ -195,8 +141,8 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					audioIndicator={props.obsAudioIndicator}
 				/>
 
-				<RaceFinish style={{ top: 220, left: 830 }} time={leftTeamTime} place={leftTeamPlace} />
-				<RaceFinish style={{ top: 220, left: 960 }} time={rightTeamTime} place={rightTeamPlace} />
+				<RaceFinish style={{ top: 220, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
+				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<RightBox>
 					<img
@@ -209,8 +155,7 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							width: "100%",
 							flexGrow: 1,
 							alignItems: "center",
-						}}
-					>
+						}}>
 						<Couch
 							couch={props.couchInformation}
 							style={{ width: "30%", zIndex: 3 }}

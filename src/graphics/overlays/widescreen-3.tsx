@@ -5,6 +5,7 @@ import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
+import { getTeams } from "../elements/team-data";
 // import { RaceFinish } from '../elements/race-finish';
 
 import { Timer } from "../elements/timer";
@@ -116,73 +117,13 @@ const RightBG = styled.div`
 `;
 
 export const Widescreen3: React.FC<OverlayProps> = (props) => {
-	const leftTeamID = props.runData?.teams[0]?.id || "";
-	const middleTeamID = props.runData?.teams[1]?.id || "";
-	const rightTeamID = props.runData?.teams[2]?.id || "";
-	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
-		? props.timer.teamFinishTimes[leftTeamID].time
-		: "";
-	const middleTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(middleTeamID)
-		? props.timer.teamFinishTimes[middleTeamID].time
-		: "";
-	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID)
-		? props.timer.teamFinishTimes[middleTeamID].time
-		: "";
-	const leftTeamPlace = findPlace(leftTeamID);
-	const middleTeamPlace = findPlace(middleTeamID);
-	const rightTeamPlace = findPlace(rightTeamID);
-
-	function findPlace(teamID: string) {
-		if (props.timer?.teamFinishTimes.hasOwnProperty(teamID)) {
-			// Forfeit dont get a place (sorry runner)
-			if (props.timer.teamFinishTimes[teamID].state === "forfeit") {
-				return -1;
-			} else {
-				// On a scale of 1 to fucked this is probably just a weird look
-				// Get place
-				const allFinishTimes: [string, number][] = [];
-				for (const loopTeamID in props.timer.teamFinishTimes) {
-					allFinishTimes.push([loopTeamID, props.timer.teamFinishTimes[loopTeamID].milliseconds]);
-				}
-
-				allFinishTimes.sort((a, b) => {
-					return a[1] - b[1];
-				});
-
-				return allFinishTimes.findIndex((element) => element[0] === teamID) + 1;
-			}
-		}
-		return 4;
-	}
-
-	let currentAudio = -1;
-
-	if (props.runData?.teams) {
-		if (props.runData.teams.length > 1) {
-			let totalIndex = -1;
-			props.runData.teams.forEach((team) => {
-				team.players.forEach((player) => {
-					totalIndex++;
-					if (player.id === props.audioIndicator) {
-						currentAudio = totalIndex;
-						return;
-					}
-
-					if (currentAudio !== -1) {
-						return;
-					}
-				});
-			});
-		} else {
-			currentAudio = props.runData.teams[0].players.findIndex((player) => props.audioIndicator === player.id);
-		}
-	}
+	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 3);
 
 	return (
 		<Widescreen3Container>
-			<WideAudioIndicator active={currentAudio === 0} side="top" style={{ left: 961 }} />
-			<WideAudioIndicator active={currentAudio === 1} side="top" style={{ left: 1262 }} />
-			<WideAudioIndicator active={currentAudio === 2} side="top" style={{ left: 1563 }} />
+			<WideAudioIndicator active={gameAudioActive === 0} side="top" style={{ left: 961 }} />
+			<WideAudioIndicator active={gameAudioActive === 1} side="top" style={{ left: 1262 }} />
+			<WideAudioIndicator active={gameAudioActive === 2} side="top" style={{ left: 1563 }} />
 			<RightBG />
 			<TopBar>
 				<Screen />
@@ -206,16 +147,20 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 						audioIndicator={props.obsAudioIndicator}
 					/>
 
-					<RaceFinish style={{ top: 758, left: 1046, zIndex: 3 }} time={leftTeamTime} place={leftTeamPlace} />
+					<RaceFinish
+						style={{ top: 758, left: 1046, zIndex: 3 }}
+						time={teamData[0].time}
+						place={teamData[0].place}
+					/>
 					<RaceFinish
 						style={{ top: 758, left: 1346, zIndex: 3 }}
-						time={middleTeamTime}
-						place={middleTeamPlace}
+						time={teamData[1].time}
+						place={teamData[1].place}
 					/>
 					<RaceFinish
 						style={{ top: 758, left: 1647, zIndex: 3 }}
-						time={rightTeamTime}
-						place={rightTeamPlace}
+						time={teamData[2].time}
+						place={teamData[2].place}
 					/>
 					<InfoBox>
 						<InfoBoxRow style={{ height: "23%" }}>

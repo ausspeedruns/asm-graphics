@@ -22,16 +22,12 @@ import { OBSAudioIndicator } from "@asm-graphics/types/Audio";
 const GreenButton = styled(Button)`
 	background-color: #4caf50 !important;
 	color: #fff !important;
-	box-shadow:
-		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
 		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		background-color: #00e676 !important;
-		box-shadow:
-			0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-			0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 	}
 
@@ -45,16 +41,12 @@ const GreenButton = styled(Button)`
 const RedButton = styled(Button)`
 	background-color: #f44336 !important;
 	min-width: 0px !important;
-	box-shadow:
-		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
 		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		background-color: #ff5252 !important;
-		box-shadow:
-			0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-			0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 	}
 `;
@@ -159,8 +151,7 @@ export const DashCouch: React.FC = () => {
 						flexDirection: "column",
 						gap: 5,
 						marginTop: 5,
-					}}
-				>
+					}}>
 					{allHostNames}
 				</div>
 				{/* <div style={{ marginTop: 16 }}>
@@ -171,6 +162,15 @@ export const DashCouch: React.FC = () => {
 						label="Audio Activity Sensitivity / Gate"
 					/>
 				</div> */}
+				<Button
+					onClick={() => {
+						window.parent.document
+							.getElementById("nodecg_dashboard")
+							?.shadowRoot?.getElementById("mainToast")
+							?.show({ text: "hello", duration: 3000, horizontalAlign: "right" });
+					}}>
+					Test
+				</Button>
 			</div>
 		</ThemeProvider>
 	);
@@ -262,8 +262,7 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 						id={`obs-input-${props.index}`}
 						value={input}
 						label="Audio Input"
-						onChange={updateObsIndicator}
-					>
+						onChange={updateObsIndicator}>
 						<MenuItem key={props.index} value={""}>
 							<i>None</i>
 						</MenuItem>

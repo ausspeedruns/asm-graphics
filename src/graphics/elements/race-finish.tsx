@@ -76,42 +76,14 @@ export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) =>
 		gsap.to(animRef.current, { y: 0, duration: 1 });
 	}, [props.time]);
 
-	// let finalPlace = 4;
-	// if (props.time.teamFinishTimes[props.teamID]) {
-	// 	// Forfeit dont get a place (sorry runner)
-	// 	if (props.time.teamFinishTimes[props.teamID].state === 'forfeit') {
-	// 		finalPlace = -1;
-	// 	} else {
-	// 		// On a scale of 1 to fucked this is probably just a weird look
-	// 		// Get place
-	// 		const allFinishTimes = [];
-	// 		for (const teamID in props.time.teamFinishTimes) {
-	// 			allFinishTimes.push([teamID, props.time.teamFinishTimes[teamID].milliseconds]);
-	// 		}
-
-	// 		allFinishTimes.sort((a, b) => {
-	// 			// Just to satisfy TS
-	// 			if (typeof a[1] === 'number' && typeof b[1] === 'number') {
-	// 				return a[1] - b[1];
-	// 			}
-
-	// 			return 0;
-	// 		});
-
-	// 		finalPlace = allFinishTimes.findIndex((element) => element[0] === props.teamID) + 1;
-	// 	}
-	// }
-
 	let bgColour = "#e0e0e0";
 	switch (props.place) {
 		case 1:
 			bgColour = "#dab509";
 			break;
-
 		case 2:
 			bgColour = "#a1a1a1";
 			break;
-
 		case 3:
 			bgColour = "#ae7058";
 			break;
