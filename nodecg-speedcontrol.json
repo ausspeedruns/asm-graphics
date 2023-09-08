@@ -8,5 +8,27 @@
 		"tagPlayersInStreamTitle": true,
 		"streamDefaultGame": "Games + Demos",
 		"ffzIntegration": false
+	},
+	"customData": {
+	  "run": [
+		{
+		  "name": "Game Display",
+		  "key": "gameDisplay"
+		},
+		{
+		  "name": "Tech Platform",
+		  "key": "techPlatform"
+		},
+		{
+		  "name": "Special Requirements",
+		  "key": "specialRequirements"
+		}
+	  ],
+	  "player": [
+		{
+		  "name": "Microphone",
+		  "key": "microphone"
+		}
+	  ]
 	}
 }
