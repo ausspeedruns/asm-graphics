@@ -2,14 +2,9 @@ import * as nodecgApiContext from "./nodecg-api-context";
 import { request, gql } from "graphql-request";
 import { z } from "zod";
 
-import type NodeCG from "@nodecg/types";
-import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite";
+import { allAusSpeedrunsUsernamesRep } from "./replicants";
 
 const nodecg = nodecgApiContext.get();
-
-const allUsersRep = nodecg.Replicant("all-usernames", {
-	defaultValue: [],
-}) as unknown as NodeCG.ServerReplicantWithSchemaDefault<AusSpeedrunsUser[]>;
 
 const QUERY_USERS = gql`
 	query {
@@ -34,10 +29,10 @@ const queryUsers = z.object({
 });
 
 async function getAllUsers() {
-	if (nodecg.bundleConfig.graphql === undefined) return;
+	if (!nodecg.bundleConfig.graphql) return;
 
 	try {
-		const results = await request(nodecg.bundleConfig.graphql!.url, QUERY_USERS);
+		const results = await request(nodecg.bundleConfig.graphql.url, QUERY_USERS);
 
 		return queryUsers.parse(results).users;
 	} catch (error) {
@@ -47,5 +42,5 @@ async function getAllUsers() {
 }
 
 getAllUsers().then((allUsers) => {
-	allUsersRep.value = allUsers ?? [];
+	allAusSpeedrunsUsernamesRep.value = allUsers ?? [];
 });

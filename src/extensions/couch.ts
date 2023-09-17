@@ -1,44 +1,39 @@
 import * as nodecgApiContext from "./nodecg-api-context";
-import type { CouchPerson } from "@asm-graphics/types/OverlayProps";
+
+import { commentatorsRep, hostRep } from "./replicants";
+
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "@nodecg/types";
 
 const nodecg = nodecgApiContext.get();
 
-const couchNamesRep = nodecg.Replicant("couch-names") as unknown as NodeCG.ServerReplicantWithSchemaDefault<
-	CouchPerson[]
->;
 const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant(
 	"runDataActiveRun",
 	"nodecg-speedcontrol",
 ) as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 
-nodecg.listenFor("update-hostname", (data: CouchPerson) => {
+nodecg.listenFor("update-hostname", (data) => {
 	// hostNameRep.value = data;
-	const hostNamesMutable = couchNamesRep.value;
-	const hostNameIndex = hostNamesMutable.findIndex((couch) => couch.host);
-	if (hostNameIndex > -1) hostNamesMutable.splice(hostNameIndex, 1);
-	hostNamesMutable.push({ ...data, host: true });
-	couchNamesRep.value = hostNamesMutable;
+	hostRep.value = data;
 });
 
-nodecg.listenFor("update-hostnames", (names: CouchPerson[]) => {
-	couchNamesRep.value = names;
+nodecg.listenFor("update-hostnames", (names) => {
+	commentatorsRep.value = names;
 });
 
-nodecg.listenFor("rename-couch", (data: CouchPerson) => {
-	const hostNamesMutable = [...couchNamesRep.value];
+nodecg.listenFor("rename-couch", (data) => {
+	const hostNamesMutable = [...commentatorsRep.value];
 	const index = hostNamesMutable.findIndex((couch) => couch.id === data.id);
 	if (index === -1) {
 		hostNamesMutable.push(data);
 	} else {
 		hostNamesMutable[index] = data;
 	}
-	couchNamesRep.value = hostNamesMutable;
+	commentatorsRep.value = hostNamesMutable;
 });
 
-nodecg.listenFor("remove-hostname", (id: string) => {
-	const hostNamesMutable = [...couchNamesRep.value];
+nodecg.listenFor("remove-hostname", (id) => {
+	const hostNamesMutable = [...commentatorsRep.value];
 
 	const index = hostNamesMutable.findIndex((couch) => couch.id === id);
 	if (index === -1) {
@@ -47,13 +42,12 @@ nodecg.listenFor("remove-hostname", (id: string) => {
 		nodecg.log.error(`[Couch] Could not find ${id} to remove from list.`);
 	}
 
-	couchNamesRep.value = hostNamesMutable;
+	commentatorsRep.value = hostNamesMutable;
 });
 
 // Clear on new run
 SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 	if (newVal?.id === oldVal?.id) return;
 
-	// Clear all names except for the host
-	couchNamesRep.value = couchNamesRep.value.filter((names) => names.host);
+	commentatorsRep.value = [];
 });

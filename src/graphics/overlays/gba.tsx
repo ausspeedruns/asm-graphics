@@ -79,7 +79,7 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					/>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
-					<Couch couch={props.couchInformation} audio={props.obsAudioIndicator} />
+					<Couch commentators={props.commentators} host={props.host} audio={props.obsAudioIndicator} />
 					<SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

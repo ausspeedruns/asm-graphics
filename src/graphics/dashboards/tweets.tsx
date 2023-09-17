@@ -74,7 +74,7 @@ export const Twitter: React.FC = () => {
 		setCanUndo(true);
 	});
 
-	useListenFor("showPotentialTweet", (tweet: Tweet) => {
+	useListenFor("showPotentialTweet", (tweet) => {
 		setShowingTweet(tweet);
 		setShowDialog(true);
 		setAgreeDisabled(true);
@@ -185,7 +185,7 @@ const SingleTweet: React.FC<SingleTweetProps> = (props: SingleTweetProps) => {
 	};
 
 	const deleteTweet = () => {
-		nodecg.sendMessage("discardTweet", props.tweet?.data.id);
+		nodecg.sendMessage("discardTweet", props.tweet?.data.id ?? "");
 	};
 
 	const tweetCreatedAt = new Date(props.tweet.data.created_at);

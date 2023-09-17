@@ -4,16 +4,14 @@ import styled, { keyframes } from "styled-components";
 import { useReplicant, useListenFor } from "use-nodecg";
 import _ from "underscore";
 
-import { DeepReadonly } from "@nodecg/types/faux_modules/ts-essentials";
 import { Tweet } from "@asm-graphics/types/Twitter";
-import { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
 
 import { GreenButton, RedButton } from "./elements/styled-ui";
 import { Box, Button } from "@mui/material";
 import UndoIcon from "@mui/icons-material/Undo";
 import Delete from "@mui/icons-material/Delete";
 
-const ncgConfig = nodecg.bundleConfig as DeepReadonly<ConfigSchema>;
+const ncgConfig = nodecg.bundleConfig;
 
 const TwitterContainer = styled.div`
 	height: 235px;
@@ -53,7 +51,7 @@ const fakeTweet: Tweet = {
 };
 
 const Twitter: React.FC = () => {
-	const [tweetList] = useReplicant<Tweet[], Tweet[]>("tweets", []);
+	const [tweetList] = useReplicant<Tweet[]>("tweets", []);
 	const [canUndo, setCanUndo] = useState<Boolean>(false);
 
 	let tweets: JSX.Element[] = [<SingleTweet key={"Test"} tweet={fakeTweet} />];

@@ -1,10 +1,10 @@
-import type NodeCG from "@nodecg/types";
 import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
 import * as nodecgApiContext from "./nodecg-api-context";
+import { ExtendedServerAPI } from "@asm-graphics/types/NodeCGExtension";
 
-let ncgConfig: NodeCG.ServerAPI<ConfigSchema>["bundleConfig"];
+let ncgConfig: ExtendedServerAPI<ConfigSchema>["bundleConfig"];
 
-module.exports = (nodecg: NodeCG.ServerAPI<ConfigSchema>) => {
+module.exports = (nodecg: ExtendedServerAPI<ConfigSchema>) => {
 	// Store a reference to this nodecg API context in a place where other libs can easily access it.
 	// This must be done before any other files are `require`d.
 	nodecgApiContext.set(nodecg);

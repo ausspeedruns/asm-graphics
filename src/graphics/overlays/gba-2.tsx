@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
 import { SmallInfo, ISmallStyling } from "../elements/info-box/small";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
@@ -100,7 +100,7 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		},
 	}));
 
-	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 3);
+	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 2);
 
 	return (
 		<Standard2Container>
@@ -156,7 +156,8 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							alignItems: "center",
 						}}>
 						<Couch
-							couch={props.couchInformation}
+							commentators={props.commentators}
+							host={props.host}
 							style={{ width: "30%", zIndex: 3 }}
 							audio={props.obsAudioIndicator}
 						/>

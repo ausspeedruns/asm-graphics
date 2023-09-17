@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-import { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
-import { useReplicant } from "use-nodecg";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { RaceFinish } from "../elements/race-finish";
+import { getTeams } from "../elements/team-data";
 
 const DS2Container = styled.div`
 	height: 1016px;
@@ -55,80 +55,24 @@ const TwitterSize = {
 };
 
 export const DS2: React.FC<OverlayProps> = (props) => {
-	const [audioIndicatorRep] = useReplicant<string>("audio-indicator", "");
 
-	const leftTeamID = props.runData?.teams[0]?.id || "";
-	const rightTeamID = props.runData?.teams[1]?.id || "";
-	const leftTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(leftTeamID)
-		? props.timer.teamFinishTimes[leftTeamID].time
-		: "";
-	const rightTeamTime = props.timer?.teamFinishTimes.hasOwnProperty(rightTeamID)
-		? props.timer.teamFinishTimes[rightTeamID].time
-		: "";
-	const leftTeamPlace = findPlace(leftTeamID);
-	const rightTeamPlace = findPlace(rightTeamID);
-
-	function findPlace(teamID: string) {
-		if (props.timer?.teamFinishTimes.hasOwnProperty(teamID)) {
-			// Forfeit dont get a place (sorry runner)
-			if (props.timer.teamFinishTimes[teamID].state === "forfeit") {
-				return -1;
-			} else {
-				// On a scale of 1 to fucked this is probably just a weird look
-				// Get place
-				const allFinishTimes: [string, number][] = [];
-				for (const loopTeamID in props.timer.teamFinishTimes) {
-					allFinishTimes.push([loopTeamID, props.timer.teamFinishTimes[loopTeamID].milliseconds]);
-				}
-
-				allFinishTimes.sort((a, b) => {
-					return a[1] - b[1];
-				});
-
-				return allFinishTimes.findIndex((element) => element[0] === teamID) + 1;
-			}
-		}
-		return 4;
-	}
-
-	let currentAudio = -1;
-
-	if (props.runData?.teams) {
-		if (props.runData.teams.length > 1) {
-			let totalIndex = -1;
-			props.runData.teams.forEach((team) => {
-				team.players.forEach((player) => {
-					totalIndex++;
-					if (player.id === audioIndicatorRep) {
-						currentAudio = totalIndex;
-						return;
-					}
-
-					if (currentAudio !== -1) {
-						return;
-					}
-				});
-			});
-		} else {
-			currentAudio = props.runData.teams[0].players.findIndex((player) => audioIndicatorRep === player.id);
-		}
-	}
+	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 2);
 
 	return (
 		<DS2Container>
 			<Sidebar>
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.obsAudioIndicator} />
 
-				<RaceFinish style={{ top: 276, left: 830 }} time={leftTeamTime} place={leftTeamPlace} />
-				<RaceFinish style={{ top: 276, left: 960 }} time={rightTeamTime} place={rightTeamPlace} />
+				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
+				<RaceFinish style={{ top: 276, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<AudioIndicator
-					active={currentAudio === 0}
+					active={gameAudioActive === 0}
 					side="top"
 					style={{ position: "absolute", top: 270, left: 678 }}
 				/>
 				<AudioIndicator
-					active={currentAudio === 1}
+					active={gameAudioActive === 1}
 					side="top"
 					style={{
 						position: "absolute",
@@ -139,7 +83,7 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 				/>
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} />
-					<Couch couch={props.couchInformation} />
+					<Couch commentators={props.commentators} />
 					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>

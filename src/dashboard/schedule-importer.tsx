@@ -13,7 +13,7 @@ export const DashScheduleImporter: React.FC = () => {
 				fullWidth
 				onClick={() => nodecg.sendMessage("scheduleImport:import")}
 			>
-				Import {nodecg.bundleConfig.graphql.event} schedule
+				Import {nodecg.bundleConfig?.graphql?.event} schedule
 			</Button>
 		</ThemeProvider>
 	);

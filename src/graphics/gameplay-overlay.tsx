@@ -8,7 +8,7 @@ import _ from "underscore";
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
 import { RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
 import { Timer } from "@asm-graphics/types/Timer";
-import { CouchPerson, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import { Commentator, OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
 import { TickerOverlay } from "./ticker";
 import { Standard } from "./overlays/standard";
@@ -26,7 +26,6 @@ import { WHG } from "./overlays/whg11-8";
 import { ThreeDS } from "./overlays/3ds";
 import { NoGraphics } from "./overlays/no-graphics";
 import type NodeCG from "@nodecg/types";
-import type { Tweet } from "@asm-graphics/types/Twitter";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 import { StandardVertical } from "./overlays/standard-vertical";
 
@@ -67,7 +66,8 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [timerRep] = useReplicant<Timer | undefined>("timer", undefined, {
 		namespace: "nodecg-speedcontrol",
 	});
-	const [hostNamesRep] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators", []);
+	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", []);
 	const [audioIndicatorRep] = useReplicant<string>("audio-indicator", "");
@@ -75,13 +75,14 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
-	const overlayArgs = {
+	const overlayArgs: OverlayProps = {
 		runData: displayingRun,
 		timer: timerRep,
-		couchInformation: hostNamesRep,
+		commentators: commentatorsRep,
 		preview: props.preview,
 		sponsors: sponsorsRep,
 		obsAudioIndicator: obsAudioIndicatorRep,
+		host: hostRep,
 	};
 
 	// console.log(displayingRun)
@@ -172,7 +173,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	// 	// }
 	// });
 
-	useListenFor("showTweet", (newVal: Tweet) => {
+	useListenFor("showTweet", (newVal) => {
 		overlayRefs.current.forEach((ref) => {
 			if (ref) ref.showTweet?.(newVal);
 		});

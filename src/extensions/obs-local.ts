@@ -1,8 +1,6 @@
 import { RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray } from "@asm-graphics/types/RunData";
 import * as nodecgApiContext from "./nodecg-api-context";
 import obs from "./util/obs";
-import path from "path";
-import fs from "fs";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("OBS-Local");
@@ -55,7 +53,7 @@ obs.on("SceneTransitionStarted", async () => {
 });
 
 // AUTOMATICALLY ADVANCE RUN WHEN TRANSITIONING FROM GAME TO INTERMISSION
-nodecg.listenFor("transition:toIntermission", (data: { to: string; from: string }) => {
+nodecg.listenFor("transition:toIntermission", (data) => {
 	if (!data.from.startsWith("GAMEPLAY")) return;
 
 	setTimeout(() => {
@@ -71,7 +69,7 @@ nodecg.listenFor("transition:toIntermission", (data: { to: string; from: string 
 
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");
 
-nodecg.listenFor("transition:toGame", (data: { to: string; from: string }) => {
+nodecg.listenFor("transition:toGame", (data) => {
 	if (!data.to.startsWith("GAMEPLAY")) return;
 
 	setTimeout(() => {

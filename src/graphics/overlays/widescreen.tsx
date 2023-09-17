@@ -107,7 +107,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						src={WidescreenBottom}
 						style={{ position: "absolute", height: "auto", width: "100%", top: 0 }}
 					/>
-					<Couch style={{ zIndex: 2 }} couch={props.couchInformation} audio={props.obsAudioIndicator} />
+					<Couch style={{ zIndex: 2 }} commentators={props.commentators} host={props.host} audio={props.obsAudioIndicator} />
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

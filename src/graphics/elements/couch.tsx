@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { AudioIndicator } from "@asm-graphics/types/Audio";
 
 const CouchContainer = styled.div`
@@ -28,27 +28,33 @@ const PeopleContainer = styled.div`
 `;
 
 interface Props {
-	couch: CouchPerson[];
+	commentators: Commentator[];
+	host?: Commentator;
 	audio?: AudioIndicator;
 	style?: React.CSSProperties;
 	className?: string;
 }
 
 export const Couch: React.FC<Props> = (props: Props) => {
-	if (props.couch.length === 0) return <></>;
+	if (props.commentators.length === 0 && !props.host) return <></>;
 
-	const host = props.couch.find((person) => person.host);
+	let label = "";
+	if (props.commentators.length > 1)
+	{
+		label = "Commentators";
+	} else if (props.commentators.length == 1) {
+		label = "Commentator";
+	} else if (props.host) {
+		label = "Host";
+	}
 
-	// Remove host from array now
-	const couch = props.couch.filter((person) => !person.host);
-	// console.log(props.audio)
 	return (
 		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar>
-				<div style={{ margin: "0 6px" }}>{props.couch.length > 1 ? "Commentators" : "Commentator"}</div>
+				<div style={{ margin: "0 6px" }}>{label}</div>
 			</MenuBar>
 			<PeopleContainer>
-				{couch.map((person) => {
+				{props.commentators.map((person) => {
 					// console.log(props.audio?.[person.microphone ?? '']);
 					if (person.name === "") {
 						return <></>;
@@ -56,12 +62,12 @@ export const Couch: React.FC<Props> = (props: Props) => {
 					return (
 						<PersonCompressed
 							key={person.name}
-							person={person}
+							commentator={person}
 							speaking={props.audio?.[person.microphone ?? ""]}
 						/>
 					);
 				})}
-				{host && <PersonCompressed key={"Host"} person={host} speaking={props.audio?.["Host"]} host />}
+				{props.host && <PersonCompressed key={"Host"} commentator={props.host} speaking={props.audio?.["Host"]} host />}
 			</PeopleContainer>
 		</CouchContainer>
 	);
@@ -114,7 +120,7 @@ const Pronouns = styled.div`
 `;
 
 interface PersonCompressedProps {
-	person: CouchPerson;
+	commentator: Commentator;
 	speaking?: boolean;
 	host?: boolean;
 }
@@ -123,10 +129,10 @@ export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
 		<PersonCompressedContainer>
 			<SpeakingColour speaking={props.speaking} />
-			<Name>{props.person.name}</Name>
+			<Name>{props.commentator.name}</Name>
 			<Pronouns>
 				<span style={{ fontWeight: "bold" }}>{props.host && "Host "}</span>
-				{props.person.pronouns}
+				{props.commentator.pronouns}
 			</Pronouns>
 		</PersonCompressedContainer>
 	);

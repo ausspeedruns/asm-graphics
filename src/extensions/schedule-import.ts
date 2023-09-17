@@ -1,9 +1,10 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 import { request, gql } from "graphql-request";
 import { z } from "zod";
-import { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData";
 import moment from "moment";
 import { v4 as uuid } from "uuid";
+
+import type { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData";
 
 const nodecg = nodecgApiContext.get();
 

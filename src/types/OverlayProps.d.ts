@@ -11,17 +11,20 @@ export interface OverlayRef {
 export interface OverlayProps {
 	runData: RunDataActiveRun | undefined;
 	timer: Timer | undefined;
-	couchInformation: CouchPerson[];
+	commentators: Commentator[];
+	host?: Commentator;
 	preview?: boolean;
 	sponsors: NodeCG.AssetFile[];
 	audioIndicator?: string;
 	obsAudioIndicator?: AudioIndicator;
 }
 
-export interface CouchPerson {
+export type Commentator = {
 	id: string;
 	name: string;
-	pronouns: string;
-	host?: boolean;
+	pronouns?: string;
+	twitch?: string;
+	teamId?: string;
+	isRunner?: boolean;
 	microphone?: string;
-}
+};

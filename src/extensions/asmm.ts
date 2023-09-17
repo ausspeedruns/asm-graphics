@@ -1,10 +1,10 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 import sql from "mssql";
 
+import { asmmTotalKmRep } from "./replicants";
+
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger("ASMM");
-
-const asmmTotalKMRep = nodecg.Replicant<number>("asmm:totalKM");
 
 const URL = nodecg.bundleConfig.asmm?.url;
 const PASSWORD = nodecg.bundleConfig.asmm?.password;
@@ -26,7 +26,7 @@ async function getTotalKM() {
 		SELECT CONVERT(DECIMAL(10,2),SUM([Steps]) * 0.71628 / 1000) As KmCount
 		FROM [dbo].[StepData]
 		WHERE EventId = 1`;
-		asmmTotalKMRep.value = data.recordset[0].KmCount;
+		asmmTotalKmRep.value = data.recordset[0].KmCount;
 	} catch (error) {
 		return log.error(error);
 	}

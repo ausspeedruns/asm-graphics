@@ -4,18 +4,11 @@ import * as nodecgApiContext from "./nodecg-api-context";
 import { request, gql } from "graphql-request";
 import { z } from "zod";
 
-import type NodeCG from "@nodecg/types";
+import { incentivesRep, incentivesUpdatedLastRep } from "./replicants";
 
 const nodecg = nodecgApiContext.get();
 
-const incentivesRep = nodecg.Replicant("incentives") as unknown as NodeCG.ServerReplicantWithSchemaDefault<
-	(Goal | War)[]
->;
-const incentivesUpdatedRep = nodecg.Replicant<number | undefined>("incentives:updated-at", {
-	defaultValue: undefined,
-}) as unknown as NodeCG.ServerReplicantWithSchemaDefault<number | undefined>;
-
-nodecg.listenFor("disableIncentive", (index: number) => {
+nodecg.listenFor("disableIncentive", (index) => {
 	const incentiveIndex = incentivesRep.value.findIndex((incentive) => incentive.index === index);
 
 	if (incentiveIndex === -1)
@@ -25,7 +18,7 @@ nodecg.listenFor("disableIncentive", (index: number) => {
 });
 
 // Dunno why this would be used but just in case :)
-nodecg.listenFor("activateIncentive", (index: number) => {
+nodecg.listenFor("activateIncentive", (index) => {
 	const incentiveIndex = incentivesRep.value.findIndex((incentive) => incentive.index === index);
 
 	if (incentiveIndex === -1)
@@ -87,14 +80,14 @@ nodecg.listenFor("updateIncentives", () => {
 });
 
 async function getIncentives() {
-	if (nodecg.bundleConfig?.graphql === undefined) return;
+	if (!nodecg.bundleConfig.graphql) return;
 
 	try {
 		const results = await request(
 			nodecg.bundleConfig.graphql!.url,
 			gql`
 				query {
-					incentives(where: { event: { shortname: { equals: "${nodecg.bundleConfig.graphql!.event}" } } }) {
+					incentives(where: { event: { shortname: { equals: "${nodecg.bundleConfig.graphql.event}" } } }) {
 						id
 						run {
 							game
@@ -141,7 +134,7 @@ async function getIncentives() {
 		parsedIncentives.forEach((incentive, i) => (parsedIncentives[i] = { ...incentive, index: i }));
 
 		incentivesRep.value = parsedIncentives;
-		incentivesUpdatedRep.value = Date.now();
+		incentivesUpdatedLastRep.value = Date.now();
 		return true;
 	} catch (error) {
 		nodecg.log.error("[GraphQL Incentives]: " + error);

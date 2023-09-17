@@ -7,15 +7,8 @@ import type NodeCG from "@nodecg/types";
 
 const nodecg = nodecgApiContext.get();
 
-const currentOverlayRep = nodecg.Replicant(
-	"currentOverlay",
-) as unknown as NodeCG.ServerReplicantWithSchemaDefault<CurrentOverlay>;
-const twitchStreamsRep = nodecg.Replicant("twitchStreams") as unknown as NodeCG.ServerReplicantWithSchemaDefault<
-	Stream[]
->;
-const currentSceneRep = nodecg.Replicant(
-	"obsCurrentScene",
-) as unknown as NodeCG.ServerReplicantWithSchemaDefault<string>;
+import { currentOverlayRep, obsCurrentSceneRep, twitchStreamsRep } from "./replicants";
+
 // const couchNamesRep = nodecg.Replicant<CouchInformation>('couch-names');
 // const noCamRep = nodecg.Replicant<NoCam>('no-cam');
 
@@ -37,12 +30,12 @@ nodecg.listenFor("disconnectOBS", () => {
 	}
 });
 
-nodecg.listenFor("changeOverlayPreview", (newVal: string) => {
+nodecg.listenFor("changeOverlayPreview", (newVal) => {
 	currentOverlayRep.value.preview = newVal;
 });
 
 // This should only be used for developer testing purposes
-nodecg.listenFor("changeOverlayLive", (newVal: string) => {
+nodecg.listenFor("changeOverlayLive", (newVal) => {
 	currentOverlayRep.value.live = newVal;
 });
 
@@ -74,7 +67,7 @@ nodecg.listenFor("newTwitchStream", (newVal: Stream) => {
 	twitchStreamsRep.value = clonedArray;
 });
 
-nodecg.listenFor("removeTwitchStream", (newVal: string) => {
+nodecg.listenFor("removeTwitchStream", (newVal) => {
 	const index = twitchStreamsRep.value.findIndex((stream) => stream.channel === newVal);
 	if (index === -1) {
 		nodecg.log.warn(`[OBS] Tried removing Stream ${newVal} but it couldn't be found`);
@@ -195,7 +188,7 @@ obs.on("ConnectionOpened", () => {
 function getCurrentScene() {
 	try {
 		obs.call("GetCurrentProgramScene").then((val) => {
-			currentSceneRep.value = val.currentProgramSceneName;
+			obsCurrentSceneRep.value = val.currentProgramSceneName;
 		});
 	} catch (error) {
 		nodecg.log.error("Could not get the current scene from OBS:", error);

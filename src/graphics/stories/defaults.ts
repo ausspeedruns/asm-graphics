@@ -24,7 +24,7 @@ export const DefaultPlayer: RunDataPlayer = {
 
 export const DefaultOverlay: OverlayProps = {
 	preview: false,
-	couchInformation: [
+	commentators: [
 		{ name: "Couch 1", pronouns: "He/Him", id: "" },
 		{ name: "Host Name", pronouns: "She/Her", host: true, id: "" },
 	],

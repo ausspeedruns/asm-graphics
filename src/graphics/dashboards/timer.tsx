@@ -10,9 +10,7 @@ import { RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData";
 
 const TimerContainer = styled.div`
 	padding: 8px;
-	font-family:
-		Noto Sans,
-		sans-serif;
+	font-family: Noto Sans, sans-serif;
 `;
 
 const CurrentTime = styled(Box)`
@@ -47,7 +45,7 @@ export const Timer: React.FC = () => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
 		namespace: "nodecg-speedcontrol",
 	});
-	const [runnerReadyRep] = useReplicant<boolean>("runner:ready", false);
+	// const [runnerReadyRep] = useReplicant<boolean>("runner:ready", false);
 	const [techReadyRep] = useReplicant<boolean>("tech:ready", false);
 	// const [disableTime, setDisableTime] = useState(false);
 	// const [currentTime, setCurrentTime] = useState('00:00:00');
@@ -115,40 +113,39 @@ export const Timer: React.FC = () => {
 				// onKeyUp={timerEdit}
 			/> */}
 			<RunnerReadyText>
-				{runnerReadyRep ? "RUNNER IS READY!" : "Runner not ready"}
-				{techReadyRep ? "\t|\tTECH IS READY!" : "\t|\tTech not ready"}
+				{/* {runnerReadyRep ? "RUNNER IS READY!" : "Runner not ready"} */}
+				{techReadyRep ? "TECH IS READY!" : "Tech not ready"}
 			</RunnerReadyText>
 			<CurrentTime
 				style={{
 					background: timerRep?.state === "finished" ? "#388E3C" : "",
 					color: fontColor,
 				}}
-				boxShadow={1}
-			>
-				<span>{timerRep?.time}</span>
+				boxShadow={1}>
+				<div>{timerRep?.time}</div>
 			</CurrentTime>
 			<MainButtons>
 				<Tooltip title={timerRep?.state === "running" ? "Pause" : "Play"}>
-					<Button
-						fullWidth
-						variant="contained"
-						disabled={timerRep?.state === "finished"}
-						onClick={playPress}
-						style={{ marginRight: 4 }}
-					>
-						{timerRep?.state === "running" ? <Pause /> : <PlayArrow />}
-					</Button>
+					<div style={{ width: "100%", marginRight: 4 }}>
+						<Button
+							fullWidth
+							variant="contained"
+							disabled={timerRep?.state === "finished"}
+							onClick={playPress}>
+							{timerRep?.state === "running" ? <Pause /> : <PlayArrow />}
+						</Button>
+					</div>
 				</Tooltip>
 				<Tooltip title="Reset">
-					<Button
-						fullWidth
-						variant="contained"
-						disabled={timerRep?.state === "stopped"}
-						onClick={resetPress}
-						style={{ marginRight: 4 }}
-					>
-						<FastRewind />
-					</Button>
+					<div style={{ width: "100%", marginRight: 4 }}>
+						<Button
+							fullWidth
+							variant="contained"
+							disabled={timerRep?.state === "stopped"}
+							onClick={resetPress}>
+							<FastRewind />
+						</Button>
+					</div>
 				</Tooltip>
 				{(runDataActiveRep?.teams.length || []) === 1 && timerRep ? (
 					<>
@@ -193,10 +190,10 @@ const TeamTimer: React.FC<TeamTimerProps> = (props: TeamTimerProps) => {
 			<StopForfeitButton team={props.team} timerRep={props.timerRep} />
 			<StopForfeitButton forfeit team={props.team} timerRep={props.timerRep} />
 			<UndoButton team={props.team} timerRep={props.timerRep} />
-			<span>{props.team.name || props.team.players.map((player) => `${player.name}, `)}</span>
-			<span>
+			<div>{props.team.name || props.team.players.map((player) => `${player.name}, `)}</div>
+			<div>
 				{finishTime && state === "completed" ? finishTime : finishTime && state === "forfeit" ? "Forfeit" : ""}
-			</span>
+			</div>
 		</TeamTimerContainer>
 	);
 };
@@ -219,18 +216,18 @@ const StopForfeitButton: React.FC<StopButtonProps> = (props: StopButtonProps) =>
 
 	return (
 		<Tooltip title={props.forfeit ? "Forfeit" : "Stop"}>
-			<Button
-				fullWidth={props.fullWidth}
-				variant="contained"
-				style={{ marginRight: 4 }}
-				disabled={
-					(props.team.id && !!props.timerRep?.teamFinishTimes[props.team.id]) ||
-					props.timerRep?.state === "stopped"
-				}
-				onClick={stopPress}
-			>
-				{props.forfeit ? <Close /> : <Check />}
-			</Button>
+			<div style={{ width: "100%", marginRight: 4 }}>
+				<Button
+					fullWidth={props.fullWidth}
+					variant="contained"
+					disabled={
+						(props.team.id && !!props.timerRep?.teamFinishTimes[props.team.id]) ||
+						props.timerRep?.state === "stopped"
+					}
+					onClick={stopPress}>
+					{props.forfeit ? <Close /> : <Check />}
+				</Button>
+			</div>
 		</Tooltip>
 	);
 };
@@ -249,20 +246,20 @@ const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 
 	return (
 		<Tooltip title="Undo">
-			<Button
-				fullWidth={props.fullWidth}
-				variant="contained"
-				style={{ marginRight: 4 }}
-				disabled={
-					(!props.team.id && props.timerRep?.state !== "finished") ||
-					(!!props.team.id &&
-						(!props.timerRep?.teamFinishTimes[props.team.id] ||
-							!["running", "finished"].includes(props.timerRep?.state || "")))
-				}
-				onClick={undoPress}
-			>
-				<Undo />
-			</Button>
+			<div style={{ width: "100%", marginRight: 4 }}>
+				<Button
+					fullWidth={props.fullWidth}
+					variant="contained"
+					disabled={
+						(!props.team.id && props.timerRep?.state !== "finished") ||
+						(!!props.team.id &&
+							(!props.timerRep?.teamFinishTimes[props.team.id] ||
+								!["running", "finished"].includes(props.timerRep?.state || "")))
+					}
+					onClick={undoPress}>
+					<Undo />
+				</Button>
+			</div>
 		</Tooltip>
 	);
 };

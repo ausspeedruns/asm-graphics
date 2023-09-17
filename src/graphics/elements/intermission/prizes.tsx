@@ -101,6 +101,9 @@ export const InterPrizes = React.forwardRef<TickerItemHandles, Props>((_props: P
 
 			return tl;
 		},
+		reset(tl) {
+			return tl;
+		},
 	}));
 
 	return (
@@ -212,6 +215,9 @@ const PrizePage = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalPro
 
 			return tl;
 		},
+		reset(tl) {
+			return tl;
+		},
 	}));
 
 	const allPrizes = props.prizes
@@ -266,6 +272,9 @@ const PrizeItem = React.forwardRef<TickerItemHandles, PrizeItemProps>((props: Pr
 			tl.set(containerRef.current, { x: -1000 }, "warStart");
 
 			tl.to(containerRef.current, { x: 0 }, `idkstagger+=${1 - props.index / 4}`);
+			return tl;
+		},
+		reset(tl) {
 			return tl;
 		},
 	}));

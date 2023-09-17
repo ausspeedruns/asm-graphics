@@ -15,7 +15,7 @@ export const Primary = Template.bind({});
 
 Primary.args = {
 	preview: false,
-	couchInformation: [{ name: "Couch 1", pronouns: "He/Him", id: "" }],
+	commentators: [{ name: "Couch 1", pronouns: "He/Him", id: "" }],
 	runData: {
 		game: "Long Game Title",
 		category: "Any%",

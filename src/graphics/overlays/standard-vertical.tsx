@@ -110,7 +110,8 @@ export const StandardVertical = forwardRef<OverlayRef, OverlayProps>((props, ref
 					/>
 					<Couch
 						style={{ zIndex: 3, paddingTop: 32, transform: "scale(1.2)" }}
-						couch={props.couchInformation}
+						commentators={props.commentators}
+						host={props.host}
 						audio={props.obsAudioIndicator}
 					/>
 				</InfoBoxBG>

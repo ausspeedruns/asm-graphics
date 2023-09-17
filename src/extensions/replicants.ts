@@ -1,6 +1,6 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 
-import type { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { Donation } from "@asm-graphics/types/Donations";
 import type { Goal, War } from "@asm-graphics/types/Incentives";
 import type { Stream } from "@asm-graphics/types/Streams";
@@ -15,66 +15,66 @@ const nodecg = nodecgApiContext.get();
 
 nodecg.log.info("Setting up replicants");
 
-/* Couch */
-nodecg.Replicant<CouchPerson[]>("couch-names", { defaultValue: [] });
+/* Commentators/Host */
+export const commentatorsRep = nodecg.Replicant<Commentator[]>("commentators", { defaultValue: [] });
+export const hostRep = nodecg.Replicant<Commentator>("host", {
+	defaultValue: {
+		id: "host",
+		name: "",
+	}
+});
 
 /* Donations */
-nodecg.Replicant<number>("donationTotal", { defaultValue: 0 });
-nodecg.Replicant<Donation[]>("donations", { defaultValue: [] });
-nodecg.Replicant<Donation[]>("manual-donations", { defaultValue: [] });
-nodecg.Replicant<number>("manual-donation-total", { defaultValue: 0 });
+export const donationTotalRep = nodecg.Replicant<number>("donationTotal", { defaultValue: 0 });
+export const donationsRep = nodecg.Replicant<Donation[]>("donations", { defaultValue: [] });
+export const manualDonationsRep = nodecg.Replicant<Donation[]>("manual-donations", { defaultValue: [] });
+export const manualDonationTotalRep = nodecg.Replicant<number>("manual-donation-total", { defaultValue: 0 });
 
 /* Audio Shared */
-nodecg.Replicant<number>("obs-audio-gate", { defaultValue: -10 });
-nodecg.Replicant<string>("audio-indicator", { defaultValue: "" });
-nodecg.Replicant<number>("audio-gate", { defaultValue: -10 });
-nodecg.Replicant<number>("x32:host-level", { defaultValue: 0.75 });
+export const microphoneGateRep = nodecg.Replicant<number>("obs-audio-gate", { defaultValue: -10 });
+export const gameAudioActiveRep = nodecg.Replicant<string>("audio-indicator", { defaultValue: "" });
+export const microphoneGate2Rep = nodecg.Replicant<number>("audio-gate", { defaultValue: -10 });
+export const hostLevelRep = nodecg.Replicant<number>("x32:host-level", { defaultValue: 0.75 });
 
 /* OBS Audio */
-nodecg.Replicant<OBSAudioIndicator[]>("obs-audio-indicator", { defaultValue: [], persistent: false });
+export const obsAudioActivityRep = nodecg.Replicant<OBSAudioIndicator[]>("obs-audio-indicator", { defaultValue: [], persistent: false });
 
 /* X32 Audio */
-nodecg.Replicant<ConnectionStatus>("x32:status", { defaultValue: "disconnected", persistent: false });
-nodecg.Replicant<AudioIndicator>("audio-indicators", { defaultValue: {} });
-nodecg.Replicant<number[][]>("x32:busFaders", { defaultValue: [], persistent: false });
-nodecg.Replicant<boolean>("x32:swap-runner-mics", { defaultValue: false });
+export const x32StatusRep = nodecg.Replicant<ConnectionStatus>("x32:status", { defaultValue: "disconnected", persistent: false });
+export const x32AudioActivityRep = nodecg.Replicant<AudioIndicator>("audio-indicators", { defaultValue: {} });
+export const x32BusFadersRep = nodecg.Replicant<number[][]>("x32:busFaders", { defaultValue: [], persistent: false });
 
 /* Incentives */
-nodecg.Replicant<(Goal | War)[]>("incentives", { defaultValue: [] });
+export const incentivesRep = nodecg.Replicant<(Goal | War)[]>("incentives", { defaultValue: [] });
 
-/* Overlay */
-nodecg.Replicant<CurrentOverlay>("currentOverlay", { defaultValue: { preview: "widescreen", live: "standard" } });
-nodecg.Replicant<Stream[]>("twitchStreams", { defaultValue: [] });
-nodecg.Replicant<string>("obsCurrentScene", { defaultValue: "Intermission" });
+/* Overlay/Online */
+export const currentOverlayRep = nodecg.Replicant<CurrentOverlay>("currentOverlay", { defaultValue: { preview: "widescreen", live: "standard" } });
+export const twitchStreamsRep = nodecg.Replicant<Stream[]>("twitchStreams", { defaultValue: [] });
+export const obsCurrentSceneRep = nodecg.Replicant<string>("obsCurrentScene", { defaultValue: "Intermission" });
 
-/* Staff Messages */
-nodecg.Replicant<StaffMessage[]>("staff-messages", { defaultValue: [] });
+/* Staff Messages DEPRECATED */
+export const staffMessagesRep = nodecg.Replicant<StaffMessage[]>("staff-messages", { defaultValue: [] });
 
 /* Twitter */
-nodecg.Replicant<Tweet[]>("tweets", { persistent: false, defaultValue: [] });
+export const tweetsRep = nodecg.Replicant<Tweet[]>("tweets", { persistent: false, defaultValue: [] });
 
 /* GraphQL */
-nodecg.Replicant<(Goal | War)[]>("incentives", { defaultValue: [] });
-nodecg.Replicant<number | undefined>("incentives:updated-at", { defaultValue: undefined });
+export const incentivesUpdatedLastRep = nodecg.Replicant<number | undefined>("incentives:updated-at", { defaultValue: undefined });
+export const allAusSpeedrunsUsernamesRep = nodecg.Replicant<AusSpeedrunsUser[]>("all-usernames", { defaultValue: [] });
 
 /* OBS */
-nodecg.Replicant<ConnectionStatus>("obs:status", { defaultValue: "disconnected", persistent: false });
+export const obsStatusRep = nodecg.Replicant<ConnectionStatus>("obs:status", { defaultValue: "disconnected", persistent: false });
 
 /* Credits */
-nodecg.Replicant<{ name: string; title: string }>("credits-name", { defaultValue: { name: "", title: "" } });
-
-/* Schedule Import */
-nodecg.Replicant<AusSpeedrunsUser[]>("all-usernames", { defaultValue: [] });
+export const lowerThirdNameRep = nodecg.Replicant<{ name: string; title: string }>("credits-name", { defaultValue: { name: "", title: "" } });
 
 /* Runner Tablet */
-nodecg.Replicant<boolean>("runner:ready", { defaultValue: false });
-nodecg.Replicant<boolean>("tech:ready", { defaultValue: false });
+export const runnerStatusRep = nodecg.Replicant<boolean>("runner:ready", { defaultValue: false });
+export const techStatusRep = nodecg.Replicant<boolean>("tech:ready", { defaultValue: false });
 
 /* ASMM */
-nodecg.Replicant<number>("asmm:totalKM", { defaultValue: 0 });
+export const asmmTotalKmRep = nodecg.Replicant<number>("asmm:totalKM", { defaultValue: 0 });
 
 /* ASNN */
-nodecg.Replicant<string>("asnn:headline", { defaultValue: "" });
-nodecg.Replicant<string[]>("asnn:ticker", { defaultValue: [] });
-
-nodecg.Replicant<boolean>("SPECIAL_AUDIO", { defaultValue: false });
+export const asnnHeadlineRep = nodecg.Replicant<string>("asnn:headline", { defaultValue: "" });
+export const asnnTickerRep = nodecg.Replicant<string[]>("asnn:ticker", { defaultValue: [] });

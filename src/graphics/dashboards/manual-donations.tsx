@@ -52,7 +52,7 @@ export const ManualDonations: React.FC = () => {
 	const [amount, setAmount] = useState("");
 
 	const allDonations =
-		donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];
+		donations?.map((donation, index) => <DonationEl donation={donation} key={donation.id.toString() + index.toString()} />).reverse() ?? [];
 
 	function newDonation() {
 		if (isNaN(parseFloat(amount))) {

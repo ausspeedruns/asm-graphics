@@ -157,7 +157,8 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							alignItems: "center",
 						}}>
 						<Couch
-							couch={props.couchInformation}
+							commentators={props.commentators}
+							host={props.host}
 							style={{ width: "30%", zIndex: 3 }}
 							audio={props.obsAudioIndicator}
 						/>

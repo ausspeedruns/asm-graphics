@@ -66,7 +66,7 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-					<Couch couch={props.couchInformation} style={{ zIndex: 3 }} />
+					<Couch commentators={props.commentators} host={props.host} style={{ zIndex: 3 }} />
 					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>

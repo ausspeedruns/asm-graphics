@@ -4,11 +4,9 @@ import { format } from "date-fns";
 
 import { FitText } from "../fit-text";
 
-import { RunData } from "@asm-graphics/types/RunData";
-import { NodeCGAPIClient } from "@nodecg/types/client/api/api.client";
-import { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
+import type { RunData } from "@asm-graphics/types/RunData";
 
-const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
+const nodecgConfig = nodecg.bundleConfig;
 
 const NEXT_RUN_WIDTH = 386;
 

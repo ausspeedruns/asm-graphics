@@ -70,7 +70,7 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.obsAudioIndicator} />
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
-					<Couch couch={props.couchInformation} audio={props.obsAudioIndicator} />
+					<Couch commentators={props.commentators} host={props.host} audio={props.obsAudioIndicator} />
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>

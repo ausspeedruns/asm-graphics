@@ -16,7 +16,7 @@ export const Primary = Template.bind({});
 Primary.args = {
 	noCam: { current: false, preview: false },
 	preview: false,
-	couchInformation: { current: [{ name: "Couch 1", pronouns: "He/Him" }], preview: [] },
+	commentators: { current: [{ name: "Couch 1", pronouns: "He/Him" }], preview: [] },
 	runData: {
 		game: "Kingdom Hearts 1.5",
 		category: "Beginner any%",

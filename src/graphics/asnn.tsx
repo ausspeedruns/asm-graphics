@@ -180,11 +180,11 @@ export const ASNN = () => {
 		};
 	}, []);
 
-	useListenFor("asnn:showName", (data: { name: string; subtitle: string }) => {
+	useListenFor("asnn:showName", (data) => {
 		if (!nameEl.current || !subtitleEl.current || !nameplateEl.current) return;
 
-		nameEl.current.innerHTML = data?.name ?? "";
-		subtitleEl.current.innerHTML = data?.subtitle ?? "";
+		nameEl.current.innerHTML = data.name;
+		subtitleEl.current.innerHTML = data.subtitle;
 
 		gsap.from([nameplateEl.current, nameEl.current, subtitleEl.current], { width: 0, duration: 1 });
 	});

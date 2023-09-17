@@ -14,7 +14,7 @@ const MAX_SAVED_TWEETS = 15;
 
 const filter = new Filter();
 
-nodecg.listenFor("newTweet", (newVal: Tweet) => {
+nodecg.listenFor("newTweet", (newVal) => {
 	// If the tweet has any bad words just dont even bother doing anything
 	if (filter.isProfane(newVal.data.text) || filter.isProfane(newVal.includes.users[0].username)) return;
 
@@ -29,7 +29,7 @@ nodecg.listenFor("newTweet", (newVal: Tweet) => {
 	tweetsRep.value = currentTweetList;
 });
 
-nodecg.listenFor("discardTweet", (id: string) => {
+nodecg.listenFor("discardTweet", (id) => {
 	const currentTweetList = [...tweetsRep.value];
 
 	const index = currentTweetList.findIndex((tweet) => tweet.data.id === id);

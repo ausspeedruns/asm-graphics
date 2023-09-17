@@ -67,7 +67,7 @@ type ObjectValues<T> = T[keyof T];
 type TabsValues = ObjectValues<typeof TABS>;
 
 const RunnerTablet: React.FC = () => {
-	const [tab, setTab] = useState<TabsValues>("audio");
+	const [tab, setTab] = useState<TabsValues>("names");
 	const [couchNames] = useReplicant<CouchPerson[]>("couch-names", []);
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 

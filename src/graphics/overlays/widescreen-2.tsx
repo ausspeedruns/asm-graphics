@@ -143,12 +143,6 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 
 	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 2);
 
-	// Custom couch so here is couch code
-	const host = props.couchInformation.find((person) => person.host);
-
-	// Remove host from array now
-	const couch = props.couchInformation.filter((person) => !person.host);
-
 	return (
 		<Widescreen2Container>
 			<WholeGraphicClip></WholeGraphicClip>
@@ -213,22 +207,22 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 				/>
 				<BespokeCouch>
-					<CouchLabel>{props.couchInformation.length > 1 ? "Commentators" : "Commentator"}</CouchLabel>
+					<CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
-					{couch.map((person) => {
+					{props.commentators.map((person) => {
 						if (person.name === "") return <></>;
 						return (
 							<PersonCompressed
 								key={person.name}
-								person={person}
+								commentator={person}
 								speaking={props.obsAudioIndicator?.[person.microphone ?? ""]}
 							/>
 						);
 					})}
-					{host && (
+					{props.host && (
 						<PersonCompressed
 							key={"Host"}
-							person={host}
+							commentator={props.host}
 							// speaking={props.obsAudioIndicator?.[host.microphone ?? '']}
 							speaking={false}
 							host

@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { Close, Refresh } from "@mui/icons-material";
 import Draggable from "react-draggable";
+import format from "date-fns/format";
 
 import { Header } from "./dashboards/header";
 import { Donations } from "./dashboards/donations";
@@ -25,19 +26,14 @@ import { Incentives } from "./dashboards/incentives";
 import { ManualDonations } from "./dashboards/manual-donations";
 import { Timer } from "./dashboards/timer";
 import { HostName } from "./dashboards/host-name";
-import { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
-import { NodeCGAPIClient } from "@nodecg/types/client/api/api.client";
-import format from "date-fns/format";
+import { Donation } from "@asm-graphics/types/Donations";
 
-const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
+const nodecgConfig = nodecg.bundleConfig;
 const TWITCHPARENTS = nodecgConfig.twitch.parents;
 
 const HostDashContainer = styled.div`
-	// height: 1007px;
 	height: 100vh;
-	// width: 1920px;
 	font-family: Noto Sans, sans-serif;
-	// overflow: hidden;
 `;
 
 const TopBar = styled.div`
@@ -74,7 +70,8 @@ const TwitchFloating = styled.div`
 
 export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
-	const [donationRep] = useReplicant<number>("donationTotal", 100);
+	const [donationTotalRep] = useReplicant<number>("donationTotal", 100);
+	const [donationsRep] = useReplicant<Donation[]>("donations", []);
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total", 100);
 	const [incentivesUpdatedRep] = useReplicant<number | undefined>("incentives:updated-at", undefined);
 	const [hostLevelRep] = useReplicant<number>("x32:host-level", 0.75);
@@ -88,16 +85,12 @@ export const HostDash: React.FC = () => {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			if (timeFormat) {
-				setCurrentTime(new Date().toLocaleTimeString("en-AU"));
-			} else {
-				setCurrentTime(new Date().toLocaleTimeString("en-GB"));
-			}
+			setCurrentTime(new Date().toLocaleTimeString(timeFormat ? "en-AU" : "en-GB"));
 		}, 500);
 		return () => clearInterval(interval);
 	}, [timeFormat]);
 
-	useListenFor("incentivesUpdated", (statusCode: number) => {
+	useListenFor("incentivesUpdated", (statusCode) => {
 		switch (statusCode) {
 			case 200:
 				if (incentiveLoadingRef.current) incentiveLoadingRef.current.classList.remove("rotate");
@@ -157,7 +150,10 @@ export const HostDash: React.FC = () => {
 	return (
 		<HostDashContainer>
 			<TopBar>
-				<span onClick={() => setTimeFormat(!timeFormat)} style={{ cursor: "pointer", width: 500 }}>
+				<span onClick={() => {
+					setTimeFormat(!timeFormat);
+					setCurrentTime(new Date().toLocaleTimeString(!timeFormat ? "en-AU" : "en-GB"));
+				}} style={{ cursor: "pointer", width: 500 }}>
 					{currentTime}
 				</span>
 				<span onClick={showDialog} style={{ cursor: "pointer", width: 500, textAlign: "center" }}>
@@ -207,7 +203,7 @@ export const HostDash: React.FC = () => {
 					direction="column"
 					xs
 					style={{ padding: 8, gap: 8, height: "100%" }}>
-					<TotalBox>${(donationRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
+					<TotalBox>${(donationTotalRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
 					<Paper style={{ overflow: "hidden", height: 300, minHeight: 300 }}>
 						<Timer />
 					</Paper>
@@ -221,7 +217,11 @@ export const HostDash: React.FC = () => {
 						</Button>
 					</div>
 					<Paper style={{ overflow: "hidden", flexGrow: 1 }}>
-						<Header text="Donations" style={{ cursor: "pointer" }} onClick={copyDonateCommand} />
+						<Header
+							text={`${donationsRep.length} Donations`}
+							style={{ cursor: "pointer" }}
+							onClick={copyDonateCommand}
+						/>
 						<Donations />
 					</Paper>
 				</Grid>
@@ -302,14 +302,14 @@ export const HostDash: React.FC = () => {
 							technology for content creators that make premium webcams, microphones, Stream Deck
 							controllers, capture cards, and so much more -
 							<br />
-							-Including the Wave DX Microphone that I&apos;m using here, and the green screen and key lights
-							being used throughout ASM. We (also) have some prizes you can win for donating during this
-							event for people within Australia.
+							-Including the Wave DX Microphone that I&apos;m using here, and the green screen and key
+							lights being used throughout ASM. We (also) have some prizes you can win for donating during
+							this event for people within Australia.
 							<br />
 							These prizes include Elgato Streamer packs, which consist of an Elgato Stream Deck Mk2 and a
-							Wave 3 Microphone. We&apos;re also giving away plenty of games - including 3 physical copies of
-							Sonic Origins Plus, provided by Five Star Games, 5 digital copies of Heavenly Bodies by 2pt
-							Interactive, and 3 digital copies of Speaking Simulator by Affable Games.
+							Wave 3 Microphone. We&apos;re also giving away plenty of games - including 3 physical copies
+							of Sonic Origins Plus, provided by Five Star Games, 5 digital copies of Heavenly Bodies by
+							2pt Interactive, and 3 digital copies of Speaking Simulator by Affable Games.
 							<br />
 							To enter into the pool for all these prizes a minimum donation of $100 is required, but even
 							as little as $5 could see you winning one of these games.

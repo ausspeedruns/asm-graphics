@@ -93,7 +93,7 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/>
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-					<Couch style={{ zIndex: 3 }} couch={props.couchInformation} audio={props.obsAudioIndicator} />
+					<Couch style={{ zIndex: 3 }} commentators={props.commentators} host={props.host} audio={props.obsAudioIndicator} />
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

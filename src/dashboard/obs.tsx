@@ -87,7 +87,7 @@ const DashOBS: React.FC = () => {
 	// 	namespace: 'nodecg-speedcontrol',
 	// });
 	const ncgConfig = nodecg.config;
-	const bundleConfig = nodecg.bundleConfig as unknown as ConfigSchema;
+	const bundleConfig = nodecg.bundleConfig;
 	const [currentOverlay] = useReplicant<CurrentOverlay | undefined>("currentOverlay", undefined);
 	const [twitchStreamsRep] = useReplicant<TwitchStream[]>("twitchStreams", []);
 	const [currentSceneRep] = useReplicant<string>("obsCurrentScene", "Game Overlay");
@@ -167,7 +167,7 @@ const DashOBS: React.FC = () => {
 						onClick={() =>
 							window.open(
 								`${ncgConfig.ssl?.enabled ? "https" : "http"}://${
-									bundleConfig.hostname || "localhost"
+									bundleConfig.hostname ?? "localhost"
 								}:${ncgConfig.port}/bundles/asm-graphics/graphics/preview-gameplay.html`,
 								"_blank",
 							)
@@ -187,7 +187,7 @@ const DashOBS: React.FC = () => {
 								}}
 								scrolling="no"
 								src={`${ncgConfig.ssl?.enabled ? "https" : "http"}://${
-									bundleConfig.hostname || "localhost"
+									bundleConfig.hostname ?? "localhost"
 								}:${ncgConfig.port}/bundles/asm-graphics/graphics/preview-gameplay.html`}
 							/>
 						</GameplayPreview>
@@ -198,7 +198,7 @@ const DashOBS: React.FC = () => {
 						<Select
 							labelId="obs-gameplay-select-label"
 							id="obs-gameplay-select"
-							value={currentOverlay?.preview || "standard"}
+							value={currentOverlay?.preview ?? "standard"}
 							onChange={previewOverlayChange}
 						>
 							<MenuItem value="standard">Standard</MenuItem>
@@ -268,7 +268,7 @@ const DashOBS: React.FC = () => {
 									}}
 									scrolling="no"
 									src={`${ncgConfig.ssl?.enabled ? "https" : "http"}://${
-										bundleConfig.hostname || "localhost"
+										bundleConfig.hostname ?? "localhost"
 									}:${ncgConfig.port}/bundles/asm-graphics/graphics/gameplay-overlay.html`}
 								/>
 							) : (
@@ -281,7 +281,7 @@ const DashOBS: React.FC = () => {
 									}}
 									scrolling="no"
 									src={`${ncgConfig.ssl?.enabled ? "https" : "http"}://${
-										bundleConfig.hostname || "localhost"
+										bundleConfig.hostname ?? "localhost"
 									}:${ncgConfig.port}/bundles/asm-graphics/graphics/intermission-muted.html`}
 								/>
 							)}

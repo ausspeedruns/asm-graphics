@@ -8,7 +8,7 @@ import { format } from "date-fns";
 
 import { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { Tweet as ITweet } from "@asm-graphics/types/Twitter";
-import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { Commentator } from "@asm-graphics/types/OverlayProps";
 import type NodeCG from "@nodecg/types";
 
 import { InterCTA } from "./elements/intermission/cta";
@@ -240,18 +240,18 @@ export const Intermission: React.FC = () => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
 		namespace: "nodecg-speedcontrol",
 	});
-	const [hostName] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [donationRep] = useReplicant<number>("donationTotal", 100);
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total", 0);
 	const [asmmRep] = useReplicant<number>("asmm:totalKM", 0);
 
 	const intermissionRef = useRef<IntermissionRef>(null);
 
-	useListenFor("showTweet", (newVal: ITweet) => {
+	useListenFor("showTweet", (newVal) => {
 		if (intermissionRef.current) intermissionRef.current.showTweet(newVal);
 	});
 
-	useListenFor("playAd", (newVal: string) => {
+	useListenFor("playAd", (newVal) => {
 		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
 	});
 
@@ -261,7 +261,7 @@ export const Intermission: React.FC = () => {
 			activeRun={runDataActiveRep}
 			runArray={runDataArrayRep}
 			donation={donationRep + manualDonationRep}
-			host={hostName.find((person) => person.host)}
+			host={hostRep}
 			sponsors={sponsorsRep}
 			incentives={incentivesRep.filter((incentive) => incentive.active)}
 			asmm={asmmRep}
@@ -277,7 +277,7 @@ export interface IntermissionRef {
 interface IntermissionProps {
 	activeRun: RunDataActiveRun;
 	runArray: RunDataArray;
-	host?: CouchPerson;
+	host?: Commentator;
 	donation: number;
 	muted?: boolean;
 	sponsors?: NodeCG.AssetFile[];

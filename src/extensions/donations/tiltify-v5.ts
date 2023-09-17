@@ -30,8 +30,14 @@ async function getAccessToken() {
 			accessToken = res.data.access_token;
 			ncgLog.info("Token data", JSON.stringify(res.data));
 		}
-	} catch (error) {
-		ncgLog.error("Get Access Token", JSON.stringify(error));
+	} catch (error: unknown | AxiosError) {
+		if (axios.isAxiosError(error)) {
+			ncgLog.error("getAccessToken axios error: ", JSON.stringify(error));
+		}
+		else
+		{
+			ncgLog.error("getAccessToken unknown error: ", JSON.stringify(error));
+		}
 	}
 }
 
@@ -44,11 +50,19 @@ async function getCampaignData() {
 			{ headers: { Authorization: `Bearer ${accessToken}` } },
 		);
 		if (res.data?.data?.amount_raised) donationTotalRep.value = parseFloat(res.data.data.amount_raised.value);
-	} catch (error) {
-		if ((error as any).status === 401) {
-			getAccessToken();
+	} catch (error: unknown | AxiosError) {
+		if (axios.isAxiosError(error)) {
+			if (error.status === 401) {
+				getAccessToken();
+			}
+			else
+			{
+				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
+			}
 		}
-		ncgLog.error("Total", JSON.stringify(error));
+		else {
+			ncgLog.error("getCampaignData unknown error: ", JSON.stringify(error));
+		}
 	}
 }
 
@@ -83,12 +97,19 @@ async function getDonationsData() {
 
 			donationsListRep.value = mutableDonations.concat(parsedDonos);
 		}
-	} catch (error) {
-		if ((error as any).status === 401) {
-			getAccessToken();
+	} catch (error: unknown | AxiosError) {
+		if (axios.isAxiosError(error)) {
+			if (error.status === 401) {
+				getAccessToken();
+			}
+			else
+			{
+				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
+			}
 		}
-		ncgLog.error("Donations", JSON.stringify(error));
-		ncgLog.error("Potential Tiltify Error", JSON.stringify((error as any).response));
+		else {
+			ncgLog.error("getDonationsData unknown error: ", JSON.stringify(error));
+		}
 	}
 }
 
@@ -118,7 +139,7 @@ if (tiltifyConfig.enabled) {
 	ncgLog.info("Tiltify disabled");
 }
 
-nodecg.listenFor("markDonationReadUnread", (id: string) => {
+nodecg.listenFor("markDonationReadUnread", (id) => {
 	const donationIndex = donationsListRep.value.findIndex((donation) => donation.id === id);
 	if (donationIndex > -1) {
 		donationsListRep.value[donationIndex].read = !donationsListRep.value[donationIndex].read;

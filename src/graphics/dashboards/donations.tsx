@@ -4,6 +4,8 @@ import { useReplicant } from "use-nodecg";
 import _ from "underscore";
 import { Box, Grid, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
+import { VariableSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 import { Donation } from "@asm-graphics/types/Donations";
 
@@ -38,14 +40,26 @@ const DonationsContainer = styled.div`
 export const Donations: React.FC = () => {
 	const [donations] = useReplicant<Donation[]>("donations", []);
 
-	const allDonations =
-		donations?.map((donation) => <DonationEl donation={donation} key={donation.id} />).reverse() ?? [];
+	const reversedDonations = [...donations].reverse() ?? [];
 
 	return (
 		<DonationsContainer>
-			<Grid container direction="column" style={{ padding: 8 }}>
-				{allDonations}
-			</Grid>
+			<div style={{ padding: "0 8px", height: "100%" }}>
+				{reversedDonations.length > 0 && (
+					<AutoSizer>
+						{({ height, width }) => (
+							<List
+								height={height}
+								width={width}
+								itemCount={reversedDonations.length}
+								itemData={reversedDonations}
+								itemSize={(index) => getRowHeight(reversedDonations?.[index].desc ?? "")}>
+								{VirtualisedDonation}
+							</List>
+						)}
+					</AutoSizer>
+				)}
+			</div>
 		</DonationsContainer>
 	);
 };
@@ -54,6 +68,7 @@ export const Donations: React.FC = () => {
 
 interface DonationProps {
 	donation: Donation;
+	style: React.CSSProperties;
 }
 
 const NewFlash = keyframes`
@@ -61,17 +76,19 @@ const NewFlash = keyframes`
 	to { background-color: #eee; }
 `;
 
+const MARGIN = 6;
+const PADDING = 8;
+
 const DonationContainer = styled(Box)`
-	margin: 6px 0;
 	display: flex;
 	justify-content: space-between;
 	font-size: 13px;
-	padding: 8px;
 	border-radius: 7px;
-	animation-name: ${NewFlash};
-	animation-duration: 0.5s;
+	/* animation-name: ${NewFlash};
+	animation-duration: 0.5s; */
 	background-color: #eee;
 	position: relative;
+	padding: ${PADDING}px;
 `;
 
 const Amount = styled.span`
@@ -99,6 +116,30 @@ const DisabledCover = styled.div`
 	border-radius: 7px;
 `;
 
+function getRowHeight(description: string) {
+	return 96 + Math.floor(description.length / 132) * 18;
+}
+
+type ReactWindowElement<T> = {
+	index: number;
+	style: React.CSSProperties;
+	data: Array<T>;
+};
+
+const VirtualisedDonation = ({ index, style, data }: ReactWindowElement<Donation>) => {
+	return (
+		<DonationEl
+			style={{
+				...style,
+				top: parseFloat(style?.top?.toString() ?? "0") + (MARGIN + PADDING) * 2,
+				height: parseFloat(style?.height?.toString() ?? "0") - (MARGIN + PADDING) * 2,
+				width: "97%",
+			}}
+			donation={data[index]}
+		/>
+	);
+};
+
 const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
@@ -107,7 +148,12 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	};
 
 	return (
-		<DonationContainer boxShadow={2}>
+		<DonationContainer
+			boxShadow={2}
+			style={{
+				...props.style,
+				paddingTop: MARGIN,
+			}}>
 			<Grid direction="column" container>
 				<div>
 					<Amount>

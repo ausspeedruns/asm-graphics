@@ -5,11 +5,9 @@ import { AudioIndicator } from "@asm-graphics/types/Audio";
 import { RunDataTeam } from "@asm-graphics/types/RunData";
 
 import { Nameplate } from "./nameplate";
-import { NodeCGAPIClient } from "@nodecg/types/client/api/api.client";
-import { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
 import { useReplicant } from "use-nodecg";
 
-const nodecgConfig = (nodecg as NodeCGAPIClient<ConfigSchema>).bundleConfig;
+const nodecgConfig = nodecg.bundleConfig;
 
 const FacecamContainer = styled.div`
 	position: relative;

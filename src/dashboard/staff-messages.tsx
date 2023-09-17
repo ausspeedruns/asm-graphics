@@ -23,7 +23,7 @@ export const StaffMessages: React.FC = () => {
 	const [author, setAuthor] = useState("");
 	const [message, setMessage] = useState("");
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
-	const [staffMessagesRep] = useReplicant<StaffMessage[], StaffMessage[]>("staff-messages", []);
+	const [staffMessagesRep] = useReplicant<StaffMessage[]>("staff-messages", []);
 
 	const sendMessage = () => {
 		const msg: StaffMessage = {
