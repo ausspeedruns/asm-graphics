@@ -5,11 +5,12 @@ import type { StaffMessage } from "./StaffMessages";
 import type { Tweet } from "./Twitter";
 
 export type NodeCGMessages = {
-	// Host
+	// Commentators / Host
 	"update-hostname": Commentator;
 	"update-hostnames": Commentator[];
 	"rename-couch": Commentator;
 	"remove-hostname": string;
+	"remove-preview-hostname": number;
 	// Donations
 	"donations:toggleRead": string;
 	"manual-donations:toggleRead": string;
@@ -26,6 +27,8 @@ export type NodeCGMessages = {
 	"update-obs-gate": number;
 	"update-obs-audio": { id: string; inputName: string };
 	"remove-obs-audio": string;
+	"muteSourceAudio": { source: string, mute: boolean };
+	"changeSourceAudio": { source: string; volume: number }
 	// OBS Local
 	"transition:toIntermission": { to: string; from: string };
 	"transition:toGame": { to: string; from: string };
@@ -39,6 +42,8 @@ export type NodeCGMessages = {
 	"changeOverlayLive": string;
 	"newTwitchStream": Stream;
 	"removeTwitchStream": string;
+	"goToIntermission": never;
+	"transitionGameplay": never;
 	// Runner Tablet
 	"runner:setReady": never;
 	"runner:setNotReady": never;
@@ -61,6 +66,11 @@ export type NodeCGMessages = {
 	"refresh-tweets": never;
 	// ASNN
 	"asnn:showName": { name: string; subtitle: string };
+	"asnn:hideName": never;
 	// Misc
 	"start-credits": never;
+	"show-lowerthird": never;
+	"hide-lowerthird": never;
+	"show-acknowledgementofcountry": never;
+	"hide-acknowledgementofcountry": never;
 }

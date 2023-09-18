@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { useReplicant } from "use-nodecg";
 
-import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { Commentator } from "@asm-graphics/types/OverlayProps";
 
 import {
 	Button,
@@ -22,12 +22,16 @@ import { OBSAudioIndicator } from "@asm-graphics/types/Audio";
 const GreenButton = styled(Button)`
 	background-color: #4caf50 !important;
 	color: #fff !important;
-	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+	box-shadow:
+		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
 		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		background-color: #00e676 !important;
-		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		box-shadow:
+			0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+			0px 4px 5px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 	}
 
@@ -41,12 +45,16 @@ const GreenButton = styled(Button)`
 const RedButton = styled(Button)`
 	background-color: #f44336 !important;
 	min-width: 0px !important;
-	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+	box-shadow:
+		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
 		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		background-color: #ff5252 !important;
-		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		box-shadow:
+			0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+			0px 4px 5px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 	}
 `;
@@ -70,8 +78,9 @@ const TextfieldStyled = styled(TextField)`
 export const DashCouch: React.FC = () => {
 	const [localHostName, setLocalHostName] = useState("");
 	const [localHostPronoun, setLocalHostPronoun] = useState("");
-	const [localAudioGate, setLocalAudioGate] = useState(-25);
-	const [couchNamesRep] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [_localAudioGate, setLocalAudioGate] = useState(-25);
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators", []);
+	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [obsInputsRep] = useReplicant<string[]>("obs-audio-inputs", []);
 	const [obsGateRep] = useReplicant<number>("obs-audio-gate", -25);
 	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>("obs-audio-indicator", []);
@@ -89,10 +98,10 @@ export const DashCouch: React.FC = () => {
 	};
 
 	const addHost = () => {
-		let newNamesArray: CouchPerson[];
-		if (couchNamesRep.length > 0) {
+		let newNamesArray: Commentator[];
+		if (commentatorsRep.length > 0) {
 			newNamesArray = [
-				...couchNamesRep,
+				...commentatorsRep,
 				{ id: Date.now().toString(), name: localHostName, pronouns: localHostPronoun },
 			];
 		} else {
@@ -105,23 +114,35 @@ export const DashCouch: React.FC = () => {
 		setLocalHostPronoun("");
 	};
 
-	const updateAudioGate = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setLocalAudioGate(event.target.valueAsNumber);
-		nodecg.sendMessage("update-obs-gate", event.target.valueAsNumber);
-	};
+	// const updateAudioGate = (event: React.ChangeEvent<HTMLInputElement>) => {
+	// 	setLocalAudioGate(event.target.valueAsNumber);
+	// 	nodecg.sendMessage("update-obs-gate", event.target.valueAsNumber);
+	// };
 
-	const allHostNames = couchNamesRep.map((person, index) => {
+	const allHostNames = commentatorsRep.map((person, index) => {
 		return (
 			<HostComponent
 				person={person}
 				index={index}
 				key={index}
-				host={person.host}
 				inputs={obsInputsRep}
 				audioIndicator={obsAudioIndicatorRep.find((audio) => audio.id === person.name)}
 			/>
 		);
 	});
+
+	if (hostRep) {
+		allHostNames.push(
+			<HostComponent
+				person={hostRep}
+				index={allHostNames.length}
+				key="host"
+				host
+				inputs={obsInputsRep}
+				audioIndicator={obsAudioIndicatorRep.find((audio) => audio.id === hostRep.name)}
+			/>,
+		);
+	}
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -197,7 +218,7 @@ const Pronoun = styled.span`
 `;
 
 interface HostComponentProps {
-	person: CouchPerson;
+	person: Commentator;
 	index: number;
 	preview?: boolean;
 	host?: boolean;
@@ -216,8 +237,8 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 		if (props.preview) {
 			nodecg.sendMessage("remove-preview-hostname", props.index);
 		} else {
-			nodecg.sendMessage("remove-hostname", props.index);
-			nodecg.sendMessage("remove-obs-audio", props.person);
+			// nodecg.sendMessage("remove-hostname", props.index);
+			// nodecg.sendMessage("remove-obs-audio", props.person);
 		}
 	};
 

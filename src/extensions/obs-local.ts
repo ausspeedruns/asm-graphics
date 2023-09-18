@@ -1,4 +1,4 @@
-import { RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray } from "@asm-graphics/types/RunData";
+import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import * as nodecgApiContext from "./nodecg-api-context";
 import obs from "./util/obs";
 
@@ -83,7 +83,7 @@ nodecg.listenFor("transition:toGame", (data) => {
 
 let setTransitionQueue: string | null = null;
 
-obs.on("SceneTransitionVideoEnded", (transitionName) => {
+obs.on("SceneTransitionVideoEnded", (_transitionName) => {
 	if (setTransitionQueue) {
 		SetCurrentSceneTransition(setTransitionQueue);
 	}

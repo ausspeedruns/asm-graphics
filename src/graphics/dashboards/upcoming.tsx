@@ -52,7 +52,7 @@ export const Upcoming: React.FC<Props> = (props: Props) => {
 	);
 };
 
-const SingleRunContainer = styled(Box)`
+const SingleRunContainer = styled(Box)<ActiveProps>`
 	margin: 6px 0;
 	display: flex;
 	flex-direction: column;
@@ -62,8 +62,7 @@ const SingleRunContainer = styled(Box)`
 	border-radius: 7px;
 	width: 100%;
 	background: #eee;
-	${(props: ActiveProps) =>
-		props.active === "true" ? "border-left: 8px solid #59a569; box-sizing: border-box;" : ""}
+	${({ active }) => (active === "true" ? "border-left: 8px solid #59a569; box-sizing: border-box;" : "")}
 `;
 
 const RunDataContainer = styled.div`

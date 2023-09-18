@@ -35,7 +35,7 @@ export const EditUserDialog = (props: Props) => {
 	const allUsernames = useMemo(() => allUsersRep.map((user) => user.username), [allUsersRep]);
 
 	const [username, setUsername] = useState(props.runner?.name);
-	const [oldUsername, setOldUsername] = useState(props.runner?.name);
+	const [oldUsername] = useState(props.runner?.name);
 	const [twitch, setTwitch] = useState(props.runner?.twitch);
 	const [pronouns, setPronouns] = useState(props.runner?.pronouns);
 

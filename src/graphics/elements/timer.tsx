@@ -3,19 +3,19 @@ import styled from "styled-components";
 
 import { Timer as TimerType } from "@asm-graphics/types/Timer";
 
-const TimerContainer = styled.div`
+const TimerContainer = styled.div<FontProps>`
 	display: flex;
 	align-items: flex-end;
 	font-family: Seamless;
-	font-size: ${(props: FontProps) => props.fontSize}px;
+	font-size: ${(props) => props.fontSize}px;
 	color: var(--text-light);
 	text-align: center;
 	letter-spacing: 2px;
 	justify-content: center;
 `;
 
-const MilliText = styled.span`
-	font-size: ${(props: FontProps) => props.fontSize / 2}px;
+const MilliText = styled.span<FontProps>`
+	font-size: ${(props) => props.fontSize / 2}px;
 	letter-spacing: -1px;
 	margin-left: -3px;
 `;

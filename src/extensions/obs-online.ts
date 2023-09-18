@@ -1,9 +1,7 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 import obs from "./util/obs";
 
-import type { CurrentOverlay } from "@asm-graphics/types/CurrentOverlay";
 import type { Stream } from "@asm-graphics/types/Streams";
-import type NodeCG from "@nodecg/types";
 
 const nodecg = nodecgApiContext.get();
 

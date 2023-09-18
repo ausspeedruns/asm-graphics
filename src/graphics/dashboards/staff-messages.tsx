@@ -7,7 +7,7 @@ import { StaffMessage } from "@asm-graphics/types/StaffMessages";
 import { Box, Grid, Fab, Dialog, Button, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { Close, Check } from "@mui/icons-material";
 import { RedButton, GreenButton } from "../../dashboard/elements/styled-ui";
-import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const StaffMessagesContainer = styled.div`
 	height: calc(100% - 56px);
@@ -32,7 +32,7 @@ const OrangeFAB = styled(Fab)`
 
 export const StaffMessages: React.FC = () => {
 	const [staffMessagesRep] = useReplicant<StaffMessage[]>("staff-messages", []);
-	const [host] = useReplicant<CouchPerson>("host", {
+	const [host] = useReplicant<Commentator>("host", {
 		id: "",
 		name: "",
 		pronouns: "",
@@ -111,7 +111,7 @@ const NewFlash = keyframes`
 	to { background-color: #FF0000; }
 `;
 
-const MessageContainer = styled(Box)`
+const MessageContainer = styled(Box)<ReadProps>`
 	margin: 6px 0;
 	display: flex;
 	justify-content: space-between;
@@ -120,8 +120,8 @@ const MessageContainer = styled(Box)`
 	border-radius: 7px;
 	animation-name: ${NewFlash};
 	animation-duration: 3s;
-	background-color: ${(props: ReadProps) => (props.read ? "#eee" : "#FF0000")};
-	color: ${(props: ReadProps) => (props.read ? "#000" : "#fff")};
+	background-color: ${({ read }) => (read ? "#eee" : "#FF0000")};
+	color: ${({ read }) => (read ? "#000" : "#fff")};
 	position: relative;
 `;
 

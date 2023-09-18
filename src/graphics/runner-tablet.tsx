@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useListenFor, useReplicant } from "use-nodecg";
 
 // import type { Timer } from '@asm-graphics/types/Timer';
-import type { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 import { RTAudio } from "./dashboards/runner-tablet/audio";
 import { RTNames } from "./dashboards/runner-tablet/names";
@@ -19,13 +19,13 @@ interface NavBarButtonProps {
 	active?: boolean;
 }
 
-const NavBarButton = styled.button`
+const NavBarButton = styled.button<NavBarButtonProps>`
 	height: 100%;
 	border: 0;
 	border-right: 5px var(--orange-600) solid;
 	font-size: 2rem;
 	padding: 0 3rem;
-	background: ${({ active }: NavBarButtonProps) => (active ? "var(--orange-400)" : "var(--orange-500)")};
+	background: ${({ active }) => (active ? "var(--orange-400)" : "var(--orange-500)")};
 	transition: 100ms;
 `;
 
@@ -68,12 +68,10 @@ type TabsValues = ObjectValues<typeof TABS>;
 
 const RunnerTablet: React.FC = () => {
 	const [tab, setTab] = useState<TabsValues>("names");
-	const [couchNames] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [host] = useReplicant<Commentator | undefined>("host", undefined);
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 
 	const [live, setLive] = useState(false);
-
-	const host = couchNames.find((person) => person.host);
 
 	let currentTabBody = <></>;
 	switch (tab) {
@@ -124,10 +122,7 @@ const RunnerTablet: React.FC = () => {
 						<br />
 						{host?.pronouns}
 					</HostName>
-					{/* <ReadyButton
-						style={{ background: live ? '#0066ff' : '#ff0000' }}>
-						{buttonText}
-					</ReadyButton> */}
+					<ReadyButton style={{ background: live ? "#0066ff" : "#ff0000" }}>{buttonText}</ReadyButton>
 				</RightSide>
 			</NavBar>
 			<Body>{currentTabBody}</Body>

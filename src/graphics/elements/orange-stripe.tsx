@@ -5,17 +5,17 @@ const OrangeStripeContainer = styled.div`
 	display: flex;
 `;
 
-const BigStripe = styled.div`
+const BigStripe = styled.div<Props>`
 	background: var(--asm-orange);
 
-	height: ${(props: Props) => (props.side === "top" || props.side === "bottom" ? "20px" : "100%")};
-	width: ${(props: Props) => (props.side === "top" || props.side === "bottom" ? "100%" : "20px")};
+	height: ${({ side }) => (side === "top" || side === "bottom" ? "20px" : "100%")};
+	width: ${({ side }) => (side === "top" || side === "bottom" ? "100%" : "20px")};
 `;
 
-const SmallStripe = styled(BigStripe)`
+const SmallStripe = styled(BigStripe)<Props>`
 	background: var(--asm-orange);
-	height: ${(props: Props) => (props.side === "top" || props.side === "bottom" ? "4px" : "100%")};
-	width: ${(props: Props) => (props.side === "top" || props.side === "bottom" ? "100%" : "4px")};
+	height: ${({ side }) => (side === "top" || side === "bottom" ? "4px" : "100%")};
+	width: ${({ side }) => (side === "top" || side === "bottom" ? "100%" : "4px")};
 `;
 
 interface Props {

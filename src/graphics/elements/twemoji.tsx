@@ -3,7 +3,7 @@ import twemoji from "twemoji";
 
 interface Props {
 	noWrapper?: boolean;
-	options?: Partial<twemoji.ParseObject>;
+	options?: TwemojiOptions;
 	tag?: string;
 	children?: React.ReactNode;
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { TextField, Button } from "@mui/material";
-import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { useReplicant } from "use-nodecg";
 import { useEffect } from "react";
 
@@ -23,14 +23,13 @@ export const HostName: React.FC<Props> = (props: Props) => {
 	const [hostName, setHostName] = useState("");
 	const [hostPronouns, setHostPronouns] = useState("");
 	// const [hostDiscord, setHostDiscord] = useState('');
-	const [couchRep] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 
 	useEffect(() => {
-		const host = couchRep.find((couch) => couch.host);
-		setHostName(host?.name ?? "");
-		setHostPronouns(host?.pronouns ?? "");
+		setHostName(hostRep?.name ?? "");
+		setHostPronouns(hostRep?.pronouns ?? "");
 		// setHostDiscord(host?.discordID ?? '');
-	}, [couchRep]);
+	}, [hostRep]);
 
 	return (
 		<HostNameContainer className={props.className} style={props.style}>
@@ -63,11 +62,11 @@ export const HostName: React.FC<Props> = (props: Props) => {
 				variant="contained"
 				onClick={() =>
 					nodecg.sendMessage("update-hostname", {
+						id: "host",
 						name: hostName,
 						pronouns: hostPronouns,
-					} as CouchPerson)
-				}
-			>
+					})
+				}>
 				Update
 			</Button>
 		</HostNameContainer>

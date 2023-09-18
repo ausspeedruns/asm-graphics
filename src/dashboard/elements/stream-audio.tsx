@@ -9,20 +9,20 @@ interface DisabledProps {
 	readonly disabled?: boolean;
 }
 
-const StreamAudioContainer = styled.div`
+const StreamAudioContainer = styled.div<DisabledProps>`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 	flex-grow: 1;
-	border: 1px solid ${(props: DisabledProps) => (props.disabled ? "rgb(255 255 255 / 12%)" : lightBlue[500])};
+	border: 1px solid ${({ disabled }) => (disabled ? "rgb(255 255 255 / 12%)" : lightBlue[500])};
 	border-radius: 20px;
 	margin: 8px 4px;
 	padding: 8px;
 `;
 
-const SourceLabel = styled.span`
+const SourceLabel = styled.span<DisabledProps>`
 	font-weight: bold;
-	color: ${(props: DisabledProps) => (props.disabled ? "rgba(255, 255, 255, 0.3)" : "#ffffff")};
+	color: ${({ disabled }) => (disabled ? "rgba(255, 255, 255, 0.3)" : "#ffffff")};
 `;
 
 const VolumeMarks = [

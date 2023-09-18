@@ -1,6 +1,5 @@
 "use strict";
 
-import type NodeCG from "@nodecg/types";
 import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
 import type { ExtendedServerAPI } from "@asm-graphics/types/NodeCGExtension";
 

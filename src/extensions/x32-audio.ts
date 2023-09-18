@@ -73,7 +73,7 @@ function updateAudioIndicator(float: number, mic: (typeof MICROPHONE_CHANNELS)[n
 }
 
 // On transition to game view
-nodecg.listenFor("transition:toGame", (data) => {
+nodecg.listenFor("transition:toGame", (_data) => {
 	// Unmute mics for speakers and stream
 	const micIndexes = getMicrophoneIndexesOfPeopleTalking();
 

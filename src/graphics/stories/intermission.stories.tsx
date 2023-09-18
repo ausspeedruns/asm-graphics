@@ -62,7 +62,7 @@ Primary.args = {
 			customData: {},
 		},
 	],
-	host: { name: "Clubwho", pronouns: "He/Him", host: true },
+	host: { id: "host", name: "Clubwho", pronouns: "He/Him" },
 	incentives: [
 		{
 			game: "Test Game Title",

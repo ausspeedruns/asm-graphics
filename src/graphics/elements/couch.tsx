@@ -88,17 +88,17 @@ const PersonCompressedContainer = styled.div`
 	border: 1px solid var(--accent);
 `;
 
-const SpeakingColour = styled.div`
+const SpeakingColour = styled.div<SpeakingProps>`
 	position: absolute;
 	top: 0;
 	left: 0;
 	border-radius: 8px;
 	width: 100%;
 	height: 100%;
-	opacity: ${(props: SpeakingProps) => (props.speaking ? 1 : 0)};
+	opacity: ${({ speaking }) => (speaking ? 1 : 0)};
 	background-color: #ffffff53;
 	transition-duration: 0.2s;
-	transition-delay: ${(props: SpeakingProps) => (props.speaking ? undefined : "0.5s")};
+	transition-delay: ${({ speaking }) => (speaking ? undefined : "0.5s")};
 `;
 
 interface SpeakingProps {

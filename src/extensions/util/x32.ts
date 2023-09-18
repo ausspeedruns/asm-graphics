@@ -1,4 +1,4 @@
-import osc, { SenderInfo } from "osc";
+import osc from "osc";
 import { TypedEmitter } from "tiny-typed-emitter";
 
 import * as nodecgApiContext from "../nodecg-api-context";
@@ -22,8 +22,7 @@ class X32 extends TypedEmitter<X32Class> {
 	private HEARTBEAT_TIMEOUT = this.HEARTBEAT_INTERVAL * 6;
 	private oscSocket;
 
-	private intervalSubscriptions: NodeJS.Timer;
-	private intervalHeartbeat: NodeJS.Timer;
+	private intervalHeartbeat;
 
 	private fadersFading: {
 		[k: string]: {
@@ -54,7 +53,6 @@ class X32 extends TypedEmitter<X32Class> {
 
 		this.oscSocket.open();
 
-		this.intervalSubscriptions = setInterval(this.renewSubscriptions.bind(this), 9000);
 		this.intervalHeartbeat = setInterval(this.sendHeartbeat.bind(this), this.HEARTBEAT_INTERVAL);
 	}
 

@@ -2,8 +2,8 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 
-import useCurrentTime from "../hooks/useCurrentTime";
-import useSurroundingRuns from "../hooks/useSurroundingRuns";
+// import useCurrentTime from "../hooks/useCurrentTime";
+// import useSurroundingRuns from "../hooks/useSurroundingRuns";
 import { useReplicant } from "use-nodecg";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 import { Button, Checkbox, FormControlLabel, FormGroup, FormLabel } from "@mui/material";
@@ -15,16 +15,16 @@ const StatusContainer = styled.div`
 
 const Column = styled.div``;
 
-const TimeToNextContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-bottom: 1rem;
-`;
+// const TimeToNextContainer = styled.div`
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	margin-bottom: 1rem;
+// `;
 
-const Time = styled.span`
-	font-size: 4rem;
-`;
+// const Time = styled.span`
+// 	font-size: 4rem;
+// `;
 
 const ConnectionStatus = styled.div`
 	height: 4rem;
@@ -36,10 +36,10 @@ const ConnectionStatus = styled.div`
 	font-size: 2rem;
 `;
 
-const Header = styled.h1`
+const Header = styled.h1<HeaderProps>`
 	text-align: center;
-	border-top: ${(props: HeaderProps) => (props.noBorder ? "" : "1px solid white")};
-	padding-top: ${(props: HeaderProps) => (props.noBorder ? "" : "1rem")};
+	border-top: ${({ noBorder }) => (noBorder ? "" : "1px solid white")};
+	padding-top: ${({ noBorder }) => (noBorder ? "" : "1rem")};
 `;
 
 interface HeaderProps {
@@ -65,32 +65,32 @@ function connectionStatusStyle(status: ConnectionStatus | boolean): { text: stri
 	}
 }
 
-function durationToTime(duration?: number) {
-	if (!duration) return "--:--:--";
+// function durationToTime(duration?: number) {
+// 	if (!duration) return "--:--:--";
 
-	const durationDate = new Date(duration);
+// 	const durationDate = new Date(duration);
 
-	return `${duration < 0 ? "-" : ""}${durationDate.getHours()}:${durationDate.getMinutes()?.toLocaleString("en-AU", {
-		minimumIntegerDigits: 2,
-	})}:${durationDate.getSeconds()?.toLocaleString("en-AU", { minimumIntegerDigits: 2 })}`;
-}
+// 	return `${duration < 0 ? "-" : ""}${durationDate.getHours()}:${durationDate.getMinutes()?.toLocaleString("en-AU", {
+// 		minimumIntegerDigits: 2,
+// 	})}:${durationDate.getSeconds()?.toLocaleString("en-AU", { minimumIntegerDigits: 2 })}`;
+// }
 
-function timeColour(duration?: number) {
-	if (!duration) return "rgba(255, 255, 255, 0.5)";
+// function timeColour(duration?: number) {
+// 	if (!duration) return "rgba(255, 255, 255, 0.5)";
 
-	if (duration <= 60 * 1000) {
-		// Below 1 min / late
-		return "#FF0000";
-	} else if (duration <= 15 * 60 * 1000) {
-		// Within 15 mins
-		return "#90ff90";
-	} else if (duration <= 30 * 60 * 1000) {
-		// Within 30 mins
-		return "#8a8aff";
-	}
+// 	if (duration <= 60 * 1000) {
+// 		// Below 1 min / late
+// 		return "#FF0000";
+// 	} else if (duration <= 15 * 60 * 1000) {
+// 		// Within 15 mins
+// 		return "#90ff90";
+// 	} else if (duration <= 30 * 60 * 1000) {
+// 		// Within 30 mins
+// 		return "#8a8aff";
+// 	}
 
-	return "#FFFFFF";
-}
+// 	return "#FFFFFF";
+// }
 
 export const Status: React.FC = () => {
 	// const currentTime = useCurrentTime();

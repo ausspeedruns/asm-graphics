@@ -34,7 +34,6 @@ import { StreamAudio } from "./elements/stream-audio";
 import type { RunData } from "@asm-graphics/types/RunData";
 import type { OBSAudioIndicator } from "@asm-graphics/types/Audio";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
-import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
 
 const SideTitle = styled.span`
 	font-weight: bold;
@@ -81,6 +80,7 @@ const OBSIndicator = styled.span`
 	height: 36px;
 `;
 
+// @ts-ignore
 const DashOBS: React.FC = () => {
 	// const [audioIndicatorRep] = useReplicant<string, string>('audio-indicator', '');
 	// const [runDataActiveRep] = useReplicant<RunDataActiveRun, undefined>('runDataActiveRun', undefined, {

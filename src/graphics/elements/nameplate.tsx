@@ -20,38 +20,37 @@ function nameplateDirection(data: NameplateStyleProps) {
 	return "row";
 }
 
-const NameplateContainer = styled.div`
+const NameplateContainer = styled.div<NameplateStyleProps>`
 	color: var(--text-light);
 	width: 100%;
-	/* height: ${(props: NameplateStyleProps) => (props.vertical ? "100%" : "")}; */
 	font-size: 30px;
 	font-family: var(--secondary-font);
 
 	display: flex;
-	flex-direction: ${(props: NameplateStyleProps) => nameplateDirection(props)};
+	flex-direction: ${(props) => nameplateDirection(props)};
 	justify-content: space-between;
 	align-items: center;
 `;
 
-const Names = styled.div`
+const Names = styled.div<NameplateStyleProps>`
 	background: var(--nameplate);
 	display: flex;
 	flex-grow: 1;
 	justify-content: center;
 	align-items: center;
 	height: 100%;
-	width: ${(props: NameplateStyleProps) => (props.vertical ? "100%" : "")};
+	width: ${({ vertical }) => (vertical ? "100%" : "")};
 	position: relative;
 `;
 
-const SpeakingGlow = styled.div`
-	opacity: ${(props: NameplateStyleProps) => (props.speaking ? 1 : 0)};
+const SpeakingGlow = styled.div<NameplateStyleProps>`
+	opacity: ${({ speaking }) => (speaking ? 1 : 0)};
 	background: var(--nameplate-lighter);
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	transition-duration: 0.2s;
-	transition-delay: ${(props: NameplateStyleProps) => (props.speaking ? undefined : "0.5s")};
+	transition-delay: ${({ speaking }) => (speaking ? undefined : "0.5s")};
 `;
 
 const NormalName = styled(FitText)``;
@@ -62,7 +61,7 @@ const TwitchDiv = styled.div`
 	align-items: center;
 `;
 
-const PronounBox = styled.div`
+const PronounBox = styled.div<NameplateStyleProps>`
 	background: var(--sec);
 	font-weight: 400;
 	font-size: 20px;
@@ -73,7 +72,7 @@ const PronounBox = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: ${(props: NameplateStyleProps) => (props.vertical ? "100%" : "")};
+	width: ${({ vertical }) => (vertical ? "100%" : "")};
 	box-sizing: border-box;
 	font-family: var(--main-font);
 `;
@@ -131,8 +130,7 @@ export const Nameplate = (props: Props) => {
 			className={props.className}
 			nameplateLeft={props.nameplateLeft}
 			speaking={props.speaking}
-			vertical={props.vertical}
-		>
+			vertical={props.vertical}>
 			{props.icon}
 			<Names speaking={props.speaking} vertical={props.vertical}>
 				<SpeakingGlow speaking={props.speaking} />

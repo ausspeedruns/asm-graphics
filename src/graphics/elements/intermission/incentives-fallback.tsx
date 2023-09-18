@@ -2,13 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import gsap, { Power2 } from "gsap";
 
-import ASMLogo from "../../media/ASGX23/ASM2023Logo.png";
 import AusSpeedrunsLogo from "../../media/AusSpeedruns-Logo.svg";
-import TheGameExpoLogo from "../../media/ASGX23/TGXLogo-Wide-White.png";
 import TwitterLogo from "../../media/twitter.svg";
 import YoutubeLogo from "../../media/youtube.svg";
 import WebsiteLogo from "../../media/website.svg";
-import InstagramLogo from "../../media/instagram.svg";
+// import InstagramLogo from "../../media/instagram.svg";
 
 const IncentivesFallbackContainer = styled.div`
 	height: 100%;
@@ -24,25 +22,25 @@ const Page = styled.div`
 	width: 100%;
 `;
 
-const ThankYou = styled(Page)`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-`;
+// const ThankYou = styled(Page)`
+// 	display: flex;
+// 	flex-direction: column;
+// 	justify-content: center;
+// 	align-items: center;
+// `;
 
-const NextEvent = styled(Page)`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-`;
+// const NextEvent = styled(Page)`
+// 	display: flex;
+// 	flex-direction: column;
+// 	justify-content: center;
+// 	align-items: center;
+// `;
 
-const NextEventLogo = styled.img`
-	width: 55%;
-	height: auto;
-	/* margin-top: 8px; */
-`;
+// const NextEventLogo = styled.img`
+// 	width: 55%;
+// 	height: auto;
+// 	/* margin-top: 8px; */
+// `;
 
 const Socials = styled(Page)`
 	display: flex;

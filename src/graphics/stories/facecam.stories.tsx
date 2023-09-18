@@ -58,7 +58,7 @@ Two.args = {
 	pronounStartSide: "left",
 	dontAlternatePronouns: false,
 	noCam: false,
-	audioIndicator: [{ id: "0", active: true, inputName: "TestInput" }],
+	audioIndicator: { "test mic": true },
 };
 
 export const Three = Template.bind({});
@@ -99,5 +99,5 @@ Speaking.args = {
 	pronounStartSide: "left",
 	dontAlternatePronouns: false,
 	noCam: false,
-	audioIndicator: [{ id: "0", active: true, inputName: "TestInput" }],
+	audioIndicator: { "test mic": true },
 };

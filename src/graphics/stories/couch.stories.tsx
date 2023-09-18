@@ -1,23 +1,23 @@
 import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { StoryFn, Meta } from "@storybook/react";
 
 import { Couch } from "../elements/couch";
 
 export default {
 	title: "Couch",
 	component: Couch,
-} as ComponentMeta<typeof Couch>;
+} as Meta<typeof Couch>;
 
-const Template: ComponentStory<typeof Couch> = (args) => <Couch {...args} />;
+const Template: StoryFn<typeof Couch> = (args) => <Couch {...args} />;
 
 export const Primary = Template.bind({});
 
 Primary.args = {
-	couch: [
-		{ name: "Couch 1", pronouns: "He/Him" },
-		{ name: "Couch 2", pronouns: "She/Her" },
-		{ name: "Couch 3", pronouns: "" },
-		{ name: "Host", pronouns: "They/Them", host: true },
+	commentators: [
+		{ id: "com1", name: "Couch 1", pronouns: "He/Him" },
+		{ id: "com2", name: "Couch 2", pronouns: "She/Her" },
+		{ id: "com3", name: "Couch 3", pronouns: "" },
 	],
-	audio: [{ active: true, inputName: "TestInput", id: "Couch 2" }],
+	host: { id: "host", name: "Host", pronouns: "They/Them" },
+	audio: { MARIO_RED: true },
 };

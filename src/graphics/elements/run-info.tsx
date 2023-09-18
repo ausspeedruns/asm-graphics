@@ -41,12 +41,12 @@ export const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
 /*			ESTIMATE			*/
 const EstimateContainer = styled(BaseStyle)``;
 
-const EstText = styled.span`
-	font-size: ${(props: FontProps) => props.fontSize * 0.6}px;
+const EstText = styled.span<FontProps>`
+	font-size: ${({ fontSize }) => fontSize * 0.6}px;
 `;
 
-const EstTime = styled.span`
-	font-size: ${(props: FontProps) => props.fontSize}px;
+const EstTime = styled.span<FontProps>`
+	font-size: ${({ fontSize }) => fontSize}px;
 `;
 
 interface EstimateProps {

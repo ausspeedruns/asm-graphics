@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { CouchPerson } from "@asm-graphics/types/OverlayProps";
+import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
 import { useReplicant } from "use-nodecg";
@@ -56,7 +56,8 @@ export const RTAudio = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
 		namespace: "nodecg-speedcontrol",
 	});
-	const [couchNamesRep] = useReplicant<CouchPerson[]>("couch-names", []);
+	const [couchNamesRep] = useReplicant<Commentator[]>("commentators", []);
+	// const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 	// const debouncedFadersRep = useDebounce(busFadersRep, 100);

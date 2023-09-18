@@ -23,13 +23,13 @@ export const Checklist: React.FC = () => {
 
 /* Single Checklist Item */
 
-const ChecklistItemContainer = styled.div`
+const ChecklistItemContainer = styled.div<Checked>`
 	border-radius: 8px;
 	margin: 4px;
 	padding-left: 8px;
 	box-sizing: border-box;
-	border: 1px solid ${(props: Checked) => (props.checked ? "#9bd279" : "black")};
-	${(props: Checked) => (props.checked ? "background-color: #9bd279;" : "")}
+	border: 1px solid ${({ checked }) => (checked ? "#9bd279" : "black")};
+	${({ checked }) => (checked ? "background-color: #9bd279;" : "")}
 `;
 
 interface ItemProps {

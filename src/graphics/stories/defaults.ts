@@ -26,8 +26,8 @@ export const DefaultOverlay: OverlayProps = {
 	preview: false,
 	commentators: [
 		{ name: "Couch 1", pronouns: "He/Him", id: "" },
-		{ name: "Host Name", pronouns: "She/Her", host: true, id: "" },
 	],
+	host: { name: "Host Name", pronouns: "She/Her", id: "" },
 	runData: {
 		game: "Long Game Title",
 		category: "Any%",
