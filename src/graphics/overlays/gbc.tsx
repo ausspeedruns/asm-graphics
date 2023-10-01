@@ -67,10 +67,10 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 	return (
 		<GBCContainer>
 			<Sidebar>
-				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.obsAudioIndicator} />
+				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
-					<Couch commentators={props.commentators} host={props.host} audio={props.obsAudioIndicator} />
+					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>

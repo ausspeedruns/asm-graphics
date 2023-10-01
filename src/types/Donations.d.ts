@@ -8,3 +8,11 @@ export interface Donation {
 	currencySymbol: string;
 	currencyCode?: string;
 }
+
+export interface DonationMatch extends Donation {
+	pledge: number;
+	endsAt: number;
+	completedAt: number;
+	active: boolean;
+	updated: number;
+}

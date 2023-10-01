@@ -20,9 +20,11 @@ class X32 extends TypedEmitter<X32Class> {
 	private MAX_HEARTBEAT_ATTEMPTS = 10;
 	private HEARTBEAT_INTERVAL = 1000;
 	private HEARTBEAT_TIMEOUT = this.HEARTBEAT_INTERVAL * 6;
+	private SUBSCRIPTION_INTERVAL = 8000;
 	private oscSocket;
 
 	private intervalHeartbeat;
+	private subscriptionRenewal;
 
 	private fadersFading: {
 		[k: string]: {
@@ -54,6 +56,8 @@ class X32 extends TypedEmitter<X32Class> {
 		this.oscSocket.open();
 
 		this.intervalHeartbeat = setInterval(this.sendHeartbeat.bind(this), this.HEARTBEAT_INTERVAL);
+
+		this.subscriptionRenewal = setInterval(this.renewSubscriptions.bind(this), this.SUBSCRIPTION_INTERVAL);
 	}
 
 	handleMissedHeartbeat = () => {
@@ -91,18 +95,6 @@ class X32 extends TypedEmitter<X32Class> {
 			clearTimeout(this.heartbeatTimeout);
 			this.heartbeatAttempts = 0;
 			this.heartbeatTimeout = setTimeout(this.handleMissedHeartbeat.bind(this), this.HEARTBEAT_TIMEOUT);
-			// } else if (str.startsWith('/chMutes')) {
-			// MUTES
-			// For this particular message, we know that the values start at byte 22 and stop 2 bytes from the end.
-			// valueBytes = buffer.subarray(22, -2);
-			// const mutes = [false];
-
-			// for (let i = 0; i < valueBytes.length; i += 4) {
-			// 	mutes[channelNumber] = !valueBytes.readFloatBE(i);
-			// 	channelNumber++;
-			// }
-
-			// this.emit('mutes', mutes);
 		} else if (str.startsWith("/chFaders")) {
 			// For this particular message, we know that the values start at byte 24
 			valueBytes = buffer.subarray(24);
@@ -415,6 +407,20 @@ class X32 extends TypedEmitter<X32Class> {
 				currentValue = endValue;
 			}
 		}, 100);
+	}
+
+	enableTalkback(channel: "A" | "B", on: boolean): void {
+		this.oscSocket.send({
+			address: `/-stat/talk/${channel}`,
+			args: [{ type: "i", value: on ? 1 : 0 }]
+		});
+	}
+
+	setTalkbackMixbus(talkbackChannel: "A" | "B", mixBus: number) {
+		this.oscSocket.send({
+			address: `/config/talk/${talkbackChannel}/destmap,i`,
+			args: [{ type: "i", value: mixBus }]
+		});
 	}
 
 	static generateChannelAddress(endpoint: string, channelNum: number | string, mixBusNum?: number | string) {

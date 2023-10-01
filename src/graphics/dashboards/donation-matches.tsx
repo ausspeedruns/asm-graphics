@@ -1,0 +1,118 @@
+import React from "react";
+import styled from "styled-components";
+import { useReplicant } from "use-nodecg";
+import { Box } from "@mui/material";
+import { formatDistanceToNow } from "date-fns";
+
+import { DonationMatch as IDonationMatch } from "@asm-graphics/types/Donations";
+
+const DonationMatchesContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	padding: 8px;
+	padding-right: 24px;
+`;
+
+interface Props {
+	style?: React.CSSProperties;
+}
+
+export const DonationMatches: React.FC<Props> = (props: Props) => {
+	const [donationMatchesRep] = useReplicant<IDonationMatch[]>("donation-matches", []);
+
+	const reversedMatches = [...donationMatchesRep].reverse();
+
+	const allDonationMatches = reversedMatches.map((donationMatch) => {
+		return <DonationMatch key={donationMatch.id} active={donationMatch.endsAt > Date.now()} donationMatch={donationMatch} />;
+	});
+
+	return <DonationMatchesContainer style={props.style}>{allDonationMatches}</DonationMatchesContainer>;
+};
+
+const DonationMatchContainer = styled(Box)<ActiveProps>`
+	margin: 6px 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	font-size: 13px;
+	padding: 8px;
+	border-radius: 7px;
+	width: 100%;
+	background: #eee;
+	opacity: ${({ active }) => (active ? "1" : "0.4")};
+`;
+
+const Row = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1.1rem;
+`;
+
+const Name = styled.span`
+	font-size: 1.2rem;
+	/* font-weight: bold; */
+`;
+const EndTime = styled.span`
+	font-weight: bold;
+`;
+
+const Progress = styled.div`
+	background: #3f3f3f;
+	flex-grow: 1;
+	border-radius: 8px;
+	height: 2rem;
+`;
+
+const ProgressBar = styled.div`
+	background: #c72;
+	height: 100%;
+	/* padding: 8px; */
+	border-radius: 8px;
+	color: white;
+	padding-left: 8px;
+	line-height: 2rem;
+	box-sizing: border-box;
+`;
+
+const Total = styled.span`
+	font-weight: bold;
+	width: 70px;
+	text-align: right;
+	line-height: 2rem;
+`;
+
+interface RunProps {
+	donationMatch: IDonationMatch;
+	active?: boolean;
+	style?: React.CSSProperties;
+}
+
+interface ActiveProps {
+	active?: boolean;
+}
+
+const DonationMatch: React.FC<RunProps> = (props: RunProps) => {
+	return (
+		<DonationMatchContainer boxShadow={2} active={props.active} style={props.style}>
+			<Row>
+				<Name>{props.donationMatch.name}</Name>
+				<EndTime>Ends in {formatDistanceToNow(props.donationMatch.endsAt)}</EndTime>
+			</Row>
+			<Row>
+				<Progress>
+					<ProgressBar
+						style={{ width: `${(props.donationMatch.amount / props.donationMatch.pledge) * 100}%` }}>
+						{props.donationMatch.currencySymbol}
+						{props.donationMatch.amount.toLocaleString()}
+					</ProgressBar>
+				</Progress>
+				<Total>
+					{props.donationMatch.currencySymbol}
+					{props.donationMatch.pledge.toLocaleString()}
+				</Total>
+			</Row>
+		</DonationMatchContainer>
+	);
+};

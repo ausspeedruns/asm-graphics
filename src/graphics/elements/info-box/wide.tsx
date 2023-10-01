@@ -67,7 +67,7 @@ export const WideInfo: React.FC<Props> = (props: Props) => {
 			<VerticalStack style={{ flexGrow: 1 }}>
 				<RunInfo.GameTitle
 					maxWidth={styles.maxTextWidth!}
-					game={props.runData?.game || ""}
+					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
 					style={{ marginBottom: styles.bottomRowMargin, lineHeight: "42px" }}
 				/>
 				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>

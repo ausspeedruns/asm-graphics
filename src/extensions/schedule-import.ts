@@ -110,6 +110,7 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 		customData = {
 			techPlatform: run.techPlatform,
 			specialRequirements: run.specialRequirements,
+			gameDisplay: run.game,
 		};
 
 		return {

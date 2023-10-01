@@ -7,9 +7,10 @@ import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
+import { PAX23Grunge, PAX23Rainbow, PAX23Stripe } from "../elements/event-specific/pax-23/pax23";
 
-import WidescreenTop from "../media/ASM23/widescreen-top.png";
-import WidescreenBottom from "../media/ASM23/widescreen-bottom.png";
+// import WidescreenTop from "../media/ASM23/widescreen-top.png";
+// import WidescreenBottom from "../media/ASM23/widescreen-bottom.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -22,7 +23,7 @@ const TopBar = styled.div`
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-color: var(--main);
 	position: relative;
-	border-bottom: 1px solid var(--asm-orange);
+	border-bottom: 1px solid var(--sec);
 `;
 
 const Sidebar = styled.div`
@@ -30,7 +31,7 @@ const Sidebar = styled.div`
 	top: 156px;
 	height: 860px;
 	width: 390px;
-	border-right: 1px solid var(--asm-orange);
+	border-right: 1px solid var(--sec);
 	z-index: -1;
 	overflow: hidden;
 `;
@@ -87,33 +88,44 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<WidescreenContainer>
 			<TopBar>
-				<img
+				{/* <img
 					src={WidescreenTop}
 					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-				/>
+				/> */}
+				<PAX23Stripe style={{ position: "absolute", transform: "scaleX(7) scaleY(0.45)", top: -89 }} />
+				<PAX23Grunge size="60%" />
 				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
+			<PAX23Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 157 }} />
 			<Sidebar>
 				<Facecam
 					maxNameWidth={nameplateMaxWidth}
 					height={400}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
-					audioIndicator={props.obsAudioIndicator}
+					audioIndicator={props.microphoneAudioIndicator}
 					verticalCoop
 				/>
 				<SidebarBG>
-					<img
+					{/* <img
 						src={WidescreenBottom}
 						style={{ position: "absolute", height: "auto", width: "100%", top: 0 }}
+					/> */}
+					<PAX23Grunge size="300%" />
+					<PAX23Rainbow style={{ height: 1, width: "100%", position: "absolute", top: 0 }} />
+					<Couch
+						style={{ zIndex: 2 }}
+						commentators={props.commentators}
+						host={props.host}
+						audio={props.microphoneAudioIndicator}
 					/>
-					<Couch style={{ zIndex: 2 }} commentators={props.commentators} host={props.host} audio={props.obsAudioIndicator} />
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}
 						sponsorStyle={SponsorSize}
 						tweetStyle={TwitterSize}
 					/>
+					<PAX23Rainbow style={{ height: 16, width: "100%", position: "absolute", bottom: 0 }} />
 				</SidebarBG>
 			</Sidebar>
 		</WidescreenContainer>

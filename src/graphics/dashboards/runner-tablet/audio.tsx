@@ -5,15 +5,36 @@ import styled from "styled-components";
 import { useReplicant } from "use-nodecg";
 import { AudioFader } from "./audio-fader";
 import { HEADSETS } from "./headsets";
-// import useDebounce from '../../../hooks/useDebounce';
+import _ from "lodash";
+import usePrevious from "../../../hooks/usePrevious";
+import { FitText } from "../../elements/fit-text";
 
 const RTAudioContainer = styled.div``;
 
+const HeadsetSelectorContainer = styled.div`
+	padding: 8px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+`;
+
+const BigName = styled(FitText)`
+	font-size: 50px;
+	font-weight: bold;
+	max-width: 26%;
+	padding-right: 16px;
+	white-space: nowrap;
+	flex-grow: 1;
+`;
+
 const HeadsetSelectors = styled.div`
 	display: flex;
-	justify-content: center;
-	gap: 2rem;
-	margin-top: 1rem;
+	justify-content: space-between;
+	gap: 16px;
+	background: white;
+	width: fit-content;
+	padding: 8px;
+	border-radius: 26px;
 `;
 
 const HeadsetName = styled.button`
@@ -21,30 +42,28 @@ const HeadsetName = styled.button`
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 1rem;
+	font-size: 32px;
 	border-radius: 20px;
-	width: 4rem;
+	width: 175px;
 	padding: 1rem;
 	text-align: center;
 `;
 
 const MixingContainer = styled.div`
 	width: 100%;
-	height: 500px;
-	border-top: 5px solid black;
+	height: 560px;
 	margin: auto;
-	margin-top: 1rem;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-around;
-	padding-top: 16px;
+	padding-top: 8px;
 	padding-bottom: 48px;
 `;
 
 const MixingDivide = styled.div`
-	height: 546px;
+	height: 120%;
 	width: 5px;
-	margin-top: 11px;
+	margin-top: -9px;
 `;
 
 interface Props {
@@ -60,7 +79,7 @@ export const RTAudio = (props: Props) => {
 	// const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
-	// const debouncedFadersRep = useDebounce(busFadersRep, 100);
+	const debouncedFadersRep = useAudioDebounce(busFadersRep, 500);
 
 	const numberOfRunners = useMemo(
 		() => runDataActiveRep?.teams.reduce((total, team) => total + team.players.length, 0) ?? 0,
@@ -82,11 +101,12 @@ export const RTAudio = (props: Props) => {
 	}, [runDataActiveRep, couchNamesRep]);
 
 	useEffect(() => {
-		setFaderValues(busFadersRep);
-	}, [busFadersRep]);
+		setFaderValues(debouncedFadersRep);
+	}, [debouncedFadersRep]);
 
 	const [selectedHeadset, setSelectedHeadset] = useState(HEADSETS[0].name);
 	const selectedHeadsetObj = HEADSETS.find((headset) => headset.name === selectedHeadset);
+	const headsetUser = selectedHeadsetObj ? headsetUserMap.get(selectedHeadsetObj.name) : "";
 
 	// MixBus falls back to 16 since it is an unused bus (FX4)
 	const mixBus = selectedHeadsetObj?.mixBus ?? 16;
@@ -112,26 +132,33 @@ export const RTAudio = (props: Props) => {
 
 	return (
 		<RTAudioContainer className={props.className} style={props.style}>
-			<HeadsetSelectors>
-				{HEADSETS.filter((headset) => headset.name !== "Host").map((headset) => {
-					return (
-						<HeadsetName
-							key={headset.name}
-							style={{
-								background: headset.colour,
-								color: headset.textColour,
-								fontWeight: selectedHeadset === headset.name ? "bold" : "",
-							}}
-							onClick={() => setSelectedHeadset(headset.name)}
-						>
-							{headsetUserMap.get(headset.name) ?? headset.name}
-						</HeadsetName>
-					);
-				})}
-			</HeadsetSelectors>
+			<HeadsetSelectorContainer style={{ backgroundColor: selectedHeadsetObj?.colour }}>
+				<BigName
+					style={{ color: selectedHeadsetObj?.textColour }}
+					text={headsetUser === selectedHeadsetObj?.name ? selectedHeadset : headsetUser ?? selectedHeadset}
+				/>
+				<HeadsetSelectors>
+					{HEADSETS.filter((headset) => headset.name !== "Host" && headset.name !== "NONE").map((headset) => {
+						return (
+							<HeadsetName
+								key={headset.name}
+								style={{
+									background: headset.colour,
+									color: headset.textColour,
+									fontWeight: selectedHeadset === headset.name ? "bold" : "",
+								}}
+								onClick={() => setSelectedHeadset(headset.name)}>
+								<FitText
+									style={{ maxWidth: "100%" }}
+									text={headsetUserMap.get(headset.name) ?? headset.name}
+								/>
+							</HeadsetName>
+						);
+					})}
+				</HeadsetSelectors>
+			</HeadsetSelectorContainer>
 			<MixingContainer
-				style={{ borderColor: selectedHeadsetObj?.colour, background: `${selectedHeadsetObj?.colour}22` }}
-			>
+				style={{ background: `${selectedHeadsetObj?.colour}22` }}>
 				<AudioFader
 					key={"MASTER"}
 					label={"MASTER"}
@@ -156,7 +183,7 @@ export const RTAudio = (props: Props) => {
 					);
 				})}
 				<MixingDivide style={{ background: selectedHeadsetObj?.colour }} />
-				{HEADSETS.map((headset) => {
+				{HEADSETS.filter((headset) => headset.name !== "NONE").map((headset) => {
 					return (
 						<AudioFader
 							key={headset.name}
@@ -170,6 +197,7 @@ export const RTAudio = (props: Props) => {
 							value={faderValues[mixBus]?.[headset.channel]}
 							onChange={(float) => handleFaderChange(float, mixBus, headset.channel)}
 							colour={selectedHeadsetObj?.colour}
+							headset={headset}
 						/>
 					);
 				})}
@@ -177,3 +205,33 @@ export const RTAudio = (props: Props) => {
 		</RTAudioContainer>
 	);
 };
+
+function useAudioDebounce(value: number[][], delay?: number) {
+	const previousValue = usePrevious(value);
+	const [debouncedValue, setDebouncedValue] = useState(value);
+
+	useEffect(() => {
+		if (debouncedValue.length === 0) {
+			setDebouncedValue(value);
+		}
+
+		let timer: string | number | NodeJS.Timeout | undefined;
+		if (!_.isEqual(value, previousValue)) {
+			if (value && debouncedValue) {
+				console.log(
+					JSON.stringify(value),
+					JSON.stringify(debouncedValue),
+					JSON.stringify(value) === JSON.stringify(debouncedValue),
+				);
+			}
+			console.log("Updating timer");
+			timer = setTimeout(() => setDebouncedValue(value), delay ?? 500);
+		}
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [value, delay, debouncedValue, previousValue]);
+
+	return debouncedValue;
+}

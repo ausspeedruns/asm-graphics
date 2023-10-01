@@ -41,7 +41,7 @@ const NAMEPLATE_HEIGHT = 41;
 const NAMEPLATE_HEIGHT_VERTICAL = 61;
 
 const RunnerNameDivider = styled.div`
-	background: var(--asm-orange);
+	background: var(--sec);
 	min-width: 2px;
 	height: ${NAMEPLATE_HEIGHT}px;
 `;

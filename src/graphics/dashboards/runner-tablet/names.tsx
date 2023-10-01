@@ -4,11 +4,14 @@ import { useReplicant } from "use-nodecg";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
+
+import TwitchSVG from "../../media/TwitchGlitchPurple.svg";
 import { HEADSETS } from "./headsets";
 import { EditUserDialog } from "./edit-user-dialog";
+import { Button } from "@mui/material";
 
 const RTNamesContainer = styled.div`
-	height: 100%;
+	height: calc(100% - 96px);
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -27,6 +30,7 @@ const TechWarning = styled.h3`
 	padding: 1rem;
 	border-radius: 16px;
 	text-align: center;
+	margin: 0;
 `;
 
 const Data = styled.div`
@@ -35,6 +39,7 @@ const Data = styled.div`
 	gap: 0.5rem 1rem;
 	align-items: center;
 	justify-content: center;
+	margin-top: 8px;
 
 	span {
 		white-space: nowrap;
@@ -51,13 +56,14 @@ const NameInputs = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	padding-bottom: 75px;
 `;
 
-const NameRow = styled.div`
+const NameRow = styled.div<{ isRunner?: boolean }>`
 	display: flex;
 	margin: 1rem 0;
 	font-size: 2rem;
+	align-items: center;
+	${({ isRunner }) => (isRunner ? "font-weight: bold;" : "")}
 `;
 
 const HeadsetName = styled.span`
@@ -71,6 +77,30 @@ const HeadsetName = styled.span`
 	text-align: center;
 `;
 
+const RunnerPronouns = styled.div`
+	margin-left: 8px;
+	font-size: 1.5rem;
+	font-style: italic;
+`;
+
+const RunnerTwitch = styled.div`
+	display: flex;
+	align-items: center;
+	margin-left: 48px;
+`;
+
+const TwitchImg = styled.img`
+	height: 2rem;
+	width: auto;
+	margin-right: 8px;
+`;
+
+const EditButton = styled(Button)`
+	margin-left: 32px !important;
+`;
+
+const AddCommentatorButton = styled(Button)``;
+
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
@@ -81,8 +111,8 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 		namespace: "nodecg-speedcontrol",
 	});
 	const [commentatorsRep] = useReplicant<Commentator[]>("commentators", []);
-	const [isEditUserOpen, setIsEditUserOpen] = useState(true);
-	const [_dialogRunner, setDialogRunner] = useState<Commentator | undefined>(undefined);
+	const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+	const [dialogRunner, setDialogRunner] = useState<Commentator | undefined>(undefined);
 
 	const commentators: Commentator[] = [
 		...(runDataActiveRep?.teams ?? []).flatMap((team) =>
@@ -94,6 +124,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 					twitch: player.social.twitch,
 					teamId: player.teamID,
 					isRunner: true,
+					microphone: player.customData.microphone,
 				};
 			}),
 		),
@@ -104,13 +135,14 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 		setIsEditUserOpen(false);
 	}
 
-	function openEditUserDialog(username?: string) {
-		setDialogRunner(getRunnerData(username));
+	function openEditUserDialog(id?: string) {
+		setDialogRunner(getRunnerData(id));
 		setIsEditUserOpen(true);
 	}
 
-	function getRunnerData(username?: string): Commentator {
-		if (!username)
+	function getRunnerData(id?: string): Commentator {
+		console.log(id);
+		if (!id) {
 			return {
 				id: "",
 				name: "",
@@ -118,8 +150,30 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				teamId: "",
 				twitch: "",
 			};
+		}
 
-		// See if runner is on couch
+		const runnerIndex =
+			runDataActiveRep?.teams.flatMap((team) => team.players).findIndex((runners) => runners.id === id) ?? -1;
+
+		if (runnerIndex !== -1) {
+			const runner = runDataActiveRep?.teams.flatMap((team) => team.players)[runnerIndex];
+			return {
+				id: runner?.id ?? `runner-0${runnerIndex}`,
+				name: runner?.name ?? "Unknown Runner",
+				pronouns: runner?.pronouns,
+				isRunner: true,
+				microphone: runner?.customData.microphone,
+				teamId: runner?.teamID,
+				twitch: runner?.social.twitch,
+			};
+		}
+
+		const commentatorIndex = commentators.findIndex((commentator) => commentator.id === id) ?? -1;
+		console.log(commentatorIndex);
+		if (commentatorIndex !== -1) {
+			return commentators[commentatorIndex];
+		}
+
 		return {
 			id: "",
 			name: "",
@@ -167,17 +221,27 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 			<NameInputs>
 				{commentators.map((commentator) => {
 					return (
-						<NameRow key={commentator.id}>
+						<NameRow isRunner={commentator.isRunner} key={commentator.id}>
 							{commentator.microphone && commentatorHeadset(commentator.microphone)}
 							{commentator.name}
-							{commentator.pronouns && `[${commentator.pronouns}]`}
-							{commentator.twitch}
-							<button onClick={() => openEditUserDialog(commentator.name)}>Edit</button>
+							{commentator.pronouns && <RunnerPronouns>[{commentator.pronouns}]</RunnerPronouns>}
+							{commentator.twitch && commentator.isRunner && (
+								<RunnerTwitch>
+									<TwitchImg src={TwitchSVG} />
+									{commentator.twitch}
+								</RunnerTwitch>
+							)}
+							<EditButton variant="outlined" onClick={() => openEditUserDialog(commentator.id)}>
+								Edit
+							</EditButton>
 						</NameRow>
 					);
 				})}
 			</NameInputs>
-			<EditUserDialog open={isEditUserOpen} onClose={handleDialogCancel} />
+			<AddCommentatorButton variant="contained" onClick={() => openEditUserDialog()}>
+				Add Commentator
+			</AddCommentatorButton>
+			<EditUserDialog open={isEditUserOpen} onClose={handleDialogCancel} commentator={dialogRunner} />
 		</RTNamesContainer>
 	);
 };

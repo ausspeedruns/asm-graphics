@@ -66,9 +66,8 @@ x32.on("meters", (meters) => {
 });
 
 function updateAudioIndicator(float: number, mic: (typeof MICROPHONE_CHANNELS)[number]) {
+	// console.log(`${mic} ${X32.floatToDB(float)} ${X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75)} ${X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75) >= microphoneGate2Rep.value}`);
 	const active = X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75) >= microphoneGate2Rep.value;
-	// console.log(`${mic.name}: ${float} ${microphoneGate2Rep.value} ${X32.floatToDB(float) + X32.floatToDB((faderValues[0]?.[mic.channel] ?? 0.75))} ${active}`);
-	// console.log(typeof x32AudioActivityRep.value, x32AudioActivityRep.value)
 	x32AudioActivityRep.value[mic.name] = active;
 }
 
@@ -201,7 +200,9 @@ nodecg.listenFor("x32:setFader", (data) => {
 });
 
 SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
-	if (newVal?.id !== oldVal?.id) {
+	if (!newVal || !oldVal) return;
+
+	if (newVal.id !== oldVal.id) {
 		// Must be a new run
 
 		let headsetIndex = 0;

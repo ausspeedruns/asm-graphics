@@ -100,7 +100,7 @@ export const StandardVertical = forwardRef<OverlayRef, OverlayProps>((props, ref
 					height={460}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
-					audioIndicator={props.obsAudioIndicator}
+					audioIndicator={props.microphoneAudioIndicator}
 					verticalCoop
 				/>
 				<InfoBoxBG>
@@ -112,7 +112,7 @@ export const StandardVertical = forwardRef<OverlayRef, OverlayProps>((props, ref
 						style={{ zIndex: 3, paddingTop: 32, transform: "scale(1.2)" }}
 						commentators={props.commentators}
 						host={props.host}
-						audio={props.obsAudioIndicator}
+						audio={props.microphoneAudioIndicator}
 					/>
 				</InfoBoxBG>
 			</Sidebar>

@@ -78,7 +78,7 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: "100%" }}>
 				<RunInfo.GameTitle
 					maxWidth={styles.maxTextWidth!}
-					game={props.runData?.game || ""}
+					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
 					style={{ fontSize: styles.gameTitleSize, lineHeight: `${styles.gameTitleSize}px` }}
 				/>
 				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>

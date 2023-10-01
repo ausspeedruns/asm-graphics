@@ -8,7 +8,8 @@ import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import GBABG from "../media/ASM23/gba.png";
+// import GBABG from "../media/ASM23/gba.png";
+import { PAX23Grunge, PAX23Rainbow } from "../elements/event-specific/pax-23/pax23";
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -52,6 +53,9 @@ const customVerticalStyle: IVerticalStyling = {
 	maxTextWidth: 360,
 	gameTitleSize: 35,
 	timerSize: 60,
+	mainStyle: {
+		height: 310,
+	},
 };
 
 export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
@@ -70,22 +74,25 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					height={352}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
-					audioIndicator={props.obsAudioIndicator}
+					audioIndicator={props.microphoneAudioIndicator}
 				/>
 				<InfoBoxBG>
-					<img
+					{/* <img
 						src={GBABG}
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
-					/>
+					/> */}
+					<PAX23Grunge size="200%" />
+					<PAX23Rainbow style={{ height: 1, width: "100%", zIndex: 2, position: "absolute" }} />
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
-					<Couch commentators={props.commentators} host={props.host} audio={props.obsAudioIndicator} />
+					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
 					<SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}
 						sponsorStyle={SponsorsStyled}
 						tweetStyle={TwitterSize}
 					/>
+					<PAX23Rainbow style={{ height: 16, width: "100%", zIndex: 2 }} />
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>

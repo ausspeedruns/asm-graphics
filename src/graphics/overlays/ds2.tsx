@@ -61,7 +61,7 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 	return (
 		<DS2Container>
 			<Sidebar>
-				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.obsAudioIndicator} />
+				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 
 				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
 				<RaceFinish style={{ top: 276, left: 960 }} time={teamData[1].time} place={teamData[1].place} />

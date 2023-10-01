@@ -1,18 +1,23 @@
 import { createRoot } from "react-dom/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useListenFor, useReplicant } from "use-nodecg";
+import { ThemeProvider, createTheme } from "@mui/material";
+import usePrevious from "../hooks/usePrevious";
 
 // import type { Timer } from '@asm-graphics/types/Timer';
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 import { RTAudio } from "./dashboards/runner-tablet/audio";
 import { RTNames } from "./dashboards/runner-tablet/names";
+import { RTSelection } from "./dashboards/runner-tablet/headset-selection";
+import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 
 const NavBar = styled.div`
 	width: 100%;
 	height: 10vh;
 	background: var(--orange-500);
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
 `;
 
 interface NavBarButtonProps {
@@ -60,14 +65,32 @@ const Body = styled.div`
 const TABS = {
 	NAMES: "names",
 	AUDIO: "audio",
+	HEADSET_SELECTION: "headset_selection",
 } as const;
+
+const RunnerTabletTheme = createTheme({
+	palette: {
+		mode: "light",
+		primary: {
+			main: "#cc7722",
+		},
+		secondary: {
+			main: "#010923",
+		},
+	},
+});
 
 type ObjectValues<T> = T[keyof T];
 
 type TabsValues = ObjectValues<typeof TABS>;
 
 const RunnerTablet: React.FC = () => {
-	const [tab, setTab] = useState<TabsValues>("names");
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
+		namespace: "nodecg-speedcontrol",
+	});
+	const previousDataActive = usePrevious(runDataActiveRep);
+
+	const [tab, setTab] = useState<TabsValues>(TABS.HEADSET_SELECTION);
 	const [host] = useReplicant<Commentator | undefined>("host", undefined);
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 
@@ -80,6 +103,9 @@ const RunnerTablet: React.FC = () => {
 			break;
 		case "audio":
 			currentTabBody = <RTAudio />;
+			break;
+		case "headset_selection":
+			currentTabBody = <RTSelection close={() => setTab("names")} />;
 			break;
 		default:
 			break;
@@ -104,29 +130,45 @@ const RunnerTablet: React.FC = () => {
 		buttonText = "INTERMISSION";
 	}
 
-	return (
-		<div style={{ height: "100%", width: "100%", fontFamily: "sans-serif" }}>
-			<NavBar>
-				<NavBarButton onClick={() => setTab("names")} active={tab === "names"}>
-					Names
-				</NavBarButton>
-				<NavBarButton onClick={() => setTab("audio")} active={tab === "audio"}>
-					Audio
-				</NavBarButton>
+	useEffect(() => {
+		if (!previousDataActive || !runDataActiveRep) return;
 
-				<RightSide>
-					<HostName>
-						<span>Host</span>
-						<br />
-						{host?.name}
-						<br />
-						{host?.pronouns}
-					</HostName>
-					<ReadyButton style={{ background: live ? "#0066ff" : "#ff0000" }}>{buttonText}</ReadyButton>
-				</RightSide>
-			</NavBar>
-			<Body>{currentTabBody}</Body>
-		</div>
+		if (runDataActiveRep.id !== previousDataActive.id)
+		{
+			setTab(TABS.HEADSET_SELECTION);
+		}
+	}, [previousDataActive, runDataActiveRep]);
+
+	function fullscreen()
+	{
+		document.documentElement.requestFullscreen();
+	}
+
+	return (
+		<ThemeProvider theme={RunnerTabletTheme}>
+			<div style={{ height: "100%", width: "100%", fontFamily: "sans-serif" }}>
+				<NavBar style={{ display: tab === TABS.HEADSET_SELECTION ? "none" : "" }}>
+					<NavBarButton onClick={() => setTab("names")} active={tab === "names"}>
+						Names
+					</NavBarButton>
+					<NavBarButton onClick={() => setTab("audio")} active={tab === "audio"}>
+						Audio
+					</NavBarButton>
+
+					<RightSide>
+						<HostName>
+							<span>Host</span>
+							<br />
+							{host?.name}
+							<br />
+							{host?.pronouns}
+						</HostName>
+						<ReadyButton onClick={fullscreen} style={{ background: live ? "#0066ff" : "#ff0000" }}>{buttonText}</ReadyButton>
+					</RightSide>
+				</NavBar>
+				<Body style={{ height: tab === TABS.HEADSET_SELECTION ? "100vh" : "" }}>{currentTabBody}</Body>
+			</div>
+		</ThemeProvider>
 	);
 };
 

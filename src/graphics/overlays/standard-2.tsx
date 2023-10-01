@@ -10,9 +10,10 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
+import { PAX23Grunge, PAX23Rainbow, PAX23Stripe } from "../elements/event-specific/pax-23/pax23";
 
-import StandardLeft from "../media/ASM23/standard-2-left.png";
-import StandardRight from "../media/ASM23/standard-2-right.png";
+// import StandardLeft from "../media/ASM23/standard-2-left.png";
+// import StandardRight from "../media/ASM23/standard-2-right.png";
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -24,7 +25,7 @@ const Topbar = styled.div`
 	position: absolute;
 	height: 295px;
 	width: 1920px;
-	border-bottom: 1px solid var(--asm-orange);
+	border-bottom: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
@@ -64,14 +65,14 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 296px;
 	left: 959px;
-	background: var(--asm-orange);
+	background: var(--sec);
 `;
 
 const customSmallStyling: ISmallStyling = {
 	categoryWidth: 260,
-	timerStackHeight: 148,
-	lowerStackHeight: 148,
-	gameNameBottomMargin: -40,
+	timerStackHeight: 100,
+	lowerStackHeight: 100,
+	// gameNameBottomMargin: -40,
 	mainStyle: {
 		height: "100%",
 		width: "100%",
@@ -107,10 +108,11 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		<Standard2Container>
 			<Topbar>
 				<LeftBox>
-					<img
+					{/* <img
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 						src={StandardLeft}
-					/>
+					/> */}
+					<PAX23Grunge size="200%" />
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -134,21 +136,23 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					width={586}
 					maxNameWidth={190}
 					style={{
-						borderRight: "1px solid var(--asm-orange)",
-						borderLeft: "1px solid var(--asm-orange)",
+						borderRight: "1px solid var(--sec)",
+						borderLeft: "1px solid var(--sec)",
 					}}
 					teams={props.runData?.teams}
-					audioIndicator={props.obsAudioIndicator}
+					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<RaceFinish style={{ top: 220, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
-				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
+				<RaceFinish style={{ top: 219, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
+				<RaceFinish style={{ top: 219, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<RightBox>
-					<img
+					{/* <img
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 						src={StandardRight}
-					/>
+					/> */}
+					<PAX23Stripe style={{position: "absolute", transform: "rotate(-90deg) scaleY(0.6)", left: -151}} />
+					<PAX23Grunge size="200%" />
 					<div
 						style={{
 							display: "flex",
@@ -160,7 +164,7 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							commentators={props.commentators}
 							host={props.host}
 							style={{ width: "30%", zIndex: 3 }}
-							audio={props.obsAudioIndicator}
+							audio={props.microphoneAudioIndicator}
 						/>
 						<SponsorsBox
 							ref={sponsorRef}
@@ -172,6 +176,7 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					</div>
 				</RightBox>
 			</Topbar>
+			<PAX23Rainbow style={{ position: "absolute", height: 1, width: 1920, top: 295 }} />
 			<CentralDivider />
 		</Standard2Container>
 	);

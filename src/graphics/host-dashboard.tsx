@@ -5,7 +5,6 @@ import { useListenFor, useReplicant } from "use-nodecg";
 
 import {
 	Paper,
-	Grid,
 	IconButton,
 	Button,
 	Dialog,
@@ -19,6 +18,8 @@ import { Close, Refresh } from "@mui/icons-material";
 import Draggable from "react-draggable";
 import format from "date-fns/format";
 
+import type { Donation } from "@asm-graphics/types/Donations";
+
 import { Header } from "./dashboards/header";
 import { Donations } from "./dashboards/donations";
 import { Upcoming } from "./dashboards/upcoming";
@@ -26,14 +27,16 @@ import { Incentives } from "./dashboards/incentives";
 import { ManualDonations } from "./dashboards/manual-donations";
 import { Timer } from "./dashboards/timer";
 import { HostName } from "./dashboards/host-name";
-import { Donation } from "@asm-graphics/types/Donations";
+import { DonationMatches } from "./dashboards/donation-matches";
 
 const nodecgConfig = nodecg.bundleConfig;
 const TWITCHPARENTS = nodecgConfig.twitch.parents;
 
 const HostDashContainer = styled.div`
 	height: 100vh;
-	font-family: Noto Sans, sans-serif;
+	font-family:
+		Noto Sans,
+		sans-serif;
 `;
 
 const TopBar = styled.div`
@@ -150,10 +153,12 @@ export const HostDash: React.FC = () => {
 	return (
 		<HostDashContainer>
 			<TopBar>
-				<span onClick={() => {
-					setTimeFormat(!timeFormat);
-					setCurrentTime(new Date().toLocaleTimeString(!timeFormat ? "en-AU" : "en-GB"));
-				}} style={{ cursor: "pointer", width: 500 }}>
+				<span
+					onClick={() => {
+						setTimeFormat(!timeFormat);
+						setCurrentTime(new Date().toLocaleTimeString(!timeFormat ? "en-AU" : "en-GB"));
+					}}
+					style={{ cursor: "pointer", width: 500 }}>
 					{currentTime}
 				</span>
 				<span onClick={showDialog} style={{ cursor: "pointer", width: 500, textAlign: "center" }}>
@@ -166,23 +171,32 @@ export const HostDash: React.FC = () => {
 				</span>
 			</TopBar>
 			{/* , height: 926  */}
-			<Grid
-				container
-				justifyContent="space-around"
-				style={{ background: "#ececec", height: "calc(100% - 60px)" }}>
-				<Grid
-					item
-					container
-					justifyContent="space-around"
-					direction="column"
-					xs
-					gap={1}
-					style={{ padding: 8, height: "100%" }}>
-					<Paper style={{ flexGrow: 1, overflowY: "auto", overflowX: "hidden" }}>
+			<div
+				style={{
+					display: "flex",
+					gap: 8,
+					background: "#ececec",
+					height: "calc(100% - 76px)",
+					boxSizing: "border-box",
+				}}>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						padding: 8,
+						gap: 8,
+						height: "100%",
+						flexBasis: "33%",
+					}}>
+					<Paper style={{ overflowY: "auto", overflowX: "hidden", minHeight: 160 }}>
 						<Header text="Your Name :)" />
 						<HostName />
 					</Paper>
-					<Paper style={{ overflowY: "auto", overflowX: "hidden", maxHeight: "82%" }}>
+					<Paper style={{ overflowY: "auto", overflowX: "hidden" }}>
+						<Header text="Donation Matches" />
+						<DonationMatches style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
+					</Paper>
+					<Paper style={{ flexShrink: 1.5, overflowY: "auto", overflowX: "hidden" }}>
 						<Header
 							text={`Incentives – Last Updated: ${
 								incentivesUpdatedRep ? format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"
@@ -194,15 +208,16 @@ export const HostDash: React.FC = () => {
 						</Header>
 						<Incentives style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
 					</Paper>
-				</Grid>
-				<Grid
-					item
-					container
-					justifyContent="space-around"
-					wrap="nowrap"
-					direction="column"
-					xs
-					style={{ padding: 8, gap: 8, height: "100%" }}>
+				</div>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						padding: 8,
+						gap: 8,
+						height: "100%",
+						flexBasis: "33%",
+					}}>
 					<TotalBox>${(donationTotalRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
 					<Paper style={{ overflow: "hidden", height: 300, minHeight: 300 }}>
 						<Timer />
@@ -224,14 +239,16 @@ export const HostDash: React.FC = () => {
 						/>
 						<Donations />
 					</Paper>
-				</Grid>
-				<Grid
-					item
-					container
-					justifyContent="space-around"
-					direction="column"
-					xs
-					style={{ padding: 8, height: "100%" }}>
+				</div>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						padding: 8,
+						gap: 8,
+						height: "100%",
+						flexBasis: "33%",
+					}}>
 					<Paper style={{ height: "49%", overflow: "hidden" }}>
 						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASM2023/schedule" />
 						<Upcoming style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
@@ -240,8 +257,8 @@ export const HostDash: React.FC = () => {
 						<Header text={`Manual Donations $${(manualDonationRep ?? 0).toLocaleString()}`} />
 						<ManualDonations />
 					</Paper>
-				</Grid>
-			</Grid>
+				</div>
+			</div>
 			{showStream && (
 				<Draggable defaultPosition={{ x: 25, y: -900 }}>
 					<TwitchFloating>

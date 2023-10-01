@@ -37,7 +37,7 @@ const Time = styled.div`
 	align-items: center;
 	justify-content: center;
 	color: var(--text-dark);
-	background: #ffffff;
+	background: var(--sec);
 	text-align: center;
 `;
 
@@ -57,7 +57,7 @@ const InfoBlock = styled.div`
 
 const GameTitle = styled(FitText)`
 	font-size: 27px;
-	/* font-weight: bold; */
+	font-weight: bold;
 	max-width: 95%;
 	font-family: var(--secondary-font);
 `;
@@ -77,8 +77,8 @@ const Category = styled(FitText)`
 	text-transform: uppercase;
 `;
 
-const System = styled.span`
-	/* max-width: 50%; */
+const System = styled(FitText)`
+	max-width: 50%;
 	/* flex-grow: 1; */
 	font-size: 20px;
 `;
@@ -131,16 +131,16 @@ export const InterNextRunItem = (props: Props) => {
 					Up Next – {time}
 				</Time>
 				<InfoBlock style={{ width: "100%" }}>
-					<GameTitle style={{ fontSize: 40 }} text={props.run.game || ""} />
-					<Category style={{ fontSize: 32, maxWidth: 350 }} text={props.run.category || ""} />
+					<GameTitle style={{ fontSize: 40 }} text={props.run.game ?? ""} />
+					<Category style={{ fontSize: 32, maxWidth: 350 }} text={props.run.category ?? ""} />
 					<TopText>
 						<span style={{ fontSize: 32, minWidth: 143, textAlign: "right", maxWidth: "50%" }}>
 							<span style={{ fontSize: 20 }}>EST </span>
 							{correctedEstimate}
 						</span>
-						<System style={{ fontSize: 32 }}>{props.run.system}</System>
+						<System style={{ fontSize: 32 }} text={props.run.system ?? ""} />
 					</TopText>
-					<Runners style={{ fontSize: 36 }} text={playerNames || ""} />
+					<Runners style={{ fontSize: 36 }} text={playerNames ?? ""} />
 				</InfoBlock>
 			</InterNextRunItemContainer>
 		);
@@ -149,9 +149,9 @@ export const InterNextRunItem = (props: Props) => {
 			<InterFutureRunItemContainer>
 				<Time>{time}</Time>
 				<InfoBlock>
-					<GameTitle text={props.run.game || ""} />
+					<GameTitle text={props.run.game ?? ""} />
 					<FutureRunsEstRow>
-						<Category text={props.run.category?.toUpperCase() || ""} />
+						<Category text={props.run.category?.toUpperCase() ?? ""} />
 						<span style={{ fontSize: 27, minWidth: 130, textAlign: "right", maxWidth: "50%" }}>
 							<span style={{ fontSize: 14 }}>EST </span>
 							{correctedEstimate}
@@ -159,8 +159,8 @@ export const InterNextRunItem = (props: Props) => {
 					</FutureRunsEstRow>
 
 					<TopText>
-						<System>{props.run.system}</System>
-						<Runners text={playerNames || ""} />
+						<System text={props.run.system ?? ""} />
+						<Runners text={playerNames ?? ""} />
 					</TopText>
 				</InfoBlock>
 			</InterFutureRunItemContainer>

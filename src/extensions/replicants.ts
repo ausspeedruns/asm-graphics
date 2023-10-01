@@ -1,7 +1,7 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
-import type { Donation } from "@asm-graphics/types/Donations";
+import type { Donation, DonationMatch } from "@asm-graphics/types/Donations";
 import type { Goal, War } from "@asm-graphics/types/Incentives";
 import type { Stream } from "@asm-graphics/types/Streams";
 import type { CurrentOverlay } from "@asm-graphics/types/CurrentOverlay";
@@ -16,19 +16,22 @@ const nodecg = nodecgApiContext.get();
 nodecg.log.info("Setting up replicants");
 
 /* Commentators/Host */
-export const commentatorsRep = nodecg.Replicant<Commentator[]>("commentators", { defaultValue: [] });
+export const commentatorsRep = nodecg.Replicant<Commentator[]>("commentators", { defaultValue: [], persistent: true });
 export const hostRep = nodecg.Replicant<Commentator>("host", {
 	defaultValue: {
 		id: "host",
 		name: "",
-	}
+	},
+	persistent: true ,
 });
+export const headsetsUsed = nodecg.Replicant<Record<string, number>>("headsets-used", { defaultValue: {}, persistent: true });
 
 /* Donations */
 export const donationTotalRep = nodecg.Replicant<number>("donationTotal", { defaultValue: 0 });
 export const donationsRep = nodecg.Replicant<Donation[]>("donations", { defaultValue: [] });
 export const manualDonationsRep = nodecg.Replicant<Donation[]>("manual-donations", { defaultValue: [] });
 export const manualDonationTotalRep = nodecg.Replicant<number>("manual-donation-total", { defaultValue: 0 });
+export const donationMatchesRep = nodecg.Replicant<DonationMatch[]>("donation-matches", { defaultValue: [] });
 
 /* Audio Shared */
 export const microphoneGateRep = nodecg.Replicant<number>("obs-audio-gate", { defaultValue: -10 });

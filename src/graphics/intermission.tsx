@@ -5,32 +5,29 @@ import clone from "clone";
 import { useListenFor, useReplicant } from "use-nodecg";
 import gsap from "gsap";
 import { format } from "date-fns";
+import _ from "underscore";
+// @ts-ignore
+import Twemoji from "react-twemoji";
 
-import { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
-import { Tweet as ITweet } from "@asm-graphics/types/Twitter";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { Tweet as ITweet } from "@asm-graphics/types/Twitter";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type NodeCG from "@nodecg/types";
+import type { Goal, War } from "@asm-graphics/types/Incentives";
 
 import { InterCTA } from "./elements/intermission/cta";
-import { InterIncentives } from "./elements/intermission/incentives";
+import { InterIncentivesMemo } from "./elements/intermission/incentives";
 import { InterIncentivesFallback } from "./elements/intermission/incentives-fallback";
 import { InterNextRunItem, EndRunItem } from "./elements/intermission/next-run-item";
 import Mic from "@mui/icons-material/Mic";
 
-// import { SponsorsBox } from './elements/sponsors';
-import { Goal, War } from "@asm-graphics/types/Incentives";
-
-// @ts-ignore
-import Twemoji from "react-twemoji";
-import _ from "underscore";
-
 // Assets
 import MusicIconImg from "./media/MusicIcon.svg";
-import ASM23Right from "./media/ASM23/intermission-right.png";
-import ASM23Left from "./media/ASM23/intermission-left.png";
-import EventLogo from "./media/ASM23/logo.png";
 import { Sponsors } from "./elements/sponsors";
 import { IntermissionAds, IntermissionAdsRef } from "./elements/intermission/ad";
+
+import IntermissionLogo from "./elements/event-specific/pax-23/intermission-logo.svg";
+import { PAX23Rainbow, PAX23Grunge, PAX23Stripe } from "./elements/event-specific/pax-23/pax23";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -107,7 +104,7 @@ const IncentiveBlock = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	clip-path: path("M 120 0 V 120 H 80 V 200 H 880 V 120 H 840 V 0 Z");
+	/* clip-path: path("M 120 0 V 120 H 80 V 200 H 880 V 120 H 840 V 0 Z"); */
 	/* clip-path: path('M 120 0 V 40 H 80 V 80 H 40 V 200 H 920 V 80 H 880 V 40 H 840 V 0 Z'); */
 `;
 
@@ -118,7 +115,7 @@ const MiddleContent = styled.div`
 	align-items: center;
 	z-index: 10;
 	position: absolute;
-	top: 599px;
+	top: 640px;
 	width: 100%;
 `;
 
@@ -138,10 +135,11 @@ const BottomBlock = styled.div`
 `;
 
 const Time = styled.span`
-	font-weight: bold;
-	font-size: 38px;
-	color: var(--text-light);
-	margin-bottom: 11px;
+	font-weight: 900;
+	font-size: 50px;
+	/* color: var(--text-light); */
+	color: var(--pax23-accent);
+	margin-bottom: 0px;
 	z-index: 1;
 	font-family: var(--mono-font);
 `;
@@ -152,12 +150,13 @@ const HostName = styled.div`
 	display: flex;
 	align-items: center;
 	font-family: var(--secondary-font);
+	font-weight: bold;
 `;
 
 const HostPronoun = styled.span`
 	font-size: 20px;
 	font-weight: 400;
-	color: #000000;
+	color: var(--text-dark);
 	text-transform: uppercase;
 	margin-left: 8px;
 	background: var(--sec);
@@ -165,6 +164,7 @@ const HostPronoun = styled.span`
 	padding: 0 4px;
 	line-height: 28px;
 	font-family: var(--main-font);
+	font-weight: bold;
 `;
 
 const MUSIC_WIDTH = 400;
@@ -227,6 +227,7 @@ const LocationBug = styled.div`
 	bottom: 0px;
 	width: 100%;
 	box-sizing: border-box;
+	background: var(--main);
 `;
 
 const CameraBox = styled.div`
@@ -406,20 +407,22 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 		<IntermissionContainer>
 			{/* <ClippedBackground>
 			</ClippedBackground> */}
-			<Half>
+			<Half style={{ borderRight: "1px solid var(--sec)" }}>
 				<IntermissionAds ref={adsRef} style={{ position: "absolute", left: 120, top: 40 }} />
 				<CameraBox />
-				<img style={{ position: "absolute", bottom: 0 }} src={ASM23Left} />
 				<LocationBug>
-					<img src={EventLogo} style={{ width: "auto", height: "80px" }} />
+					<img src={IntermissionLogo} style={{ position: "absolute", left: 0, height: "126%", bottom: 0 }} />
+					<div></div>
 					<div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-						<span style={{ fontWeight: "bold", marginBottom: -17 }}>Adelaide</span>
-						<span>South Australia</span>
+						<span style={{ fontWeight: "bold", marginBottom: -17 }}>Melbourne</span>
+						<span>Victoria</span>
 					</div>
 				</LocationBug>
 			</Half>
-			<Half style={{ background: "var(--main)" }}>
-				<img style={{ position: "absolute" }} src={ASM23Right} />
+			<Half style={{ background: "var(--main)", borderLeft: "1px solid var(--sec)" }}>
+				{/* <img style={{ position: "absolute" }} src={ASM23Right} /> */}
+				<PAX23Stripe style={{ position: "absolute", right: -86, transform: "rotate(90deg) scaleX(4.5)" }} />
+				<PAX23Grunge size="100%" />
 				<NextRuns>
 					<Time>{currentTime}</Time>
 					<RunsList>
@@ -427,13 +430,13 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						<FutureRuns>{RunsArray}</FutureRuns>
 					</RunsList>
 				</NextRuns>
-				<InterCTA donation={props.donation} style={{ zIndex: 1, position: "absolute", top: 336 }} />
+				<InterCTA donation={props.donation} style={{ zIndex: 1, position: "absolute", top: 380 }} />
 				<MiddleContent>
 					<IncentiveBlock>
 						{props.incentives && props.incentives.length > 0 ? (
-							<InterIncentives incentives={props.incentives} asmm={props.asmm} />
+							<InterIncentivesMemo incentives={props.incentives} />
 						) : (
-							<InterIncentivesFallback asmm={props.asmm} />
+							<InterIncentivesFallback />
 						)}
 					</IncentiveBlock>
 				</MiddleContent>
@@ -445,8 +448,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						alignItems: "center",
 						position: "absolute",
 						bottom: 100,
-					}}
-				>
+					}}>
 					<Sponsors sponsors={sponsorsRep} style={{ width: 600, height: 160 }} />
 				</div>
 				<BottomBlock ref={bottomBlockRef}>
@@ -464,8 +466,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							autoPlay
 							preload="auto"
 							muted={props.muted}
-							ref={audioRef}
-						>
+							ref={audioRef}>
 							<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 						</audio>
 						<div style={{ display: "flex" }}>
@@ -484,6 +485,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						</div>
 					</Music>
 				</BottomBlock>
+				<PAX23Rainbow style={{ height: 16, width: "100%", position: "absolute", bottom: 0 }} />
 			</Half>
 		</IntermissionContainer>
 	);

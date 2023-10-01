@@ -7,8 +7,9 @@ import { IVerticalStyling, VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
+import { PAX23Grunge, PAX23Rainbow } from "../elements/event-specific/pax-23/pax23";
 
-import StandardBG from "../media/ASM23/standard.png";
+// import StandardBG from "../media/ASM23/standard.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -19,7 +20,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: 565px;
-	border-right: 1px solid var(--asm-orange);
+	border-right: 1px solid var(--accent);
 	overflow: hidden;
 `;
 
@@ -37,7 +38,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 	/* width: 65%; */
 	/* height: 264px; */
 	flex-grow: 1;
-	margin-top: -70px;
+	/* margin-top: -70px; */
 `;
 
 const SponsorsSize = {
@@ -84,22 +85,30 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					height={352}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
-					audioIndicator={props.obsAudioIndicator}
+					audioIndicator={props.microphoneAudioIndicator}
 					verticalCoop
 				/>
 				<InfoBoxBG>
-					<img
+					{/* <img
 						src={StandardBG}
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
-					/>
+					/> */}
+					<PAX23Grunge size="200%" />
+					<PAX23Rainbow style={{ height: 1, width: "100%", zIndex: 2 }} />
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-					<Couch style={{ zIndex: 3 }} commentators={props.commentators} host={props.host} audio={props.obsAudioIndicator} />
+					<Couch
+						style={{ zIndex: 3 }}
+						commentators={props.commentators}
+						host={props.host}
+						audio={props.microphoneAudioIndicator}
+					/>
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}
 						sponsorStyle={SponsorsSize}
 						tweetStyle={TwitterSize}
 					/>
+					<PAX23Rainbow style={{ height: 16, width: "100%", zIndex: 2 }} />
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>

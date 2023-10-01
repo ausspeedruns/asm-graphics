@@ -1,14 +1,17 @@
 body {
 	margin: 0;
-	--main: #020824;
-	--main-lighter: #606060;
-	--nameplate: var(--asm-blue);
-	--nameplate-lighter: #6fa6b9;
-	--sec: #ffffff;
-	--accent: var(--asm-blue);
+	--main: var(--pax23-main);
+	--nameplate: var(--pax23-main);
+	--nameplate-lighter: var(--pax23-main-light);
+	--sec: var(--pax23-sec);
+	--accent: var(--pax23-sec);
 
 	--asm-orange: #cc7722;
 	--asm-blue: #437c90;
+	--asm-blue-light: #6fa6b9;
+
+	--asm-font: "Noto Sans";
+	--asm-secondary-font: "Russo One";
 
 	--text-light: var(--sec);
 	--text-dark: var(--main);
@@ -17,12 +20,23 @@ body {
 	--orange-600: #964a00;
 	--orange-500: #cc7722;
 
+	--pax23-main: #222721;
+	--pax23-sec: #d3cec2;
+	--pax23-accent: #be945f;
+	--pax23-main-light: #343933;
+	--pax23-red: #db2530;
+	--pax23-yellow: #f7b03b;
+	--pax23-blue: #007eb7;
+	--pax23-purple: #904b97;
+	--pax23-rainbow-bar: linear-gradient(90deg, var(--pax23-red) 0%, var(--pax23-red) 25%, var(--pax23-yellow) 25%, var(--pax23-yellow) 50%, var(--pax23-blue) 50%, var(--pax23-blue) 75%, var(--pax23-purple) 75%, var(--pax23-purple) 100%);
+	--pax23-font: "Inter";
+
 	--tgx-red: #f80023;
 	--tgx-yellow: #ffc300;
 	--tgx-blue: #007eff;
 	--tgx-green: #00c091;
 
-	--main-font: "Noto Sans";
-	--secondary-font: "Russo One";
-	--mono-font: "Noto Sans";
+	--main-font: var(--pax23-font);
+	--secondary-font: var(--pax23-font);
+	--mono-font: var(--pax23-font);
 }

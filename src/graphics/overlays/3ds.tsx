@@ -37,7 +37,7 @@ export const ThreeDS: React.FC<OverlayProps> = (props) => {
 					height={452}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
-					audioIndicator={props.obsAudioIndicator}
+					audioIndicator={props.microphoneAudioIndicator}
 				/>
 			</Sidebar>
 		</ThreeDSContainer>

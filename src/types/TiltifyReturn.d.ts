@@ -90,3 +90,24 @@ export interface Metadata {
 	before?: string;
 	limit: number;
 }
+
+export interface TiltifyDonationMatchReturn {
+	data: Datum[];
+	metadata: Metadata;
+}
+
+export interface Datum {
+	active: boolean;
+	amount: Amount;
+	completed_at: Date;
+	donation_id: string;
+	ends_at: Date;
+	id: string;
+	inserted_at: Date;
+	matched_by: string;
+	pledged_amount: Amount;
+	started_at_amount: Amount;
+	starts_at: Date;
+	total_amount_raised: Amount;
+	updated_at: Date;
+}

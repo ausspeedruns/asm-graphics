@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Commentator } from "@asm-graphics/types/OverlayProps";
-import { AudioIndicator } from "@asm-graphics/types/Audio";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { AudioIndicator } from "@asm-graphics/types/Audio";
+
+import { PAX23_COLOURS } from "./event-specific/pax-23/pax23";
 
 const CouchContainer = styled.div`
 	font-family: var(--main-font);
@@ -27,6 +29,10 @@ const PeopleContainer = styled.div`
 	justify-content: center;
 `;
 
+function indexToColour(index: number) {
+	return PAX23_COLOURS[index % PAX23_COLOURS.length];
+}
+
 interface Props {
 	commentators: Commentator[];
 	host?: Commentator;
@@ -39,8 +45,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 	if (props.commentators.length === 0 && !props.host) return <></>;
 
 	let label = "";
-	if (props.commentators.length > 1)
-	{
+	if (props.commentators.length > 1) {
 		label = "Commentators";
 	} else if (props.commentators.length == 1) {
 		label = "Commentator";
@@ -54,20 +59,29 @@ export const Couch: React.FC<Props> = (props: Props) => {
 				<div style={{ margin: "0 6px" }}>{label}</div>
 			</MenuBar>
 			<PeopleContainer>
-				{props.commentators.map((person) => {
+				{props.commentators.map((person, index) => {
 					// console.log(props.audio?.[person.microphone ?? '']);
 					if (person.name === "") {
 						return <></>;
 					}
 					return (
 						<PersonCompressed
-							key={person.name}
+							key={person.id}
 							commentator={person}
 							speaking={props.audio?.[person.microphone ?? ""]}
+							style={{...indexToColour(index)}}
 						/>
 					);
 				})}
-				{props.host && <PersonCompressed key={"Host"} commentator={props.host} speaking={props.audio?.["Host"]} host />}
+				{props.host && (
+					<PersonCompressed
+						key={"Host"}
+						commentator={props.host}
+						speaking={props.audio?.["Host"]}
+						host={label !== "Host"}
+						style={{...indexToColour(props.commentators.length)}}
+					/>
+				)}
 			</PeopleContainer>
 		</CouchContainer>
 	);
@@ -84,15 +98,15 @@ const PersonCompressedContainer = styled.div`
 	position: relative;
 	background: var(--main);
 	padding: 8px;
-	border-radius: 8px;
-	border: 1px solid var(--accent);
+	/* border-radius: 8px; */
+	/* border: 1px solid var(--accent); */
 `;
 
 const SpeakingColour = styled.div<SpeakingProps>`
 	position: absolute;
 	top: 0;
 	left: 0;
-	border-radius: 8px;
+	/* border-radius: 8px; */
 	width: 100%;
 	height: 100%;
 	opacity: ${({ speaking }) => (speaking ? 1 : 0)};
@@ -123,11 +137,12 @@ interface PersonCompressedProps {
 	commentator: Commentator;
 	speaking?: boolean;
 	host?: boolean;
+	style?: React.CSSProperties;
 }
 
 export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 	return (
-		<PersonCompressedContainer>
+		<PersonCompressedContainer style={props.style}>
 			<SpeakingColour speaking={props.speaking} />
 			<Name>{props.commentator.name}</Name>
 			<Pronouns>

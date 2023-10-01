@@ -16,7 +16,7 @@ export interface OverlayProps {
 	preview?: boolean;
 	sponsors: NodeCG.AssetFile[];
 	audioIndicator?: string;
-	obsAudioIndicator?: AudioIndicator;
+	microphoneAudioIndicator?: AudioIndicator;
 }
 
 export type Commentator = {

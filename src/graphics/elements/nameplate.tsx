@@ -3,7 +3,7 @@ import styled from "styled-components";
 import gsap from "gsap";
 
 // @ts-ignore
-import TwitchLogo from "../media/TwitchGlitchPurple.svg";
+import TwitchLogo from "../media/TwitchWhite.svg";
 import { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 import { FitText } from "./fit-text";

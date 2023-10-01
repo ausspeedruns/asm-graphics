@@ -144,7 +144,7 @@ export const Widescreen3: React.FC<OverlayProps> = (props) => {
 							<NPIcon src={GameplayTR} key="TR" />,
 						]}
 						style={{ borderRight: "1px solid var(--sec)" }}
-						audioIndicator={props.obsAudioIndicator}
+						audioIndicator={props.microphoneAudioIndicator}
 					/>
 
 					<RaceFinish

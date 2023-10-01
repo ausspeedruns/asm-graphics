@@ -11,6 +11,9 @@ export type NodeCGMessages = {
 	"rename-couch": Commentator;
 	"remove-hostname": string;
 	"remove-preview-hostname": number;
+	"update-commentator": Commentator;
+	"delete-commentator": string;
+	"update-host": Commentator;
 	// Donations
 	"donations:toggleRead": string;
 	"manual-donations:toggleRead": string;

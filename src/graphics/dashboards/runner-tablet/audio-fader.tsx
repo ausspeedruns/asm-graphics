@@ -2,12 +2,11 @@ import { Slider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FitText } from "../../elements/fit-text";
+import { Headset } from "./headsets";
 
 const AudioFaderContainer = styled.div`
-	height: 100%;
-	width: 5rem;
-	min-width: 5rem;
-	max-width: 5rem;
+	height: 94%;
+	width: 140px;
 	display: flex;
 	flex-direction: column;
 	align-content: center;
@@ -21,7 +20,7 @@ const DBValue = styled.p`
 	margin-bottom: 1rem;
 `;
 
-const FaderLabel = styled(FitText)`
+const FaderLabel = styled.div`
 	text-align: center;
 	min-height: 2rem;
 	max-height: 2rem;
@@ -29,6 +28,9 @@ const FaderLabel = styled(FitText)`
 	margin: 0;
 	display: flex;
 	justify-content: center;
+	border-radius: 8px;
+	line-height: 2rem;
+	padding: 0 8px;
 `;
 
 const marks = [
@@ -99,6 +101,7 @@ interface Props {
 	value: number | undefined;
 	onChange: (value: number) => void;
 	colour?: string;
+	headset?: Headset;
 }
 
 export const AudioFader = (props: Props) => {
@@ -118,9 +121,11 @@ export const AudioFader = (props: Props) => {
 				style={{
 					fontStyle: props.label === "You" ? "italic" : "initial",
 					fontWeight: props.label === "MASTER" ? "bold" : "normal",
-				}}
-				text={props.label}
-			/>
+					color: props.label === "You" ? "" : props.headset?.textColour,
+					backgroundColor: props.label === "You" ? "" : props.headset?.colour,
+				}}>
+				<FitText style={{maxWidth: "100%"}} text={props.label} />
+			</FaderLabel>
 			<DBValue>
 				{dbVal > 0 && "+"}
 				{dbVal === Number.NEGATIVE_INFINITY ? "-∞" : dbVal.toFixed(1)}

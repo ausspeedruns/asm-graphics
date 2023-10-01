@@ -29,7 +29,7 @@ async function init() {
 		require("./obs-local");
 	}
 
-	require("./couch");
+	require("./commentators");
 
 	if (ncgConfig.twitter.enabled) {
 		require("./twitter");

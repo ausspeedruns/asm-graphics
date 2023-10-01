@@ -73,6 +73,7 @@ export const Estimate: React.FC<EstimateProps> = (props: EstimateProps) => {
 const GameContainer = styled(BaseStyle)`
 	font-family: var(--secondary-font);
 	font-size: 50px;
+	font-weight: 1000;
 `;
 
 interface GameProps {

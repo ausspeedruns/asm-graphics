@@ -53,9 +53,9 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 
 	return (
 		<TickerPrizesContainer ref={containerRef} className={props.className} style={props.style}>
-			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2 }}>
+			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2, background: "var(--pax23-purple)" }}>
 				<span>Prizes</span>
-				<span style={{ fontWeight: "lighter", fontSize: 16 }}>AUS Only</span>
+				<span style={{ fontSize: 16 }}>AUS Only</span>
 			</TickerTitle>
 			<div style={{ width: "100%", position: "relative" }}>
 				<PrizesScroller ref={prizesRef}>

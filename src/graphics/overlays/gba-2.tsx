@@ -137,7 +137,7 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						borderLeft: "1px solid var(--asm-orange)",
 					}}
 					teams={props.runData?.teams}
-					audioIndicator={props.obsAudioIndicator}
+					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
 				<RaceFinish style={{ top: 220, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
@@ -159,7 +159,7 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							commentators={props.commentators}
 							host={props.host}
 							style={{ width: "30%", zIndex: 3 }}
-							audio={props.obsAudioIndicator}
+							audio={props.microphoneAudioIndicator}
 						/>
 						<SponsorsBox
 							ref={sponsorRef}

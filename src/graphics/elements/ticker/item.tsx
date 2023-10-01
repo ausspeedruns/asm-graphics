@@ -16,12 +16,14 @@ const VerticalStack = styled.div`
 	justify-content: flex-start;
 	margin: 0 12px;
 	height: 100%;
+	margin-top: -6px;
 `;
 
 const Title = styled.span`
 	font-size: 28px;
 	white-space: nowrap;
 	margin-top: 3px;
+	font-weight: bold;
 `;
 
 const Subtitle = styled.span`

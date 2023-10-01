@@ -4,7 +4,7 @@ import styled from "styled-components";
 import GoCLogo from "../../media/Sponsors/GoCCCWhite.svg";
 
 const InterCTAContainer = styled.div`
-	height: 300px;
+	height: 260px;
 	width: 100%;
 	font-family: var(--secondary-font);
 	/* background: #ffffff; */
@@ -12,10 +12,11 @@ const InterCTAContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: 52px;
-	color: var(--text-light);
+	font-size: 58px;
+	/* color: var(--text-light); */
+	color: white;
 	/* border-bottom: 1px solid var(--sec); */
-	/* background: var(--sec); */
+	background: var(--pax23-accent);
 `;
 
 const Horizontal = styled.div`
@@ -30,6 +31,11 @@ const DonateText = styled.span`
 	text-transform: uppercase;
 	z-index: 2;
 	margin-top: -16px;
+	font-weight: 600;
+`;
+
+const DonateLink = styled.span`
+	font-weight: 900;
 `;
 
 const CharityLogo = styled.img`
@@ -64,7 +70,7 @@ export const InterCTA: React.FC<Props> = (props: Props) => {
 	return (
 		<InterCTAContainer className={props.className} style={props.style}>
 			<DonateText>
-				Donate at&nbsp;<b>ausspeedruns.com</b>
+				Donate at&nbsp;<DonateLink>ausspeedruns.com</DonateLink>
 			</DonateText>
 			<Horizontal>
 				<CharityLogo src={GoCLogo} />

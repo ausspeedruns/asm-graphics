@@ -104,7 +104,7 @@ const GoalBarContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	transform: translate(-1000px, 0);
-	padding: 0 150px;
+	padding: 0 50px;
 	box-sizing: border-box;
 `;
 
@@ -121,7 +121,7 @@ const IncentiveContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
 	/* margin-top: -10px; */
 	margin-bottom: 5px;
 	font-size: 30px;
@@ -207,7 +207,7 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 		animation: (tl) => {
 			// Start
 			tl.set(progressBarRef.current, { width: 0 }, "goalStart");
-			tl.set(containerRef.current, { x: -1000 }, "-=0.5");
+			tl.set(containerRef.current, { x: -2000 }, "-=0.5");
 			tl.to(containerRef.current, { x: 0, duration: 1 }, "-=0.5");
 
 			tl.to(
@@ -217,14 +217,14 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			);
 
 			// End
-			tl.to(containerRef.current, { x: 1000, duration: 1 }, "+=10");
-			tl.set(containerRef.current, { x: -1000, duration: 1 });
+			tl.to(containerRef.current, { x: 2000, duration: 1 }, "+=10");
+			tl.set(containerRef.current, { x: -2000, duration: 1 });
 
 			return tl;
 		},
 		reset: (tl) => {
 			tl.set(progressBarRef.current, { width: 0 });
-			tl.set(containerRef.current, { x: -1000 });
+			tl.set(containerRef.current, { x: -2000 });
 
 			return tl;
 		},

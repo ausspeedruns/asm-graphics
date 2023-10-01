@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
 
@@ -103,3 +103,5 @@ export const InterIncentives = (props: IncentivesProps) => {
 		</InterIncentivesContainer>
 	);
 };
+
+export const InterIncentivesMemo = memo(InterIncentives);

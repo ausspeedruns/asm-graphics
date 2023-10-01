@@ -27,6 +27,7 @@ const NextMilestone = styled.div`
 	justify-content: center;
 	height: 100%;
 	margin-right: 16px;
+	margin-top: -4px;
 `;
 
 const NextMilestoneEvent = styled.span`
@@ -43,7 +44,7 @@ const PrevMilestone = styled(NextMilestone)`
 	height: 100%;
 	display: flex;
 	align-items: center;
-	margin: 0 4px 0 8px;
+	margin: -4px 4px 0 8px;
 `;
 
 // Determines full size
@@ -51,14 +52,14 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid var(--text-light);
+	border: 1px solid var(--accent);
 	position: relative;
 	overflow: hidden;
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: #ffffff;
+	background: var(--accent);
 	border-right: 5px solid var(--accent);
 	display: flex;
 	align-items: center;
@@ -123,7 +124,7 @@ interface Props {
 }
 
 // Milestones to use for the events
-const MILESTONES = combineMilestones(ASM_MILESTONES);
+const MILESTONES = combineMilestones(PAX_MILESTONES);
 
 function combineMilestones(milestones: Milestone[]): Milestone[] {
 	// If the first array is empty, just return the second array.
@@ -151,7 +152,7 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 	const prevMilestone = prevMilestoneArray[prevMilestoneArray.length - 1];
 
 	const moneyDifference = props.currentTotal - prevMilestone.total;
-	
+
 	let showMilestones = true;
 	let goalDifference = 1;
 	let percentage = 100;
@@ -198,7 +199,7 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 
 	return (
 		<TickerMilestonesContainer ref={containerRef} style={{ transform: "translate(0px, 64px)" }}>
-			<TickerTitle>
+			<TickerTitle style={{ background: "var(--pax23-yellow)", color: "var(--text-dark)" }}>
 				Milestone
 				<br />
 				Progress

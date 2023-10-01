@@ -71,9 +71,11 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", []);
 	const [audioIndicatorRep] = useReplicant<string>("audio-indicator", "");
-	const [obsAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators", {});
+	const [microphoneAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators", {});
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
+
+	console.log();
 
 	const overlayArgs: OverlayProps = {
 		runData: displayingRun,
@@ -81,11 +83,11 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		commentators: commentatorsRep,
 		preview: props.preview,
 		sponsors: sponsorsRep,
-		obsAudioIndicator: obsAudioIndicatorRep,
+		microphoneAudioIndicator: microphoneAudioIndicatorRep,
 		host: hostRep,
 	};
 
-	// console.log(displayingRun)
+	console.log(microphoneAudioIndicatorRep);
 
 	const Overlays = [
 		{

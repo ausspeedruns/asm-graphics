@@ -17,7 +17,7 @@ const InterIncentWarsContainer = styled.div`
 	text-transform: uppercase;
 	color: var(--text-light);
 	font-size: 37px;
-	transform: translate(-1000px, 0);
+	transform: translate(-2000px, 0);
 	overflow: hidden;
 `;
 
@@ -45,7 +45,7 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 
 			// Start
 			tl.addLabel("warStart");
-			tl.set(containerRef.current, { x: -1000 });
+			tl.set(containerRef.current, { x: -2000 });
 			tl.to(containerRef.current, { x: 0, duration: 1 });
 
 			for (let i = 0; i < props.wars.length; i++) {
@@ -53,8 +53,8 @@ export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props
 			}
 
 			// End
-			tl.to(containerRef.current, { x: 1000, duration: 1 }, "-=1");
-			tl.set(containerRef.current, { x: -1000, duration: 1 });
+			tl.to(containerRef.current, { x: 2000, duration: 1 }, "-=1");
+			tl.set(containerRef.current, { x: -2000, duration: 1 });
 
 			return tl;
 		},
@@ -93,7 +93,7 @@ const IncentiveContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
 	/* margin-top: -10px; */
 	margin-bottom: 5px;
 	font-size: 30px;
@@ -108,8 +108,8 @@ const WarChoiceContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	transform: translate(-1000px, 0);
-	padding: 0 150px;
+	transform: translate(-2000px, 0);
+	padding: 0 50px;
 	box-sizing: border-box;
 `;
 
@@ -117,7 +117,7 @@ const AllOptionContainer = styled.div`
 	display: flex;
 	align-items: center;
 	width: 100%;
-	justify-content: flex-start;
+	justify-content: center;
 	gap: 15px;
 `;
 
@@ -135,7 +135,8 @@ interface GoalProps {
 	war: War;
 }
 
-const MAX_OPTIONS = 2;
+const MAX_OPTIONS = 4;
+ 
 export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
@@ -153,8 +154,8 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			});
 
 			// End
-			tl.to(containerRef.current, { x: 1000, duration: 1 }, "+=10");
-			tl.set(containerRef.current, { x: -1000 });
+			tl.to(containerRef.current, { x: 2000, duration: 1 }, "+=10");
+			tl.set(containerRef.current, { x: -2000 });
 
 			optionRefs.current.forEach((optionRef) => {
 				tl.add(optionRef.reset(tl));
@@ -218,7 +219,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 				highest={highest}
 				key={"More Options"}
 				moreOptions
-				index={0}
+				index={1}
 				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length)}
 				ref={(el) => {
 					if (el) {
@@ -371,7 +372,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 const NoChoicesContainer = styled.div`
 	flex-grow: 1;
 	display: flex;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	font-weight: bold;
 	text-transform: uppercase;

@@ -79,7 +79,7 @@ export const SmallInfo: React.FC<Props> = (props: Props) => {
 			<VerticalStack style={{ height: styles.timerStackHeight, width: "100%" }}>
 				<RunInfo.GameTitle
 					maxWidth={styles.gameTitleWidth!}
-					game={props.runData?.game || ""}
+					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
 					style={{
 						fontSize: styles.gameTitleSize,
 						marginBottom: styles.gameNameBottomMargin,

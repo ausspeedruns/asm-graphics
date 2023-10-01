@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const TickerTitleContainer = styled.div`
-	height: 64px;
+	height: 59px;
 	width: fit-content;
 	font-family: var(--secondary-font);
 	font-size: 20px;
@@ -10,10 +10,11 @@ const TickerTitleContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--asm-blue);
+	background: var(--sec);
 	white-space: nowrap;
 	padding: 0 10px;
 	text-align: center;
+	padding-bottom: 5px;
 `;
 
 interface Props {

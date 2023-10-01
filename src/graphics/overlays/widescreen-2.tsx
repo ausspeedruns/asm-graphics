@@ -11,10 +11,11 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { PersonCompressed } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
+import { PAX23Grunge, PAX23Rainbow, PAX23Stripe, PAX23_COLOURS } from "../elements/event-specific/pax-23/pax23";
 
-import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
-import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
-import WidescreenBottom from "../media/ASM23/widescreen-2-bottom.png";
+// import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
+// import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
+// import WidescreenBottom from "../media/ASM23/widescreen-2-bottom.png";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -73,7 +74,7 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 341px;
 	left: 959px;
-	background: var(--asm-orange);
+	background: var(--sec);
 `;
 
 const BottomBlock = styled.div`
@@ -82,7 +83,7 @@ const BottomBlock = styled.div`
 	height: 135px;
 	width: 1920px;
 	/* border-bottom: 1px solid var(--asm-orange); */
-	border-top: 1px solid var(--asm-orange);
+	border-top: 1px solid var(--sec);
 	box-sizing: border-box;
 	overflow: hidden;
 	display: flex;
@@ -109,7 +110,7 @@ const customSmallStyling: ISmallStyling = {
 	gameTitleSize: 60,
 	gameTitleWidth: 640,
 	categoryWidth: 262,
-	timerStackHeight: 248,
+	timerStackHeight: 160,
 	mainStyle: {
 		width: 666,
 		height: "100%",
@@ -120,7 +121,7 @@ const customSmallStyling: ISmallStyling = {
 	gameNameStyle: {
 		lineHeight: "50px",
 	},
-	lowerStackHeight: 188,
+	lowerStackHeight: 120,
 	lowerStackStyle: {
 		justifyContent: "space-between",
 	},
@@ -148,10 +149,11 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 			<WholeGraphicClip></WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<img
+					{/* <img
 						src={WidescreenLeft}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
+					/> */}
+					<PAX23Grunge size="200%" />
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -174,23 +176,35 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 				<Facecam
 					width={588}
 					style={{
-						borderRight: "1px solid var(--asm-orange)",
-						borderLeft: "1px solid var(--asm-orange)",
+						borderRight: "1px solid var(--sec)",
+						borderLeft: "1px solid var(--sec)",
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams}
 					maxNameWidth={190}
-					audioIndicator={props.obsAudioIndicator}
+					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<RaceFinish style={{ top: 265, left: 830, zIndex: 3 }} time={teamData[0].time} place={teamData[0].place} />
-				<RaceFinish style={{ top: 265, left: 960, zIndex: 3 }} time={teamData[1].time} place={teamData[1].place} />
+				<RaceFinish
+					style={{ top: 265, left: 830, zIndex: 3 }}
+					time={teamData[0].time}
+					place={teamData[0].place}
+				/>
+				<RaceFinish
+					style={{ top: 265, left: 960, zIndex: 3 }}
+					time={teamData[1].time}
+					place={teamData[1].place}
+				/>
 
 				<RightBox>
-					<img
+					{/* <img
 						src={WidescreenRight}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover", left: 0 }}
+					/> */}
+					<PAX23Stripe
+						style={{ position: "absolute", top: -32, left: 100, transform: "scaleX(1.4) scaleY(0.8)" }}
 					/>
+					<PAX23Grunge size="200%" />
 					<SponsorsBox
 						ref={sponsorRef}
 						style={{ flexGrow: 1 }}
@@ -200,22 +214,26 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					/>
 				</RightBox>
 			</Topbar>
+			<PAX23Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 341 }} />
 			<CentralDivider />
+			<PAX23Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 881 }} />
 			<BottomBlock>
-				<img
+				{/* <img
 					src={WidescreenBottom}
 					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-				/>
-				<BespokeCouch>
+				/> */}
+				<PAX23Grunge size="60%" />
+				<BespokeCouch style={{ marginBottom: 16 }}>
 					<CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
-					{props.commentators.map((person) => {
+					{props.commentators.map((person, index) => {
 						if (person.name === "") return <></>;
 						return (
 							<PersonCompressed
 								key={person.name}
 								commentator={person}
-								speaking={props.obsAudioIndicator?.[person.microphone ?? ""]}
+								speaking={props.microphoneAudioIndicator?.[person.microphone ?? ""]}
+								style={{ ...PAX23_COLOURS[index % PAX23_COLOURS.length] }}
 							/>
 						);
 					})}
@@ -226,9 +244,11 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 							// speaking={props.obsAudioIndicator?.[host.microphone ?? '']}
 							speaking={false}
 							host
+							style={{ ...PAX23_COLOURS[props.commentators.length % PAX23_COLOURS.length] }}
 						/>
 					)}
 				</BespokeCouch>
+				<PAX23Rainbow style={{ height: 16, width: 1920, position: "absolute", top: 118 }} />
 			</BottomBlock>
 
 			{/* <svg id="widescreen2Clip">

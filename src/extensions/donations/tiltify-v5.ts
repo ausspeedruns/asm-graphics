@@ -1,21 +1,15 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import * as nodecgApiContext from "../nodecg-api-context";
-import type NodeCG from "@nodecg/types";
 import type { Donation } from "@asm-graphics/types/Donations";
-import { TiltifyCampaignReturn, TiltifyDonationsReturn } from "@asm-graphics/types/TiltifyReturn";
+import { TiltifyCampaignReturn, TiltifyDonationMatchReturn, TiltifyDonationsReturn } from "@asm-graphics/types/TiltifyReturn";
 import _ from "underscore";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("Tiltify-V5");
 const tiltifyConfig = nodecg.bundleConfig.tiltify!; // This script only gets imported if there is a tiltify config
 
-const donationTotalRep = nodecg.Replicant(
-	"donationTotal",
-) as unknown as NodeCG.ServerReplicantWithSchemaDefault<number>;
-const donationsListRep = nodecg.Replicant("donations") as unknown as NodeCG.ServerReplicantWithSchemaDefault<
-	Donation[]
->;
+import { donationTotalRep, donationsRep, donationMatchesRep } from "../replicants";
 
 let accessToken = "";
 
@@ -34,8 +28,7 @@ async function getAccessToken() {
 		if (axios.isAxiosError(error)) {
 			ncgLog.error("getAccessToken axios error: ", JSON.stringify(error));
 		}
-		else
-		{
+		else {
 			ncgLog.error("getAccessToken unknown error: ", JSON.stringify(error));
 		}
 	}
@@ -55,8 +48,7 @@ async function getCampaignData() {
 			if (error.status === 401) {
 				getAccessToken();
 			}
-			else
-			{
+			else {
 				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
 			}
 		}
@@ -77,7 +69,7 @@ async function getDonationsData() {
 
 		// New donations
 		const newDonos = tiltifyResDonations.filter(
-			(donation) => donationsListRep.value.findIndex((oldDono) => oldDono.id === donation.id.toString()) === -1,
+			(donation) => donationsRep.value.findIndex((oldDono) => oldDono.id === donation.id.toString()) === -1,
 		);
 
 		if (newDonos.length > 0) {
@@ -93,22 +85,61 @@ async function getDonationsData() {
 				currencyCode: donation.amount.currency,
 			}));
 
-			const mutableDonations = _.clone(donationsListRep.value);
+			const mutableDonations = _.clone(donationsRep.value);
 
-			donationsListRep.value = mutableDonations.concat(parsedDonos);
+			donationsRep.value = mutableDonations.concat(parsedDonos);
 		}
 	} catch (error: unknown | AxiosError) {
 		if (axios.isAxiosError(error)) {
 			if (error.status === 401) {
 				getAccessToken();
 			}
-			else
-			{
+			else {
 				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
 			}
 		}
 		else {
 			ncgLog.error("getDonationsData unknown error: ", JSON.stringify(error));
+		}
+	}
+}
+
+async function getDonationMatchData() {
+	if (!accessToken) return;
+	try {
+		const res = await axios.get<null, AxiosResponse<TiltifyDonationMatchReturn>>(
+			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}/donation_matches`,
+			{ headers: { Authorization: `Bearer ${accessToken}` } },
+		);
+		const tiltifyResDonationMatches = res.data.data;
+
+		// Donation matches
+		donationMatchesRep.value = tiltifyResDonationMatches.map((data) => ({
+			id: data.id,
+			name: data.matched_by,
+			active: data.active,
+			amount: parseFloat(data.amount.value),
+			pledge: parseFloat(data.pledged_amount.value),
+			time: new Date(data.starts_at).getTime(),
+			currencyCode: data.pledged_amount.currency,
+			currencySymbol: getCurrencySymbol(data.pledged_amount.currency),
+			updated: Date.now(),
+			endsAt: new Date(data.ends_at).getTime(),
+			completedAt: new Date(data.completed_at).getTime(),
+			read: false, // Will always be false
+			desc: "", // Will always be empty,
+		}));
+	} catch (error: unknown | AxiosError) {
+		if (axios.isAxiosError(error)) {
+			if (error.status === 401) {
+				getAccessToken();
+			}
+			else {
+				ncgLog.error("getDonationMatchData axios error: ", JSON.stringify(error));
+			}
+		}
+		else {
+			ncgLog.error("getDonationMatchData unknown error: ", JSON.stringify(error));
 		}
 	}
 }
@@ -127,6 +158,7 @@ async function tiltifyInit() {
 	setInterval(() => {
 		getCampaignData();
 		getDonationsData();
+		getDonationMatchData();
 	}, 5000);
 
 	getAccessToken();
@@ -140,9 +172,9 @@ if (tiltifyConfig.enabled) {
 }
 
 nodecg.listenFor("markDonationReadUnread", (id) => {
-	const donationIndex = donationsListRep.value.findIndex((donation) => donation.id === id);
+	const donationIndex = donationsRep.value.findIndex((donation) => donation.id === id);
 	if (donationIndex > -1) {
-		donationsListRep.value[donationIndex].read = !donationsListRep.value[donationIndex].read;
+		donationsRep.value[donationIndex].read = !donationsRep.value[donationIndex].read;
 	} else {
 		nodecg.log.error("[Donation] Could not find donation to mark as read/unread");
 	}

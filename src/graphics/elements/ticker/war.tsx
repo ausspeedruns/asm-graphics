@@ -68,7 +68,7 @@ const ProgressContainer = styled.div`
 	max-width: 50%;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid #ffffff;
+	border: 1px solid var(--accent);
 	position: relative;
 	overflow: hidden;
 `;
@@ -76,7 +76,7 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	width: 0px;
-	background: #ffffff;
+	background: var(--main);
 	border-right: 5px solid var(--accent);
 	display: flex;
 	align-items: center;
@@ -140,7 +140,7 @@ export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Prop
 
 	return (
 		<TickerWarContainer ref={containerRef}>
-			<TickerTitle>
+			<TickerTitle style={{ background: "var(--pax23-blue)" }}>
 				Incentives
 				<br />
 				Wars
@@ -277,7 +277,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 		<ProgressContainer>
 			<ProgressBarContainer
 				ref={progressBarRef}
-				style={{ borderColor: isColor(props.option.name) ? props.option.name : "var(--asm-orange)" }}
+				style={{ borderColor: "var(--accent)", background: isColor(props.option.name) ? props.option.name : "var(--accent)" }}
 			/>
 			<TextDiv>
 				<div

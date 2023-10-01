@@ -27,10 +27,12 @@ const CTALine = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin-top: -8px;
 `;
 
 const EmphasisFont = styled.span`
 	font-family: var(--secondary-font);
+	font-weight: bold;
 `;
 
 interface CTAProps {
@@ -100,8 +102,8 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 				<EmphasisFont>ausspeedruns.com</EmphasisFont>
 			</CTALine>
 			<CTALine ref={incentiveRef} style={{ transform: "translate(100%, 0)" }}>
-				<span>Check out challenges at&nbsp;</span>
-				<EmphasisFont>challenges.ausspeedruns.com</EmphasisFont>
+				<span>Check out incentives at&nbsp;</span>
+				<EmphasisFont>incentives.ausspeedruns.com</EmphasisFont>
 			</CTALine>
 			<CTALine ref={factRef} style={{ transform: "translate(100%, 0)" }}>
 				<span dangerouslySetInnerHTML={{ __html: fact }}></span>

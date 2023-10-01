@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Autocomplete, TextField } from "@mui/material";
 import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
@@ -11,7 +11,9 @@ const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They"
 const HeadsetSelection = styled.div`
 	display: flex;
 	justify-content: space-between;
-	margin: 1rem 0;
+	margin-bottom: 1rem;
+	margin-top: 0.5rem;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
 `;
 
 const HeadsetButton = styled.button`
@@ -19,7 +21,7 @@ const HeadsetButton = styled.button`
 	border: 0;
 	border-radius: 8px;
 	font-size: 1.2rem;
-	width: 24%;
+	width: 23%;
 `;
 
 interface Props {
@@ -27,17 +29,28 @@ interface Props {
 	style?: React.CSSProperties;
 	open: boolean;
 	onClose: () => void;
-	runner?: Commentator;
+	commentator?: Commentator;
 }
 
 export const EditUserDialog = (props: Props) => {
 	const [allUsersRep] = useReplicant<User[]>("all-usernames", []);
 	const allUsernames = useMemo(() => allUsersRep.map((user) => user.username), [allUsersRep]);
 
-	const [username, setUsername] = useState(props.runner?.name);
-	const [oldUsername] = useState(props.runner?.name);
-	const [twitch, setTwitch] = useState(props.runner?.twitch);
-	const [pronouns, setPronouns] = useState(props.runner?.pronouns);
+	const [id, setID] = useState("");
+	const [username, setUsername] = useState("");
+	const [oldUsername, setOldUsername] = useState("");
+	const [twitch, setTwitch] = useState("");
+	const [pronouns, setPronouns] = useState("");
+	const [microphone, setMicrophone] = useState("NONE");
+
+	useEffect(() => {
+		setID(props.commentator?.id ?? "");
+		setUsername(props.commentator?.name ?? "");
+		setOldUsername(props.commentator?.name ?? "");
+		setTwitch(props.commentator?.twitch ?? "");
+		setPronouns(props.commentator?.pronouns ?? "");
+		setMicrophone(props.commentator?.microphone ?? "NONE");
+	}, [props.commentator]);
 
 	function handleNameSelected(name: string | null) {
 		if (name === null) return;
@@ -48,7 +61,35 @@ export const EditUserDialog = (props: Props) => {
 		// Set the pronouns as that name
 		if (foundUser) {
 			setUsername(foundUser.username);
+			setPronouns(foundUser.pronouns ?? "");
+			setTwitch(foundUser.twitch ?? "");
 		}
+
+		// nameAutocorrect.current.
+	}
+
+	function handleSave() {
+		// Update commentator information
+		nodecg.sendMessage("update-commentator", {
+			id: id,
+			name: username,
+			pronouns: pronouns,
+			microphone: microphone,
+			isRunner: props.commentator?.isRunner,
+			teamId: props.commentator?.teamId,
+			twitch: twitch,
+		});
+
+		props.onClose();
+	}
+
+	function handleDelete() {
+		if (!props.commentator) return;
+		if (props.commentator.isRunner) return;
+		if (!props.commentator.id) return;
+
+		nodecg.sendMessage("delete-commentator", props.commentator.id);
+		props.onClose();
 	}
 
 	return (
@@ -70,6 +111,7 @@ export const EditUserDialog = (props: Props) => {
 					}}
 					inputValue={username}
 					onInputChange={(_, newVal) => setUsername(newVal)}
+					blurOnSelect={true}
 					renderInput={(params) => (
 						<TextField
 							{...params}
@@ -78,7 +120,7 @@ export const EditUserDialog = (props: Props) => {
 						/>
 					)}
 				/>
-				{props.runner?.isRunner && (
+				{props.commentator?.isRunner && (
 					<TextField
 						fullWidth
 						style={{ fontSize: "2rem !important" }}
@@ -103,6 +145,7 @@ export const EditUserDialog = (props: Props) => {
 						options={PRONOUN_OPTIONS}
 						inputValue={pronouns}
 						onInputChange={(_, newVal) => setPronouns(newVal)}
+						blurOnSelect={true}
 						renderInput={(params) => (
 							<TextField
 								{...params}
@@ -112,23 +155,40 @@ export const EditUserDialog = (props: Props) => {
 						)}
 					/>
 				</div>
-				<HeadsetSelection>
-					{HEADSETS.map((headset) => {
-						if (headset.name === "Host") return <></>;
+				<div>
+					<span style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>Headset / Microphone</span>
+					<HeadsetSelection>
+						{HEADSETS.map((headset) => {
+							if (headset.name === "Host") return <></>;
 
-						return (
-							<HeadsetButton
-								key={headset.name}
-								style={{ backgroundColor: headset.colour, color: headset.textColour }}>
-								{headset.name}
-							</HeadsetButton>
-						);
-					})}
-				</HeadsetSelection>
+							return (
+								<HeadsetButton
+									key={headset.name}
+									style={{
+										backgroundColor: headset.colour,
+										color: headset.textColour,
+										boxShadow:
+											microphone === headset.name
+												? `0 0 0 5px ${headset.textColour}, 0 0 0 10px ${headset.colour}`
+												: "",
+										width: headset.name === "NONE" ? "15%" : "",
+									}}
+									onClick={() => setMicrophone(headset.name)}>
+									{headset.name}
+								</HeadsetButton>
+							);
+						})}
+					</HeadsetSelection>
+				</div>
 			</DialogContent>
 			<DialogActions style={{ justifyContent: "space-between" }}>
 				<Button onClick={props.onClose}>Cancel</Button>
-				<Button onClick={props.onClose} autoFocus variant="outlined">
+				{!props.commentator?.isRunner && props.commentator?.id && (
+					<Button variant="outlined" onClick={handleDelete}>
+						Delete
+					</Button>
+				)}
+				<Button onClick={handleSave} variant="contained" disabled={!username}>
 					Save
 				</Button>
 			</DialogActions>
