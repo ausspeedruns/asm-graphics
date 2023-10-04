@@ -3,7 +3,7 @@ import styled from "styled-components";
 import gsap from "gsap";
 import { useListenFor } from "use-nodecg";
 
-import EventLogo from "../media/ASM23/logo.png";
+import EventLogo from "../media/ASAP23/ASAP23 Logo.svg";
 
 const CreditsContainer = styled.div`
 	position: relative;
@@ -29,7 +29,7 @@ const AllCredits = styled.div`
 	justify-content: center;
 	font-family: Noto Sans;
 	background: #000000c4;
-	color: var(--text-light);
+	color: #ffffff;
 	margin: auto;
 	padding-top: 1016px;
 	padding-bottom: 1200px;
@@ -88,7 +88,7 @@ export const Credits: React.FC = () => {
 		const tl = gsap.timeline();
 		// Start credits
 		tl.to(allCreditsRef.current, { width: 500, duration: 2 });
-		tl.to(allCreditsRef.current, { marginTop: -9750, duration: 120, ease: "none" }, "+=1");
+		tl.to(allCreditsRef.current, { marginTop: -8800, duration: 120, ease: "none" }, "+=1");
 		tl.to(allCreditsRef.current, { width: 0, duration: 2 });
 	});
 
@@ -99,35 +99,41 @@ export const Credits: React.FC = () => {
 					<img style={{ width: "90%", height: "auto" }} src={EventLogo} />
 				</EventImg>
 				<Title>
-					Australian Speedrun
+					AusSpeedruns At
 					<br />
-					Marathon 2023
+					PAX 2023
 				</Title>
 				<Title>AusSpeedruns Committee</Title>
 				<NameContainer>
 					<NameWithRoles>
-						Coordinator<Name>Softman25</Name>
+						ASAP Coordinator<Name>Astrious</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Coordinator<Name>Astrious</Name>
+						Director<Name>Sten</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Software Coordinator<Name>Clubwho</Name>
+						ASM Coordinator<Name>neo</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Hardware Coordinator<Name>nei_</Name>
+						Hardware Manager<Name>nei_</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Head of Runner Management<Name>Sten</Name>
+						Software Manager<Name>Clubwho</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Head of Marketing<Name>nase</Name>
+						Runner Manager<Name>LaceyStripes</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Head of General Committee<Name>werster</Name>
+						Marketing Manager<Name>nase</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Sponsorship Management<Name>neo</Name>
+						Operations Manager<Name>werster</Name>
+					</NameWithRoles>
+					<NameWithRoles>
+						Sponsorship Manager<Name>Kenorah</Name>
+					</NameWithRoles>
+					<NameWithRoles>
+						Creative Manager<Name>Synrey</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Event Consultant<Name>Upjohn</Name>
@@ -135,122 +141,104 @@ export const Credits: React.FC = () => {
 				</NameContainer>
 				<Title>Tech</Title>
 				<NameContainer>
-					<Name>Alecat</Name>
-					<Name>Clockdistrict</Name>
 					<Name>Clubwho</Name>
+					<Name>aytoms</Name>
+					<Name>Clockdistrict</Name>
 					<Name>CurtMantis</Name>
-					<Name>LaceyStripes</Name>
-					<Name>nei_</Name>
+					<Name>Dillon</Name>
+					<Name>Lacey</Name>
+					<Name>nei</Name>
+					<Name>neo_</Name>
 					<Name>NitrosTwitch</Name>
+					<Name>Sten</Name>
+					<Name>Tsukahh</Name>
 				</NameContainer>
 				<Title>Runner Management</Title>
 				<NameContainer>
-					<Name>Astrious</Name>
-					<Name>HeyItsRykon</Name>
-					<Name>ins0mnia</Name>
-					<Name>LaceyStripes</Name>
+					<Name>Lacey</Name>
+					<Name>Baphy</Name>
+					<Name>CurtMantis</Name>
+					<Name>Cyanidesugar</Name>
+					<Name>Galasrinie</Name>
+					<Name>Ins0mnia</Name>
 					<Name>neo_</Name>
-					<Name>Nicosar</Name>
 					<Name>Noops</Name>
+					<Name>Srd_27</Name>
 					<Name>Sten</Name>
-					<Name>Softman25</Name>
-					<Name>Upjohn</Name>
 				</NameContainer>
 				<Title>Social Media</Title>
 				<NameContainer>
-					<Name>Grandma</Name>
 					<Name>HoshinoHaru</Name>
 					<Name>Kenorah</Name>
 					<Name>Kuiperbole</Name>
 					<Name>limchi</Name>
 					<Name>nase</Name>
+					<Name>neo</Name>
 				</NameContainer>
 				<Title>Hosts</Title>
 				<NameContainer>
-					<Name>AggytheAron</Name>
-					<Name>ConicalFlak</Name>
-					<Name>Galasrinie</Name>
-					<Name>Genba</Name>
-					<Name>HeyItsRykon</Name>
-					<Name>ins0mnia</Name>
 					<Name>Kenorah</Name>
-					<Name>LaceyStripes</Name>
+					<Name>Benjlin</Name>
+					<Name>Dillon</Name>
+					<Name>Galasrinie</Name>
+					<Name>Ins0mnia</Name>
+					<Name>jksessions</Name>
 					<Name>MikamiHero</Name>
 					<Name>neo_</Name>
 					<Name>Noops</Name>
-					<Name>Sten</Name>
+					<Name>Sandsh8rk</Name>
 					<Name>werster</Name>
 				</NameContainer>
 				<Title>Runners</Title>
 				<NameContainer>
 					<Name>AeonFrodo</Name>
-					<Name>AggytheAron</Name>
-					<Name>Alecat</Name>
-					<Name>Arma260</Name>
-					<Name>BalakehB </Name>
+					<Name>Arahpthos</Name>
 					<Name>Baphy</Name>
-					<Name>cane</Name>
-					<Name>chokocchi</Name>
-					<Name>Clockdistrict</Name>
-					<Name>ConicalFlak</Name>
+					<Name>Breefree</Name>
+					<Name>Craigelbagel001</Name>
 					<Name>CurtMantis</Name>
-					<Name>cyanidesugar</Name>
-					<Name>d13sel</Name>
-					<Name>DaMidget2000</Name>
-					<Name>Damosk </Name>
-					<Name>Danicker</Name>
-					<Name>Dezinator94</Name>
+					<Name>Dactyly</Name>
+					<Name>Damosk</Name>
 					<Name>Duk700</Name>
-					<Name>Firery</Name>
-					<Name>FroSteeMate</Name>
+					<Name>fireproofnas</Name>
+					<Name>FoksMachine</Name>
 					<Name>Galasrinie</Name>
 					<Name>Glint</Name>
 					<Name>GLPhoenix</Name>
-					<Name>Hans_Stockmann</Name>
-					<Name>Heckson</Name>
-					<Name>HeyItsRykon</Name>
-					<Name>hsblue</Name>
-					<Name>ICEMAN</Name>
+					<Name>GrubbyD</Name>
+					<Name>Grubdog</Name>
 					<Name>ins0mnia</Name>
-					<Name>Joester98 </Name>
+					<Name>JRP</Name>
 					<Name>jymmyboi</Name>
+					<Name>KassXCII</Name>
 					<Name>Kenorah</Name>
-					<Name>KthRam</Name>
-					<Name>limchi</Name>
-					<Name>LiquidWiFi</Name>
-					<Name>LittleCrowShae</Name>
-					<Name>lucilletea</Name>
+					<Name>LaceyStripes</Name>
 					<Name>MangoPunch</Name>
-					<Name>meatr0o</Name>
-					<Name>MikamiHero</Name>
-					<Name>Miku_DS</Name>
-					<Name>nase</Name>
+					<Name>Midg2000</Name>
 					<Name>nei</Name>
 					<Name>neo_</Name>
 					<Name>Nicosar</Name>
 					<Name>Ninten</Name>
-					<Name>Noops</Name>
-					<Name>Perigon</Name>
-					<Name>rad_shaz</Name>
-					<Name>Rexaaayyy</Name>
-					<Name>Saiyanz </Name>
-					<Name>Softman25</Name>
-					<Name>srd_27</Name>
-					<Name>Sten</Name>
-					<Name>stylonide</Name>
+					<Name>QuokkaDD</Name>
+					<Name>Rab</Name>
+					<Name>rippersteveM5</Name>
+					<Name>Rippy</Name>
+					<Name>Rippy</Name>
+					<Name>Sandsh8rk</Name>
+					<Name>sH1R1U</Name>
+					<Name>SlyZorua</Name>
+					<Name>SNC_Sector7G</Name>
 					<Name>syo</Name>
-					<Name>tim_trollgasm </Name>
-					<Name>VGmaster</Name>
+					<Name>TasmaniaJones</Name>
+					<Name>Washeyy</Name>
 					<Name>werster</Name>
-					<Name>WOT7N</Name>
-					<Name>Yuki~Layla</Name>
 				</NameContainer>
 				<Title>Special Thanks</Title>
 				<NameContainer>
 					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
-					<NameWithRoles>Game On Cancer</NameWithRoles>
 					<NameWithRoles>Elgato</NameWithRoles>
-					<NameWithRoles>Rockford Adelaide</NameWithRoles>
+					<NameWithRoles>PAX Australia</NameWithRoles>
+					<NameWithRoles>All PAX Enforcers</NameWithRoles>
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
 					</NameWithRoles>

@@ -29,8 +29,7 @@ import { Timer } from "./dashboards/timer";
 import { HostName } from "./dashboards/host-name";
 import { DonationMatches } from "./dashboards/donation-matches";
 
-const nodecgConfig = nodecg.bundleConfig;
-const TWITCHPARENTS = nodecgConfig.twitch.parents;
+const TWITCHPARENTS = nodecg.bundleConfig.twitch.parents;
 
 const HostDashContainer = styled.div`
 	height: 100vh;
@@ -167,7 +166,7 @@ export const HostDash: React.FC = () => {
 				<span
 					style={{ width: 500, textAlign: "right", cursor: "pointer" }}
 					onClick={() => setShowStream(!showStream)}>
-					{nodecgConfig.graphql?.event ?? ""}
+					{nodecg.bundleConfig.graphql?.event ?? ""}
 				</span>
 			</TopBar>
 			{/* , height: 926  */}
@@ -279,7 +278,7 @@ export const HostDash: React.FC = () => {
 						<div>
 							<p>Video Ads</p>
 							<Button variant="outlined" onClick={() => nodecg.sendMessage("playAd", "GOC")}>
-								Game On Cancer (43 seconds)
+								Game On Cancer (36 seconds)
 							</Button>
 							<Button variant="outlined" onClick={() => nodecg.sendMessage("playAd", "Elgato_WaveDX")}>
 								ELGATO Wave DX (20 seconds)

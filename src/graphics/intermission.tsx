@@ -347,7 +347,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					adDuration = 53;
 					break;
 				case "GOC":
-					adDuration = 43;
+					adDuration = 36;
 					break;
 				default:
 					return;
@@ -408,7 +408,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			{/* <ClippedBackground>
 			</ClippedBackground> */}
 			<Half style={{ borderRight: "1px solid var(--sec)" }}>
-				<IntermissionAds ref={adsRef} style={{ position: "absolute", left: 120, top: 40 }} />
+				<IntermissionAds ref={adsRef} style={{ position: "absolute", left: 59, top: 59 }} />
 				<CameraBox />
 				<LocationBug>
 					<img src={IntermissionLogo} style={{ position: "absolute", left: 0, height: "126%", bottom: 0 }} />
