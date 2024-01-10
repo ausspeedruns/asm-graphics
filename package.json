@@ -219,6 +219,8 @@
 		"react-is": "^18.2.0",
 		"react-router-dom": "^6.16.0",
 		"react-twemoji": "^0.5.0",
+		"react-virtualized-auto-sizer": "^1.0.20",
+		"react-window": "^1.8.9",
 		"styled-components": "^6.0.8",
 		"tiltify-api-client": "^2.0.0",
 		"tiny-typed-emitter": "^2.1.0",

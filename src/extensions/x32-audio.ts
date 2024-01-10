@@ -75,6 +75,7 @@ function updateAudioIndicator(float: number, mic: (typeof MICROPHONE_CHANNELS)[n
 nodecg.listenFor("transition:toGame", (_data) => {
 	// Unmute mics for speakers and stream
 	const micIndexes = getMicrophoneIndexesOfPeopleTalking();
+	console.log("mic indexes", JSON.stringify(micIndexes));
 
 	loopAllX32(
 		(channel, mixBus) => {
@@ -109,14 +110,14 @@ nodecg.listenFor("transition:toIntermission", () => {
 	);
 
 	// Reset audio levels on runner audio
-	loopAllX32(
-		(channel, mixBus) => {
-			if (mixBus <= 1) return;
-			x32.setFaderLevel(channel, mixBus, 0.75);
-		},
-		32,
-		5
-	);
+	// loopAllX32(
+	// 	(channel, mixBus) => {
+	// 		if (mixBus <= 1) return;
+	// 		x32.setFaderLevel(channel, mixBus, 0.75);
+	// 	},
+	// 	32,
+	// 	5
+	// );
 });
 
 // On transition to IRL scene
@@ -151,7 +152,7 @@ function getMicrophoneIndexesOfPeopleTalking() {
 	const indexes: number[] = [HOST_MIC_CHANNEL];
 
 	const currentRun = nodecg.readReplicant<RunDataActiveRun | undefined>("runDataActiveRun", "nodecg-speedcontrol");
-	const commentatorsRep = nodecg.readReplicant<Commentator[]>("couch-names");
+	const commentatorsRep = nodecg.readReplicant<Commentator[]>("commentators");
 
 	currentRun?.teams.forEach((team) => {
 		team.players.forEach((player) => {
@@ -167,7 +168,9 @@ function getMicrophoneIndexesOfPeopleTalking() {
 }
 
 function findMicrophoneChannel(name?: string) {
-	return MICROPHONE_CHANNELS.find((mic) => mic.name === name)?.channel ?? -1;
+	let aaa = MICROPHONE_CHANNELS.find((mic) => mic.name === name)?.channel ?? -1;
+	console.log(`Given ${name}, found ${aaa}`);
+	return aaa;
 }
 
 // This will look to see if a channel is either unmuted or set to something above -∞

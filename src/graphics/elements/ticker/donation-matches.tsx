@@ -116,7 +116,7 @@ export const TickerDonationMatches = React.forwardRef<TickerItemHandles, Props>(
 			tl.set(containerRef.current, { y: -64 });
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
-			for (let i = 0; i < props.donationMatches.length; i++) {
+			for (let i = 0; i < matchesRefs.current.length; i++) {
 				tl.add(matchesRefs.current[i].animation(tl));
 			}
 

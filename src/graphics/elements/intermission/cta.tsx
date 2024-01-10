@@ -12,7 +12,7 @@ const InterCTAContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: 58px;
+	font-size: 54px;
 	/* color: var(--text-light); */
 	color: white;
 	/* border-bottom: 1px solid var(--sec); */
