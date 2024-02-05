@@ -15,7 +15,6 @@ import {
 	Snackbar,
 } from "@mui/material";
 import { Close, Refresh } from "@mui/icons-material";
-import Draggable from "react-draggable";
 import format from "date-fns/format";
 
 import type { Donation } from "@asm-graphics/types/Donations";
@@ -28,8 +27,6 @@ import { ManualDonations } from "./dashboards/manual-donations";
 import { Timer } from "./dashboards/timer";
 import { HostName } from "./dashboards/host-name";
 import { DonationMatches } from "./dashboards/donation-matches";
-
-const TWITCHPARENTS = nodecg.bundleConfig.twitch.parents;
 
 const HostDashContainer = styled.div`
 	height: 100vh;
@@ -62,14 +59,6 @@ const TotalBox = styled(Paper)`
 	}
 `;
 
-const TwitchFloating = styled.div`
-	display: flex;
-	padding: 10px;
-	width: fit-content;
-	background: var(--asm-orange);
-	border-radius: 8px;
-`;
-
 export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
 	const [donationTotalRep] = useReplicant<number>("donationTotal", 100);
@@ -81,7 +70,6 @@ export const HostDash: React.FC = () => {
 	const [showScript, setShowScript] = useState(false);
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
 	const [copyNotification, setCopyNotification] = useState(false);
-	const [showStream, setShowStream] = useState(false);
 
 	const [muted, setMuted] = useState(true);
 
@@ -152,28 +140,24 @@ export const HostDash: React.FC = () => {
 	return (
 		<HostDashContainer>
 			<TopBar>
-				<span
-					onClick={() => {
-						setTimeFormat(!timeFormat);
-						setCurrentTime(new Date().toLocaleTimeString(!timeFormat ? "en-AU" : "en-GB"));
-					}}
-					style={{ cursor: "pointer", width: 500 }}>
-					{currentTime}
+				<span style={{ width: 500, textAlign: "left", cursor: "pointer" }}>
+					{nodecg.bundleConfig.graphql?.event ?? ""}
 				</span>
 				<span onClick={showDialog} style={{ cursor: "pointer", width: 500, textAlign: "center" }}>
 					Take a breath.
 				</span>
 				<span
-					style={{ width: 500, textAlign: "right", cursor: "pointer" }}
-					onClick={() => setShowStream(!showStream)}>
-					{nodecg.bundleConfig.graphql?.event ?? ""}
+					onClick={() => {
+						setTimeFormat(!timeFormat);
+						setCurrentTime(new Date().toLocaleTimeString(!timeFormat ? "en-AU" : "en-GB"));
+					}}
+					style={{ cursor: "pointer", width: 500, textAlign: "right" }}>
+					{currentTime}
 				</span>
 			</TopBar>
-			{/* , height: 926  */}
 			<div
 				style={{
 					display: "flex",
-					gap: 8,
 					background: "#ececec",
 					height: "calc(100% - 76px)",
 					boxSizing: "border-box",
@@ -182,45 +166,32 @@ export const HostDash: React.FC = () => {
 					style={{
 						display: "flex",
 						flexDirection: "column",
-						padding: 8,
+						padding: 4,
 						gap: 8,
 						height: "100%",
 						flexBasis: "33%",
 					}}>
-					<Paper style={{ overflowY: "auto", overflowX: "hidden", minHeight: 160 }}>
+					{/* <Paper style={{ overflowY: "auto", overflowX: "hidden", minHeight: 160 }}>
 						<Header text="Your Name :)" />
 						<HostName />
+					</Paper> */}
+					<Paper style={{ overflow: "hidden", height: 300, minHeight: 300 }}>
+						<Timer />
 					</Paper>
-					<Paper style={{ overflowY: "auto", overflowX: "hidden" }}>
-						<Header text="Donation Matches" />
-						<DonationMatches style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
-					</Paper>
-					<Paper style={{ flexShrink: 1.5, overflowY: "auto", overflowX: "hidden" }}>
-						<Header
-							text={`Incentives – Last Updated: ${
-								incentivesUpdatedRep ? format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"
-							}`}
-							url="https://docs.google.com/spreadsheets/d/1IsMrjs3Z09WfCmnj0r46WSTK3sbFPD9dXlkIsgMNIe8">
-							<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
-								<Refresh fontSize="small" />
-							</IconButton>
-						</Header>
-						<Incentives style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
+					<Paper style={{ height: "49%", overflow: "hidden" }}>
+						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASM2023/schedule" />
+						<Upcoming style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
 					</Paper>
 				</div>
 				<div
 					style={{
 						display: "flex",
 						flexDirection: "column",
-						padding: 8,
+						padding: 4,
 						gap: 8,
 						height: "100%",
 						flexBasis: "33%",
 					}}>
-					<TotalBox>${(donationTotalRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
-					<Paper style={{ overflow: "hidden", height: 300, minHeight: 300 }}>
-						<Timer />
-					</Paper>
 					<div style={{ display: "flex", height: 75 }}>
 						<Button
 							fullWidth
@@ -230,6 +201,13 @@ export const HostDash: React.FC = () => {
 							{muted ? "UNMUTE" : "Mute"}
 						</Button>
 					</div>
+					<TotalBox>${(donationTotalRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
+					<Paper style={{ overflowY: "auto", overflowX: "hidden" }}>
+						<Header text="Donation Matches" />
+						<DonationMatches
+							style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }}
+						/>
+					</Paper>
 					<Paper style={{ overflow: "hidden", flexGrow: 1 }}>
 						<Header
 							text={`${donationsRep.length} Donations`}
@@ -243,14 +221,22 @@ export const HostDash: React.FC = () => {
 					style={{
 						display: "flex",
 						flexDirection: "column",
-						padding: 8,
+						padding: 4,
 						gap: 8,
 						height: "100%",
 						flexBasis: "33%",
 					}}>
-					<Paper style={{ height: "49%", overflow: "hidden" }}>
-						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASM2023/schedule" />
-						<Upcoming style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
+					<Paper style={{ flexGrow: 1, overflowY: "auto", overflowX: "hidden" }}>
+						<Header
+							text={`Incentives – Last Updated: ${
+								incentivesUpdatedRep ? format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"
+							}`}
+							url="https://docs.google.com/spreadsheets/d/1IsMrjs3Z09WfCmnj0r46WSTK3sbFPD9dXlkIsgMNIe8">
+							<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
+								<Refresh fontSize="small" />
+							</IconButton>
+						</Header>
+						<Incentives style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
 					</Paper>
 					<Paper style={{ height: "49%", overflow: "hidden" }}>
 						<Header text={`Manual Donations $${(manualDonationRep ?? 0).toLocaleString()}`} />
@@ -258,19 +244,6 @@ export const HostDash: React.FC = () => {
 					</Paper>
 				</div>
 			</div>
-			{showStream && (
-				<Draggable defaultPosition={{ x: 25, y: -900 }}>
-					<TwitchFloating>
-						<iframe
-							height={800}
-							width={500}
-							src={`https://www.twitch.tv/embed/ausspeedruns/chat?${TWITCHPARENTS.map((parent) => {
-								return `&parent=${parent}`;
-							}).join("")}&darkpopout`}
-						/>
-					</TwitchFloating>
-				</Draggable>
-			)}
 			<Dialog open={showScript} onClose={hideDialog}>
 				<DialogTitle id="alert-dialog-title">{"Example charity script"}</DialogTitle>
 				<DialogContent>

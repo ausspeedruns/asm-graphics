@@ -20,6 +20,22 @@ module.exports = (nodecg: ExtendedServerAPI<ConfigSchema>) => {
 
 async function init() {
 	const nodecg = nodecgApiContext.get();
+
+	nodecg.Replicant('collections', 'nodecg').on('change', newVal => {
+		console.log("COLLECTIONS");
+		console.log(JSON.stringify(newVal));
+	});
+
+	nodecg.Replicant('bundles', 'nodecg').on('change', newVal => {
+		console.log("BUNDLES");
+		console.log(JSON.stringify(newVal));
+	});
+
+	nodecg.Replicant('graphics:instances', 'nodecg').on('change', newVal => {
+		console.log("INSTANCES");
+		console.log(JSON.stringify(newVal));
+	});
+
 	require("./replicants");
 
 	// The order of these is literally just the chronological order of when they were made, a.k.a the best way to watch Star Wars

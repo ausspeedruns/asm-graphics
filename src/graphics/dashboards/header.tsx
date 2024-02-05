@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const HeaderContainer = styled.div`
-	height: 40px;
+	min-height: 40px;
 	font-weight: bold;
 	line-height: 40px;
 	text-transform: uppercase;

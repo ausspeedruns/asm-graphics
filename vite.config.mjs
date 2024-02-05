@@ -11,8 +11,8 @@ export default defineConfig(() => {
 			}),
 			NodeCGPlugin({
 				inputs: {
-					"./src/graphics/*.tsx": "./src/graphics/template.html",
-					"./src/dashboard/*.tsx": "./src/dashboard/template.html",
+					"graphics/*.tsx": "./src/graphics/template.html",
+					"dashboard/*.tsx": "./src/dashboard/template.html",
 				},
 			}),
 		],
