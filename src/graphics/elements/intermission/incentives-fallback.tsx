@@ -138,51 +138,51 @@ interface Props {
 	asmm?: number;
 }
 
-const PANEL_DURATIONS = 90;
+// const PANEL_DURATIONS = 90;
 export const InterIncentivesFallback = (props: Props) => {
 	// const ThankYouRef = useRef<HTMLDivElement>(null);
 	const SocialsRef = useRef<HTMLDivElement>(null);
-	const ASNNRef = useRef<HTMLDivElement>(null);
-	const ASNNDummyRef = useRef<HTMLDivElement>(null);
-	const [asnnValue, setASNNValue] = useState(0);
+	// const ASNNRef = useRef<HTMLDivElement>(null);
+	// const ASNNDummyRef = useRef<HTMLDivElement>(null);
+	// const [asnnValue, setASNNValue] = useState(0);
 
-	const runLoop = useCallback(() => {
-		const localTl = gsap.timeline({ onComplete: runLoop });
+	// const runLoop = useCallback(() => {
+	// 	const localTl = gsap.timeline({ onComplete: runLoop });
 
-		// localTl.to(ThankYouRef.current, { opacity: 1, duration: 1 });
-		// localTl.to(ThankYouRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
+	// 	// localTl.to(ThankYouRef.current, { opacity: 1, duration: 1 });
+	// 	// localTl.to(ThankYouRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
 
-		localTl.to(SocialsRef.current, { opacity: 1, duration: 1 });
-		localTl.to(SocialsRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
+	// 	localTl.to(SocialsRef.current, { opacity: 1, duration: 1 });
+	// 	localTl.to(SocialsRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
 
-		localTl.set(ASNNDummyRef.current, { x: 0 });
-		localTl.call(() => {
-			setASNNValue(0);
-		});
-		localTl.to(ASNNRef.current, { opacity: 1, duration: 1 });
-		localTl.to(
-			ASNNDummyRef.current,
-			{
-				ease: Power2.easeOut,
-				duration: 5,
-				x: 1000 / 100,
-				onUpdate: () => {
-					const dummyElPos = gsap.getProperty(ASNNDummyRef.current, "x") ?? 0;
-					setASNNValue(parseFloat(dummyElPos.toString()) * 100);
-				},
-			},
-			"-=0.5",
-		);
-		localTl.to(ASNNRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
+	// 	localTl.set(ASNNDummyRef.current, { x: 0 });
+	// 	localTl.call(() => {
+	// 		setASNNValue(0);
+	// 	});
+	// 	localTl.to(ASNNRef.current, { opacity: 1, duration: 1 });
+	// 	localTl.to(
+	// 		ASNNDummyRef.current,
+	// 		{
+	// 			ease: Power2.easeOut,
+	// 			duration: 5,
+	// 			x: 1000 / 100,
+	// 			onUpdate: () => {
+	// 				const dummyElPos = gsap.getProperty(ASNNDummyRef.current, "x") ?? 0;
+	// 				setASNNValue(parseFloat(dummyElPos.toString()) * 100);
+	// 			},
+	// 		},
+	// 		"-=0.5",
+	// 	);
+	// 	localTl.to(ASNNRef.current, { opacity: 0, duration: 1 }, `+=${PANEL_DURATIONS}`);
 
-		localTl.play();
-	}, []);
+	// 	localTl.play();
+	// }, []);
 
-	useEffect(() => {
-		gsap.defaults({ ease: "power2.inOut" });
-		const timer = setTimeout(runLoop, 1000);
-		return () => clearTimeout(timer);
-	}, [runLoop]);
+	// useEffect(() => {
+	// 	gsap.defaults({ ease: "power2.inOut" });
+	// 	const timer = setTimeout(runLoop, 1000);
+	// 	return () => clearTimeout(timer);
+	// }, [runLoop]);
 
 	return (
 		<IncentivesFallbackContainer className={props.className} style={props.style}>
@@ -192,7 +192,7 @@ export const InterIncentivesFallback = (props: Props) => {
 				<b>Australian Speedrun Marathon 2023</b>
 			</ThankYou> */}
 			{/* <Socials ref={SocialsRef}> */}
-			<Socials ref={SocialsRef} style={{ opacity: 0 }}>
+			<Socials ref={SocialsRef}>
 				<SocialBox>
 					<SocialLogo src={AusSpeedrunsLogo} />
 					<SocialLinks style={{ justifyContent: "space-between" }}>
@@ -213,7 +213,7 @@ export const InterIncentivesFallback = (props: Props) => {
 					</SocialLinks>
 				</SocialBox>
 			</Socials>
-			<InterIncentASMMContainer ref={ASNNRef} style={{ opacity: 0 }}>
+			{/* <InterIncentASMMContainer ref={ASNNRef} style={{ opacity: 0 }}>
 				<Header>The ASM2023 attendees have walked</Header>
 				<Total>
 					<span style={{ width: 190, display: "inline-block", textAlign: "center" }}>
@@ -225,7 +225,7 @@ export const InterIncentivesFallback = (props: Props) => {
 					Learn more about ASMM at <Website>AusSpeedruns.com/ASMM</Website>
 				</LearnMore>
 				<div ref={ASNNDummyRef} />
-			</InterIncentASMMContainer>
+			</InterIncentASMMContainer> */}
 		</IncentivesFallbackContainer>
 	);
 };

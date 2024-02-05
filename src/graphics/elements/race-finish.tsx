@@ -69,7 +69,7 @@ export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) =>
 	const animRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (props.time === "") {
+		if (!props.time || props.time === "") {
 			gsap.to(animRef.current, { y: 35 });
 			return;
 		}

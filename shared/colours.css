@@ -38,5 +38,5 @@ body {
 
 	--main-font: var(--pax23-font);
 	--secondary-font: var(--pax23-font);
-	--mono-font: var(--pax23-font);
+	--mono-font: var(--asm-font);
 }

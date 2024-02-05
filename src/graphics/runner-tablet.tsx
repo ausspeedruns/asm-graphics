@@ -90,7 +90,7 @@ const RunnerTablet: React.FC = () => {
 	});
 	const previousDataActive = usePrevious(runDataActiveRep);
 
-	const [tab, setTab] = useState<TabsValues>(TABS.HEADSET_SELECTION);
+	const [tab, setTab] = useState<TabsValues>(TABS.NAMES);
 	const [host] = useReplicant<Commentator | undefined>("host", undefined);
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 
@@ -104,8 +104,8 @@ const RunnerTablet: React.FC = () => {
 		case "audio":
 			currentTabBody = <RTAudio />;
 			break;
-		case "headset_selection":
-			currentTabBody = <RTSelection close={() => setTab("names")} />;
+		// case "headset_selection":
+		// 	currentTabBody = <RTSelection close={() => setTab("names")} />;
 			break;
 		default:
 			break;
@@ -135,7 +135,7 @@ const RunnerTablet: React.FC = () => {
 
 		if (runDataActiveRep.id !== previousDataActive.id)
 		{
-			setTab(TABS.HEADSET_SELECTION);
+			setTab(TABS.NAMES);
 		}
 	}, [previousDataActive, runDataActiveRep]);
 

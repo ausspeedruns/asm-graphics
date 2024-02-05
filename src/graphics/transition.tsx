@@ -67,6 +67,8 @@ const TAGLINES = [
 	"Is Tasmania still attached to the logo?",
 	"ACE still trying to be discovered in AusSpeedruns graphics",
 	"It would suck if we were behind schedule. Which we aren't... right?",
+	"Feed the cats!",
+	"Ohhhh ASAP I finally get it"
 ];
 
 export const Transition: React.FC = () => {
@@ -81,11 +83,16 @@ export const Transition: React.FC = () => {
 		autoplay: false,
 	});
 
-	useListenFor("runTransitionGraphic", () => {
+	useListenFor("transition:UNKNOWN", () => {
 		console.log("Transitioning");
 		runTransition();
 	});
 	
+	useListenFor("transition:toIRL", () => {
+		console.log("Transitioning");
+		runTransition();
+	});
+
 	useListenFor("transition:toGame", () => {
 		console.log("Transitioning to Game");
 		runTransition(runString(runDataActiveRep));
