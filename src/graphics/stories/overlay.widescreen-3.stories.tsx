@@ -30,7 +30,7 @@ Primary.args = {
 		],
 		customData: {},
 	},
-	audioIndicator: "0",
+	gameAudioIndicator: "0",
 	sponsors: [],
 	timer: DefaultTimer,
 };

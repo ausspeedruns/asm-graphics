@@ -22,7 +22,7 @@ export const hostRep = nodecg.Replicant<Commentator>("host", {
 		id: "host",
 		name: "",
 	},
-	persistent: true ,
+	persistent: true,
 });
 export const headsetsUsed = nodecg.Replicant<Record<string, number>>("headsets-used", { defaultValue: {}, persistent: true });
 
@@ -34,13 +34,13 @@ export const manualDonationTotalRep = nodecg.Replicant<number>("manual-donation-
 export const donationMatchesRep = nodecg.Replicant<DonationMatch[]>("donation-matches", { defaultValue: [] });
 
 /* Audio Shared */
-export const microphoneGateRep = nodecg.Replicant<number>("obs-audio-gate", { defaultValue: -10 });
-export const gameAudioActiveRep = nodecg.Replicant<string>("audio-indicator", { defaultValue: "" });
-export const microphoneGate2Rep = nodecg.Replicant<number>("audio-gate", { defaultValue: -10 });
+export const gameAudioActiveRep = nodecg.Replicant<number>("game-audio-indicator", { defaultValue: -1 });
+export const microphoneGateRep = nodecg.Replicant<number>("x32:audio-gate", { defaultValue: -10 });
 export const hostLevelRep = nodecg.Replicant<number>("x32:host-level", { defaultValue: 0.75 });
 
 /* OBS Audio */
 export const obsAudioActivityRep = nodecg.Replicant<OBSAudioIndicator[]>("obs-audio-indicator", { defaultValue: [], persistent: false });
+export const obsMicrophoneGateRep = nodecg.Replicant<number>("obs:audio-gate", { defaultValue: -10 });
 
 /* X32 Audio */
 export const x32StatusRep = nodecg.Replicant<ConnectionStatus>("x32:status", { defaultValue: "disconnected", persistent: false });

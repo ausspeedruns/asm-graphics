@@ -416,7 +416,7 @@ const RadioStyled = styled(Radio)`
 `;
 
 export const DashAudio: React.FC = () => {
-	const [audioIndicatorRep] = useReplicant<string>("audio-indicator", "");
+	const [audioIndicatorRep] = useReplicant<number>("game-audio-indicator", -1);
 	const [runDataRep] = useReplicant<RunData | undefined>("runDataActiveRun", undefined, {
 		namespace: "nodecg-speedcontrol",
 	});

@@ -5,18 +5,10 @@ type TeamData = {
 	id: string;
 	time?: string;
 	place: number;
-}
+};
 
-export const getTeams = (
-	runData: RunDataActiveRun | undefined,
-	timer: Timer | undefined,
-	audioIndicator: string | undefined,
-	defaultTeamsCount: number = 4,
-) => {
+export const getTeams = (runData?: RunDataActiveRun, timer?: Timer, defaultTeamsCount: number = 4) => {
 	const teamData: TeamData[] = [];
-
-	let gameAudioActive = -1;
-	let totalIndex = 0;
 
 	const finishTimes = timer?.teamFinishTimes ?? {};
 
@@ -27,6 +19,8 @@ export const getTeams = (
 	if (runData?.teams) {
 		for (const [_teamIndex, team] of runData.teams.entries()) {
 			const id = team?.id ?? "";
+
+			// Determine time and place
 			const time = Object.hasOwn(finishTimes, id) ? finishTimes[id].time : "";
 			const place = Object.hasOwn(finishTimes, id)
 				? finishTimes[id].state === "forfeit"
@@ -35,17 +29,6 @@ export const getTeams = (
 				: 4;
 
 			teamData.push({ id, time, place });
-
-			for (const player of team.players) {
-				if (player.id === audioIndicator) {
-					gameAudioActive = totalIndex;
-				}
-				totalIndex++;
-			}
-
-			if (gameAudioActive !== -1) {
-				break;
-			}
 		}
 	}
 
@@ -53,5 +36,5 @@ export const getTeams = (
 		teamData.push({ id: "", time: undefined, place: 4 });
 	}
 
-	return { teamData, gameAudioActive };
+	return teamData;
 };

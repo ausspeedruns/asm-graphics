@@ -82,7 +82,7 @@ export const DashCouch: React.FC = () => {
 	const [commentatorsRep] = useReplicant<Commentator[]>("commentators", []);
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [obsInputsRep] = useReplicant<string[]>("obs-audio-inputs", []);
-	const [obsGateRep] = useReplicant<number>("obs-audio-gate", -25);
+	const [obsGateRep] = useReplicant<number>("obs:audio-gate", -25);
 	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>("obs-audio-indicator", []);
 
 	useEffect(() => {

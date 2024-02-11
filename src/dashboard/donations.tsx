@@ -26,7 +26,6 @@ const DonationsList = styled.div`
 export const Donations: React.FC = () => {
 	const [donationTotalRep] = useReplicant<number>("donationTotal", 0);
 	const [donations] = useReplicant<Donation[]>("donations", []);
-	const [asmmRep] = useReplicant<number>("asmm:totalKM", 0);
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -38,7 +37,6 @@ export const Donations: React.FC = () => {
 					})
 					.reverse()}
 			</DonationsList>
-			<DonationTotal>ASMM: {asmmRep} KM</DonationTotal>
 		</ThemeProvider>
 	);
 };

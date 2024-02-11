@@ -55,8 +55,7 @@ const TwitterSize = {
 };
 
 export const DS2: React.FC<OverlayProps> = (props) => {
-
-	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 2);
+	const teamData = getTeams(props.runData, props.timer, 2);
 
 	return (
 		<DS2Container>
@@ -67,12 +66,12 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 				<RaceFinish style={{ top: 276, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<AudioIndicator
-					active={gameAudioActive === 0}
+					active={props.gameAudioIndicator === 0}
 					side="top"
 					style={{ position: "absolute", top: 270, left: 678 }}
 				/>
 				<AudioIndicator
-					active={gameAudioActive === 1}
+					active={props.gameAudioIndicator === 1}
 					side="top"
 					style={{
 						position: "absolute",

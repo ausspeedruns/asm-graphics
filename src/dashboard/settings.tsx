@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { GreenButton, RedButton } from "./elements/styled-ui";
 
-import { Checkbox, FormControlLabel, FormGroup, TextField, ThemeProvider } from "@mui/material";
+import { TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { useReplicant } from "use-nodecg";
 
@@ -18,7 +18,6 @@ export const Settings: React.FC = () => {
 		name: "",
 		title: "",
 	});
-	const [specialAudio, setSpecialAudio] = useReplicant<boolean>("SPECIAL_AUDIO", false);
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -64,16 +63,6 @@ export const Settings: React.FC = () => {
 				>
 					Hide AoC
 				</RedButton>
-			</Row>
-			<Row>
-				<FormGroup>
-					<FormControlLabel
-						control={
-							<Checkbox checked={specialAudio} onChange={(e) => setSpecialAudio(e.target.checked)} />
-						}
-						label="SPECIAL AUDIO NO TOUCHY TOUCHY"
-					/>
-				</FormGroup>
 			</Row>
 		</ThemeProvider>
 	);

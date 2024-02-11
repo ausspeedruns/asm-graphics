@@ -10,7 +10,7 @@ import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 import { RTAudio } from "./dashboards/runner-tablet/audio";
 import { RTNames } from "./dashboards/runner-tablet/names";
-import { RTSelection } from "./dashboards/runner-tablet/headset-selection";
+// import { RTSelection } from "./dashboards/runner-tablet/headset-selection";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 
 const NavBar = styled.div`
@@ -90,7 +90,7 @@ const RunnerTablet: React.FC = () => {
 	});
 	const previousDataActive = usePrevious(runDataActiveRep);
 
-	const [tab, setTab] = useState<TabsValues>(TABS.NAMES);
+	const [tab, setTab] = useState<TabsValues>(TABS.AUDIO);
 	const [host] = useReplicant<Commentator | undefined>("host", undefined);
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 

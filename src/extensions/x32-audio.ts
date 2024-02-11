@@ -1,11 +1,12 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 import X32 from "./util/x32";
 
-import { x32StatusRep, x32BusFadersRep, x32AudioActivityRep, microphoneGate2Rep, gameAudioActiveRep } from "./replicants";
+import { x32StatusRep, x32BusFadersRep, x32AudioActivityRep, microphoneGateRep, gameAudioActiveRep } from "./replicants";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "@nodecg/types";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
+import _ from "underscore";
 
 const nodecg = nodecgApiContext.get();
 
@@ -56,7 +57,9 @@ x32.on("mainFaders", (faders) => {
 
 // Update x32BusFadersRep on an interval
 setInterval(() => {
-	x32BusFadersRep.value = faderValues;
+	if (!_.isEqual(x32BusFadersRep.value, faderValues)) {
+		x32BusFadersRep.value = faderValues;
+	}
 }, 200);
 
 x32.on("meters", (meters) => {
@@ -67,7 +70,7 @@ x32.on("meters", (meters) => {
 
 function updateAudioIndicator(float: number, mic: (typeof MICROPHONE_CHANNELS)[number]) {
 	// console.log(`${mic} ${X32.floatToDB(float)} ${X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75)} ${X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75) >= microphoneGate2Rep.value}`);
-	const active = X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75) >= microphoneGate2Rep.value;
+	const active = X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75) >= microphoneGateRep.value;
 	x32AudioActivityRep.value[mic.name] = active;
 }
 
@@ -90,7 +93,7 @@ nodecg.listenFor("transition:toGame", (_data) => {
 		1,
 	);
 
-	gameAudioActiveRep.value = SPEEDCONTROL_runDataActiveRep.value?.teams[0].players[0].id ?? "";
+	gameAudioActiveRep.value = 0;
 });
 
 // On transition to intermission
@@ -220,20 +223,16 @@ SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 });
 
 // Indexed to game number
-nodecg.listenFor("x32:changeGameAudio", (playerID) => {
+nodecg.listenFor("x32:changeGameAudio", (channelIndex) => {
 	// Find playerID game index
-	const teamIndex =
-		SPEEDCONTROL_runDataActiveRep.value?.teams.findIndex((team) => team.players.some((player) => player.id === playerID)) ?? -1;
-	const playerIndex =
-		SPEEDCONTROL_runDataActiveRep.value?.teams[teamIndex].players.findIndex((player) => player.id === playerID) ?? -1;
-	const gameChannelIndex = GAME_CHANNELS[teamIndex + playerIndex]; // THIS WILL BREAK IF ON COOP AND USING THE SAME CONSOLE
-
-	if (teamIndex + playerIndex < 0) {
+	if (channelIndex < 0) {
 		nodecg.log.error(
-			`[X32 Audio] Tried changing game audio to player: ${playerID}. But could not find the player.`,
+			`[X32 Audio] Tried changing game audio to Channel with the index of ${channelIndex} but that is out of range.`,
 		);
 		return;
 	}
+
+	const gameChannelIndex = GAME_CHANNELS[channelIndex];
 
 	// Get current active game audio
 	// Highest is considered active
@@ -261,6 +260,6 @@ nodecg.listenFor("x32:changeGameAudio", (playerID) => {
 		// Assume that the audio level the previous game was at will also be ok
 		x32.fade(gameChannelIndex, 0, 0, highestFaderVal, 1500);
 		x32.fade(gameChannelIndex, 1, 0, highestSpeakerFaderVal, 1500);
-		gameAudioActiveRep.value = playerID;
+		gameAudioActiveRep.value = channelIndex;
 	}, 1500);
 });

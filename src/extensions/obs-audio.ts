@@ -15,18 +15,18 @@ const runDataActiveRep = nodecg.Replicant(
 ) as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 
 nodecg.listenFor("update-audioindicator", (teamId) => {
-	gameAudioActiveRep.value = teamId;
+	// gameAudioActiveRep.value = teamId;
 	// changeStreamMutes(teamId);
 });
 
 runDataActiveRep.on("change", (newVal) => {
 	if (!newVal?.teams) {
-		gameAudioActiveRep.value = "";
+		gameAudioActiveRep.value = 0;
 		return;
 	}
 
 	if (newVal.teams.length > 1) {
-		gameAudioActiveRep.value = newVal.teams[0].id;
+		gameAudioActiveRep.value = 0;
 		// changeStreamMutes(newVal.teams[0].id);
 	}
 });

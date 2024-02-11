@@ -15,7 +15,7 @@ export interface OverlayProps {
 	host?: Commentator;
 	preview?: boolean;
 	sponsors: NodeCG.AssetFile[];
-	audioIndicator?: string;
+	gameAudioIndicator: number;
 	microphoneAudioIndicator?: AudioIndicator;
 }
 

@@ -100,7 +100,7 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		},
 	}));
 
-	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 2);
+	const teamData = getTeams(props.runData, props.timer, 2);
 
 	return (
 		<Standard2Container>
@@ -114,12 +114,12 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				</LeftBox>
 
 				<AudioIndicator
-					active={gameAudioActive === 0}
+					active={props.gameAudioIndicator === 0}
 					side="left"
 					style={{ position: "absolute", top: 255, left: 625 }}
 				/>
 				<AudioIndicator
-					active={gameAudioActive === 1}
+					active={props.gameAudioIndicator === 1}
 					side="right"
 					style={{
 						position: "absolute",

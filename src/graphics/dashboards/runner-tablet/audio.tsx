@@ -1,63 +1,71 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
 import { useReplicant } from "use-nodecg";
 import { AudioFader } from "./audio-fader";
-import { HEADSETS } from "./headsets";
+import { HEADSETS, Host } from "./headsets";
 import _ from "lodash";
 import usePrevious from "../../../hooks/usePrevious";
 import { FitText } from "../../elements/fit-text";
 
-const RTAudioContainer = styled.div``;
+const RTAudioContainer = styled.div`
+	display: flex;
+`;
 
 const HeadsetSelectorContainer = styled.div`
-	padding: 8px;
 	display: flex;
+	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
+	width: 300px;
 `;
 
 const BigName = styled(FitText)`
 	font-size: 50px;
 	font-weight: bold;
-	max-width: 26%;
-	padding-right: 16px;
+	max-width: 100%;
+	margin-top: 16px;
 	white-space: nowrap;
 	flex-grow: 1;
 `;
 
-const HeadsetSelectors = styled.div`
-	display: flex;
-	justify-content: space-between;
-	gap: 16px;
-	background: white;
-	width: fit-content;
-	padding: 8px;
-	border-radius: 26px;
-`;
-
 const HeadsetName = styled.button`
 	all: unset;
+	flex-grow: 1;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 32px;
-	border-radius: 20px;
-	width: 175px;
-	padding: 1rem;
+	width: 100%;
 	text-align: center;
+`;
+
+const MixingScrollable = styled.div`
+	width: 100%;
+	flex-grow: 1;
+	height: 720px;
+	overflow: scroll;
+	overflow-y: scroll;
 `;
 
 const MixingContainer = styled.div`
 	width: 100%;
-	height: 560px;
+	flex-grow: 1;
 	margin: auto;
 	display: flex;
-	align-items: flex-start;
+	flex-direction: column;
+	align-items: center;
 	justify-content: space-around;
 	padding-top: 8px;
 	padding-bottom: 48px;
+`;
+
+const CategoryName = styled.span`
+	font-weight: bold;
+	width: 93%;
+	font-size: 2rem;
+	margin-top: 1.5rem;
 `;
 
 const MixingDivide = styled.div`
@@ -76,8 +84,9 @@ export const RTAudio = (props: Props) => {
 		namespace: "nodecg-speedcontrol",
 	});
 	const [couchNamesRep] = useReplicant<Commentator[]>("commentators", []);
-	// const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
+	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
+	const [selectedHeadset, setSelectedHeadset] = useState(HEADSETS[0].name);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 	const debouncedFadersRep = useAudioDebounce(busFadersRep, 500);
 
@@ -86,7 +95,7 @@ export const RTAudio = (props: Props) => {
 		[runDataActiveRep],
 	);
 	const headsetUserMap = useMemo(() => {
-		const map = new Map(HEADSETS.map((headset) => [headset.name, headset.name]));
+		const map = new Map();
 		runDataActiveRep?.teams.map((team) => {
 			team.players.map((player) => {
 				if ("microphone" in player.customData) map.set(player.customData.microphone, player.name);
@@ -99,12 +108,28 @@ export const RTAudio = (props: Props) => {
 
 		return map;
 	}, [runDataActiveRep, couchNamesRep]);
+	const sortedHeadsets = useMemo(() => {
+		let selectedHeadsetArray = [];
+		let headsetsWithUser = [];
+		let headsetsWithoutUser = [];
+
+		for (let headset of HEADSETS) {
+			if (headset.name === selectedHeadset) {
+				selectedHeadsetArray.push(headset);
+			} else if (headsetUserMap.has(headset.name)) {
+				headsetsWithUser.push(headset);
+			} else if (headset.name != "Host") {
+				headsetsWithoutUser.push(headset);
+			}
+		}
+
+		return [...selectedHeadsetArray, ...headsetsWithUser, ...headsetsWithoutUser];
+	}, [HEADSETS, selectedHeadset, headsetUserMap, hostRep]);
 
 	useEffect(() => {
 		setFaderValues(debouncedFadersRep);
 	}, [debouncedFadersRep]);
 
-	const [selectedHeadset, setSelectedHeadset] = useState(HEADSETS[0].name);
 	const selectedHeadsetObj = HEADSETS.find((headset) => headset.name === selectedHeadset);
 	const headsetUser = selectedHeadsetObj ? headsetUserMap.get(selectedHeadsetObj.name) : "";
 
@@ -130,78 +155,86 @@ export const RTAudio = (props: Props) => {
 		nodecg.sendMessage("x32:setFader", { float: float, channel: channel, mixBus: mixBus });
 	};
 
+	const editingText = `Editing ${headsetUser === selectedHeadsetObj?.name ? selectedHeadset : headsetUser ?? selectedHeadset}`;
+
 	return (
 		<RTAudioContainer className={props.className} style={props.style}>
 			<HeadsetSelectorContainer style={{ backgroundColor: selectedHeadsetObj?.colour }}>
-				<BigName
-					style={{ color: selectedHeadsetObj?.textColour }}
-					text={headsetUser === selectedHeadsetObj?.name ? selectedHeadset : headsetUser ?? selectedHeadset}
-				/>
-				<HeadsetSelectors>
-					{HEADSETS.filter((headset) => headset.name !== "Host" && headset.name !== "NONE").map((headset) => {
+				{HEADSETS.filter((headset) => headset.name !== "Host" && headset.name !== "NONE").map((headset) => {
+					return (
+						<HeadsetName
+							key={headset.name}
+							style={{
+								background: headset.colour,
+								color: headset.textColour,
+								fontWeight: selectedHeadset === headset.name ? "bold" : "",
+							}}
+							onClick={() => setSelectedHeadset(headset.name)}>
+							<FitText
+								style={{ maxWidth: "100%" }}
+								text={headsetUserMap.get(headset.name) ?? headset.name}
+							/>
+						</HeadsetName>
+					);
+				})}
+			</HeadsetSelectorContainer>
+			<MixingScrollable>
+				<MixingContainer style={{ background: `${selectedHeadsetObj?.colour}22` }}>
+					<BigName text={editingText} />
+					<CategoryName>Headphone Volume</CategoryName>
+					<AudioFader
+						mixBus={mixBus}
+						channel={0}
+						value={faderValues[mixBus]?.[0]}
+						onChange={(float) => handleFaderChange(float, mixBus, 0)}
+						colour={selectedHeadsetObj?.colour}
+					/>
+					<CategoryName>Game</CategoryName>
+					{[...Array(numberOfRunners).keys()].map((number) => {
 						return (
-							<HeadsetName
-								key={headset.name}
-								style={{
-									background: headset.colour,
-									color: headset.textColour,
-									fontWeight: selectedHeadset === headset.name ? "bold" : "",
-								}}
-								onClick={() => setSelectedHeadset(headset.name)}>
-								<FitText
-									style={{ maxWidth: "100%" }}
-									text={headsetUserMap.get(headset.name) ?? headset.name}
-								/>
-							</HeadsetName>
+							<AudioFader
+								key={number}
+								label={`Game ${number + 1}`}
+								mixBus={mixBus}
+								channel={9 + number * 2}
+								value={faderValues[mixBus]?.[9 + number + number * 2]}
+								onChange={(float) => handleFaderChange(float, mixBus, 9 + number * 2)}
+								colour={"#000"}
+							/>
 						);
 					})}
-				</HeadsetSelectors>
-			</HeadsetSelectorContainer>
-			<MixingContainer
-				style={{ background: `${selectedHeadsetObj?.colour}22` }}>
-				<AudioFader
-					key={"MASTER"}
-					label={"MASTER"}
-					mixBus={mixBus}
-					channel={0}
-					value={faderValues[mixBus]?.[0]}
-					onChange={(float) => handleFaderChange(float, mixBus, 0)}
-					colour={selectedHeadsetObj?.colour}
-				/>
-				<MixingDivide style={{ background: selectedHeadsetObj?.colour }} />
-				{[...Array(numberOfRunners).keys()].map((number) => {
-					return (
-						<AudioFader
-							key={number}
-							label={`Game ${number + 1}`}
-							mixBus={mixBus}
-							channel={9 + number * 2}
-							value={faderValues[mixBus]?.[9 + number + number * 2]}
-							onChange={(float) => handleFaderChange(float, mixBus, 9 + number * 2)}
-							colour={selectedHeadsetObj?.colour}
-						/>
-					);
-				})}
-				<MixingDivide style={{ background: selectedHeadsetObj?.colour }} />
-				{HEADSETS.filter((headset) => headset.name !== "NONE").map((headset) => {
-					return (
-						<AudioFader
-							key={headset.name}
-							label={
-								headset.name === selectedHeadset
-									? "You"
-									: headsetUserMap.get(headset.name) ?? headset.name
-							}
-							mixBus={mixBus}
-							channel={headset.channel}
-							value={faderValues[mixBus]?.[headset.channel]}
-							onChange={(float) => handleFaderChange(float, mixBus, headset.channel)}
-							colour={selectedHeadsetObj?.colour}
-							headset={headset}
-						/>
-					);
-				})}
-			</MixingContainer>
+					<CategoryName>Host</CategoryName>
+					<AudioFader
+						mixBus={mixBus}
+						channel={Host.channel}
+						value={faderValues[mixBus]?.[Host.channel]}
+						onChange={(float) => handleFaderChange(float, mixBus, 0)}
+						colour={"#000"}
+					/>
+					<CategoryName>Commentary</CategoryName>
+					{sortedHeadsets
+						.filter((headset) => headset.name !== "NONE")
+						.map((headset) => {
+							return (
+								<AudioFader
+									key={headset.name}
+									label={
+										headset.name === selectedHeadset
+											? "You"
+											: headsetUserMap.get(headset.name) ?? headset.name
+									}
+									mixBus={mixBus}
+									channel={headset.channel}
+									value={faderValues[mixBus]?.[headset.channel]}
+									onChange={(float) => handleFaderChange(float, mixBus, headset.channel)}
+									colour={headset.colour}
+									headset={headset}
+									fakeDisabled={!headsetUserMap.get(headset.name)}
+								/>
+							);
+						})}
+				</MixingContainer>
+			</MixingScrollable>
 		</RTAudioContainer>
 	);
 };

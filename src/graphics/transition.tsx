@@ -19,7 +19,6 @@ import Clip3 from "./media/audio/heartcontainer1.mp3";
 import Clip4 from "./media/audio/heartpiece1.mp3";
 import Clip5 from "./media/audio/itemget1.mp3";
 
-import SPECIAL_AUDIO from "./media/audio/SPECIAL.mp3";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 
 const ClipArray = [Clip1, Clip2, Clip3, Clip4, Clip5];
@@ -68,11 +67,10 @@ const TAGLINES = [
 	"ACE still trying to be discovered in AusSpeedruns graphics",
 	"It would suck if we were behind schedule. Which we aren't... right?",
 	"Feed the cats!",
-	"Ohhhh ASAP I finally get it"
+	"Ohhhh ASAP I finally get it",
 ];
 
 export const Transition: React.FC = () => {
-	const [specialAudio] = useReplicant<boolean>("SPECIAL_AUDIO", false);
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
 		namespace: "nodecg-speedcontrol",
@@ -87,7 +85,7 @@ export const Transition: React.FC = () => {
 		console.log("Transitioning");
 		runTransition();
 	});
-	
+
 	useListenFor("transition:toIRL", () => {
 		console.log("Transitioning");
 		runTransition();
@@ -114,18 +112,13 @@ export const Transition: React.FC = () => {
 		tl.call(
 			() => {
 				if (!audioRef.current) return;
-
-				if (specialAudio) {
-					audioRef.current.src = SPECIAL_AUDIO;
-				} else {
-					audioRef.current.src = ClipArray[Math.floor(Math.random() * ClipArray.length)];
-				}
+				audioRef.current.src = ClipArray[Math.floor(Math.random() * ClipArray.length)];
 				audioRef.current.play();
 			},
 			[],
-			specialAudio ? undefined : "+=1.2",
+			"+=1.2",
 		);
-		
+
 		console.log(rive);
 		if (rive) {
 			rive.startRendering();
@@ -153,7 +146,9 @@ export const Transition: React.FC = () => {
 			<button style={{ float: "right" }} onClick={() => runTransition(runString(runDataActiveRep))}>
 				Run game transition
 			</button>
-			<button style={{ float: "right" }} onClick={() => runTransition(TAGLINES[Math.floor(Math.random() * TAGLINES.length)])}>
+			<button
+				style={{ float: "right" }}
+				onClick={() => runTransition(TAGLINES[Math.floor(Math.random() * TAGLINES.length)])}>
 				Run intermission transition
 			</button>
 			<div>

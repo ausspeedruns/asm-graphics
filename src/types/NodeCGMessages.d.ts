@@ -5,6 +5,8 @@ import type { StaffMessage } from "./StaffMessages";
 import type { Tweet } from "./Twitter";
 
 export type NodeCGMessages = {
+	// Audio
+	"changeGameAudio": { manual: boolean, index: number }
 	// Commentators / Host
 	"update-hostname": Commentator;
 	"update-hostnames": Commentator[];
@@ -58,7 +60,7 @@ export type NodeCGMessages = {
 	"staff-sendMessage": StaffMessage;
 	// X32 Audio
 	"x32:setFader": { mixBus: number; float: number; channel: number };
-	"x32:changeGameAudio": string;
+	"x32:changeGameAudio": number;
 	// Twitter
 	"newTweet": Tweet;
 	"discardTweet": string;

@@ -15,6 +15,7 @@ interface X32Class {
 }
 
 class X32 extends TypedEmitter<X32Class> {
+	public connected = false;
 	private heartbeatTimeout?: NodeJS.Timeout;
 	private heartbeatAttempts = 0;
 	private MAX_HEARTBEAT_ATTEMPTS = 10;
@@ -165,6 +166,7 @@ class X32 extends TypedEmitter<X32Class> {
 
 	close = () => {
 		nodecg.log.warn("[X32] Port closed.");
+		this.connected = true;
 	};
 
 	/**
@@ -235,6 +237,7 @@ class X32 extends TypedEmitter<X32Class> {
 
 	open = () => {
 		nodecg.log.info("[X32] Port open, can now communicate with a Behringer X32.");
+		this.connected = true;
 		this.renewSubscriptions();
 	};
 

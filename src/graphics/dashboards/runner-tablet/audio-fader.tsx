@@ -1,107 +1,77 @@
 import { Slider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { FitText } from "../../elements/fit-text";
 import { Headset } from "./headsets";
 
 const AudioFaderContainer = styled.div`
-	height: 94%;
-	width: 140px;
+	width: 94%;
+	/* width: 140px; */
+	height: 100px;
 	display: flex;
 	flex-direction: column;
-	align-content: center;
 	justify-content: center;
+	padding: 0 64px;
+`;
+
+const SliderContainer = styled.div`
+	display: flex;
+	align-items: center;
 `;
 
 const DBValue = styled.p`
 	text-align: center;
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 	margin: 0;
-	margin-bottom: 1rem;
 `;
 
 const FaderLabel = styled.div`
-	text-align: center;
 	min-height: 2rem;
 	max-height: 2rem;
 	font-size: 1.2rem;
 	margin: 0;
-	display: flex;
-	justify-content: center;
 	border-radius: 8px;
 	line-height: 2rem;
 	padding: 0 8px;
 `;
 
-const marks = [
-	{
-		value: 1,
-		label: "+10",
-	},
-	{
-		value: 0.876,
-		label: "5",
-	},
-	{
-		value: 0.75,
-		label: "0",
-	},
-	{
-		value: 0.626,
-		label: "-5",
-	},
-	{
-		value: 0.5,
-		label: "-10",
-	},
-	{
-		value: 0.374,
-		label: "-20",
-	},
-	{
-		value: 0.253,
-		label: "-30",
-	},
-	{
-		value: 0.13,
-		label: "-50",
-	},
-	{
-		value: 0,
-		label: "-∞",
-	},
-];
-
 const StyledSlider = styled(Slider)`
-	width: 5px !important;
+	width: 85% !important;
+	margin-right: 32px;
 
 	& .MuiSlider-thumb {
 		height: 35px;
 		width: 20px;
 		border-radius: 5px;
-		background-color: #000;
+		background-color: #fff;
+		border: 2px solid black;
 	}
 
 	& .MuiSlider-rail {
 		border: 2px solid black;
+		border-radius: 0;
 		background: white;
+		height: 10px;
+		opacity: 1;
 	}
 
 	& .MuiSlider-track {
-		border: 0;
+		border: 2px solid black;
+		border-radius: 0;
+		height: 10px;
 	}
 `;
 
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
-	label: string;
+	label?: string;
 	channel: number;
 	mixBus: number;
 	value: number | undefined;
 	onChange: (value: number) => void;
 	colour?: string;
 	headset?: Headset;
+	fakeDisabled?: boolean;
 }
 
 export const AudioFader = (props: Props) => {
@@ -113,63 +83,41 @@ export const AudioFader = (props: Props) => {
 		}
 	}, [props.value]);
 
-	const dbVal = floatToDB(faderVal ?? NaN);
-
 	return (
-		<AudioFaderContainer className={props.className} style={props.style}>
-			<FaderLabel
-				style={{
-					fontStyle: props.label === "You" ? "italic" : "initial",
-					fontWeight: props.label === "MASTER" ? "bold" : "normal",
-					color: props.label === "You" ? "" : props.headset?.textColour,
-					backgroundColor: props.label === "You" ? "" : props.headset?.colour,
-				}}>
-				<FitText style={{maxWidth: "100%"}} text={props.label} />
-			</FaderLabel>
-			<DBValue>
-				{dbVal > 0 && "+"}
-				{dbVal === Number.NEGATIVE_INFINITY ? "-∞" : dbVal.toFixed(1)}
-				{/* <br/>
-				{faderVal} */}
-			</DBValue>
-			<StyledSlider
-				style={{ margin: "auto" }}
-				size="medium"
-				orientation="vertical"
-				// value={props.value}
-				value={faderVal ?? 0}
-				onChange={(_, newVal) => {
-					// if (!Array.isArray(newVal)) updateFader(newVal);
-					if (!Array.isArray(newVal)) {
-						setFaderVal(newVal);
-						props.onChange(newVal);
-					}
-				}}
-				min={0}
-				max={1}
-				step={0.001}
-				marks={marks}
-				sx={{
-					"& .MuiSlider-track": {
-						background: `linear-gradient(0deg, ${props.colour}, black)`,
-					},
-				}}
-			/>
+		<AudioFaderContainer
+			className={props.className}
+			style={{ opacity: props.fakeDisabled ? 0.4 : 1, ...props.style }}>
+			{props.label && (
+				<FaderLabel
+					style={{
+						fontStyle: props.label === "You" ? "italic" : "initial",
+						fontWeight: props.label === "You" ? "bold" : "initial",
+					}}>
+					{props.label}
+				</FaderLabel>
+			)}
+			<SliderContainer>
+				<StyledSlider
+					style={{ margin: "auto" }}
+					value={faderVal ?? 0}
+					onChange={(_, newVal) => {
+						if (!Array.isArray(newVal)) {
+							setFaderVal(newVal);
+							props.onChange(newVal);
+						}
+					}}
+					min={0}
+					max={1}
+					step={0.001}
+					// marks={marks}
+					sx={{
+						"& .MuiSlider-track": {
+							background: props.colour,
+						},
+					}}
+				/>
+				<DBValue>{((faderVal ?? 0) * 100).toFixed(0)}</DBValue>
+			</SliderContainer>
 		</AudioFaderContainer>
 	);
 };
-
-function floatToDB(f: number) {
-	if (f >= 0.5) {
-		return f * 40 - 30; // max dB value: +10.
-	} else if (f >= 0.25) {
-		return f * 80 - 50;
-	} else if (f >= 0.0625) {
-		return f * 160 - 70;
-	} else if (f >= 0.0) {
-		// return f * 480 - 90; // min dB value: -90 or -oo
-		return Number.NEGATIVE_INFINITY;
-	} else {
-		return Number.NEGATIVE_INFINITY;
-	}
-}

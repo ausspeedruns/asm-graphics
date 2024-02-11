@@ -70,12 +70,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", []);
-	const [audioIndicatorRep] = useReplicant<string>("audio-indicator", "");
+	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator", -1);
 	const [microphoneAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators", {});
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
-
-	console.log();
 
 	const overlayArgs: OverlayProps = {
 		runData: displayingRun,
@@ -85,9 +83,8 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		sponsors: sponsorsRep,
 		microphoneAudioIndicator: microphoneAudioIndicatorRep,
 		host: hostRep,
+		gameAudioIndicator: gameAudioIndicatorRep,
 	};
-
-	console.log(microphoneAudioIndicatorRep);
 
 	const Overlays = [
 		{
@@ -100,13 +97,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: "Standard",
 		},
 		{
-			component: (
-				<Standard2
-					{...overlayArgs}
-					audioIndicator={audioIndicatorRep}
-					ref={(el: OverlayRef) => (overlayRefs.current[2] = el)}
-				/>
-			),
+			component: <Standard2 {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[2] = el)} />,
 			name: "Standard-2",
 		},
 		{
@@ -114,17 +105,11 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: "Widescreen",
 		},
 		{
-			component: (
-				<Widescreen2
-					{...overlayArgs}
-					audioIndicator={audioIndicatorRep}
-					ref={(el: OverlayRef) => (overlayRefs.current[4] = el)}
-				/>
-			),
+			component: <Widescreen2 {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[4] = el)} />,
 			name: "Widescreen-2",
 		},
 		{
-			component: <Widescreen3 {...overlayArgs} audioIndicator={audioIndicatorRep} />,
+			component: <Widescreen3 {...overlayArgs} />,
 			name: "Widescreen-3",
 		},
 		{
@@ -168,12 +153,6 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: "None",
 		},
 	];
-
-	// Overlays.forEach((overlay, i) => {
-	// 	// if (overlay.component.props.ref) {
-	// 		overlay.component.props.ref = (el: OverlayRef) => (overlayRefs.current[i] = el);
-	// 	// }
-	// });
 
 	useListenFor("showTweet", (newVal) => {
 		overlayRefs.current.forEach((ref) => {

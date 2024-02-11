@@ -229,7 +229,7 @@ export const HostDash: React.FC = () => {
 					<Paper style={{ flexGrow: 1, overflowY: "auto", overflowX: "hidden" }}>
 						<Header
 							text={`Incentives – Last Updated: ${
-								incentivesUpdatedRep ? format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"
+								incentivesUpdatedRep ? format.format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"
 							}`}
 							url="https://docs.google.com/spreadsheets/d/1IsMrjs3Z09WfCmnj0r46WSTK3sbFPD9dXlkIsgMNIe8">
 							<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>

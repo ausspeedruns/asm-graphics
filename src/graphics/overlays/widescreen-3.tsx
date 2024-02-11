@@ -117,13 +117,13 @@ const RightBG = styled.div`
 `;
 
 export const Widescreen3: React.FC<OverlayProps> = (props) => {
-	const { teamData, gameAudioActive } = getTeams(props.runData, props.timer, props.audioIndicator, 3);
+	const teamData = getTeams(props.runData, props.timer, 3);
 
 	return (
 		<Widescreen3Container>
-			<WideAudioIndicator active={gameAudioActive === 0} side="top" style={{ left: 961 }} />
-			<WideAudioIndicator active={gameAudioActive === 1} side="top" style={{ left: 1262 }} />
-			<WideAudioIndicator active={gameAudioActive === 2} side="top" style={{ left: 1563 }} />
+			<WideAudioIndicator active={props.gameAudioIndicator === 0} side="top" style={{ left: 961 }} />
+			<WideAudioIndicator active={props.gameAudioIndicator === 1} side="top" style={{ left: 1262 }} />
+			<WideAudioIndicator active={props.gameAudioIndicator === 2} side="top" style={{ left: 1563 }} />
 			<RightBG />
 			<TopBar>
 				<Screen />
