@@ -15,7 +15,7 @@ import {
 	Snackbar,
 } from "@mui/material";
 import { Close, Refresh } from "@mui/icons-material";
-import format from "date-fns/format";
+// import format from "date-fns/format";
 
 import type { Donation } from "@asm-graphics/types/Donations";
 
@@ -171,10 +171,10 @@ export const HostDash: React.FC = () => {
 						height: "100%",
 						flexBasis: "33%",
 					}}>
-					{/* <Paper style={{ overflowY: "auto", overflowX: "hidden", minHeight: 160 }}>
+					<Paper style={{ overflowY: "auto", overflowX: "hidden", minHeight: 160 }}>
 						<Header text="Your Name :)" />
 						<HostName />
-					</Paper> */}
+					</Paper>
 					<Paper style={{ overflow: "hidden", height: 300, minHeight: 300 }}>
 						<Timer />
 					</Paper>
@@ -227,7 +227,7 @@ export const HostDash: React.FC = () => {
 						flexBasis: "33%",
 					}}>
 					<Paper style={{ flexGrow: 1, overflowY: "auto", overflowX: "hidden" }}>
-						<Header
+						{/* <Header
 							text={`Incentives – Last Updated: ${
 								incentivesUpdatedRep ? format.format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"
 							}`}
@@ -235,7 +235,7 @@ export const HostDash: React.FC = () => {
 							<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
 								<Refresh fontSize="small" />
 							</IconButton>
-						</Header>
+						</Header> */}
 						<Incentives style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
 					</Paper>
 					<Paper style={{ height: "49%", overflow: "hidden" }}>

@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { useReplicant } from "use-nodecg";
 import { darkTheme } from "./theme";
+import { RecordVoiceOver, WbIncandescent } from "@mui/icons-material";
 
 const MicAudioContainer = styled.div`
 	padding: 0 8px;
@@ -91,13 +92,13 @@ function isNumeric(str: string) {
 }
 
 export const DashboardMicAudio: React.FC = () => {
-	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate", -5);
-	const [hostLevelRep, setHostLevelRep] = useReplicant<number>("x32:host-level", 0.75);
+	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate");
+	const [hostLevelRep, setHostLevelRep] = useReplicant<number>("x32:host-level");
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<MicAudioContainer>
-				<p>Microphone Indicator Activation dB</p>
+				<p><WbIncandescent /> Microphone Indicator Activation dB</p>
 				<SliderContainer>
 					<Slider
 						style={{ margin: "auto" }}
@@ -117,7 +118,7 @@ export const DashboardMicAudio: React.FC = () => {
 						valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
 					/>
 					<Input
-						value={floatToDB(audioGateRep).toFixed(1)}
+						value={floatToDB(audioGateRep ?? 0).toFixed(1)}
 						size="small"
 						onChange={(e) => {
 							if (isNumeric(e.target.value)) {
@@ -132,7 +133,7 @@ export const DashboardMicAudio: React.FC = () => {
 						}}
 					/>
 				</SliderContainer>
-				<p>Host Unmute Audio Level</p>
+				<p><RecordVoiceOver /> Host Unmute Audio Level</p>
 				<SliderContainer>
 					<Slider
 						style={{ margin: "auto" }}
@@ -152,7 +153,7 @@ export const DashboardMicAudio: React.FC = () => {
 						valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
 					/>
 					<Input
-						value={floatToDB(hostLevelRep).toFixed(1)}
+						value={floatToDB(hostLevelRep ?? 0).toFixed(1)}
 						size="small"
 						onChange={(e) => {
 							if (isNumeric(e.target.value)) {

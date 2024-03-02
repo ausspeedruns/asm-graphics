@@ -92,8 +92,6 @@ nodecg.listenFor("transition:toGame", (_data) => {
 		32,
 		1,
 	);
-
-	gameAudioActiveRep.value = 0;
 });
 
 // On transition to intermission

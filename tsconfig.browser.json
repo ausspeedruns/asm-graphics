@@ -21,5 +21,11 @@
 		},
 		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["**/*.ts", "**/*.tsx", "src/types/**/*.d.ts", "node_modules/@nodecg/types/augment-window.d.ts"]
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"src/types/**/*.d.ts",
+		"node_modules/@nodecg/types/augment-window.d.ts",
+		"node_modules/vite-plugin-svgr/client.d.ts"
+	]
 }

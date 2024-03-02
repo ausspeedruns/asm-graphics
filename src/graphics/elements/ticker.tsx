@@ -28,8 +28,7 @@ import { DonationMatch } from "@asm-graphics/types/Donations";
 const TickerContainer = styled.div`
 	height: 64px;
 	width: 1920px;
-	/* background: var(--main); */
-	background: var(--pax23-main-light);
+	background: var(--main);
 	font-family: var(--main-font);
 	display: flex;
 	justify-content: space-between;

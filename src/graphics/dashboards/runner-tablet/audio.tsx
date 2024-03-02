@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
@@ -66,12 +66,6 @@ const CategoryName = styled.span`
 	width: 93%;
 	font-size: 2rem;
 	margin-top: 1.5rem;
-`;
-
-const MixingDivide = styled.div`
-	height: 120%;
-	width: 5px;
-	margin-top: -9px;
 `;
 
 interface Props {

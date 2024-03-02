@@ -90,7 +90,7 @@ const DashOBS: React.FC = () => {
 	const bundleConfig = nodecg.bundleConfig;
 	const [currentOverlay] = useReplicant<CurrentOverlay | undefined>("currentOverlay", undefined);
 	const [twitchStreamsRep] = useReplicant<TwitchStream[]>("twitchStreams", []);
-	const [currentSceneRep] = useReplicant<string>("obsCurrentScene", "Game Overlay");
+	const [currentSceneRep] = useReplicant<string>("obs:currentScene", "Game Overlay");
 	const [connectionRep] = useReplicant<ConnectionStatus>("obs:status", "disconnected");
 	const [showKeys, setShowKeys] = useState(false);
 	const [showRefreshDialog, setShowRefreshDialog] = useState(false);

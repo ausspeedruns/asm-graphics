@@ -169,7 +169,7 @@ nodecg.listenFor("removeTwitchStream", (newVal) => {
 
 // If a transition is done from OBS
 obs.on("SceneTransitionStarted", () => {
-	nodecg.sendMessage("runTransitionGraphic");
+	// nodecg.sendMessage("runTransitionGraphic");
 });
 
 // CURRENT SCENE

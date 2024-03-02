@@ -24,7 +24,10 @@ export const hostRep = nodecg.Replicant<Commentator>("host", {
 	},
 	persistent: true,
 });
-export const headsetsUsed = nodecg.Replicant<Record<string, number>>("headsets-used", { defaultValue: {}, persistent: true });
+export const headsetsUsed = nodecg.Replicant<Record<string, number>>("headsets-used", {
+	defaultValue: {},
+	persistent: true,
+});
 
 /* Donations */
 export const donationTotalRep = nodecg.Replicant<number>("donationTotal", { defaultValue: 0 });
@@ -39,11 +42,17 @@ export const microphoneGateRep = nodecg.Replicant<number>("x32:audio-gate", { de
 export const hostLevelRep = nodecg.Replicant<number>("x32:host-level", { defaultValue: 0.75 });
 
 /* OBS Audio */
-export const obsAudioActivityRep = nodecg.Replicant<OBSAudioIndicator[]>("obs-audio-indicator", { defaultValue: [], persistent: false });
+export const obsAudioActivityRep = nodecg.Replicant<OBSAudioIndicator[]>("obs-audio-indicator", {
+	defaultValue: [],
+	persistent: false,
+});
 export const obsMicrophoneGateRep = nodecg.Replicant<number>("obs:audio-gate", { defaultValue: -10 });
 
 /* X32 Audio */
-export const x32StatusRep = nodecg.Replicant<ConnectionStatus>("x32:status", { defaultValue: "disconnected", persistent: false });
+export const x32StatusRep = nodecg.Replicant<ConnectionStatus>("x32:status", {
+	defaultValue: "disconnected",
+	persistent: false,
+});
 export const x32AudioActivityRep = nodecg.Replicant<AudioIndicator>("audio-indicators", { defaultValue: {} });
 export const x32BusFadersRep = nodecg.Replicant<number[][]>("x32:busFaders", { defaultValue: [], persistent: false });
 
@@ -51,9 +60,10 @@ export const x32BusFadersRep = nodecg.Replicant<number[][]>("x32:busFaders", { d
 export const incentivesRep = nodecg.Replicant<(Goal | War)[]>("incentives", { defaultValue: [] });
 
 /* Overlay/Online */
-export const currentOverlayRep = nodecg.Replicant<CurrentOverlay>("currentOverlay", { defaultValue: { preview: "widescreen", live: "standard" } });
+export const currentOverlayRep = nodecg.Replicant<CurrentOverlay>("currentOverlay", {
+	defaultValue: { preview: "widescreen", live: "standard" },
+});
 export const twitchStreamsRep = nodecg.Replicant<Stream[]>("twitchStreams", { defaultValue: [] });
-export const obsCurrentSceneRep = nodecg.Replicant<string>("obsCurrentScene", { defaultValue: "Intermission" });
 
 /* Staff Messages DEPRECATED */
 export const staffMessagesRep = nodecg.Replicant<StaffMessage[]>("staff-messages", { defaultValue: [] });
@@ -62,14 +72,22 @@ export const staffMessagesRep = nodecg.Replicant<StaffMessage[]>("staff-messages
 export const tweetsRep = nodecg.Replicant<Tweet[]>("tweets", { persistent: false, defaultValue: [] });
 
 /* GraphQL */
-export const incentivesUpdatedLastRep = nodecg.Replicant<number | undefined>("incentives:updated-at", { defaultValue: undefined });
+export const incentivesUpdatedLastRep = nodecg.Replicant<number | undefined>("incentives:updated-at", {
+	defaultValue: undefined,
+});
 export const allAusSpeedrunsUsernamesRep = nodecg.Replicant<AusSpeedrunsUser[]>("all-usernames", { defaultValue: [] });
 
 /* OBS */
-export const obsStatusRep = nodecg.Replicant<ConnectionStatus>("obs:status", { defaultValue: "disconnected", persistent: false });
+export const obsStatusRep = nodecg.Replicant<ConnectionStatus>("obs:status", {
+	defaultValue: "disconnected",
+	persistent: false,
+});
+export const obsCurrentSceneRep = nodecg.Replicant<string>("obs:currentScene", { defaultValue: "Intermission" });
 
 /* Credits */
-export const lowerThirdNameRep = nodecg.Replicant<{ name: string; title: string }>("credits-name", { defaultValue: { name: "", title: "" } });
+export const lowerThirdNameRep = nodecg.Replicant<{ name: string; title: string }>("credits-name", {
+	defaultValue: { name: "", title: "" },
+});
 
 /* Runner Tablet */
 export const runnerStatusRep = nodecg.Replicant<boolean>("runner:ready", { defaultValue: false });

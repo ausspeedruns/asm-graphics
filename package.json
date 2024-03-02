@@ -201,6 +201,7 @@
 		"@emotion/styled": "^11.11.0",
 		"@mui/icons-material": "^5.15.7",
 		"@mui/material": "^5.15.7",
+		"@nodecg/react-hooks": "^1.0.1",
 		"@nodecg/types": "^2.1.12",
 		"@rive-app/react-canvas": "^4.7.1",
 		"axios": "1.6.5",
@@ -230,7 +231,7 @@
 		"tiltify-api-client": "^2.0.0",
 		"tiny-typed-emitter": "^2.1.0",
 		"underscore": "^1.13.6",
-		"use-nodecg": "^0.4.0",
+		"use-nodecg": "^0.4.1-1",
 		"ws": "^8.16.0",
 		"zod": "^3.22.4"
 	},

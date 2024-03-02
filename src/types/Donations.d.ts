@@ -1,4 +1,4 @@
-export interface Donation {
+export type Donation = {
 	desc?: string;
 	id: string;
 	read: boolean;

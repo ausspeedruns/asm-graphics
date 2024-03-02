@@ -4,7 +4,7 @@ import styled from "styled-components";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
-import { PAX23_COLOURS } from "./event-specific/pax-23/pax23";
+import { TGX24_COLOURS } from "./event-specific/tgx-24/tgx24";
 
 const CouchContainer = styled.div`
 	font-family: var(--main-font);
@@ -30,7 +30,7 @@ const PeopleContainer = styled.div`
 `;
 
 function indexToColour(index: number) {
-	return PAX23_COLOURS[index % PAX23_COLOURS.length];
+	return TGX24_COLOURS[index % TGX24_COLOURS.length];
 }
 
 interface Props {

@@ -1,10 +1,17 @@
 body {
 	margin: 0;
-	--main: var(--pax23-main);
-	--nameplate: var(--pax23-main);
-	--nameplate-lighter: var(--pax23-main-light);
-	--sec: var(--pax23-sec);
-	--accent: var(--pax23-sec);
+	--main: var(--tgx-main);
+	--nameplate: var(--tgx-main);
+	--nameplate-lighter: var(--tgx-main-light);
+	--sec: var(--tgx-secondary);
+	--accent: var(--tgx-secondary);
+
+	--text-light: var(--sec);
+	--text-dark: var(--main);
+
+	--main-font: var(--tgx-font);
+	--secondary-font: var(--tgx-font);
+	--mono-font: var(--asm-font);
 
 	--asm-orange: #cc7722;
 	--asm-blue: #437c90;
@@ -12,9 +19,6 @@ body {
 
 	--asm-font: "Noto Sans";
 	--asm-secondary-font: "Russo One";
-
-	--text-light: var(--sec);
-	--text-dark: var(--main);
 
 	--orange-400: #ffa651;
 	--orange-600: #964a00;
@@ -31,12 +35,13 @@ body {
 	--pax23-rainbow-bar: linear-gradient(90deg, var(--pax23-red) 0%, var(--pax23-red) 25%, var(--pax23-yellow) 25%, var(--pax23-yellow) 50%, var(--pax23-blue) 50%, var(--pax23-blue) 75%, var(--pax23-purple) 75%, var(--pax23-purple) 100%);
 	--pax23-font: "Inter";
 
+	--tgx-main: #191919;
+	--tgx-main-lighter: #3b3b3b;
+	--tgx-secondary: #ffffff;
 	--tgx-red: #f80023;
 	--tgx-yellow: #ffc300;
 	--tgx-blue: #007eff;
 	--tgx-green: #00c091;
-
-	--main-font: var(--pax23-font);
-	--secondary-font: var(--pax23-font);
-	--mono-font: var(--asm-font);
+	--tgx-rainbow-bar: linear-gradient(90deg, var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
+	--tgx-font: "Helvetica Now Display";
 }

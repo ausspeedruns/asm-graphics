@@ -1,9 +1,13 @@
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import * as nodecgApiContext from "./nodecg-api-context";
+import { obsCurrentSceneRep } from "./replicants";
 import obs from "./util/obs";
+
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("OBS-Local");
+
+type SceneType = "Gameplay" | "Intermission" | "IRL" | "ASNN" | "Unknown";
 
 let previewScene: string;
 let programScene: string;
@@ -14,42 +18,39 @@ obs.on("CurrentPreviewSceneChanged", ({ sceneName }) => {
 
 obs.on("CurrentProgramSceneChanged", ({ sceneName }) => {
 	programScene = sceneName;
+	obsCurrentSceneRep.value = programScene;
 });
 
 obs.on("Identified", async () => {
 	previewScene = (await obs.call("GetCurrentPreviewScene")).currentPreviewSceneName;
 	programScene = (await obs.call("GetCurrentProgramScene")).currentProgramSceneName;
+	obsCurrentSceneRep.value = programScene;
 });
 
 obs.on("SceneTransitionStarted", async () => {
 	// Get the scene we are going from and to
-	const fromScene = programScene;
+	const currentScene = programScene;
 	const toScene = previewScene;
 
-	let logString = `[OBS Local] Program Scene changed from ${fromScene} to ${toScene}`;
+	const currentSceneType = determineSceneType(currentScene);
 
-	if (toScene.startsWith("GAMEPLAY")) {
-		// Only call when going from something else to game, game to game might mean we chose the wrong layouts
-		if (!fromScene.startsWith("GAMEPLAY")) {
-			nodecg.sendMessage("transition:toGame", { to: toScene, from: fromScene });
-			logString += " | Calling transition:toGame message";
-			nodecg.sendMessage("runTransitionGraphic");
-		}
-	} else if (toScene.startsWith("INTERMISSION")) {
-		if (!fromScene.startsWith("INTERMISSION")) {
-			nodecg.sendMessage("transition:toIntermission", { to: toScene, from: fromScene });
-			logString += " | Calling transition:toIntermission message";
-			nodecg.sendMessage("runTransitionGraphic");
-		}
-	} else if (toScene.startsWith("IRL")) {
-		nodecg.sendMessage("transition:toIRL", { to: toScene, from: fromScene });
-		logString += " | Calling transition:toIRL message";
-		nodecg.sendMessage("runTransitionGraphic");
-	} else {
-		nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: fromScene });
+	switch (currentSceneType) {
+		case "Gameplay":
+			transitionFromGameplay(toScene, currentScene);
+			break;
+		case "Intermission":
+			transitionFromIntermission(toScene, currentScene);
+			break;
+		case "IRL":
+		case "ASNN":
+			// Future ;)
+		case "Unknown":
+		default:
+			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: currentScene });
+			break;
 	}
 
-	ncgLog.info(logString);
+	ncgLog.info(`[OBS Local] Program Scene changed from ${currentScene} to ${toScene}`);
 });
 
 // AUTOMATICALLY ADVANCE RUN WHEN TRANSITIONING FROM GAME TO INTERMISSION
@@ -100,5 +101,62 @@ async function SetCurrentSceneTransition(transitionName: string) {
 		});
 
 		setTransitionQueue = null;
+	}
+}
+
+function determineSceneType(scene: string): SceneType {
+	if (scene.startsWith("GAMEPLAY")) {
+		return "Gameplay";
+	} else if (scene.startsWith("INTERMISSION")) {
+		return "Intermission";
+	} else if (scene.startsWith("IRL")) {
+		return "IRL";
+	} else if (scene.startsWith("ASNN")) {
+		return "ASNN";
+	} else {
+		return "Unknown";
+	}
+}
+
+function transitionFromGameplay(toScene: string, fromScene: string) {
+	const toSceneType = determineSceneType(toScene);
+
+	switch (toSceneType) {
+		case "Gameplay":
+			// Do nothing!
+			break;
+		case "IRL":
+			nodecg.sendMessage("transition:toIRL", { to: toScene, from: fromScene });
+			break;
+		case "Intermission":
+			nodecg.sendMessage("transition:toIntermission", { to: toScene, from: fromScene });
+			break;
+		case "ASNN":
+		case "Unknown":
+		default:
+			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: fromScene });
+			break;
+	}
+}
+
+function transitionFromIntermission(toScene: string, fromScene: string) {
+	const toSceneType = determineSceneType(toScene);
+
+	switch (toSceneType) {
+		case "Intermission":
+			// Do nothing!
+			break;
+		case "Gameplay":
+			nodecg.sendMessage("transition:toGame", { to: toScene, from: fromScene });
+			break;
+		case "IRL":
+			nodecg.sendMessage("transition:toIRL", { to: toScene, from: fromScene });
+			break;
+		case "ASNN":
+			// Probably a special intro
+		case "Unknown":
+		default:
+			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: fromScene });
+			break;
 	}
 }

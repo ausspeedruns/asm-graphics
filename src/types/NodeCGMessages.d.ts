@@ -39,7 +39,6 @@ export type NodeCGMessages = {
 	"transition:toGame": { to: string; from: string };
 	"transition:toIRL": { to: string, from: string };
 	"transition:UNKNOWN": { to: string, from: string }
-	"runTransitionGraphic": never;
 	// OBS Online
 	"connectOBS": never;
 	"disconnectOBS": never;

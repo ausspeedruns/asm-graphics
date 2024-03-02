@@ -7,10 +7,11 @@ import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
-import { PAX23Grunge, PAX23Rainbow, PAX23Stripe } from "../elements/event-specific/pax-23/pax23";
+import { TGX24Rainbow, TGX24Squares } from "../elements/event-specific/tgx-24/tgx24";
 
 // import WidescreenTop from "../media/ASM23/widescreen-top.png";
 // import WidescreenBottom from "../media/ASM23/widescreen-bottom.png";
+import Pattern from "../elements/event-specific/tgx-24/pattern.svg";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -23,7 +24,7 @@ const TopBar = styled.div`
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-color: var(--main);
 	position: relative;
-	border-bottom: 1px solid var(--sec);
+	/* border-bottom: 1px solid var(--sec); */
 `;
 
 const Sidebar = styled.div`
@@ -31,7 +32,7 @@ const Sidebar = styled.div`
 	top: 156px;
 	height: 860px;
 	width: 390px;
-	border-right: 1px solid var(--sec);
+	border-right: 1px solid var(--tgx-green);
 	z-index: -1;
 	overflow: hidden;
 `;
@@ -88,15 +89,15 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<WidescreenContainer>
 			<TopBar>
-				{/* <img
-					src={WidescreenTop}
+				<img
+					src={Pattern}
 					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-				/> */}
-				<PAX23Stripe style={{ position: "absolute", transform: "scaleX(7) scaleY(0.45)", top: -89 }} />
-				<PAX23Grunge size="60%" />
+				/>
+				<TGX24Squares style={{ position: "absolute", top: -16 }} />
+				<TGX24Rainbow style={{ position: "absolute", top: 148, width: "100%" }} />
 				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
-			<PAX23Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 157 }} />
+			<TGX24Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 157 }} />
 			<Sidebar>
 				<Facecam
 					maxNameWidth={nameplateMaxWidth}
@@ -111,8 +112,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						src={WidescreenBottom}
 						style={{ position: "absolute", height: "auto", width: "100%", top: 0 }}
 					/> */}
-					<PAX23Grunge size="300%" />
-					<PAX23Rainbow style={{ height: 1, width: "100%", position: "absolute", top: 0 }} />
+					<TGX24Rainbow style={{ width: "100%", position: "absolute", top: 0 }} />
 					<Couch
 						style={{ zIndex: 2 }}
 						commentators={props.commentators}
@@ -125,7 +125,6 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						sponsorStyle={SponsorSize}
 						tweetStyle={TwitterSize}
 					/>
-					<PAX23Rainbow style={{ height: 16, width: "100%", position: "absolute", bottom: 0 }} />
 				</SidebarBG>
 			</Sidebar>
 		</WidescreenContainer>
