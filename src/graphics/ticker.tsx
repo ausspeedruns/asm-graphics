@@ -33,7 +33,7 @@ export const TickerOverlay: React.FC = () => {
 				"goals",
 				"wars",
 				// "asmm",
-				"prizes",
+				// "prizes",
 				"milestone",
 				"donationMatches",
 			]}

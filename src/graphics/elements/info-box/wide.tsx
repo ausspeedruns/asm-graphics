@@ -9,7 +9,7 @@ import * as RunInfo from "../run-info";
 
 const WideInfoContainer = styled.div`
 	position: absolute;
-	height: 156px;
+	height: 100%;
 	width: 1920px;
 	display: flex;
 	justify-content: space-around;
@@ -43,8 +43,8 @@ export interface IWideStyling {
 
 const DefaultWideStyling: IWideStyling = {
 	timerStackHeight: 180,
-	timerSize: 110,
-	timerStyle: { width: 423, zIndex: 2 },
+	timerSize: 130,
+	timerStyle: { width: 423, zIndex: 2, fontSize: 110 },
 	estimateSize: 30,
 	maxTextWidth: 540,
 	gameStackHeight: 100,
@@ -56,8 +56,8 @@ const DefaultWideStyling: IWideStyling = {
 interface Props {
 	className?: string;
 	style?: IWideStyling;
-	timer: ITimer | undefined;
-	runData: RunDataActiveRun | undefined;
+	timer?: ITimer;
+	runData?: RunDataActiveRun;
 }
 
 export const WideInfo: React.FC<Props> = (props: Props) => {

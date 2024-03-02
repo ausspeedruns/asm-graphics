@@ -19,7 +19,7 @@ const WidescreenContainer = styled.div`
 `;
 
 const TopBar = styled.div`
-	height: 157px;
+	height: 207px;
 	width: 100%;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-color: var(--main);
@@ -31,7 +31,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	top: 156px;
 	height: 860px;
-	width: 390px;
+	width: 479px;
 	border-right: 1px solid var(--tgx-green);
 	z-index: -1;
 	overflow: hidden;
@@ -43,7 +43,7 @@ const SidebarBG = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	height: 446px;
+	height: 449px;
 	padding-top: 14px;
 	position: relative;
 	/* border-top: 1px solid var(--sec); */
@@ -93,11 +93,14 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					src={Pattern}
 					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 				/>
-				<TGX24Squares style={{ position: "absolute", top: -16 }} />
-				<TGX24Rainbow style={{ position: "absolute", top: 148, width: "100%" }} />
-				<WideInfo timer={props.timer} runData={props.runData} />
+				<TGX24Squares style={{ position: "absolute", top: 3 }} />
+				<TGX24Rainbow style={{ position: "absolute", bottom: 0, width: "100%" }} />
+				<WideInfo
+					timer={props.timer}
+					runData={props.runData}
+					style={{ mainStyle: { paddingLeft: 250, paddingRight: 100 } }}
+				/>
 			</TopBar>
-			<TGX24Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 157 }} />
 			<Sidebar>
 				<Facecam
 					maxNameWidth={nameplateMaxWidth}
@@ -108,10 +111,10 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					verticalCoop
 				/>
 				<SidebarBG>
-					{/* <img
-						src={WidescreenBottom}
-						style={{ position: "absolute", height: "auto", width: "100%", top: 0 }}
-					/> */}
+					<img
+						src={Pattern}
+						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
+					/>
 					<TGX24Rainbow style={{ width: "100%", position: "absolute", top: 0 }} />
 					<Couch
 						style={{ zIndex: 2 }}

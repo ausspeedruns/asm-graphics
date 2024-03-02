@@ -64,7 +64,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 
 	return (
 		<TickerRunsContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--pax23-red)" }}>Coming Up</TickerTitle>
+			<TickerTitle style={{ background: "var(--tgx-red)" }}>Coming Up</TickerTitle>
 			{RunsArray}
 		</TickerRunsContainer>
 	);
