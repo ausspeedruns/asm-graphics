@@ -16,7 +16,6 @@ import { Standard2 } from "./overlays/standard-2";
 import { Widescreen } from "./overlays/widescreen";
 import { Widescreen2 } from "./overlays/widescreen-2";
 import { Widescreen3 } from "./overlays/widescreen-3";
-import { Widescreen1610 } from "./overlays/widescreen16-10";
 import { DS } from "./overlays/ds";
 import { GBA } from "./overlays/gba";
 import { GBA2 } from "./overlays/gba-2";
@@ -111,10 +110,6 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		{
 			component: <Widescreen3 {...overlayArgs} />,
 			name: "Widescreen-3",
-		},
-		{
-			component: <Widescreen1610 {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[5] = el)} />,
-			name: "Widescreen-1610",
 		},
 		{
 			component: <DS {...overlayArgs} />,

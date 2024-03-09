@@ -5,7 +5,7 @@ import { useReplicant } from "use-nodecg";
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
-import TwitchSVG from "../../media/TwitchGlitchPurple.svg";
+import TwitchSVG from "../../media/icons/TwitchGlitchPurple.svg";
 import { HEADSETS } from "./headsets";
 import { EditUserDialog } from "./edit-user-dialog";
 import { Button } from "@mui/material";

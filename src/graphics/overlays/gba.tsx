@@ -9,7 +9,8 @@ import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
 // import GBABG from "../media/ASM23/gba.png";
-import { PAX23Grunge, PAX23Rainbow } from "../elements/event-specific/pax-23/pax23";
+import { TGX24Rainbow } from "../elements/event-specific/tgx-24/tgx24";
+import tgxBackgroundPattern from "../elements/event-specific/tgx-24/pattern.png";
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -40,6 +41,10 @@ const InfoBoxBG = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	height: 664px;
+	background-image: url(${tgxBackgroundPattern});
+	background-repeat: repeat;
+	background-blend-mode: multiply;
+	background-position-y: 10px;
 `;
 
 const TwitterSize = {
@@ -81,10 +86,8 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						src={GBABG}
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/> */}
-					<PAX23Grunge size="200%" />
-					<PAX23Rainbow style={{ height: 1, width: "100%", zIndex: 2, position: "absolute" }} />
+					<TGX24Rainbow style={{ height: 10, width: "100%", zIndex: 2 }} />
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-
 					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
 					<SponsorsBoxS
 						sponsors={props.sponsors}
@@ -92,7 +95,6 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						sponsorStyle={SponsorsStyled}
 						tweetStyle={TwitterSize}
 					/>
-					<PAX23Rainbow style={{ height: 16, width: "100%", zIndex: 2 }} />
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>

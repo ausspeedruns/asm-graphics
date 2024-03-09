@@ -22,12 +22,13 @@ import { InterNextRunItem, EndRunItem } from "./elements/intermission/next-run-i
 import Mic from "@mui/icons-material/Mic";
 
 // Assets
-import MusicIconImg from "./media/MusicIcon.svg";
+import MusicIconImg from "./media/icons/MusicIcon.svg";
 import { Sponsors } from "./elements/sponsors";
 import { IntermissionAds, IntermissionAdsRef } from "./elements/intermission/ad";
+// import AusSpeedrunsLogo from "./media/AusSpeedruns-Logo.svg";
+import GoCLogo from "./media/Sponsors/GoCCCWhite.svg";
 
-import IntermissionLogo from "./elements/event-specific/pax-23/intermission-logo.svg";
-import { PAX23Rainbow, PAX23Grunge, PAX23Stripe } from "./elements/event-specific/pax-23/pax23";
+import TGXBackground from "./elements/event-specific/tgx-24/intermission.svg";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -36,6 +37,8 @@ const IntermissionContainer = styled.div`
 	overflow: hidden;
 	font-family: var(--main-font);
 	display: flex;
+	color: var(--text-light);
+	background: url(${TGXBackground});
 	/* clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 960 V 120 H 0'); */
 `;
 
@@ -46,6 +49,31 @@ const IntermissionContainer = styled.div`
 // 	clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 945 V 120 H 0');
 // 	background: var(--main);
 // `;
+
+const TGXDiamond = (props: {
+	children?: React.ReactNode;
+	colour: string;
+	size: number;
+	style?: React.CSSProperties;
+}) => {
+	return (
+		<div
+			style={{
+				transform: "rotate(45deg)",
+				borderWidth: 30,
+				borderColor: props.colour,
+				borderStyle: "solid",
+				background: "var(--main)",
+				height: props.size,
+				width: props.size,
+				...props.style,
+				overflow: "hidden",
+			}}>
+			<div style={{ background: `${props.colour}40`, position: "absolute", width: "100%", height: "100%" }} />
+			<div style={{ transform: "rotate(-45deg)" }}>{props.children}</div>
+		</div>
+	);
+};
 
 const Half = styled.div`
 	height: 100%;
@@ -169,11 +197,12 @@ const HostPronoun = styled.span`
 
 const MUSIC_WIDTH = 400;
 const MusicLabel = styled.div`
-	width: ${MUSIC_WIDTH}px;
+	/* width: ${MUSIC_WIDTH}px; */
+	width: 100%;
 	color: var(--text-light);
 	font-size: 28px;
 	white-space: nowrap;
-	margin: 0 16px;
+	/* margin: 0 16px; */
 	position: relative;
 `;
 
@@ -191,7 +220,8 @@ const MusicIcon = styled.img`
 `;
 
 const MusicMarquee = styled.div`
-	width: ${MUSIC_WIDTH}px;
+	/* width: ${MUSIC_WIDTH}px; */
+	width: 100%;
 	margin: 0 auto;
 	overflow: hidden;
 	box-sizing: border-box;
@@ -407,11 +437,117 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 		<IntermissionContainer>
 			{/* <ClippedBackground>
 			</ClippedBackground> */}
-			<Half style={{ borderRight: "1px solid var(--sec)" }}>
+			<div
+				style={{
+					width: "100%",
+					height: 350,
+					display: "flex",
+					alignItems: "center",
+					flexDirection: "column",
+					position: "absolute",
+					justifyContent: "space-between",
+					top: 330,
+					left: -264,
+					fontSize: 35,
+				}}>
+				<div style={{ fontSize: 50, fontWeight: 900 }}>Up Next</div>
+				<div style={{ fontSize: 40, fontWeight: "bold" }}>{nextRuns[0]?.game}</div>
+				<div>{nextRuns[0]?.category}</div>
+				<div>{nextRuns[0]?.teams[0].players[0].name}</div>
+				<div>{nextRuns[0]?.estimate}</div>
+				<div>{nextRuns[0]?.system}</div>
+			</div>
+			<div
+				style={{
+					background: "linear-gradient(rgb(248, 0, 35, 0.5), rgb(248, 0, 35, 0.5) 50%, rgb(248, 0, 35, 0))",
+					width: "100%",
+					height: 220,
+					position: "absolute",
+					top: -104,
+					left: -450,
+					paddingLeft: 200,
+				}}>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "flex-end",
+						width: 500,
+					}}>
+					<span style={{ fontSize: 80, fontWeight: "bold" }}>12:00 PM</span>
+					<span style={{ fontSize: 32 }}>Saturday – 23 March 2024</span>
+				</div>
+			</div>
+
+			<div>
+				<div>$5,000</div>
+				<div>
+					<div>Donate At</div>
+					<div>AusSpeedruns.com</div>
+				</div>
+				<div>
+					<img src={GoCLogo} />
+				</div>
+			</div>
+
+			<div
+				style={{
+					background: "linear-gradient(rgb(248, 0, 35, 0), rgb(248, 0, 35, 0.5) 50%, rgb(248, 0, 35, 0.5))",
+					width: "100%",
+					height: 220,
+					position: "absolute",
+					bottom: -896,
+					left: -450,
+					paddingLeft: 200,
+				}}>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "flex-end",
+						width: 524,
+						height: "90%",
+						justifyContent: "flex-end",
+						gap: 16,
+					}}>
+					{props.host && (
+						<HostName style={{ paddingRight: 32 }}>
+							<Mic style={{ height: "2.5rem", width: "2.5rem" }} />
+							{props.host.name}
+							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
+						</HostName>
+					)}
+					<Music>
+						<audio
+							style={{ transform: "translate(100px, 0px)" }}
+							id="intermission-music"
+							autoPlay
+							preload="auto"
+							muted={props.muted}
+							ref={audioRef}>
+							<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
+						</audio>
+						<div style={{ display: "flex", width: 490, flexDirection: "column", alignItems: "center" }}>
+							<MusicIcon src={MusicIconImg} />
+							<MusicLabel>
+								<MusicMarquee style={{ opacity: showMarquee ? 1 : 0 }}>
+									<MarqueeText style={{ animationDuration: `${currentSong.length * 0.35}s` }}>
+										{currentSong}
+									</MarqueeText>
+								</MusicMarquee>
+								<StaticMusicText ref={songEl} style={{ opacity: showMarquee ? 0 : 1 }}>
+									{currentSong}
+								</StaticMusicText>
+							</MusicLabel>
+						</div>
+					</Music>
+				</div>
+			</div>
+			{/* <Half style={{ borderRight: "1px solid var(--sec)" }}>
 				<IntermissionAds ref={adsRef} style={{ position: "absolute", left: 59, top: 59 }} />
 				<CameraBox />
 				<LocationBug>
-					<img src={IntermissionLogo} style={{ position: "absolute", left: 0, height: "126%", bottom: 0 }} />
+					<img src={} style={{ position: "absolute", left: 0, height: "126%", bottom: 0 }} />
 					<div></div>
 					<div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
 						<span style={{ fontWeight: "bold", marginBottom: -17 }}>Melbourne</span>
@@ -420,9 +556,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				</LocationBug>
 			</Half>
 			<Half style={{ background: "var(--main)", borderLeft: "1px solid var(--sec)" }}>
-				{/* <img style={{ position: "absolute" }} src={ASM23Right} /> */}
-				<PAX23Stripe style={{ position: "absolute", right: -86, transform: "rotate(90deg) scaleX(4.5)" }} />
-				<PAX23Grunge size="100%" />
 				<NextRuns>
 					<Time>{currentTime}</Time>
 					<RunsList>
@@ -485,8 +618,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						</div>
 					</Music>
 				</BottomBlock>
-				<PAX23Rainbow style={{ height: 16, width: "100%", position: "absolute", bottom: 0 }} />
-			</Half>
+			</Half> */}
 		</IntermissionContainer>
 	);
 });

@@ -7,9 +7,19 @@ import { IVerticalStyling, VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
-import { PAX23Grunge, PAX23Rainbow } from "../elements/event-specific/pax-23/pax23";
+import { TGX24Rainbow } from "../elements/event-specific/tgx-24/tgx24";
 
+import tgxBackgroundPattern from "../elements/event-specific/tgx-24/pattern.png";
 // import StandardBG from "../media/ASM23/standard.png";
+
+const TGXBox = styled.div`
+	border-style: solid;
+	border-width: 10px;
+	position: absolute;
+	height: 145px;
+	width: 145px;
+	background-color: var(--main);
+`;
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -32,6 +42,11 @@ const InfoBoxBG = styled.div`
 	align-items: center;
 	height: 664px;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+	background-image: url(${tgxBackgroundPattern});
+	background-repeat: repeat;
+	background-blend-mode: multiply;
+	background-position-y: 10px;
+	position: relative;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -89,12 +104,45 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					verticalCoop
 				/>
 				<InfoBoxBG>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-blue)",
+							transform: "translate(-50%, -50%) rotate(45deg)",
+							top: 0,
+							left: 0,
+							marginTop: 10,
+						}}
+					/>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-yellow)",
+							transform: "translate(50%, -50%) rotate(45deg)",
+							top: 0,
+							right: 0,
+							marginTop: 10,
+						}}
+					/>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-red)",
+							transform: "translate(50%, 50%) rotate(45deg)",
+							bottom: 0,
+							right: 0,
+						}}
+					/>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-green)",
+							transform: "translate(-50%, 50%) rotate(45deg)",
+							bottom: 0,
+							left: 0,
+						}}
+					/>
 					{/* <img
 						src={StandardBG}
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/> */}
-					<PAX23Grunge size="200%" />
-					<PAX23Rainbow style={{ height: 1, width: "100%", zIndex: 2 }} />
+					<TGX24Rainbow style={{ width: "100%", zIndex: 2 }} />
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch
 						style={{ zIndex: 3 }}
@@ -108,7 +156,6 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						sponsorStyle={SponsorsSize}
 						tweetStyle={TwitterSize}
 					/>
-					<PAX23Rainbow style={{ height: 16, width: "100%", zIndex: 2 }} />
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>

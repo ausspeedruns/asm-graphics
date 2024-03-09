@@ -11,7 +11,7 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { PersonCompressed } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
-import { PAX23Grunge, PAX23Rainbow, PAX23Stripe, PAX23_COLOURS } from "../elements/event-specific/pax-23/pax23";
+import { TGX24Rainbow, TGX24_COLOURS, TGX24Squares } from "../elements/event-specific/tgx-24/tgx24";
 
 // import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
 // import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
@@ -106,6 +106,20 @@ const CouchLabel = styled.span`
 	margin-right: 8px;
 `;
 
+function indexToColour(index: number) {
+	const data = TGX24_COLOURS[index % TGX24_COLOURS.length];
+	return {
+		color: data.color,
+		background: `linear-gradient(45deg, transparent 10px, ${data.background} 10px),
+		linear-gradient(315deg, transparent 10px, ${data.background} 10px),
+		linear-gradient(225deg, transparent 10px, ${data.background} 10px),
+		linear-gradient(135deg, transparent 10px, ${data.background} 10px)`,
+		backgroundPosition: `bottom left, bottom right, top right, top left`,
+		backgroundSize: "51% 51%",
+		backgroundRepeat: "no-repeat",
+	};
+}
+
 const customSmallStyling: ISmallStyling = {
 	gameTitleSize: 60,
 	gameTitleWidth: 640,
@@ -153,7 +167,6 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 						src={WidescreenLeft}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 					/> */}
-					<PAX23Grunge size="200%" />
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -178,7 +191,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					style={{
 						borderRight: "1px solid var(--sec)",
 						borderLeft: "1px solid var(--sec)",
-						zIndex: 2,
+						zIndex: 3,
 					}}
 					teams={props.runData?.teams}
 					maxNameWidth={190}
@@ -201,10 +214,6 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 						src={WidescreenRight}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover", left: 0 }}
 					/> */}
-					<PAX23Stripe
-						style={{ position: "absolute", top: -32, left: 100, transform: "scaleX(1.4) scaleY(0.8)" }}
-					/>
-					<PAX23Grunge size="200%" />
 					<SponsorsBox
 						ref={sponsorRef}
 						style={{ flexGrow: 1 }}
@@ -214,15 +223,16 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					/>
 				</RightBox>
 			</Topbar>
-			<PAX23Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 341 }} />
+			<TGX24Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 341, zIndex: 3 }} />
+			<TGX24Rainbow style={{ height: 10, width: 1920, position: "absolute", top: 332 }} />
 			<CentralDivider />
-			<PAX23Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 881 }} />
+			<TGX24Rainbow style={{ height: 1, width: 1920, position: "absolute", top: 881 }} />
 			<BottomBlock>
 				{/* <img
 					src={WidescreenBottom}
 					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 				/> */}
-				<PAX23Grunge size="60%" />
+				<TGX24Squares style={{ position: "absolute", top: -48, left: -16, transform: "scale(75%) rotate(45deg)" }} />
 				<BespokeCouch style={{ marginBottom: 16 }}>
 					<CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}
@@ -233,7 +243,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 								key={person.name}
 								commentator={person}
 								speaking={props.microphoneAudioIndicator?.[person.microphone ?? ""]}
-								style={{ ...PAX23_COLOURS[index % PAX23_COLOURS.length] }}
+								style={{ ...indexToColour(index) }}
 							/>
 						);
 					})}
@@ -244,11 +254,10 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 							// speaking={props.obsAudioIndicator?.[host.microphone ?? '']}
 							speaking={false}
 							host
-							style={{ ...PAX23_COLOURS[props.commentators.length % PAX23_COLOURS.length] }}
+							style={{ ...indexToColour(props.commentators.length) }}
 						/>
 					)}
 				</BespokeCouch>
-				<PAX23Rainbow style={{ height: 16, width: 1920, position: "absolute", top: 118 }} />
 			</BottomBlock>
 
 			{/* <svg id="widescreen2Clip">

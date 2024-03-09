@@ -11,7 +11,7 @@ import { TGX24Rainbow, TGX24Squares } from "../elements/event-specific/tgx-24/tg
 
 // import WidescreenTop from "../media/ASM23/widescreen-top.png";
 // import WidescreenBottom from "../media/ASM23/widescreen-bottom.png";
-import Pattern from "../elements/event-specific/tgx-24/pattern.svg";
+import tgxBackgroundPattern from "../elements/event-specific/tgx-24/pattern.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -25,6 +25,9 @@ const TopBar = styled.div`
 	background-color: var(--main);
 	position: relative;
 	/* border-bottom: 1px solid var(--sec); */
+	background-image: url(${tgxBackgroundPattern});
+	background-repeat: repeat;
+	background-blend-mode: multiply;
 `;
 
 const Sidebar = styled.div`
@@ -49,6 +52,10 @@ const SidebarBG = styled.div`
 	/* border-top: 1px solid var(--sec); */
 	overflow: hidden;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+	background-image: url(${tgxBackgroundPattern});
+	background-repeat: repeat;
+	background-blend-mode: multiply;
+	background-position-y: 10px;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -89,11 +96,11 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<WidescreenContainer>
 			<TopBar>
-				<img
+				{/* <img
 					src={Pattern}
 					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-				/>
-				<TGX24Squares style={{ position: "absolute", top: 3 }} />
+				/> */}
+				<TGX24Squares style={{ position: "absolute", top: -16 }} />
 				<TGX24Rainbow style={{ position: "absolute", bottom: 0, width: "100%" }} />
 				<WideInfo
 					timer={props.timer}
@@ -111,10 +118,10 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					verticalCoop
 				/>
 				<SidebarBG>
-					<img
+					{/* <img
 						src={Pattern}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
+					/> */}
 					<TGX24Rainbow style={{ width: "100%", position: "absolute", top: 0 }} />
 					<Couch
 						style={{ zIndex: 2 }}

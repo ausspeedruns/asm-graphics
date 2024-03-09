@@ -30,7 +30,21 @@ const PeopleContainer = styled.div`
 `;
 
 function indexToColour(index: number) {
-	return TGX24_COLOURS[index % TGX24_COLOURS.length];
+	const data = TGX24_COLOURS[index % TGX24_COLOURS.length];
+	return {
+		color: data.color,
+		background: chamferCornerGenerator(data.background),
+		backgroundPosition: `bottom left, bottom right, top right, top left`,
+		backgroundSize: "51% 51%",
+		backgroundRepeat: "no-repeat",
+	};
+}
+
+function chamferCornerGenerator(colour: string) {
+	return `linear-gradient(45deg, transparent 10px, ${colour} 10px),
+	linear-gradient(315deg, transparent 10px, ${colour} 10px),
+	linear-gradient(225deg, transparent 10px, ${colour} 10px),
+	linear-gradient(135deg, transparent 10px, ${colour} 10px)`;
 }
 
 interface Props {
@@ -69,7 +83,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 							key={person.id}
 							commentator={person}
 							speaking={props.audio?.[person.microphone ?? ""]}
-							style={{...indexToColour(index)}}
+							style={{ ...indexToColour(index) }}
 						/>
 					);
 				})}
@@ -79,7 +93,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 						commentator={props.host}
 						speaking={props.audio?.["Host"]}
 						host={label !== "Host"}
-						style={{...indexToColour(props.commentators.length)}}
+						style={{ ...indexToColour(props.commentators.length) }}
 					/>
 				)}
 			</PeopleContainer>
@@ -97,7 +111,8 @@ const PersonCompressedContainer = styled.div`
 	box-sizing: border-box;
 	position: relative;
 	background: var(--main);
-	padding: 8px;
+	padding: 8px 12px;
+
 	/* border-radius: 8px; */
 	/* border: 1px solid var(--accent); */
 `;

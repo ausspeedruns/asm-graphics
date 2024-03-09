@@ -10,10 +10,19 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
-import { PAX23Grunge, PAX23Rainbow, PAX23Stripe } from "../elements/event-specific/pax-23/pax23";
+import { TGX24Rainbow } from "../elements/event-specific/tgx-24/tgx24";
 
 // import StandardLeft from "../media/ASM23/standard-2-left.png";
 // import StandardRight from "../media/ASM23/standard-2-right.png";
+
+const TGXBox = styled.div`
+	border-style: solid;
+	border-width: 10px;
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	background-color: var(--main);
+`;
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -25,7 +34,7 @@ const Topbar = styled.div`
 	position: absolute;
 	height: 295px;
 	width: 1920px;
-	border-bottom: 1px solid var(--sec);
+	/* border-bottom: 1px solid var(--sec); */
 	overflow: hidden;
 `;
 
@@ -112,7 +121,23 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 						src={StandardLeft}
 					/> */}
-					<PAX23Grunge size="200%" />
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-blue)",
+							transform: "translate(-50%, -50%) rotate(45deg)",
+							top: 0,
+							left: 0,
+						}}
+					/>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-green)",
+							transform: "translate(-50%, 50%) rotate(45deg)",
+							bottom: 10,
+							left: 0,
+						}}
+					/>
+
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -132,16 +157,21 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					}}
 				/>
 
+				<TGX24Rainbow style={{ position: "absolute", height: 10, width: 1920, top: 286 }} />
+
 				<Facecam
 					width={586}
 					maxNameWidth={190}
 					style={{
 						borderRight: "1px solid var(--sec)",
 						borderLeft: "1px solid var(--sec)",
+						zIndex: 2,
 					}}
 					teams={props.runData?.teams}
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
+
+				<TGX24Rainbow style={{ position: "absolute", height: 1, width: 1920, top: 294, zIndex: 3 }} />
 
 				<RaceFinish style={{ top: 219, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
 				<RaceFinish style={{ top: 219, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
@@ -151,8 +181,23 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 						src={StandardRight}
 					/> */}
-					<PAX23Stripe style={{position: "absolute", transform: "rotate(-90deg) scaleY(0.6)", left: -151}} />
-					<PAX23Grunge size="200%" />
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-yellow)",
+							transform: "translate(50%, -50%) rotate(45deg)",
+							top: 0,
+							right: 0,
+						}}
+					/>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-red)",
+							transform: "translate(50%, 50%) rotate(45deg)",
+							bottom: 10,
+							right: 0,
+						}}
+					/>
+
 					<div
 						style={{
 							display: "flex",
@@ -176,7 +221,6 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					</div>
 				</RightBox>
 			</Topbar>
-			<PAX23Rainbow style={{ position: "absolute", height: 1, width: 1920, top: 295 }} />
 			<CentralDivider />
 		</Standard2Container>
 	);

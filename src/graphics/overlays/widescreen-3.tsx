@@ -11,9 +11,9 @@ import { getTeams } from "../elements/team-data";
 import { Timer } from "../elements/timer";
 import * as RunInfo from "../elements/run-info";
 
-import GameplayBL from "../media/Widescreen-3-BL.svg";
-import GameplayTL from "../media/Widescreen-3-TL.svg";
-import GameplayTR from "../media/Widescreen-3-TR.svg";
+import GameplayBL from "../media/icons/Widescreen-3-BL.svg";
+import GameplayTL from "../media/icons/Widescreen-3-TL.svg";
+import GameplayTR from "../media/icons/Widescreen-3-TR.svg";
 import { RaceFinish } from "../elements/race-finish";
 
 const Widescreen3Container = styled.div`

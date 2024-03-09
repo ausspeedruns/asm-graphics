@@ -32,22 +32,27 @@ const TGX24SquaresContainer = styled.div`
 const Square = styled.div`
 	height: 85px;
 	width: 85px;
+	border-style: solid;
+	border-width: 10px;
+	background: var(--main);
 `;
 
 export const TGX24Squares = (props: GenericProps) => {
-	return <TGX24SquaresContainer className={props.className} style={props.style}>
-		<Square style={{backgroundColor: "var(--tgx-red)"}} />
-		<Square style={{backgroundColor: "var(--tgx-green)"}} />
-		<Square style={{backgroundColor: "var(--tgx-blue)"}} />
-		<Square style={{backgroundColor: "var(--tgx-yellow)"}} />
-	</TGX24SquaresContainer>;
+	return (
+		<TGX24SquaresContainer className={props.className} style={props.style}>
+			<Square style={{ borderColor: "var(--tgx-red)" }} />
+			<Square style={{ borderColor: "var(--tgx-green)" }} />
+			<Square style={{ borderColor: "var(--tgx-blue)" }} />
+			<Square style={{ borderColor: "var(--tgx-yellow)" }} />
+		</TGX24SquaresContainer>
+	);
 };
 
 /********************************** COLOUR ARRAY **********************************/
 
 export const TGX24_COLOURS = [
-	{background: "var(--tgx-red)", color: "var(--text-light)"},
-	{background: "var(--tgx-yellow)", color: "var(--text-light)"},
-	{background: "var(--tgx-blue)", color: "var(--text-light)"},
-	{background: "var(--tgx-green)", color: "var(--text-light)"},
+	{ background: "var(--tgx-red)", color: "var(--text-light)" },
+	{ background: "var(--tgx-yellow)", color: "var(--text-light)" },
+	{ background: "var(--tgx-blue)", color: "var(--text-light)" },
+	{ background: "var(--tgx-green)", color: "var(--text-light)" },
 ];
