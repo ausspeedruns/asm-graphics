@@ -119,7 +119,7 @@ export const InterNextRunItem = (props: Props) => {
 	const time = props.run.scheduled ? format(new Date(props.run.scheduled), "h:mm a") : "--:--";
 	// if (props.nextRun) time = 'Up Next';
 
-	let correctedEstimate = props.run.estimate || "";
+	let correctedEstimate = props.run.estimate ?? "";
 	if (correctedEstimate[0] === "0") {
 		correctedEstimate = correctedEstimate.substring(1);
 	}

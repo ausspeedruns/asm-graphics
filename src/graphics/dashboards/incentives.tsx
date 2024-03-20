@@ -182,10 +182,7 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 	return (
 		<IncentiveItemContainer boxShadow={2}>
 			<Grid container direction="column">
-				<Grid item container justifyContent="space-between">
-					<GameTitle>{props.incentive.game}</GameTitle>
-					<IncentiveName>{props.incentive.incentive}</IncentiveName>
-				</Grid>
+				<GameTitle>{props.incentive.game} - <i>{props.incentive.incentive}</i></GameTitle>
 				<Notes>{props.incentive.notes}</Notes>
 			</Grid>
 

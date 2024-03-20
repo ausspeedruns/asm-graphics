@@ -6,14 +6,15 @@ import gsap from "gsap";
 // import adExit from "../../media/ASM23/ad_EXIT.webm";
 
 const IntermissionAdsContainer = styled.div`
-	width: 842px;
+	width: 902px;
 	display: flex;
 	flex-direction: column;
 	/* opacity: 0; */
 	/* background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%); */
 	/* border-top: 1px solid var(--sec);
 	border-bottom: 1px solid var(--sec); */
-	height: 473px;
+	height: 100%;
+	position: relative;
 `;
 
 const VideoBox = styled.div`
@@ -62,36 +63,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 				volume: 0,
 			};
 
-			console.log(ad);
 			switch (ad) {
-				case "Elgato_GreenScreen":
-					adData = {
-						src: "../shared/sponsors/Green_Screen.mp4",
-						length: 30,
-						volume: 0.8,
-					};
-					break;
-				case "Elgato_KeyLight":
-					adData = {
-						src: "../shared/sponsors/Key_Light.mp4",
-						length: 45,
-						volume: 0.8,
-					};
-					break;
-				case "Elgato_WaveDX":
-					adData = {
-						src: "../shared/sponsors/Wave_DX.mp4",
-						length: 20,
-						volume: 0.8,
-					};
-					break;
-				case "Elgato_WaveMicArm":
-					adData = {
-						src: "../shared/sponsors/Wave_Mic_Arm.mp4",
-						length: 53,
-						volume: 0.8,
-					};
-					break;
 				case "GOC":
 					adData = {
 						src: "../shared/sponsors/GameOnCancer.mp4",
@@ -129,7 +101,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			// Run ad
 			tl.call(() => {
 				if (!videoRef.current) return;
-				videoRef.current?.play();
+				videoRef.current.play();
 			});
 
 			// Fade out ad

@@ -22,7 +22,7 @@ export interface TickerItemHandles {
 }
 
 interface IncentivesProps {
-	incentives: (Goal | War)[];
+	incentives?: (Goal | War)[];
 	asmm?: number;
 }
 

@@ -22,7 +22,7 @@ export const Settings: React.FC = () => {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage("start-credits")}>
-				Run Credits
+				Roll Credits
 			</GreenButton>
 			<hr style={{ margin: "24px 0" }} />
 			<Row>

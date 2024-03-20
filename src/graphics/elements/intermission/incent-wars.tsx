@@ -95,9 +95,10 @@ const IncentiveContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	/* margin-top: -10px; */
-	margin-bottom: 5px;
+	/* margin-bottom: 5px; */
 	font-size: 30px;
 	width: 100%;
+	height: 100px;
 `;
 
 const WarChoiceContainer = styled.div`
@@ -109,16 +110,19 @@ const WarChoiceContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	transform: translate(-2000px, 0);
-	padding: 0 50px;
+	/* padding: 0 50px; */
 	box-sizing: border-box;
 `;
 
 const AllOptionContainer = styled.div`
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	width: 100%;
 	justify-content: center;
-	gap: 15px;
+	gap: 10px;
+	flex-grow: 1;
+	margin-top: 150px;
 `;
 
 const Game = styled(FitText)`
@@ -136,7 +140,7 @@ interface GoalProps {
 }
 
 const MAX_OPTIONS = 4;
- 
+
 export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
@@ -154,7 +158,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			});
 
 			// End
-			tl.to(containerRef.current, { x: 2000, duration: 1 }, "+=10");
+			tl.to(containerRef.current, { x: 2000, duration: 1 }, props.war.options.length == 0 ? "+=10" : undefined);
 			tl.set(containerRef.current, { x: -2000 });
 
 			optionRefs.current.forEach((optionRef) => {
@@ -200,7 +204,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 				option={option}
 				highest={highest}
 				key={option.name}
-				index={sortedOptions.length - 1 - i}
+				index={i}
 				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length)}
 				ref={(el) => {
 					if (el) {
@@ -232,31 +236,33 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 
 	return (
 		<WarChoiceContainer ref={containerRef}>
+			<AllOptionContainer>{allOptions.length > 0 ? allOptions : <NoChoicesMade />}</AllOptionContainer>
 			<IncentiveContainer>
 				<Game text={props.war.game} />
 				<IncentiveName text={props.war.incentive} />
 			</IncentiveContainer>
-			<AllOptionContainer>{allOptions.length > 0 ? allOptions : <NoChoicesMade />}</AllOptionContainer>
 		</WarChoiceContainer>
 	);
 });
 
 const OptionName = styled(FitText)`
-	max-width: 100%;
+	max-width: 90%;
 	font-weight: bold;
 `;
 
 const OptionContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
-	/* width: 200px; */
-	min-height: 100px;
-	background: var(--main);
-	padding: 10px;
+	width: 100%;
+	height: 50px;
+	/* background: var(--main); */
+	/* padding: 10px; */
 	box-sizing: border-box;
-	transform: translate(-1000px, 0);
+	transform: translate(0, 40px);
 	font-family: var(--secondary-font);
-	border: 1px solid var(--sec);
+	/* border: 1px solid var(--tgx-green); */
+	max-width: 1000px;
+	opacity: 0;
 `;
 
 const TextDiv = styled.div`
@@ -267,26 +273,28 @@ const TextDiv = styled.div`
 	left: 0;
 	color: var(--text-light);
 	font-size: 25px;
+	width: 100%;
 `;
 
 // Determines full size
 const ProgressContainer = styled.div`
 	/* flex-grow: 1; */
-	width: 30px;
-	height: 80px;
-	position: relative;
+	width: 100%;
+	height: 100%;
+	position: absolute;
 	overflow: hidden;
 	box-sizing: border-box;
-	background: var(--main);
+	background: transparent;
+	/* background: var(--main); */
 	display: flex;
 	align-items: flex-end;
-	border: 1px solid var(--sec);
+	/* border: 1px solid var(--tgx-green); */
 `;
 
 const ProgressBarContainer = styled.div`
-	height: 0%;
-	width: 100%;
-	background: var(--sec);
+	height: 100%;
+	width: 0%;
+	background: var(--tgx-green);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -305,22 +313,33 @@ interface WarChoiceProps {
 
 const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: WarChoiceProps, ref) => {
 	const percentage = (props.option.total / props.highest) * 100;
-	const progressBarRef = useRef(null);
-	const containerRef = useRef(null);
+	const progressBarRef = useRef<HTMLDivElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
-			// Start
-			tl.set(progressBarRef.current, { height: 0 }, "warStart");
-			tl.set(containerRef.current, { x: -1000 }, "warStart");
+			let top = 1000;
+			if (containerRef.current)
+			{
+				top = containerRef.current.getBoundingClientRect().top;
+			}
 
-			tl.to(containerRef.current, { x: 0 }, `idkstagger+=${props.index / 4}`);
-			tl.to(progressBarRef.current, { height: `${percentage}%`, duration: 2 }, props.animLabel);
+			const base = (top - 580) * 2;
+
+			// Start
+			tl.set(progressBarRef.current, { width: 0 }, "warStart");
+			tl.set(containerRef.current, { y: 40, opacity: 0, maxWidth: base }, "warStart");
+
+			tl.to(containerRef.current, { y: 0, opacity: 1 }, `idkstagger+=${props.index / 4}`);
+			tl.to(progressBarRef.current, { width: `${percentage}%`, duration: 2 }, props.animLabel);
+
+			tl.to(containerRef.current, { y: -40, opacity: 0 }, "idkstagger+=10");
+			tl.set(containerRef.current, { y: 40 });
 			return tl;
 		},
 		reset: (tl) => {
-			tl.set(progressBarRef.current, { height: 0 });
-			tl.set(containerRef.current, { x: -1000 });
+			tl.set(progressBarRef.current, { width: 0 });
+			tl.set(containerRef.current, { y: 40, opacity: 0 });
 
 			return tl;
 		},
@@ -333,12 +352,11 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 					<div
 						style={{
 							display: "flex",
-							flexDirection: "column",
+							justifyContent: "center",
 							padding: "0 10px",
-							maxWidth: "80%",
-							fontSize: 25 - props.numberOfItems,
-						}}
-					>
+							width: "100%",
+							fontSize: 25,
+						}}>
 						<OptionName text={"More online!"} />
 					</div>
 				</TextDiv>
@@ -352,12 +370,11 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 				<div
 					style={{
 						display: "flex",
-						flexDirection: "column",
-						padding: "0 10px",
-						maxWidth: "80%",
-						fontSize: 25 - props.numberOfItems,
-					}}
-				>
+						padding: "0 40px",
+						width: "100%",
+						justifyContent: "space-between",
+						zIndex: 2,
+					}}>
 					<OptionName text={props.option.name} />
 					<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
 				</div>
@@ -372,6 +389,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 const NoChoicesContainer = styled.div`
 	flex-grow: 1;
 	display: flex;
+	text-align: center;
 	justify-content: center;
 	align-items: center;
 	font-weight: bold;
@@ -381,7 +399,7 @@ const NoChoicesContainer = styled.div`
 `;
 
 const NoChoicesMade: React.FC = () => {
-	return <NoChoicesContainer>No names submitted</NoChoicesContainer>;
+	return <NoChoicesContainer>No names<br/>submitted</NoChoicesContainer>;
 };
 
 InterIncentWars.displayName = "InterIncentWars";

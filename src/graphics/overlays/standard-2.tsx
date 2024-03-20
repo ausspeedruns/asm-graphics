@@ -14,6 +14,7 @@ import { TGX24Rainbow } from "../elements/event-specific/tgx-24/tgx24";
 
 // import StandardLeft from "../media/ASM23/standard-2-left.png";
 // import StandardRight from "../media/ASM23/standard-2-right.png";
+import tgxBackgroundPattern from "../elements/event-specific/tgx-24/pattern.png";
 
 const TGXBox = styled.div`
 	border-style: solid;
@@ -44,6 +45,8 @@ const LeftBox = styled.div`
 	display: flex;
 	background: var(--main);
 	position: relative;
+	background-image: url(${tgxBackgroundPattern});
+	background-blend-mode: multiply;
 `;
 
 const RightBox = styled.div`
@@ -54,6 +57,8 @@ const RightBox = styled.div`
 	justify-content: space-between;
 	background: var(--main);
 	position: relative;
+	background-image: url(${tgxBackgroundPattern});
+	background-blend-mode: multiply;
 `;
 
 const SponsorSize = {

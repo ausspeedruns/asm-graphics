@@ -53,16 +53,16 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 
 	return (
 		<TickerPrizesContainer ref={containerRef} className={props.className} style={props.style}>
-			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2, background: "var(--pax23-purple)" }}>
+			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2, background: "var(--tgx-blue)" }}>
 				<span>Prizes</span>
 				<span style={{ fontSize: 16 }}>AUS Only</span>
 			</TickerTitle>
 			<div style={{ width: "100%", position: "relative" }}>
 				<PrizesScroller ref={prizesRef}>
-					<TickerItem title="2 Elgato Streamer Packs" sub="$100 Donation" />
-					<TickerItem title="3 Sonic Origins Plus (Switch/PS5)" sub="$30 Donation" />
-					<TickerItem title="2 Speaking Simulator codes" sub="$10 Donation" />
-					<TickerItem title="10 Dashbounce codes" sub="$5 Donation" />
+					<TickerItem title="Sonic Superstars" sub="$20 Donation" />
+					<TickerItem title="Cult of the Lamb" sub="$10 Donation" />
+					<TickerItem title="Neon White" sub="$10 Donation" />
+					<TickerItem title="Cocoon" sub="$5 Donation" />
 				</PrizesScroller>
 			</div>
 		</TickerPrizesContainer>

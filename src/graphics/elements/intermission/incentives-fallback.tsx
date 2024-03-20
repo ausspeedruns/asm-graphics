@@ -3,9 +3,10 @@ import styled from "styled-components";
 import gsap, { Power2 } from "gsap";
 
 import AusSpeedrunsLogo from "../../media/AusSpeedruns-Logo.svg";
-import TwitterLogo from "../../media/twitter.svg";
-import YoutubeLogo from "../../media/youtube.svg";
-import WebsiteLogo from "../../media/website.svg";
+import TGXLogo from "../../media/ASGX23/TGXLogo-Wide-White.png";
+import TwitterLogo from "../../media/icons/twitter.svg";
+import YoutubeLogo from "../../media/icons/youtube.svg";
+import WebsiteLogo from "../../media/icons/website.svg";
 // import InstagramLogo from "../../media/instagram.svg";
 
 const IncentivesFallbackContainer = styled.div`
@@ -44,18 +45,18 @@ const Page = styled.div`
 
 const Socials = styled(Page)`
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: flex-end;
 `;
 
 const SocialBox = styled.div`
-	height: 86%;
+	/* height: 86%; */
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
 	width: 73%;
-	margin-top: -28px;
 `;
 
 const SocialLogo = styled.img`
@@ -85,7 +86,7 @@ const SocialElement = styled.div`
 const SocialImage = styled.img`
 	width: 32px;
 	height: auto;
-	margin-right: 16px;
+	margin-right: 8px;
 `;
 
 const InterIncentASMMContainer = styled.div`
@@ -193,9 +194,34 @@ export const InterIncentivesFallback = (props: Props) => {
 			</ThankYou> */}
 			{/* <Socials ref={SocialsRef}> */}
 			<Socials ref={SocialsRef}>
-				<SocialBox>
+				<SocialBox style={{paddingBottom: 16}}>
+					<SocialLogo src={TGXLogo} />
+					<SocialLinks>
+						<SocialElement>
+							<SocialImage src={WebsiteLogo} />
+							TheGameExpo.com
+						</SocialElement>
+					</SocialLinks>
+					<SocialLinks style={{ justifyContent: "space-between", width: "38%" }}>
+						<SocialElement>
+							<SocialImage src={YoutubeLogo} />
+							@TheGameExpo
+						</SocialElement>
+						<SocialElement>
+							<SocialImage src={TwitterLogo} />
+							@TheGameExpo
+						</SocialElement>
+					</SocialLinks>
+				</SocialBox>
+				<SocialBox style={{paddingBottom: 16}}>
 					<SocialLogo src={AusSpeedrunsLogo} />
-					<SocialLinks style={{ justifyContent: "space-between" }}>
+					<SocialLinks>
+						<SocialElement>
+							<SocialImage src={WebsiteLogo} />
+							AusSpeedruns.com
+						</SocialElement>
+					</SocialLinks>
+					<SocialLinks style={{ justifyContent: "space-between", width: "60%" }}>
 						<SocialElement>
 							<SocialImage src={YoutubeLogo} />
 							@AusSpeedruns
@@ -203,12 +229,6 @@ export const InterIncentivesFallback = (props: Props) => {
 						<SocialElement>
 							<SocialImage src={TwitterLogo} />
 							@AusSpeedruns
-						</SocialElement>
-					</SocialLinks>
-					<SocialLinks>
-						<SocialElement>
-							<SocialImage src={WebsiteLogo} />
-							AusSpeedruns.com
 						</SocialElement>
 					</SocialLinks>
 				</SocialBox>

@@ -13,23 +13,23 @@ const MixingContainer = styled.div`
 		Noto Sans,
 		sans-serif;
 	width: 100%;
-	height: 500px;
-	border: 5px solid black;
 	margin: auto;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	justify-content: space-around;
-	padding-top: 16px;
-	padding-bottom: 48px;
 `;
 
-const MixingDivide = styled.div`
-	height: 100%;
-	width: 5px;
-	background: black;
+const Heading = styled.h1`
 `;
 
 const HOST_MIXBUS = 11;
+
+const HeadsetsToUse = [
+	HEADSETS[0],
+	HEADSETS[1],
+	HEADSETS[2],
+	HEADSETS[3],
+]
 
 export const HostDashAudio: React.FC = () => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
@@ -45,7 +45,7 @@ export const HostDashAudio: React.FC = () => {
 		[runDataActiveRep],
 	);
 	const headsetUserMap = useMemo(() => {
-		const map = new Map(HEADSETS.map((headset) => [headset.name, headset.name]));
+		const map = new Map(HeadsetsToUse.map((headset) => [headset.name, headset.name]));
 		runDataActiveRep?.teams.map((team) => {
 			team.players.map((player) => {
 				if ("microphone" in player.customData) map.set(player.customData.microphone, player.name);
@@ -84,6 +84,7 @@ export const HostDashAudio: React.FC = () => {
 
 	return (
 		<MixingContainer>
+			<Heading>Headphone Volume</Heading>
 			<AudioFader
 				key={"MASTER"}
 				label={"MASTER"}
@@ -93,7 +94,7 @@ export const HostDashAudio: React.FC = () => {
 				onChange={(float) => handleFaderChange(float, HOST_MIXBUS, 0)}
 				colour={"#000"}
 			/>
-			<MixingDivide />
+			<Heading>Games</Heading>
 			{[...Array(numberOfRunners).keys()].map((number) => {
 				return (
 					<AudioFader
@@ -107,8 +108,8 @@ export const HostDashAudio: React.FC = () => {
 					/>
 				);
 			})}
-			<MixingDivide />
-			{HEADSETS.map((headset) => {
+			<Heading>Runners</Heading>
+			{HeadsetsToUse.map((headset) => {
 				return (
 					<AudioFader
 						key={headset.name}

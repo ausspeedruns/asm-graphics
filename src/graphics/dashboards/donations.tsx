@@ -117,7 +117,7 @@ const DisabledCover = styled.div`
 `;
 
 function getRowHeight(description: string) {
-	return 96 + Math.floor(description.length / 132) * 18;
+	return 96 + Math.floor(description.length / 2.5);
 }
 
 type ReactWindowElement<T> = {
@@ -154,7 +154,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				...props.style,
 				paddingTop: MARGIN,
 			}}>
-			<Grid direction="column" container>
+			<Grid direction="column" container style={{ paddingRight: 4 }}>
 				<div>
 					<Amount>
 						${props.donation.amount.toLocaleString()}

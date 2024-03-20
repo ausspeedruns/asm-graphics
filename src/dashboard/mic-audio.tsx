@@ -6,6 +6,12 @@ import { useReplicant } from "use-nodecg";
 import { darkTheme } from "./theme";
 import { RecordVoiceOver, WbIncandescent } from "@mui/icons-material";
 
+const Label = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 8px;
+`;
+
 const MicAudioContainer = styled.div`
 	padding: 0 8px;
 `;
@@ -92,13 +98,13 @@ function isNumeric(str: string) {
 }
 
 export const DashboardMicAudio: React.FC = () => {
-	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate");
-	const [hostLevelRep, setHostLevelRep] = useReplicant<number>("x32:host-level");
+	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate", 0);
+	const [hostLevelRep, setHostLevelRep] = useReplicant<number>("x32:host-level", 0);
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<MicAudioContainer>
-				<p><WbIncandescent /> Microphone Indicator Activation dB</p>
+				<Label><WbIncandescent /> Microphone Indicator Activation dB</Label>
 				<SliderContainer>
 					<Slider
 						style={{ margin: "auto" }}
@@ -133,7 +139,7 @@ export const DashboardMicAudio: React.FC = () => {
 						}}
 					/>
 				</SliderContainer>
-				<p><RecordVoiceOver /> Host Unmute Audio Level</p>
+				<Label><RecordVoiceOver /> Host Unmute Audio Level</Label>
 				<SliderContainer>
 					<Slider
 						style={{ margin: "auto" }}

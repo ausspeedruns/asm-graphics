@@ -40,6 +40,7 @@ export const donationMatchesRep = nodecg.Replicant<DonationMatch[]>("donation-ma
 export const gameAudioActiveRep = nodecg.Replicant<number>("game-audio-indicator", { defaultValue: -1 });
 export const microphoneGateRep = nodecg.Replicant<number>("x32:audio-gate", { defaultValue: -10 });
 export const hostLevelRep = nodecg.Replicant<number>("x32:host-level", { defaultValue: 0.75 });
+export const gameAudioNamesRep = nodecg.Replicant<string[]>("game-audio-names", { defaultValue: [] });
 
 /* OBS Audio */
 export const obsAudioActivityRep = nodecg.Replicant<OBSAudioIndicator[]>("obs-audio-indicator", {

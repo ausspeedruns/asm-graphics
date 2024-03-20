@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useReplicant } from "use-nodecg";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
@@ -11,7 +11,7 @@ import { EditUserDialog } from "./edit-user-dialog";
 import { Button } from "@mui/material";
 
 const RTNamesContainer = styled.div`
-	height: calc(100% - 96px);
+	height: 100%;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -43,7 +43,7 @@ const Data = styled.div`
 
 	span {
 		white-space: nowrap;
-		font-size: 1rem;
+		font-size: 24px;
 	}
 
 	span:nth-child(even) {
@@ -96,10 +96,17 @@ const TwitchImg = styled.img`
 `;
 
 const EditButton = styled(Button)`
-	margin-left: 32px !important;
+	&.MuiButtonBase-root {
+		margin-left: 32px;
+		font-size: 28px;
+	}
 `;
 
-const AddCommentatorButton = styled(Button)``;
+const AddCommentatorButton = styled(Button)`
+	&.MuiButtonBase-root {
+		font-size: 32px;
+	}
+`;
 
 interface Props {
 	className?: string;
@@ -183,8 +190,8 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 		};
 	}
 
-	function commentatorHeadset(comHeadset?: string) {
-		const headset = HEADSETS.find((headset) => headset.name == comHeadset);
+	function CommentatorHeadset(props: { headset?: string }) {
+		const headset = HEADSETS.find((headset) => headset.name == props.headset);
 
 		if (headset) {
 			return (
@@ -222,7 +229,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				{commentators.map((commentator) => {
 					return (
 						<NameRow isRunner={commentator.isRunner} key={commentator.id}>
-							{commentator.microphone && commentatorHeadset(commentator.microphone)}
+							{commentator.microphone && <CommentatorHeadset headset={commentator.microphone} />}
 							{commentator.name}
 							{commentator.pronouns && <RunnerPronouns>[{commentator.pronouns}]</RunnerPronouns>}
 							{commentator.twitch && commentator.isRunner && (
@@ -234,6 +241,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 							<EditButton variant="outlined" onClick={() => openEditUserDialog(commentator.id)}>
 								Edit
 							</EditButton>
+							{!commentator.microphone && <AnnoyingSetHeadsetNotification />}
 						</NameRow>
 					);
 				})}
@@ -244,4 +252,28 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 			<EditUserDialog open={isEditUserOpen} onClose={handleDialogCancel} commentator={dialogRunner} />
 		</RTNamesContainer>
 	);
+};
+
+const RainbowTextAnimation = keyframes`
+	0%, 100% {
+		background-position: 0 0;
+	}
+
+	50% {
+		background-position: 100% 0;
+	}
+`;
+
+const RainbowText = styled.span`
+	font-size: 32px;
+	background: linear-gradient(to right, #6666ff, #0099ff, #00ff00, #ff3399, #6666ff);
+	background-clip: text;
+	color: transparent;
+	animation: ${RainbowTextAnimation} 3s ease-in-out infinite;
+	background-size: 400% 100%;
+	margin: 0 16px;
+`;
+
+const AnnoyingSetHeadsetNotification = () => {
+	return <RainbowText>⇦ Set your Headset!</RainbowText>;
 };

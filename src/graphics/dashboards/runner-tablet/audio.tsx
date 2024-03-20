@@ -77,17 +77,15 @@ export const RTAudio = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
 		namespace: "nodecg-speedcontrol",
 	});
+	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names", []);
 	const [couchNamesRep] = useReplicant<Commentator[]>("commentators", []);
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
+
 	const [selectedHeadset, setSelectedHeadset] = useState(HEADSETS[0].name);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 	const debouncedFadersRep = useAudioDebounce(busFadersRep, 500);
 
-	const numberOfRunners = useMemo(
-		() => runDataActiveRep?.teams.reduce((total, team) => total + team.players.length, 0) ?? 0,
-		[runDataActiveRep],
-	);
 	const headsetUserMap = useMemo(() => {
 		const map = new Map();
 		runDataActiveRep?.teams.map((team) => {
@@ -151,6 +149,10 @@ export const RTAudio = (props: Props) => {
 
 	const editingText = `Editing ${headsetUser === selectedHeadsetObj?.name ? selectedHeadset : headsetUser ?? selectedHeadset}`;
 
+	const gameAudio = gameAudioNamesRep
+		.map((gameAudio, index) => ({ name: gameAudio, index }))
+		.filter((gameAudio) => !!gameAudio.name);
+
 	return (
 		<RTAudioContainer className={props.className} style={props.style}>
 			<HeadsetSelectorContainer style={{ backgroundColor: selectedHeadsetObj?.colour }}>
@@ -162,6 +164,7 @@ export const RTAudio = (props: Props) => {
 								background: headset.colour,
 								color: headset.textColour,
 								fontWeight: selectedHeadset === headset.name ? "bold" : "",
+								boxShadow: selectedHeadset === headset.name ? "" : "inset 0 0 20px 3px black",
 							}}
 							onClick={() => setSelectedHeadset(headset.name)}>
 							<FitText
@@ -184,15 +187,15 @@ export const RTAudio = (props: Props) => {
 						colour={selectedHeadsetObj?.colour}
 					/>
 					<CategoryName>Game</CategoryName>
-					{[...Array(numberOfRunners).keys()].map((number) => {
+					{gameAudio.map((gameAudioName) => {
 						return (
 							<AudioFader
-								key={number}
-								label={`Game ${number + 1}`}
+								key={gameAudioName.name}
+								label={gameAudioName.name}
 								mixBus={mixBus}
-								channel={9 + number * 2}
-								value={faderValues[mixBus]?.[9 + number + number * 2]}
-								onChange={(float) => handleFaderChange(float, mixBus, 9 + number * 2)}
+								channel={9 + gameAudioName.index * 2}
+								value={faderValues[mixBus]?.[9 + gameAudioName.index + gameAudioName.index * 2]}
+								onChange={(float) => handleFaderChange(float, mixBus, 9 + gameAudioName.index * 2)}
 								colour={"#000"}
 							/>
 						);

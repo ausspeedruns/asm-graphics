@@ -45,7 +45,7 @@ const HostName = styled.div`
 	font-weight: bold;
 	text-align: right;
 	padding-right: 1rem;
-	font-size: 1.25rem;
+	font-size: 32px;
 
 	span {
 		font-weight: normal;
@@ -90,7 +90,7 @@ const RunnerTablet: React.FC = () => {
 	});
 	const previousDataActive = usePrevious(runDataActiveRep);
 
-	const [tab, setTab] = useState<TabsValues>(TABS.AUDIO);
+	const [tab, setTab] = useState<TabsValues>(TABS.NAMES);
 	const [host] = useReplicant<Commentator | undefined>("host", undefined);
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 
@@ -104,9 +104,8 @@ const RunnerTablet: React.FC = () => {
 		case "audio":
 			currentTabBody = <RTAudio />;
 			break;
-		// case "headset_selection":
-		// 	currentTabBody = <RTSelection close={() => setTab("names")} />;
-			break;
+			// case "headset_selection":
+			// 	currentTabBody = <RTSelection close={() => setTab("names")} />;
 		default:
 			break;
 	}
@@ -133,15 +132,17 @@ const RunnerTablet: React.FC = () => {
 	useEffect(() => {
 		if (!previousDataActive || !runDataActiveRep) return;
 
-		if (runDataActiveRep.id !== previousDataActive.id)
-		{
+		if (runDataActiveRep.id !== previousDataActive.id) {
 			setTab(TABS.NAMES);
 		}
 	}, [previousDataActive, runDataActiveRep]);
 
-	function fullscreen()
-	{
-		document.documentElement.requestFullscreen();
+	function fullscreen() {
+		if (document.fullscreenElement) {
+			document.exitFullscreen();
+		} else {
+			document.documentElement.requestFullscreen();
+		}
 	}
 
 	return (
@@ -157,13 +158,15 @@ const RunnerTablet: React.FC = () => {
 
 					<RightSide>
 						<HostName>
-							<span>Host</span>
-							<br />
+							{/* <span>Host</span> */}
+							{/* <br /> */}
 							{host?.name}
 							<br />
-							{host?.pronouns}
+							<span>{host?.pronouns}</span>
 						</HostName>
-						<ReadyButton onClick={fullscreen} style={{ background: live ? "#0066ff" : "#ff0000" }}>{buttonText}</ReadyButton>
+						<ReadyButton onClick={fullscreen} style={{ background: live ? "#0066ff" : "#ff0000" }}>
+							{buttonText}
+						</ReadyButton>
 					</RightSide>
 				</NavBar>
 				<Body style={{ height: tab === TABS.HEADSET_SELECTION ? "100vh" : "" }}>{currentTabBody}</Body>

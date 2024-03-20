@@ -28,7 +28,7 @@
 			{
 				"name": "gameaudioindicator",
 				"title": "Game Audio Indicator",
-				"width": 3,
+				"width": 4,
 				"headerColor": "#CC7722",
 				"file": "game-audio-indicator.html"
 			},
@@ -176,6 +176,10 @@
 			{
 				"directory": "tiltify-callback",
 				"endpoint": "tiltify-callback"
+			},
+			{
+				"directory": "src",
+				"endpoint": "src"
 			}
 		],
 		"soundCues": [
@@ -271,16 +275,15 @@
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-storybook": "^0.6.15",
-		"globby": "^14.0.0",
 		"prettier": "^3.2.5",
 		"react-refresh": "^0.14.0",
 		"react-refresh-typescript": "^2.0.9",
 		"trash-cli": "^5.0.0",
 		"twemoji": "^14.0.2",
 		"typescript": "^5.3.3",
-		"vite": "^4.5.2",
+		"vite": "4.5.2",
 		"vite-plugin-html": "^3.2.2",
-		"vite-plugin-nodecg": "^2.0.1"
+		"vite-plugin-nodecg": "^2.0.0-rc3"
 	},
 	"packageManager": "yarn@4.1.1"
 }

@@ -43,5 +43,6 @@ body {
 	--tgx-blue: #007eff;
 	--tgx-green: #00c091;
 	--tgx-rainbow-bar: linear-gradient(90deg, var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
+	--tgx-rainbow-bar-vertical: linear-gradient(180deg, var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
 	--tgx-font: "Helvetica Now Display";
 }

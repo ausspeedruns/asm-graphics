@@ -43,8 +43,8 @@ const InfoBoxBG = styled.div`
 	height: 664px;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-image: url(${tgxBackgroundPattern});
-	background-repeat: repeat;
 	background-blend-mode: multiply;
+	background-repeat: repeat;
 	background-position-y: 10px;
 	position: relative;
 `;

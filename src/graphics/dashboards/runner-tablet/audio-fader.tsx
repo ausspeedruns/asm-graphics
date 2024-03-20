@@ -10,7 +10,7 @@ const AudioFaderContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding: 0 64px;
+	padding-left: 64px;
 `;
 
 const SliderContainer = styled.div`
@@ -20,14 +20,15 @@ const SliderContainer = styled.div`
 
 const DBValue = styled.p`
 	text-align: center;
-	font-size: 1.5rem;
+	font-size: 30px;
 	margin: 0;
+	min-width: 150px;
 `;
 
 const FaderLabel = styled.div`
 	min-height: 2rem;
 	max-height: 2rem;
-	font-size: 1.2rem;
+	font-size: 30px;
 	margin: 0;
 	border-radius: 8px;
 	line-height: 2rem;

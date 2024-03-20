@@ -21,7 +21,7 @@ const renderTextWithLineBreaks = (text: string) => {
 };
 
 interface Props {
-	text: string;
+	text?: string;
 	style?: React.CSSProperties;
 	className?: string;
 	allowNewlines?: boolean;
@@ -71,7 +71,7 @@ export const FitText: React.FunctionComponent<Props> = React.memo((props: Props)
 			ref={containerRef}
 		>
 			<Text ref={textRef} style={{ transformOrigin: transformOrigin }}>
-				{props.allowNewlines ? renderTextWithLineBreaks(props.text) : props.text.replaceAll("\\n", " ")}
+				{props.allowNewlines ? renderTextWithLineBreaks(props.text ?? "") : props.text?.replaceAll("\\n", " ")}
 			</Text>
 		</div>
 	);

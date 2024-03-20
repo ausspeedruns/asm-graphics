@@ -7,6 +7,7 @@ import type { Tweet } from "./Twitter";
 export type NodeCGMessages = {
 	// Audio
 	"changeGameAudio": { manual: boolean, index: number }
+	"changeGameAudioName": { name: string, index: number }
 	// Commentators / Host
 	"update-hostname": Commentator;
 	"update-hostnames": Commentator[];

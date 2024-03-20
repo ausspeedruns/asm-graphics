@@ -16,6 +16,7 @@ import { TGX24Rainbow, TGX24_COLOURS, TGX24Squares } from "../elements/event-spe
 // import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
 // import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
 // import WidescreenBottom from "../media/ASM23/widescreen-2-bottom.png";
+import tgxBackgroundPattern from "../elements/event-specific/tgx-24/pattern.png";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -46,6 +47,8 @@ const LeftBox = styled.div`
 	display: flex;
 	background: var(--main);
 	position: relative;
+	background-image: url(${tgxBackgroundPattern});
+	background-blend-mode: multiply;
 `;
 
 const RightBox = styled.div`
@@ -55,6 +58,9 @@ const RightBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	position: relative;
+	background: var(--main);
+	background-image: url(${tgxBackgroundPattern});
+	background-blend-mode: multiply;
 `;
 
 const SponsorSize = {
@@ -90,8 +96,9 @@ const BottomBlock = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	background-position: center;
-	background-size: cover;
+	background: var(--main);
+	background-image: url(${tgxBackgroundPattern});
+	background-blend-mode: multiply;
 `;
 
 const BespokeCouch = styled.div`

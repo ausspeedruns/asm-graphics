@@ -19,9 +19,9 @@ import { TickerPrizes } from "./ticker/prizes";
 import { TickerASMM } from "./ticker/asmm";
 import { TickerDonationMatches } from "./ticker/donation-matches";
 
-import ChannelBug from "../media/ASM-Gif.gif";
-import ChannelBugExtension from "../elements/event-specific/pax-23/ChannelBugExtension.png";
-// import ChannelBug from '../media/TGXBug.svg';
+// import ChannelBug from "../media/ASM-Gif.gif";
+// import ChannelBugExtension from "../elements/event-specific/pax-23/ChannelBugExtension.png";
+import ChannelBug from '../elements/event-specific/tgx-24/tgx24-bug.png';
 import GoCLogo from "../media/Sponsors/GoCWhite.svg";
 import { DonationMatch } from "@asm-graphics/types/Donations";
 
@@ -49,16 +49,18 @@ const DonationArea = styled.div`
 	display: flex;
 	align-items: center;
 	padding: 0 10px;
-	color: var(--text-light);
+	color: var(--text-dark);
 	font-weight: bold;
 	font-family: var(--mono-font);
+
+	background: var(--sec);
 `;
 
 const CurrentTimeArea = styled.div`
 	height: 100%;
 	width: fit-content;
-	background: var(--sec);
-	color: var(--text-dark);
+	/* background: var(--sec); */
+	color: var(--text-light);
 	font-weight: bold;
 	/* border-left: 6px solid var(--accent); */
 	padding: 0 16px;
@@ -212,7 +214,7 @@ const Ticker = (props: TickerProps) => {
 		<TickerContainer>
 			<LeftBlock>
 				<ASMLogo src={ChannelBug} />
-				<img src={ChannelBugExtension} />
+				{/* <img src={ChannelBugExtension} /> */}
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={props.runDataActive} runArray={props.runDataArray} />
@@ -224,6 +226,7 @@ const Ticker = (props: TickerProps) => {
 				<TickerASMM ref={asmmRef} totalKM={props.asmm ?? 0} />
 				<TickerDonationMatches donationMatches={props.donationMatches} ref={donationMatchesRef} />
 			</ContentArea>
+			<div style={{width: 8, height: "100%", background: "var(--tgx-rainbow-bar-vertical)"}} />
 			<CurrentTimeArea>
 				{format(currentTime, "E d")}
 				<br />

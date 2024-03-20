@@ -3,7 +3,7 @@ import styled from "styled-components";
 import gsap from "gsap";
 import { useListenFor } from "use-nodecg";
 
-import EventLogo from "../media/ASAP23/ASAP23 Logo.svg";
+import EventLogo from "../media/ASGX23/ASGX23Logo.png";
 
 const CreditsContainer = styled.div`
 	position: relative;
@@ -99,20 +99,26 @@ export const Credits: React.FC = () => {
 					<img style={{ width: "90%", height: "auto" }} src={EventLogo} />
 				</EventImg>
 				<Title>
-					AusSpeedruns At
+					AusSpeedruns @
 					<br />
-					PAX 2023
+					The Game Expo 2024
 				</Title>
 				<Title>AusSpeedruns Committee</Title>
 				<NameContainer>
 					<NameWithRoles>
-						ASAP Coordinator<Name>Astrious</Name>
+						ASGX Coordinator<Name>neɪ</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Director<Name>Sten</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						ASM Coordinator<Name>neo</Name>
+					</NameWithRoles>
+					<NameWithRoles>
+						ASAP Coordinator<Name>Astrious</Name>
+					</NameWithRoles>
+					<NameWithRoles>
+						Operations Manager<Name>werster</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Hardware Manager<Name>nei_</Name>
@@ -124,10 +130,7 @@ export const Credits: React.FC = () => {
 						Runner Manager<Name>LaceyStripes</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Marketing Manager<Name>nase</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Operations Manager<Name>werster</Name>
+						Marketing Manager<Name>Kuiperbole</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Sponsorship Manager<Name>Kenorah</Name>
@@ -141,32 +144,23 @@ export const Credits: React.FC = () => {
 				</NameContainer>
 				<Title>Tech</Title>
 				<NameContainer>
-					<Name>Clubwho</Name>
-					<Name>aytoms</Name>
 					<Name>Clockdistrict</Name>
-					<Name>CurtMantis</Name>
 					<Name>Dillon</Name>
-					<Name>Lacey</Name>
-					<Name>nei</Name>
-					<Name>neo_</Name>
+					<Name>neɪ</Name>
+					<Name>Ninten</Name>
 					<Name>NitrosTwitch</Name>
 					<Name>Sten</Name>
 					<Name>Tsukahh</Name>
 				</NameContainer>
 				<Title>Runner Management</Title>
 				<NameContainer>
-					<Name>Lacey</Name>
 					<Name>Baphy</Name>
-					<Name>CurtMantis</Name>
-					<Name>Cyanidesugar</Name>
-					<Name>Galasrinie</Name>
-					<Name>Ins0mnia</Name>
-					<Name>neo_</Name>
-					<Name>Noops</Name>
-					<Name>Srd_27</Name>
+					<Name>Geolubread</Name>
+					<Name>Lacey</Name>
 					<Name>Sten</Name>
+					<Name>TasmaniaJones</Name>
 				</NameContainer>
-				<Title>Social Media</Title>
+				{/* <Title>Social Media</Title>
 				<NameContainer>
 					<Name>HoshinoHaru</Name>
 					<Name>Kenorah</Name>
@@ -174,77 +168,40 @@ export const Credits: React.FC = () => {
 					<Name>limchi</Name>
 					<Name>nase</Name>
 					<Name>neo</Name>
-				</NameContainer>
+				</NameContainer> */}
 				<Title>Hosts</Title>
 				<NameContainer>
-					<Name>Kenorah</Name>
-					<Name>Benjlin</Name>
-					<Name>Dillon</Name>
 					<Name>Galasrinie</Name>
-					<Name>Ins0mnia</Name>
-					<Name>jksessions</Name>
-					<Name>MikamiHero</Name>
-					<Name>neo_</Name>
-					<Name>Noops</Name>
-					<Name>Sandsh8rk</Name>
-					<Name>werster</Name>
+					<Name>Kenorah</Name>
+					<Name>Lacey</Name>
 				</NameContainer>
 				<Title>Runners</Title>
 				<NameContainer>
 					<Name>AeonFrodo</Name>
-					<Name>Arahpthos</Name>
 					<Name>Baphy</Name>
-					<Name>Breefree</Name>
-					<Name>Craigelbagel001</Name>
-					<Name>CurtMantis</Name>
+					<Name>Clockdistrict</Name>
 					<Name>Dactyly</Name>
-					<Name>Damosk</Name>
-					<Name>Duk700</Name>
-					<Name>fireproofnas</Name>
-					<Name>FoksMachine</Name>
+					<Name>ekimekim</Name>
 					<Name>Galasrinie</Name>
-					<Name>Glint</Name>
-					<Name>GLPhoenix</Name>
-					<Name>GrubbyD</Name>
-					<Name>Grubdog</Name>
-					<Name>ins0mnia</Name>
-					<Name>JRP</Name>
-					<Name>jymmyboi</Name>
-					<Name>KassXCII</Name>
+					<Name>GameNerd607</Name>
+					<Name>Geolubread</Name>
 					<Name>Kenorah</Name>
-					<Name>LaceyStripes</Name>
-					<Name>MangoPunch</Name>
-					<Name>Midg2000</Name>
-					<Name>nei</Name>
-					<Name>neo_</Name>
-					<Name>Nicosar</Name>
-					<Name>Ninten</Name>
-					<Name>QuokkaDD</Name>
-					<Name>Rab</Name>
-					<Name>rippersteveM5</Name>
-					<Name>Rippy</Name>
-					<Name>Rippy</Name>
-					<Name>Sandsh8rk</Name>
-					<Name>sH1R1U</Name>
-					<Name>SlyZorua</Name>
+					<Name>LiquidWifi</Name>
+					<Name>Raikou</Name>
+					<Name>ribbongraph</Name>
 					<Name>SNC_Sector7G</Name>
 					<Name>syo</Name>
-					<Name>TasmaniaJones</Name>
-					<Name>Washeyy</Name>
-					<Name>werster</Name>
 				</NameContainer>
 				<Title>Special Thanks</Title>
 				<NameContainer>
 					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
-					<NameWithRoles>Elgato</NameWithRoles>
-					<NameWithRoles>PAX Australia</NameWithRoles>
-					<NameWithRoles>All PAX Enforcers</NameWithRoles>
+					<NameWithRoles>The Game Expo</NameWithRoles>
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
 					</NameWithRoles>
-					<NameWithRoles style={{ marginTop: 15 }}>
+					{/* <NameWithRoles style={{ marginTop: 15 }}>
 						Audio Equipment<Name>domuel</Name>
-					</NameWithRoles>
+					</NameWithRoles> */}
 					<NameWithRoles style={{ marginTop: 15 }}>
 						Camera Equipment<Name>Clockdistrict</Name>
 					</NameWithRoles>

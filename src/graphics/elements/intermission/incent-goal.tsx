@@ -104,16 +104,18 @@ const GoalBarContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	transform: translate(-1000px, 0);
-	padding: 0 50px;
+	/* padding: 0 50px; */
 	box-sizing: border-box;
 `;
 
 const GoalDiv = styled.div`
 	display: flex;
 	justify-content: center;
-	margin-left: 10px;
+	align-items: flex-end;
+	/* margin-left: 10px; */
 	font-weight: bold;
 	font-size: 37px;
+	min-height: 130px;
 `;
 
 const IncentiveContainer = styled.div`
@@ -126,6 +128,7 @@ const IncentiveContainer = styled.div`
 	margin-bottom: 5px;
 	font-size: 30px;
 	width: 100%;
+	height: 100px;
 `;
 
 const Game = styled(FitText)`
@@ -144,10 +147,12 @@ const IncentiveName = styled(FitText)`
 const BottomBar = styled.div`
 	display: flex;
 	/* justify-content: space-between; */
+	flex-direction: column;
 	align-items: center;
-	height: 50%;
+	/* height: 50%; */
 	width: 100%;
 	box-sizing: border-box;
+	flex-grow: 1;
 	/* padding: 0 5%; */
 `;
 
@@ -155,42 +160,36 @@ const BottomBar = styled.div`
 const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
-	/* width: 100%; */
-	border: 1px solid var(--sec);
-	background: var(--main);
+	width: 100%;
+	border: 1px solid var(--tgx-green);
+	/* background: var(--main); */
+	background: transparent;
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	/* align-items: flex-end; */
 	justify-content: flex-end;
 `;
 
 const ProgressBarContainer = styled.div`
-	height: 100%;
-	background: var(--sec);
+	width: 100%;
+	background: var(--tgx-green);
 	/* border-right: 5px solid var(--sec); */
 	display: flex;
-	justify-content: flex-end;
+	flex-direction: column;
+	justify-content: flex-start;
 	align-items: center;
 	position: absolute;
 	left: 0;
 `;
 
 const CurrentAmount = styled.span`
-	color: var(--text-dark);
+	color: var(--text-light);
 	font-size: 30px;
 	font-weight: bold;
 	margin-right: 16px;
-`;
-
-const RemainingAmount = styled.span`
-	color: var(--text-light);
-	font-weight: lighter;
-	font-size: 25px;
-	font-style: italic;
-	margin-right: 8px;
-	text-align: center;
 `;
 
 interface GoalProps {
@@ -206,13 +205,13 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(progressBarRef.current, { width: 0 }, "goalStart");
+			tl.set(progressBarRef.current, { height: 0 }, "goalStart");
 			tl.set(containerRef.current, { x: -2000 }, "-=0.5");
 			tl.to(containerRef.current, { x: 0, duration: 1 }, "-=0.5");
 
 			tl.to(
 				progressBarRef.current,
-				{ width: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) },
+				{ height: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) },
 				"+=0.1",
 			);
 
@@ -223,7 +222,7 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			return tl;
 		},
 		reset: (tl) => {
-			tl.set(progressBarRef.current, { width: 0 });
+			tl.set(progressBarRef.current, { height: 0 });
 			tl.set(containerRef.current, { x: -2000 });
 
 			return tl;
@@ -240,25 +239,22 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 
 	return (
 		<GoalBarContainer ref={containerRef}>
-			<IncentiveContainer>
-				<Game text={props.goal.game} />
-				<IncentiveName text={props.goal.incentive} />
-			</IncentiveContainer>
 			<BottomBar>
+				<GoalDiv>
+					<IncentiveName text={`$${props.goal.goal}`}></IncentiveName>
+				</GoalDiv>
 				<ProgressContainer>
 					<ProgressBarContainer ref={progressBarRef}>
 						<CurrentAmount style={textOnRightSide}>
 							${Math.floor(props.goal.total).toLocaleString()}
 						</CurrentAmount>
 					</ProgressBarContainer>
-					<RemainingAmount style={{ display: percentage > 88 ? "none" : undefined }}>
-						${Math.floor(props.goal.total).toLocaleString()}
-					</RemainingAmount>
 				</ProgressContainer>
-				<GoalDiv>
-					<IncentiveName text={`$${props.goal.goal}`}></IncentiveName>
-				</GoalDiv>
 			</BottomBar>
+			<IncentiveContainer>
+				<Game text={props.goal.game} />
+				<IncentiveName text={props.goal.incentive} />
+			</IncentiveContainer>
 		</GoalBarContainer>
 	);
 });

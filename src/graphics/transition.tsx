@@ -12,6 +12,7 @@ import { useRive } from "@rive-app/react-canvas";
 
 // @ts-ignore
 // import ASAP23Transition from "./elements/event-specific/pax-23/asap2023_transition.riv";
+import ASGX23Transitions from "./elements/event-specific/tgx-24/";
 
 import Clip1 from "./media/audio/chestappears1.mp3";
 import Clip2 from "./media/audio/crystal.mp3";
@@ -37,6 +38,11 @@ const TransitionDiv = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	position: relative;
+
+	& div
+	{
+		position: absolute;
+	}
 `;
 
 function runString(runData: RunDataActiveRun | undefined) {
@@ -76,36 +82,37 @@ export const Transition: React.FC = () => {
 		namespace: "nodecg-speedcontrol",
 	});
 
-	const { rive, RiveComponent } = useRive({
-		src: "/bundles/asm-graphics/shared/design/asap2023_transition.riv",
+	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
+		src: "/bundles/asm-graphics/shared/design/tgx_transition.riv",
 		autoplay: false,
+		artboard: "Transition",
 	});
 
 	useListenFor("transition:UNKNOWN", () => {
 		console.log("Transitioning");
-		runTransition();
+		runTransition("basic");
 	});
 
 	useListenFor("transition:toIRL", () => {
 		console.log("Transitioning");
-		runTransition();
+		runTransition("basic");
 	});
 
 	useListenFor("transition:toGame", () => {
 		console.log("Transitioning to Game");
-		runTransition(runString(runDataActiveRep));
+		runTransition("toGame", runString(runDataActiveRep));
 	});
 
 	useListenFor("transition:toIntermission", () => {
 		console.log("Transitioning to Intermission");
-		runTransition(TAGLINES[Math.floor(Math.random() * TAGLINES.length)]);
+		runTransition("toIntermission", TAGLINES[Math.floor(Math.random() * TAGLINES.length)]);
 	});
 
 	useEffect(() => {
-		rive?.stopRendering();
-	}, [rive]);
+		normalRive?.stopRendering();
+	}, [normalRive]);
 
-	function runTransition(specialText = "") {
+	function runTransition(transition: "toIntermission" | "toGame" | "basic", _ = "") {
 		console.log("Running");
 
 		const tl = gsap.timeline();
@@ -116,16 +123,30 @@ export const Transition: React.FC = () => {
 				audioRef.current.play();
 			},
 			[],
-			"+=1.2",
+			"+=2",
 		);
 
-		console.log(rive);
-		if (rive) {
-			rive.startRendering();
-			rive.reset();
+		switch (transition) {
+			case "basic":
+				if (normalRive) {
+					normalRive.startRendering();
+					normalRive.reset();
 
-			rive.setTextRunValue("TransitionInformation", specialText);
-			rive.play();
+					// normalRive.setTextRunValue("TransitionInformation", specialText);
+					normalRive.play("Basic");
+				}
+				break;
+			case "toIntermission":
+			case "toGame":
+			default:
+				if (normalRive) {
+					normalRive.startRendering();
+					normalRive.reset();
+
+					// normalRive.setTextRunValue("TransitionInformation", specialText);
+					normalRive.play(transition === "toIntermission" ? "G2I" : "Normal");
+				}
+				break;
 		}
 	}
 
@@ -136,19 +157,19 @@ export const Transition: React.FC = () => {
 	return (
 		<TransitionContainer>
 			<TransitionDiv>
-				<RiveComponent />
+				<NormalTransitions />
 			</TransitionDiv>
 
 			<audio ref={audioRef} />
-			<button style={{ float: "right" }} onClick={() => runTransition()}>
+			<button style={{ float: "right" }} onClick={() => runTransition("basic")}>
 				Run blank transition
 			</button>
-			<button style={{ float: "right" }} onClick={() => runTransition(runString(runDataActiveRep))}>
+			<button style={{ float: "right" }} onClick={() => runTransition("toGame", runString(runDataActiveRep))}>
 				Run game transition
 			</button>
 			<button
 				style={{ float: "right" }}
-				onClick={() => runTransition(TAGLINES[Math.floor(Math.random() * TAGLINES.length)])}>
+				onClick={() => runTransition("toIntermission", TAGLINES[Math.floor(Math.random() * TAGLINES.length)])}>
 				Run intermission transition
 			</button>
 			<div>
