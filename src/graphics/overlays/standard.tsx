@@ -38,7 +38,7 @@ const InfoBoxBG = styled.div`
 	background: var(--main);
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	align-items: center;
 	height: 664px;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
@@ -76,8 +76,8 @@ const customVerticalStyle: IVerticalStyling = {
 	timerSize: 75,
 	gameInfoSize: 20,
 	gameTitleSize: 40,
-	gameStackHeight: 100,
-	timerStackHeight: 200,
+	gameStackHeight: 200,
+	timerStackHeight: 300,
 	categorySize: 38,
 };
 
@@ -142,7 +142,7 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						src={StandardBG}
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/> */}
-					<TGX24Rainbow style={{ width: "100%", zIndex: 2 }} />
+					<TGX24Rainbow style={{ width: "100%", zIndex: 2, position: "absolute", top: 0 }} />
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch
 						style={{ zIndex: 3 }}
@@ -150,12 +150,12 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
 					/>
-					<SponsorBoxS
+					{/*<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}
 						sponsorStyle={SponsorsSize}
 						tweetStyle={TwitterSize}
-					/>
+					/>*/}
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>

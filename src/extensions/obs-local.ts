@@ -65,7 +65,7 @@ nodecg.listenFor("transition:toIntermission", (data) => {
 		if (runDataActiveRunRep.value?.customData.exitTransition) {
 			setTransitionQueue = runDataActiveRunRep.value.customData.entryTransition;
 		}
-	}, 1500);
+	}, 3000);
 });
 
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");

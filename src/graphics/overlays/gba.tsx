@@ -12,6 +12,15 @@ import { Couch } from "../elements/couch";
 import { TGX24Rainbow } from "../elements/event-specific/tgx-24/tgx24";
 import tgxBackgroundPattern from "../elements/event-specific/tgx-24/pattern.png";
 
+const TGXBox = styled.div`
+	border-style: solid;
+	border-width: 10px;
+	position: absolute;
+	height: 110px;
+	width: 110px;
+	background-color: var(--main);
+`;
+
 const GBAContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -36,15 +45,17 @@ const SponsorsStyled = {
 };
 
 const InfoBoxBG = styled.div`
+	position: relative;
 	background: var(--main);
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	height: 664px;
 	background-image: url(${tgxBackgroundPattern});
 	background-repeat: repeat;
 	background-blend-mode: multiply;
 	background-position-y: 10px;
+	clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 `;
 
 const TwitterSize = {
@@ -86,15 +97,49 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						src={GBABG}
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/> */}
-					<TGX24Rainbow style={{ height: 10, width: "100%", zIndex: 2 }} />
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-blue)",
+							transform: "translate(-50%, -50%) rotate(45deg)",
+							top: 0,
+							left: 0,
+							marginTop: 10,
+						}}
+					/>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-yellow)",
+							transform: "translate(50%, -50%) rotate(45deg)",
+							top: 0,
+							right: 0,
+							marginTop: 10,
+						}}
+					/>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-red)",
+							transform: "translate(50%, 50%) rotate(45deg)",
+							bottom: 0,
+							right: 0,
+						}}
+					/>
+					<TGXBox
+						style={{
+							borderColor: "var(--tgx-green)",
+							transform: "translate(-50%, 50%) rotate(45deg)",
+							bottom: 0,
+							left: 0,
+						}}
+					/>
+					<TGX24Rainbow style={{ height: 10, width: "100%", zIndex: 2, position: "absolute", top: 0 }} />
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
-					<SponsorsBoxS
+					{/* <SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}
 						sponsorStyle={SponsorsStyled}
 						tweetStyle={TwitterSize}
-					/>
+					/> */}
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>

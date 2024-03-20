@@ -41,7 +41,7 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 			tl.set(prizesRef.current, { right: "" });
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
-			tl.to(prizesRef.current, { right: 0, ease: "slow(0.999, 0.05, false)", duration: 10 }, "+=5");
+			// tl.to(prizesRef.current, { right: 0, ease: "slow(0.999, 0.05, false)", duration: 10 }, "+=5");
 
 			// End
 			tl.to(containerRef.current, { y: 64, duration: 1 }, "+=5");

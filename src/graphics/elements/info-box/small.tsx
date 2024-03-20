@@ -99,8 +99,8 @@ export const SmallInfo: React.FC<Props> = (props: Props) => {
 			</VerticalStack>
 			<InfoSubBox style={{ ...styles.lowerStackStyle, height: styles.lowerStackHeight }}>
 				<VerticalStack style={{ height: styles.gameStackHeight, ...styles.categoryStyle }}>
-					<RunInfo.Category maxWidth={styles.categoryWidth!} category={props.runData?.category || ""} />
-					<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate || ""} />
+					<RunInfo.Category maxWidth={styles.categoryWidth!} category={props.runData?.category ?? ""} />
+					<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
 				</VerticalStack>
 				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
 			</InfoSubBox>

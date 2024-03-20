@@ -46,7 +46,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 				.join(" vs ");
 		}
 
-		return <TickerItem title={run.game || ""} sub={playerNames || ""} key={run.id} index={i} />;
+		return <TickerItem title={run.game ?? ""} sub={playerNames ?? ""} key={run.id} index={i} />;
 	});
 
 	useImperativeHandle(ref, () => ({

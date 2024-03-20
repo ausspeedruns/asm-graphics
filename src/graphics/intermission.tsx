@@ -35,6 +35,7 @@ import TGXBackground from "./elements/event-specific/tgx-24/intermission.svg";
 import StopwatchIcon from "./media/icons/stopwatch.svg";
 import RunnerIcon from "./media/icons/runner.svg";
 import ConsoleIcon from "./media/icons/console.svg";
+import { LerpNum } from "./elements/ticker/lerp-num";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -359,7 +360,7 @@ const TimeContainer = styled.div`
 const CurrentTime = styled.span`
 	font-size: 80px;
 	font-weight: bold;
-	font-variant-numeric: tabular-nums;
+	font-family: var(--mono-font);
 `;
 
 const CurrentDate = styled.span`
@@ -380,6 +381,7 @@ const DonationContainer = styled.div`
 const DonationAmount = styled.div`
 	font-size: 150px;
 	height: 150px;
+	font-family: var(--mono-font);
 `;
 
 const DonationSymbol = styled.span`
@@ -645,7 +647,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				</PlayerInfo>
 				<TimeInfo>
 					<img src={StopwatchIcon} />
-					<FitText text={nextRuns[0]?.estimate} />
+					<FitText text={(nextRuns[0]?.estimate ?? "0").substring(1)} />
 				</TimeInfo>
 				<ConsoleInfo>
 					<img src={ConsoleIcon} />
@@ -662,7 +664,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			</TimeContainer>
 			<DonationContainer>
 				<DonationAmount>
-					<DonationSymbol>$</DonationSymbol>5,000
+					<DonationSymbol>$</DonationSymbol><LerpNum value={props.donation} />
 				</DonationAmount>
 				<DonationInfo>
 					<DonationInstruction>Donate At</DonationInstruction>

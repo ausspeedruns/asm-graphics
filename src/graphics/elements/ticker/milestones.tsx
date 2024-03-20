@@ -220,7 +220,7 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 				</ProgressBarContainer>
 			</ProgressContainer>
 			<NextMilestone>
-				<NextMilestoneEvent style={{ marginBottom: nextMilestone.event ? -14 : 0 }}>
+				<NextMilestoneEvent>
 					{nextMilestone.event}
 				</NextMilestoneEvent>
 				<NextMilestoneTotal>${Math.floor(nextMilestone.total).toLocaleString()}</NextMilestoneTotal>
