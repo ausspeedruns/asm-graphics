@@ -114,19 +114,19 @@ async function getDonationMatchData() {
 		const tiltifyResDonationMatches = res.data.data;
 
 		// {
-		// 	"active": false,
-		// 	"amount": { "currency": "AUD", "value": "447.69" },
-		// 	"completed_at": "2023-07-16T09:16:19Z",
-		// 	"donation_id": "2b89b45f-c201-4796-9f7e-a7adce2eeac2",
-		// 	"ends_at": "2023-07-16T09:16:18Z",
-		// 	"id": "7eb5983a-095e-4425-b63a-5c35e7406665",
-		// 	"inserted_at": "2023-07-16T08:16:19Z",
-		// 	"matched_by": "Softman25",
-		// 	"pledged_amount": { "currency": "AUD", "value": "1500" },
-		// 	"started_at_amount": { "currency": "AUD", "value": "32764.25" },
-		// 	"starts_at": "2023-07-16T09:16:18Z",
-		// 	"total_amount_raised": { "currency": "AUD", "value": "447.69" },
-		// 	"updated_at": "2023-07-16T09:16:19Z"
+		// 	"active": true,
+		// 	"amount": { "currency": "AUD", "value": "3000.00" },
+		// 	"completed_at": null,
+		// 	"donation_id": "b45db459-090b-49ad-aec9-abfd9870e845",
+		// 	"ends_at": "2024-03-24T06:38:18Z",
+		// 	"id": "ede97d2e-1c90-41e8-b318-68c3550dcb80",
+		// 	"inserted_at": "2024-03-22T00:38:21Z",
+		// 	"matched_by": "A Bear with a Shotgun",
+		// 	"pledged_amount": { "currency": "AUD", "value": "3000.00" },
+		// 	"started_at_amount": { "currency": "AUD", "value": "0.00" },
+		// 	"starts_at": "2024-03-24T06:38:18Z",
+		// 	"total_amount_raised": { "currency": "AUD", "value": "50.00" },
+		// 	"updated_at": "2024-03-22T00:38:21Z"
 		// }
 
 		// Donation matches
@@ -134,7 +134,7 @@ async function getDonationMatchData() {
 			id: data.id,
 			name: data.matched_by,
 			active: data.active,
-			amount: parseFloat(data.amount.value),
+			amount: parseFloat(data.total_amount_raised.value),
 			pledge: parseFloat(data.pledged_amount.value),
 			time: new Date(data.starts_at).getTime(),
 			currencyCode: data.pledged_amount.currency,

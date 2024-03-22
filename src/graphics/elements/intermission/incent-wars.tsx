@@ -319,12 +319,11 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			let top = 1000;
-			if (containerRef.current)
-			{
+			if (containerRef.current) {
 				top = containerRef.current.getBoundingClientRect().top;
 			}
 
-			const base = (top - 580) * 2;
+			const base = (top - 570) * 2;
 
 			// Start
 			tl.set(progressBarRef.current, { width: 0 }, "warStart");
@@ -353,7 +352,6 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 						style={{
 							display: "flex",
 							justifyContent: "center",
-							padding: "0 10px",
 							width: "100%",
 							fontSize: 25,
 						}}>
@@ -370,7 +368,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 				<div
 					style={{
 						display: "flex",
-						padding: "0 40px",
+						padding: "0 55px",
 						width: "100%",
 						justifyContent: "space-between",
 						zIndex: 2,
@@ -399,7 +397,13 @@ const NoChoicesContainer = styled.div`
 `;
 
 const NoChoicesMade: React.FC = () => {
-	return <NoChoicesContainer>No names<br/>submitted</NoChoicesContainer>;
+	return (
+		<NoChoicesContainer>
+			No names
+			<br />
+			submitted
+		</NoChoicesContainer>
+	);
 };
 
 InterIncentWars.displayName = "InterIncentWars";

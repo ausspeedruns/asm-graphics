@@ -181,13 +181,6 @@
 				"directory": "src",
 				"endpoint": "src"
 			}
-		],
-		"soundCues": [
-			{
-				"name": "jet-set-radio",
-				"assignable": false,
-				"defaultFile": "sound/JSR.ogg"
-			}
 		]
 	},
 	"scripts": {
