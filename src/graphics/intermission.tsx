@@ -592,7 +592,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							audioRef.current.volume = parseFloat(dummyElPos.toString());
 						},
 					},
-					`+=${adDuration + 10}`,
+					`+=10`,
 				);
 			}
 		},

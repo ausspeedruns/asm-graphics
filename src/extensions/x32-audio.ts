@@ -26,6 +26,7 @@ const x32 = new X32();
 const HOST_MIC_CHANNEL = 5;
 const GAME_CHANNELS = [9, 11, 13, 15]; // Channels are paired as stereo pairs so we only need to mute just one side
 const SPECIAL_MIC_CHANNEL = 6;
+const OBS_MONITOR_CHANNEL = 7;
 const MICROPHONE_CHANNELS = [
 	{ name: "Mario Red", channel: 1 },
 	{ name: "Sonic Blue", channel: 2 },
@@ -85,6 +86,8 @@ nodecg.listenFor("transition:toGame", (_data) => {
 			// Only set mics that have someone using them to be unmuted
 			if (micIndexes.includes(channel) || channel === GAME_CHANNELS[0]) {
 				fadeUnmute(channel, mixBus);
+			} else if (channel === OBS_MONITOR_CHANNEL) {
+				fadeMute(channel, mixBus, true);
 			} else {
 				fadeMute(channel, mixBus);
 			}
@@ -100,7 +103,7 @@ nodecg.listenFor("transition:toIntermission", () => {
 	loopAllX32(
 		(channel, mixBus) => {
 			// Don't even attempt to mute the channels since sometimes it gets lost
-			if (channel === HOST_MIC_CHANNEL && mixBus <= 1) {
+			if ((channel === HOST_MIC_CHANNEL && mixBus <= 1) || (channel === OBS_MONITOR_CHANNEL && mixBus === 1)) {
 				fadeUnmute(channel, mixBus);
 			} else {
 				fadeMute(channel, mixBus);
@@ -183,13 +186,13 @@ function fadeUnmute(channel: number, mixBus: number) {
 			}`,
 		);
 		// Unmute
-		x32.fade(channel, mixBus, 0, 0.6, 1500);
+		x32.fade(channel, mixBus, 0, 0.7, 1500);
 	}
 }
 
 // This will look to see if a channel is either muted or set to -∞ already
-function fadeMute(channel: number, mixBus: number) {
-	if (faderValues[0]?.[channel] > 0) {
+function fadeMute(channel: number, mixBus: number, force = false) {
+	if (force || faderValues[0]?.[channel] > 0) {
 		nodecg.log.debug(
 			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
 			}`,
