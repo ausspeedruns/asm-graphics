@@ -4,10 +4,10 @@ import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
 import { useReplicant } from "use-nodecg";
 import { AudioFader } from "./audio-fader";
-import { HEADSETS, Host } from "./headsets";
 import _ from "lodash";
 import usePrevious from "../../../hooks/usePrevious";
 import { FitText } from "../../elements/fit-text";
+import { Headsets, HostHeadset } from "extensions/audio-data";
 
 const RTAudioContainer = styled.div`
 	display: flex;
@@ -82,7 +82,7 @@ export const RTAudio = (props: Props) => {
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
 
-	const [selectedHeadset, setSelectedHeadset] = useState(HEADSETS[0].name);
+	const [selectedHeadset, setSelectedHeadset] = useState(Headsets[0].name);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 	const debouncedFadersRep = useAudioDebounce(busFadersRep, 500);
 
@@ -105,7 +105,7 @@ export const RTAudio = (props: Props) => {
 		let headsetsWithUser = [];
 		let headsetsWithoutUser = [];
 
-		for (let headset of HEADSETS) {
+		for (let headset of Headsets) {
 			if (headset.name === selectedHeadset) {
 				selectedHeadsetArray.push(headset);
 			} else if (headsetUserMap.has(headset.name)) {
@@ -116,13 +116,13 @@ export const RTAudio = (props: Props) => {
 		}
 
 		return [...selectedHeadsetArray, ...headsetsWithUser, ...headsetsWithoutUser];
-	}, [HEADSETS, selectedHeadset, headsetUserMap, hostRep]);
+	}, [selectedHeadset, headsetUserMap, hostRep]);
 
 	useEffect(() => {
 		setFaderValues(debouncedFadersRep);
 	}, [debouncedFadersRep]);
 
-	const selectedHeadsetObj = HEADSETS.find((headset) => headset.name === selectedHeadset);
+	const selectedHeadsetObj = Headsets.find((headset) => headset.name === selectedHeadset);
 	const headsetUser = selectedHeadsetObj ? headsetUserMap.get(selectedHeadsetObj.name) : "";
 
 	// MixBus falls back to 16 since it is an unused bus (FX4)
@@ -156,7 +156,7 @@ export const RTAudio = (props: Props) => {
 	return (
 		<RTAudioContainer className={props.className} style={props.style}>
 			<HeadsetSelectorContainer style={{ backgroundColor: selectedHeadsetObj?.colour }}>
-				{HEADSETS.filter((headset) => headset.name !== "Host" && headset.name !== "NONE").map((headset) => {
+				{Headsets.filter((headset) => headset.name !== "Host" && headset.name !== "NONE").map((headset) => {
 					return (
 						<HeadsetName
 							key={headset.name}
@@ -203,8 +203,8 @@ export const RTAudio = (props: Props) => {
 					<CategoryName>Host</CategoryName>
 					<AudioFader
 						mixBus={mixBus}
-						channel={Host.channel}
-						value={faderValues[mixBus]?.[Host.channel]}
+						channel={HostHeadset.micInput}
+						value={faderValues[mixBus]?.[HostHeadset.micInput]}
 						onChange={(float) => handleFaderChange(float, mixBus, 0)}
 						colour={"#000"}
 					/>
@@ -221,9 +221,9 @@ export const RTAudio = (props: Props) => {
 											: headsetUserMap.get(headset.name) ?? headset.name
 									}
 									mixBus={mixBus}
-									channel={headset.channel}
-									value={faderValues[mixBus]?.[headset.channel]}
-									onChange={(float) => handleFaderChange(float, mixBus, headset.channel)}
+									channel={headset.micInput}
+									value={faderValues[mixBus]?.[headset.micInput]}
+									onChange={(float) => handleFaderChange(float, mixBus, headset.micInput)}
 									colour={headset.colour}
 									headset={headset}
 									fakeDisabled={!headsetUserMap.get(headset.name)}

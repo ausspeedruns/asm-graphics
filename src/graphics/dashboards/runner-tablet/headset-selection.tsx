@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { HEADSETS, Headset } from "./headsets";
 
 import Mario from "../../media/runner-tablet/mario.png";
 import Sonic from "../../media/runner-tablet/sonic.png";
@@ -9,6 +8,7 @@ import Link from "../../media/runner-tablet/link.png";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { useReplicant } from "use-nodecg";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
+import { Headset, Headsets } from "extensions/audio-data";
 
 const RTSelectionContainer = styled.div`
 	background-color: #cc7722;
@@ -159,7 +159,7 @@ export const RTSelection = (props: Props) => {
 				</div>
 			</SelectionInstructions>
 			<HeadsetContainers>
-				{HEADSETS.filter((headset) => headset.name !== "NONE" && headset.name !== "Host").map((headset) => {
+				{Headsets.filter((headset) => headset.name !== "NONE" && headset.name !== "Host").map((headset) => {
 					return (
 						<HeadsetButton
 							key={headset.name}

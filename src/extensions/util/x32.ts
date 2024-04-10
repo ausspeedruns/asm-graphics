@@ -210,7 +210,7 @@ class X32 extends TypedEmitter<X32Class> {
 		});
 
 		// GET MIXBUS FADERS
-		["01", "03", "05", "07", "11"].forEach((bus) => {
+		["01", "03", "05", "07", "11", "13"].forEach((bus) => {
 			this.oscSocket.send({
 				address: "/formatsubscribe",
 				args: [
@@ -337,8 +337,8 @@ class X32 extends TypedEmitter<X32Class> {
 		"Runner 4 L/(R)",
 		"Host (L)/R",
 		"Host L/(R)",
-		"Fx 1",
-		"Fx 2",
+		"Preview (L)/R",
+		"Preview L/(R)",
 		"Fx 3",
 		"Fx 4",
 	];
