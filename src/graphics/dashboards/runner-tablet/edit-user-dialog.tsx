@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Autocomplete, TextField } from "@mui/material";
-import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import { useReplicant } from "use-nodecg";
-import { HEADSETS } from "./headsets";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import { Headsets } from "extensions/audio-data";
 
 const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They", "They/He", "They/She", "Any/All"];
 
@@ -158,7 +158,7 @@ export const EditUserDialog = (props: Props) => {
 				<div>
 					<span style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>Headset / Microphone</span>
 					<HeadsetSelection>
-						{HEADSETS.map((headset) => {
+						{Headsets.map((headset) => {
 							if (headset.name === "Host") return <></>;
 
 							return (

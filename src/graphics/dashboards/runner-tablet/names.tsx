@@ -6,9 +6,9 @@ import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 import TwitchSVG from "../../media/icons/TwitchGlitchPurple.svg";
-import { HEADSETS } from "./headsets";
 import { EditUserDialog } from "./edit-user-dialog";
 import { Button } from "@mui/material";
+import { Headsets } from "extensions/audio-data";
 
 const RTNamesContainer = styled.div`
 	height: 100%;
@@ -191,7 +191,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 	}
 
 	function CommentatorHeadset(props: { headset?: string }) {
-		const headset = HEADSETS.find((headset) => headset.name == props.headset);
+		const headset = Headsets.find((headset) => headset.name == props.headset);
 
 		if (headset) {
 			return (

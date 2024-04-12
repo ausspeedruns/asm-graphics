@@ -124,7 +124,7 @@ export const RTSelection = (props: Props) => {
 		setHeadsetSelection(runners.filter((runner) => runner.isRunner)?.map((runner) => runner.microphone ?? ""));
 	}, [runners]);
 
-	// const allHeadsetUsage: Record<string, number> = HEADSETS.reduce((all, headset) => {
+	// const allHeadsetUsage: Record<string, number> = Headsets.reduce((all, headset) => {
 	// 	console.log(headsetsUsed);
 	// 	if (!(headset.name in all)) {
 	// 		all[headset.name] = 0;

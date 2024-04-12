@@ -82,7 +82,7 @@ export const RTAudio = (props: Props) => {
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
 
-	const [selectedHeadset, setSelectedHeadset] = useState(Headsets[0].name);
+	const [selectedHeadset, setSelectedHeadset] = useState<string>(Headsets[0].name);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 	const debouncedFadersRep = useAudioDebounce(busFadersRep, 500);
 

@@ -125,13 +125,14 @@ SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 // On transition to game view
 nodecg.listenFor("transition:toGame", (_data) => {
 	// Lerp stream and speakers mix to previewMix values
-
 	const previewMixFaders = faderValues[13];
 
-	previewMixFaders.forEach((previewFader, channel) => {
-		x32.fade(channel, 0, 0, previewFader, 2000); // Stream
-		x32.fade(channel, 1, 0, previewFader, 2000); // Speakers
-	});
+	setTimeout(() => {
+		previewMixFaders.forEach((previewFader, channel) => {
+			x32.fade(channel, 0, 0, previewFader, 2000); // Stream
+			x32.fade(channel, 1, 0, previewFader, 2000); // Speakers
+		});
+	}, 1500);
 });
 
 // On transition to intermission
