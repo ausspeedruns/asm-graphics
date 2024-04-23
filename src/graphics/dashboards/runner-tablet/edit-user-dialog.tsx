@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Autocomplete
 import { useReplicant } from "use-nodecg";
 import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
-import { Headsets } from "extensions/audio-data";
+import { Headsets } from "../../../extensions/audio-data";
 
 const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They", "They/He", "They/She", "Any/All"];
 

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useReplicant } from "use-nodecg";
 
 import { AudioFader } from "./dashboards/runner-tablet/audio-fader";
-import { Headsets, HostHeadset } from "extensions/audio-data";
+import { Headsets, HostHeadset } from "../extensions/audio-data";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";

@@ -7,7 +7,7 @@ import { AudioFader } from "./audio-fader";
 import _ from "lodash";
 import usePrevious from "../../../hooks/usePrevious";
 import { FitText } from "../../elements/fit-text";
-import { Headsets, HostHeadset } from "extensions/audio-data";
+import { Headsets, HostHeadset } from "../../../extensions/audio-data";
 
 const RTAudioContainer = styled.div`
 	display: flex;

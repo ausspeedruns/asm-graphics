@@ -41,7 +41,6 @@ if (ncgOBSConfig.enabled) {
 	});
 
 	obs.on("ConnectionError", (err) => {
-		// nodecg.log.warn('[OBS] Connection error');
 		nodecg.log.warn("[OBS] Connection error:", err);
 		obsConnectionRep.value = "disconnected";
 	});

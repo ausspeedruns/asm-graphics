@@ -8,7 +8,7 @@ import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import TwitchSVG from "../../media/icons/TwitchGlitchPurple.svg";
 import { EditUserDialog } from "./edit-user-dialog";
 import { Button } from "@mui/material";
-import { Headsets } from "extensions/audio-data";
+import { Headsets } from "../../../extensions/audio-data";
 
 const RTNamesContainer = styled.div`
 	height: 100%;
