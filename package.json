@@ -99,6 +99,14 @@
 				"width": 3,
 				"headerColor": "#CC7722",
 				"file": "run-info.html"
+			},
+			{
+				"name": "sm64-rando",
+				"title": "SM64 Rando",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "randomiser.html",
+				"workspace": "ASM Misc"
 			}
 		],
 		"graphics": [
@@ -227,6 +235,7 @@
 		"clone": "^2.1.2",
 		"date-fns": "^3.6.0",
 		"fast-deep-equal": "^3.1.3",
+		"global": "^4.4.0",
 		"graphql": "^16.8.1",
 		"graphql-request": "^6.1.0",
 		"gsap": "^3.12.5",

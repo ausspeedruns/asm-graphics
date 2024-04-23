@@ -3,10 +3,11 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 
 import { useReplicant } from "@nodecg/react-hooks";
-import { HEADSETS } from "./dashboards/runner-tablet/headsets";
 import { AudioFader } from "./dashboards/runner-tablet/audio-fader";
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
+import { Headsets, HostHeadset } from "../extensions/audio-data";
+
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const MixingContainer = styled.div`
 	font-family:
@@ -21,10 +22,6 @@ const MixingContainer = styled.div`
 
 const Heading = styled.h1``;
 
-const HOST_MIXBUS = 11;
-
-const HeadsetsToUse = [HEADSETS[0], HEADSETS[1], HEADSETS[2], HEADSETS[3]];
-
 export const HostDashAudio: React.FC = () => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
@@ -37,7 +34,7 @@ export const HostDashAudio: React.FC = () => {
 		[runDataActiveRep],
 	);
 	const headsetUserMap = useMemo(() => {
-		const map = new Map(HeadsetsToUse.map((headset) => [headset.name, headset.name]));
+		const map = new Map(Headsets.map((headset) => [headset.name, headset.name]));
 		runDataActiveRep?.teams.map((team) => {
 			team.players.map((player) => {
 				if ("microphone" in player.customData) map.set(player.customData.microphone, player.name);
@@ -80,10 +77,10 @@ export const HostDashAudio: React.FC = () => {
 			<AudioFader
 				key={"MASTER"}
 				label={"MASTER"}
-				mixBus={HOST_MIXBUS}
+				mixBus={HostHeadset.mixBus}
 				channel={0}
-				value={faderValues[HOST_MIXBUS]?.[0]}
-				onChange={(float) => handleFaderChange(float, HOST_MIXBUS, 0)}
+				value={faderValues[HostHeadset.mixBus]?.[0]}
+				onChange={(float) => handleFaderChange(float, HostHeadset.mixBus, 0)}
 				colour={"#000"}
 			/>
 			<Heading>Games</Heading>
@@ -92,24 +89,24 @@ export const HostDashAudio: React.FC = () => {
 					<AudioFader
 						key={number}
 						label={`Game ${number + 1}`}
-						mixBus={HOST_MIXBUS}
+						mixBus={HostHeadset.mixBus}
 						channel={9 + number * 2}
-						value={faderValues[HOST_MIXBUS]?.[9 + number + number * 2]}
-						onChange={(float) => handleFaderChange(float, HOST_MIXBUS, 9 + number * 2)}
+						value={faderValues[HostHeadset.mixBus]?.[9 + number + number * 2]}
+						onChange={(float) => handleFaderChange(float, HostHeadset.mixBus, 9 + number * 2)}
 						colour={"#000"}
 					/>
 				);
 			})}
 			<Heading>Runners</Heading>
-			{HeadsetsToUse.map((headset) => {
+			{Headsets.map((headset) => {
 				return (
 					<AudioFader
 						key={headset.name}
 						label={headsetUserMap.get(headset.name) ?? headset.name}
-						mixBus={HOST_MIXBUS}
-						channel={headset.channel}
-						value={faderValues[HOST_MIXBUS]?.[headset.channel]}
-						onChange={(float) => handleFaderChange(float, HOST_MIXBUS, headset.channel)}
+						mixBus={HostHeadset.mixBus}
+						channel={headset.micInput}
+						value={faderValues[HostHeadset.mixBus]?.[headset.micInput]}
+						onChange={(float) => handleFaderChange(float, HostHeadset.mixBus, headset.micInput)}
 						colour={"#000"}
 					/>
 				);

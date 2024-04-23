@@ -78,4 +78,7 @@ export type NodeCGMessages = {
 	"hide-lowerthird": never;
 	"show-acknowledgementofcountry": never;
 	"hide-acknowledgementofcountry": never;
+	// Rando
+	"rando:unlock": { game: string, item: string },
+	"rando:lock": { game: string, item: string },
 }

@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Autocomplete, TextField } from "@mui/material";
-import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import { useReplicant } from "@nodecg/react-hooks";
-import { HEADSETS } from "./headsets";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import { Headsets } from "../../../extensions/audio-data";
 
 const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They", "They/He", "They/She", "Any/All"];
 
@@ -33,8 +33,8 @@ interface Props {
 }
 
 export const EditUserDialog = (props: Props) => {
-	const [allUsersRep] = useReplicant<User[]>("all-usernames", []);
-	const allUsernames = useMemo(() => allUsersRep.map((user) => user.username), [allUsersRep]);
+	const [allUsersRep] = useReplicant<User[]>("all-usernames");
+	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 
 	const [id, setID] = useState("");
 	const [username, setUsername] = useState("");
@@ -53,7 +53,7 @@ export const EditUserDialog = (props: Props) => {
 	}, [props.commentator]);
 
 	function handleNameSelected(name: string | null) {
-		if (name === null) return;
+		if (name === null || !allUsersRep) return;
 
 		// Find the name that was selected
 		const foundUser = allUsersRep.find((user) => user.username === name);
@@ -158,7 +158,7 @@ export const EditUserDialog = (props: Props) => {
 				<div>
 					<span style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>Headset / Microphone</span>
 					<HeadsetSelection>
-						{HEADSETS.map((headset) => {
+						{Headsets.map((headset) => {
 							if (headset.name === "Host") return <></>;
 
 							return (

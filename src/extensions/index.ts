@@ -54,4 +54,6 @@ async function init() {
 	if (ncgConfig.asmm?.enabled) {
 		require("./asmm");
 	}
+
+	require("./sm64-rando");
 }
