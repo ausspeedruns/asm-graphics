@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 import { Box, Grid, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
@@ -38,9 +38,9 @@ const DonationsContainer = styled.div`
 // }
 
 export const Donations: React.FC = () => {
-	const [donations] = useReplicant<Donation[]>("donations", []);
+	const [donations] = useReplicant<Donation[]>("donations");
 
-	const reversedDonations = [...donations].reverse() ?? [];
+	const reversedDonations = [...donations ?? []].reverse() ?? [];
 
 	return (
 		<DonationsContainer>

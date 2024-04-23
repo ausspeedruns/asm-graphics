@@ -23,6 +23,7 @@ const TickerWarContainer = styled.div`
 	transform: translate(0, -64px);
 	overflow: hidden;
 	z-index: 2;
+	font-family: var(--secondary-font);
 `;
 
 const MultiGoalContainer = styled.div`
@@ -45,11 +46,13 @@ const Game = styled(FitText)`
 	font-size: 20px;
 	margin-bottom: -10px;
 	max-width: 200px;
+	font-family: var(--main-font);
 `;
 
 const IncentiveName = styled(FitText)`
 	font-size: 27px;
-	font-weight: bold;
+	/* font-weight: bold; */
+	font-family: var(--secondary-font);
 	max-width: 200px;
 `;
 
@@ -140,7 +143,7 @@ export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Prop
 
 	return (
 		<TickerWarContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--tgx-green)" }}>
+			<TickerTitle style={{ background: "var(--dh-red)" }}>
 				Incentives
 				<br />
 				Wars
@@ -302,7 +305,7 @@ const NoChoicesContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-weight: bold;
+	/* font-weight: bold; */
 	text-transform: uppercase;
 	font-style: italic;
 `;

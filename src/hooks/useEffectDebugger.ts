@@ -23,7 +23,7 @@ function useEffectDebugger(effectHook: React.EffectCallback, dependencies: React
 		console.log("[use-effect-debugger] ", changedDeps);
 	}
 
-	useEffect(effectHook, dependencies);
+	useEffect(effectHook, [dependencies, effectHook]);
 }
 
 export default useEffectDebugger;

@@ -1,16 +1,16 @@
 body {
 	margin: 0;
-	--main: var(--tgx-main);
-	--nameplate: var(--tgx-main);
-	--nameplate-lighter: var(--tgx-main-light);
-	--sec: var(--tgx-secondary);
-	--accent: var(--tgx-secondary);
+	--main: var(--dh-main);
+	--nameplate: var(--dh-main);
+	--nameplate-lighter: #222222;
+	--sec: var(--dh-red);
+	--accent: var(--dh-red);
 
-	--text-light: var(--sec);
+	--text-light: white;
 	--text-dark: var(--main);
 
-	--main-font: var(--tgx-font);
-	--secondary-font: var(--tgx-font);
+	--main-font: var(--dh-primary-font);
+	--secondary-font: var(--dh-font);
 	--mono-font: var(--asm-font);
 
 	--asm-orange: #cc7722;
@@ -24,6 +24,7 @@ body {
 	--orange-600: #964a00;
 	--orange-500: #cc7722;
 
+	/* PAX */
 	--pax23-main: #222721;
 	--pax23-sec: #d3cec2;
 	--pax23-accent: #be945f;
@@ -35,6 +36,7 @@ body {
 	--pax23-rainbow-bar: linear-gradient(90deg, var(--pax23-red) 0%, var(--pax23-red) 25%, var(--pax23-yellow) 25%, var(--pax23-yellow) 50%, var(--pax23-blue) 50%, var(--pax23-blue) 75%, var(--pax23-purple) 75%, var(--pax23-purple) 100%);
 	--pax23-font: "Inter";
 
+	/* The Game Expo */
 	--tgx-main: #191919;
 	--tgx-main-lighter: #3b3b3b;
 	--tgx-secondary: #ffffff;
@@ -45,4 +47,18 @@ body {
 	--tgx-rainbow-bar: linear-gradient(90deg, var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
 	--tgx-rainbow-bar-vertical: linear-gradient(180deg, var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
 	--tgx-font: "Helvetica Now Display";
+
+	/* Dreamhack */
+	--dh-main: #000000;
+	--dh-light-orange: #ff7e00;
+	--dh-orange: #FF4B0A;
+	--dh-yellow: #FFEB00;
+	--dh-red: #FF0046;
+
+	--dh-orange-to-orange: linear-gradient(90deg, var(--dh-light-orange), var(--dh-orange));
+	--dh-yellow-to-orange: linear-gradient(90deg, var(--dh-yellow), var(--dh-light-orange));
+	--dh-orange-to-red: linear-gradient(90deg, var(--dh-orange), var(--dh-red));
+
+	--dh-primary-font: "Anton";
+	--dh-font: "Public Sans";
 }

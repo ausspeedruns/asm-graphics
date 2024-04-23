@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { Credits } from "../elements/credits";
 import { AcknowledgementOfCountry, NameLowerThird } from "../elements/name-lowerthird";
 
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const NoGraphics: React.FC<Props> = (props: Props) => {
-	const [creditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name", { name: "", title: "" });
+	const [creditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name");
 	return (
 		<NoGraphicsContainer className={props.className} style={props.style}>
 			<Credits />
@@ -30,7 +30,7 @@ export const NoGraphics: React.FC<Props> = (props: Props) => {
 					marginTop: -216,
 				}}
 			>
-				<NameLowerThird name={creditsNameRep.name} subtitle={creditsNameRep.title} />
+				<NameLowerThird name={creditsNameRep?.name ?? ""} subtitle={creditsNameRep?.title ?? ""} />
 			</div>
 			<div
 				style={{

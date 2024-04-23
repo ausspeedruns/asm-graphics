@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { TextField, Button, Autocomplete } from "@mui/material";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect } from "react";
 import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 
@@ -22,12 +22,11 @@ interface Props {
 }
 
 export const HostName: React.FC<Props> = (props: Props) => {
-	const [allUsersRep] = useReplicant<User[]>("all-usernames", []);
-	const allUsernames = useMemo(() => allUsersRep.map((user) => user.username), [allUsersRep]);
+	const [allUsersRep] = useReplicant<User[]>("all-usernames");
+	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 	const [hostName, setHostName] = useState("");
 	const [hostPronouns, setHostPronouns] = useState("");
-	// const [hostDiscord, setHostDiscord] = useState('');
-	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
+	const [hostRep] = useReplicant<Commentator>("host");
 
 	useEffect(() => {
 		setHostName(hostRep?.name ?? "");
@@ -39,7 +38,7 @@ export const HostName: React.FC<Props> = (props: Props) => {
 		if (name === null) return;
 
 		// Find the name that was selected
-		const foundUser = allUsersRep.find((user) => user.username === name);
+		const foundUser = (allUsersRep ?? []).find((user) => user.username === name);
 
 		// Set the pronouns as that name
 		if (foundUser) {

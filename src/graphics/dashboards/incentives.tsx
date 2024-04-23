@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 import { Box, Grid } from "@mui/material";
 
@@ -24,12 +24,12 @@ function removeExtrasInName(name: string) {
 }
 
 export const Incentives: React.FC<Props> = (props: Props) => {
-	const [incentivesRep] = useReplicant<(Goal | War)[]>("incentives", []);
-	const [runDataActiveRep] = useReplicant<RunData | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
+	const [incentivesRep] = useReplicant<(Goal | War)[]>("incentives");
+	const [runDataActiveRep] = useReplicant<RunData>("runDataActiveRun", {
+		bundle: "nodecg-speedcontrol",
 	});
 
-	const removedDeadIncentives = incentivesRep.filter((incentive) => {
+	const removedDeadIncentives = (incentivesRep ?? []).filter((incentive) => {
 		if (
 			incentive.active ||
 			removeExtrasInName(incentive.game) === removeExtrasInName(runDataActiveRep?.game || "")

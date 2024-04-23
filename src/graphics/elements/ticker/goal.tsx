@@ -44,12 +44,14 @@ const Game = styled(FitText)`
 	font-size: 20px;
 	margin-bottom: -10px;
 	max-width: 200px;
+	font-family: var(--main-font);
 `;
 
 const IncentiveName = styled(FitText)`
 	font-size: 27px;
 	font-weight: bold;
 	max-width: 200px;
+	font-family: var(--secondary-font);
 `;
 
 const IncentiveContainer = styled(GoalElement)`
@@ -86,6 +88,7 @@ const CurrentAmount = styled.span`
 	width: 100px;
 	text-align: right;
 	font-size: 25px;
+	font-family: var(--secondary-font);
 `;
 
 interface Props {
@@ -139,7 +142,7 @@ export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Pr
 
 	return (
 		<TickerGoalsContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--tgx-blue)" }}>
+			<TickerTitle style={{ background: "var(--dh-red)" }}>
 				Incentive
 				<br />
 				Goals

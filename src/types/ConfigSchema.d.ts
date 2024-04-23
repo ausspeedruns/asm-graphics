@@ -10,13 +10,6 @@ export interface ConfigSchema {
 	twitch: {
 		parents: string[];
 	};
-	twitter: {
-		enabled: boolean;
-		key: string;
-		secret: string;
-		bearer?: string;
-		rules: { value: string; tag: string }[];
-	};
 	googleCredentials: GoogleCredentials;
 	raisely: {
 		enabled: boolean;

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { useListenFor, useReplicant } from "use-nodecg";
+import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
 import { useRive } from "@rive-app/react-canvas";
 

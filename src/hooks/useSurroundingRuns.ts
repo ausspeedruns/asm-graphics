@@ -1,22 +1,20 @@
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { RunData, RunDataActiveRunSurrounding, RunDataArray } from "@asm-graphics/types/RunData";
 
 function useSurroundingRuns(): readonly [RunData | undefined, RunData | undefined, RunData | undefined] {
-	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding>(
-		"runDataActiveRunSurrounding",
-		{},
-		{
-			namespace: "nodecg-speedcontrol",
-		},
-	);
-	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", [], {
-		namespace: "nodecg-speedcontrol",
+	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding>("runDataActiveRunSurrounding", {
+		bundle: "nodecg-speedcontrol",
+	});
+	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", {
+		bundle: "nodecg-speedcontrol",
 	});
 
+	const runArray = runDataArrayRep ?? [];
+
 	return [
-		runDataArrayRep.find((run) => run.id === runDataActiveRunSurroundingRep.previous),
-		runDataArrayRep.find((run) => run.id === runDataActiveRunSurroundingRep.current),
-		runDataArrayRep.find((run) => run.id === runDataActiveRunSurroundingRep.next),
+		runArray.find((run) => run.id === runDataActiveRunSurroundingRep?.previous),
+		runArray.find((run) => run.id === runDataActiveRunSurroundingRep?.current),
+		runArray.find((run) => run.id === runDataActiveRunSurroundingRep?.next),
 	];
 }
 

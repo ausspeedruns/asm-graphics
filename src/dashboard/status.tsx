@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 import { Accordion, AccordionDetails, AccordionSummary, Button, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
@@ -52,7 +52,11 @@ function connectionStatusStyle(status: ConnectionStatus | boolean): { text: stri
 }
 
 // Duplicate function in obs-local.ts I know I'm a bad boy
-function determineSceneType(scene: string) {
+function determineSceneType(scene: string | undefined) {
+	if (typeof scene === "undefined") {
+		return "Unknown";
+	}
+
 	if (scene.startsWith("GAMEPLAY")) {
 		return "Gameplay";
 	} else if (scene.startsWith("INTERMISSION")) {
@@ -67,14 +71,14 @@ function determineSceneType(scene: string) {
 }
 
 export const Status: React.FC = () => {
-	const [techReadyRep] = useReplicant<boolean>("tech:ready", false);
-	const [x32StatusRep] = useReplicant<ConnectionStatus>("x32:status", "disconnected");
-	const [obsStatusRep] = useReplicant<ConnectionStatus>("obs:status", "disconnected");
-	const [obsCurrentSceneRep] = useReplicant<string>("obs:currentScene", "disconnected");
+	const [techReadyRep] = useReplicant<boolean>("tech:ready");
+	const [x32StatusRep] = useReplicant<ConnectionStatus>("x32:status");
+	const [obsStatusRep] = useReplicant<ConnectionStatus>("obs:status");
+	const [obsCurrentSceneRep] = useReplicant<string>("obs:currentScene");
 
-	const techReadyInfo = connectionStatusStyle(techReadyRep);
-	const x32StatusInfo = connectionStatusStyle(x32StatusRep);
-	const obsStatusInfo = connectionStatusStyle(obsStatusRep);
+	const techReadyInfo = connectionStatusStyle(techReadyRep ?? "disconnected");
+	const x32StatusInfo = connectionStatusStyle(x32StatusRep ?? "disconnected");
+	const obsStatusInfo = connectionStatusStyle(obsStatusRep ?? "disconnected");
 
 	const sceneType = determineSceneType(obsCurrentSceneRep);
 
@@ -161,7 +165,7 @@ const CurrentGameplayAutomations = () => {
 				<AccordionDetails>
 					<ul>
 						<li>Mute all audio inputs on Stream and Speakers</li>
-						<li>Unmute "Special Mic" (Channel 6) on Stream and Speakers</li>
+						<li>Unmute &quot;Special Mic&quot; (Channel 6) on Stream and Speakers</li>
 						<li>Run Transition Graphic</li>
 					</ul>
 				</AccordionDetails>
@@ -199,7 +203,7 @@ const CurrentIntermissionAutomations = () => {
 				<AccordionDetails>
 					<ul>
 						<li>Mute all audio inputs on Stream and Speakers</li>
-						<li>Unmute "Special Mic" (Channel 6) on Stream and Speakers</li>
+						<li>Unmute &quot;Special Mic&quot; (Channel 6) on Stream and Speakers</li>
 						<li>Run Transition Graphic</li>
 					</ul>
 				</AccordionDetails>

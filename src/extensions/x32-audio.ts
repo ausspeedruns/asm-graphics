@@ -172,9 +172,9 @@ function getMicrophoneIndexesOfPeopleTalking() {
 }
 
 function findMicrophoneChannel(name?: string) {
-	let aaa = MICROPHONE_CHANNELS.find((mic) => mic.name === name)?.channel ?? -1;
-	console.log(`Given ${name}, found ${aaa}`);
-	return aaa;
+	const channel = MICROPHONE_CHANNELS.find((mic) => mic.name === name)?.channel ?? -1;
+	console.log(`Given ${name}, found ${channel}`);
+	return channel;
 }
 
 // This will look to see if a channel is either unmuted or set to something above -∞

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 
@@ -79,13 +79,14 @@ export const DashCouch: React.FC = () => {
 	const [localHostName, setLocalHostName] = useState("");
 	const [localHostPronoun, setLocalHostPronoun] = useState("");
 	const [_localAudioGate, setLocalAudioGate] = useState(-25);
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators", []);
-	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
-	const [obsInputsRep] = useReplicant<string[]>("obs-audio-inputs", []);
-	const [obsGateRep] = useReplicant<number>("obs:audio-gate", -25);
-	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>("obs-audio-indicator", []);
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [hostRep] = useReplicant<Commentator>("host");
+	const [obsInputsRep] = useReplicant<string[]>("obs-audio-inputs");
+	const [obsGateRep] = useReplicant<number>("obs:audio-gate");
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>("obs-audio-indicator");
 
 	useEffect(() => {
+		if (typeof obsGateRep === "undefined") return;
 		setLocalAudioGate(obsGateRep);
 	}, [obsGateRep]);
 
@@ -99,7 +100,7 @@ export const DashCouch: React.FC = () => {
 
 	const addHost = () => {
 		let newNamesArray: Commentator[];
-		if (commentatorsRep.length > 0) {
+		if (commentatorsRep && commentatorsRep.length > 0) {
 			newNamesArray = [
 				...commentatorsRep,
 				{ id: Date.now().toString(), name: localHostName, pronouns: localHostPronoun },
@@ -119,27 +120,27 @@ export const DashCouch: React.FC = () => {
 	// 	nodecg.sendMessage("update-obs-gate", event.target.valueAsNumber);
 	// };
 
-	const allHostNames = commentatorsRep.map((person, index) => {
+	const allHostNames = commentatorsRep?.map((person, index) => {
 		return (
 			<HostComponent
 				person={person}
 				index={index}
 				key={index}
 				inputs={obsInputsRep}
-				audioIndicator={obsAudioIndicatorRep.find((audio) => audio.id === person.name)}
+				audioIndicator={obsAudioIndicatorRep?.find((audio) => audio.id === person.name)}
 			/>
 		);
 	});
 
 	if (hostRep) {
-		allHostNames.push(
+		allHostNames?.push(
 			<HostComponent
 				person={hostRep}
-				index={allHostNames.length}
+				index={allHostNames?.length}
 				key="host"
 				host
 				inputs={obsInputsRep}
-				audioIndicator={obsAudioIndicatorRep.find((audio) => audio.id === hostRep.name)}
+				audioIndicator={obsAudioIndicatorRep?.find((audio) => audio.id === hostRep.name)}
 			/>,
 		);
 	}

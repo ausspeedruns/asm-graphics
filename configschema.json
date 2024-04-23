@@ -40,33 +40,6 @@
 			},
 			"required": ["parents"]
 		},
-		"twitter": {
-			"type": "object",
-			"additionalProperties": false,
-			"properties": {
-				"enabled": {
-					"type": "boolean",
-					"default": false
-				},
-				"key": {
-					"type": "string",
-					"default": ""
-				},
-				"secret": {
-					"type": "string",
-					"default": ""
-				},
-				"bearer": {
-					"type": "string",
-					"default": ""
-				},
-				"rules": {
-					"type": "array",
-					"default": [{ "value": "#PAXxAusSpeedruns2021", "tag": "Event Hashtag" }]
-				}
-			},
-			"required": ["enabled", "key", "secret"]
-		},
 		"hostname": {
 			"type": "string",
 			"description": "Entry point hostname",
@@ -145,5 +118,5 @@
 			"required": ["enabled", "url", "password"]
 		}
 	},
-	"required": ["obs", "twitch", "twitter", "tiltify"]
+	"required": ["obs", "twitch", "tiltify"]
 }

@@ -50,7 +50,7 @@ export const Timer: React.FC<Props> = (props: Props) => {
 
 	return (
 		<TimerContainer fontSize={props.fontSize ?? DEFAULT_FONT_SIZE} style={props.style}>
-			{compressedTime}
+			<span>{compressedTime}</span>
 			<MilliText fontSize={props.fontSize ?? DEFAULT_FONT_SIZE}>.{millis}</MilliText>
 		</TimerContainer>
 	);

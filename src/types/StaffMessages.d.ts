@@ -1,6 +1,6 @@
 export interface StaffMessage {
 	author: string;
 	message: string;
-	date: Date;
+	date: Date | string;
 	fromHost?: boolean;
 }

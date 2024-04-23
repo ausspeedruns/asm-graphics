@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { HEADSETS } from "./dashboards/runner-tablet/headsets";
 import { AudioFader } from "./dashboards/runner-tablet/audio-fader";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
@@ -19,25 +19,17 @@ const MixingContainer = styled.div`
 	justify-content: space-around;
 `;
 
-const Heading = styled.h1`
-`;
+const Heading = styled.h1``;
 
 const HOST_MIXBUS = 11;
 
-const HeadsetsToUse = [
-	HEADSETS[0],
-	HEADSETS[1],
-	HEADSETS[2],
-	HEADSETS[3],
-]
+const HeadsetsToUse = [HEADSETS[0], HEADSETS[1], HEADSETS[2], HEADSETS[3]];
 
 export const HostDashAudio: React.FC = () => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators", []);
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
 	// const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
-	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
+	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders");
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 
 	const numberOfRunners = useMemo(
@@ -52,7 +44,7 @@ export const HostDashAudio: React.FC = () => {
 			});
 		});
 
-		commentatorsRep.map((couch) => {
+		commentatorsRep?.map((couch) => {
 			if (couch.microphone) map.set(couch.microphone, couch.name);
 		});
 
@@ -60,7 +52,7 @@ export const HostDashAudio: React.FC = () => {
 	}, [runDataActiveRep, commentatorsRep]);
 
 	useEffect(() => {
-		setFaderValues(busFadersRep);
+		setFaderValues(busFadersRep ?? []);
 	}, [busFadersRep]);
 
 	const handleFaderChange = (float: number, mixBus: number, channel: number) => {

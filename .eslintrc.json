@@ -20,7 +20,7 @@
 	"plugins": ["react", "react-hooks", "@typescript-eslint"],
 	"rules": {
 		"indent": ["error", "tab", { "SwitchCase": 1 }],
-		"linebreak-style": ["error", "windows"],
+		"linebreak-style": ["off", "windows"],
 		"quotes": ["error", "double"],
 		"semi": ["error", "always"],
 		"capitalized-comments": "off",

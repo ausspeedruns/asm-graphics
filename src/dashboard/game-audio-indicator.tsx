@@ -2,7 +2,7 @@ import { ThemeProvider, FormControlLabel, Radio, Checkbox, FormGroup, TextField,
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { darkTheme } from "./theme";
 
 const RadioStyled = styled(Radio)`
@@ -40,7 +40,7 @@ const GAME_AUDIO_CHANNELS = [
 
 export const DashboardGameAudio: React.FC = () => {
 	const [manualMode, setManualMode] = useState(false);
-	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator", -1);
+	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator");
 
 	function updateGameAudioIndicator(index?: number) {
 		if (!index) {
@@ -103,8 +103,8 @@ interface GameAudioComponentProps {
 }
 
 const GameAudioComponent = (props: GameAudioComponentProps) => {
-	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names", []);
-	const gameAudioNameRep = gameAudioNamesRep[props.index];
+	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names");
+	const gameAudioNameRep = gameAudioNamesRep?.[props.index] ?? "";
 
 	const [gameAudioName, setGameAudioName] = useState(gameAudioNameRep);
 	const [enabled, setEnabled] = useState(Boolean(gameAudioNameRep));
@@ -117,7 +117,7 @@ const GameAudioComponent = (props: GameAudioComponentProps) => {
 
 	const disableGameName = () => {
 		nodecg.sendMessage("changeGameAudioName", { name: "", index: props.index });
-	}
+	};
 
 	useEffect(() => {
 		setGameAudioName(gameAudioNameRep);
@@ -146,14 +146,16 @@ const GameAudioComponent = (props: GameAudioComponentProps) => {
 				sx={{ height: 57 }}>
 				Update
 			</Button>
-			<Checkbox checked={enabled} onChange={(_, value) => {
-				setEnabled(value)
+			<Checkbox
+				checked={enabled}
+				onChange={(_, value) => {
+					setEnabled(value);
 
-				if (!value)
-				{
-					disableGameName();
-				}
-			}} />
+					if (!value) {
+						disableGameName();
+					}
+				}}
+			/>
 			<ChannelName style={{ opacity: enabled ? 1 : 0.6 }}>{props.channelInfo.channels.join("/")}</ChannelName>
 		</GameAudioComponentContainer>
 	);

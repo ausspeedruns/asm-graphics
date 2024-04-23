@@ -4,7 +4,7 @@ import styled from "styled-components";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
-import { TGX24_COLOURS } from "./event-specific/tgx-24/tgx24";
+// import { TGX24_COLOURS } from "./event-specific/tgx-24/tgx24";
 
 const CouchContainer = styled.div`
 	font-family: var(--main-font);
@@ -29,23 +29,16 @@ const PeopleContainer = styled.div`
 	justify-content: center;
 `;
 
-function indexToColour(index: number) {
-	const data = TGX24_COLOURS[index % TGX24_COLOURS.length];
-	return {
-		color: data.color,
-		background: chamferCornerGenerator(data.background),
-		backgroundPosition: `bottom left, bottom right, top right, top left`,
-		backgroundSize: "51% 51%",
-		backgroundRepeat: "no-repeat",
-	};
-}
-
-function chamferCornerGenerator(colour: string) {
-	return `linear-gradient(45deg, transparent 10px, ${colour} 10px),
-	linear-gradient(315deg, transparent 10px, ${colour} 10px),
-	linear-gradient(225deg, transparent 10px, ${colour} 10px),
-	linear-gradient(135deg, transparent 10px, ${colour} 10px)`;
-}
+// function indexToColour(index: number) {
+// 	const data = TGX24_COLOURS[index % TGX24_COLOURS.length];
+// 	return {
+// 		color: data.color,
+// 		background: chamferCornerGenerator(data.background),
+// 		backgroundPosition: "bottom left, bottom right, top right, top left",
+// 		backgroundSize: "51% 51%",
+// 		backgroundRepeat: "no-repeat",
+// 	};
+// }
 
 interface Props {
 	commentators: Commentator[];
@@ -73,7 +66,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 				<div style={{ margin: "0 6px" }}>{label}</div>
 			</MenuBar>
 			<PeopleContainer>
-				{props.commentators.map((person, index) => {
+				{props.commentators.map((person) => {
 					// console.log(props.audio?.[person.microphone ?? '']);
 					if (person.name === "") {
 						return <></>;
@@ -83,7 +76,6 @@ export const Couch: React.FC<Props> = (props: Props) => {
 							key={person.id}
 							commentator={person}
 							speaking={props.audio?.[person.microphone ?? ""]}
-							style={{ ...indexToColour(index) }}
 						/>
 					);
 				})}
@@ -93,7 +85,6 @@ export const Couch: React.FC<Props> = (props: Props) => {
 						commentator={props.host}
 						speaking={props.audio?.["Host"]}
 						host={label !== "Host"}
-						style={{ ...indexToColour(props.commentators.length) }}
 					/>
 				)}
 			</PeopleContainer>
@@ -110,7 +101,7 @@ const PersonCompressedContainer = styled.div`
 	margin: 4px;
 	box-sizing: border-box;
 	position: relative;
-	background: var(--main);
+	background: var(--dh-orange-to-red);
 	padding: 8px 12px;
 
 	/* border-radius: 8px; */
@@ -135,7 +126,8 @@ interface SpeakingProps {
 }
 
 const Name = styled.span`
-	font-family: var(--secondary-font);
+	/* font-family: var(--secondary-font); */
+	font-family: var(--main-font);
 	/* font-weight: bold; */
 	z-index: 2;
 `;
@@ -143,8 +135,8 @@ const Name = styled.span`
 const Pronouns = styled.div`
 	font-size: 15px;
 	text-transform: uppercase;
-	font-family: var(--main-font);
-	/* font-family: var(--secondary-font); */
+	/* font-family: var(--main-font); */
+	font-family: var(--secondary-font);
 	z-index: 2;
 `;
 

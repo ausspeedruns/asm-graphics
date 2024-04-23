@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { HashRouter as Router, Route, Link, Routes } from "react-router-dom";
-import { useListenFor, useReplicant } from "use-nodecg";
+import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
@@ -59,30 +59,26 @@ export const GameplayRouterParent = (props: GameplayOverlayProps) => {
 };
 
 const GameplayOverlay = (props: GameplayOverlayProps) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
-	const [timerRep] = useReplicant<Timer | undefined>("timer", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators", []);
-	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const [timerRep] = useReplicant<Timer>("timer", { bundle: "nodecg-speedcontrol" });
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [hostRep] = useReplicant<Commentator>("host");
 	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", []);
-	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator", -1);
-	const [microphoneAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators", {});
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
+	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator");
+	const [microphoneAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators");
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
 	const overlayArgs: OverlayProps = {
 		runData: displayingRun,
 		timer: timerRep,
-		commentators: commentatorsRep,
+		commentators: commentatorsRep ?? [],
 		preview: props.preview,
-		sponsors: sponsorsRep,
+		sponsors: sponsorsRep ?? [],
 		microphoneAudioIndicator: microphoneAudioIndicatorRep,
 		host: hostRep,
-		gameAudioIndicator: gameAudioIndicatorRep,
+		gameAudioIndicator: gameAudioIndicatorRep ?? -1,
 	};
 
 	const Overlays = [

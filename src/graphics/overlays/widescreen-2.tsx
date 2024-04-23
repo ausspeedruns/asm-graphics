@@ -121,7 +121,7 @@ function indexToColour(index: number) {
 		linear-gradient(315deg, transparent 10px, ${data.background} 10px),
 		linear-gradient(225deg, transparent 10px, ${data.background} 10px),
 		linear-gradient(135deg, transparent 10px, ${data.background} 10px)`,
-		backgroundPosition: `bottom left, bottom right, top right, top left`,
+		backgroundPosition: "bottom left, bottom right, top right, top left",
 		backgroundSize: "51% 51%",
 		backgroundRepeat: "no-repeat",
 	};
@@ -239,7 +239,9 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 					src={WidescreenBottom}
 					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 				/> */}
-				<TGX24Squares style={{ position: "absolute", top: -41, left: -16, transform: "scale(75%) rotate(45deg)" }} />
+				<TGX24Squares
+					style={{ position: "absolute", top: -41, left: -16, transform: "scale(75%) rotate(45deg)" }}
+				/>
 				<BespokeCouch style={{ marginBottom: 16 }}>
 					<CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel>
 					{/* Since this is a special placement it has to be made custom here */}

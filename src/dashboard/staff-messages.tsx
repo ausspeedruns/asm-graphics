@@ -7,7 +7,7 @@ import { StaffMessage } from "@asm-graphics/types/StaffMessages";
 import { darkTheme } from "./theme";
 import { GreenButton, LightTextfield } from "./elements/styled-ui";
 import { Box, Grid, Snackbar, ThemeProvider, Alert } from "@mui/material";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 const StaffMessagesContainer = styled.div``;
 
@@ -23,7 +23,7 @@ export const StaffMessages: React.FC = () => {
 	const [author, setAuthor] = useState("");
 	const [message, setMessage] = useState("");
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
-	const [staffMessagesRep] = useReplicant<StaffMessage[]>("staff-messages", []);
+	const [staffMessagesRep] = useReplicant<StaffMessage[]>("staff-messages");
 
 	const sendMessage = () => {
 		const msg: StaffMessage = {
@@ -39,7 +39,7 @@ export const StaffMessages: React.FC = () => {
 	};
 
 	const messageMap = staffMessagesRep
-		.map((msg) => {
+		?.map((msg) => {
 			const date = new Date(msg.date);
 			return (
 				<Message

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 import { Timer as TimerI } from "@asm-graphics/types/Timer";
 

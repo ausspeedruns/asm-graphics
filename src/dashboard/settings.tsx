@@ -5,7 +5,7 @@ import { GreenButton, RedButton } from "./elements/styled-ui";
 
 import { TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 const Row = styled.div`
 	display: flex;
@@ -14,10 +14,17 @@ const Row = styled.div`
 `;
 
 export const Settings: React.FC = () => {
-	const [creditsNameRep, setCreditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name", {
-		name: "",
-		title: "",
-	});
+	const [creditsNameRep, setCreditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name");
+
+	function handleNameChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+		const mutableName = creditsNameRep ?? { name: "", title: "" };
+		setCreditsNameRep({ ...mutableName, name: e.target.value });
+	}
+
+	function handleTitleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+		const mutableName = creditsNameRep ?? { name: "", title: "" };
+		setCreditsNameRep({ ...mutableName, title: e.target.value });
+	}
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -26,18 +33,8 @@ export const Settings: React.FC = () => {
 			</GreenButton>
 			<hr style={{ margin: "24px 0" }} />
 			<Row>
-				<TextField
-					fullWidth
-					label="Credits Name"
-					value={creditsNameRep.name}
-					onChange={(e) => setCreditsNameRep({ ...creditsNameRep, name: e.target.value })}
-				/>
-				<TextField
-					fullWidth
-					label="Credits Title"
-					value={creditsNameRep.title}
-					onChange={(e) => setCreditsNameRep({ ...creditsNameRep, title: e.target.value })}
-				/>
+				<TextField fullWidth label="Credits Name" value={creditsNameRep?.name} onChange={handleNameChange} />
+				<TextField fullWidth label="Credits Title" value={creditsNameRep?.title} onChange={handleTitleChange} />
 			</Row>
 			<Row>
 				<GreenButton variant="contained" fullWidth onClick={() => nodecg.sendMessage("show-lowerthird")}>
@@ -52,15 +49,13 @@ export const Settings: React.FC = () => {
 				<GreenButton
 					variant="contained"
 					fullWidth
-					onClick={() => nodecg.sendMessage("show-acknowledgementofcountry")}
-				>
+					onClick={() => nodecg.sendMessage("show-acknowledgementofcountry")}>
 					Show AoC
 				</GreenButton>
 				<RedButton
 					variant="contained"
 					fullWidth
-					onClick={() => nodecg.sendMessage("hide-acknowledgementofcountry")}
-				>
+					onClick={() => nodecg.sendMessage("hide-acknowledgementofcountry")}>
 					Hide AoC
 				</RedButton>
 			</Row>

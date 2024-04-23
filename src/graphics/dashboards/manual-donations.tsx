@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import _, { uniqueId } from "underscore";
 import { Box, Grid, TextField, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
@@ -46,7 +46,7 @@ const FormTopRow = styled.div`
 // }
 
 export const ManualDonations: React.FC = () => {
-	const [donations] = useReplicant<Donation[]>("manual-donations", []);
+	const [donations] = useReplicant<Donation[]>("manual-donations");
 	const [author, setAuthor] = useState("");
 	const [message, setMessage] = useState("");
 	const [amount, setAmount] = useState("");

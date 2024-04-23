@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import clone from "clone";
 
 import { RunDataArray, RunData } from "@asm-graphics/types/RunData";
@@ -26,15 +26,15 @@ interface Props {
 }
 
 export const Upcoming: React.FC<Props> = (props: Props) => {
-	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", [], {
-		namespace: "nodecg-speedcontrol",
+	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", {
+		bundle: "nodecg-speedcontrol",
 	});
-	const [runDataActiveRep] = useReplicant<RunData | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
+	const [runDataActiveRep] = useReplicant<RunData | undefined>("runDataActiveRun", {
+		bundle: "nodecg-speedcontrol",
 	});
 
-	const currentRunIndex = runDataArrayRep.findIndex((run) => run.id === runDataActiveRep?.id);
-	const futureRuns = clone(runDataArrayRep).slice(currentRunIndex);
+	const currentRunIndex = (runDataArrayRep ?? []).findIndex((run) => run.id === runDataActiveRep?.id);
+	const futureRuns = clone(runDataArrayRep ?? []).slice(currentRunIndex);
 
 	// Get the current run + remove it from the list
 	const currentRun = futureRuns.shift();

@@ -24,6 +24,7 @@ const Title = styled.span`
 	white-space: nowrap;
 	margin-top: 3px;
 	font-weight: bold;
+	font-family: var(--secondary-font);
 `;
 
 const Subtitle = styled.span`

@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useListenFor, useReplicant } from "use-nodecg";
+import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { ThemeProvider, createTheme } from "@mui/material";
 import usePrevious from "../hooks/usePrevious";
 
@@ -85,13 +85,11 @@ type ObjectValues<T> = T[keyof T];
 type TabsValues = ObjectValues<typeof TABS>;
 
 const RunnerTablet: React.FC = () => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const previousDataActive = usePrevious(runDataActiveRep);
 
 	const [tab, setTab] = useState<TabsValues>(TABS.NAMES);
-	const [host] = useReplicant<Commentator | undefined>("host", undefined);
+	const [host] = useReplicant<Commentator>("host");
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 
 	const [live, setLive] = useState(false);
@@ -104,8 +102,8 @@ const RunnerTablet: React.FC = () => {
 		case "audio":
 			currentTabBody = <RTAudio />;
 			break;
-			// case "headset_selection":
-			// 	currentTabBody = <RTSelection close={() => setTab("names")} />;
+		// case "headset_selection":
+		// 	currentTabBody = <RTSelection close={() => setTab("names")} />;
 		default:
 			break;
 	}

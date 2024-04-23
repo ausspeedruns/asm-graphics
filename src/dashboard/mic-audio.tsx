@@ -2,7 +2,7 @@ import { ThemeProvider, Slider, Input } from "@mui/material";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { darkTheme } from "./theme";
 import { RecordVoiceOver, WbIncandescent } from "@mui/icons-material";
 
@@ -98,8 +98,8 @@ function isNumeric(str: string) {
 }
 
 export const DashboardMicAudio: React.FC = () => {
-	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate", 0);
-	const [hostLevelRep, setHostLevelRep] = useReplicant<number>("x32:host-level", 0);
+	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate");
+	const [hostLevelRep, setHostLevelRep] = useReplicant<number>("x32:host-level");
 
 	return (
 		<ThemeProvider theme={darkTheme}>

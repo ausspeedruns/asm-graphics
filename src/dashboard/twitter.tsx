@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled, { keyframes } from "styled-components";
-import { useReplicant, useListenFor } from "use-nodecg";
+import { useReplicant, useListenFor } from "@nodecg/react-hooks";
 import _ from "underscore";
 
 import { Tweet } from "@asm-graphics/types/Twitter";
@@ -51,7 +51,7 @@ const fakeTweet: Tweet = {
 };
 
 const Twitter: React.FC = () => {
-	const [tweetList] = useReplicant<Tweet[]>("tweets", []);
+	const [tweetList] = useReplicant<Tweet[]>("tweets");
 	const [canUndo, setCanUndo] = useState<Boolean>(false);
 
 	let tweets: JSX.Element[] = [<SingleTweet key={"Test"} tweet={fakeTweet} />];

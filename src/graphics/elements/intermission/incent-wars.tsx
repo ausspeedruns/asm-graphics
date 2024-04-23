@@ -5,124 +5,30 @@ import { War } from "@asm-graphics/types/Incentives";
 import { TickerItemHandles } from "./incentives";
 import { FitText } from "../fit-text";
 
-const InterIncentWarsContainer = styled.div`
+const WarChoiceContainer = styled.div`
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	text-transform: uppercase;
-	color: var(--text-light);
-	font-size: 37px;
-	transform: translate(-2000px, 0);
-	overflow: hidden;
-`;
-
-const MultiGoalContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: 100%;
-	position: relative;
-`;
-
-interface Props {
-	wars: War[];
-}
-
-export const InterIncentWars = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
-	const containerRef = useRef(null);
-	const warRefs = useRef<TickerItemHandles[]>([]);
-
-	useImperativeHandle(ref, () => ({
-		animation: (tl) => {
-			if (props.wars.length === 0) {
-				return tl;
-			}
-
-			// Start
-			tl.addLabel("warStart");
-			tl.set(containerRef.current, { x: -2000 });
-			tl.to(containerRef.current, { x: 0, duration: 1 });
-
-			for (let i = 0; i < props.wars.length; i++) {
-				tl.add(warRefs.current[i].animation(tl));
-			}
-
-			// End
-			tl.to(containerRef.current, { x: 2000, duration: 1 }, "-=1");
-			tl.set(containerRef.current, { x: -2000, duration: 1 });
-
-			return tl;
-		},
-		reset(tl) {
-			return tl;
-		},
-	}));
-
-	if (props.wars.length === 0) {
-		return <></>;
-	}
-
-	const allGoals = props.wars.map((war, i) => {
-		return (
-			<WarGame
-				war={war}
-				key={war.index}
-				ref={(el) => {
-					if (el) {
-						warRefs.current[i] = el;
-					}
-				}}
-			/>
-		);
-	});
-
-	return (
-		<InterIncentWarsContainer ref={containerRef}>
-			<MultiGoalContainer>{allGoals}</MultiGoalContainer>
-		</InterIncentWarsContainer>
-	);
-});
-
-const IncentiveContainer = styled.div`
-	// position: absolute;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	/* margin-top: -10px; */
-	/* margin-bottom: 5px; */
-	font-size: 30px;
-	width: 100%;
-	height: 100px;
-`;
-
-const WarChoiceContainer = styled.div`
-	position: absolute;
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	transform: translate(-2000px, 0);
+	/* transform: translate(-100%, 0); */
 	/* padding: 0 50px; */
 	box-sizing: border-box;
+	padding: 16px;
 `;
 
 const AllOptionContainer = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
 	width: 100%;
 	justify-content: center;
-	gap: 10px;
+	gap: 16px;
 	flex-grow: 1;
-	margin-top: 150px;
 `;
 
 const Game = styled(FitText)`
@@ -149,25 +55,16 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.to(containerRef.current, { x: 0, duration: 1 }, "-=0.5");
+			// tl.fromTo(containerRef.current, { xPercent: -100 }, { xPercent: 0, duration: 1 }, "-=0.5");
 
-			tl.addLabel("idkstagger");
-			tl.addLabel(animLabel, `+=${props.war.options.length / 4}`);
+			tl.addLabel("stagger");
 			optionRefs.current.reverse().forEach((optionRef) => {
 				tl.add(optionRef.animation(tl), "-=1");
 			});
 
 			// End
-			tl.to(containerRef.current, { x: 2000, duration: 1 }, props.war.options.length == 0 ? "+=10" : undefined);
-			tl.set(containerRef.current, { x: -2000 });
+			// tl.to(containerRef.current, { xPercent: 100, duration: 1 }, props.war.options.length == 0 ? "+=1" : undefined);
 
-			optionRefs.current.forEach((optionRef) => {
-				tl.add(optionRef.reset(tl));
-			});
-
-			return tl;
-		},
-		reset(tl) {
 			return tl;
 		},
 	}));
@@ -179,22 +76,6 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 
 	const sortedOptions = props.war.options.map((a) => ({ ...a }));
 	sortedOptions.sort((a, b) => b.total - a.total);
-	// const allOptions = sortedOptions.map((option, i) => {
-	// 	return (
-	// 		<WarChoice
-	// 			animLabel={animLabel}
-	// 			option={option}
-	// 			highest={highest}
-	// 			key={option.name}
-	// 			index={sortedOptions.length - 1 - i}
-	// 			ref={(el) => {
-	// 				if (el) {
-	// 					optionRefs.current[i] = el;
-	// 				}
-	// 			}}
-	// 		/>
-	// 	);
-	// });
 	const allOptions = [];
 	for (let i = 0; i < Math.min(MAX_OPTIONS, sortedOptions.length); i++) {
 		const option = sortedOptions[i];
@@ -204,7 +85,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 				option={option}
 				highest={highest}
 				key={option.name}
-				index={i}
+				index={sortedOptions.length - i}
 				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length)}
 				ref={(el) => {
 					if (el) {
@@ -234,13 +115,25 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 		);
 	}
 
+	if (sortedOptions.length == 0) {
+		allOptions.push(
+			<NoChoicesMade
+				ref={(el) => {
+					if (el) {
+						optionRefs.current[0] = el;
+					}
+				}}
+			/>,
+		);
+	}
+
 	return (
 		<WarChoiceContainer ref={containerRef}>
-			<AllOptionContainer>{allOptions.length > 0 ? allOptions : <NoChoicesMade />}</AllOptionContainer>
-			<IncentiveContainer>
+			<AllOptionContainer>{allOptions}</AllOptionContainer>
+			{/* <IncentiveContainer>
 				<Game text={props.war.game} />
 				<IncentiveName text={props.war.incentive} />
-			</IncentiveContainer>
+			</IncentiveContainer> */}
 		</WarChoiceContainer>
 	);
 });
@@ -252,17 +145,19 @@ const OptionName = styled(FitText)`
 
 const OptionContainer = styled.div`
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 	width: 100%;
-	height: 50px;
+	height: 100%;
 	/* background: var(--main); */
 	/* padding: 10px; */
 	box-sizing: border-box;
-	transform: translate(0, 40px);
+	/* transform: translate(0, 40px); */
 	font-family: var(--secondary-font);
 	/* border: 1px solid var(--tgx-green); */
 	max-width: 1000px;
-	opacity: 0;
+	/* opacity: 0; */
+	gap: 8px;
 `;
 
 const TextDiv = styled.div`
@@ -272,7 +167,7 @@ const TextDiv = styled.div`
 	top: 0;
 	left: 0;
 	color: var(--text-light);
-	font-size: 25px;
+	font-size: 28px;
 	width: 100%;
 `;
 
@@ -281,26 +176,32 @@ const ProgressContainer = styled.div`
 	/* flex-grow: 1; */
 	width: 100%;
 	height: 100%;
-	position: absolute;
 	overflow: hidden;
 	box-sizing: border-box;
 	background: transparent;
 	/* background: var(--main); */
 	display: flex;
-	align-items: flex-end;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
 	/* border: 1px solid var(--tgx-green); */
+	border-radius: 16px;
+	gap: 8px;
 `;
 
 const ProgressBarContainer = styled.div`
-	height: 100%;
-	width: 0%;
-	background: var(--tgx-green);
+	height: 0%;
+	width: 100%;
+	background: linear-gradient(0deg, var(--dh-orange) 0%, var(--dh-red) 100%);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+	border-radius: 16px;
 `;
 
-const CurrentAmount = styled.span``;
+const CurrentAmount = styled.span`
+	font-size: 26px;
+`;
 
 interface WarChoiceProps {
 	option: War["options"][0];
@@ -318,28 +219,11 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
-			let top = 1000;
-			if (containerRef.current) {
-				top = containerRef.current.getBoundingClientRect().top;
-			}
-
-			const base = (top - 570) * 2;
-
 			// Start
-			tl.set(progressBarRef.current, { width: 0 }, "warStart");
-			tl.set(containerRef.current, { y: 40, opacity: 0, maxWidth: base }, "warStart");
+			tl.fromTo(containerRef.current, { x: -950 }, { x: 0, duration: 1, ease: "power2.out" }, `stagger+=${props.index / 8}`);
+			tl.fromTo(progressBarRef.current, { height: 0 }, { height: `${percentage}%`, duration: 2, ease: "power4.out" }, `stagger+=${(props.index / 2) + 0.75}`);
 
-			tl.to(containerRef.current, { y: 0, opacity: 1 }, `idkstagger+=${props.index / 4}`);
-			tl.to(progressBarRef.current, { width: `${percentage}%`, duration: 2 }, props.animLabel);
-
-			tl.to(containerRef.current, { y: -40, opacity: 0 }, "idkstagger+=10");
-			tl.set(containerRef.current, { y: 40 });
-			return tl;
-		},
-		reset: (tl) => {
-			tl.set(progressBarRef.current, { width: 0 });
-			tl.set(containerRef.current, { y: 40, opacity: 0 });
-
+			tl.to(containerRef.current, { x: 950, duration: 1, ease: "power2.in" }, `stagger+=${(props.index / 8) + 10}`);
 			return tl;
 		},
 	}));
@@ -364,22 +248,13 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 
 	return (
 		<OptionContainer ref={containerRef}>
-			<TextDiv>
-				<div
-					style={{
-						display: "flex",
-						padding: "0 55px",
-						width: "100%",
-						justifyContent: "space-between",
-						zIndex: 2,
-					}}>
-					<OptionName text={props.option.name} />
-					<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
-				</div>
-			</TextDiv>
 			<ProgressContainer>
+				<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
 				<ProgressBarContainer ref={progressBarRef} />
 			</ProgressContainer>
+			<TextDiv>
+				<OptionName text={props.option.name} />
+			</TextDiv>
 		</OptionContainer>
 	);
 });
@@ -390,22 +265,41 @@ const NoChoicesContainer = styled.div`
 	text-align: center;
 	justify-content: center;
 	align-items: center;
-	font-weight: bold;
-	text-transform: uppercase;
-	font-style: italic;
-	font-size: 40px;
+	flex-direction: column;
+	/* font-weight: bold; */
 `;
 
-const NoChoicesMade: React.FC = () => {
+const NoChoiceHeading = styled.span`
+	text-transform: uppercase;
+	font-style: italic;
+	font-size: 60px;
+`;
+
+const NoChoiceSubheading = styled.span`
+	font-family: var(--secondary-font);
+	font-size: 35px;
+`;
+
+const NoChoicesMade = React.forwardRef<TickerItemHandles>((_, ref) => {
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	useImperativeHandle(ref, () => ({
+		animation: (tl) => {
+			// Start
+			tl.fromTo(containerRef.current, { x: -950 }, { x: 0, duration: 1, ease: "power2.out" });
+
+			tl.to(containerRef.current, { x: 950, duration: 1, ease: "power2.in" }, "+=10");
+			return tl;
+		},
+	}));
+
 	return (
-		<NoChoicesContainer>
-			No names
-			<br />
-			submitted
+		<NoChoicesContainer ref={containerRef}>
+			<NoChoiceHeading>No names submitted</NoChoiceHeading>
+			<NoChoiceSubheading>Donate and write a name!</NoChoiceSubheading>
 		</NoChoicesContainer>
 	);
-};
+});
 
-InterIncentWars.displayName = "InterIncentWars";
 WarGame.displayName = "WarGame";
 WarChoice.displayName = "WarChoice";

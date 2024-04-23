@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 import { StaffMessage } from "@asm-graphics/types/StaffMessages";
 
@@ -31,17 +31,13 @@ const OrangeFAB = styled(Fab)`
 `;
 
 export const StaffMessages: React.FC = () => {
-	const [staffMessagesRep] = useReplicant<StaffMessage[]>("staff-messages", []);
-	const [host] = useReplicant<Commentator>("host", {
-		id: "",
-		name: "",
-		pronouns: "",
-	});
+	const [staffMessagesRep] = useReplicant<StaffMessage[]>("staff-messages");
+	const [host] = useReplicant<Commentator>("host");
 	const [replyDialog, setReplyDialog] = useState(false);
 	const [replyMsg, setReplyMsg] = useState("");
 
 	const messageMap = staffMessagesRep
-		.map((msg) => {
+		?.map((msg) => {
 			const date = new Date(msg.date);
 			return (
 				<Message
@@ -53,12 +49,12 @@ export const StaffMessages: React.FC = () => {
 				/>
 			);
 		})
-		.reverse();
+		.reverse() ?? [];
 
 	const sendStaffMessage = () => {
 		const msg: StaffMessage = {
 			date: new Date(),
-			author: host.name,
+			author: host?.name ?? "Unknown",
 			message: replyMsg,
 			fromHost: true,
 		};

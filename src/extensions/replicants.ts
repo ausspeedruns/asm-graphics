@@ -69,9 +69,6 @@ export const twitchStreamsRep = nodecg.Replicant<Stream[]>("twitchStreams", { de
 /* Staff Messages DEPRECATED */
 export const staffMessagesRep = nodecg.Replicant<StaffMessage[]>("staff-messages", { defaultValue: [] });
 
-/* Twitter */
-export const tweetsRep = nodecg.Replicant<Tweet[]>("tweets", { persistent: false, defaultValue: [] });
-
 /* GraphQL */
 export const incentivesUpdatedLastRep = nodecg.Replicant<number | undefined>("incentives:updated-at", {
 	defaultValue: undefined,

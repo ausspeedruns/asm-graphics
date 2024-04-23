@@ -18,6 +18,7 @@ const TickerCTAContainer = styled.div`
 	font-size: 27px;
 	transform: translate(0px, -64px);
 	z-index: 2;
+	font-family: var(--secondary-font);
 `;
 
 const CTALine = styled.div`
@@ -31,6 +32,7 @@ const CTALine = styled.div`
 `;
 
 const EmphasisFont = styled.span`
+	/* font-family: var(--main-font); */
 	font-family: var(--secondary-font);
 	font-weight: bold;
 `;

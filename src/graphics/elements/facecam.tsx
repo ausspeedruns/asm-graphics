@@ -5,7 +5,7 @@ import { AudioIndicator } from "@asm-graphics/types/Audio";
 import { RunDataTeam } from "@asm-graphics/types/RunData";
 
 import { Nameplate } from "./nameplate";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 const nodecgConfig = nodecg.bundleConfig;
 

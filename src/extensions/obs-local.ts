@@ -43,7 +43,7 @@ obs.on("SceneTransitionStarted", async () => {
 			break;
 		case "IRL":
 		case "ASNN":
-			// Future ;)
+		// Future ;)
 		case "Unknown":
 		default:
 			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: currentScene });
@@ -153,7 +153,7 @@ function transitionFromIntermission(toScene: string, fromScene: string) {
 			nodecg.sendMessage("transition:toIRL", { to: toScene, from: fromScene });
 			break;
 		case "ASNN":
-			// Probably a special intro
+		// Probably a special intro
 		case "Unknown":
 		default:
 			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: fromScene });

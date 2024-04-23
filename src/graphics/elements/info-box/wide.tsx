@@ -43,9 +43,9 @@ export interface IWideStyling {
 
 const DefaultWideStyling: IWideStyling = {
 	timerStackHeight: 180,
-	timerSize: 130,
-	timerStyle: { width: 423, zIndex: 2, fontSize: 110 },
-	estimateSize: 30,
+	timerSize: 150,
+	timerStyle: { width: 423, zIndex: 2, fontSize: 130 },
+	estimateSize: 34,
 	maxTextWidth: 540,
 	gameStackHeight: 100,
 	gameTitleSize: 37,
@@ -71,17 +71,17 @@ export const WideInfo: React.FC<Props> = (props: Props) => {
 					style={{ marginBottom: styles.bottomRowMargin, lineHeight: "42px" }}
 				/>
 				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
-					<RunInfo.System system={props.runData?.system || ""} />
-					<RunInfo.Year year={props.runData?.release || ""} />
+					<RunInfo.System system={props.runData?.system ?? ""} />
+					<RunInfo.Year year={props.runData?.release ?? ""} />
 				</div>
 			</VerticalStack>
 			<VerticalStack style={{ flexGrow: 1 }}>
 				<RunInfo.Category
 					maxWidth={styles.maxTextWidth!}
-					category={props.runData?.category || ""}
+					category={props.runData?.category ?? ""}
 					style={{ marginBottom: styles.bottomRowMargin }}
 				/>
-				<RunInfo.Estimate estimate={props.runData?.estimate || ""} />
+				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 			</VerticalStack>
 			<Timer style={styles.timerStyle} timer={props.timer} />
 		</WideInfoContainer>

@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { Button, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { GreenButton, RedButton } from "./elements/styled-ui";
 import { DragIndicator } from "@mui/icons-material";
@@ -128,10 +128,10 @@ function HeadlineList({
 }
 
 export const ASNNDash = () => {
-	const [asnnHeadline, setAsnnHeadline] = useReplicant<string>("asnn:headline", "");
-	const [asnnTicker, setAsnnTicker] = useReplicant<string[]>("asnn:ticker", []);
+	const [asnnHeadline, setAsnnHeadline] = useReplicant<string>("asnn:headline");
+	const [asnnTicker, setAsnnTicker] = useReplicant<string[]>("asnn:ticker");
 	const [headlineTextBox, setHeadlineTextBox] = useState("");
-	const [headlineItems, setHeadlineItems] = useLocalStorage<string[]>("asnnHeadlines", []);
+	const [headlineItems, setHeadlineItems] = useLocalStorage<string[]>("asnnHeadlines");
 	const [tickerTextBox, setTickerTextBox] = useState("");
 	const [ticker, setTicker] = useState<string[]>([]);
 	const [name, setName] = useState("");
@@ -144,6 +144,7 @@ export const ASNNDash = () => {
 	}, [asnnHeadline, headlineItems, setHeadlineItems]);
 
 	useEffect(() => {
+		if (typeof asnnTicker === "undefined") return;
 		setTicker(asnnTicker);
 	}, [asnnTicker]);
 
@@ -191,8 +192,7 @@ export const ASNNDash = () => {
 					<GreenButton
 						variant="contained"
 						fullWidth
-						onClick={() => nodecg.sendMessage("asnn:showName", { name: name, subtitle: subtitle })}
-					>
+						onClick={() => nodecg.sendMessage("asnn:showName", { name: name, subtitle: subtitle })}>
 						Show Name
 					</GreenButton>
 					<RedButton variant="contained" fullWidth onClick={() => nodecg.sendMessage("asnn:hideName")}>
@@ -213,8 +213,7 @@ export const ASNNDash = () => {
 							setHeadlineItems([...headlineItems, headlineTextBox]);
 							setHeadlineTextBox("");
 						}}
-						disabled={!headlineTextBox}
-					>
+						disabled={!headlineTextBox}>
 						Add
 					</GreenButton>
 				</Row>
@@ -228,7 +227,7 @@ export const ASNNDash = () => {
 										texts={headlineItems}
 										setState={setHeadlineItems}
 										showFunc={setAsnnHeadline}
-										currentState={asnnHeadline}
+										currentState={asnnHeadline ?? ""}
 									/>
 									{provided.placeholder}
 								</div>
@@ -250,8 +249,7 @@ export const ASNNDash = () => {
 							setTicker([...ticker, tickerTextBox]);
 							setTickerTextBox("");
 						}}
-						disabled={!tickerTextBox}
-					>
+						disabled={!tickerTextBox}>
 						Add
 					</Button>
 				</Row>
@@ -272,8 +270,7 @@ export const ASNNDash = () => {
 					fullWidth
 					variant="contained"
 					onClick={() => setAsnnTicker(ticker)}
-					disabled={asnnTicker == ticker}
-				>
+					disabled={asnnTicker == ticker}>
 					Update Ticker
 				</GreenButton>
 			</ASNNDashContainer>

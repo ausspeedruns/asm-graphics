@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled, { keyframes } from "styled-components";
-import { useListenFor, useReplicant } from "use-nodecg";
-import format from "date-fns/format";
+import { useListenFor, useReplicant } from "@nodecg/react-hooks";
+import { format } from "date-fns";
 import gsap from "gsap";
 
 import ASNNBug from "./media/ASM23/asnn.webm";
@@ -152,8 +152,8 @@ export const ASNN = () => {
 	const nameEl = useRef<HTMLDivElement>(null);
 	const subtitleEl = useRef<HTMLDivElement>(null);
 	const nameplateEl = useRef<HTMLDivElement>(null);
-	const [asnnHeadline] = useReplicant<string>("asnn:headline", "");
-	const [asnnTicker] = useReplicant<string[]>("asnn:ticker", []);
+	const [asnnHeadline] = useReplicant<string>("asnn:headline");
+	const [asnnTicker] = useReplicant<string[]>("asnn:ticker");
 
 	// const tickerTexts = [
 	// 	'AUSSPEEDRUNS INTERVIEWS GONE MISSING, SEARCH PARTY NON-EXISTENT',
@@ -161,8 +161,8 @@ export const ASNN = () => {
 	// 	'HOW WILL FF8 RUNNERS ALL PLAY ON A SINGLE CONTROLLER? MORE AT 1:10 AM',
 	// 	'4TH HEADSET TO NeVER oh hey lowercase, cool, my throat was getting sore',
 	// ];
-	const tickerLength = asnnTicker.join().length;
-	const tickerElements = asnnTicker.map((text) => <li key={text}>{text}</li>);
+	const tickerLength = (asnnTicker ?? []).join().length;
+	const tickerElements = (asnnTicker ?? []).map((text) => <li key={text}>{text}</li>);
 
 	function changeBGColor(col: string) {
 		document.body.style.background = col;

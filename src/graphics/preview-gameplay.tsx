@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 import { GameplayRouterParent } from "./gameplay-overlay";
 import { Stream as TwitchStream } from "@asm-graphics/types/Streams";
@@ -16,11 +16,11 @@ const PreviewStream = styled(ASMStream)`
 `;
 
 const PreviewGameplayStream: React.FC = () => {
-	const [twitchStreamsRep] = useReplicant<TwitchStream[]>("twitchStreams", []);
+	const [twitchStreamsRep] = useReplicant<TwitchStream[]>("twitchStreams");
 
 	// Preview twitch streams
 	const previewStreamElements = twitchStreamsRep
-		.filter((ogStream) => {
+		?.filter((ogStream) => {
 			if (ogStream.state === "preview" || ogStream.state === "both") {
 				return ogStream;
 			}

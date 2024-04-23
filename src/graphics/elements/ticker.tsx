@@ -6,8 +6,9 @@ import _ from "lodash";
 
 import useEffectDebugger from "../../hooks/useEffectDebugger";
 
-import { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
-import { Goal, War } from "@asm-graphics/types/Incentives";
+import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { Goal, War } from "@asm-graphics/types/Incentives";
+import type { DonationMatch } from "@asm-graphics/types/Donations";
 
 import { TickerRuns } from "./ticker/runs";
 import { TickerCTA } from "./ticker/cta";
@@ -19,11 +20,10 @@ import { TickerPrizes } from "./ticker/prizes";
 import { TickerASMM } from "./ticker/asmm";
 import { TickerDonationMatches } from "./ticker/donation-matches";
 
-// import ChannelBug from "../media/ASM-Gif.gif";
+import ChannelBug from "../media/ASM-Gif.gif";
 // import ChannelBugExtension from "../elements/event-specific/pax-23/ChannelBugExtension.png";
-import ChannelBug from '../elements/event-specific/tgx-24/tgx24-bug.png';
+// import ChannelBug from "../elements/event-specific/tgx-24/tgx24-bug.png";
 import GoCLogo from "../media/Sponsors/GoCWhite.svg";
-import { DonationMatch } from "@asm-graphics/types/Donations";
 
 const TickerContainer = styled.div`
 	height: 64px;
@@ -49,18 +49,18 @@ const DonationArea = styled.div`
 	display: flex;
 	align-items: center;
 	padding: 0 10px;
-	color: var(--text-dark);
+	color: var(--text-light);
 	font-weight: bold;
 	font-family: var(--mono-font);
 
-	background: var(--sec);
+	background: var(--dh-orange-to-red);
 `;
 
 const CurrentTimeArea = styled.div`
 	height: 100%;
 	width: fit-content;
-	/* background: var(--sec); */
-	color: var(--text-light);
+	background: white;
+	color: var(--text-dark);
 	font-weight: bold;
 	/* border-left: 6px solid var(--accent); */
 	padding: 0 16px;
@@ -155,7 +155,7 @@ const Ticker = (props: TickerProps) => {
 		return tl;
 	};
 
-	useEffectDebugger(
+	useEffect(
 		() => {
 			const ctx = gsap.context(() => {
 				timelineRef.current = gsap.timeline({ onComplete: () => setNumberOfLoops(numberOfLoops + 1) });
@@ -199,8 +199,7 @@ const Ticker = (props: TickerProps) => {
 
 			return () => ctx.revert();
 		},
-		[numberOfLoops],
-		["numberOfLoops"],
+		[numberOfLoops]
 	);
 
 	useEffect(() => {
@@ -226,7 +225,7 @@ const Ticker = (props: TickerProps) => {
 				<TickerASMM ref={asmmRef} totalKM={props.asmm ?? 0} />
 				<TickerDonationMatches donationMatches={props.donationMatches} ref={donationMatchesRef} />
 			</ContentArea>
-			<div style={{width: 8, height: "100%", background: "var(--tgx-rainbow-bar-vertical)"}} />
+			{/* <div style={{ width: 8, height: "100%", background: "var(--tgx-rainbow-bar-vertical)" }} /> */}
 			<CurrentTimeArea>
 				{format(currentTime, "E d")}
 				<br />

@@ -6,15 +6,15 @@ import gsap from "gsap";
 // import adExit from "../../media/ASM23/ad_EXIT.webm";
 
 const IntermissionAdsContainer = styled.div`
-	width: 902px;
-	display: flex;
-	flex-direction: column;
+	width: 722px;
 	/* opacity: 0; */
 	/* background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%); */
 	/* border-top: 1px solid var(--sec);
 	border-bottom: 1px solid var(--sec); */
-	height: 100%;
-	position: relative;
+	height: 406px;
+	position: absolute;
+	top: 0;
+	right: 96px;
 `;
 
 const VideoBox = styled.div`
@@ -96,7 +96,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			// tl.set(entryRef.current, { opacity: 1 });
 
 			// Wait for entry finish and then fade ad in
-			tl.to(videoRef.current, { opacity: 1 }, "+=2");
+			tl.to(videoRef.current, { opacity: 1 });
 
 			// Run ad
 			tl.call(() => {

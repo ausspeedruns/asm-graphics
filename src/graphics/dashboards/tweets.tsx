@@ -1,7 +1,7 @@
 // Copy paste from dashboard version
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { useReplicant, useListenFor } from "use-nodecg";
+import { useReplicant, useListenFor } from "@nodecg/react-hooks";
 import _ from "underscore";
 
 import { Tweet } from "@asm-graphics/types/Twitter";

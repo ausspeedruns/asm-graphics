@@ -7,11 +7,10 @@ import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
-import { TGX24Rainbow, TGX24Squares } from "../elements/event-specific/tgx-24/tgx24";
 
-// import WidescreenTop from "../media/ASM23/widescreen-top.png";
-// import WidescreenBottom from "../media/ASM23/widescreen-bottom.png";
-import tgxBackgroundPattern from "../elements/event-specific/tgx-24/pattern.png";
+import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
+import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
+import WidescreenBottom from "../elements/event-specific/dh-24/Widescreen-1.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -25,9 +24,6 @@ const TopBar = styled.div`
 	background-color: var(--main);
 	position: relative;
 	/* border-bottom: 1px solid var(--sec); */
-	background-image: url(${tgxBackgroundPattern});
-	background-repeat: repeat;
-	background-blend-mode: multiply;
 `;
 
 const Sidebar = styled.div`
@@ -52,10 +48,6 @@ const SidebarBG = styled.div`
 	/* border-top: 1px solid var(--sec); */
 	overflow: hidden;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-	background-image: url(${tgxBackgroundPattern});
-	background-repeat: repeat;
-	background-blend-mode: multiply;
-	background-position-y: 10px;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -96,16 +88,19 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<WidescreenContainer>
 			<TopBar>
-				{/* <img
-					src={Pattern}
-					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-				/> */}
-				<TGX24Squares style={{ position: "absolute", top: -16 }} />
-				<TGX24Rainbow style={{ position: "absolute", bottom: 0, width: "100%" }} />
+				<img src={WidescreenTop} style={{ position: "absolute", height: "100%", right: -100 }} />
+				<div
+					style={{
+						position: "absolute",
+						bottom: 0,
+						height: 8,
+						width: "100%",
+						background: "var(--dh-orange-to-red)",
+					}}
+				/>
 				<WideInfo
 					timer={props.timer}
 					runData={props.runData}
-					style={{ mainStyle: { paddingLeft: 250, paddingRight: 100 } }}
 				/>
 			</TopBar>
 			<Sidebar>
@@ -118,11 +113,20 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					verticalCoop
 				/>
 				<SidebarBG>
-					{/* <img
-						src={Pattern}
+					<div
+						style={{
+							position: "absolute",
+							top: 0,
+							height: 8,
+							width: "100%",
+							background: "var(--dh-orange-to-red)",
+						}}
+					/>
+					<img
+						src={WidescreenBottom}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/> */}
-					<TGX24Rainbow style={{ width: "100%", position: "absolute", top: 0 }} />
+					/>
+					<img src={DreamhackLogo} style={{ width: "80%", position: "absolute", bottom: 200 }} />
 					<Couch
 						style={{ zIndex: 2 }}
 						commentators={props.commentators}

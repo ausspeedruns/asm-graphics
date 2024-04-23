@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
-import { useListenFor } from "use-nodecg";
+import { useListenFor } from "@nodecg/react-hooks";
 
-import EventLogo from "../media/ASGX23/ASGX23Logo.png";
+import EventLogo from "../elements/event-specific/dh-24/asdh2024-logo.png";
 
 const CreditsContainer = styled.div`
 	position: relative;
@@ -88,7 +88,7 @@ export const Credits: React.FC = () => {
 		const tl = gsap.timeline();
 		// Start credits
 		tl.to(allCreditsRef.current, { width: 500, duration: 2 });
-		tl.to(allCreditsRef.current, { marginTop: -8800, duration: 120, ease: "none" }, "+=1");
+		tl.to(allCreditsRef.current, { marginTop: -7000, duration: 120, ease: "none" }, "+=1");
 		tl.to(allCreditsRef.current, { width: 0, duration: 2 });
 	});
 
@@ -101,15 +101,12 @@ export const Credits: React.FC = () => {
 				<Title>
 					AusSpeedruns @
 					<br />
-					The Game Expo 2024
+					DreamHack 2024
 				</Title>
 				<Title>AusSpeedruns Committee</Title>
 				<NameContainer>
 					<NameWithRoles>
-						ASGX Coordinator<Name>neɪ</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Director<Name>Sten</Name>
+						ASDH Coordinator<br />AusSpeedruns Director<Name>Sten</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						ASM Coordinator<Name>neo</Name>
@@ -144,53 +141,70 @@ export const Credits: React.FC = () => {
 				</NameContainer>
 				<Title>Tech</Title>
 				<NameContainer>
+					<Name>Alecat</Name>
 					<Name>Clockdistrict</Name>
+					<Name>Clubwho</Name>
 					<Name>Dillon</Name>
+					<Name>Kenorah</Name>
 					<Name>neɪ</Name>
 					<Name>Ninten</Name>
-					<Name>NitrosTwitch</Name>
 					<Name>Sten</Name>
 					<Name>Tsukahh</Name>
 				</NameContainer>
 				<Title>Runner Management</Title>
 				<NameContainer>
-					<Name>Baphy</Name>
-					<Name>Geolubread</Name>
-					<Name>Lacey</Name>
-					<Name>Sten</Name>
+					<Name>JTMagicman</Name>
+					<Name>Kenorah</Name>
+					<Name>Nicosar</Name>
+					<Name>srd_27</Name>
+					<Name>Synrey</Name>
 					<Name>TasmaniaJones</Name>
 				</NameContainer>
-				{/* <Title>Social Media</Title>
+				<Title>Social Media</Title>
 				<NameContainer>
-					<Name>HoshinoHaru</Name>
-					<Name>Kenorah</Name>
 					<Name>Kuiperbole</Name>
+					<Name>Lacey</Name>
 					<Name>limchi</Name>
-					<Name>nase</Name>
-					<Name>neo</Name>
-				</NameContainer> */}
+					<Name>Synrey</Name>
+					<Name>thom</Name>
+				</NameContainer>
 				<Title>Hosts</Title>
 				<NameContainer>
+					<Name>anhedonic</Name>
 					<Name>Galasrinie</Name>
+					<Name>jksessions</Name>
+					<Name>JTMagicman</Name>
 					<Name>Kenorah</Name>
 					<Name>Lacey</Name>
+					<Name>srd_27</Name>
+					<Name>Sten</Name>
+					<Name>thegemcosplay</Name>
 				</NameContainer>
 				<Title>Runners</Title>
 				<NameContainer>
+					<Name>360Chrism</Name>
 					<Name>AeonFrodo</Name>
-					<Name>Baphy</Name>
+					<Name>Alecat</Name>
+					<Name>AtomicCaleb</Name>
+					<Name>Aun_El</Name>
+					<Name>BalakehB</Name>
 					<Name>Clockdistrict</Name>
 					<Name>Dactyly</Name>
-					<Name>ekimekim</Name>
-					<Name>Galasrinie</Name>
-					<Name>GameNerd607</Name>
-					<Name>Geolubread</Name>
-					<Name>Kenorah</Name>
-					<Name>LiquidWifi</Name>
-					<Name>Raikou</Name>
-					<Name>ribbongraph</Name>
-					<Name>SNC_Sector7G</Name>
+					<Name>Dezinator94</Name>
+					<Name>FoksMachine</Name>
+					<Name>Imanex</Name>
+					<Name>JTMagicman</Name>
+					<Name>limchi</Name>
+					<Name>nase</Name>
+					<Name>Nicosar</Name>
+					<Name>Noops</Name>
+					<Name>Sten</Name>
 					<Name>syo</Name>
+					<Name>TasmaniaJones</Name>
+					<Name>Ticker</Name>
+					<Name>ToastedMildly</Name>
+					<Name>werster</Name>
+					<Name>Wilbo</Name>
 				</NameContainer>
 				<Title>Special Thanks</Title>
 				<NameContainer>
@@ -199,9 +213,6 @@ export const Credits: React.FC = () => {
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
 					</NameWithRoles>
-					{/* <NameWithRoles style={{ marginTop: 15 }}>
-						Audio Equipment<Name>domuel</Name>
-					</NameWithRoles> */}
 					<NameWithRoles style={{ marginTop: 15 }}>
 						Camera Equipment<Name>Clockdistrict</Name>
 					</NameWithRoles>
@@ -210,6 +221,9 @@ export const Credits: React.FC = () => {
 						<Name>NodeCG</Name>
 						<Name>nodecg-speedcontrol</Name>
 						<Name>obs-websocket</Name>
+					</NameWithRoles>
+					<NameWithRoles style={{ marginTop: 15 }}>
+						Timer Font: Seamless<Name>Michiel de Boer</Name>
 					</NameWithRoles>
 					<NameWithRoles>All commentators</NameWithRoles>
 					<NameWithRoles>All donators</NameWithRoles>

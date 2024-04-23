@@ -56,7 +56,7 @@ interface ZippedRunnerAudio {
 	};
 }
 
-function getRunnersAndGameAudio(teams?: RunData['teams']): ZippedRunnerAudio[] {
+function getRunnersAndGameAudio(teams?: RunData["teams"]): ZippedRunnerAudio[] {
 	const data: ZippedRunnerAudio[] = [];
 
 	if (!teams || teams.length == 0) {
@@ -67,7 +67,7 @@ function getRunnersAndGameAudio(teams?: RunData['teams']): ZippedRunnerAudio[] {
 	if (teams.length > 1) {
 		for (let i = 0; i < GAME_AUDIO_CHANNELS.length; i++) {
 			const gameAudio = GAME_AUDIO_CHANNELS[i];
-			let runnerAudio: ZippedRunnerAudio = {
+			const runnerAudio: ZippedRunnerAudio = {
 				audioInfo: gameAudio,
 			};
 
@@ -105,7 +105,7 @@ function getRunnersAndGameAudio(teams?: RunData['teams']): ZippedRunnerAudio[] {
 	if (team.players.length > 1) {
 		for (let i = 0; i < GAME_AUDIO_CHANNELS.length; i++) {
 			const gameAudio = GAME_AUDIO_CHANNELS[i];
-			let runnerAudio: ZippedRunnerAudio = {
+			const runnerAudio: ZippedRunnerAudio = {
 				audioInfo: gameAudio,
 			};
 
@@ -152,5 +152,5 @@ runDataActiveRunRep.on("change", (newVal, oldVal) => {
 
 	const runnerNamesAndGameAudio = getRunnersAndGameAudio(newVal.teams);
 
-	gameAudioNamesRep.value = runnerNamesAndGameAudio.map(gameAudio => gameAudio.runner?.name ?? "");
+	gameAudioNamesRep.value = runnerNamesAndGameAudio.map((gameAudio) => gameAudio.runner?.name ?? "");
 });

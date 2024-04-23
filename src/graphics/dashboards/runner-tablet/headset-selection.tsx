@@ -7,7 +7,7 @@ import Sonic from "../../media/runner-tablet/sonic.png";
 import Pikachu from "../../media/runner-tablet/pikachu.png";
 import Link from "../../media/runner-tablet/link.png";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const RTSelectionContainer = styled.div`
@@ -110,7 +110,10 @@ export const RTSelection = (props: Props) => {
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			if (runners.length == 0 || headsetSelection.length == runners.length && !headsetSelection.some(headset => headset === "")) {
+			if (
+				runners.length == 0 ||
+				(headsetSelection.length == runners.length && !headsetSelection.some((headset) => headset === ""))
+			) {
 				console.log("ayyy", runners, headsetSelection);
 				if (props.close) {
 					props.close();
@@ -118,7 +121,7 @@ export const RTSelection = (props: Props) => {
 			}
 		}, 500);
 		return () => clearTimeout(timer);
-	}, [headsetSelection, props, runners.length]);
+	}, [headsetSelection, props, runners]);
 
 	useEffect(() => {
 		setHeadsetSelection(runners.filter((runner) => runner.isRunner)?.map((runner) => runner.microphone ?? ""));
@@ -128,7 +131,7 @@ export const RTSelection = (props: Props) => {
 	// 	console.log(headsetsUsed);
 	// 	if (!(headset.name in all)) {
 	// 		all[headset.name] = 0;
-	// 	}	
+	// 	}
 
 	// 	return all;
 	// }, headsetsUsed);

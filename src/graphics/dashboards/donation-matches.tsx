@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { Box } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 
@@ -18,9 +18,9 @@ interface Props {
 }
 
 export const DonationMatches: React.FC<Props> = (props: Props) => {
-	const [donationMatchesRep] = useReplicant<IDonationMatch[]>("donation-matches", []);
+	const [donationMatchesRep] = useReplicant<IDonationMatch[]>("donation-matches");
 
-	const reversedMatches = [...donationMatchesRep].reverse();
+	const reversedMatches = [...donationMatchesRep ?? []].reverse();
 
 	const allDonationMatches = reversedMatches.map((donationMatch) => {
 		return <DonationMatch key={donationMatch.id} active={donationMatch.endsAt > Date.now()} donationMatch={donationMatch} />;

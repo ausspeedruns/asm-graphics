@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { useListenFor, useReplicant } from "use-nodecg";
+import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 
 import {
 	Paper,
@@ -28,6 +28,7 @@ import { Timer } from "./dashboards/timer";
 import { HostName } from "./dashboards/host-name";
 import { DonationMatches } from "./dashboards/donation-matches";
 import { HostDashAudio } from "./host-dashboard-audio";
+import { Prizes } from "./dashboards/prizes";
 
 const HostDashContainer = styled.div`
 	height: 100vh;
@@ -62,11 +63,11 @@ const TotalBox = styled(Paper)`
 
 export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
-	const [donationTotalRep] = useReplicant<number>("donationTotal", 100);
-	const [donationsRep] = useReplicant<Donation[]>("donations", []);
-	const [manualDonationRep] = useReplicant<number>("manual-donation-total", 100);
-	const [incentivesUpdatedRep] = useReplicant<number | undefined>("incentives:updated-at", undefined);
-	const [hostLevelRep] = useReplicant<number>("x32:host-level", 0.75);
+	const [donationTotalRep] = useReplicant<number>("donationTotal");
+	const [donationsRep] = useReplicant<Donation[]>("donations");
+	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
+	const [incentivesUpdatedRep] = useReplicant<number>("incentives:updated-at", undefined);
+	const [hostLevelRep] = useReplicant<number>("x32:host-level");
 
 	const [currentTime, setCurrentTime] = useState("00:00:00");
 	const [showScript, setShowScript] = useState(false);
@@ -129,12 +130,12 @@ export const HostDash: React.FC = () => {
 	// TODO Clean this shizz up
 	function muteOrUnmute() {
 		if (muted) {
-			nodecg.sendMessage("x32:setFader", { mixBus: 0, float: hostLevelRep, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 1, float: hostLevelRep, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 3, float: hostLevelRep, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 5, float: hostLevelRep, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 7, float: hostLevelRep, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 9, float: hostLevelRep, channel: 5 });
+			nodecg.sendMessage("x32:setFader", { mixBus: 0, float: hostLevelRep ?? 0, channel: 5 });
+			nodecg.sendMessage("x32:setFader", { mixBus: 1, float: hostLevelRep ?? 0, channel: 5 });
+			nodecg.sendMessage("x32:setFader", { mixBus: 3, float: hostLevelRep ?? 0, channel: 5 });
+			nodecg.sendMessage("x32:setFader", { mixBus: 5, float: hostLevelRep ?? 0, channel: 5 });
+			nodecg.sendMessage("x32:setFader", { mixBus: 7, float: hostLevelRep ?? 0, channel: 5 });
+			nodecg.sendMessage("x32:setFader", { mixBus: 9, float: hostLevelRep ?? 0, channel: 5 });
 			setMuted(false);
 		} else {
 			nodecg.sendMessage("x32:setFader", { mixBus: 0, float: 0, channel: 5 });
@@ -191,7 +192,7 @@ export const HostDash: React.FC = () => {
 						<Timer />
 					</Paper>
 					<Paper style={{ height: "49%", overflow: "hidden" }}>
-						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASM2023/schedule" />
+						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASDH2024/schedule" />
 						<Upcoming style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
 					</Paper>
 				</div>
@@ -213,7 +214,7 @@ export const HostDash: React.FC = () => {
 							{muted ? "UNMUTE" : "Mute"}
 						</Button>
 					</div>
-					<TotalBox>${(donationTotalRep + manualDonationRep ?? 0).toLocaleString()}</TotalBox>
+					<TotalBox>${((donationTotalRep ?? 0) + (manualDonationRep ?? 0)).toLocaleString()}</TotalBox>
 					<Paper style={{ overflowY: "auto", overflowX: "hidden", maxHeight: 225 }}>
 						<Header text="Donation Matches" />
 						<DonationMatches
@@ -222,7 +223,7 @@ export const HostDash: React.FC = () => {
 					</Paper>
 					<Paper style={{ overflow: "hidden", flexGrow: 1 }}>
 						<Header
-							text={`${donationsRep.length} Donations`}
+							text={`${(donationsRep ?? []).length} Donations`}
 							style={{ cursor: "pointer" }}
 							onClick={copyDonateCommand}
 						/>
@@ -249,6 +250,10 @@ export const HostDash: React.FC = () => {
 							</IconButton>
 						</Header>
 						<Incentives style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
+					</Paper>
+					<Paper style={{ flexGrow: 1, overflowY: "auto", overflowX: "hidden" }}>
+						<Header text={"Prizes"} />
+						<Prizes style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
 					</Paper>
 					<Paper style={{ height: "49%", overflow: "hidden" }}>
 						<Header text={`Manual Donations $${(manualDonationRep ?? 0).toLocaleString()}`} />

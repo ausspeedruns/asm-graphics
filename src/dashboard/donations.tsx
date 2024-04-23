@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 
 import { Donation } from "@asm-graphics/types/Donations";
@@ -24,15 +24,15 @@ const DonationsList = styled.div`
 `;
 
 export const Donations: React.FC = () => {
-	const [donationTotalRep] = useReplicant<number>("donationTotal", 0);
-	const [donations] = useReplicant<Donation[]>("donations", []);
+	const [donationTotalRep] = useReplicant<number>("donationTotal");
+	const [donations] = useReplicant<Donation[]>("donations");
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<DonationTotal>${donationTotalRep.toLocaleString()}</DonationTotal>
+			<DonationTotal>${(donationTotalRep ?? 0).toLocaleString()}</DonationTotal>
 			<DonationsList>
 				{donations
-					.map((donation) => {
+					?.map((donation) => {
 						return <DonationEl key={donation.id} donation={donation} />;
 					})
 					.reverse()}

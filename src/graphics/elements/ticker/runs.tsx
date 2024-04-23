@@ -18,6 +18,12 @@ const TickerRunsContainer = styled.div`
 	align-items: center;
 	transform: translate(0px, -64px);
 	z-index: 0;
+
+	& div > div > span:nth-child(1) {
+		font-family: var(--main-font);
+		font-weight: normal;
+		margin-bottom: -8px;
+	}
 `;
 
 interface Props {
@@ -64,7 +70,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 
 	return (
 		<TickerRunsContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--tgx-red)" }}>Coming Up</TickerTitle>
+			<TickerTitle style={{ background: "var(--dh-red)" }}>Coming Up</TickerTitle>
 			{RunsArray}
 		</TickerRunsContainer>
 	);

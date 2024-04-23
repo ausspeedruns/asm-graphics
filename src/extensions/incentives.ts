@@ -3,29 +3,11 @@ import { Goal, War } from "@asm-graphics/types/Incentives";
 import * as nodecgApiContext from "./nodecg-api-context";
 import { request, gql } from "graphql-request";
 import { z } from "zod";
+import _ from "underscore";
 
 import { incentivesRep, incentivesUpdatedLastRep } from "./replicants";
 
 const nodecg = nodecgApiContext.get();
-
-nodecg.listenFor("disableIncentive", (index) => {
-	const incentiveIndex = incentivesRep.value.findIndex((incentive) => incentive.index === index);
-
-	if (incentiveIndex === -1)
-		return nodecg.log.error(`[Incentives] Tried to disable incentive index: ${index} but could not find in list.`);
-
-	incentivesRep.value[incentiveIndex].active = false;
-});
-
-// Dunno why this would be used but just in case :)
-nodecg.listenFor("activateIncentive", (index) => {
-	const incentiveIndex = incentivesRep.value.findIndex((incentive) => incentive.index === index);
-
-	if (incentiveIndex === -1)
-		return nodecg.log.error(`[Incentives] Tried to activate incentive index: ${index} but could not find in list.`);
-
-	incentivesRep.value[incentiveIndex].active = true;
-});
 
 const baseIncentiveSchema = z.object({
 	id: z.string(),
@@ -133,7 +115,9 @@ async function getIncentives() {
 		parsedIncentives.sort((a, b) => a.index - b.index);
 		parsedIncentives.forEach((incentive, i) => (parsedIncentives[i] = { ...incentive, index: i }));
 
-		incentivesRep.value = parsedIncentives;
+		if (!_.isEqual(incentivesRep.value, parsedIncentives)) {
+			incentivesRep.value = parsedIncentives;
+		}
 		incentivesUpdatedLastRep.value = Date.now();
 		return true;
 	} catch (error) {

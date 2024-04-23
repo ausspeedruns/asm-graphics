@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";
 import { HEADSETS, Host } from "./headsets";
 import _ from "lodash";
@@ -74,17 +74,15 @@ interface Props {
 }
 
 export const RTAudio = (props: Props) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
-	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names", []);
-	const [couchNamesRep] = useReplicant<Commentator[]>("commentators", []);
-	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
-	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders", []);
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names");
+	const [couchNamesRep] = useReplicant<Commentator[]>("commentators");
+	const [hostRep] = useReplicant<Commentator>("host");
+	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders");
 
 	const [selectedHeadset, setSelectedHeadset] = useState(HEADSETS[0].name);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
-	const debouncedFadersRep = useAudioDebounce(busFadersRep, 500);
+	const debouncedFadersRep = useAudioDebounce(busFadersRep ?? [], 500);
 
 	const headsetUserMap = useMemo(() => {
 		const map = new Map();
@@ -94,18 +92,18 @@ export const RTAudio = (props: Props) => {
 			});
 		});
 
-		couchNamesRep.map((couch) => {
+		couchNamesRep?.map((couch) => {
 			if (couch.microphone) map.set(couch.microphone, couch.name);
 		});
 
 		return map;
 	}, [runDataActiveRep, couchNamesRep]);
 	const sortedHeadsets = useMemo(() => {
-		let selectedHeadsetArray = [];
-		let headsetsWithUser = [];
-		let headsetsWithoutUser = [];
+		const selectedHeadsetArray = [];
+		const headsetsWithUser = [];
+		const headsetsWithoutUser = [];
 
-		for (let headset of HEADSETS) {
+		for (const headset of HEADSETS) {
 			if (headset.name === selectedHeadset) {
 				selectedHeadsetArray.push(headset);
 			} else if (headsetUserMap.has(headset.name)) {
@@ -116,7 +114,7 @@ export const RTAudio = (props: Props) => {
 		}
 
 		return [...selectedHeadsetArray, ...headsetsWithUser, ...headsetsWithoutUser];
-	}, [HEADSETS, selectedHeadset, headsetUserMap, hostRep]);
+	}, [selectedHeadset, headsetUserMap]);
 
 	useEffect(() => {
 		setFaderValues(debouncedFadersRep);
@@ -150,7 +148,7 @@ export const RTAudio = (props: Props) => {
 	const editingText = `Editing ${headsetUser === selectedHeadsetObj?.name ? selectedHeadset : headsetUser ?? selectedHeadset}`;
 
 	const gameAudio = gameAudioNamesRep
-		.map((gameAudio, index) => ({ name: gameAudio, index }))
+		?.map((gameAudio, index) => ({ name: gameAudio, index }))
 		.filter((gameAudio) => !!gameAudio.name);
 
 	return (
@@ -187,7 +185,7 @@ export const RTAudio = (props: Props) => {
 						colour={selectedHeadsetObj?.colour}
 					/>
 					<CategoryName>Game</CategoryName>
-					{gameAudio.map((gameAudioName) => {
+					{gameAudio?.map((gameAudioName) => {
 						return (
 							<AudioFader
 								key={gameAudioName.name}

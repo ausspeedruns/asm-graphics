@@ -8,7 +8,7 @@ interface FontProps {
 }
 
 const BaseStyle = styled.div`
-	font-family: var(--main-font);
+	font-family: var(--secondary-font);
 	color: var(--text-light);
 `;
 
@@ -45,9 +45,7 @@ const EstText = styled.span<FontProps>`
 	font-size: ${({ fontSize }) => fontSize * 0.6}px;
 `;
 
-const EstTime = styled.span<FontProps>`
-	font-size: ${({ fontSize }) => fontSize}px;
-`;
+const EstTime = styled.span``;
 
 interface EstimateProps {
 	estimate: string;
@@ -57,21 +55,22 @@ interface EstimateProps {
 
 export const Estimate: React.FC<EstimateProps> = (props: EstimateProps) => {
 	let formattedEstimate = props.estimate;
-	if (formattedEstimate[0] === "0") {
+
+	if (formattedEstimate[0] === "0" && formattedEstimate[1] !== ":") {
 		formattedEstimate = formattedEstimate.substring(1);
 	}
 
 	return (
 		<EstimateContainer style={props.style}>
-			<EstText fontSize={props.fontSize ?? 46}>{formattedEstimate && "EST "}</EstText>
-			<EstTime fontSize={props.fontSize ?? 46}>{formattedEstimate}</EstTime>
+			<EstText fontSize={props.fontSize ?? 34}>{formattedEstimate && "EST "}</EstText>
+			<EstTime style={{fontSize: props.fontSize ?? 34}}>{formattedEstimate}</EstTime>
 		</EstimateContainer>
 	);
 };
 
 /*			GAME TITLE			*/
 const GameContainer = styled(BaseStyle)`
-	font-family: var(--secondary-font);
+	font-family: var(--main-font);
 	font-size: 50px;
 	font-weight: 1000;
 `;
@@ -106,7 +105,7 @@ export const System: React.FC<SystemProps> = (props: SystemProps) => {
 
 /*			YEAR			*/
 const YearContainer = styled(BaseStyle)`
-	font-size: 35px;
+	font-size: 34px;
 `;
 
 interface YearProps {

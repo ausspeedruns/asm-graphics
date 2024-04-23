@@ -34,6 +34,8 @@ export interface ExtendedClientAPI<T extends Record<string, any>> extends NodeCG
 }
 
 declare global {
+	// eslint-disable-next-line no-var
 	var NodeCG: ExtendedClientAPI<ConfigSchema>;
+	// eslint-disable-next-line no-var
 	var nodecg: ExtendedClientAPI<ConfigSchema>;
 }

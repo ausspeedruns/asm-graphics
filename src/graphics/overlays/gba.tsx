@@ -8,9 +8,8 @@ import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-// import GBABG from "../media/ASM23/gba.png";
-import { TGX24Rainbow } from "../elements/event-specific/tgx-24/tgx24";
-import tgxBackgroundPattern from "../elements/event-specific/tgx-24/pattern.png";
+import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
+import GBABG from "../elements/event-specific/dh-24/Standard.png";
 
 const TGXBox = styled.div`
 	border-style: solid;
@@ -50,12 +49,12 @@ const InfoBoxBG = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+	align-items: center;
 	height: 664px;
-	background-image: url(${tgxBackgroundPattern});
-	background-repeat: repeat;
-	background-blend-mode: multiply;
-	background-position-y: 10px;
-	clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+
+	& > div {
+		z-index: 1;
+	}
 `;
 
 const TwitterSize = {
@@ -93,47 +92,11 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 				<InfoBoxBG>
-					{/* <img
-						src={GBABG}
-						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
-					/> */}
-					<TGXBox
-						style={{
-							borderColor: "var(--tgx-blue)",
-							transform: "translate(-50%, -50%) rotate(45deg)",
-							top: 0,
-							left: 0,
-							marginTop: 10,
-						}}
-					/>
-					<TGXBox
-						style={{
-							borderColor: "var(--tgx-yellow)",
-							transform: "translate(50%, -50%) rotate(45deg)",
-							top: 0,
-							right: 0,
-							marginTop: 10,
-						}}
-					/>
-					<TGXBox
-						style={{
-							borderColor: "var(--tgx-red)",
-							transform: "translate(50%, 50%) rotate(45deg)",
-							bottom: 0,
-							right: 0,
-						}}
-					/>
-					<TGXBox
-						style={{
-							borderColor: "var(--tgx-green)",
-							transform: "translate(-50%, 50%) rotate(45deg)",
-							bottom: 0,
-							left: 0,
-						}}
-					/>
-					<TGX24Rainbow style={{ height: 10, width: "100%", zIndex: 2, position: "absolute", top: 0 }} />
+					<img src={GBABG} style={{ position: "absolute", width: "100%", bottom: 0, zIndex: 0 }} />
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
+
+					<img src={DreamhackLogo} style={{ width: "80%", zIndex: 1 }} />
 					{/* <SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

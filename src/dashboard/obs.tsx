@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import { createRoot } from 'react-dom/client';
 import styled from "styled-components";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 
 import { CurrentOverlay } from "@asm-graphics/types/CurrentOverlay";
 import { Stream as TwitchStream } from "@asm-graphics/types/Streams";
@@ -88,10 +88,10 @@ const DashOBS: React.FC = () => {
 	// });
 	const ncgConfig = nodecg.config;
 	const bundleConfig = nodecg.bundleConfig;
-	const [currentOverlay] = useReplicant<CurrentOverlay | undefined>("currentOverlay", undefined);
-	const [twitchStreamsRep] = useReplicant<TwitchStream[]>("twitchStreams", []);
-	const [currentSceneRep] = useReplicant<string>("obs:currentScene", "Game Overlay");
-	const [connectionRep] = useReplicant<ConnectionStatus>("obs:status", "disconnected");
+	const [currentOverlay] = useReplicant<CurrentOverlay>("currentOverlay");
+	const [twitchStreamsRep] = useReplicant<TwitchStream[]>("twitchStreams");
+	const [currentSceneRep] = useReplicant<string>("obs:currentScene");
+	const [connectionRep] = useReplicant<ConnectionStatus>("obs:status");
 	const [showKeys, setShowKeys] = useState(false);
 	const [showRefreshDialog, setShowRefreshDialog] = useState(false);
 
@@ -113,7 +113,7 @@ const DashOBS: React.FC = () => {
 	// 	});
 
 	// Get list of only live streams
-	const liveStreamsList = twitchStreamsRep.filter((stream) => {
+	const liveStreamsList = (twitchStreamsRep ?? []).filter((stream) => {
 		return currentSceneRep !== "Intermission" && (stream.state === "live" || stream.state === "both");
 	});
 
@@ -192,7 +192,7 @@ const DashOBS: React.FC = () => {
 							/>
 						</GameplayPreview>
 					</GameplaySpacer>
-					<StreamSwitcher currentStreams={twitchStreamsRep} />
+					<StreamSwitcher currentStreams={twitchStreamsRep ?? []} />
 					<FormControl variant="filled" fullWidth>
 						<InputLabel id="obs-gameplay-select-label">Layout</InputLabel>
 						<Select
@@ -310,40 +310,40 @@ const DashOBS: React.FC = () => {
 				<DialogContent>
 					<DialogContentText>
 						<div>
-							ASM Station 1: live_473924910_QRkHAf9mmudxB85MoGxEqOftOmjdBB
+							ASM Station 1:
 							<IconButton
 								onClick={() =>
-									navigator.clipboard.writeText("live_473924910_QRkHAf9mmudxB85MoGxEqOftOmjdBB")
+									navigator.clipboard.writeText("")
 								}
 							>
 								<Filter1 />
 							</IconButton>
 						</div>
 						<div>
-							ASM Station 2: live_473929210_fGqAZD4iiN0LgTfu54U5eD70QXftbO
+							ASM Station 2:
 							<IconButton
 								onClick={() =>
-									navigator.clipboard.writeText("live_473929210_fGqAZD4iiN0LgTfu54U5eD70QXftbO")
+									navigator.clipboard.writeText("")
 								}
 							>
 								<Filter2 />
 							</IconButton>
 						</div>
 						<div>
-							ASM Station 3: live_473929692_Wqsye5ccxS3b4mEksq2AIMfIyJqofF
+							ASM Station 3:
 							<IconButton
 								onClick={() =>
-									navigator.clipboard.writeText("live_473929692_Wqsye5ccxS3b4mEksq2AIMfIyJqofF")
+									navigator.clipboard.writeText("")
 								}
 							>
 								<Filter3 />
 							</IconButton>
 						</div>
 						<div>
-							ASM Station 4: live_582054304_bf1NHWJcfHHafE4sIewIykjrnaislr
+							ASM Station 4:
 							<IconButton
 								onClick={() =>
-									navigator.clipboard.writeText("live_582054304_bf1NHWJcfHHafE4sIewIykjrnaislr")
+									navigator.clipboard.writeText("")
 								}
 							>
 								<Filter4 />
@@ -416,14 +416,12 @@ const RadioStyled = styled(Radio)`
 `;
 
 export const DashAudio: React.FC = () => {
-	const [audioIndicatorRep] = useReplicant<number>("game-audio-indicator", -1);
-	const [runDataRep] = useReplicant<RunData | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
-	const [obsInputsRep] = useReplicant<string[]>("obs-audio-inputs", []);
-	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>("obs-audio-indicator", []);
+	const [audioIndicatorRep] = useReplicant<number>("game-audio-indicator");
+	const [runDataRep] = useReplicant<RunData>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const [obsInputsRep] = useReplicant<string[]>("obs-audio-inputs");
+	const [obsAudioIndicatorRep] = useReplicant<OBSAudioIndicator[]>("obs-audio-indicator");
 
-	const AudioInputOptions = obsInputsRep.map((input) => (
+	const AudioInputOptions = obsInputsRep?.map((input) => (
 		<MenuItem key={input} value={input}>
 			{input}
 		</MenuItem>
@@ -448,7 +446,7 @@ export const DashAudio: React.FC = () => {
 						<Select
 							labelId={`obs-input-${i}-id`}
 							id={`obs-input-${i}`}
-							value={obsAudioIndicatorRep.find((audio) => audio.id === player.id)?.inputName}
+							value={obsAudioIndicatorRep?.find((audio) => audio.id === player.id)?.inputName}
 							label="Audio Input"
 							onChange={(e) => {
 								updateObsIndicator({ id: player.id, inputName: e.target.value });

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Autocomplete, TextField } from "@mui/material";
 import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { HEADSETS } from "./headsets";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 

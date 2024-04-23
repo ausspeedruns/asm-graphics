@@ -25,7 +25,7 @@ async function init() {
 
 	// The order of these is literally just the chronological order of when they were made, a.k.a the best way to watch Star Wars
 
-	require('./audio');
+	require("./audio");
 
 	if (ncgConfig.obs.enabled) {
 		// require('./util/obs');
@@ -33,13 +33,6 @@ async function init() {
 	}
 
 	require("./commentators");
-
-	if (ncgConfig.twitter.enabled) {
-		require("./twitter");
-		require("./util/twitter");
-	} else {
-		nodecg.log.info("Twitter not enabled. Showing tweets will not work");
-	}
 
 	if (ncgConfig?.tiltify?.enabled) {
 		// require('./donations/tiltify');
