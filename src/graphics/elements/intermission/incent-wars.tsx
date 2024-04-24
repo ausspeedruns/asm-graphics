@@ -57,10 +57,12 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			// Start
 			// tl.fromTo(containerRef.current, { xPercent: -100 }, { xPercent: 0, duration: 1 }, "-=0.5");
 
+			tl.fromTo(containerRef.current, { opacity: 0 }, { opacity: 1, duration: 0 });
 			tl.addLabel("stagger");
 			optionRefs.current.reverse().forEach((optionRef) => {
 				tl.add(optionRef.animation(tl), "-=1");
 			});
+			tl.to(containerRef.current, { opacity: 0, duration: 0 });
 
 			// End
 			// tl.to(containerRef.current, { xPercent: 100, duration: 1 }, props.war.options.length == 0 ? "+=1" : undefined);
@@ -203,6 +205,12 @@ const CurrentAmount = styled.span`
 	font-size: 26px;
 `;
 
+const isColour = (strColor: string) => {
+	const s = new Option().style;
+	s.color = strColor;
+	return s.color !== "";
+};
+
 interface WarChoiceProps {
 	option: War["options"][0];
 	highest: number;
@@ -220,17 +228,27 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.fromTo(containerRef.current, { x: -950 }, { x: 0, duration: 1, ease: "power2.out" }, `stagger+=${props.index / 8}`);
-			tl.fromTo(progressBarRef.current, { height: 0 }, { height: `${percentage}%`, duration: 2, ease: "power4.out" }, `stagger+=${(props.index / 2) + 0.75}`);
+			tl.fromTo(
+				containerRef.current,
+				{ x: -950 },
+				{ x: 0, duration: 1, ease: "power2.out" },
+				`stagger+=${props.index / 8}`,
+			);
+			tl.fromTo(
+				progressBarRef.current,
+				{ height: 0 },
+				{ height: `${percentage}%`, duration: 2, ease: "power4.out" },
+				`stagger+=${props.index / 2 + 0.75}`,
+			);
 
-			tl.to(containerRef.current, { x: 950, duration: 1, ease: "power2.in" }, `stagger+=${(props.index / 8) + 10}`);
+			tl.to(containerRef.current, { x: 950, duration: 1, ease: "power2.in" }, `stagger+=${props.index / 8 + 10}`);
 			return tl;
 		},
 	}));
 
 	if (props.moreOptions) {
 		return (
-			<OptionContainer ref={containerRef}>
+			<OptionContainer ref={containerRef} style={{ justifyContent: "center" }}>
 				<TextDiv>
 					<div
 						style={{
@@ -246,11 +264,19 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 		);
 	}
 
+	const optionIsColour = isColour(props.option.name);
+
 	return (
 		<OptionContainer ref={containerRef}>
 			<ProgressContainer>
 				<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
-				<ProgressBarContainer ref={progressBarRef} />
+				<ProgressBarContainer
+					ref={progressBarRef}
+					style={{
+						background: optionIsColour ? props.option.name : undefined,
+						boxShadow: optionIsColour ? "inset 0 0 0 3px var(--dh-red)" : undefined,
+					}}
+				/>
 			</ProgressContainer>
 			<TextDiv>
 				<OptionName text={props.option.name} />

@@ -52,6 +52,7 @@ export interface IntermissionAdsRef {
 export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const videoRef = useRef<HTMLVideoElement>(null);
+	const textRef = useRef<HTMLDivElement>(null);
 	// const entryRef = useRef<HTMLVideoElement>(null);
 	// const exitRef = useRef<HTMLVideoElement>(null);
 
@@ -96,7 +97,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			// tl.set(entryRef.current, { opacity: 1 });
 
 			// Wait for entry finish and then fade ad in
-			tl.to(videoRef.current, { opacity: 1 });
+			tl.to([videoRef.current, textRef.current], { opacity: 1, duration: 1 });
 
 			// Run ad
 			tl.call(() => {
@@ -105,7 +106,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			});
 
 			// Fade out ad
-			tl.to(videoRef.current, { opacity: 0 }, `+=${adData.length + 1}`);
+			tl.to([videoRef.current, textRef.current], { opacity: 0, duration: 1 }, `+=${adData.length + 1}`);
 
 			// Swap from entry to exit
 			// tl.set(entryRef.current, { opacity: 0 });
@@ -128,6 +129,21 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 				<Video ref={videoRef} />
 			</VideoBox>
 			{/* <EntryExitVids ref={exitRef} src={adExit} muted /> */}
+			<div
+				ref={textRef}
+				style={{
+					fontFamily: "var(--main-font)",
+					fontSize: 70,
+					height: 55,
+					textAlign: "center",
+					position: "absolute",
+					width: 554,
+					right: -95,
+					top: 413,
+					opacity: 0,
+				}}>
+				Game On Cancer
+			</div>
 		</IntermissionAdsContainer>
 	);
 });

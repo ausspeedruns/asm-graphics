@@ -114,10 +114,8 @@ interface Props {
 }
 
 export const RTNames: React.FC<Props> = (props: Props) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators", []);
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 	const [dialogRunner, setDialogRunner] = useState<Commentator | undefined>(undefined);
 
@@ -135,7 +133,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				};
 			}),
 		),
-		...commentatorsRep,
+		...(commentatorsRep ?? []),
 	];
 
 	function handleDialogCancel() {

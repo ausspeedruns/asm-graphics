@@ -23,6 +23,7 @@ import { GBC } from "./overlays/gbc";
 import { DS2 } from "./overlays/ds2";
 import { WHG } from "./overlays/whg11-8";
 import { ThreeDS } from "./overlays/3ds";
+import { SM64MovementRando } from "./overlays/sm64-rando";
 import { NoGraphics } from "./overlays/no-graphics";
 import type NodeCG from "@nodecg/types";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
@@ -138,6 +139,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		{
 			component: <StandardVertical {...overlayArgs} />,
 			name: "Standard-Vertical",
+		},
+		{
+			component: <SM64MovementRando {...overlayArgs} />,
+			name: "SM64-Rando",
 		},
 		{
 			component: <NoGraphics />,

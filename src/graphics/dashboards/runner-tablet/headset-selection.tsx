@@ -63,10 +63,7 @@ interface Props {
 }
 
 export const RTSelection = (props: Props) => {
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
-	// const [headsetsUsed] = useReplicant<Record<string, number>>("headsets-used", {});
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 
 	const [runnerIndex, setRunnerIndex] = useState(0);
 	const [headsetSelection, setHeadsetSelection] = useState<string[]>([]);
@@ -114,7 +111,6 @@ export const RTSelection = (props: Props) => {
 				runners.length == 0 ||
 				(headsetSelection.length == runners.length && !headsetSelection.some((headset) => headset === ""))
 			) {
-				console.log("ayyy", runners, headsetSelection);
 				if (props.close) {
 					props.close();
 				}
@@ -126,19 +122,6 @@ export const RTSelection = (props: Props) => {
 	useEffect(() => {
 		setHeadsetSelection(runners.filter((runner) => runner.isRunner)?.map((runner) => runner.microphone ?? ""));
 	}, [runners]);
-
-	// const allHeadsetUsage: Record<string, number> = Headsets.reduce((all, headset) => {
-	// 	console.log(headsetsUsed);
-	// 	if (!(headset.name in all)) {
-	// 		all[headset.name] = 0;
-	// 	}
-
-	// 	return all;
-	// }, headsetsUsed);
-	// console.log("HI", headsetsUsed);
-	// const sortedHeadsetUsage = Object.entries(allHeadsetUsage).sort(
-	// 	([_keyA, valueA], [_keyB, valueB]) => valueA - valueB,
-	// );
 
 	return (
 		<RTSelectionContainer className={props.className} style={props.style}>

@@ -4,13 +4,6 @@ const DONATION_SUBHEADING = "Donation";
 
 export const PRIZES: Prize[] = [
 	{
-		item: "Sonic Superstars",
-		subItem: "Game Code",
-		quantity: 1,
-		requirement: "$20",
-		requirementSubheading: DONATION_SUBHEADING,
-	},
-	{
 		item: "Cult of the Lamb",
 		subItem: "Game Code",
 		quantity: 1,
@@ -18,14 +11,21 @@ export const PRIZES: Prize[] = [
 		requirementSubheading: DONATION_SUBHEADING,
 	},
 	{
-		item: "Neon White",
+		item: "Doors of Insanity",
 		subItem: "Game Code",
 		quantity: 1,
 		requirement: "$10",
 		requirementSubheading: DONATION_SUBHEADING,
 	},
 	{
-		item: "Cocoon",
+		item: "Hazel Sky",
+		subItem: "Game Code",
+		quantity: 1,
+		requirement: "$10",
+		requirementSubheading: DONATION_SUBHEADING,
+	},
+	{
+		item: "The Library of Babel",
 		subItem: "Game Code",
 		quantity: 1,
 		requirement: "$10",

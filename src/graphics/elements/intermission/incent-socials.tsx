@@ -16,7 +16,7 @@ const SocialsContainer = styled.div`
 	width: 100%;
 	height: 100%;
 	display: flex;
-	/* transform: translate(-100%, 0); */
+	transform: translate(-100%, 0);
 	padding: 16px;
 	box-sizing: border-box;
 	flex-direction: column;
@@ -47,11 +47,13 @@ const ITEM_HOLD_DURATION = 10;
 const STAGGER_AMOUNT = 0.05;
 
 export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
+	const containerRef = useRef<HTMLDivElement>(null);
 	const staggerElements = useRef<TickerItemHandles[]>([]);
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("socialsStagger");
+			tl.set(containerRef.current, { xPercent: 100 });
 			staggerElements.current.reverse().forEach((prizeRef) => {
 				tl.add(prizeRef.animation(tl));
 			});
@@ -60,7 +62,7 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 	}));
 
 	return (
-		<SocialsContainer>
+		<SocialsContainer ref={containerRef}>
 			<Stagger ref={(el) => (staggerElements.current[0] = el!)} index={0}>
 				<SocialBar>
 					<SocialIcon src={WebsiteIcon} />

@@ -39,51 +39,75 @@ const TransitionDiv = styled.div`
 	justify-content: center;
 	position: relative;
 
-	& div
-	{
+	& div {
 		position: absolute;
 	}
 `;
 
 function runString(runData: RunDataActiveRun | undefined) {
-	if (!runData) return "Enjoy the run!";
+	if (!runData) return ["Enjoy the run!"];
 
 	const allRunners = runData.teams.flatMap((team) => team.players.map((player) => player.name));
 
-	return `${runData.game} by ${new Intl.ListFormat().format(allRunners)}`;
+	return [runData.game ?? "???", `By ${new Intl.ListFormat().format(allRunners)}`];
+}
+
+function breakText(text: string) {
+    // Just find the middle space
+    const spaces = text.match(/\s/g);
+    if (spaces && spaces.length > 1) {
+        const middleIndex = Math.floor(spaces.length / 2);
+        let spaceCounter = 0;
+
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] === " ") {
+                if (spaceCounter == middleIndex) {
+                    return text.substring(0, i) + "\n" + text.substring(i + 1);
+                }
+
+                spaceCounter++;
+            }
+        }
+    }
+
+    return text;
 }
 
 const TAGLINES = [
-	"Hi Mum!",
-	"Hi Dad!",
-	"Spedrn",
-	"I hope we're on time",
-	"What a great run!",
-	"Daily reminder: Speedrun is one word",
-	"Backwards Long Jumps are real! Try it!",
-	"OzSpeedruns.com also works btw",
-	"Everyone in the second row has to donate",
-	"Now watch tech do the swap over speedrun!",
-	"ausrunsGGshake",
-	"now everyone see how fast they can donate",
-	"Has someone checked in on tech yet?",
-	"crowd jumpscare",
-	"I hope game devs aren't mad at us",
-	"Is Tasmania still attached to the logo?",
-	"ACE still trying to be discovered in AusSpeedruns graphics",
-	"It would suck if we were behind schedule. Which we aren't... right?",
-	"Feed the cats!",
-	"Ohhhh ASAP I finally get it",
+	["Hi Mum!"],
+	["Hi Dad!"],
+	["Spedrn"],
+	["I hope we're on time"],
+	["What a great run!"],
+	["Daily reminder", "Speedrun is one word"],
+	// ["Backwards Long Jumps are real!", "Try it!"],
+	["Now watch tech do the swap over speedrun!"],
+	["ausrunsGGshake", "ausrunsGGshake"],
+	["Has someone checked in on tech yet?"],
+	["crowd jumpscare"],
+	["Is Tasmania still attached to the logo?"],
+	// ["ACE still trying to be discovered in AusSpeedruns graphics"],
+	["It would suck if we were behind schedule", "Which we aren't... right?"],
+	["Look ma! I'm  W I D E", "Yes, that's very nice dear."],
+	["GAME NAME", "By RUNNER NAME"],
+	["By RUNNER NAME", "GAME NAME ...wait hang on"],
 ];
+
+// fuck it we hardcode balling
+const LongGames: Record<string, string> = {
+	"Spyro 2: Ripto's Rage - Reignited": "Spyro 2:\nRipto's Rage - Reignited",
+	"Kingdom Hearts: Chain of Memories": "Kingdom Hearts:\nChain of Memories",
+	"Spyro Year of the Dragon - Reignited": "Spyro Year of the Dragon\n- Reignited",
+	"Who Wants to be a Millionaire": "Who Wants to\nbe a Millionaire",
+	"Bioshock Infinite: Burial At Sea Episode 1": "Bioshock Infinite\nBurial At Sea Episode 1"
+}
 
 export const Transition: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null);
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun | undefined>("runDataActiveRun", undefined, {
-		namespace: "nodecg-speedcontrol",
-	});
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 
 	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
-		src: "/bundles/asm-graphics/shared/design/tgx_transition.riv",
+		src: "/bundles/asm-graphics/shared/design/dh_transition.riv",
 		autoplay: false,
 		artboard: "Transition",
 	});
@@ -112,7 +136,7 @@ export const Transition: React.FC = () => {
 		normalRive?.stopRendering();
 	}, [normalRive]);
 
-	function runTransition(transition: "toIntermission" | "toGame" | "basic", _ = "") {
+	function runTransition(transition: "toIntermission" | "toGame" | "basic", specialText: string[] = []) {
 		console.log("Running");
 
 		const tl = gsap.timeline();
@@ -128,14 +152,6 @@ export const Transition: React.FC = () => {
 
 		switch (transition) {
 			case "basic":
-				if (normalRive) {
-					normalRive.startRendering();
-					normalRive.reset();
-
-					// normalRive.setTextRunValue("TransitionInformation", specialText);
-					normalRive.play("Basic");
-				}
-				break;
 			case "toIntermission":
 			case "toGame":
 			default:
@@ -143,8 +159,22 @@ export const Transition: React.FC = () => {
 					normalRive.startRendering();
 					normalRive.reset();
 
-					// normalRive.setTextRunValue("TransitionInformation", specialText);
-					normalRive.play(transition === "toIntermission" ? "G2I" : "Normal");
+					let mainText = specialText?.[0] ?? "";
+					let normalTransition = true;
+
+					if (mainText.length > 30) {
+						normalTransition = false;
+
+						if (mainText in LongGames) {
+							mainText = LongGames[mainText];
+						} else {
+							mainText = breakText(mainText);
+						}
+					}
+
+					normalRive.setTextRunValue("MainLine", mainText.toUpperCase());
+					normalRive.setTextRunValue("ByLine", specialText?.[1] ?? "");
+					normalRive.play(normalTransition ? "Transition" : "Transition SmallText");
 				}
 				break;
 		}

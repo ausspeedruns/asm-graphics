@@ -18,7 +18,6 @@ import type { Goal, War } from "@asm-graphics/types/Incentives";
 
 // import { InterCTA } from "./elements/intermission/cta";
 import { InterIncentivesMemo } from "./elements/intermission/incentives";
-import { InterIncentivesFallback } from "./elements/intermission/incentives-fallback";
 // import { InterNextRunItem, EndRunItem } from "./elements/intermission/next-run-item";
 import Mic from "@mui/icons-material/Mic";
 import { FitText } from "./elements/fit-text";
@@ -151,7 +150,7 @@ const Title = styled.div`
 `;
 
 const GameName = styled(FitText)`
-	font-weight: bold;
+	/* font-weight: bold; */
 	max-width: 80%;
 	padding: 0 10%;
 	font-size: 110px;
@@ -328,12 +327,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	const adsRef = useRef<IntermissionAdsRef>(null);
 	const incentivesRef = useRef<HTMLDivElement>(null);
 
-	const { rive: intermissionVideoRive, RiveComponent: IntermissionRive } = useRive({
-		src: "/bundles/asm-graphics/shared/design/tgx_transition.riv",
-		autoplay: false,
-		artboard: "Intermission Video",
-	});
-
 	async function getCurrentSong() {
 		const song = await fetch("https://rainwave.cc/api4/info_all?sid=2", { method: "GET" });
 		const songJson = await song.json();
@@ -396,8 +389,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					},
 				});
 				tl.to(incentivesRef.current, { opacity: 0, duration: 3 });
-				tl.call(() => adsRef.current?.showAd(ad), [], "+=2");
-				tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration}`);
+				tl.call(() => adsRef.current?.showAd(ad));
+				tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration + 3}`);
 				tl.to(
 					audioRef.current,
 					{
@@ -504,7 +497,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			<IncentivesContainer ref={incentivesRef}>
 				{props.incentives && <InterIncentivesMemo incentives={props.incentives} prizes={PRIZES} />}
 			</IncentivesContainer>
-			<IntermissionRive style={{ zIndex: 3, pointerEvents: "none" }} />
 			<IntermissionAds ref={adsRef} />
 
 			<div style={{ position: "absolute", top: 548, right: 0, height: 533, width: 932 }}>

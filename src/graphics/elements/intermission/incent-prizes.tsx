@@ -10,9 +10,9 @@ const PrizesContainer = styled.div`
 	width: 100%;
 	height: 100%;
 	display: flex;
-	/* transform: translate(-100%, 0); */
 	padding: 16px;
 	box-sizing: border-box;
+	transform: translate(-100%, 0);
 `;
 
 const PrizesPage = styled.div`
@@ -46,7 +46,7 @@ interface PrizesProps {
 }
 
 export const Prizes = React.forwardRef<TickerItemHandles, PrizesProps>((props: PrizesProps, ref) => {
-	const containerRef = useRef(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 	const prizesRefs = useRef<TickerItemHandles[]>([]);
 
 	const groupedPrizes: Prize[][] = [];
@@ -57,6 +57,7 @@ export const Prizes = React.forwardRef<TickerItemHandles, PrizesProps>((props: P
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("prizesStart");
+			tl.set(containerRef.current, { xPercent: 100 });
 			prizesRefs.current.reverse().forEach((prizeRef) => {
 				tl.add(prizeRef.animation(tl));
 			});

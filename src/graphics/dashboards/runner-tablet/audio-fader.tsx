@@ -1,7 +1,7 @@
 import { Slider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Headset } from "./headsets";
+import type { Headset } from "../../../extensions/audio-data";
 
 const AudioFaderContainer = styled.div`
 	width: 94%;

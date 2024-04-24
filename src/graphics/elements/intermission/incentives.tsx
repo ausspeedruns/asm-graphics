@@ -95,6 +95,7 @@ const MAX_INCENTIVES: number = -1;
 const TEST_RANGE: number[] = [];
 
 export const InterIncentives = (props: IncentivesProps) => {
+	const containerRef = useRef<HTMLDivElement>(null);
 	const labelsRef = useRef<HTMLDivElement>(null);
 	const incentivesRef = useRef<TickerItemHandles[]>([]);
 	const [currentPanel, setCurrentPanel] = useState(0);
@@ -115,34 +116,34 @@ export const InterIncentives = (props: IncentivesProps) => {
 			});
 	}
 
-	// allPanels = incentives.map((incentive, i) => {
-	// 	switch (incentive.type) {
-	// 		case "Goal":
-	// 			return (
-	// 				<GoalBar
-	// 					key={incentive.index}
-	// 					goal={incentive}
-	// 					ref={(el) => (el ? (incentivesRef.current[i] = el) : undefined)}
-	// 				/>
-	// 			);
+	allPanels = incentives.map((incentive, i) => {
+		switch (incentive.type) {
+			case "Goal":
+				return (
+					<GoalBar
+						key={incentive.index}
+						goal={incentive}
+						ref={(el) => (el ? (incentivesRef.current[i] = el) : undefined)}
+					/>
+				);
 
-	// 		case "War":
-	// 			return (
-	// 				<WarGame
-	// 					key={incentive.index}
-	// 					war={incentive}
-	// 					ref={(el) => (el ? (incentivesRef.current[i] = el) : undefined)}
-	// 				/>
-	// 			);
+			case "War":
+				return (
+					<WarGame
+						key={incentive.index}
+						war={incentive}
+						ref={(el) => (el ? (incentivesRef.current[i] = el) : undefined)}
+					/>
+				);
 
-	// 		default:
-	// 			return <></>;
-	// 	}
-	// });
+			default:
+				return <></>;
+		}
+	});
 
-	// allLabels = incentives.map((incentive) => {
-	// 	return { header: incentive.game, subheading: incentive.incentive };
-	// });
+	allLabels = incentives.map((incentive) => {
+		return { header: incentive.game, subheading: incentive.incentive };
+	});
 
 	// if (typeof props.asmm !== "undefined" || props.asmm == 0) {
 	// 	allPanels.push(
@@ -159,7 +160,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 		allPanels.push(
 			<Prizes
 				key="ASMPrizes"
-				ref={(el) => (el ? (incentivesRef.current[allPanels.length] = el) : undefined)}
+				ref={(el) => (el ? (incentivesRef.current[10] = el) : undefined)}
 				prizes={props.prizes}
 			/>,
 		);
@@ -167,25 +168,17 @@ export const InterIncentives = (props: IncentivesProps) => {
 		allLabels.push({ header: "Prizes", subheading: "AUS Only" });
 	}
 
-	// Upcoming runs
-
 	// Socials
-	allPanels.push(
-		<Socials
-			key="ASMSocials"
-			ref={(el) => (el ? (incentivesRef.current[allPanels.length] = el) : undefined)}
-		/>,
-	);
+	allPanels.push(<Socials key="ASMSocials" ref={(el) => (el ? (incentivesRef.current[15] = el) : undefined)} />);
 
 	allLabels.push({ header: "Our Socials", subheading: "Follow us to stay up to date!" });
 
 	// Event Photos
-	console.log(allPanels.length);
-	allPanels.push(
-		<Photos key="ASMPhotos" ref={(el) => (el ? (incentivesRef.current[allPanels.length] = el) : undefined)} />,
-	);
+	if (allPanels.length < 5) {
+		allPanels.push(<Photos key="ASMPhotos" ref={(el) => (el ? (incentivesRef.current[20] = el) : undefined)} />);
 
-	allLabels.push({ header: "ASDH 2024 Photos" });
+		allLabels.push({ header: "ASDH 2024 Photos" });
+	}
 
 	const showContent = (element: TickerItemHandles) => {
 		const tl = gsap.timeline();
@@ -196,31 +189,33 @@ export const InterIncentives = (props: IncentivesProps) => {
 	const runLoop = useCallback(() => {
 		const localTl = gsap.timeline({ onComplete: runLoop });
 
-		console.log(incentivesRef.current);
-		incentivesRef.current.forEach((incentiveEl, i) => {
+		const usablePanels = incentivesRef.current.filter((item) => item !== undefined);
+		usablePanels.forEach((incentiveEl, i) => {
 			localTl.add(showContent(incentiveEl));
 
-			if (incentivesRef.current.filter((item) => item !== undefined).length > 1) {
-				localTl.to(labelsRef.current, { xPercent: 100, duration: 1 }, "-=0.5");
-				localTl.add(() => {
-					setCurrentPanel((i + 1) % incentivesRef.current.length);
-				});
-				localTl.set(labelsRef.current, { xPercent: -100 });
-				localTl.to(labelsRef.current, { xPercent: 0, duration: 1 });
-			}
+			localTl.to(labelsRef.current, { xPercent: 100, duration: 1 }, "-=0.5");
+			localTl.add(() => {
+				setCurrentPanel((i + 1) % usablePanels.length);
+			});
+			localTl.set(labelsRef.current, { xPercent: -100 });
+			localTl.to(labelsRef.current, { xPercent: 0, duration: 1 });
 		});
 
 		localTl.play();
 	}, []);
 
+	useGSAP(() => {
+		gsap.fromTo(containerRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.6 });
+	}, []);
+
 	useEffect(() => {
 		gsap.defaults({ ease: "power2.inOut" });
-		const timer = setTimeout(runLoop, 1000);
+		const timer = setTimeout(runLoop, 500);
 		return () => clearTimeout(timer);
 	}, [runLoop]);
 
 	return (
-		<InterIncentivesContainer>
+		<InterIncentivesContainer ref={containerRef}>
 			<PanelContainer>{allPanels}</PanelContainer>
 			<CurrentPanel>
 				<PipsContainer>
@@ -229,8 +224,8 @@ export const InterIncentives = (props: IncentivesProps) => {
 					})}
 				</PipsContainer>
 				<CurrentLabels ref={labelsRef}>
-					<MainLabel text={allLabels[currentPanel].header} />
-					{allLabels[currentPanel].subheading && <Subheading text={allLabels[currentPanel].subheading} />}
+					<MainLabel text={allLabels[currentPanel]?.header} />
+					{allLabels[currentPanel]?.subheading && <Subheading text={allLabels[currentPanel].subheading} />}
 				</CurrentLabels>
 			</CurrentPanel>
 		</InterIncentivesContainer>

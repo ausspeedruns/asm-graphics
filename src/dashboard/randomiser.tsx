@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import { Checkbox, FormControlLabel, FormGroup, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { SM64MovementAbilities } from "extensions/sm64-rando";
-import { useReplicant } from "use-nodecg";
+import { useReplicant } from "@nodecg/react-hooks";
 import { styled } from "styled-components";
 
 const CheckboxGrid = styled.div`
@@ -18,7 +18,7 @@ function camelCaseToWords(s: string) {
 }
 
 export const DashRandomiserControl: React.FC = () => {
-	const [sm64RandoRep] = useReplicant<SM64MovementAbilities | undefined>("rando:sm64-movement", undefined);
+	const [sm64RandoRep] = useReplicant<SM64MovementAbilities>("rando:sm64-movement");
 
 	function handleChange(item: string, checked: boolean) {
 		if (checked) {

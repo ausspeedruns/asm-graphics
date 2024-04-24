@@ -13,7 +13,7 @@ const PhotosContainer = styled.div`
 	width: 100%;
 	height: 100%;
 	display: flex;
-	/* transform: translate(-100%, 0); */
+	transform: translate(-100%, 0);
 	padding: 16px;
 	box-sizing: border-box;
 	flex-direction: column;
@@ -34,17 +34,20 @@ const EventPhoto = styled.img`
 	height: 380px;
 	width: auto;
 	object-fit: contain;
+	margin: 0 -1px;
 `;
 
 const NUMBER_OF_PHOTOS = 5;
 
 export const Photos = React.forwardRef<TickerItemHandles>((_, ref) => {
+	const containerRef = useRef<HTMLDivElement>(null);
 	const photosRef = useRef<HTMLDivElement>(null);
 	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
-			tl.fromTo(photosRef.current, { xPercent: -210 }, { xPercent: 210, duration: 20, ease: "none" });
+			tl.set(containerRef.current, { xPercent: 100 });
+			tl.fromTo(photosRef.current, { xPercent: -210 }, { xPercent: 210, duration: 30, ease: "none" });
 			return tl;
 		},
 	}));
@@ -61,7 +64,7 @@ export const Photos = React.forwardRef<TickerItemHandles>((_, ref) => {
 	const randomPhotos = getRandomPhotos();
 
 	return (
-		<PhotosContainer>
+		<PhotosContainer ref={containerRef}>
 			<EventPhotos ref={photosRef}>
 				{randomPhotos.map((photo, index) => (
 					<EventPhoto key={index} src={photo.url} />
