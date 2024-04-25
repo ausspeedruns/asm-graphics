@@ -203,7 +203,7 @@ export const RTAudio = (props: Props) => {
 						mixBus={mixBus}
 						channel={HostHeadset.micInput}
 						value={faderValues[mixBus]?.[HostHeadset.micInput]}
-						onChange={(float) => handleFaderChange(float, mixBus, 0)}
+						onChange={(float) => handleFaderChange(float, mixBus, HostHeadset.micInput)}
 						colour={"#000"}
 					/>
 					<CategoryName>Commentary</CategoryName>

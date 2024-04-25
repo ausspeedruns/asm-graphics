@@ -46,7 +46,7 @@ export const PRIZES: Prize[] = [
 	{
 		item: "Game On Cancer",
 		subItem: "Swag Bag",
-		quantity: 1,
+		quantity: 3,
 		requirement: "Super Monkey\nBall Winners",
 		requirementSubheading: "DH Only",
 	},

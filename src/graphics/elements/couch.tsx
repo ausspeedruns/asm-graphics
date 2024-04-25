@@ -19,6 +19,7 @@ const MenuBar = styled.div`
 	justify-content: center;
 	width: 100%;
 	color: var(--text-light);
+	font-family: var(--secondary-font);
 	font-size: 25px;
 `;
 

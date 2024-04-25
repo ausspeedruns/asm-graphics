@@ -39,7 +39,7 @@ const TextContainer = styled.div`
 `;
 
 const Name = styled.div`
-	font-family: var(--secondary-font);
+	font-family: var(--main-font);
 	font-size: 42px;
 	line-height: 42px;
 	white-space: nowrap;
@@ -47,7 +47,7 @@ const Name = styled.div`
 `;
 
 const Subtitle = styled.div`
-	font-family: var(--main-font);
+	font-family: var(--secondary-font);
 	font-size: 34px;
 	line-height: 34px;
 	white-space: nowrap;
@@ -101,7 +101,7 @@ const IndigenousFlagsImage = styled.img`
 `;
 
 const AcknowledgementText = styled.div`
-	font-family: var(--main-font);
+	font-family: var(--secondary-font);
 	font-size: 29px;
 	padding: 0 24px;
 	text-align: justify;

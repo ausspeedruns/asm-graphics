@@ -209,7 +209,8 @@ export const Credits: React.FC = () => {
 				<Title>Special Thanks</Title>
 				<NameContainer>
 					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
-					<NameWithRoles>The Game Expo</NameWithRoles>
+					<NameWithRoles>DreamHack</NameWithRoles>
+					<NameWithRoles>ESL</NameWithRoles>
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
 					</NameWithRoles>

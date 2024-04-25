@@ -47,7 +47,7 @@ const RunnerNameDivider = styled.div`
 `;
 
 export const Facecam = (props: FacecamProps) => {
-	const [swapRunnerMics] = useReplicant<boolean>("x32:swap-runner-mics", false);
+	const [swapRunnerMics] = useReplicant<boolean>("x32:swap-runner-mics");
 
 	const allRunnerNames: JSX.Element[] = [];
 

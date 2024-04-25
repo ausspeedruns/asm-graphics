@@ -67,7 +67,7 @@ const PronounBox = styled.div<NameplateStyleProps>`
 	font-weight: 400;
 	font-size: 20px;
 	text-transform: uppercase;
-	color: var(--text-dark);
+	color: var(--text-light);
 	padding: 0 8px;
 	height: 100%;
 	display: flex;
@@ -143,7 +143,7 @@ export const Nameplate = (props: Props) => {
 					<TwitchLogoImg src={TwitchLogo} />
 
 					<div>
-						<NormalName style={{ maxWidth: maxWidth - 45 }} text={props.player.social.twitch || ""} />
+						<NormalName style={{ maxWidth: maxWidth - 45 }} text={props.player.social.twitch ?? ""} />
 					</div>
 				</TwitchDiv>
 			</Names>

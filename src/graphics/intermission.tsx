@@ -82,6 +82,7 @@ const Music = styled.div`
 	text-align: center;
 	display: flex;
 	justify-content: flex-end;
+	font-family: var(--secondary-font);
 `;
 
 const MusicLabel = styled.div`
