@@ -136,6 +136,7 @@ export const HostDash: React.FC = () => {
 			nodecg.sendMessage("x32:setFader", { mixBus: 5, float: hostLevelRep ?? 0, channel: 5 });
 			nodecg.sendMessage("x32:setFader", { mixBus: 7, float: hostLevelRep ?? 0, channel: 5 });
 			nodecg.sendMessage("x32:setFader", { mixBus: 9, float: hostLevelRep ?? 0, channel: 5 });
+			nodecg.sendMessage("x32:setFader", { mixBus: 13, float: hostLevelRep ?? 0, channel: 5 });
 			setMuted(false);
 		} else {
 			nodecg.sendMessage("x32:setFader", { mixBus: 0, float: 0, channel: 5 });
@@ -144,6 +145,7 @@ export const HostDash: React.FC = () => {
 			nodecg.sendMessage("x32:setFader", { mixBus: 5, float: 0, channel: 5 });
 			nodecg.sendMessage("x32:setFader", { mixBus: 7, float: 0, channel: 5 });
 			nodecg.sendMessage("x32:setFader", { mixBus: 9, float: 0, channel: 5 });
+			nodecg.sendMessage("x32:setFader", { mixBus: 13, float: 0, channel: 5 });
 			setMuted(true);
 		}
 	}
