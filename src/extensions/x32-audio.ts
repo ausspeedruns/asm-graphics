@@ -169,9 +169,9 @@ nodecg.listenFor("transition:toIRL", () => {
 	loopAllX32((channel, mixBus) => {
 		// Don't even attempt to mute the channels since sometimes it gets lost
 		if (channel === HandheldMicChannel && mixBus <= 1) {
-			x32.unmuteChannel(channel, mixBus);
+			fadeUnmute(channel, mixBus);
 		} else {
-			x32.muteChannel(channel, mixBus);
+			fadeMute(channel, mixBus);
 		}
 	});
 });

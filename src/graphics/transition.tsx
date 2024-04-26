@@ -119,7 +119,7 @@ export const Transition: React.FC = () => {
 
 	useListenFor("transition:toIRL", () => {
 		console.log("Transitioning");
-		runTransition("basic");
+		runTransition("basic", runString(runDataActiveRep));
 	});
 
 	useListenFor("transition:toGame", () => {

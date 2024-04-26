@@ -42,10 +42,14 @@ obs.on("SceneTransitionStarted", async () => {
 			transitionFromIntermission(toScene, currentScene);
 			break;
 		case "IRL":
+			transitionFromIntermission(toScene, currentScene);
+			break;
 		case "ASNN":
 		// Future ;)
 		case "Unknown":
 		default:
+			ncgLog.info("Unknown transition");
+			transitionFromIntermission(toScene, currentScene);
 			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: currentScene });
 			break;
 	}
