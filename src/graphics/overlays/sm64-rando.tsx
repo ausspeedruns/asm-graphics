@@ -31,7 +31,7 @@ const Sidebar = styled.div`
 	top: 140px;
 	height: 876px;
 	width: 757px;
-	border-right: 1px solid var(--tgx-green);
+	border-right: 1px solid var(--dh-red);
 	z-index: -1;
 	overflow: hidden;
 `;

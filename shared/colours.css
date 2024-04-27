@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	--main: var(--dh-main);
 	--nameplate: var(--dh-main);
-	--nameplate-lighter: #222222;
+	--nameplate-lighter: #353535;
 	--sec: var(--dh-red);
 	--accent: var(--dh-red);
 

@@ -23,6 +23,7 @@ const TickerGoalsContainer = styled.div`
 	transform: translate(0, -64px);
 	overflow: hidden;
 	z-index: 2;
+	font-family: var(--secondary-font);
 `;
 
 const MultiGoalContainer = styled.div`
@@ -44,7 +45,8 @@ const GoalElement = styled.div`
 const Name = styled(FitText)`
 	font-size: 20px;
 	max-width: 200px;
-	font-weight: bold;
+	/* font-weight: bold; */
+	font-family: var(--main-font);
 `;
 
 const Expiration = styled(FitText)`
@@ -152,7 +154,7 @@ export const TickerDonationMatches = React.forwardRef<TickerItemHandles, Props>(
 
 	return (
 		<TickerGoalsContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--tgx-red)" }}>
+			<TickerTitle style={{ background: "var(--dh-red)" }}>
 				Donation
 				<br />
 				Matches

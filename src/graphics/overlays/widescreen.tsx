@@ -31,7 +31,7 @@ const Sidebar = styled.div`
 	top: 156px;
 	height: 860px;
 	width: 479px;
-	border-right: 1px solid var(--tgx-green);
+	border-right: 1px solid var(--dh-red);
 	z-index: -1;
 	overflow: hidden;
 `;
@@ -124,7 +124,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					/>
 					<img
 						src={WidescreenBottom}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
+						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover", marginTop: -5 }}
 					/>
 					<img src={DreamhackLogo} style={{ width: "80%", position: "absolute", bottom: 200 }} />
 					<Couch

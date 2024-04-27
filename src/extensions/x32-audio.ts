@@ -29,8 +29,9 @@ setInterval(() => {
 }, 200);
 
 function updateAudioIndicator(float: number, mic: (typeof Headsets)[number]) {
-	// console.log(`${mic} ${X32.floatToDB(float)} ${X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75)} ${X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.channel] ?? 0.75) >= microphoneGate2Rep.value}`);
-	const active = X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.micInput] ?? 0.75) >= microphoneGateRep.value;
+	const microphoneGateDB = X32.floatToDB(microphoneGateRep.value);
+	// console.log(`${mic.name} ${X32.floatToDB(float)} + ${X32.floatToDB(faderValues[0]?.[mic.micInput] ?? 0.75)} (${X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.micInput] ?? 0.75)}) >= ${microphoneGateDB} = ${X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.micInput] ?? 0.75) >= microphoneGateDB}`);
+	const active = X32.floatToDB(float) + X32.floatToDB(faderValues[0]?.[mic.micInput] ?? 0.75) >= microphoneGateDB;
 	x32AudioActivityRep.value[mic.name] = active;
 }
 

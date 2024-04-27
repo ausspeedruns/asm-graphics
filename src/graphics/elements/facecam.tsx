@@ -38,7 +38,7 @@ interface FacecamProps {
 }
 
 const NAMEPLATE_HEIGHT = 41;
-const NAMEPLATE_HEIGHT_VERTICAL = 61;
+const NAMEPLATE_HEIGHT_VERTICAL = 69;
 
 const RunnerNameDivider = styled.div`
 	background: var(--sec);
