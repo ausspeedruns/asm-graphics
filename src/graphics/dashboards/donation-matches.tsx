@@ -23,7 +23,11 @@ export const DonationMatches: React.FC<Props> = (props: Props) => {
 	const reversedMatches = [...donationMatchesRep ?? []].reverse();
 
 	const allDonationMatches = reversedMatches.map((donationMatch) => {
-		return <DonationMatch key={donationMatch.id} active={donationMatch.endsAt > Date.now()} donationMatch={donationMatch} />;
+		if (donationMatch.endsAt > Date.now()) {
+			return <DonationMatch key={donationMatch.id} active={donationMatch.endsAt > Date.now()} donationMatch={donationMatch} />;
+		}
+
+		return <></>;
 	});
 
 	return <DonationMatchesContainer style={props.style}>{allDonationMatches}</DonationMatchesContainer>;

@@ -32,18 +32,6 @@ export const PRIZES: Prize[] = [
 		requirementSubheading: DONATION_SUBHEADING,
 	},
 	{
-		item: "Turtle Beach Recon 200 gen 2",
-		quantity: 2,
-		requirement: "Sonic 3\nWinners",
-		requirementSubheading: "DH Only",
-	},
-	{
-		item: "Quokka Gift Card",
-		quantity: 1,
-		requirement: "Crash Team\nRacing Winner",
-		requirementSubheading: "DH Only",
-	},
-	{
 		item: "Game On Cancer",
 		subItem: "Swag Bag",
 		quantity: 3,
