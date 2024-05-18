@@ -18,6 +18,7 @@ const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant(
 
 nodecg.listenFor("update-host", (host) => {
 	Log.info(`Updating host ${host.name}`);
+	host.tag = "Host";
 	hostRep.value = host;
 });
 

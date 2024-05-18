@@ -27,4 +27,5 @@ export type Commentator = {
 	teamId?: string;
 	isRunner?: boolean;
 	microphone?: string;
+	tag?: string;
 };

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useReplicant } from "@nodecg/react-hooks";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
-import { Accordion, AccordionDetails, AccordionSummary, Button, ThemeProvider } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 
 const StatusContainer = styled.div`
@@ -71,12 +71,10 @@ function determineSceneType(scene: string | undefined) {
 }
 
 export const Status: React.FC = () => {
-	const [techReadyRep] = useReplicant<boolean>("tech:ready");
 	const [x32StatusRep] = useReplicant<ConnectionStatus>("x32:status");
 	const [obsStatusRep] = useReplicant<ConnectionStatus>("obs:status");
 	const [obsCurrentSceneRep] = useReplicant<string>("obs:currentScene");
 
-	const techReadyInfo = connectionStatusStyle(techReadyRep ?? "disconnected");
 	const x32StatusInfo = connectionStatusStyle(x32StatusRep ?? "disconnected");
 	const obsStatusInfo = connectionStatusStyle(obsStatusRep ?? "disconnected");
 
@@ -110,18 +108,6 @@ export const Status: React.FC = () => {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<StatusContainer>
-				<Header noBorder>Tech</Header>
-				<ConnectionStatus style={{ backgroundColor: techReadyInfo.colour }}>
-					{techReadyInfo.text}
-				</ConnectionStatus>
-				<div style={{ display: "flex" }}>
-					<Button variant="contained" onClick={() => nodecg.sendMessage("tech:setNotReady")} fullWidth>
-						Unready
-					</Button>
-					<Button variant="contained" onClick={() => nodecg.sendMessage("tech:setReady")} fullWidth>
-						Ready
-					</Button>
-				</div>
 				<Header>OBS</Header>
 				<ConnectionStatus style={{ backgroundColor: obsStatusInfo.colour }}>
 					{obsStatusInfo.text}

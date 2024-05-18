@@ -132,6 +132,8 @@ If you have [nodecg-cli](https://github.com/nodecg/nodecg-cli) installed just ru
 
 ## Events used in
 
+- ASM2024
+- ASDH2024
 - ASGX2024
 - PAX2023
 - ASM2023

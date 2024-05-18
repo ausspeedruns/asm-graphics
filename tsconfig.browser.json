@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"jsx": "react",
+		"jsx": "react-jsx",
 		"strict": true,
 		// "noEmit": true,
 		"noUnusedLocals": true,

@@ -68,7 +68,6 @@ export const Couch: React.FC<Props> = (props: Props) => {
 			</MenuBar>
 			<PeopleContainer>
 				{props.commentators.map((person) => {
-					// console.log(props.audio?.[person.microphone ?? '']);
 					if (person.name === "") {
 						return <></>;
 					}
@@ -85,7 +84,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 						key={"Host"}
 						commentator={props.host}
 						speaking={props.audio?.["Host"]}
-						host={label !== "Host"}
+						noTag={label === "Host"}
 					/>
 				)}
 			</PeopleContainer>
@@ -126,6 +125,11 @@ interface SpeakingProps {
 	speaking?: boolean;
 }
 
+const Tag = styled.span`
+	font-weight: bold;
+	margin-right: 4px;
+`;
+
 const Name = styled.span`
 	/* font-family: var(--secondary-font); */
 	font-family: var(--main-font);
@@ -144,7 +148,7 @@ const Pronouns = styled.div`
 interface PersonCompressedProps {
 	commentator: Commentator;
 	speaking?: boolean;
-	host?: boolean;
+	noTag?: boolean;
 	style?: React.CSSProperties;
 }
 
@@ -154,7 +158,7 @@ export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 			<SpeakingColour speaking={props.speaking} />
 			<Name>{props.commentator.name}</Name>
 			<Pronouns>
-				<span style={{ fontWeight: "bold" }}>{props.host && "Host "}</span>
+				{!props.noTag && <Tag>{props.commentator.tag}</Tag>}
 				{props.commentator.pronouns}
 			</Pronouns>
 		</PersonCompressedContainer>
