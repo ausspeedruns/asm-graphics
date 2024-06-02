@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { HashRouter as Router, Route, Link, Routes } from "react-router-dom";
@@ -71,13 +71,21 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
+	// Disable runner audio indicator if they are the only runner and there isn't another commentator (except Host)
+	const mutableMicAudioIndicator = _.clone(microphoneAudioIndicatorRep);
+	if (mutableMicAudioIndicator && commentatorsRep?.length == 0 && runDataActiveRep?.teams.flatMap(team => team.players).length == 1) {
+		const runner = runDataActiveRep?.teams.flatMap(team => team.players)[0];
+
+		mutableMicAudioIndicator[runner.customData.microphone] = false;
+	}
+
 	const overlayArgs: OverlayProps = {
 		runData: displayingRun,
 		timer: timerRep,
 		commentators: commentatorsRep ?? [],
 		preview: props.preview,
 		sponsors: sponsorsRep ?? [],
-		microphoneAudioIndicator: microphoneAudioIndicatorRep,
+		microphoneAudioIndicator: mutableMicAudioIndicator,
 		host: hostRep,
 		gameAudioIndicator: gameAudioIndicatorRep ?? -1,
 	};

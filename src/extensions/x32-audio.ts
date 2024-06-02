@@ -1,11 +1,10 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 import X32 from "./util/x32";
 
-import { x32StatusRep, x32BusFadersRep, x32AudioActivityRep, microphoneGateRep, gameAudioActiveRep } from "./replicants";
+import { x32StatusRep, x32BusFadersRep, x32AudioActivityRep, microphoneGateRep, gameAudioActiveRep, hostLevelRep } from "./replicants";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "@nodecg/types";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
 import _ from "underscore";
 
 import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data";
@@ -73,6 +72,46 @@ function fadeMute(channel: number, mixBus: number, force = false) {
 		// Mute
 		x32.fade(channel, mixBus, faderValues[0]?.[channel], 0, 1500);
 	}
+}
+
+let previousHostMicVolume: number[] = [];
+
+function setHostMute(active: boolean) {
+	const value = active ? hostLevelRep.value : 0;
+
+	x32.setFaderLevel(HostHeadset.micInput, 0, value);
+	x32.setFaderLevel(HostHeadset.micInput, 1, value);
+	x32.setFaderLevel(HostHeadset.micInput, 3, value);
+	x32.setFaderLevel(HostHeadset.micInput, 5, value);
+	x32.setFaderLevel(HostHeadset.micInput, 7, value);
+	x32.setFaderLevel(HostHeadset.micInput, 9, value);
+	x32.setFaderLevel(HostHeadset.micInput, 13, value);
+}
+
+let previousHostCouchVolume: number[] = [];
+
+function setHostCouchActive(active: boolean) {
+	let volume: number[] = [];
+	if (active) {
+		volume = previousHostCouchVolume;
+	} else {
+		previousHostCouchVolume = faderValues[HostHeadset.mixBus];
+		for (let i = 0; i < 16; i++) {
+			volume[i] = 0;
+		}
+	}
+
+	// Commentators
+	x32.setFaderLevel(1, HostHeadset.mixBus, volume[1]);
+	x32.setFaderLevel(2, HostHeadset.mixBus, volume[2]);
+	x32.setFaderLevel(3, HostHeadset.mixBus, volume[3]);
+	x32.setFaderLevel(4, HostHeadset.mixBus, volume[4]);
+
+	// Game
+	x32.setFaderLevel(9, HostHeadset.mixBus, volume[9]);
+	x32.setFaderLevel(11, HostHeadset.mixBus, volume[11]);
+	x32.setFaderLevel(13, HostHeadset.mixBus, volume[13]);
+	x32.setFaderLevel(15, HostHeadset.mixBus, volume[15]);
 }
 
 //#region X32 Events
@@ -152,16 +191,6 @@ nodecg.listenFor("transition:toIntermission", () => {
 		32,
 		1,
 	);
-
-	// Reset audio levels on runner audio
-	// loopAllX32(
-	// 	(channel, mixBus) => {
-	// 		if (mixBus <= 1) return;
-	// 		x32.setFaderLevel(channel, mixBus, 0.75);
-	// 	},
-	// 	32,
-	// 	5
-	// );
 });
 
 // On transition to IRL scene
@@ -221,4 +250,20 @@ nodecg.listenFor("x32:changeGameAudio", (channelIndex) => {
 		x32.fade(gameChannelIndex, 1, 0, highestSpeakerFaderVal, 1500);
 		gameAudioActiveRep.value = channelIndex;
 	}, 1500);
+});
+
+nodecg.listenFor("x32:mute-host", () => {
+	setHostMute(false);
+});
+
+nodecg.listenFor("x32:unmute-host", () => {
+	setHostMute(true);
+});
+
+nodecg.listenFor("x32:host-mute-couch", () => {
+	setHostCouchActive(false);
+});
+
+nodecg.listenFor("x32:host-unmute-couch", () => {
+	setHostCouchActive(true);
 });

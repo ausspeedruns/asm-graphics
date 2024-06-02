@@ -1,11 +1,9 @@
-import React from "react";
 import styled from "styled-components";
 import { AudioIndicator } from "@asm-graphics/types/Audio";
 
 import { RunDataTeam } from "@asm-graphics/types/RunData";
 
 import { Nameplate } from "./nameplate";
-import { useReplicant } from "@nodecg/react-hooks";
 
 const nodecgConfig = nodecg.bundleConfig;
 
@@ -47,8 +45,6 @@ const RunnerNameDivider = styled.div`
 `;
 
 export const Facecam = (props: FacecamProps) => {
-	const [swapRunnerMics] = useReplicant<boolean>("x32:swap-runner-mics");
-
 	const allRunnerNames: JSX.Element[] = [];
 
 	if (!props.teams) {
@@ -101,13 +97,6 @@ export const Facecam = (props: FacecamProps) => {
 
 				team.players.forEach((player) => {
 					let correctMic = player.customData.microphone;
-					if (swapRunnerMics) {
-						if (correctMic === "Mario Red") {
-							correctMic = "Sonic Blue";
-						} else if (correctMic === "Sonic Blue") {
-							correctMic = "Mario Red";
-						}
-					}
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {

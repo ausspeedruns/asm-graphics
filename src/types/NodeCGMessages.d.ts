@@ -61,6 +61,10 @@ export type NodeCGMessages = {
 	// X32 Audio
 	"x32:setFader": { mixBus: number; float: number; channel: number };
 	"x32:changeGameAudio": number;
+	"x32:mute-host": never;
+	"x32:unmute-host": never;
+	"x32:host-mute-couch": never;
+	"x32:host-unmute-couch": never;
 	// Twitter
 	"newTweet": Tweet;
 	"discardTweet": string;

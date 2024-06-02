@@ -3,17 +3,7 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 
-import {
-	Paper,
-	IconButton,
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Snackbar,
-} from "@mui/material";
+import { Paper, IconButton, Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from "@mui/material";
 import { Close, Refresh, Update } from "@mui/icons-material";
 import { format } from "date-fns";
 
@@ -61,13 +51,49 @@ const TotalBox = styled(Paper)`
 	}
 `;
 
+const AdProgressBarContainer = styled.div`
+	width: 100%;
+	height: 20px;
+	position: relative;
+
+	display: flex;
+	justify-content: center;
+	background-color: gray;
+`;
+
+const AdProgressBar = styled.div`
+	width: 100%;
+	background-color: red;
+
+	animation: progressBarAnimation;
+	animation-timing-function: linear;
+	animation-duration: 15s;
+
+	@keyframes progressBarAnimation {
+		0% {
+			width: 100%;
+		}
+		100% {
+			width: 0%;
+		}
+	}
+`;
+
+const AdProgressBarLabel = styled.div`
+	position: absolute;
+	text-align: center;
+	white-space: nowrap;
+	font-weight: bold;
+	color: white;
+`;
+
 export const HostDash: React.FC = () => {
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
+	const adProgressBarRef = useRef<HTMLDivElement>(null);
 	const [donationTotalRep] = useReplicant<number>("donationTotal");
 	const [donationsRep] = useReplicant<Donation[]>("donations");
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [incentivesUpdatedRep] = useReplicant<number>("incentives:updated-at", undefined);
-	const [hostLevelRep] = useReplicant<number>("x32:host-level");
 
 	const [currentTime, setCurrentTime] = useState("00:00:00");
 	const [showScript, setShowScript] = useState(false);
@@ -75,6 +101,8 @@ export const HostDash: React.FC = () => {
 	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
 	const [copyNotification, setCopyNotification] = useState(false);
 	const [muted, setMuted] = useState(true);
+	const [couchMuted, setCouchMuted] = useState(false);
+	const [playingAd, setPlayingAd] = useState<number | undefined>();
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -127,27 +155,32 @@ export const HostDash: React.FC = () => {
 		setCopyNotification(false);
 	};
 
-	// TODO Clean this shizz up
+	function playAd(ad: string, length: number) {
+		const adLength = length + 10;
+
+		setPlayingAd(adLength);
+		nodecg.sendMessage("playAd", ad);
+
+		setTimeout(() => {
+			setPlayingAd(undefined);
+		}, adLength * 1000); // 10 to account for transition into ad
+	}
+
+	useEffect(() => {
+		if (!adProgressBarRef.current) return;
+
+		console.log(adProgressBarRef.current.style.animationDuration, playingAd);
+		adProgressBarRef.current.style.animationDuration = `${playingAd}s`;
+	}, [adProgressBarRef.current, playingAd]);
+
 	function muteOrUnmute() {
-		if (muted) {
-			nodecg.sendMessage("x32:setFader", { mixBus: 0, float: hostLevelRep ?? 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 1, float: hostLevelRep ?? 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 3, float: hostLevelRep ?? 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 5, float: hostLevelRep ?? 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 7, float: hostLevelRep ?? 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 9, float: hostLevelRep ?? 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 13, float: hostLevelRep ?? 0, channel: 5 });
-			setMuted(false);
-		} else {
-			nodecg.sendMessage("x32:setFader", { mixBus: 0, float: 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 1, float: 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 3, float: 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 5, float: 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 7, float: 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 9, float: 0, channel: 5 });
-			nodecg.sendMessage("x32:setFader", { mixBus: 13, float: 0, channel: 5 });
-			setMuted(true);
-		}
+		setMuted(!muted);
+		nodecg.sendMessage(muted ? "x32:unmute-host" : "x32:mute-host");
+	}
+
+	function muteOrUnmuteCouch() {
+		setCouchMuted(!couchMuted);
+		nodecg.sendMessage(couchMuted ? "x32:unmute-host" : "x32:mute-host");
 	}
 
 	return (
@@ -170,6 +203,12 @@ export const HostDash: React.FC = () => {
 					{currentTime}
 				</span>
 			</TopBar>
+			{playingAd && (
+				<AdProgressBarContainer>
+					<AdProgressBar ref={adProgressBarRef} />
+					<AdProgressBarLabel>Advert Playing</AdProgressBarLabel>
+				</AdProgressBarContainer>
+			)}
 			<div
 				style={{
 					display: "flex",
@@ -194,7 +233,7 @@ export const HostDash: React.FC = () => {
 						<Timer />
 					</Paper>
 					<Paper style={{ height: "49%", overflow: "hidden" }}>
-						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASDH2024/schedule" />
+						<Header text="Upcoming Runs" url="https://ausspeedruns.com/ASM2024/schedule" />
 						<Upcoming style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden" }} />
 					</Paper>
 				</div>
@@ -207,13 +246,19 @@ export const HostDash: React.FC = () => {
 						height: "100%",
 						flexBasis: "33%",
 					}}>
-					<div style={{ display: "flex", height: 75 }}>
+					<div style={{ display: "flex", height: 75, gap: 4 }}>
 						<Button
 							fullWidth
 							color={muted ? "error" : "success"}
 							onClick={muteOrUnmute}
 							variant="contained">
 							{muted ? "UNMUTE" : "Mute"}
+						</Button>
+						<Button
+							color={couchMuted ? "error" : "success"}
+							onClick={muteOrUnmuteCouch}
+							variant="contained">
+							{couchMuted ? "Unmute Couch" : "Mute Couch"}
 						</Button>
 					</div>
 					<TotalBox>${((donationTotalRep ?? 0) + (manualDonationRep ?? 0)).toLocaleString()}</TotalBox>
@@ -266,29 +311,27 @@ export const HostDash: React.FC = () => {
 			<Dialog open={showScript} onClose={hideDialog}>
 				<DialogTitle id="alert-dialog-title">{"Example charity script"}</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
-						<div>
-							<p>Video Ads</p>
-							<Button variant="outlined" onClick={() => nodecg.sendMessage("playAd", "GOC")}>
-								Game On Cancer (36 seconds)
-							</Button>
-						</div>
-						<hr />
-						<br />
-						&quot;We are AusSpeedruns, a group doing speedrun events to raise money for charity. For this
-						event we&apos;re raising money for Game on Cancer, a charity which funds early-career cancer
-						researchers who are working across all areas of cancer research. If you&apos;d like to donate,
-						you can go to donate.ausspeedruns.com&quot;
-						<br />
-						<br />
-						(While doing this, if someone else hasn&apos;t, would recommend typing !donate in chat to
-						trigger the bot to post the link in chat)
-						<br />
-						<br />
-						Remember, this is just a guide, so slight modifications to feel more natural to you is fine (in
-						fact, encouraged).
-						<br />
-					</DialogContentText>
+					<div>
+						<p>Video Ads</p>
+						<Button variant="outlined" onClick={() => playAd("GOC", 36)}>
+							Game On Cancer (36 seconds)
+						</Button>
+					</div>
+					<hr />
+					<br />
+					&quot;We are AusSpeedruns, a group doing speedrun events to raise money for charity. For this event
+					we&apos;re raising money for Game on Cancer, a charity which funds early-career cancer researchers
+					who are working across all areas of cancer research. If you&apos;d like to donate, you can go to
+					donate.ausspeedruns.com&quot;
+					<br />
+					<br />
+					(While doing this, if someone else hasn&apos;t, would recommend typing !donate in chat to trigger
+					the bot to post the link in chat)
+					<br />
+					<br />
+					Remember, this is just a guide, so slight modifications to feel more natural to you is fine (in
+					fact, encouraged).
+					<br />
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={hideDialog} color="primary">

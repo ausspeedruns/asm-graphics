@@ -82,6 +82,7 @@ export const obsStatusRep = nodecg.Replicant<ConnectionStatus>("obs:status", {
 	persistent: false,
 });
 export const obsCurrentSceneRep = nodecg.Replicant<string>("obs:currentScene", { defaultValue: "Intermission" });
+export const obsStreamTimecode = nodecg.Replicant<string | undefined>("obs:streamTimecode", { defaultValue: undefined });
 
 /* Credits */
 export const lowerThirdNameRep = nodecg.Replicant<{ name: string; title: string }>("credits-name", {

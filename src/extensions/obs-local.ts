@@ -1,5 +1,5 @@
 import * as nodecgApiContext from "./nodecg-api-context";
-import { obsCurrentSceneRep } from "./replicants";
+import { obsCurrentSceneRep, obsStreamTimecode } from "./replicants";
 import obs from "./util/obs";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
@@ -11,6 +11,8 @@ type SceneType = "Gameplay" | "Intermission" | "IRL" | "ASNN" | "Unknown";
 
 let previewScene: string;
 let programScene: string;
+
+let streamStatusGetter: string | number | NodeJS.Timeout | undefined;
 
 obs.on("CurrentPreviewSceneChanged", ({ sceneName }) => {
 	previewScene = sceneName;
@@ -25,6 +27,13 @@ obs.on("Identified", async () => {
 	previewScene = (await obs.call("GetCurrentPreviewScene")).currentPreviewSceneName;
 	programScene = (await obs.call("GetCurrentProgramScene")).currentProgramSceneName;
 	obsCurrentSceneRep.value = programScene;
+
+	streamStatusGetter = setTimeout(updateStreamStatus, 10);
+});
+
+obs.on("ConnectionClosed", async () => {
+	clearTimeout(streamStatusGetter);
+	obsStreamTimecode.value = undefined;
 });
 
 obs.on("SceneTransitionStarted", async () => {
@@ -162,5 +171,16 @@ function transitionFromIntermission(toScene: string, fromScene: string) {
 		default:
 			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: fromScene });
 			break;
+	}
+}
+
+async function updateStreamStatus() {
+	const status = await obs.call("GetStreamStatus")
+
+	if (status.outputActive) {
+		obsStreamTimecode.value = status.outputTimecode;
+		console.log(status.outputTimecode);
+	} else {
+		obsStreamTimecode.value = undefined;
 	}
 }
