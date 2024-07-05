@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled, { keyframes } from "styled-components";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { format } from "date-fns";
 import gsap from "gsap";
 
-import ASNNBug from "./media/ASM23/asnn.webm";
+// import ASNNBug from "./media/ASM23/asnn.webm";
 import { TickerOverlay } from "./ticker";
 import { FitText } from "./elements/fit-text";
 

@@ -36,9 +36,12 @@
 				"parents": {
 					"type": "array",
 					"default": ["localhost"]
+				},
+				"clientId": {
+					"type": "string",
+					"default": ""
 				}
-			},
-			"required": ["parents"]
+			}
 		},
 		"hostname": {
 			"type": "string",
@@ -118,5 +121,5 @@
 			"required": ["enabled", "url", "password"]
 		}
 	},
-	"required": ["obs", "twitch", "tiltify"]
+	"required": ["obs", "tiltify"]
 }

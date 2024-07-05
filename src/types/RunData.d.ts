@@ -23,6 +23,7 @@ export interface RunDataTeam {
 	name?: string;
 	id: string;
 	players: RunDataPlayer[];
+	relayPlayerID?: string;
 }
 
 export interface RunDataPlayer {

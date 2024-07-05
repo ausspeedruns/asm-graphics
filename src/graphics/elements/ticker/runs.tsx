@@ -20,7 +20,7 @@ const TickerRunsContainer = styled.div`
 	z-index: 0;
 
 	& div > div > span:nth-child(1) {
-		font-family: var(--main-font);
+		/* font-family: var(--main-font); */
 		font-weight: normal;
 		margin-bottom: -8px;
 	}
@@ -70,7 +70,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 
 	return (
 		<TickerRunsContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--dh-red)" }}>Coming Up</TickerTitle>
+			<TickerTitle>Coming Up</TickerTitle>
 			{RunsArray}
 		</TickerRunsContainer>
 	);

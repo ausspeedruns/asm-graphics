@@ -1,5 +1,7 @@
-import React from "react";
+import type { CSSProperties } from "react";
 import styled from "styled-components";
+import { Canvas } from "@react-three/fiber";
+import { Text3D } from '@react-three/drei';
 
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { Timer as ITimer } from "@asm-graphics/types/Timer";
@@ -31,14 +33,14 @@ const VerticalStack = styled.div`
 export interface IWideStyling {
 	timerStackHeight?: number;
 	timerSize?: number;
-	timerStyle?: React.CSSProperties;
+	timerStyle?: CSSProperties;
 	estimateSize?: number;
 	maxTextWidth?: number;
 	gameStackHeight?: number;
 	gameTitleSize?: number;
 	gameInfoSize?: number;
 	bottomRowMargin?: number;
-	mainStyle?: React.CSSProperties;
+	mainStyle?: CSSProperties;
 }
 
 const DefaultWideStyling: IWideStyling = {
@@ -60,7 +62,7 @@ interface Props {
 	runData?: RunDataActiveRun;
 }
 
-export const WideInfo: React.FC<Props> = (props: Props) => {
+export const WideInfo = (props: Props) => {
 	const styles = { ...DefaultWideStyling, ...props.style };
 	return (
 		<WideInfoContainer className={props.className} style={styles.mainStyle}>
@@ -84,6 +86,21 @@ export const WideInfo: React.FC<Props> = (props: Props) => {
 				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 			</VerticalStack>
 			<Timer style={styles.timerStyle} timer={props.timer} />
+		</WideInfoContainer>
+	);
+};
+
+export const WideInfo3D = (props: Props) => {
+	return (
+		<WideInfoContainer>
+			<Canvas>
+				<ambientLight intensity={0.1} />
+				<directionalLight color="white" position={[0, 0, 5]} />
+				<Text3D font={'/bundles/asm-graphics/shared/fonts/russo-one/Russo One_Regular.json'} rotation={[0, -0.3, 0]}>
+					Clubwho
+					<meshStandardMaterial />
+				</Text3D>
+			</Canvas>
 		</WideInfoContainer>
 	);
 };

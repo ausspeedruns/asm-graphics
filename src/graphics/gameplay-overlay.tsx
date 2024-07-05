@@ -4,11 +4,15 @@ import styled from "styled-components";
 import { HashRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
+import { useNormalisedTime } from "../hooks/useCurrentTime";
 
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
-import { RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
-import { Timer } from "@asm-graphics/types/Timer";
-import { Commentator, OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import type { RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
+import type { Timer } from "@asm-graphics/types/Timer";
+import type { Commentator, OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import type NodeCG from "@nodecg/types";
+
+import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
 import { TickerOverlay } from "./ticker";
 import { Standard } from "./overlays/standard";
@@ -23,10 +27,9 @@ import { GBC } from "./overlays/gbc";
 import { DS2 } from "./overlays/ds2";
 import { WHG } from "./overlays/whg11-8";
 import { ThreeDS } from "./overlays/3ds";
+import { ThreeDS2 } from "./overlays/3ds-2";
 import { SM64MovementRando } from "./overlays/sm64-rando";
 import { NoGraphics } from "./overlays/no-graphics";
-import type NodeCG from "@nodecg/types";
-import type { AudioIndicator } from "@asm-graphics/types/Audio";
 import { StandardVertical } from "./overlays/standard-vertical";
 
 const GameplayOverlayCont = styled.div``;
@@ -68,13 +71,18 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
 	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator");
 	const [microphoneAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators");
+	const normalisedTime = useNormalisedTime();
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
 	// Disable runner audio indicator if they are the only runner and there isn't another commentator (except Host)
 	const mutableMicAudioIndicator = _.clone(microphoneAudioIndicatorRep);
-	if (mutableMicAudioIndicator && commentatorsRep?.length == 0 && runDataActiveRep?.teams.flatMap(team => team.players).length == 1) {
-		const runner = runDataActiveRep?.teams.flatMap(team => team.players)[0];
+	if (
+		mutableMicAudioIndicator &&
+		commentatorsRep?.length == 0 &&
+		runDataActiveRep?.teams.flatMap((team) => team.players).length == 1
+	) {
+		const runner = runDataActiveRep?.teams.flatMap((team) => team.players)[0];
 
 		mutableMicAudioIndicator[runner.customData.microphone] = false;
 	}
@@ -88,6 +96,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		microphoneAudioIndicator: mutableMicAudioIndicator,
 		host: hostRep,
 		gameAudioIndicator: gameAudioIndicatorRep ?? -1,
+		asm24Time: normalisedTime,
 	};
 
 	const Overlays = [
@@ -143,6 +152,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		{
 			component: <ThreeDS {...overlayArgs} />,
 			name: "3DS",
+		},
+		{
+			component: <ThreeDS2 {...overlayArgs} />,
+			name: "3DS-2",
 		},
 		{
 			component: <StandardVertical {...overlayArgs} />,

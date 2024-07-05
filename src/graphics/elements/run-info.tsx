@@ -8,7 +8,7 @@ interface FontProps {
 }
 
 const BaseStyle = styled.div`
-	font-family: var(--secondary-font);
+	font-family: var(--main-font);
 	color: var(--text-light);
 `;
 
@@ -70,7 +70,7 @@ export const Estimate: React.FC<EstimateProps> = (props: EstimateProps) => {
 
 /*			GAME TITLE			*/
 const GameContainer = styled(BaseStyle)`
-	font-family: var(--main-font);
+	font-family: var(--secondary-font);
 	font-size: 50px;
 	/* font-weight: 1000; */
 `;

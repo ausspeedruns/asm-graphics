@@ -17,6 +17,8 @@ export interface OverlayProps {
 	sponsors: NodeCG.AssetFile[];
 	gameAudioIndicator: number;
 	microphoneAudioIndicator?: AudioIndicator;
+
+	asm24Time: number;
 }
 
 export type Commentator = {

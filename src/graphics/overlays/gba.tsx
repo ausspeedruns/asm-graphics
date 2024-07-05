@@ -8,17 +8,9 @@ import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
-import GBABG from "../elements/event-specific/dh-24/Standard.png";
-
-const TGXBox = styled.div`
-	border-style: solid;
-	border-width: 10px;
-	position: absolute;
-	height: 110px;
-	width: 110px;
-	background-color: var(--main);
-`;
+import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
+// import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
+// import GBABG from "../elements/event-specific/dh-24/Standard.png";
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -57,13 +49,6 @@ const InfoBoxBG = styled.div`
 	}
 `;
 
-const TwitterSize = {
-	height: 158,
-	width: 395,
-	marginTop: -44,
-	fontSize: 14,
-};
-
 const customVerticalStyle: IVerticalStyling = {
 	maxTextWidth: 360,
 	gameTitleSize: 35,
@@ -92,11 +77,26 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 				<InfoBoxBG>
-					<img src={GBABG} style={{ position: "absolute", width: "100%", bottom: 0, zIndex: 0 }} />
-					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
+					{/* <img src={GBABG} style={{ position: "absolute", width: "100%", bottom: 0, zIndex: 0 }} /> */}
 
-					<img src={DreamhackLogo} style={{ width: "80%", zIndex: 1 }} />
+					<div style={{ position: "absolute", height: "100%", width: "100%" }}>
+						<SceneHill
+							seed={0}
+							trees={50}
+							time={props.asm24Time}
+							contentStyle="gba"
+							runData={props.runData}
+							speedrunTime={props.timer}
+						/>
+					</div>
+					{/* <VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} /> */}
+					<Couch
+						commentators={props.commentators}
+						host={props.host}
+						audio={props.microphoneAudioIndicator}
+						style={{ marginTop: 220 }}
+					/>
+
 					{/* <SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

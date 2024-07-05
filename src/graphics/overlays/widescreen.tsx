@@ -1,20 +1,22 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { WideInfo } from "../elements/info-box/wide";
+import { WideInfo, WideInfo3D } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
+import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
 
-import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
-import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
-import WidescreenBottom from "../elements/event-specific/dh-24/Widescreen-1.png";
+// import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
+// import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
+// import WidescreenBottom from "../elements/event-specific/dh-24/Widescreen-1.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
+	position: relative;
 `;
 
 const TopBar = styled.div`
@@ -87,9 +89,25 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 
 	return (
 		<WidescreenContainer>
+			<div
+				style={{
+					position: "absolute",
+					zIndex: 1,
+					width: "100%",
+					height: "100%",
+					clipPath: "path('M 0 0 H 1920 V 207 H 0 Z M 0 556 H 479 V 1017 H 0 Z')",
+				}}>
+				<SceneHill
+					time={props.asm24Time}
+					positions={{ hillXPos: -2.5 }}
+					contentStyle="widescreen"
+					runData={props.runData}
+					speedrunTime={props.timer}
+				/>
+			</div>
 			<TopBar>
-				<img src={WidescreenTop} style={{ position: "absolute", height: "100%", right: -100 }} />
-				<div
+				{/* <img src={WidescreenTop} style={{ position: "absolute", height: "100%", right: -100 }} /> */}
+				{/* <div
 					style={{
 						position: "absolute",
 						bottom: 0,
@@ -97,11 +115,8 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						width: "100%",
 						background: "var(--dh-orange-to-red)",
 					}}
-				/>
-				<WideInfo
-					timer={props.timer}
-					runData={props.runData}
-				/>
+				/> */}
+				{/* <WideInfo timer={props.timer} runData={props.runData} /> */}
 			</TopBar>
 			<Sidebar>
 				<Facecam
@@ -122,11 +137,10 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							background: "var(--dh-orange-to-red)",
 						}}
 					/>
-					<img
+					{/* <img
 						src={WidescreenBottom}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover", marginTop: -5 }}
-					/>
-					<img src={DreamhackLogo} style={{ width: "80%", position: "absolute", bottom: 200 }} />
+					/> */}
 					<Couch
 						style={{ zIndex: 2 }}
 						commentators={props.commentators}

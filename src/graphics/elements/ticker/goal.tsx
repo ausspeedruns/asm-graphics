@@ -51,7 +51,7 @@ const IncentiveName = styled(FitText)`
 	font-size: 27px;
 	font-weight: bold;
 	max-width: 200px;
-	font-family: var(--secondary-font);
+	/* font-family: var(--secondary-font); */
 `;
 
 const IncentiveContainer = styled(GoalElement)`
@@ -142,7 +142,7 @@ export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Pr
 
 	return (
 		<TickerGoalsContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--dh-red)" }}>
+			<TickerTitle>
 				Incentive
 				<br />
 				Goals

@@ -7,8 +7,9 @@ export interface ConfigSchema {
 		password: string;
 		customTransitionsFolder?: string;
 	};
-	twitch: {
-		parents: string[];
+	twitch?: {
+		parents?: string[];
+		clientId?: string;
 	};
 	googleCredentials: GoogleCredentials;
 	raisely: {

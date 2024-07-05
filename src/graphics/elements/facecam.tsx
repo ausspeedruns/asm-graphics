@@ -123,36 +123,56 @@ export const Facecam = (props: FacecamProps) => {
 		allRunnerNames.pop();
 	} else {
 		let alternatingPronounSides = props.pronounStartSide === "right";
-		// Single Player/Coop, display each player's name
-		props.teams[0]?.players.forEach((player, i) => {
-			alternatingPronounSides = !alternatingPronounSides;
-			if (props.dontAlternatePronouns) {
-				alternatingPronounSides = props.pronounStartSide === "right";
-			}
+		const team = props.teams[0];
 
-			let height = NAMEPLATE_HEIGHT;
-			if (
-				props.verticalCoop &&
-				props.teams![0].players.length > 1 &&
-				props.teams![0].players.some((player) => player.pronouns)
-			) {
-				height = NAMEPLATE_HEIGHT_VERTICAL;
-			}
-
+		if (team.relayPlayerID) {
+			// Relay, display relay player name
 			allRunnerNames.push(
 				<Nameplate
-					icon={props.icons ? props.icons[i] : undefined}
-					nameplateLeft={alternatingPronounSides}
+					icon={props.icons ? props.icons[0] : undefined}
 					maxWidth={props.maxNameWidth}
-					key={player.id}
-					player={player}
-					speaking={props.audioIndicator?.[player.customData.microphone]}
-					vertical={props.teams![0].players.length > 1 ? props.verticalCoop : false}
-					style={{ height: height }}
+					player={team.players.find((player) => player.id === team.relayPlayerID)!}
+					nameplateLeft={alternatingPronounSides}
+					style={{
+						fontSize: 25,
+					}}
+					key={team.relayPlayerID}
+					speaking={props.audioIndicator?.[team.players[0].customData.microphone]}
 				/>,
 			);
-			allRunnerNames.push(<RunnerNameDivider key={player.id + "-divider"} style={{ height: height }} />);
-		});
+			allRunnerNames.push(<RunnerNameDivider key={team.relayPlayerID + "-divider"} />);
+		} else {
+			// Single Player/Coop, display each player's name
+			team.players.forEach((player, i) => {
+				alternatingPronounSides = !alternatingPronounSides;
+				if (props.dontAlternatePronouns) {
+					alternatingPronounSides = props.pronounStartSide === "right";
+				}
+
+				let height = NAMEPLATE_HEIGHT;
+				if (
+					props.verticalCoop &&
+					props.teams![0].players.length > 1 &&
+					props.teams![0].players.some((player) => player.pronouns)
+				) {
+					height = NAMEPLATE_HEIGHT_VERTICAL;
+				}
+
+				allRunnerNames.push(
+					<Nameplate
+						icon={props.icons ? props.icons[i] : undefined}
+						nameplateLeft={alternatingPronounSides}
+						maxWidth={props.maxNameWidth}
+						key={player.id}
+						player={player}
+						speaking={props.audioIndicator?.[player.customData.microphone]}
+						vertical={props.teams![0].players.length > 1 ? props.verticalCoop : false}
+						style={{ height: height }}
+					/>,
+				);
+				allRunnerNames.push(<RunnerNameDivider key={player.id + "-divider"} style={{ height: height }} />);
+			});
+		}
 
 		allRunnerNames.pop();
 	}

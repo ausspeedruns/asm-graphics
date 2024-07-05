@@ -154,7 +154,7 @@ export const TickerDonationMatches = React.forwardRef<TickerItemHandles, Props>(
 
 	return (
 		<TickerGoalsContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--dh-red)" }}>
+			<TickerTitle>
 				Donation
 				<br />
 				Matches

@@ -101,11 +101,12 @@ const PersonCompressedContainer = styled.div`
 	margin: 4px;
 	box-sizing: border-box;
 	position: relative;
-	background: var(--dh-orange-to-red);
+	background: #010d33cf;
 	padding: 8px 12px;
 
-	/* border-radius: 8px; */
-	/* border: 1px solid var(--accent); */
+	border-radius: 8px;
+	border: 1px solid var(--accent);
+	backdrop-filter: blur(2px);
 `;
 
 const SpeakingColour = styled.div<SpeakingProps>`
@@ -159,6 +160,7 @@ export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 			<Name>{props.commentator.name}</Name>
 			<Pronouns>
 				{!props.noTag && <Tag>{props.commentator.tag}</Tag>}
+				{!props.noTag && props.commentator.pronouns && <>- </>}
 				{props.commentator.pronouns}
 			</Pronouns>
 		</PersonCompressedContainer>

@@ -1,16 +1,17 @@
 body {
 	margin: 0;
-	--main: var(--dh-main);
-	--nameplate: var(--dh-main);
-	--nameplate-lighter: #353535;
-	--sec: var(--dh-red);
-	--accent: var(--dh-red);
+	--main: var(--asm23-main);
+	--primary: var(--main);
+	--nameplate: var(--asm-blue);
+	--nameplate-lighter: var(--asm23-nameplate-lighter);
+	--sec: var(--asm-blue);
+	--accent: var(--asm-blue);
 
 	--text-light: white;
 	--text-dark: var(--main);
 
-	--main-font: var(--dh-primary-font);
-	--secondary-font: var(--dh-font);
+	--main-font: var(--asm-font);
+	--secondary-font: var(--asm-secondary-font);
 	--mono-font: var(--asm-font);
 
 	--asm-orange: #cc7722;
@@ -23,6 +24,12 @@ body {
 	--orange-400: #ffa651;
 	--orange-600: #964a00;
 	--orange-500: #cc7722;
+
+	--asm23-main: #020824;
+	--asm23-nameplate-lighter: #6fa6b9;
+
+	/* GOC */
+	--goc-gradient: linear-gradient(90deg, #6969CB 13%, #A967B7 27.8%, #E964A2 42.6%, #F08184 57.4%, #F89D65 72.2%, #FFBA47 87%);
 
 	/* PAX */
 	--pax23-main: #222721;
@@ -54,6 +61,7 @@ body {
 	--dh-orange: #FF4B0A;
 	--dh-yellow: #FFEB00;
 	--dh-red: #FF0046;
+	--dh-nameplate-lighter: #353535;
 
 	--dh-orange-to-orange: linear-gradient(90deg, var(--dh-light-orange), var(--dh-orange));
 	--dh-yellow-to-orange: linear-gradient(90deg, var(--dh-yellow), var(--dh-light-orange));

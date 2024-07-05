@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
@@ -8,8 +8,9 @@ import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
-import StandardBG from "../elements/event-specific/dh-24/Standard.png";
+// import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
+// import StandardBG from "../elements/event-specific/dh-24/Standard.png";
+import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -38,23 +39,23 @@ const InfoBoxBG = styled.div`
 	position: relative;
 `;
 
-// const SponsorBoxS = styled(SponsorsBox)`
-// 	/* width: 65%; */
-// 	/* height: 264px; */
-// 	flex-grow: 1;
-// 	/* margin-top: -70px; */
-// `;
+const SponsorBoxS = styled(SponsorsBox)`
+	/* width: 65%; */
+	/* height: 264px; */
+	flex-grow: 1;
+	/* margin-top: -70px; */
+`;
 
-// const SponsorsSize = {
-// 	height: 125,
-// 	width: 480,
-// };
+const SponsorsSize = {
+	height: 125,
+	width: 480,
+};
 
-// const TwitterSize = {
-// 	height: 200,
-// 	width: 480,
-// 	marginTop: -44,
-// };
+const TwitterSize = {
+	height: 200,
+	width: 480,
+	marginTop: -44,
+};
 
 const VerticalInfoS = styled(VerticalInfo)`
 	height: 348px;
@@ -93,7 +94,17 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					verticalCoop
 				/>
 				<InfoBoxBG>
-					<img
+					<div style={{ position: "absolute", height: "100%", width: "100%" }}>
+						<SceneHill
+							seed={0}
+							trees={50}
+							time={props.asm24Time}
+							runData={props.runData}
+							speedrunTime={props.timer}
+							contentStyle="standard"
+						/>
+					</div>
+					{/* <img
 						src={StandardBG}
 						style={{
 							position: "absolute",
@@ -103,30 +114,20 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							bottom: 0,
 							zIndex: -1,
 						}}
-					/>
-					<div
-						style={{
-							position: "absolute",
-							top: 0,
-							height: 8,
-							width: "100%",
-							background: "var(--dh-orange-to-red)",
-						}}
-					/>
-					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+					/> */}
+					{/* <VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} /> */}
 					<Couch
-						style={{ zIndex: 3 }}
+						style={{ zIndex: 3, marginTop: 400 }}
 						commentators={props.commentators}
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
 					/>
-					<img src={DreamhackLogo} style={{ width: "80%" }} />
-					{/*<SponsorBoxS
+					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}
 						sponsorStyle={SponsorsSize}
 						tweetStyle={TwitterSize}
-					/>*/}
+					/>
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>

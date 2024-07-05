@@ -26,11 +26,10 @@ const NameplateContainer = styled.div<NameplateStyleProps>`
 	font-size: 30px;
 	/* font-family: var(--secondary-font); */
 	font-family: var(--main-font);
-
 	display: flex;
 	flex-direction: ${(props) => nameplateDirection(props)};
 	justify-content: space-between;
-	align-items: center;
+	align-items: stretch;
 `;
 
 const Names = styled.div<NameplateStyleProps>`
@@ -69,7 +68,6 @@ const PronounBox = styled.div<NameplateStyleProps>`
 	text-transform: uppercase;
 	color: var(--text-light);
 	padding: 0 8px;
-	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;

@@ -56,4 +56,5 @@ async function init() {
 	}
 
 	require("./sm64-rando");
+	require("./game-years");
 }

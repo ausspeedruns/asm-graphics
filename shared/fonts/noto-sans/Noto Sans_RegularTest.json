@@ -1,0 +1,43 @@
+{
+	"glyphs": {
+		"1": {
+			"ha": 765,
+			"x_min": 121,
+			"x_max": 482,
+			"o": "m 482 0 l 363 0 l 363 619 q 363 682 363 648 q 365 748 363 715 q 367 811 366 781 q 368 864 368 841 q 348 843 357 852 q 330 826 339 834 q 311 809 321 818 q 286 787 300 800 l 186 705 l 121 789 l 380 991 l 482 991 l 482 0 z "
+		},
+		":": {
+			"ha": 409,
+			"x_min": 119,
+			"x_max": 291,
+			"o": "m 119 75 q 125 119 119 101 q 144 148 132 137 q 171 164 155 159 q 205 170 186 170 q 238 164 222 170 q 266 148 254 159 q 284 119 277 137 q 291 75 291 101 q 284 32 291 50 q 266 3 277 14 q 238 -14 254 -9 q 205 -20 222 -20 q 171 -14 186 -20 q 144 3 155 -9 q 125 32 132 14 q 119 75 119 50 m 119 669 q 125 714 119 696 q 144 743 132 732 q 171 759 155 754 q 205 764 186 764 q 238 759 222 764 q 266 743 254 754 q 284 714 277 732 q 291 669 291 696 q 284 627 291 644 q 266 597 277 609 q 238 581 254 586 q 205 575 222 575 q 171 581 186 575 q 144 597 155 586 q 125 627 132 609 q 119 669 119 644 z "
+		}
+	},
+	"familyName": "Noto Sans",
+	"ascender": 1485,
+	"descender": -407,
+	"underlinePosition": -104,
+	"underlineThickness": 69,
+	"boundingBox": { "yMin": -547, "xMin": -836, "yMax": 1455, "xMax": 1835 },
+	"resolution": 1000,
+	"original_font_information": {
+		"format": 0,
+		"copyright": "Copyright 2012 Google Inc. All Rights Reserved.",
+		"fontFamily": "Noto Sans",
+		"fontSubfamily": "Regular",
+		"uniqueID": "Monotype Imaging - Noto Sans",
+		"fullName": "Noto Sans",
+		"version": "Version 1.04",
+		"postScriptName": "NotoSans",
+		"trademark": "Noto is a trademark of Google Inc. and may be registered in certain jurisdictions.",
+		"manufacturer": "Monotype Imaging Inc.",
+		"designer": "Monotype Design team",
+		"description": "Designed by Monotype design team",
+		"manufacturerURL": "http://code.google.com/p/noto/",
+		"designerURL": "http://www.monotypeimaging.com/ProductsServices/TypeDesignerShowcase",
+		"licence": "Licensed under the Apache License, Version 2.0",
+		"licenceURL": "http://www.apache.org/licenses/LICENSE-2.0"
+	},
+	"cssFontWeight": "normal",
+	"cssFontStyle": "normal"
+}

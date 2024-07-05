@@ -32,3 +32,13 @@ declare module "*.webm" {
 	const value: any;
 	export = value;
 }
+
+declare module "*.glb" {
+	const value: any;
+	export = value;
+}
+
+declare module "*.glb?url" {
+	const value: any;
+	export = value;
+}

@@ -56,6 +56,7 @@ export type NodeCGMessages = {
 	"tech:setNotReady": never;
 	// Schedule Import
 	"scheduleImport:import": never;
+	"scheduleImport:getGameYears": never;
 	// Staff messages
 	"staff-sendMessage": StaffMessage;
 	// X32 Audio

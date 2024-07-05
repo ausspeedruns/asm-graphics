@@ -19,7 +19,8 @@
 			"@asm-graphics/types": ["types"],
 			"@asm-graphics/types/*": ["types/*"]
 		},
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true
 	},
 	"include": [
 		"**/*.ts",

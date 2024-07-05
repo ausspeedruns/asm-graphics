@@ -52,7 +52,7 @@ const Game = styled(FitText)`
 const IncentiveName = styled(FitText)`
 	font-size: 27px;
 	/* font-weight: bold; */
-	font-family: var(--secondary-font);
+	/* font-family: var(--secondary-font); */
 	max-width: 200px;
 `;
 

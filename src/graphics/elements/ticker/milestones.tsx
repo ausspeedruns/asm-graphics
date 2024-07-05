@@ -32,6 +32,8 @@ const NextMilestone = styled.div`
 
 const NextMilestoneEvent = styled.span`
 	font-size: 20px;
+	margin-top: 6px;
+	margin-bottom: -8px;
 `;
 
 const NextMilestoneTotal = styled.span`
@@ -128,7 +130,7 @@ interface Props {
 }
 
 // Milestones to use for the events
-const MILESTONES = combineMilestones(TGX_MILESTONES);
+const MILESTONES = combineMilestones(ASM_MILESTONES);
 
 function combineMilestones(milestones: Milestone[]): Milestone[] {
 	// If the first array is empty, just return the second array.
@@ -203,7 +205,7 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 
 	return (
 		<TickerMilestonesContainer ref={containerRef} style={{ transform: "translate(0px, 64px)" }}>
-			<TickerTitle style={{ background: "var(--tgx-yellow)", color: "var(--text-dark)" }}>
+			<TickerTitle>
 				Milestone
 				<br />
 				Progress

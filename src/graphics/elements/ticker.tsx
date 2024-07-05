@@ -1,10 +1,8 @@
-import React, { useRef, useEffect, useState, memo } from "react";
+import { useRef, useEffect, useState, memo } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
 import { format } from "date-fns";
 import _ from "lodash";
-
-import useEffectDebugger from "../../hooks/useEffectDebugger";
 
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Goal, War } from "@asm-graphics/types/Incentives";
@@ -53,7 +51,7 @@ const DonationArea = styled.div`
 	font-weight: bold;
 	font-family: var(--mono-font);
 
-	background: var(--dh-orange-to-red);
+	background: var(--goc-gradient);
 `;
 
 const CurrentTimeArea = styled.div`

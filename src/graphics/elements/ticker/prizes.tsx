@@ -53,7 +53,7 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 
 	return (
 		<TickerPrizesContainer ref={containerRef} className={props.className} style={props.style}>
-			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2, background: "var(--dh-red)" }}>
+			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2 }}>
 				<span>Prizes</span>
 				<span style={{ fontSize: 16 }}>AUS Only</span>
 			</TickerTitle>
