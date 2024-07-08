@@ -57,6 +57,7 @@ export type NodeCGMessages = {
 	// Schedule Import
 	"scheduleImport:import": never;
 	"scheduleImport:getGameYears": never;
+	"scheduleImport:inject-5-min-runs": never;
 	// Staff messages
 	"staff-sendMessage": StaffMessage;
 	// X32 Audio

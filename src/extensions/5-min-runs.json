@@ -1,0 +1,137 @@
+[
+	{
+	  "Runners": "Vichisuki, Sten",
+	  "Game": "A Link to the Past",
+	  "Category": "Any% Race",
+	  "Platform": "Super Nintendo Entertainment System",
+	  "SetupTime": "02:00 (plug and play)",
+	  "BestRun": "02:30",
+	  "WorstRun": "05:00"
+	},
+	{
+	  "Runners": "Syo",
+	  "Game": "Spyro: Enter The Dragonfly",
+	  "Category": "Any%",
+	  "Platform": "Playstation 2",
+	  "SetupTime": "N/A",
+	  "BestRun": "02:00",
+	  "WorstRun": "03:00"
+	},
+	{
+	  "Runners": "Pichy_Stockmann",
+	  "Game": "Castlevania: Harmony of Dissonance",
+	  "Category": "Any%",
+	  "Platform": "Gameboy Advance",
+	  "SetupTime": "As long as it takes to fire up a Switch.",
+	  "BestRun": "00:48",
+	  "WorstRun": "3 minutes."
+	},
+	{
+	  "Runners": "Nicosar (and Alecat!)",
+	  "Game": "KeyWe",
+	  "Category": "Hollyjostle Home Ec (two ILs back to back)",
+	  "Platform": "PC",
+	  "SetupTime": "03:00 (less if the stream machine already has a save file with the Gamecleared).",
+	  "BestRun": "02:10",
+	  "WorstRun": "03:05"
+	},
+	{
+	  "Runners": "Paulmall",
+	  "Game": "False Dream",
+	  "Category": "Any%",
+	  "Platform": "PC",
+	  "SetupTime": "01:00",
+	  "BestRun": "01:00",
+	  "WorstRun": "05:00"
+	},
+	{
+	  "Runners": "Noops",
+	  "Game": "Smile For Me",
+	  "Category": "",
+	  "Platform": "PC",
+	  "SetupTime": "00:30",
+	  "BestRun": "01:00",
+	  "WorstRun": "02:30"
+	},
+	{
+	  "Runners": "FoksMachine",
+	  "Game": "Haven Park",
+	  "Category": "Any%",
+	  "Platform": "PC",
+	  "SetupTime": "2:00",
+	  "BestRun": "2:30",
+	  "WorstRun": "6:00"
+	},
+	{
+	  "Runners": "lucilletea",
+	  "Game": "Bibi Blocksberg Big Broom Race 3",
+	  "Category": "Bonus Tracks",
+	  "Platform": "PC/Steam",
+	  "SetupTime": "00:30 and controller connecting? (no config)",
+	  "BestRun": "04:40",
+	  "WorstRun": "05:40"
+	},
+	{
+	  "Runners": "Craigelbagel001",
+	  "Game": "Toaster Jam",
+	  "Category": "Any%",
+	  "Platform": "PC",
+	  "SetupTime": "01:10",
+	  "BestRun": "02:50",
+	  "WorstRun": "04:10"
+	},
+	{
+	  "Runners": "AtomicCaleb",
+	  "Game": "Freeways",
+	  "Category": "FirstSquare%",
+	  "Platform": "PC",
+	  "SetupTime": "0:01",
+	  "BestRun": "1:25",
+	  "WorstRun": "2:30"
+	},
+	{
+	  "Runners": "nei",
+	  "Game": "A Short Hike",
+	  "Category": "Any%",
+	  "Platform": "PC",
+	  "SetupTime": "idk soz",
+	  "BestRun": "idk",
+	  "WorstRun": "idk"
+	},
+	{
+	  "Runners": "Kenorah",
+	  "Game": "Hades",
+	  "Category": "Loyalty Card ",
+	  "Platform": "PC ",
+	  "SetupTime": "2min at best probably, nonexistent if any pre-marathon tech setup is done",
+	  "BestRun": "Idk like 1:40",
+	  "WorstRun": "Idk like 3:40"
+	},
+	{
+	  "Runners": "InputEvelution",
+	  "Game": "Wii Party",
+	  "Category": "Friend Connection TAS",
+	  "Platform": "PC (as a pre-recorded video file)",
+	  "SetupTime": "00:20",
+	  "BestRun": "01:50",
+	  "WorstRun": "01:50"
+	},
+	{
+	  "Runners": "Baphy",
+	  "Game": "Coffee Shop (Coolmathgames)",
+	  "Category": "Any%",
+	  "Platform": "Pc",
+	  "SetupTime": "Literally 10 seconds",
+	  "BestRun": "23 seconds (WR)",
+	  "WorstRun": "About 1 minute"
+	},
+	{
+	  "Runners": "Clubwho",
+	  "Game": "Refunct",
+	  "Category": "Any%",
+	  "Platform": "PC",
+	  "SetupTime": "00:10",
+	  "BestRun": "02:47",
+	  "WorstRun": "03:30"
+	}
+  ]
