@@ -10,7 +10,7 @@ const TickerTitleContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--sec);
+	background: var(--time);
 	white-space: nowrap;
 	padding: 0 10px;
 	text-align: center;

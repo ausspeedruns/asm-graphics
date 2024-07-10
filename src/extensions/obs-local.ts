@@ -36,7 +36,7 @@ obs.on("ConnectionClosed", async () => {
 	obsStreamTimecode.value = undefined;
 });
 
-obs.on("SceneTransitionStarted", async () => {
+obs.on("SceneTransitionStarted", async (transitionName) => {
 	// Get the scene we are going from and to
 	const currentScene = programScene;
 	const toScene = previewScene;

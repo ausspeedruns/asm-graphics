@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, memo } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import gsap from "gsap";
 import { format } from "date-fns";
 import _ from "lodash";
@@ -57,8 +57,8 @@ const DonationArea = styled.div`
 const CurrentTimeArea = styled.div`
 	height: 100%;
 	width: fit-content;
-	background: white;
-	color: var(--text-dark);
+	background: var(--time);
+	color: var(--text-light);
 	font-weight: bold;
 	/* border-left: 6px solid var(--accent); */
 	padding: 0 16px;
@@ -103,13 +103,15 @@ export interface TickerProps {
 	donationAmount: number;
 	asmm?: number;
 	donationMatches: DonationMatch[];
-	tickerOrder: ("cta" | "milestone" | "prizes" | "goals" | "wars" | "nextruns" | "asmm" | "donationMatches")[];
+	tickerOrder: Segments[];
 }
+
+type Segments = "cta" | "milestone" | "prizes" | "goals" | "wars" | "nextruns" | "asmm" | "donationMatches";
 
 const Ticker = (props: TickerProps) => {
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const timelineRef = useRef<gsap.core.Timeline | null>(null);
-	const [numberOfLoops, setNumberOfLoops] = useState(0);
+	const [segmentIndex, setSegmentIndex] = useState(0);
 	const contentRef = useRef<HTMLDivElement>(null);
 	const runsRef = useRef<TickerItemHandles>(null);
 	const ctaRef = useRef<TickerItemHandles>(null);
@@ -144,61 +146,58 @@ const Ticker = (props: TickerProps) => {
 			.slice(0, 3) as War[];
 	}
 
-	const showContent = (element: TickerItemHandles | null) => {
-		const tl = gsap.timeline();
+	const showContent = (timeline: gsap.core.Timeline, element: TickerItemHandles | null) => {
+		if (!element) return;
 
-		if (!element) return tl;
-
-		element.animation(tl);
-		return tl;
+		element.animation(timeline);
 	};
 
-	useEffect(
-		() => {
-			const ctx = gsap.context(() => {
-				timelineRef.current = gsap.timeline({ onComplete: () => setNumberOfLoops(numberOfLoops + 1) });
-				// console.log("running anim!", numberOfLoops);
-				// console.log(testMemo);
+	function startNextSegment(segment: Segments) {
+		// console.log(`Running segment ${segment}`, new Date().toLocaleTimeString());
+		if (timelineRef.current) {
+			timelineRef.current.kill();
+		}
 
-				// -=1.02 so that the animation "overlaps" and if it was just -1 there would be a 1px tall gap
-				props.tickerOrder.forEach((type) => {
-					switch (type) {
-						case "cta":
-							timelineRef.current?.add(showContent(ctaRef.current), "-=1.02");
-							break;
-						case "nextruns":
-							timelineRef.current?.add(showContent(runsRef.current), "-=1.02");
-							break;
-						case "prizes":
-							timelineRef.current?.add(showContent(prizesRef.current), "-=1.02");
-							break;
-						case "goals":
-							timelineRef.current?.add(showContent(goalsRef.current), "-=1.02");
-							break;
-						case "wars":
-							timelineRef.current?.add(showContent(warsRef.current), "-=1.02");
-							break;
-						case "milestone":
-							timelineRef.current?.add(showContent(milestoneRef.current), "-=1.02");
-							break;
-						case "asmm":
-							timelineRef.current?.add(showContent(asmmRef.current), "-=1.02");
-							break;
-						case "donationMatches":
-							timelineRef.current?.add(showContent(donationMatchesRef.current), "-=1.02");
-							break;
-						default:
-							break;
-					}
-				});
+		timelineRef.current = gsap.timeline({
+			onComplete: () => {
+				// console.log("Segment complete", new Date().toLocaleTimeString());
+				setSegmentIndex((segmentIndex + 1) % props.tickerOrder.length);
+			},
+		});
 
-				timelineRef.current.play();
-			}, contentRef);
+		switch (segment) {
+			case "cta":
+				showContent(timelineRef.current, ctaRef.current);
+				break;
+			case "nextruns":
+				showContent(timelineRef.current, runsRef.current);
+				break;
+			case "prizes":
+				showContent(timelineRef.current, prizesRef.current);
+				break;
+			case "goals":
+				showContent(timelineRef.current, goalsRef.current);
+				break;
+			case "wars":
+				showContent(timelineRef.current, warsRef.current);
+				break;
+			case "milestone":
+				showContent(timelineRef.current, milestoneRef.current);
+				break;
+			case "asmm":
+				showContent(timelineRef.current, asmmRef.current);
+				break;
+			case "donationMatches":
+				showContent(timelineRef.current, donationMatchesRef.current);
+				break;
+			default:
+				break;
+		}
+	}
 
-			return () => ctx.revert();
-		},
-		[numberOfLoops]
-	);
+	useEffect(() => {
+		startNextSegment(props.tickerOrder[segmentIndex]);
+	}, [segmentIndex]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -229,6 +228,7 @@ const Ticker = (props: TickerProps) => {
 				<br />
 				{format(currentTime, "h:mm a")}
 			</CurrentTimeArea>
+			<DonationMatches donationMatches={props.donationMatches} />
 			<DonationArea>
 				$<LerpNum value={props.donationAmount} />
 				<CharityLogo src={GoCLogo} />
@@ -238,3 +238,68 @@ const Ticker = (props: TickerProps) => {
 };
 
 export const TickerMemo = memo(Ticker);
+
+const DonationMatchContainer = styled.div`
+	background: white;
+	font-size: 45px;
+	padding: 0 8px;
+`;
+
+const GradientAnimation = keyframes`
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+`;
+
+
+const GradientText = styled.div`
+	background: var(--goc-gradient);
+	background-clip: text;
+	color: transparent;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	animation: ${GradientAnimation} 5s ease infinite;
+	background-size: 400% 400%;
+`;
+
+const MultiplierText = styled.div`
+	font-weight: 900;
+	height: 50px;
+	margin-top: -6px;
+`;
+
+const DonationMatchLabel = styled.div`
+	font-size: 30%;
+	font-weight: bold;
+`;
+
+type DonationMatchProps = {
+	donationMatches: DonationMatch[];
+};
+
+const DonationMatches = (props: DonationMatchProps) => {
+	const multiplierAmount = props.donationMatches.filter((match) => match.active).length;
+
+	if (multiplierAmount === 0) {
+		return null;
+	}
+
+	return (
+		<DonationMatchContainer>
+			<GradientText>
+				<MultiplierText>{multiplierAmount}×</MultiplierText>
+				<DonationMatchLabel>Donation Match</DonationMatchLabel>
+			</GradientText>
+		</DonationMatchContainer>
+	);
+};

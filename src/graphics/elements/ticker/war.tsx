@@ -143,7 +143,7 @@ export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Prop
 
 	return (
 		<TickerWarContainer ref={containerRef}>
-			<TickerTitle style={{ background: "var(--dh-red)" }}>
+			<TickerTitle>
 				Incentives
 				<br />
 				Wars

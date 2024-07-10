@@ -31,8 +31,12 @@ import { ThreeDS2 } from "./overlays/3ds-2";
 import { SM64MovementRando } from "./overlays/sm64-rando";
 import { NoGraphics } from "./overlays/no-graphics";
 import { StandardVertical } from "./overlays/standard-vertical";
+import { uiTime } from "./elements/event-specific/asm-24/colours";
+import { sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/event-specific/asm-24/time-utils";
 
-const GameplayOverlayCont = styled.div``;
+const GameplayOverlayCont = styled.div<{ time: string }>`
+	--time: #${(props: { time: string }) => props.time};
+`;
 
 const GameplayContainer = styled.div`
 	height: 1080px;
@@ -74,6 +78,8 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const normalisedTime = useNormalisedTime();
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 	const overlayRefs = useRef<OverlayRef[]>([]);
+	const [manualTime, setManualTime] = useState(0);
+	const [useManualTime, setUseManualTime] = useState(false);
 
 	// Disable runner audio indicator if they are the only runner and there isn't another commentator (except Host)
 	const mutableMicAudioIndicator = _.clone(microphoneAudioIndicatorRep);
@@ -87,6 +93,8 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		mutableMicAudioIndicator[runner.customData.microphone] = false;
 	}
 
+	const time = useManualTime ? manualTime : normalisedTime;
+
 	const overlayArgs: OverlayProps = {
 		runData: displayingRun,
 		timer: timerRep,
@@ -96,7 +104,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		microphoneAudioIndicator: mutableMicAudioIndicator,
 		host: hostRep,
 		gameAudioIndicator: gameAudioIndicatorRep ?? -1,
-		asm24Time: normalisedTime,
+		asm24Time: time,
 	};
 
 	const Overlays = [
@@ -211,7 +219,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	}
 
 	return (
-		<GameplayOverlayCont>
+		<GameplayOverlayCont time={uiTime(time)}>
 			<GameplayContainer>
 				<Routes>{RouteData}</Routes>
 				<TickerOverlay />
@@ -225,9 +233,35 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 				<button onClick={() => changeBGColor("#00f")}>Blue</button>
 				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
 				<button onClick={() => nodecg.sendMessage("start-credits")}>Credits</button>
+				<br />
+				<input type="checkbox" checked={useManualTime} onChange={() => setUseManualTime(!useManualTime)} />
+				<label htmlFor="manualTime">Use Manual Time</label>
+				Time {convertTo12Hour(manualTime)}
+				<input
+					type="range"
+					min={0}
+					max={1}
+					value={manualTime}
+					step={0.001}
+					onChange={(e) => setManualTime(e.target.valueAsNumber)}
+					style={{ width: 500 }}
+				/>
+				<button onClick={() => setManualTime(0)}>Midday</button>
+				<button onClick={() => setManualTime((sunsetStart + sunsetEnd) / 2)}>Sunset</button>
+				<button onClick={() => setManualTime(0.5)}>Midnight</button>
+				<button onClick={() => setManualTime((sunriseStart + sunriseEnd) / 2)}>Sunrise</button>
 			</div>
 		</GameplayOverlayCont>
 	);
 };
 
 createRoot(document.getElementById("root")!).render(<GameplayRouterParent />);
+
+// Convert a decimal time to a 12-hour time string where 0 is 12PM and 0.5 is 12AM
+function convertTo12Hour(time: number) {
+	const hour = Math.floor(time * 24);
+	const minute = Math.floor((time * 24 - hour) * 60);
+	const hour12 = (hour + 12) % 12 || 12;
+	const minuteStr = minute.toString().padStart(2, "0");
+	return `${hour12.toString().padStart(2, "0")}:${minuteStr.padStart(2, "0")} ${hour < 12 ? "PM" : "AM"}`;
+}

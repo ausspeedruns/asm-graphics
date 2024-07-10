@@ -177,7 +177,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 	if (allPanels.length < 5) {
 		allPanels.push(<Photos key="ASMPhotos" ref={(el) => (el ? (incentivesRef.current[20] = el) : undefined)} />);
 
-		allLabels.push({ header: "ASDH 2024 Photos" });
+		allLabels.push({ header: "ASM 2024 Photos" });
 	}
 
 	const showContent = (element: TickerItemHandles) => {

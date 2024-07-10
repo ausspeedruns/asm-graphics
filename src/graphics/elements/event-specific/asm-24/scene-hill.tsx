@@ -14,6 +14,7 @@ import { Timer3D } from "./timer-3d";
 import { ASRText } from "./letter-rotation";
 import { Estimate3D } from "./estimate";
 import { Stopwatch } from "./stopwatch";
+import { AvailableFonts } from "../letter";
 
 type SceneHillProps = {
 	time: number;
@@ -136,7 +137,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 						<ASRText text={gameName} font="Russo One" scale={0.4} position={[0, 0, 0]} />
 						<Center
 							position={[0, gameTitleHasNewLine ? -0.4 : -0.3, 0]}
-							scale={0.3}
+							scale={0.25}
 							cacheKey={`${props.runData?.system}-${props.runData?.release}`}>
 							<ASRText
 								text={`${props.runData?.system ?? ""}     ${props.runData?.release ?? ""}`}
@@ -156,9 +157,9 @@ const SceneHillR3F = (props: SceneHillProps) => {
 					</group>
 					<ASRTextMaxWidth
 						text={props.runData?.category?.toLocaleUpperCase()}
-						scale={0.5}
+						preferredScale={0.4}
 						position={[0, gameTitleHasNewLine ? -0.3 : -0.1, 0]}
-						maxWidth={0.9}
+						maxWidth={0.8}
 					/>
 				</group>
 			)}
@@ -167,7 +168,13 @@ const SceneHillR3F = (props: SceneHillProps) => {
 				<group scale={0.6} position={[0, 1.46, 0]}>
 					<Timer3D timer={props.speedrunTime} position={[3.5, 0, 0]} />
 					<Center position={[-3, 0, 0]}>
-						<ASRText text={gameName} font="Russo One" scale={0.5} position={[0, gameTitleHasNewLine ? 0.2 : 0.12, 0]} />
+						<ASRTextMaxWidth
+							text={gameName}
+							font="Russo One"
+							preferredScale={0.5}
+							position={[0, gameTitleHasNewLine ? 0.2 : 0.12, 0]}
+							maxWidth={1.1}
+						/>
 						{/* <group scale={0.3} position={[0, gameTitleHasNewLine ? -0.2 : -0.2, 0]}>
 							<ASRText text={props.runData?.system} font="Noto Sans" position={[-2, 0, 0]} />
 							<ASRText text={props.runData?.release} font="Noto Sans" position={[2, 0, 0]} />
@@ -185,7 +192,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 					<Center position={[0, -0.18, 0]}>
 						<ASRTextMaxWidth
 							text={props.runData?.category?.toLocaleUpperCase()}
-							scale={0.5}
+							preferredScale={0.5}
 							maxWidth={0.65}
 						/>
 						<Estimate3D estimate={props.runData?.estimate} position={[0, -0.3, 0]} scale={0.35} />
@@ -198,25 +205,27 @@ const SceneHillR3F = (props: SceneHillProps) => {
 					<Sky
 						viewport={viewport}
 						time={props.time}
-						position={[0, 1.31, -0.99]}
-						scale={[0.29, 0.29, 1]}
+						position={[0, 0.9, -0.99]}
+						scale={0.5}
 						xExtraWidth={100}
 						bayer128
 					/>
 					<group scale={0.6} position={[-2.3, 1.2, 0]}>
-						<Timer3D timer={props.speedrunTime} position={[0.9, -0.25, 0]} scale={0.8} />
+						<Timer3D timer={props.speedrunTime} position={[0.9, -0.25, 0]} scale={0.7} />
 						<group position={[0, 0.5, 0]}>
-							<ASRText text={gameName} font="Russo One" scale={0.6} position={[0, 0.2, 0]} />
+							<ASRText text={gameName} font="Russo One" scale={0.37} position={[0, 0.2, 0]} />
 							<group scale={0.3} position={[0, -0.2, 0]}>
-								<ASRText text={props.runData?.system} font="Noto Sans" position={[-2, 0, 0]} />
-								<ASRText text={props.runData?.release} font="Noto Sans" position={[2, 0, 0]} />
+								<ASRText
+									text={`${props.runData?.system ?? ""}     ${props.runData?.release ?? ""}`}
+									font="Noto Sans"
+								/>
 							</group>
 						</group>
-						<group position={[-1, -0.1, 0]}>
-							<ASRText
+						<group position={[-1.2, -0.1, 0]}>
+							<ASRTextMaxWidth
 								text={props.runData?.category?.toLocaleUpperCase()}
-								font="Noto Sans Bold"
-								scale={0.5}
+								preferredScale={0.5}
+								maxWidth={0.4}
 							/>
 							<Estimate3D estimate={props.runData?.estimate} position={[0, -0.3, 0]} scale={0.35} />
 						</group>
@@ -230,19 +239,21 @@ const SceneHillR3F = (props: SceneHillProps) => {
 					<City position={[3, -0.7, 0.1]} scale={3} time={props.time} />
 					<City position={[-3, -0.7, 0.1]} scale={3} time={props.time} />
 					<group scale={0.6} position={[-2.3, 1.2, 0]}>
-						<Timer3D timer={props.speedrunTime} position={[0.9, -0.5, 0]} scale={0.8} />
+						<Timer3D timer={props.speedrunTime} position={[0.9, -0.5, 0]} scale={0.6} />
 						<group position={[0, 0.4, 0]}>
-							<ASRText text={gameName} font="Russo One" scale={0.6} position={[0, 0.2, 0]} />
-							<group scale={0.3} position={[0, -0.2, 0]}>
-								<ASRText text={props.runData?.system} font="Noto Sans" position={[-2, 0, 0]} />
-								<ASRText text={props.runData?.release} font="Noto Sans" position={[2, 0, 0]} />
+							<ASRText text={gameName} font="Russo One" scale={0.5} position={[0, 0.2, 0]} />
+							<group scale={0.3} position={[0, -0.3, 0]}>
+								<ASRText
+									text={`${props.runData?.system ?? ""}     ${props.runData?.release ?? ""}`}
+									font="Noto Sans"
+								/>
 							</group>
 						</group>
 						<group position={[-1, -0.38, 0]}>
-							<ASRText
+							<ASRTextMaxWidth
 								text={props.runData?.category?.toLocaleUpperCase()}
-								font="Noto Sans Bold"
-								scale={0.5}
+								preferredScale={0.5}
+								maxWidth={0.5}
 							/>
 							<Estimate3D estimate={props.runData?.estimate} position={[0, -0.3, 0]} scale={0.35} />
 						</group>
@@ -252,12 +263,14 @@ const SceneHillR3F = (props: SceneHillProps) => {
 
 			{props.contentStyle === "3ds-2p" && (
 				<group scale={0.6}>
-					<Sky viewport={viewport} time={props.time} position={[0, 0, -0.99]} bayer128 scale={4} />
-					<group position={[-0.9, 0.08, 0]} scale={0.28}>
+					<Sky viewport={viewport} time={props.time} position={[0, -1, -0.99]} bayer128 scale={6} />
+					<group position={[-1, 0.08, 0]} scale={0.26}>
 						<ASRText text={gameName} font="Russo One" />
 						<Center scale={0.9} position={[0, -1.1, 0]}>
-							<ASRText text={props.runData?.system} font="Noto Sans" position={[-2, 0, 0]} />
-							<ASRText text={props.runData?.release} font="Noto Sans" position={[2, 0, 0]} />
+							<ASRText
+								text={`${props.runData?.system ?? ""}     ${props.runData?.release ?? ""}`}
+								font="Noto Sans"
+							/>
 						</Center>
 					</group>
 					<group position={[1.25, 0.08, 0]} scale={0.6}>
@@ -271,6 +284,41 @@ const SceneHillR3F = (props: SceneHillProps) => {
 							<Estimate3D estimate={props.runData?.estimate} position={[1.5, 0, 0]} />
 						</group>
 					</group>
+				</group>
+			)}
+
+			{props.contentStyle === "gba" && (
+				<group scale={0.4}>
+					<Timer3D timer={props.speedrunTime} position={[0, 2.5, 0]} />
+					<Estimate3D estimate={props.runData?.estimate} position={[0, 1.85, 0]} scale={0.5} />
+					<group position={[0, gameTitleHasNewLine ? 1.2 : 1.3, 0]}>
+						<ASRText text={gameName} font="Russo One" scale={0.5} position={[0, 0, 0]} />
+						<Center
+							position={[0, gameTitleHasNewLine ? -0.5 : -0.4, 0]}
+							scale={0.4}
+							cacheKey={`${props.runData?.system}-${props.runData?.release}`}>
+							<ASRText
+								text={`${props.runData?.system ?? ""}     ${props.runData?.release ?? ""}`}
+								font="Noto Sans"
+							/>
+						</Center>
+						{/* <Center position={[0, -0.3, 0]}>
+							<group scale={0.3}>
+								<ASRText
+									text={props.runData?.system}
+									font="Noto Sans"
+									position={[-2, 0, 0]}
+								/>
+								<ASRText text={props.runData?.release} font="Noto Sans" position={[2, 0, 0]} />
+							</group>
+						</Center> */}
+					</group>
+					<ASRTextMaxWidth
+						text={props.runData?.category?.toLocaleUpperCase()}
+						preferredScale={0.5}
+						position={[0, gameTitleHasNewLine ? 0.3 : 0.4, 0]}
+						maxWidth={0.7}
+					/>
 				</group>
 			)}
 
@@ -290,6 +338,8 @@ const SceneHillR3F = (props: SceneHillProps) => {
 type ASRTextMaxWidth = {
 	text?: string;
 	maxWidth: number;
+	preferredScale: number;
+	font?: AvailableFonts;
 } & React.ComponentProps<typeof Center>;
 
 const ASRTextMaxWidth = (props: ASRTextMaxWidth) => {
@@ -304,15 +354,24 @@ const ASRTextMaxWidth = (props: ASRTextMaxWidth) => {
 		let boundingBoxSize = new THREE.Vector3();
 		bb.getSize(boundingBoxSize);
 
+		if (isNaN(boundingBoxSize.x) || boundingBoxSize.x === 0) return;
+
 		// Make sure it doesn't exceed the max width
-		if (boundingBoxSize.x * textBoundsRef.current.scale.x > props.maxWidth) {
-			textBoundsRef.current.scale.setX(props.maxWidth / boundingBoxSize.x);
-		}
-	}, [props.text, textBoundsRef]);
+		// console.log(boundingBoxSize.x, props.maxWidth, props.preferredScale, props.maxWidth * props.preferredScale, boundingBoxSize.x > props.maxWidth * props.preferredScale)
+		// console.log(props.maxWidth, boundingBoxSize.x, props.maxWidth / boundingBoxSize.x, props.preferredScale);
+		// if (boundingBoxSize.x > props.maxWidth * props.preferredScale) {
+		// 	textBoundsRef.current.scale.setX(((props.maxWidth) / (boundingBoxSize.x * props.preferredScale)  * props.preferredScale));
+		// 	console.log(textBoundsRef.current.scale.x)
+		// } else {
+		// 	textBoundsRef.current.scale.setX(props.preferredScale);
+		// }
+
+		textBoundsRef.current.scale.setX(Math.min(props.maxWidth / boundingBoxSize.x, props.preferredScale));
+	}, [props.text, textBoundsRef.current, props.preferredScale]);
 
 	return (
-		<group {...props} ref={textBoundsRef}>
-			<ASRText text={text} font="Noto Sans Bold" />
+		<group {...props} ref={textBoundsRef} scale={props.preferredScale}>
+			<ASRText text={text} font={props.font ?? "Noto Sans Bold"} />
 		</group>
 	);
 };

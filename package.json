@@ -232,6 +232,7 @@
 		"@gsap/react": "^2.1.0",
 		"@mui/icons-material": "^5.15.15",
 		"@mui/material": "^5.15.15",
+		"@mui/x-tree-view": "^7.9.0",
 		"@nodecg/react-hooks": "^1.0.3",
 		"@nodecg/types": "^2.1.12",
 		"@react-three/drei": "^9.107.0",

@@ -94,7 +94,7 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						commentators={props.commentators}
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
-						style={{ marginTop: 220 }}
+						style={{ marginTop: 130 }}
 					/>
 
 					{/* <SponsorsBoxS

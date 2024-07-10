@@ -62,14 +62,15 @@ export const Timer3D = (props: TimerProps) => {
 	}
 
 	// A run over 10 hours though possible is unlikely for now
-	let compressedTime = props?.timer?.time ?? "00:00:00";
-	if ((props?.timer?.milliseconds ?? 0) < 3600000) {
-		// Remove hours while under 1 hour
-		compressedTime = compressedTime?.substring(3);
-	} else if ((props?.timer?.milliseconds ?? 0) < 36000000) {
-		// Remove 10's hours while under 10 hours, this would be interesting if it ever got here tho, some Final Fanstasy shit
-		compressedTime = compressedTime?.substring(1);
-	}
+	// let compressedTime = props?.timer?.time ?? "00:00:00";
+	let compressedTime = "0:00:00";
+	// if ((props?.timer?.milliseconds ?? 0) < 3600000) {
+	// 	// Remove hours while under 1 hour
+	// 	compressedTime = compressedTime?.substring(3);
+	// } else if ((props?.timer?.milliseconds ?? 0) < 36000000) {
+	// 	// Remove 10's hours while under 10 hours, this would be interesting if it ever got here tho, some Final Fanstasy shit
+	// 	compressedTime = compressedTime?.substring(1);
+	// }
 
 	const timeLength = compressedTime.length;
 
