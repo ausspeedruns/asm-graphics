@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, CSSProperties } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 
@@ -22,7 +22,11 @@ const MixingContainer = styled.div`
 
 const Heading = styled.h1``;
 
-export const HostDashAudio: React.FC = () => {
+interface HostDashAudioProps {
+	style?: CSSProperties;
+}
+
+export const HostDashAudio: React.FC<HostDashAudioProps> = (props: HostDashAudioProps) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
 	// const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
@@ -72,7 +76,7 @@ export const HostDashAudio: React.FC = () => {
 	};
 
 	return (
-		<MixingContainer>
+		<MixingContainer {...props}>
 			<Heading>Headphone Volume</Heading>
 			<AudioFader
 				key={"MASTER"}

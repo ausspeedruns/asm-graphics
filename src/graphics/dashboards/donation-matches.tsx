@@ -38,7 +38,7 @@ const DonationMatchContainer = styled(Box)<ActiveProps>`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	font-size: 13px;
+	font-size: 20px;
 	padding: 8px;
 	border-radius: 7px;
 	width: 100%;
@@ -51,11 +51,11 @@ const Row = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	font-size: 1.1rem;
+	font-size: 1.1em;
 `;
 
 const Name = styled.span`
-	font-size: 1.2rem;
+	font-size: 1.2em;
 	/* font-weight: bold; */
 `;
 const EndTime = styled.span`
@@ -66,7 +66,7 @@ const Progress = styled.div`
 	background: #3f3f3f;
 	flex-grow: 1;
 	border-radius: 8px;
-	height: 2rem;
+	height: 2em;
 `;
 
 const ProgressBar = styled.div`
@@ -76,7 +76,7 @@ const ProgressBar = styled.div`
 	border-radius: 8px;
 	color: white;
 	padding-left: 8px;
-	line-height: 2rem;
+	line-height: 2em;
 	box-sizing: border-box;
 `;
 
@@ -84,7 +84,7 @@ const Total = styled.span`
 	font-weight: bold;
 	width: 70px;
 	text-align: right;
-	line-height: 2rem;
+	line-height: 2em;
 `;
 
 interface RunProps {

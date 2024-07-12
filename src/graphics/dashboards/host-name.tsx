@@ -17,8 +17,10 @@ const HostNameContainer = styled.div`
 `;
 
 interface Props {
+	vertical?: boolean;
 	className?: string;
 	style?: React.CSSProperties;
+	updateCb?: (comm: Commentator) => void;
 }
 
 export const HostName: React.FC<Props> = (props: Props) => {
@@ -48,8 +50,13 @@ export const HostName: React.FC<Props> = (props: Props) => {
 	}
 
 	return (
-		<HostNameContainer className={props.className} style={props.style}>
-			<div style={{ display: "flex", gap: 4, flexGrow: 1 }}>
+		<HostNameContainer
+			className={props.className}
+			style={{
+				flexDirection: props.vertical ? "column" : undefined,
+				...(props.style ?? {}),
+			}}>
+			<div style={{ display: "flex", gap: 4, flexGrow: 1, padding: "8px 0" }}>
 				<Autocomplete
 					fullWidth
 					freeSolo
@@ -60,11 +67,7 @@ export const HostName: React.FC<Props> = (props: Props) => {
 					inputValue={hostName}
 					onInputChange={(_, newVal) => setHostName(newVal)}
 					renderInput={(params) => (
-						<TextField
-							{...params}
-							label="Name"
-							InputProps={{ ...params.InputProps }}
-						/>
+						<TextField {...params} label="Name" InputProps={{ ...params.InputProps }} />
 					)}
 				/>
 				<TextField
@@ -74,7 +77,7 @@ export const HostName: React.FC<Props> = (props: Props) => {
 					onChange={(e) => setHostPronouns(e.target.value)}
 				/>
 			</div>
-			<div style={{ display: "flex", flexDirection: "column" }}>
+			<div style={{ display: "flex", flexDirection: props.vertical ? undefined : "column" }}>
 				<Button size="small" onClick={() => setHostPronouns("He/Him")}>
 					He/Him
 				</Button>
@@ -87,14 +90,20 @@ export const HostName: React.FC<Props> = (props: Props) => {
 			</div>
 			<Button
 				variant="contained"
-				onClick={() =>
+				onClick={() => {
 					nodecg.sendMessage("update-host", {
 						id: "host",
 						name: hostName,
 						pronouns: hostPronouns,
 						microphone: "host",
-					})
-				}>
+					});
+					props.updateCb?.({
+						id: "host",
+						name: hostName,
+						pronouns: hostPronouns,
+						microphone: "host",
+					});
+				}}>
 				Update
 			</Button>
 		</HostNameContainer>
