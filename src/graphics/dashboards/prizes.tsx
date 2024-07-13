@@ -19,8 +19,8 @@ interface Props {
 export const Prizes: React.FC<Props> = (props: Props) => {
 	return (
 		<UpcomingContainer style={props.style}>
-			{PRIZES.map((prize) => (
-				<Prize prize={prize} />
+			{PRIZES.map((prize, idx) => (
+				<Prize prize={prize} key={idx} />
 			))}
 		</UpcomingContainer>
 	);

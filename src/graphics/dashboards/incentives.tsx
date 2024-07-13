@@ -12,6 +12,35 @@ const IncentivesContainer = styled.div`
 	flex-direction: column;
 	padding: 8px;
 	padding-right: 24px;
+	gap: 8px;
+
+	section {
+		&,
+		* {
+			box-sizing: border-box;
+		}
+
+		width: 100%;
+		border-radius: 8px;
+		display: grid;
+		gap: 6px;
+		padding-bottom: 8px;
+
+		& > div {
+			width: calc(100% - 16px);
+			margin: 0 8px;
+		}
+	}
+
+	h1 {
+		width: 100%;
+		margin: 0;
+		background: lightgrey;
+		padding: 8px;
+		padding-left: 16px;
+		border-radius: 8px 8px 0 0;
+		border-bottom: 2px solid black;
+	}
 `;
 
 interface Props {
@@ -40,11 +69,35 @@ export const Incentives: React.FC<Props> = (props: Props) => {
 		return undefined;
 	});
 
+	const currentRunIncentives = removedDeadIncentives.filter(
+		(incentive) => removeExtrasInName(incentive.game) === removeExtrasInName(runDataActiveRep?.game || ""),
+	);
+	const otherIncentives = removedDeadIncentives.filter(
+		(incentive) => removeExtrasInName(incentive.game) !== removeExtrasInName(runDataActiveRep?.game || ""),
+	);
+
 	return (
 		<IncentivesContainer className={props.className} style={props.style}>
-			{removedDeadIncentives.map((incentive) => {
-				return <IncentiveItem key={incentive.index} incentive={incentive} />;
-			})}
+			{currentRunIncentives.length > 0 ? (
+				<>
+					<section style={{ background: "var(--orange-600)" }}>
+						<h1 style={{ background: "var(--orange-400)", color: "black" }}>Current Run:</h1>
+						{currentRunIncentives.map((incentive) => {
+							return <IncentiveItem key={incentive.index} incentive={incentive} />;
+						})}
+					</section>
+					<section>
+						<h1>Coming Up:</h1>
+						{otherIncentives.map((incentive) => {
+							return <IncentiveItem key={incentive.index} incentive={incentive} />;
+						})}
+					</section>
+				</>
+			) : (
+				removedDeadIncentives.map((incentive) => {
+					return <IncentiveItem key={incentive.index} incentive={incentive} />;
+				})
+			)}
 		</IncentivesContainer>
 	);
 };
@@ -52,7 +105,6 @@ export const Incentives: React.FC<Props> = (props: Props) => {
 /* Incentive Item */
 
 const IncentiveItemContainer = styled(Box)`
-	margin: 6px 0;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;

@@ -249,6 +249,7 @@
 		"@emotion/styled": "^11.11.5",
 		"@gsap/react": "^2.1.0",
 		"@mui/icons-material": "^5.15.15",
+		"@mui/lab": "^5.0.0-alpha.171",
 		"@mui/material": "^5.15.15",
 		"@mui/x-tree-view": "^7.9.0",
 		"@nodecg/react-hooks": "^1.0.3",
