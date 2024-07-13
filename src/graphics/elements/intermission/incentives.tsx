@@ -1,9 +1,10 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-import { Goal, War } from "@asm-graphics/types/Incentives";
+import type { Goal, War } from "@asm-graphics/types/Incentives";
+import type NodeCG from "@nodecg/types";
 
 import { WarGame } from "./incent-wars";
 import { GoalBar } from "./incent-goal";
@@ -20,22 +21,22 @@ const InterIncentivesContainer = styled.div`
 	position: relative;
 	width: 100%;
 	height: 100%;
+
+	display: flex;
+	flex-direction: column;
 `;
 
 const PanelContainer = styled.div`
-	height: 406px;
-	padding: 16px;
+	/* height: 236px; */
 	box-sizing: border-box;
 	position: relative;
+	flex-grow: 1;
 `;
 
 const CurrentPanel = styled.div`
-	position: absolute;
-	height: 126px;
-	width: 554px;
-	bottom: 0;
-	right: 0;
-	padding: 8px 16px 0px 8px;
+	/* height: 126px; */
+	width: 100%;
+	padding-top: 0;
 	box-sizing: border-box;
 `;
 
@@ -66,19 +67,21 @@ const CurrentLabels = styled.div`
 	justify-content: center;
 	align-items: center;
 	height: 90px;
+	margin-bottom: 16px;
 `;
 
 const MainLabel = styled(FitText)`
 	font-size: 45px;
 	height: 55px;
-	max-width: 500px;
+	max-width: 100%;
+	margin-bottom: -10px;
+	font-family: var(--secondary-font);
 `;
 
 const Subheading = styled(FitText)`
 	font-size: 35px;
 	height: 35px;
-	max-width: 500px;
-	font-family: var(--secondary-font);
+	max-width: 100%;
 `;
 
 export interface TickerItemHandles {
@@ -88,7 +91,8 @@ export interface TickerItemHandles {
 interface IncentivesProps {
 	incentives?: (Goal | War)[];
 	asmm?: number;
-	prizes: Prize[];
+	prizes?: Prize[];
+	photos?: NodeCG.AssetFile[];
 }
 
 const MAX_INCENTIVES: number = -1;
@@ -156,7 +160,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 	// }
 
 	// Prizes
-	if (props.prizes.length > 0) {
+	if (props.prizes && props.prizes.length > 0) {
 		allPanels.push(
 			<Prizes
 				key="ASMPrizes"
@@ -170,13 +174,11 @@ export const InterIncentives = (props: IncentivesProps) => {
 
 	// Socials
 	allPanels.push(<Socials key="ASMSocials" ref={(el) => (el ? (incentivesRef.current[15] = el) : undefined)} />);
-
 	allLabels.push({ header: "Our Socials", subheading: "Follow us to stay up to date!" });
 
 	// Event Photos
-	if (allPanels.length < 5) {
+	if (props.photos && props.photos.length > 5) {
 		allPanels.push(<Photos key="ASMPhotos" ref={(el) => (el ? (incentivesRef.current[20] = el) : undefined)} />);
-
 		allLabels.push({ header: "ASM 2024 Photos" });
 	}
 
@@ -218,15 +220,15 @@ export const InterIncentives = (props: IncentivesProps) => {
 		<InterIncentivesContainer ref={containerRef}>
 			<PanelContainer>{allPanels}</PanelContainer>
 			<CurrentPanel>
+				<CurrentLabels ref={labelsRef}>
+					<MainLabel text={allLabels[currentPanel]?.header} />
+					{allLabels[currentPanel]?.subheading && <Subheading text={allLabels[currentPanel].subheading} />}
+				</CurrentLabels>
 				<PipsContainer>
 					{allPanels.map((_, i) => {
 						return <Pip $active={i == currentPanel} />;
 					})}
 				</PipsContainer>
-				<CurrentLabels ref={labelsRef}>
-					<MainLabel text={allLabels[currentPanel]?.header} />
-					{allLabels[currentPanel]?.subheading && <Subheading text={allLabels[currentPanel].subheading} />}
-				</CurrentLabels>
 			</CurrentPanel>
 		</InterIncentivesContainer>
 	);

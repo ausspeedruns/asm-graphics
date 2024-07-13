@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { ShaderMaterialProps, Viewport, extend } from "@react-three/fiber";
+import { ShaderMaterialProps, extend, useThree } from "@react-three/fiber";
 import { Plane, useTexture, shaderMaterial } from "@react-three/drei";
 
 import skyBayerImg from "./assets/Bayer256.png";
@@ -130,7 +130,6 @@ function skyColourLerp(time: number): [stops: number[], colours: THREE.Color[]] 
 }
 
 type SkyProps = {
-	viewport: Viewport;
 	yOffset?: number;
 	xExtraWidth?: number;
 	time: number;
@@ -140,23 +139,24 @@ type SkyProps = {
 } & JSX.IntrinsicElements["group"];
 
 export const Sky = (props: SkyProps) => {
+	const { viewport } = useThree();
 	const skyTexture = useTexture(props.bayer128 ? skyBayer128Img : skyBayerImg) as THREE.Texture;
 	const starsTexture = useTexture(stars) as THREE.Texture;
 
 	skyTexture.minFilter = THREE.NearestFilter;
 	skyTexture.magFilter = THREE.NearestFilter;
 
-	const width = props.viewport.width + (props.xExtraWidth ?? 0);
+	const width = viewport.width + (props.xExtraWidth ?? 0);
 	starsTexture.minFilter = THREE.NearestFilter;
 	starsTexture.magFilter = THREE.NearestFilter;
 	starsTexture.wrapS = THREE.RepeatWrapping;
-	starsTexture.repeat.set(width / props.viewport.height, 1);
+	starsTexture.repeat.set(width / viewport.height, 1);
 
 	const [colourStops, colours] = skyColourLerp(props.time);
 
 	return (
 		<group {...props}>
-			<Plane args={[width, props.viewport.height]}>
+			<Plane args={[width, viewport.height]}>
 				<skyMaterial
 					key={SkyMaterial.key}
 					uTexture={skyTexture}
@@ -166,10 +166,10 @@ export const Sky = (props: SkyProps) => {
 					// uColors={sunsetColours.map((c) => c.colour)}
 					// uColorStops={(props.testSkyColours ?? []).map((c) => c.stop)}
 					// uColors={(props.testSkyColours ?? []).map((c) => new THREE.Color(c.colour).convertLinearToSRGB())}
-					uTileX={width / props.viewport.height}
+					uTileX={width / viewport.height}
 				/>
 			</Plane>
-			<Plane args={[width, props.viewport.height]} position={[-0.2, 0, 0.01]}>
+			<Plane args={[width, viewport.height]} position={[-0.2, 0, 0.01]}>
 				<meshBasicMaterial map={starsTexture} alphaTest={Math.max(lightValue(props.time), 0.01)} fog={false} />
 			</Plane>
 		</group>

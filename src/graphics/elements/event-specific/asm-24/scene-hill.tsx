@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState, type CSSProperties } from "react";
+import React, { useEffect, useRef, type CSSProperties } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import { Center, Float, OrbitControls, OrthographicCamera } from "@react-three/drei";
+import { Center, OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
@@ -13,7 +13,6 @@ import { lightValue } from "./time-utils";
 import { Timer3D } from "./timer-3d";
 import { ASRText } from "./letter-rotation";
 import { Estimate3D } from "./estimate";
-import { Stopwatch } from "./stopwatch";
 import { AvailableFonts } from "../letter";
 
 type SceneHillProps = {
@@ -25,9 +24,13 @@ type SceneHillProps = {
 
 	positions?: ContentPositioning;
 
-	contentStyle?: "standard" | "widescreen" | "standard-2p" | "widescreen-2p" | "gba" | "3ds-2p";
+	contentStyle?: "standard" | "widescreen" | "standard-2p" | "widescreen-2p" | "gba" | "3ds-2p" | "tech-swapover";
 
 	testSkyColours?: { stop: number; colour: string }[];
+
+	hillSettings?: {
+		hillScale?: THREE.Vector3;
+	}
 
 	className?: string;
 	style?: CSSProperties;
@@ -67,7 +70,7 @@ export const SceneHill = (props: SceneHillProps) => {
 };
 
 const SceneHillR3F = (props: SceneHillProps) => {
-	const [spacebarPressed, setSpacebarPressed] = useState(false);
+	// const [spacebarPressed, setSpacebarPressed] = useState(false);
 	const { viewport } = useThree();
 
 	const fogColour = new THREE.Color().lerpColors(
@@ -78,23 +81,23 @@ const SceneHillR3F = (props: SceneHillProps) => {
 
 	const gameName = props.runData?.customData.gameDisplay ?? props.runData?.game ?? "";
 
-	useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			setSpacebarPressed(event.code === "Space");
-		};
+	// useEffect(() => {
+	// 	const handleKeyDown = (event: KeyboardEvent) => {
+	// 		setSpacebarPressed(event.code === "Space");
+	// 	};
 
-		const handleKeyUp = (event: KeyboardEvent) => {
-			setSpacebarPressed(!(event.code === "Space"));
-		};
+	// 	const handleKeyUp = (event: KeyboardEvent) => {
+	// 		setSpacebarPressed(!(event.code === "Space"));
+	// 	};
 
-		window.addEventListener("keydown", handleKeyDown);
-		window.addEventListener("keyup", handleKeyUp);
+	// 	window.addEventListener("keydown", handleKeyDown);
+	// 	window.addEventListener("keyup", handleKeyUp);
 
-		return () => {
-			window.removeEventListener("keydown", handleKeyDown);
-			window.removeEventListener("keyup", handleKeyUp);
-		};
-	}, []);
+	// 	return () => {
+	// 		window.removeEventListener("keydown", handleKeyDown);
+	// 		window.removeEventListener("keyup", handleKeyUp);
+	// 	};
+	// }, []);
 
 	const bayer128 = props.contentStyle === "3ds-2p" || props.contentStyle === "standard-2p";
 
@@ -105,7 +108,6 @@ const SceneHillR3F = (props: SceneHillProps) => {
 			<OrthographicCamera makeDefault position={[0, 0, 8]} zoom={275} />
 			<fog attach="fog" args={[fogColour, 3, 10]} />
 			<Sky
-				viewport={viewport}
 				time={props.time}
 				position={[0, 0, -1]}
 				bayer128={bayer128}
@@ -126,6 +128,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 				scale={1.1}
 				seed={props.seed ?? 0}
 				time={props.time}
+				hillScale={props.hillSettings?.hillScale}
 			/>
 			{/* <Stopwatch time={props.speedrunTime?.milliseconds} position={[0, 1.45, 1]} scale={4} /> */}
 
@@ -203,7 +206,6 @@ const SceneHillR3F = (props: SceneHillProps) => {
 			{props.contentStyle === "standard-2p" && (
 				<>
 					<Sky
-						viewport={viewport}
 						time={props.time}
 						position={[0, 0.9, -0.99]}
 						scale={0.5}
@@ -263,7 +265,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 
 			{props.contentStyle === "3ds-2p" && (
 				<group scale={0.6}>
-					<Sky viewport={viewport} time={props.time} position={[0, -1, -0.99]} bayer128 scale={6} />
+					<Sky time={props.time} position={[0, -1, -0.99]} bayer128 scale={6} />
 					<group position={[-1, 0.08, 0]} scale={0.26}>
 						<ASRText text={gameName} font="Russo One" />
 						<Center scale={0.9} position={[0, -1.1, 0]}>
@@ -322,15 +324,24 @@ const SceneHillR3F = (props: SceneHillProps) => {
 				</group>
 			)}
 
-			{spacebarPressed && (
+			{props.contentStyle === "tech-swapover" && (
 				<>
-					<OrbitControls />
-					{/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-						<GizmoViewport axisColors={["red", "green", "blue"]} labelColor="black" />
-						<GizmoViewcube />
-					</GizmoHelper> */}
+					<City
+						position={[3, -viewport.height / 2 + 1.6 + (props.positions?.hillYPos ?? 0), 0.1]}
+						scale={3}
+						time={props.time}
+					/>
+					<City
+						position={[-3, -viewport.height / 2 + 1.6 + (props.positions?.hillYPos ?? 0), 0.1]}
+						scale={3}
+						time={props.time}
+					/>
 				</>
 			)}
+
+			{/* {spacebarPressed && (
+				<OrbitControls />
+			)} */}
 		</>
 	);
 };
@@ -355,16 +366,6 @@ const ASRTextMaxWidth = (props: ASRTextMaxWidth) => {
 		bb.getSize(boundingBoxSize);
 
 		if (isNaN(boundingBoxSize.x) || boundingBoxSize.x === 0) return;
-
-		// Make sure it doesn't exceed the max width
-		// console.log(boundingBoxSize.x, props.maxWidth, props.preferredScale, props.maxWidth * props.preferredScale, boundingBoxSize.x > props.maxWidth * props.preferredScale)
-		// console.log(props.maxWidth, boundingBoxSize.x, props.maxWidth / boundingBoxSize.x, props.preferredScale);
-		// if (boundingBoxSize.x > props.maxWidth * props.preferredScale) {
-		// 	textBoundsRef.current.scale.setX(((props.maxWidth) / (boundingBoxSize.x * props.preferredScale)  * props.preferredScale));
-		// 	console.log(textBoundsRef.current.scale.x)
-		// } else {
-		// 	textBoundsRef.current.scale.setX(props.preferredScale);
-		// }
 
 		textBoundsRef.current.scale.setX(Math.min(props.maxWidth / boundingBoxSize.x, props.preferredScale));
 	}, [props.text, textBoundsRef.current, props.preferredScale]);

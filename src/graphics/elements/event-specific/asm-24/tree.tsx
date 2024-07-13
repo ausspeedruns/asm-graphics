@@ -155,6 +155,7 @@ export const Tree = (props: TreeProps) => {
 
 	leavesTexture.minFilter = THREE.NearestFilter;
 	leavesTexture.magFilter = THREE.NearestFilter;
+	leavesTexture.colorSpace = THREE.SRGBColorSpace;
 
 	useFrame((state) => {
 		if (!leavesRef.current) return;

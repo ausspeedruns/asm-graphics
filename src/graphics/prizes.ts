@@ -1,41 +1,31 @@
 import { Prize } from "./elements/intermission/incent-prizes";
 
-const DONATION_SUBHEADING = "Donation";
+const DONATION_SUBHEADING = "Min Dono";
 
 export const PRIZES: Prize[] = [
 	{
-		item: "Cult of the Lamb",
-		subItem: "Game Code",
-		quantity: 1,
+		item: "Fellow Traveller Game Bundles",
+		quantity: 4,
 		requirement: "$10",
 		requirementSubheading: DONATION_SUBHEADING,
 	},
 	{
-		item: "Doors of Insanity",
-		subItem: "Game Code",
-		quantity: 1,
-		requirement: "$10",
+		item: "Neon Doctrine Bundle",
+		quantity: 2,
+		requirement: "$30",
 		requirementSubheading: DONATION_SUBHEADING,
 	},
 	{
-		item: "Hazel Sky",
-		subItem: "Game Code",
-		quantity: 1,
-		requirement: "$10",
+		item: "Annapurna Interactive Game Bundle",
+		// subItem: "Game Code",
+		quantity: 2,
+		requirement: "$50",
 		requirementSubheading: DONATION_SUBHEADING,
 	},
 	{
-		item: "The Library of Babel",
-		subItem: "Game Code",
+		item: "Fellow Traveller Complete Bundle",
 		quantity: 1,
-		requirement: "$10",
+		requirement: "$50",
 		requirementSubheading: DONATION_SUBHEADING,
-	},
-	{
-		item: "Game On Cancer",
-		subItem: "Swag Bag",
-		quantity: 3,
-		requirement: "Super Monkey\nBall Winners",
-		requirementSubheading: "DH Only",
 	},
 ];

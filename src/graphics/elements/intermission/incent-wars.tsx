@@ -31,16 +31,6 @@ const AllOptionContainer = styled.div`
 	flex-grow: 1;
 `;
 
-const Game = styled(FitText)`
-	max-width: 615px;
-`;
-
-const IncentiveName = styled(FitText)`
-	font-weight: bold;
-	max-width: 615px;
-	font-family: var(--secondary-font);
-`;
-
 interface GoalProps {
 	war: War;
 }
@@ -55,7 +45,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
-			// tl.fromTo(containerRef.current, { xPercent: -100 }, { xPercent: 0, duration: 1 }, "-=0.5");
+			tl.fromTo(containerRef.current, { xPercent: -100 }, { xPercent: 0, duration: 1 }, "-=0.5");
 
 			tl.fromTo(containerRef.current, { opacity: 0 }, { opacity: 1, duration: 0 });
 			tl.addLabel("stagger");
@@ -65,7 +55,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			tl.to(containerRef.current, { opacity: 0, duration: 0 });
 
 			// End
-			// tl.to(containerRef.current, { xPercent: 100, duration: 1 }, props.war.options.length == 0 ? "+=1" : undefined);
+			tl.to(containerRef.current, { xPercent: 100, duration: 1 }, props.war.options.length == 0 ? "+=1" : undefined);
 
 			return tl;
 		},
@@ -187,22 +177,23 @@ const ProgressContainer = styled.div`
 	align-items: center;
 	justify-content: flex-end;
 	/* border: 1px solid var(--tgx-green); */
-	border-radius: 16px;
+	border-radius: 8px;
 	gap: 8px;
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 0%;
 	width: 100%;
-	background: linear-gradient(0deg, var(--dh-orange) 0%, var(--dh-red) 100%);
+	background: white;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	border-radius: 16px;
+	border-radius: 8px;
 `;
 
 const CurrentAmount = styled.span`
 	font-size: 26px;
+	z-index: 2;
 `;
 
 const isColour = (strColor: string) => {
@@ -224,9 +215,15 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 	const percentage = (props.option.total / props.highest) * 100;
 	const progressBarRef = useRef<HTMLDivElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
+	const totalRef = useRef<HTMLSpanElement>(null);
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
+			let computedTimeColour = "#000";
+			if (progressBarRef.current) {
+				computedTimeColour = getComputedStyle(progressBarRef.current).getPropertyValue("--time");
+			}
+
 			// Start
 			tl.fromTo(
 				containerRef.current,
@@ -241,7 +238,20 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 				`stagger+=${props.index / 2 + 0.75}`,
 			);
 
-			tl.to(containerRef.current, { x: 950, duration: 1, ease: "power2.in" }, `stagger+=${props.index / 8 + 10}`);
+			if (percentage > 65) {
+				tl.fromTo(
+					totalRef.current,
+					{ marginBottom: 0, color: "#ffffff" },
+					{ marginBottom: -46, color: computedTimeColour, duration: 2, ease: "power4.out" },
+					`stagger+=${props.index / 2 + 0.75}`,
+				);
+			}
+
+			tl.to(
+				containerRef.current,
+				{ x: 950, duration: 1, ease: "power2.in" },
+				`stagger+=${props.index / 8 + 10}`,
+			);
 			return tl;
 		},
 	}));
@@ -269,12 +279,13 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 	return (
 		<OptionContainer ref={containerRef}>
 			<ProgressContainer>
-				<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
+				<CurrentAmount ref={totalRef}>
+					${Math.floor(props.option.total).toLocaleString()}
+				</CurrentAmount>
 				<ProgressBarContainer
 					ref={progressBarRef}
 					style={{
 						background: optionIsColour ? props.option.name : undefined,
-						boxShadow: optionIsColour ? "inset 0 0 0 3px var(--dh-red)" : undefined,
 					}}
 				/>
 			</ProgressContainer>

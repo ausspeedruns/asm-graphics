@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Plane, ShapeProps, useTexture } from "@react-three/drei";
+import { Plane, useTexture } from "@react-three/drei";
 
 import CityTexture from "./assets/adelaide.png";
 import CityLights from "./assets/adelaide_lights_threshold.png";
@@ -8,7 +8,7 @@ import { timeOfDayTint } from "./colours";
 
 type CityProps = {
 	time?: number;
-} & ShapeProps<typeof THREE.PlaneGeometry>;
+} & JSX.IntrinsicElements["group"];
 
 export const City = (props: CityProps) => {
 	const cityTexture = useTexture(CityTexture) as THREE.Texture;
@@ -27,16 +27,14 @@ export const City = (props: CityProps) => {
 	const cityColour = timeOfDayTint(props.time);
 
 	return (
-		<group>
-			<Plane {...props}>
+		<group {...props}>
+			<Plane>
 				<meshBasicMaterial map={cityTexture} alphaTest={0.5} color={cityColour} />
 			</Plane>
-			<group position={props.position} scale={props.scale}>
-				<Plane rotation={[180 * (Math.PI / 180), 180 * (Math.PI / 180), 0]} position={[0, -1, 0]}>
-					<meshBasicMaterial map={cityTexture} alphaTest={0.5} color={cityColour} />
-				</Plane>
-			</group>
-			<Plane {...props}>
+			<Plane rotation={[180 * (Math.PI / 180), 180 * (Math.PI / 180), 0]} position={[0, -1, 0]}>
+				<meshBasicMaterial map={cityTexture} alphaTest={0.5} color={cityColour} />
+			</Plane>
+			<Plane>
 				<meshBasicMaterial
 					map={lightsTexture}
 					alphaTest={Math.max(lightValue(props.time ?? 0), 0.01)}

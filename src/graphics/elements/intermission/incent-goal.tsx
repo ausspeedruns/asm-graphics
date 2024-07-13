@@ -53,18 +53,20 @@ const IncentiveName = styled(FitText)`
 	/* display: inline-block; */
 	font-weight: bold;
 	max-width: 100%;
-	font-family: var(--secondary-font);
+	/* font-family: var(--secondary-font); */
 `;
 
 const BottomBar = styled.div`
 	display: flex;
-	/* justify-content: space-between; */
-	flex-direction: column;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+	/* flex-direction: column; */
 	align-items: center;
 	/* height: 50%; */
 	width: 100%;
 	box-sizing: border-box;
 	flex-grow: 1;
+	gap: 16px;
 	/* padding: 0 5%; */
 `;
 
@@ -73,36 +75,36 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
 	width: 100%;
-	border: 2px solid var(--dh-red);
+	border: 2px solid var(--asm-orange);
 	/* background: var(--main); */
 	background: transparent;
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
 	display: flex;
-	flex-direction: column;
-	/* align-items: flex-end; */
+	/* flex-direction: column; */
+	align-items: flex-end;
 	justify-content: flex-end;
 	border-radius: 16px;
 `;
 
 const ProgressBarContainer = styled.div`
-	width: 100%;
-	background: linear-gradient(0deg, var(--dh-orange) 0%, var(--dh-red) 200%);
+	height: 100%;
+	background: #fff;
 	/* border-right: 5px solid var(--sec); */
 	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
+	justify-content: flex-end;
 	align-items: center;
 	position: absolute;
 	left: 0;
 `;
 
 const CurrentAmount = styled.span`
-	color: var(--text-light);
-	font-family: var(--secondary-font);
+	color: var(--text-dark);
+	/* font-family: var(--secondary-font); */
 	font-size: 30px;
 	font-weight: bold;
+	margin-right: 16px;
 `;
 
 interface GoalProps {
@@ -122,10 +124,9 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			const percentage = (props.goal.total / props.goal.goal) * 100;
 			tl.fromTo(
 				progressBarRef.current,
-				{ height: 0, background: `linear-gradient(0deg, var(--dh-orange) 0%, var(--dh-red) 10000%);` },
+				{ width: 0 },
 				{
-					height: `${percentage}%`,
-					background: `linear-gradient(0deg, var(--dh-orange) 0%, var(--dh-red) ${percentage == 0 ? (1 / percentage) * 10000 : 10000}%);`,
+					width: `${percentage}%`,
 					duration: Math.max(1, percentage / 45 + 0.5),
 				},
 				"startBarFilling",
@@ -140,7 +141,7 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 	let textOutside: React.CSSProperties = {};
 	if (props.goal.total / props.goal.goal < 0.5) {
 		textOutside = {
-			marginTop: -46,
+			marginRight: -46,
 			color: "var(--text-light)",
 		};
 	}

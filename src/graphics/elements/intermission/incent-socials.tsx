@@ -31,8 +31,8 @@ const SocialBar = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: var(--secondary-font);
-	gap: 32px;
+	/* font-family: var(--secondary-font); */
+	gap: 16px;
 	font-size: 40px;
 `;
 
@@ -64,29 +64,29 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 	return (
 		<SocialsContainer ref={containerRef}>
 			<Stagger ref={(el) => (staggerElements.current[0] = el!)} index={0}>
-				<SocialBar>
-					<SocialIcon src={WebsiteIcon} />
-					AusSpeedruns.com
-				</SocialBar>
+				<div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 32 }}>
+					<SocialBar>
+						<SocialIcon src={WebsiteIcon} />
+						AusSpeedruns.com
+					</SocialBar>
+					<SocialBar>
+						<SocialIcon src={TwitterIcon} /> @AusSpeedruns
+					</SocialBar>
+				</div>
 			</Stagger>
-			<Stagger ref={(el) => (staggerElements.current[1] = el!)} index={1}>
-				<SocialBar>
-					<SocialIcon src={TwitterIcon} /> @AusSpeedruns
-				</SocialBar>
+			<Stagger ref={(el) => (staggerElements.current[1] = el!)} index={2}>
+				<div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 32 }}>
+					<SocialBar>
+						<SocialIcon src={TwitchIcon} /> @AusSpeedruns
+					</SocialBar>
+					<SocialBar>
+						<SocialIcon src={YouTubeIcon} /> @AusSpeedruns
+					</SocialBar>
+				</div>
 			</Stagger>
-			<Stagger ref={(el) => (staggerElements.current[2] = el!)} index={2}>
+			<Stagger ref={(el) => (staggerElements.current[2] = el!)} index={4}>
 				<SocialBar>
-					<SocialIcon src={TwitchIcon} /> @AusSpeedruns
-				</SocialBar>
-			</Stagger>
-			<Stagger ref={(el) => (staggerElements.current[3] = el!)} index={3}>
-				<SocialBar>
-					<SocialIcon src={YouTubeIcon} /> @AusSpeedruns
-				</SocialBar>
-			</Stagger>
-			<Stagger ref={(el) => (staggerElements.current[4] = el!)} index={4}>
-				<SocialBar>
-					<SocialIcon src={DiscordIcon} /> Discord.AusSpeedruns.com
+					<SocialIcon src={DiscordIcon} /> AusSpeedruns.com/Discord
 				</SocialBar>
 			</Stagger>
 		</SocialsContainer>

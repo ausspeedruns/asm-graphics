@@ -169,6 +169,11 @@
 				"file": "asm24-hill.html",
 				"width": 0,
 				"height": 0
+			},
+			{
+				"file": "5-min-games-swapover.html",
+				"width": 1920,
+				"height": 1080
 			}
 		],
 		"assetCategories": [
@@ -187,6 +192,19 @@
 			{
 				"name": "eventPhotos",
 				"title": "Event Photos",
+				"allowedTypes": [
+					"JPG",
+					"jpg",
+					"jpeg",
+					"gif",
+					"png",
+					"svg",
+					"webp"
+				]
+			},
+			{
+				"name": "transitionPhotos",
+				"title": "Transition Photos",
 				"allowedTypes": [
 					"JPG",
 					"jpg",

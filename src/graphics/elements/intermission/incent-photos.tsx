@@ -1,6 +1,5 @@
 import React, { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
-import { useReplicant } from "@nodecg/react-hooks";
 
 import type NodeCG from "@nodecg/types";
 
@@ -39,10 +38,13 @@ const EventPhoto = styled.img`
 
 const NUMBER_OF_PHOTOS = 5;
 
-export const Photos = React.forwardRef<TickerItemHandles>((_, ref) => {
+type IncentivePhotosProps = {
+	photos?: NodeCG.AssetFile[];
+}
+
+export const Photos = React.forwardRef<TickerItemHandles, IncentivePhotosProps>((props, ref) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const photosRef = useRef<HTMLDivElement>(null);
-	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
@@ -54,8 +56,8 @@ export const Photos = React.forwardRef<TickerItemHandles>((_, ref) => {
 
 	const getRandomPhotos = () => {
 		const randomPhotos: NodeCG.AssetFile[] = [];
-		if (photosRep && photosRep.length > NUMBER_OF_PHOTOS) {
-			const shuffledPhotos = [...photosRep].sort(() => Math.random() - 0.5);
+		if (props.photos && props.photos.length > NUMBER_OF_PHOTOS) {
+			const shuffledPhotos = [...props.photos].sort(() => Math.random() - 0.5);
 			randomPhotos.push(...shuffledPhotos.slice(0, NUMBER_OF_PHOTOS));
 		}
 		return randomPhotos;

@@ -2,25 +2,35 @@ import * as nodecgApiContext from "./nodecg-api-context";
 import { RunData, RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData";
 import { v4 as uuid } from "uuid";
 
+import { allAusSpeedrunsUsernamesRep } from "./replicants";
+
 import games from './5-min-runs.json';
 
 const nodecg = nodecgApiContext.get();
+const logger = new nodecg.Logger("5 Min Games");
 
 function generateAllRunsData(): RunData[] {
 	return games.map((game) => {
 		const teams: RunDataTeam[] = game.Runners.split(", ").map(runner => {
 			const teamID = uuid();
 
+			const foundAusSpeedrunsUser = allAusSpeedrunsUsernamesRep.value.find((asRunner => asRunner.username === runner));
+
+			if (!foundAusSpeedrunsUser) {
+				logger.warn(`Could not find an AusSpeedruns user with the username: ${runner}. Please input their details manually!`)
+			}
+
 			return {
 				id: teamID,
 				players: [
 					{
-						id: uuid(),
+						id: foundAusSpeedrunsUser?.id ?? uuid(),
 						name: runner,
 						customData: {},
+						pronouns: foundAusSpeedrunsUser?.pronouns,
 						teamID,
 						social: {
-
+							twitch: foundAusSpeedrunsUser?.twitch
 						}
 					}
 				]
@@ -29,11 +39,16 @@ function generateAllRunsData(): RunData[] {
 
 		return { 
 			id: uuid(),
-			customData: {},
+			customData: {
+				techPlatform: game.Platform,
+				gameDisplay: game.Game,
+				specialRequirements: `Worst Run: ${game.WorstRun}\nBest Run: ${game.BestRun}`
+			},
 			game: game.Game,
 			system: game.Platform,
 			category: game.Category,
-			teams: teams
+			estimate: "00:05:00",
+			teams: teams,
 		}
 	});
 }

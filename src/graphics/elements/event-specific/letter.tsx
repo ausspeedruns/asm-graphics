@@ -47,11 +47,11 @@ export const Letter = (props: LetterProps) => {
 	// useFrame(({ clock }) => {
 	// 	if (!letterRef.current) return;
 
-	// 	if (!centreSet) {
-	// 		const boundingBox = letterRef.current.geometry.boundingBox;
-	// 		boundingBox?.getCenter(centre);
-	// 		setCentreSet(true);
-	// 	}
+	// 	// if (!centreSet) {
+	// 	// 	const boundingBox = letterRef.current.geometry.boundingBox;
+	// 	// 	boundingBox?.getCenter(centre);
+	// 	// 	setCentreSet(true);
+	// 	// }
 
 	// 	// letterRef.current.geometry.center();
 

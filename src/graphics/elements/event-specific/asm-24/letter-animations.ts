@@ -19,7 +19,7 @@ function jump(t: number): AnimationTuple {
 
 	translate.y = (-letterJumpHeight / 0.25) * Math.pow(t - 0.5, 2) + letterJumpHeight;
 
-	rotation.y = (-letterRotation * Math.pow(t - 1, 2) + letterRotation) * DEG_TO_RAD;
+	// rotation.y = (-letterRotation * Math.pow(t - 1, 2) + letterRotation) * DEG_TO_RAD;
 
 	return [translate, rotation, new Vector3()];
 }

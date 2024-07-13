@@ -1,6 +1,6 @@
 body {
 	margin: 0;
-	--main: var(--asm23-main);
+	--main: var(--asm24-main);
 	--primary: var(--main);
 	--nameplate: var(--asm-blue);
 	--nameplate-lighter: var(--asm23-nameplate-lighter);
@@ -27,6 +27,8 @@ body {
 
 	--asm23-main: #020824;
 	--asm23-nameplate-lighter: #6fa6b9;
+
+	--asm24-main: #030c38;
 
 	/* GOC */
 	--goc-gradient: linear-gradient(90deg, #6969CB 13%, #A967B7 27.8%, #E964A2 42.6%, #F08184 57.4%, #F89D65 72.2%, #FFBA47 87%);

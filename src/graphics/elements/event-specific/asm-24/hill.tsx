@@ -11,6 +11,7 @@ type HillProps = {
 	seed?: number;
 	treeNumber?: number;
 	time?: number;
+	hillScale?: THREE.Vector3;
 } & JSX.IntrinsicElements["group"];
 
 const scaleMax = 0.5;
@@ -42,8 +43,8 @@ export const Hill = (props: HillProps) => {
 
 		const mesh = meshRef.current;
 		const position = props.position as number[];
-		const boundsX = (meshRef.current.geometry.boundingBox?.max.x ?? 0) * 1.3;
-		const boundsZ = (meshRef.current.geometry.boundingBox?.max.z ?? 0) * 1.3;
+		const boundsX = (meshRef.current.geometry.boundingBox?.max.x ?? 0) * meshRef.current.scale.x;
+		const boundsZ = (meshRef.current.geometry.boundingBox?.max.z ?? 0) * meshRef.current.scale.z;
 
 		setTrees(
 			Array.from({ length: props.treeNumber ?? 50 }, () => {
@@ -87,7 +88,7 @@ export const Hill = (props: HillProps) => {
 
 	return (
 		<group {...props} dispose={null}>
-			<mesh geometry={nodes.Plane008.geometry} name="Hill" ref={meshRef}>
+			<mesh geometry={nodes.Plane008.geometry} name="Hill" ref={meshRef} scale={props.hillScale}>
 				<meshBasicMaterial map={texture} fog color={hillColour} />
 			</mesh>
 			{trees}
