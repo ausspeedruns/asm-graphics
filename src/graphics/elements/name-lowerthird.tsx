@@ -142,7 +142,7 @@ export const AcknowledgementOfCountry = (props: AcknowledgementOfCountryProps) =
 			<TextContainer ref={TextRef}>
 				<AcknowledgementText>
 					AusSpeedruns acknowledges the traditional owners of the lands on which we are gathered for this
-					event, the Wurundjeri Woi Wurrung people of the Kulin Nation, and their continued connection to
+					event, the Kaurna people, and their continued connection to
 					Country. We pay our respects to their elders past and present, and extend that respect any First
 					Nations people in attendance today. AusSpeedruns also acknowledges the traditional owners of the
 					many lands, waterways and ecosystems on which our viewers from home are joining us.
