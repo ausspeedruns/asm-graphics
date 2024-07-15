@@ -19,6 +19,7 @@ import ASGX23Transitions from "./elements/event-specific/tgx-24/";
 // import Clip3 from "./media/audio/heartcontainer1.mp3";
 // import Clip4 from "./media/audio/heartpiece1.mp3";
 // import Clip5 from "./media/audio/itemget1.mp3";
+import cdWhirring from "./media/audio/cd-transition.mp3";
 
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { Canvas } from "@react-three/fiber";
@@ -58,9 +59,9 @@ const TransitionDiv = styled.div`
 `;
 
 const LoadingTextAnimation = keyframes`
-	50% {
+	/* 50% {
 		opacity: 0;
-	}
+	} */
 `;
 
 const LoadingText = styled.div`
@@ -68,9 +69,10 @@ const LoadingText = styled.div`
 	text-transform: uppercase;
 	font-family: "Russo One";
 	font-size: 100px;
-	-webkit-text-stroke-width: 20px;
+	/* -webkit-text-stroke-width: 20px;
 	-webkit-text-stroke-color: black;
-	paint-order: stroke fill;
+	paint-order: stroke fill; */
+	text-shadow: 10px 0 black,-10px 0 black, 0 10px black, 0 -10px black, 10px 10px black, -10px 10px black, -10px -10px black, 10px -10px black;
 `;
 
 const LoadingBar = styled.div`
@@ -91,9 +93,10 @@ const GameplayTip = styled.div`
 	font-size: 50px;
 	color: #fff;
 	font-style: italic;
-	-webkit-text-stroke-width: 10px;
+	/* -webkit-text-stroke-width: 10px;
 	-webkit-text-stroke-color: black;
-	paint-order: stroke fill;
+	paint-order: stroke fill; */
+	text-shadow: 4px 0 black, -4px 0 black, 0 4px black, 0 -4px black, 4px 4px black, -4px 4px black, -4px -4px black, 4px -4px black;
 `;
 
 function runString(runData: RunDataActiveRun | undefined) {
@@ -209,15 +212,14 @@ export const Transition: React.FC = () => {
 		console.log("Running");
 
 		const tl = gsap.timeline();
-		// tl.call(
-		// 	() => {
-		// 		if (!audioRef.current) return;
-		// 		audioRef.current.src = ClipArray[Math.floor(Math.random() * ClipArray.length)];
-		// 		audioRef.current.play();
-		// 	},
-		// 	[],
-		// 	"+=2",
-		// );
+		tl.call(
+			() => {
+				if (!audioRef.current) return;
+				audioRef.current.src = cdWhirring;
+				audioRef.current.play();
+			},
+			[],
+		);
 
 		if (gamingTipsRef.current) {
 			let prefix = "";
