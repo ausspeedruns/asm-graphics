@@ -16,6 +16,7 @@ import { getTeams } from "../elements/team-data";
 // import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
 // import WidescreenBottom from "../media/ASM23/widescreen-2-bottom.png";
 import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
+import { lightValue } from "../elements/event-specific/asm-24/time-utils";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -55,7 +56,8 @@ const RightBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	position: relative;
-	background: var(--main);
+	/* background: var(--main); */
+	z-index: 2;
 `;
 
 const SponsorSize = {
@@ -91,7 +93,8 @@ const BottomBlock = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	background: var(--main);
+	/* background: var(--main); */
+	z-index: 2;
 `;
 
 const BespokeCouch = styled.div`
@@ -104,6 +107,10 @@ const CouchLabel = styled.span`
 	color: var(--text-light);
 	font-size: 30px;
 	margin-right: 8px;
+	padding: 0px 10px;
+	border-radius: 8px;
+	background: var(--asm24-main-transparent);
+	backdrop-filter: blur(4px);
 `;
 
 const customSmallStyling: ISmallStyling = {
@@ -132,6 +139,22 @@ const customSmallStyling: ISmallStyling = {
 		width: 284,
 	},
 };
+
+function lerpColor(color: string, alpha: number): string {
+	const hex = color.replace("#", "");
+	const r = parseInt(hex.substring(0, 2), 16);
+	const g = parseInt(hex.substring(2, 4), 16);
+	const b = parseInt(hex.substring(4, 6), 16);
+	return `rgba(${r}, ${g}, ${b}, ${remapNumbers(alpha, 0, 1, 0, 0.7)})`;
+}
+
+function remapNumbers(value: number, oldMin: number, oldMax: number, newMin: number, newMax: number): number {
+	const oldRange = oldMax - oldMin;
+	const newRange = newMax - newMin;
+	const normalizedValue = (value - oldMin) / oldRange;
+	const newValue = normalizedValue * newRange + newMin;
+	return newValue;
+}
 
 export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	const sponsorRef = useRef<SponsorBoxRef>(null);
@@ -167,7 +190,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 				<AudioIndicator
 					active={props.gameAudioIndicator === 0}
 					side="left"
-					style={{ position: "absolute", top: 300, left: 624 }}
+					style={{ position: "absolute", top: 300, left: 624, zIndex: 2 }}
 				/>
 				<AudioIndicator
 					active={props.gameAudioIndicator === 1}

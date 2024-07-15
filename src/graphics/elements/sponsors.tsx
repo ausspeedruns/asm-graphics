@@ -30,6 +30,9 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		// Change this to a tl loop
 		const interval = setInterval(() => {
+			if (!imageRef.current || !props.sponsors || props.sponsors.length < 2) {
+				return;
+			}
 			// Runs every 30 seconds
 			const tl = gsap.timeline();
 			tl.to(imageRef.current, { duration: 1, opacity: 0 });
@@ -56,7 +59,7 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 			ref={imageRef}
 			className={props.className}
 			style={props.style}
-			src={props.sponsors[props.start || 0].url}
+			src={props.sponsors[props.start ?? 0].url}
 		/>
 	);
 };

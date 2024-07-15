@@ -43,7 +43,7 @@ export const DashboardGameAudio: React.FC = () => {
 	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator");
 
 	function updateGameAudioIndicator(index?: number) {
-		if (!index) {
+		if (typeof index === "undefined") {
 			console.error("[GameAudioIndicator] Tried to update an undefined audio indicator");
 			return;
 		}
