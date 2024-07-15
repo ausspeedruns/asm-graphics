@@ -629,7 +629,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						preload="auto"
 						muted={props.muted}
 						ref={audioRef}>
-						{/* <source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" /> */}
+						<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 					</audio>
 					<div style={{ display: "flex", alignItems: "flex-end", gap: 8, width: "100%" }}>
 						<MusicIcon src={MusicIconImg} />

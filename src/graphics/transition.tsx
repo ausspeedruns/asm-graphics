@@ -89,8 +89,11 @@ const LoadingBarProgress = styled.div`
 
 const GameplayTip = styled.div`
 	font-size: 50px;
-	color: #ccc;
+	color: #fff;
 	font-style: italic;
+	-webkit-text-stroke-width: 10px;
+	-webkit-text-stroke-color: black;
+	paint-order: stroke fill;
 `;
 
 function runString(runData: RunDataActiveRun | undefined) {
@@ -161,10 +164,10 @@ function loadingSteps(steps: number) {
     }));
 
 	// Make sure the transition is at least 5 seconds
-	const totalTime = Math.max(5, stepsArray.reduce((total, step) => total + step.wait + step.duration, 0));
+	const totalTime = Math.max(4, stepsArray.reduce((total, step) => total + step.wait + step.duration, 0));
 	stepsArray.forEach((step) => {
-		step.wait *= (5 / totalTime);
-		step.duration *= (5 / totalTime);
+		step.wait *= (4 / totalTime);
+		step.duration *= (4 / totalTime);
 	});
 
     return stepsArray;
@@ -270,7 +273,7 @@ export const Transition: React.FC = () => {
 					flat
 					style={{ position: "absolute", width: "100%", height: "70%", top: 0 }}
 					camera={{ position: [0, 0, 12], fov: 40 }}>
-					<Center scale={0.75}>
+					<Center scale={7}>
 						<ASM2024Logo />
 					</Center>
 				</Canvas>
