@@ -9,6 +9,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { OrthographicCamera } from "@react-three/drei";
 import { Vector3 } from "three";
+import { ASM2024Logo } from "./elements/event-specific/asm-24/asm24-logo";
 
 const TechSetup: React.FC = () => {
 	const normalisedTime = useNormalisedTime();
@@ -20,8 +21,8 @@ const TechSetup: React.FC = () => {
 			<div style={{ position: "absolute", height: "100%", width: "100%" }}>
 				<SceneHill
 					seed={1}
-					trees={50}
-					time={normalisedTime}
+					trees={150}
+					time={normalisedTime + 0.38}
 					contentStyle="tech-swapover"
 					hillSettings={{ hillScale: new Vector3(5, 1, 1) }}
 				/>
@@ -30,13 +31,14 @@ const TechSetup: React.FC = () => {
 				{/* <Canvas flat camera={{position: [0, 0, 50], isOrthographicCamera: true, near: 0.1, far: 100, zoom: 275}}> */}
 				<Canvas flat>
 					<OrthographicCamera makeDefault position={[0, 0, 8]} zoom={200} />
-					<ASRText text="Preparing" font="Noto Sans Bold" position={[0, 0, 0]} scale={0.7} />
+					{/* <ASRText text="Preparing" font="Noto Sans Bold" position={[0, 0, 0]} scale={0.7} />
 					<ASRText
 						position={[0, -0.6, 0]}
 						text={runDataActiveRep?.customData.gameDisplay ?? runDataActiveRep?.game ?? "???"}
 						font="Russo One"
 					/>
-					<Timer3D timer={timerRep} position={[0, 1.5, 0]} scale={2} />
+					<Timer3D timer={timerRep} position={[0, 1.5, 0]} scale={2} /> */}
+					<ASM2024Logo scale={4.5} position={[0, 0.3, 0]} rotation={[-0.1, -0.5, 0]} />
 				</Canvas>
 			</div>
 		</>

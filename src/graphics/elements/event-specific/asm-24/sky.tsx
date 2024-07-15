@@ -151,6 +151,7 @@ export const Sky = (props: SkyProps) => {
 	starsTexture.magFilter = THREE.NearestFilter;
 	starsTexture.wrapS = THREE.RepeatWrapping;
 	starsTexture.repeat.set(width / viewport.height, 1);
+	starsTexture.offset.x = 0.67;
 
 	const [colourStops, colours] = skyColourLerp(props.time);
 

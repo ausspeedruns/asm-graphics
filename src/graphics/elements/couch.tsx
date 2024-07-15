@@ -159,8 +159,8 @@ export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 			<SpeakingColour speaking={props.speaking} />
 			<Name>{props.commentator.name}</Name>
 			<Pronouns>
-				{!props.noTag && <Tag>{props.commentator.tag}</Tag>}
-				{!props.noTag && props.commentator.pronouns && <>- </>}
+				{!props.noTag && props.commentator.tag && <Tag>{props.commentator.tag}</Tag>}
+				{!props.noTag && props.commentator.tag && props.commentator.pronouns && <>- </>}
 				{props.commentator.pronouns}
 			</Pronouns>
 		</PersonCompressedContainer>

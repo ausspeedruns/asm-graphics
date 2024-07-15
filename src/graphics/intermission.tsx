@@ -8,7 +8,7 @@ import { format } from "date-fns";
 import _ from "underscore";
 // @ts-ignore
 import Twemoji from "react-twemoji";
-import { useRive } from "@rive-app/react-canvas";
+// import { useRive } from "@rive-app/react-canvas";
 
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Tweet as ITweet } from "@asm-graphics/types/Twitter";
@@ -32,12 +32,12 @@ import GoCLogo from "./media/Sponsors/GoCCCWhite.svg";
 import StopwatchIcon from "./media/icons/stopwatch.svg";
 import RunnerIcon from "./media/icons/runner.svg";
 import ConsoleIcon from "./media/icons/console.svg";
-import { LerpNum } from "./elements/ticker/lerp-num";
+import { LerpNum, LerpNumRef } from "./elements/ticker/lerp-num";
 
 import ASLogo from "./media/AusSpeedruns-Logo.svg";
 import { PRIZES } from "./prizes";
 import { SceneIntermission } from "./elements/event-specific/asm-24/scene-intermission";
-import { uiTime } from "./elements/event-specific/asm-24/colours";
+import { timeOfDayTint, uiTime } from "./elements/event-specific/asm-24/colours";
 import { useNormalisedTime } from "../hooks/useCurrentTime";
 
 const IntermissionContainer = styled.div<{ time: string }>`
@@ -77,6 +77,7 @@ const HostPronoun = styled.span`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	border-radius: 8px;
 `;
 
 const MUSIC_WIDTH = 400;
@@ -142,7 +143,8 @@ const MarqueeText = styled.span`
 
 const RunContainer = styled.div`
 	width: 100%;
-	height: 340px;
+	/* height: 340px; */
+	height: 100%;
 	/* position: absolute; */
 	/* justify-content: space-between; */
 	font-size: 35px;
@@ -155,15 +157,15 @@ const Title = styled.div`
 	text-align: center;
 `;
 
-const GameName = styled(FitText)`
+const GameName = styled(FitText)<{ containsNewLine?: boolean }>`
 	/* font-weight: bold; */
 	max-width: 80%;
 	padding: 0 10%;
-	font-size: 80px;
-	line-height: 80px;
+	font-size: ${({ containsNewLine }) => (containsNewLine ? `50px` : `80px`)};
+	line-height: ${({ containsNewLine }) => (containsNewLine ? `50px` : `80px`)};
+	margin: ${({ containsNewLine }) => (containsNewLine ? `5px` : `20px`)} 0px;
 	font-family: var(--secondary-font);
 	text-transform: uppercase;
-	margin: 20px 0;
 `;
 
 const Category = styled(FitText)`
@@ -264,7 +266,7 @@ const MetaInformationContainer = styled.div`
 
 const IncentivesContainer = styled.div`
 	width: 100%;
-	height: 326px;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 `;
@@ -273,12 +275,10 @@ const IncentivesContainer = styled.div`
 const ShitNonDiageticInfoContainer = styled.div`
 	/* background: #030c3856; */
 	background: #030c3856;
-	/* border-radius: 16px 0 0 16px; */
+	border-radius: 16px 0 0 16px;
 	backdrop-filter: blur(6px);
 	padding: 16px;
 	box-sizing: border-box;
-	
-	clip-path: polygon(16px 0%, 100% 0%, 100% 100%, 16px 100%, 0% 684px, 0% 16px);
 `;
 
 const LogoContainer = styled.div`
@@ -290,6 +290,7 @@ const LogoContainer = styled.div`
 	img {
 		height: 100%;
 		width: 100%;
+		object-fit: contain;
 	}
 `;
 
@@ -310,9 +311,9 @@ export const Intermission: React.FC = () => {
 		if (intermissionRef.current) intermissionRef.current.showTweet(newVal);
 	});
 
-	useListenFor("playAd", (newVal) => {
-		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
-	});
+	// useListenFor("playAd", (newVal) => {
+	// 	if (intermissionRef.current) intermissionRef.current.showAd(newVal);
+	// });
 
 	return (
 		<IntermissionElement
@@ -355,10 +356,9 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	// const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
 	const songEl = useRef<HTMLSpanElement>(null);
 	const audioRef = useRef<HTMLAudioElement>(null);
-	const bottomBlockRef = useRef<HTMLDivElement>(null);
 	const adsRef = useRef<IntermissionAdsRef>(null);
 	const incentivesRef = useRef<HTMLDivElement>(null);
-	const webcamVideoRef = useRef<HTMLVideoElement>(null);
+	const rotatingLogo = useRef<HTMLImageElement>(null);
 	const time = useNormalisedTime();
 
 	async function getCurrentSong() {
@@ -396,6 +396,24 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 		setShowMarquee(songEl.current.offsetWidth < songEl.current.scrollWidth);
 	}, [currentSong, songEl]);
 
+	useEffect(() => {
+		if (!rotatingLogo.current) return;
+		const tl = gsap.timeline({ repeat: -1 });
+
+		tl.call(() => {
+			if (!rotatingLogo.current) return;
+			rotatingLogo.current.src = ASLogo;
+		});
+		tl.fromTo(rotatingLogo.current, { opacity: 0 }, { opacity: 1, duration: 2 });
+		tl.to(rotatingLogo.current, { opacity: 0, duration: 2 }, "+=60");
+		tl.call(() => {
+			if (!rotatingLogo.current) return;
+			rotatingLogo.current.src = "../shared/sponsors/msi.png";
+		});
+		tl.to(rotatingLogo.current, { opacity: 1, duration: 2 });
+		tl.to(rotatingLogo.current, { opacity: 0, duration: 2 }, "+=60");
+	}, [rotatingLogo]);
+
 	useImperativeHandle(ref, () => ({
 		showTweet(_newVal) {},
 		showAd(ad) {
@@ -403,6 +421,27 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			switch (ad) {
 				case "GOC":
 					adDuration = 36;
+					break;
+				case "Laptop":
+					adDuration = 60;
+					break;
+				case "Raider_GE78":
+					adDuration = 84;
+					break;
+				case "Vector_17":
+					adDuration = 85;
+					break;
+				case "Prestige_13":
+					adDuration = 81;
+					break;
+				case "Stealth_Laptop":
+					adDuration = 87;
+					break;
+				case "Katana_Laptop":
+					adDuration = 86;
+					break;
+				case "Thin_15":
+					adDuration = 58;
 					break;
 				default:
 					return;
@@ -422,9 +461,9 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						audioRef.current.volume = parseFloat(dummyElPos.toString());
 					},
 				});
-				tl.to(incentivesRef.current, { opacity: 0, duration: 3 });
-				tl.call(() => adsRef.current?.showAd(ad));
-				tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration + 3}`);
+				// tl.to(incentivesRef.current, { opacity: 0, duration: 3 });
+				// tl.call(() => adsRef.current?.showAd(ad));
+				// tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration + 3}`);
 				tl.to(
 					audioRef.current,
 					{
@@ -436,7 +475,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							audioRef.current.volume = parseFloat(dummyElPos.toString());
 						},
 					},
-					"+=10",
+					`+=${adDuration} + 10`,
 				);
 			}
 		},
@@ -444,21 +483,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.activeRun?.id);
 	const nextRuns = clone(props.runArray).slice(currentRunIndex).slice(0, 3);
-	// .slice(currentRunIndex + 1)
-
-	// let NextRun;
-	// if (nextRuns.length !== 0) {
-	// 	NextRun = <InterNextRunItem nextRun run={nextRuns[0]} key={nextRuns[0].id} />;
-	// }
-
-	// nextRuns.shift();
-	// const RunsArray = nextRuns.map((run) => {
-	// 	return <InterNextRunItem run={run} key={run.id} />;
-	// });
-
-	// if (RunsArray.length < 2) {
-	// 	RunsArray.push(<EndRunItem key="end" />);
-	// }
 
 	let playerNames: React.ReactNode[] = [];
 	if (nextRuns[0]?.teams.length === 0) {
@@ -475,26 +499,9 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 		});
 	}
 
-	// useEffect(() => {
-	// 	if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-	// 		const constraints = { video: { width: 1280, height: 720, facingMode: "user" } };
+	const gameName = nextRuns[0]?.customData.gameDisplay ?? nextRuns[0]?.game ?? "";
 
-	// 		navigator.mediaDevices
-	// 			.getUserMedia(constraints)
-	// 			.then(function (stream) {
-	// 				if (!webcamVideoRef.current) return;
-	// 				// apply the stream to the video element used in the texture
-
-	// 				webcamVideoRef.current.srcObject = stream;
-	// 				webcamVideoRef.current.play();
-	// 			})
-	// 			.catch(function (error) {
-	// 				console.error("Unable to access the camera/webcam.", error);
-	// 			});
-	// 	} else {
-	// 		console.error("MediaDevices interface not available.");
-	// 	}
-	// }, [webcamVideoRef])
+	const estimate = nextRuns[0]?.estimate?.startsWith("00:") ? nextRuns[0]?.estimate?.replace("00:", "0:") : nextRuns[0]?.estimate;
 
 	return (
 		<IntermissionContainer time={uiTime(time)}>
@@ -507,22 +514,44 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					// clipPath: "path('M 0 0 H 1920 V 1080 H 0 V 1080 H 960 V 540 H 0')",
 				}}>
 				{/* <img src={DHBackground} /> */}
-				<SceneIntermission time={time} />
+				<SceneIntermission time={time} donationTotal={props.donation} />
 			</div>
-			{/* <video ref={webcamVideoRef} /> */}
 			{/* <LogoContainer style={{ position: "absolute", top: 0, left: 0, borderRadius: "0 0 16px 0", height: 120 }}>
 				<img src={ASLogo} />
 			</LogoContainer> */}
-			<LogoContainer style={{ position: "absolute", top: 0, right: 0, borderRadius: "0 0 0 16px", height: 120 }}>
+			<LogoContainer
+				style={{
+					position: "absolute",
+					top: 0,
+					width: 500,
+					right: 0,
+					paddingRight: 32,
+					borderRadius: "0 0 0 16px",
+					height: 120,
+				}}>
 				<img src={GoCLogo} />
+			</LogoContainer>
+			<LogoContainer
+				style={{
+					position: "absolute",
+					top: 0,
+					width: 500,
+					left: 0,
+					paddingRight: 32,
+					borderRadius: "0 0 16px 0",
+					height: 120,
+				}}>
+				<img ref={rotatingLogo} src="../shared/sponsors/msi.png" />
+				{/* <img src={ASLogo} /> */}
 			</LogoContainer>
 			<ShitNonDiageticInfoContainer
 				style={{
-					width: 1000,
-					height: 700,
+					maxWidth: 800,
+					height: 320,
 					position: "absolute",
 					right: 0,
 					top: 230,
+					paddingRight: 32,
 				}}>
 				<RunContainer>
 					<div
@@ -535,17 +564,17 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							boxSizing: "border-box",
 						}}>
 						<Title>Next Up</Title>
-						<GameName allowNewlines text={nextRuns[0]?.customData.gameDisplay ?? nextRuns[0]?.game} />
+						<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
 						<Category text={nextRuns[0]?.category} />
 					</div>
-					<div style={{ display: "flex", width: "100%", justifyContent: "space-evenly" }}>
+					<div style={{ display: "flex", width: "100%", justifyContent: "space-between", gap: 32 }}>
 						<PlayerInfo>
 							<img src={RunnerIcon} />
 							{playerNames}
 						</PlayerInfo>
 						<TimeInfo>
 							<img src={StopwatchIcon} />
-							<FitText text={(nextRuns[0]?.estimate ?? "0").substring(1)} />
+							<FitText text={estimate ?? "0"} />
 						</TimeInfo>
 						<ConsoleInfo>
 							<img src={ConsoleIcon} />
@@ -553,9 +582,18 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						</ConsoleInfo>
 					</div>
 				</RunContainer>
+			</ShitNonDiageticInfoContainer>
+			<ShitNonDiageticInfoContainer
+				style={{
+					width: 1000,
+					height: 380,
+					position: "absolute",
+					right: 0,
+					top: 560,
+				}}>
 				<IncentivesContainer ref={incentivesRef}>
 					{props.incentives && (
-						<InterIncentivesMemo incentives={props.incentives} prizes={PRIZES} photos={props.photos} />
+						<InterIncentivesMemo incentives={props.incentives} prizes={PRIZES} photos={props.photos} upcomingRuns={nextRuns.slice(1, 3)} />
 					)}
 				</IncentivesContainer>
 			</ShitNonDiageticInfoContainer>
@@ -563,15 +601,17 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			{/* 
 			<IntermissionAds ref={adsRef} /> */}
 
-			<div
+			<ShitNonDiageticInfoContainer
 				style={{
 					position: "absolute",
-					bottom: 16,
-					width: "100%",
+					bottom: 0,
+					width: "95%",
+					marginLeft: "2.5%",
 					display: "flex",
 					justifyContent: "space-between",
-					padding: "0 60px",
 					boxSizing: "border-box",
+					borderRadius: "16px 16px 0 0",
+					padding: 16,
 					gap: 16,
 				}}>
 				{props.host && (
@@ -613,7 +653,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					</CurrentTime>
 					<CurrentDate>{currentDate}</CurrentDate>
 				</TimeContainer>
-			</div>
+			</ShitNonDiageticInfoContainer>
 
 			{/* <img src={DHBorders} style={{ position: "absolute", width: 1920, height: 1080, pointerEvents: "none" }} /> */}
 
@@ -629,6 +669,10 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					<DonationSite>AusSpeedruns.com/Donate</DonationSite>
 				</DonationInfo>
 			</DonationContainer> */}
+
+			{/* <div style={{ opacity: 0, display: "none" }}>
+				<LerpNum value={props.donation} ref={donationTotalRef} />
+			</div> */}
 		</IntermissionContainer>
 	);
 });

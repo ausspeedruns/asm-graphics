@@ -99,8 +99,15 @@ export const Timer3D = (props: TimerProps) => {
 				scale={4}
 				rotation={[-15 * DEG2RAD, -10 * DEG2RAD, 0]}
 			/>
-			<ASRText text={compressedTime} font={"Seamless"} dontUpdateCenter cacheKey={timeLength} />
 			<ASRText
+				doAnimation={false}
+				text={compressedTime}
+				font={"Seamless"}
+				dontUpdateCenter
+				cacheKey={timeLength}
+			/>
+			<ASRText
+				doAnimation={false}
 				text={`.${millis}`}
 				font={"Seamless"}
 				scale={0.5}

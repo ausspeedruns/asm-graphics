@@ -6,24 +6,24 @@ import gsap from "gsap";
 // import adExit from "../../media/ASM23/ad_EXIT.webm";
 
 const IntermissionAdsContainer = styled.div`
-	width: 722px;
+	width: 100%;
 	/* opacity: 0; */
 	/* background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%); */
 	/* border-top: 1px solid var(--sec);
 	border-bottom: 1px solid var(--sec); */
-	height: 406px;
+	height: 100%;
 	position: absolute;
 	top: 0;
-	right: 96px;
+	background: black;
 `;
 
 const VideoBox = styled.div`
-	position: absolute;
+	margin: auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	top: 0;
-	width: 100%;
+	width: 64%;
 	height: 100%;
 	/* background: red; */
 `;
@@ -70,6 +70,55 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 						src: "../shared/sponsors/GameOnCancer.mp4",
 						length: 36,
 						volume: 1,
+					};
+					break;
+				case "Laptop":
+					adData = {
+						src: "../shared/sponsors/Laptop.mp4",
+						length: 60,
+						volume: 0.8,
+					};
+					break;
+				case "Raider_GE78":
+					adData = {
+						src: "../shared/sponsors/MSI_NB_Raider_GE78_HX_14V_16-10.mp4",
+						length: 84,
+						volume: 0.8,
+					};
+					break;
+				case "Vector_17":
+					adData = {
+						src: "../shared/sponsors/MSI_NB_Vector_17_HX_A14V_16-10.mp4",
+						length: 85,
+						volume: 0.8,
+					};
+					break;
+				case "Prestige_13":
+					adData = {
+						src: "../shared/sponsors/MSI_Prestige13_AI_Evo_A1M_16-9.mp4",
+						length: 81,
+						volume: 0.8,
+					};
+					break;
+				case "Stealth_Laptop":
+					adData = {
+						src: "../shared/sponsors/MSI_Stealth_Laptop.mp4",
+						length: 87,
+						volume: 0.8,
+					};
+					break;
+				case "Katana_Laptop":
+					adData = {
+						src: "../shared/sponsors/RPL_Katana_Laptop.mp4",
+						length: 86,
+						volume: 0.8,
+					};
+					break;
+				case "Thin_15":
+					adData = {
+						src: "../shared/sponsors/Thin_15_B12U.mp4",
+						length: 58,
+						volume: 0.8,
 					};
 					break;
 				default:
@@ -129,7 +178,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 				<Video ref={videoRef} />
 			</VideoBox>
 			{/* <EntryExitVids ref={exitRef} src={adExit} muted /> */}
-			<div
+			{/* <div
 				ref={textRef}
 				style={{
 					fontFamily: "var(--main-font)",
@@ -143,7 +192,7 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 					opacity: 0,
 				}}>
 				Game On Cancer
-			</div>
+			</div> */}
 		</IntermissionAdsContainer>
 	);
 });

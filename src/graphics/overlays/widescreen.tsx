@@ -33,13 +33,13 @@ const Sidebar = styled.div`
 	top: 156px;
 	height: 860px;
 	width: 479px;
-	border-right: 1px solid var(--dh-red);
-	z-index: -1;
+	border-right: 1px solid var(--time);
+	/* z-index: -1; */
 	overflow: hidden;
 `;
 
 const SidebarBG = styled.div`
-	background: var(--main);
+	/* background: var(--main); */
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -50,6 +50,7 @@ const SidebarBG = styled.div`
 	/* border-top: 1px solid var(--sec); */
 	overflow: hidden;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+	z-index: 1;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -128,7 +129,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					verticalCoop
 				/>
 				<SidebarBG>
-					<div
+					{/* <div
 						style={{
 							position: "absolute",
 							top: 0,
@@ -136,7 +137,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							width: "100%",
 							background: "var(--dh-orange-to-red)",
 						}}
-					/>
+					/> */}
 					{/* <img
 						src={WidescreenBottom}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover", marginTop: -5 }}

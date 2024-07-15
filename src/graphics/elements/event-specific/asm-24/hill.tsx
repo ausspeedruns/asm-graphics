@@ -1,11 +1,13 @@
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { useGLTF, useTexture } from "@react-three/drei";
 
 import HillModel from "./assets/Grass.glb?url";
 import Grass from "./assets/grass.png";
 import { Tree } from "./tree";
-import { useEffect, useRef, useState } from "react";
 import { timeOfDayTint } from "./colours";
+import { ObjectMap } from "@react-three/fiber";
+import type { GLTF } from "three-stdlib";
 
 type HillProps = {
 	seed?: number;
@@ -25,7 +27,7 @@ const raycaster = new THREE.Raycaster();
 
 export const Hill = (props: HillProps) => {
 	const meshRef = useRef<THREE.Mesh>(null);
-	const { nodes } = useGLTF(HillModel);
+	const { nodes } = useGLTF(HillModel) as GLTF & ObjectMap;
 	const texture = useTexture(Grass) as THREE.Texture;
 	const [trees, setTrees] = useState<JSX.Element[]>([]);
 
@@ -43,7 +45,7 @@ export const Hill = (props: HillProps) => {
 
 		const mesh = meshRef.current;
 		const position = props.position as number[];
-		const boundsX = (meshRef.current.geometry.boundingBox?.max.x ?? 0) * meshRef.current.scale.x;
+		const boundsX = (meshRef.current.geometry.boundingBox?.max.x ?? 0) * meshRef.current.scale.x + 2;
 		const boundsZ = (meshRef.current.geometry.boundingBox?.max.z ?? 0) * meshRef.current.scale.z;
 
 		setTrees(
@@ -88,7 +90,7 @@ export const Hill = (props: HillProps) => {
 
 	return (
 		<group {...props} dispose={null}>
-			<mesh geometry={nodes.Plane008.geometry} name="Hill" ref={meshRef} scale={props.hillScale}>
+			<mesh geometry={(nodes.Plane008 as THREE.Mesh).geometry} name="Hill" ref={meshRef} scale={props.hillScale}>
 				<meshBasicMaterial map={texture} fog color={hillColour} />
 			</mesh>
 			{trees}

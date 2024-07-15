@@ -13,6 +13,8 @@ import { FitText } from "../fit-text";
 import { Prize, Prizes } from "./incent-prizes";
 import { Socials } from "./incent-socials";
 import { Photos } from "./incent-photos";
+import { UpcomingRuns } from "./incent-upcoming-runs";
+import { RunData } from "@asm-graphics/types/RunData";
 
 gsap.registerPlugin(useGSAP);
 
@@ -93,9 +95,10 @@ interface IncentivesProps {
 	asmm?: number;
 	prizes?: Prize[];
 	photos?: NodeCG.AssetFile[];
+	upcomingRuns?: RunData[];
 }
 
-const MAX_INCENTIVES: number = -1;
+const MAX_INCENTIVES: number = 10;
 const TEST_RANGE: number[] = [];
 
 export const InterIncentives = (props: IncentivesProps) => {
@@ -180,6 +183,18 @@ export const InterIncentives = (props: IncentivesProps) => {
 	if (props.photos && props.photos.length > 5) {
 		allPanels.push(<Photos key="ASMPhotos" ref={(el) => (el ? (incentivesRef.current[20] = el) : undefined)} />);
 		allLabels.push({ header: "ASM 2024 Photos" });
+	}
+
+	// Upcoming Runs
+	if (props.upcomingRuns && props.upcomingRuns.length > 0) {
+		allPanels.push(
+			<UpcomingRuns
+				upcomingRuns={props.upcomingRuns}
+				key="ASMRuns"
+				ref={(el) => (el ? (incentivesRef.current[25] = el) : undefined)}
+			/>,
+		);
+		allLabels.push({ header: "Upcoming Runs", subheading: "AusSpeedruns.com/Schedule" });
 	}
 
 	const showContent = (element: TickerItemHandles) => {

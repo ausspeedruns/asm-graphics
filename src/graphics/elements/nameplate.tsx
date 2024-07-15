@@ -24,8 +24,8 @@ const NameplateContainer = styled.div<NameplateStyleProps>`
 	color: var(--text-light);
 	width: 100%;
 	font-size: 30px;
-	/* font-family: var(--secondary-font); */
-	font-family: var(--main-font);
+	font-family: var(--secondary-font);
+	/* font-family: var(--main-font); */
 	display: flex;
 	flex-direction: ${(props) => nameplateDirection(props)};
 	justify-content: space-between;
@@ -62,7 +62,7 @@ const TwitchDiv = styled.div`
 `;
 
 const PronounBox = styled.div<NameplateStyleProps>`
-	background: var(--sec);
+	background: var(--time);
 	font-weight: 400;
 	font-size: 20px;
 	text-transform: uppercase;
@@ -73,8 +73,8 @@ const PronounBox = styled.div<NameplateStyleProps>`
 	justify-content: center;
 	width: ${({ vertical }) => (vertical ? "100%" : "")};
 	box-sizing: border-box;
-	/* font-family: var(--main-font); */
-	font-family: var(--secondary-font);
+	font-family: var(--main-font);
+	/* font-family: var(--secondary-font); */
 `;
 
 const TwitchLogoImg = styled.img`

@@ -1,10 +1,10 @@
-import { forwardRef } from "react";
+import { forwardRef, useContext } from "react";
 import { ShaderMaterialProps, extend } from "@react-three/fiber";
 import { Center, shaderMaterial } from "@react-three/drei";
 import { Group } from "three";
 
 import { notoSansBold, notoSansRegular, russoOne, seamless } from "./letter-spacing";
-import { AvailableFonts, Letter } from "../letter";
+import { AvailableFonts, Letter } from "./letter";
 
 const TextMaterial = shaderMaterial(
 	{},
@@ -58,7 +58,7 @@ function getLetterSpacing(letter: string, font: AvailableFonts) {
 	}
 }
 
-function generateLine(text: string, font: AvailableFonts, letterRotations: LetterProps["letterRotations"]) {
+function generateLine(text: string, font: AvailableFonts, doAnimation: boolean) {
 	let letters = Array.from(text);
 	let letterElements = [];
 
@@ -68,7 +68,14 @@ function generateLine(text: string, font: AvailableFonts, letterRotations: Lette
 		const letter = letters[i];
 
 		const letterMesh = (
-			<Letter key={letter + i} letter={letter} size={0.5} font={font} position={[currentLetterSpacing, 0, 0]} />
+			<Letter
+				key={letter + i}
+				letter={letter}
+				size={0.5}
+				font={font}
+				position={[currentLetterSpacing, 0, 0]}
+				doAnimation={doAnimation}
+			/>
 		);
 
 		currentLetterSpacing += getLetterSpacing(letter, font);
@@ -83,11 +90,11 @@ function unescapeNewLines(text: string) {
 	return text.replace(/\\n/g, "\n");
 }
 
-function generateParagraph(text: string, font: AvailableFonts, letterRotations: LetterProps["letterRotations"]) {
+function generateParagraph(text: string, font: AvailableFonts, doAnimation: boolean) {
 	// console.log(text, text.split("\n"));
 	return unescapeNewLines(text)
 		.split("\n")
-		.map((line) => generateLine(line.trim(), font, letterRotations));
+		.map((line) => generateLine(line.trim(), font, doAnimation));
 }
 
 type LetterProps = {
@@ -99,15 +106,18 @@ type LetterProps = {
 	fontSize?: number;
 	font: AvailableFonts;
 	dontUpdateCenter?: boolean;
+	doAnimation?: boolean;
 } & Omit<React.ComponentProps<typeof Center>, "ref">;
 
 export const ASRText = forwardRef<Group, LetterProps>((props, ref) => {
 	if (!props.text) return <></>;
 
-	const letters = generateParagraph(props.text, props.font, props.letterRotations);
+	const letters = generateParagraph(props.text, props.font, props.doAnimation ?? true);
+
+	// console.log(props.text, letters)
 
 	return (
-		<Center ref={ref} {...props} cacheKey={props.dontUpdateCenter ? "" : props.text}>
+		<Center ref={ref} cacheKey={props.dontUpdateCenter ? "" : props.text} {...props}>
 			{letters.map((line, i) => (
 				<group key={i} position={[0, -i * 0.7, 0]}>
 					{line}

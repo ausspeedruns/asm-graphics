@@ -131,7 +131,7 @@ export const ASNNDash = () => {
 	const [asnnHeadline, setAsnnHeadline] = useReplicant<string>("asnn:headline");
 	const [asnnTicker, setAsnnTicker] = useReplicant<string[]>("asnn:ticker");
 	const [headlineTextBox, setHeadlineTextBox] = useState("");
-	const [headlineItems, setHeadlineItems] = useLocalStorage<string[]>("asnnHeadlines");
+	const [headlineItems, setHeadlineItems] = useLocalStorage<string[]>("asnnHeadlines", []);
 	const [tickerTextBox, setTickerTextBox] = useState("");
 	const [ticker, setTicker] = useState<string[]>([]);
 	const [name, setName] = useState("");

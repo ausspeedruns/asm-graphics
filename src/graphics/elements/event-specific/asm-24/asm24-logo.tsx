@@ -17,33 +17,33 @@ export function ASM2024Logo(props: { targetRotation?: THREE.Euler } & ThreeEleme
 	// const rotation = new THREE.Quaternion();
 	const bobRotation = new THREE.Euler();
 
-	useFrame((state) => {
-		const group = groupRef.current;
-		if (!group) return;
+	// useFrame((state) => {
+	// 	const group = groupRef.current;
+	// 	if (!group) return;
 
-		// const yPos = Math.sin(state.clock.elapsedTime * 0.5) * 0.05 + 0.05;
+	// 	// const yPos = Math.sin(state.clock.elapsedTime * 0.5) * 0.05 + 0.05;
 
-		bobRotation.y = state.clock.elapsedTime * 0.5;
+	// 	bobRotation.y = state.clock.elapsedTime * 0.5;
 
-		// rotation.premultiply((new THREE.Quaternion()).setFromEuler(bobRotation))
+	// 	// rotation.premultiply((new THREE.Quaternion()).setFromEuler(bobRotation))
 
-		// group.position.set(0, yPos, 0);
-		group.quaternion.setFromEuler(bobRotation);
-	});
+	// 	// group.position.set(0, yPos, 0);
+	// 	group.quaternion.setFromEuler(bobRotation);
+	// });
 
 	const material = materials["ASM Logo"];
 	material.vertexColors = true;
 	material.side = THREE.FrontSide;
 
 	return (
-		<group {...props} scale={viewport.width * 0.45} dispose={null} ref={groupRef}>
+		<group {...props} dispose={null} ref={groupRef}>
 			<mesh geometry={(nodes.ASM24 as Mesh).geometry} material={material} position={[-modelXOffset, 0, modelZOffset]} />
-			<mesh
+			{/* <mesh
 				geometry={(nodes.ASM24 as Mesh).geometry}
 				material={material}
 				rotation={[0, Math.PI, 0]}
 				position={[modelXOffset, 0, -modelZOffset]}
-			/>
+			/> */}
 		</group>
 	);
 }

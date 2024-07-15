@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, type CSSProperties } from "react";
+import React, { createContext, useEffect, useRef, useState, type CSSProperties } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { Center, OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
@@ -13,7 +13,7 @@ import { lightValue } from "./time-utils";
 import { Timer3D } from "./timer-3d";
 import { ASRText } from "./letter-rotation";
 import { Estimate3D } from "./estimate";
-import { AvailableFonts } from "../letter";
+import { AvailableFonts } from "./letter";
 
 type SceneHillProps = {
 	time: number;
@@ -24,13 +24,13 @@ type SceneHillProps = {
 
 	positions?: ContentPositioning;
 
-	contentStyle?: "standard" | "widescreen" | "standard-2p" | "widescreen-2p" | "gba" | "3ds-2p" | "tech-swapover";
+	contentStyle: "standard" | "widescreen" | "standard-2p" | "widescreen-2p" | "gba" | "3ds-2p" | "tech-swapover";
 
 	testSkyColours?: { stop: number; colour: string }[];
 
 	hillSettings?: {
 		hillScale?: THREE.Vector3;
-	}
+	};
 
 	className?: string;
 	style?: CSSProperties;
@@ -69,9 +69,27 @@ export const SceneHill = (props: SceneHillProps) => {
 	);
 };
 
+type LetterAnimationOccurance = {
+	position: number[];
+	time: number;	
+} | null;
+export const LetterAnimationContext = createContext<LetterAnimationOccurance>(null);
+
+const timerWorldPositions: Record<SceneHillProps["contentStyle"], number[]> = {
+	"widescreen": [2.1, 1.46, 0],
+	"standard": [0, 0.87, 0],
+	"standard-2p": [-1.76, 1.05, 0],
+	"widescreen-2p": [-1.76, -0.5, 0],
+	"gba": [0, 1, 0],
+	"3ds-2p": [0.45, 0.0288, 0],
+	"tech-swapover": [0, 0, 0],
+}
+
 const SceneHillR3F = (props: SceneHillProps) => {
 	// const [spacebarPressed, setSpacebarPressed] = useState(false);
-	const { viewport } = useThree();
+	const [timerState, setTimerState] = useState<string | undefined>("started");
+	const [letterAnimationOccurance, setLetterAnimationOccurance] = useState<LetterAnimationOccurance>(null);
+	const { viewport, clock } = useThree();
 
 	const fogColour = new THREE.Color().lerpColors(
 		new THREE.Color(0x000033),
@@ -103,16 +121,23 @@ const SceneHillR3F = (props: SceneHillProps) => {
 
 	const gameTitleHasNewLine = gameName.includes("\n") || gameName.includes("\\n");
 
+	useEffect(() => {
+		if (props.speedrunTime?.state === "running" && timerState !== "running") {
+			setTimerState("running");
+			setLetterAnimationOccurance({
+				position: timerWorldPositions[props.contentStyle],
+				time: clock.elapsedTime,
+			})
+		} else {
+			setTimerState(props.speedrunTime?.state);
+		}
+	}, [props.speedrunTime]);
+
 	return (
-		<>
+		<LetterAnimationContext.Provider value={letterAnimationOccurance}>
 			<OrthographicCamera makeDefault position={[0, 0, 8]} zoom={275} />
 			<fog attach="fog" args={[fogColour, 3, 10]} />
-			<Sky
-				time={props.time}
-				position={[0, 0, -1]}
-				bayer128={bayer128}
-				testSkyColours={props.testSkyColours}
-			/>
+			<Sky time={props.time} position={[0, 0, -1]} bayer128={bayer128} testSkyColours={props.testSkyColours} />
 			<City
 				position={[
 					props.positions?.hillXPos ?? 0,
@@ -134,12 +159,12 @@ const SceneHillR3F = (props: SceneHillProps) => {
 
 			{props.contentStyle === "standard" && (
 				<group scale={0.6}>
-					<Timer3D timer={props.speedrunTime} position={[0, 1.45, 0]} />
+					<Timer3D timer={props.speedrunTime} position={[0, 1.45, 0]} scale={0.9} />
 					<Estimate3D estimate={props.runData?.estimate} position={[0, 0.95, 0]} scale={0.35} />
 					<group position={[0, gameTitleHasNewLine ? 0.5 : 0.6, 0]}>
 						<ASRText text={gameName} font="Russo One" scale={0.4} position={[0, 0, 0]} />
 						<Center
-							position={[0, gameTitleHasNewLine ? -0.4 : -0.3, 0]}
+							position={[0, gameTitleHasNewLine ? -0.35 : -0.25, 0]}
 							scale={0.25}
 							cacheKey={`${props.runData?.system}-${props.runData?.release}`}>
 							<ASRText
@@ -161,7 +186,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 					<ASRTextMaxWidth
 						text={props.runData?.category?.toLocaleUpperCase()}
 						preferredScale={0.4}
-						position={[0, gameTitleHasNewLine ? -0.3 : -0.1, 0]}
+						position={[0, gameTitleHasNewLine ? -0.18 : -0.1, 0]}
 						maxWidth={0.8}
 					/>
 				</group>
@@ -170,13 +195,13 @@ const SceneHillR3F = (props: SceneHillProps) => {
 			{props.contentStyle === "widescreen" && (
 				<group scale={0.6} position={[0, 1.46, 0]}>
 					<Timer3D timer={props.speedrunTime} position={[3.5, 0, 0]} />
-					<Center position={[-3, 0, 0]}>
+					<Center position={[-3.5, gameTitleHasNewLine ? 0.05 : 0, 0]}>
 						<ASRTextMaxWidth
 							text={gameName}
 							font="Russo One"
-							preferredScale={0.5}
-							position={[0, gameTitleHasNewLine ? 0.2 : 0.12, 0]}
-							maxWidth={1.1}
+							preferredScale={0.6}
+							position={[0, gameTitleHasNewLine ? 0.3 : 0.14, 0]}
+							maxWidth={1.4}
 						/>
 						{/* <group scale={0.3} position={[0, gameTitleHasNewLine ? -0.2 : -0.2, 0]}>
 							<ASRText text={props.runData?.system} font="Noto Sans" position={[-2, 0, 0]} />
@@ -192,11 +217,11 @@ const SceneHillR3F = (props: SceneHillProps) => {
 							/>
 						</Center>
 					</Center>
-					<Center position={[0, -0.18, 0]}>
+					<Center position={[0, 0, 0]}>
 						<ASRTextMaxWidth
 							text={props.runData?.category?.toLocaleUpperCase()}
 							preferredScale={0.5}
-							maxWidth={0.65}
+							maxWidth={0.8}
 						/>
 						<Estimate3D estimate={props.runData?.estimate} position={[0, -0.3, 0]} scale={0.35} />
 					</Center>
@@ -205,15 +230,9 @@ const SceneHillR3F = (props: SceneHillProps) => {
 
 			{props.contentStyle === "standard-2p" && (
 				<>
-					<Sky
-						time={props.time}
-						position={[0, 0.9, -0.99]}
-						scale={0.5}
-						xExtraWidth={100}
-						bayer128
-					/>
+					<Sky time={props.time} position={[0, 0.365, -0.99]} scale={0.8} xExtraWidth={100} bayer128 />
 					<group scale={0.6} position={[-2.3, 1.2, 0]}>
-						<Timer3D timer={props.speedrunTime} position={[0.9, -0.25, 0]} scale={0.7} />
+						<Timer3D timer={props.speedrunTime} position={[0.9, -0.25, 0]} scale={0.6} />
 						<group position={[0, 0.5, 0]}>
 							<ASRText text={gameName} font="Russo One" scale={0.37} position={[0, 0.2, 0]} />
 							<group scale={0.3} position={[0, -0.2, 0]}>
@@ -223,11 +242,11 @@ const SceneHillR3F = (props: SceneHillProps) => {
 								/>
 							</group>
 						</group>
-						<group position={[-1.2, -0.1, 0]}>
+						<group position={[-1.05, -0.1, 0]}>
 							<ASRTextMaxWidth
 								text={props.runData?.category?.toLocaleUpperCase()}
 								preferredScale={0.5}
-								maxWidth={0.4}
+								maxWidth={0.5}
 							/>
 							<Estimate3D estimate={props.runData?.estimate} position={[0, -0.3, 0]} scale={0.35} />
 						</group>
@@ -342,7 +361,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 			{/* {spacebarPressed && (
 				<OrbitControls />
 			)} */}
-		</>
+		</LetterAnimationContext.Provider>
 	);
 };
 
@@ -357,18 +376,46 @@ const ASRTextMaxWidth = (props: ASRTextMaxWidth) => {
 	const textBoundsRef = useRef<THREE.Group>(null);
 	const text = props.text ?? "";
 
+	// useEffect(() => {
+	//     if (!textBoundsRef.current) return;
+
+	//     // Reset scale of text to preffered scale
+	//     textBoundsRef.current.scale.setX(props.preferredScale);
+
+	// 	// Create bounding box
+	//     const bb = new THREE.Box3().setFromObject(textBoundsRef.current);
+	//     let boundingBoxSize = new THREE.Vector3();
+	//     bb.getSize(boundingBoxSize);
+
+	//     if (isNaN(boundingBoxSize.x) || boundingBoxSize.x === 0) return;
+
+	//     // Rescale based on maxWidth and preferredScale
+	//     const newScale = Math.min(props.maxWidth / boundingBoxSize.x, props.preferredScale);
+	// 	console.log(textBoundsRef.current.scale.x, boundingBoxSize.x, newScale)
+	//     textBoundsRef.current.scale.setX(newScale);
+	// }, [props.text, props.preferredScale, props.maxWidth]);
 	useEffect(() => {
-		if (!textBoundsRef.current) return;
+		const timeout = setTimeout(() => {
+			if (!textBoundsRef.current) return;
 
-		const bb = new THREE.Box3();
-		bb.setFromObject(textBoundsRef.current);
-		let boundingBoxSize = new THREE.Vector3();
-		bb.getSize(boundingBoxSize);
+			// Reset scale of text to preffered scale
+			textBoundsRef.current.scale.setX(props.preferredScale);
 
-		if (isNaN(boundingBoxSize.x) || boundingBoxSize.x === 0) return;
+			// Create bounding box
+			const bb = new THREE.Box3().setFromObject(textBoundsRef.current);
+			let boundingBoxSize = new THREE.Vector3();
+			bb.getSize(boundingBoxSize);
 
-		textBoundsRef.current.scale.setX(Math.min(props.maxWidth / boundingBoxSize.x, props.preferredScale));
-	}, [props.text, textBoundsRef.current, props.preferredScale]);
+			if (isNaN(boundingBoxSize.x) || boundingBoxSize.x === 0) return;
+
+			// Rescale based on maxWidth and preferredScale
+			const newScale = Math.min(props.maxWidth / boundingBoxSize.x, props.preferredScale);
+			// console.log(textBoundsRef.current.scale.x, boundingBoxSize.x, newScale)
+			textBoundsRef.current.scale.setX(newScale);
+		}, 0);
+
+		return () => clearTimeout(timeout);
+	}, [props.text, props.preferredScale, props.maxWidth]);
 
 	return (
 		<group {...props} ref={textBoundsRef} scale={props.preferredScale}>
