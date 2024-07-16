@@ -261,6 +261,7 @@ const GradientAnimation = keyframes`
 const GradientText = styled.div`
 	background: var(--goc-gradient);
 	background-clip: text;
+	-webkit-background-clip: text;
 	color: transparent;
 
 	display: flex;
