@@ -52,8 +52,9 @@ const RightBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background: var(--main);
+	/* background: var(--main); */
 	position: relative;
+	z-index: 2;
 `;
 
 const SponsorSize = {

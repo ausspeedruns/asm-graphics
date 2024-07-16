@@ -44,6 +44,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 	/* height: 264px; */
 	flex-grow: 1;
 	/* margin-top: -70px; */
+	background-image: radial-gradient(#030c3875 30%, #030c3800 60%);
 `;
 
 const SponsorsSize = {

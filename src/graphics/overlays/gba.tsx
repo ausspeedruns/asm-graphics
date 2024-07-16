@@ -28,6 +28,8 @@ const Sidebar = styled.div`
 const SponsorsBoxS = styled(SponsorsBox)`
 	width: 100%;
 	flex-grow: 1;
+	z-index: 2;
+	background: radial-gradient(#030c3875 30%, #030c3800 60%);
 `;
 
 const SponsorsStyled = {
@@ -94,15 +96,15 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						commentators={props.commentators}
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
-						style={{ marginTop: 130 }}
+						style={{ marginTop: 350 }}
 					/>
 
-					{/* <SponsorsBoxS
+					<SponsorsBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}
 						sponsorStyle={SponsorsStyled}
-						tweetStyle={TwitterSize}
-					/> */}
+						// tweetStyle={TwitterSize}
+					/>
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>

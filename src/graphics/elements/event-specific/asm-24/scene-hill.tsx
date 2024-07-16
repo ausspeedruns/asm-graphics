@@ -234,7 +234,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 					<Sky time={props.time} position={[0, 0.365, -0.99]} scale={0.8} xExtraWidth={100} bayer128 />
 					<group scale={0.6} position={[-2.3, 1.2, 0]}>
 						<Timer3D timer={props.speedrunTime} position={[0.9, -0.25, 0]} scale={0.6} />
-						{/* <TextBackground position={[0, 0.5, -0.1]} /> */}
+						<TextBackground position={[0, -1, -0.1]} scale={[10, 2.5, 1]} time={props.time} />
 						<group position={[0, 0.5, 0]}>
 							<ASRText text={gameName} font="Russo One" scale={0.37} position={[0, 0.2, 0]} />
 							<group scale={0.3} position={[0, -0.2, 0]}>
