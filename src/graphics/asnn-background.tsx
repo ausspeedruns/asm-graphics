@@ -14,7 +14,7 @@ const ASNNBackground: React.FC = () => {
 				<SceneHill
 					seed={1}
 					trees={150}
-					time={normalisedTime + 0.38}
+					time={normalisedTime}
 					contentStyle="tech-swapover"
 					hillSettings={{ hillScale: new Vector3(5, 1, 1) }}
 				/>

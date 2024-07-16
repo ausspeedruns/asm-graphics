@@ -129,11 +129,12 @@ interface SpeakingProps {
 const Tag = styled.span`
 	font-weight: bold;
 	margin-right: 4px;
+	font-family: var(--secondary-font);
 `;
 
 const Name = styled.span`
-	/* font-family: var(--secondary-font); */
-	font-family: var(--main-font);
+	font-family: var(--secondary-font);
+	/* font-family: var(--main-font); */
 	/* font-weight: bold; */
 	z-index: 2;
 `;
@@ -141,8 +142,8 @@ const Name = styled.span`
 const Pronouns = styled.div`
 	font-size: 15px;
 	text-transform: uppercase;
-	/* font-family: var(--main-font); */
-	font-family: var(--secondary-font);
+	font-family: var(--main-font);
+	/* font-family: var(--secondary-font); */
 	z-index: 2;
 `;
 

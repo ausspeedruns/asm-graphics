@@ -298,7 +298,7 @@ const DonationMatches = (props: DonationMatchProps) => {
 	return (
 		<DonationMatchContainer>
 			<GradientText>
-				<MultiplierText>{multiplierAmount}×</MultiplierText>
+				<MultiplierText>{multiplierAmount + 1}×</MultiplierText>
 				<DonationMatchLabel>Donation Match</DonationMatchLabel>
 			</GradientText>
 		</DonationMatchContainer>

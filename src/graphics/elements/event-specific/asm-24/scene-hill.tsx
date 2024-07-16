@@ -218,7 +218,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 							/>
 						</Center>
 					</Center>
-					<Center position={[0, 0, 0]}>
+					<Center position={[0, -0.2, 0]}>
 						<ASRTextMaxWidth
 							text={props.runData?.category?.toLocaleUpperCase()}
 							preferredScale={0.5}
