@@ -72,19 +72,19 @@ export const SceneHill = (props: SceneHillProps) => {
 
 type LetterAnimationOccurance = {
 	position: number[];
-	time: number;	
+	time: number;
 } | null;
 export const LetterAnimationContext = createContext<LetterAnimationOccurance>(null);
 
 const timerWorldPositions: Record<SceneHillProps["contentStyle"], number[]> = {
-	"widescreen": [2.1, 1.46, 0],
-	"standard": [0, 0.87, 0],
+	widescreen: [2.1, 1.46, 0],
+	standard: [0, 0.87, 0],
 	"standard-2p": [-1.76, 1.05, 0],
 	"widescreen-2p": [-1.76, -0.5, 0],
-	"gba": [0, 1, 0],
+	gba: [0, 1, 0],
 	"3ds-2p": [0.45, 0.0288, 0],
 	"tech-swapover": [0, 0, 0],
-}
+};
 
 const SceneHillR3F = (props: SceneHillProps) => {
 	// const [spacebarPressed, setSpacebarPressed] = useState(false);
@@ -128,9 +128,16 @@ const SceneHillR3F = (props: SceneHillProps) => {
 			setLetterAnimationOccurance({
 				position: timerWorldPositions[props.contentStyle],
 				time: clock.elapsedTime,
-			})
+			});
+		// } else if (props.speedrunTime?.state === "finished" && timerState === "running") {
+		// 	setTimerState("finished");
+		// 	setLetterAnimationOccurance({
+		// 		position: [0, 0, 0],
+		// 		time: -1,
+		// 	});
 		} else {
 			setTimerState(props.speedrunTime?.state);
+			setLetterAnimationOccurance(null);
 		}
 	}, [props.speedrunTime]);
 
@@ -196,7 +203,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 			{props.contentStyle === "widescreen" && (
 				<group scale={0.6} position={[0, 1.46, 0]}>
 					<Timer3D timer={props.speedrunTime} position={[3.5, 0, 0]} />
-					<Center position={[-3.5, gameTitleHasNewLine ? 0.05 : 0, 0]}>
+					<group position={[-3.5, gameTitleHasNewLine ? 0.05 : 0, 0]}>
 						<ASRTextMaxWidth
 							text={gameName}
 							font="Russo One"
@@ -208,24 +215,26 @@ const SceneHillR3F = (props: SceneHillProps) => {
 							<ASRText text={props.runData?.system} font="Noto Sans" position={[-2, 0, 0]} />
 							<ASRText text={props.runData?.release} font="Noto Sans" position={[2, 0, 0]} />
 						</group> */}
-						<Center
+						{/* <Center
 							position={[0, gameTitleHasNewLine ? -0.2 : -0.2, 0]}
 							scale={0.3}
-							cacheKey={`${props.runData?.system}-${props.runData?.release}`}>
-							<ASRText
-								text={`${props.runData?.system ?? ""}     ${props.runData?.release ?? ""}`}
-								font="Noto Sans"
-							/>
-						</Center>
-					</Center>
-					<Center position={[0, -0.2, 0]}>
+							cacheKey={`${props.runData?.system}-${props.runData?.release}`}> */}
+						<ASRText
+							position={[0, gameTitleHasNewLine ? -0.2 : -0.2, 0]}
+							scale={0.3}
+							text={`${props.runData?.system ?? ""}     ${props.runData?.release ?? ""}`}
+							font="Noto Sans"
+						/>
+						{/* </Center> */}
+					</group>
+					<group position={[0, 0.125, 0]}>
 						<ASRTextMaxWidth
 							text={props.runData?.category?.toLocaleUpperCase()}
 							preferredScale={0.5}
 							maxWidth={0.8}
 						/>
 						<Estimate3D estimate={props.runData?.estimate} position={[0, -0.3, 0]} scale={0.35} />
-					</Center>
+					</group>
 				</group>
 			)}
 

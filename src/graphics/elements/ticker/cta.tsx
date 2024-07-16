@@ -66,37 +66,36 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 	const containerRef = useRef(null);
 	const donateRef = useRef(null);
 	const incentiveRef = useRef(null);
-	const factRef = useRef(null);
-	const [fact, setFact] = useState("");
+	// const factRef = useRef(null);
+	// const [fact, setFact] = useState("");
 
-	useEffect(() => {
-		setFact(getFact(props.currentTotal));
-	}, [props.currentTotal]);
+	// useEffect(() => {
+	// 	setFact(getFact(props.currentTotal));
+	// }, [props.currentTotal]);
 
 	useImperativeHandle(ref, () => ({
 		animation: (tl) => {
 			// Start
 			// tl.call(() => setFact(getFact(props.currentTotal)));
-			tl.set(containerRef.current, { y: -64 });
-			tl.to(containerRef.current, { y: 0, duration: 1 }, "+=1");
+			// tl.set(containerRef.current, { y: -64 });
+			tl.set(incentiveRef.current, { xPercent: 200 });
+			tl.fromTo(containerRef.current, { y: -64 }, { y: 0, duration: 1 }, "+=1");
 
-			tl.to(donateRef.current, { xPercent: -100, duration: 2 }, "+=5");
+			tl.fromTo(donateRef.current, { xPercent: 0 }, { xPercent: -100, duration: 2 }, "+=5");
 			tl.to(incentiveRef.current, { xPercent: -100, duration: 2 }, "-=2");
-			tl.to(incentiveRef.current, { xPercent: -200, duration: 2 }, "+=5");
-			tl.to(factRef.current, { xPercent: -100, duration: 2 }, "-=2");
+			// tl.to(incentiveRef.current, { xPercent: -200, duration: 2 }, "+=5");
+			// tl.to(factRef.current, { xPercent: -100, duration: 2 }, "-=2");
 
 			// End
 			tl.to(containerRef.current, { y: 96, duration: 1 }, "+=5");
-			tl.set(containerRef.current, { y: -64, duration: 1 });
+			// tl.set(containerRef.current, { y: -64, duration: 1 });
 			// tl.set(donateRef.current, { xPercent: 0 });
 			// tl.set(incentiveRef.current, { xPercent: 100 });
-			tl.set(factRef.current, { xPercent: 100 });
+			// tl.set(factRef.current, { xPercent: 100 });
 
 			return tl;
 		},
 	}));
-
-
 
 	return (
 		<TickerCTAContainer ref={containerRef}>
@@ -108,9 +107,9 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 				<span>Check out incentives at&nbsp;</span>
 				<EmphasisFont>ausspeedruns.com/incentives</EmphasisFont>
 			</CTALine>
-			<CTALine ref={factRef} style={{ transform: "translate(100%, 0)" }}>
+			{/* <CTALine ref={factRef} style={{ transform: "translate(100%, 0)" }}>
 				<span dangerouslySetInnerHTML={{ __html: fact }}></span>
-			</CTALine>
+			</CTALine> */}
 		</TickerCTAContainer>
 	);
 });

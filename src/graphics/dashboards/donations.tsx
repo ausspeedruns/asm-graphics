@@ -154,7 +154,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				...props.style,
 				paddingTop: MARGIN,
 			}}>
-			<Grid direction="column" container style={{ paddingRight: 4 }}>
+			<Grid direction="column" container style={{ paddingRight: 4, flexWrap: "nowrap" }}>
 				<div>
 					<Amount>
 						${props.donation.amount.toLocaleString()}
