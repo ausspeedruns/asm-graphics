@@ -111,7 +111,7 @@ export const ManualDonations: React.FC = () => {
 					Add
 				</GreenButton>
 			</DonationForm>
-			<Grid container direction="column" style={{ padding: 8 }}>
+			<Grid container direction="column" style={{ padding: 8, wordBreak: "break-word" }}>
 				{allDonations}
 			</Grid>
 		</DonationsContainer>
