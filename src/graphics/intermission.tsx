@@ -203,8 +203,8 @@ const TimeContainer = styled.div`
 	align-items: center;
 	float: right;
 	width: 553px; */
-	font-size: 50px;
-	min-width: 730px;
+	font-size: 40px;
+	/* min-width: 730px; */
 `;
 
 const CurrentTime = styled.span`
@@ -311,9 +311,9 @@ export const Intermission: React.FC = () => {
 		if (intermissionRef.current) intermissionRef.current.showTweet(newVal);
 	});
 
-	// useListenFor("playAd", (newVal) => {
-	// 	if (intermissionRef.current) intermissionRef.current.showAd(newVal);
-	// });
+	useListenFor("playAd", (newVal) => {
+		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
+	});
 
 	return (
 		<IntermissionElement
@@ -417,6 +417,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	useImperativeHandle(ref, () => ({
 		showTweet(_newVal) {},
 		showAd(ad) {
+			console.log("What")
 			let adDuration = 0;
 			switch (ad) {
 				case "GOC":
@@ -447,8 +448,9 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					return;
 			}
 
-			if (adsRef.current) {
-				if (!audioRef.current) return;
+			console.log("yo")
+			// if (adsRef.current && audioRef.current) {
+			if (audioRef.current) {
 				const tl = gsap.timeline();
 
 				tl.set(audioRef.current, { x: 1 });

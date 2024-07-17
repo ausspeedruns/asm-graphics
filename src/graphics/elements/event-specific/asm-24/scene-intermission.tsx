@@ -288,7 +288,7 @@ const IntermissionCamera = () => {
 		}
 
 		const tl = gsap.timeline();
-		tl.to(adsContainerRef.current, { opacity: 1, duration: 2 });
+		tl.to(adsContainerRef.current, { opacity: 1, duration: 2, delay: 5 });
 		tl.call(() => adsRef.current?.showAd(newVal));
 		tl.to(adsContainerRef.current, { opacity: 0, duration: 2 }, `+=${adDuration}`);
 	});

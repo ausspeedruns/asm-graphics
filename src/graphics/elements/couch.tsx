@@ -79,7 +79,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 						/>
 					);
 				})}
-				{props.host && (
+				{props.host && props.host.name && (
 					<PersonCompressed
 						key={"Host"}
 						commentator={props.host}

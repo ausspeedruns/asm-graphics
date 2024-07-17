@@ -70,7 +70,7 @@ export const UpcomingRuns = React.forwardRef<TickerItemHandles, PrizesProps>((pr
 		<UpcomingRunsContainer ref={containerRef}>
 			<RunsPage>
 				{upcomingRunElements.map((run, i) => (
-					<Run run={run} index={i} key={run.id} ref={(el) => (runsRefs.current[i] = el!)} />
+					<Run run={run} index={i} key={i} ref={(el) => (runsRefs.current[i] = el!)} />
 				))}
 			</RunsPage>
 		</UpcomingRunsContainer>

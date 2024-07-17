@@ -31,14 +31,14 @@ const TechSetup: React.FC = () => {
 				{/* <Canvas flat camera={{position: [0, 0, 50], isOrthographicCamera: true, near: 0.1, far: 100, zoom: 275}}> */}
 				<Canvas flat>
 					<OrthographicCamera makeDefault position={[0, 0, 8]} zoom={200} />
-					{/* <ASRText text="Preparing" font="Noto Sans Bold" position={[0, 0, 0]} scale={0.7} />
+					<ASRText text="Preparing" font="Noto Sans Bold" position={[0, 0, 0]} scale={0.7} />
 					<ASRText
 						position={[0, -0.6, 0]}
 						text={runDataActiveRep?.customData.gameDisplay ?? runDataActiveRep?.game ?? "???"}
 						font="Russo One"
 					/>
-					<Timer3D timer={timerRep} position={[0, 1.5, 0]} scale={2} /> */}
-					<ASM2024Logo scale={4.5} position={[0, 0.3, 0]} rotation={[-0.1, -0.5, 0]} />
+					<Timer3D timer={timerRep} position={[0, 1.5, 0]} scale={2} />
+					{/* <ASM2024Logo scale={4.5} position={[0, 0.3, 0]} rotation={[-0.1, -0.5, 0]} /> */}
 				</Canvas>
 			</div>
 		</>

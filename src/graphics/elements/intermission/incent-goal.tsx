@@ -141,7 +141,7 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 	let textOutside: React.CSSProperties = {};
 	if (props.goal.total / props.goal.goal < 0.5) {
 		textOutside = {
-			marginRight: -46,
+			marginRight: -80,
 			color: "var(--text-light)",
 		};
 	}
