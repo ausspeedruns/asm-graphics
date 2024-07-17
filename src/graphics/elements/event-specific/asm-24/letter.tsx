@@ -47,50 +47,49 @@ type LetterProps = {
 } & Omit<React.ComponentProps<typeof Text3D>, "font" | "position">;
 
 export const Letter = (props: LetterProps) => {
-	const letterRef = useRef<Mesh>(null);
-	const letterAnimationOccurance = useContext(LetterAnimationContext);
-	const worldPos = new Vector3();
+	// const letterRef = useRef<Mesh>(null);
+	// const letterAnimationOccurance = useContext(LetterAnimationContext);
+	// const worldPos = new Vector3();
 
-	useFrame(({ clock }) => {
-		if (!letterRef.current || !letterAnimationOccurance || !props.doAnimation) return;
+	// useFrame(({ clock }) => {
+	// 	if (!letterRef.current || !letterAnimationOccurance || !props.doAnimation) return;
 
-		letterRef.current.getWorldPosition(worldPos);
+	// 	letterRef.current.getWorldPosition(worldPos);
 
-		// if (letterAnimationOccurance.time < 0) {
-		// 	const animation = letterAnimation("constant-jump")((clock.getElapsedTime() + mulberry32(worldPos.x * 1000)()) % 1);
-		// 	letterRef.current.position.set(
-		// 		(animation[0].x + props.position[0]) * letterRef.current.scale.x,
-		// 		(animation[0].y + props.position[1]) * letterRef.current.scale.y,
-		// 		(animation[0].z + props.position[2]) * letterRef.current.scale.z,
-		// 	);
-		// 	return;
-		// }
-		const distanceToOccurance = worldPos.distanceTo(
-			new Vector3(
-				letterAnimationOccurance.position[0],
-				letterAnimationOccurance.position[1],
-				letterAnimationOccurance.position[2],
-			),
-		);
+	// 	// if (letterAnimationOccurance.time < 0) {
+	// 	// 	const animation = letterAnimation("constant-jump")((clock.getElapsedTime() + mulberry32(worldPos.x * 1000)()) % 1);
+	// 	// 	letterRef.current.position.set(
+	// 	// 		(animation[0].x + props.position[0]) * letterRef.current.scale.x,
+	// 	// 		(animation[0].y + props.position[1]) * letterRef.current.scale.y,
+	// 	// 		(animation[0].z + props.position[2]) * letterRef.current.scale.z,
+	// 	// 	);
+	// 	// 	return;
+	// 	// }
+	// 	const distanceToOccurance = worldPos.distanceTo(
+	// 		new Vector3(
+	// 			letterAnimationOccurance.position[0],
+	// 			letterAnimationOccurance.position[1],
+	// 			letterAnimationOccurance.position[2],
+	// 		),
+	// 	);
 
-		const startTime = (distanceToOccurance * 0.5 - 0.5) + letterAnimationOccurance.time;
-		const animation = letterAnimation("jump")(clock.getElapsedTime() - startTime);
-		letterRef.current.position.set(
-			(animation[0].x + props.position[0]) * letterRef.current.scale.x,
-			(animation[0].y + props.position[1]) * letterRef.current.scale.y,
-			(animation[0].z + props.position[2]) * letterRef.current.scale.z,
-		);
+	// 	const startTime = (distanceToOccurance * 0.5 - 0.5) + letterAnimationOccurance.time;
+	// 	const animation = letterAnimation("jump")(clock.getElapsedTime() - startTime);
+	// 	letterRef.current.position.set(
+	// 		(animation[0].x + props.position[0]) * letterRef.current.scale.x,
+	// 		(animation[0].y + props.position[1]) * letterRef.current.scale.y,
+	// 		(animation[0].z + props.position[2]) * letterRef.current.scale.z,
+	// 	);
 
-		letterRef.current.rotation.setFromVector3(addVectors(animation[1], baseRotation));
-	});
+	// 	letterRef.current.rotation.setFromVector3(addVectors(animation[1], baseRotation));
+	// });
 
 	return (
 		<Text3D
 			{...props}
 			font={getFont(props.font)}
 			rotation={[baseRotation.x, baseRotation.y, baseRotation.z]}
-			position={props.position}
-			ref={letterRef}>
+			position={props.position}>
 			{props.letter}
 			<textMaterial />
 		</Text3D>

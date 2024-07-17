@@ -203,7 +203,7 @@ const SceneHillR3F = (props: SceneHillProps) => {
 			{props.contentStyle === "widescreen" && (
 				<group scale={0.6} position={[0, 1.46, 0]}>
 					<Timer3D timer={props.speedrunTime} position={[3.5, 0, 0]} />
-					<group position={[-3.5, gameTitleHasNewLine ? 0.05 : 0, 0]}>
+					<group position={[-3.5, gameTitleHasNewLine ? -0.18 : 0, 0]}>
 						<ASRTextMaxWidth
 							text={gameName}
 							font="Russo One"
