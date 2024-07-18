@@ -62,7 +62,7 @@ function getFact(total?: number) {
 	][random];
 }
 
-export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, ref) => {
+export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((_, ref) => {
 	const containerRef = useRef(null);
 	const donateRef = useRef(null);
 	const incentiveRef = useRef(null);
@@ -78,11 +78,11 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 			// Start
 			// tl.call(() => setFact(getFact(props.currentTotal)));
 			// tl.set(containerRef.current, { y: -64 });
-			tl.set(incentiveRef.current, { xPercent: 200 });
+			tl.set(incentiveRef.current, { xPercent: 100 });
 			tl.fromTo(containerRef.current, { y: -64 }, { y: 0, duration: 1 }, "+=1");
 
 			tl.fromTo(donateRef.current, { xPercent: 0 }, { xPercent: -100, duration: 2 }, "+=5");
-			tl.to(incentiveRef.current, { xPercent: -100, duration: 2 }, "-=2");
+			tl.to(incentiveRef.current, { xPercent: 0, duration: 2 }, "-=2");
 			// tl.to(incentiveRef.current, { xPercent: -200, duration: 2 }, "+=5");
 			// tl.to(factRef.current, { xPercent: -100, duration: 2 }, "-=2");
 
@@ -103,7 +103,7 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((props, r
 				<span>Donate at&nbsp;</span>
 				<EmphasisFont>ausspeedruns.com</EmphasisFont>
 			</CTALine>
-			<CTALine ref={incentiveRef} style={{ transform: "translate(100%, 0)" }}>
+			<CTALine ref={incentiveRef}>
 				<span>Check out incentives at&nbsp;</span>
 				<EmphasisFont>ausspeedruns.com/incentives</EmphasisFont>
 			</CTALine>

@@ -69,9 +69,9 @@ const ProgressBarContainer = styled.div`
 `;
 
 const CurrentAmount = styled(NextMilestoneTotal)`
-	color: black;
-	margin-right: 33px;
-	font-weight: normal;
+	color: var(--text-light);
+	margin-right: 16px;
+	/* font-weight: normal; */
 	width: 100px;
 	text-align: right;
 `;
