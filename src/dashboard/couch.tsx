@@ -174,6 +174,13 @@ const Pronouns = styled.span`
 	line-height: 36px;
 `;
 
+const Microphone = styled.span`
+	font-size: 90%;
+	font-weight: lighter;
+	font-style: italic;
+	line-height: 36px;
+`;
+
 interface HostComponentProps {
 	commentator: Commentator;
 	preview?: boolean;
@@ -191,6 +198,8 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 				<Tag>{props.commentator.tag}</Tag>
 				{props.commentator.name}
 				<Pronouns>{props.commentator.pronouns}</Pronouns>
+				{props.commentator.microphone && <Microphone>- Mic: {props.commentator.microphone}</Microphone>}
+				
 			</Name>
 
 			<IconButton style={{ alignSelf: "flex-end" }} onClick={removeName}>
