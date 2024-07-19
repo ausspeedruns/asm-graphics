@@ -83,7 +83,7 @@ export const HostDash: React.FC = () => {
 
 	function muteOrUnmuteCouch() {
 		setCouchMuted(!couchMuted);
-		nodecg.sendMessage(couchMuted ? "x32:unmute-host" : "x32:mute-host");
+		nodecg.sendMessage(couchMuted ? "x32:host-unmute-couch" : "x32:host-mute-couch");
 	}
 
 	return (
