@@ -169,6 +169,7 @@ nodecg.listenFor("transition:toGame", (_data) => {
 
 	setTimeout(() => {
 		previewMixFaders.forEach((previewFader, channel) => {
+			if (channel === HostHeadset.micInput) return;
 			x32.fade(channel, 0, 0, previewFader, 2000); // Stream
 			x32.fade(channel, 1, 0, previewFader, 2000); // Speakers
 		});
@@ -182,7 +183,9 @@ nodecg.listenFor("transition:toIntermission", () => {
 		(channel, mixBus) => {
 			// Don't even attempt to mute the channels since sometimes it gets lost
 			// TODO: Cleanup
-			if (channel === HostHeadset.micInput && mixBus <= 1 || (channel === OBSChannel && mixBus === 1)) {
+			if (channel === HostHeadset.micInput && mixBus <= 1) return;
+
+			if (channel === OBSChannel && mixBus === 1) {
 				fadeUnmute(channel, mixBus);
 			} else {
 				fadeMute(channel, mixBus);
