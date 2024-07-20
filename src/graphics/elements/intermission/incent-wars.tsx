@@ -35,7 +35,7 @@ interface GoalProps {
 	war: War;
 }
 
-const MAX_OPTIONS = 4;
+const MAX_OPTIONS = 3;
 
 export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
 	const containerRef = useRef(null);
@@ -55,7 +55,11 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			tl.to(containerRef.current, { opacity: 0, duration: 0 });
 
 			// End
-			tl.to(containerRef.current, { xPercent: 100, duration: 1 }, props.war.options.length == 0 ? "+=1" : undefined);
+			tl.to(
+				containerRef.current,
+				{ xPercent: 100, duration: 1 },
+				props.war.options.length == 0 ? "+=1" : undefined,
+			);
 
 			return tl;
 		},
@@ -68,6 +72,9 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 
 	const sortedOptions = props.war.options.map((a) => ({ ...a }));
 	sortedOptions.sort((a, b) => b.total - a.total);
+
+	const shouldShowMaxOptionsWarning = sortedOptions.length > MAX_OPTIONS;
+
 	const allOptions = [];
 	for (let i = 0; i < Math.min(MAX_OPTIONS, sortedOptions.length); i++) {
 		const option = sortedOptions[i];
@@ -78,7 +85,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 				highest={highest}
 				key={option.name}
 				index={sortedOptions.length - i}
-				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length)}
+				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length) + (shouldShowMaxOptionsWarning ? 1 : 0)}
 				ref={(el) => {
 					if (el) {
 						optionRefs.current[i] = el;
@@ -88,7 +95,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 		);
 	}
 
-	if (sortedOptions.length > MAX_OPTIONS) {
+	if (shouldShowMaxOptionsWarning) {
 		allOptions.push(
 			<WarChoice
 				animLabel={animLabel}
@@ -97,7 +104,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 				key={"More Options"}
 				moreOptions
 				index={1}
-				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length)}
+				numberOfItems={Math.min(MAX_OPTIONS, sortedOptions.length) + 1}
 				ref={(el) => {
 					if (el) {
 						optionRefs.current[MAX_OPTIONS] = el;
@@ -258,7 +265,9 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 
 	if (props.moreOptions) {
 		return (
-			<OptionContainer ref={containerRef} style={{ justifyContent: "center" }}>
+			<OptionContainer
+				ref={containerRef}
+				style={{ justifyContent: "center", maxWidth: `${100 / props.numberOfItems}%` }}>
 				<TextDiv>
 					<div
 						style={{
@@ -277,11 +286,9 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 	const optionIsColour = isColour(props.option.name);
 
 	return (
-		<OptionContainer ref={containerRef}>
+		<OptionContainer ref={containerRef} style={{ maxWidth: `${100 / props.numberOfItems}%` }}>
 			<ProgressContainer>
-				<CurrentAmount ref={totalRef}>
-					${Math.floor(props.option.total).toLocaleString()}
-				</CurrentAmount>
+				<CurrentAmount ref={totalRef}>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
 				<ProgressBarContainer
 					ref={progressBarRef}
 					style={{
