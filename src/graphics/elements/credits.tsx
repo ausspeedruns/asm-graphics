@@ -88,7 +88,7 @@ export const Credits: React.FC = () => {
 		const tl = gsap.timeline();
 		// Start credits
 		tl.to(allCreditsRef.current, { width: 500, duration: 2 });
-		tl.to(allCreditsRef.current, { marginTop: -10650, duration: 10, ease: "none" }, "+=1");
+		tl.to(allCreditsRef.current, { marginTop: -10650, duration: 120, ease: "none" }, "+=1");
 		tl.to(allCreditsRef.current, { width: 0, duration: 2 });
 	});
 
