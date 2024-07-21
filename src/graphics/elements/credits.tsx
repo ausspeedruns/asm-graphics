@@ -88,7 +88,7 @@ export const Credits: React.FC = () => {
 		const tl = gsap.timeline();
 		// Start credits
 		tl.to(allCreditsRef.current, { width: 500, duration: 2 });
-		tl.to(allCreditsRef.current, { marginTop: -10300, duration: 120, ease: "none" }, "+=1");
+		tl.to(allCreditsRef.current, { marginTop: -10650, duration: 10, ease: "none" }, "+=1");
 		tl.to(allCreditsRef.current, { width: 0, duration: 2 });
 	});
 
@@ -264,6 +264,13 @@ export const Credits: React.FC = () => {
 				<NameContainer>
 					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
 					<NameWithRoles>Adelaide Rockford</NameWithRoles>
+					<NameWithRoles style={{ marginTop: 15 }}>
+						Tech Equipment<Name>Adelaide Rockford</Name>
+						<Name>neɪ</Name>
+						<Name>Clubwho</Name>
+						<Name>neo_</Name>
+						<Name>Raikou</Name>
+					</NameWithRoles>
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
 					</NameWithRoles>
