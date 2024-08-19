@@ -96,7 +96,7 @@ export const Credits: React.FC = () => {
 		<CreditsContainer ref={creditsBGRef}>
 			<AllCredits ref={allCreditsRef}>
 				<EventImg>
-					<img style={{ width: "90%", height: "auto" }} src={EventLogo} />
+					{/* <img style={{ width: "90%", height: "auto" }} src={EventLogo} /> */}
 				</EventImg>
 				<Title>
 					Australian Speedrun
