@@ -164,21 +164,6 @@
 				"file": "host-dashboard-audio.html",
 				"width": 0,
 				"height": 0
-			},
-			{
-				"file": "asm24-hill.html",
-				"width": 0,
-				"height": 0
-			},
-			{
-				"file": "5-min-games-swapover.html",
-				"width": 1920,
-				"height": 1080
-			},
-			{
-				"file": "asnn-background.html",
-				"width": 1920,
-				"height": 1080
 			}
 		],
 		"assetCategories": [

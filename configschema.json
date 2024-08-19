@@ -100,25 +100,6 @@
 				}
 			},
 			"required": ["enabled", "ip"]
-		},
-		"asmm": {
-			"type": "object",
-			"description": "Reads Australian Speedrun Marathon Marathon data off the server",
-			"properties": {
-				"enabled": {
-					"type": "boolean",
-					"default": false
-				},
-				"url": {
-					"type": "string",
-					"default": ""
-				},
-				"password": {
-					"type": "string",
-					"default": ""
-				}
-			},
-			"required": ["enabled", "url", "password"]
 		}
 	},
 	"required": ["obs", "tiltify"]
