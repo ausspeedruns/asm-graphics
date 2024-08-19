@@ -14,21 +14,16 @@ import gsap from "gsap";
 // import ASAP23Transition from "./elements/event-specific/pax-23/asap2023_transition.riv";
 import ASGX23Transitions from "./elements/event-specific/tgx-24/";
 
-// import Clip1 from "./media/audio/chestappears1.mp3";
-// import Clip2 from "./media/audio/crystal.mp3";
-// import Clip3 from "./media/audio/heartcontainer1.mp3";
-// import Clip4 from "./media/audio/heartpiece1.mp3";
-// import Clip5 from "./media/audio/itemget1.mp3";
-import cdWhirring from "./media/audio/cd-transition.mp3";
+import Clip1 from "./media/audio/chestappears1.mp3";
+import Clip2 from "./media/audio/crystal.mp3";
+import Clip3 from "./media/audio/heartcontainer1.mp3";
+import Clip4 from "./media/audio/heartpiece1.mp3";
+import Clip5 from "./media/audio/itemget1.mp3";
 
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import { Canvas } from "@react-three/fiber";
-import { Center } from "@react-three/drei";
-import * as THREE from "three";
 import NodeCG from "@nodecg/types";
-import { ASM2024Logo } from "./elements/event-specific/asm-24/asm24-logo";
 
-// const ClipArray = [Clip1, Clip2, Clip3, Clip4, Clip5];
+const ClipArray = [Clip1, Clip2, Clip3, Clip4, Clip5];
 
 const TransitionContainer = styled.div`
 	width: 1920px;
@@ -107,21 +102,6 @@ function runString(runData: RunDataActiveRun | undefined) {
 	return [runData.game ?? "???", `By ${new Intl.ListFormat().format(allRunners)}`];
 }
 
-THREE.ShaderChunk.project_vertex = `
- 	// vec2 resolution = vec2(320, 240);
- 	vec2 resolution = vec2(192, 144);
- 	//vec2 resolution = vec2(2, 1);
-	vec4 mvPosition = vec4(transformed, 1.0);
-
-	mvPosition = modelViewMatrix * mvPosition;
-
-	gl_Position = projectionMatrix * mvPosition;
- 	gl_Position.xyz /= gl_Position.w;
- 	gl_Position.xy = floor(resolution * gl_Position.xy) / resolution;
- 	gl_Position.xyz *= gl_Position.w;
-`;
-
-
 const TAGLINES = [
 	["Hi Mum!"],
 	["Hi Dad!"],
@@ -129,13 +109,13 @@ const TAGLINES = [
 	["I hope we're on time"],
 	["What a great run!"],
 	["Daily reminder", "Speedrun is one word"],
-	// ["Backwards Long Jumps are real!", "Try it!"],
+	["Backwards Long Jumps are real!", "Try it!"],
 	["Now watch tech do the swap over speedrun!"],
 	["ausrunsGGshake", "ausrunsGGshake"],
 	["Has someone checked in on tech yet?"],
 	["crowd jumpscare"],
 	["Is Tasmania still attached to the logo?"],
-	// ["ACE still trying to be discovered in AusSpeedruns graphics"],
+	["ACE still trying to be discovered in AusSpeedruns graphics"],
 	["It would suck if we were behind schedule", "Which we aren't... right?"],
 	["GAME NAME", "By RUNNER NAME"],
 	["By RUNNER NAME", "GAME NAME ...wait hang on"],
@@ -215,7 +195,7 @@ export const Transition: React.FC = () => {
 		tl.call(
 			() => {
 				if (!audioRef.current) return;
-				audioRef.current.src = cdWhirring;
+				audioRef.current.src = ClipArray[Math.floor(Math.random() * ClipArray.length)];
 				audioRef.current.play();
 			},
 			[],
@@ -254,7 +234,7 @@ export const Transition: React.FC = () => {
 				for (let i = 0; i < loadingBarAnim.length; i++) {
 					const step = loadingBarAnim[i];
 					tl.to(loadingBarRef.current, { width: `${step.step}%`, duration: step.duration, ease: "linear" }, `+=${step.wait}`)
-					
+
 				}
 				// tl.fromTo(loadingBarRef.current, { width: "0" }, { width: "100%", duration: 5 }, "+=0.5");
 
@@ -271,14 +251,6 @@ export const Transition: React.FC = () => {
 		<TransitionContainer>
 			<TransitionDiv ref={transitionRef}>
 				{/* <NormalTransitions /> */}
-				<Canvas
-					flat
-					style={{ position: "absolute", width: "100%", height: "70%", top: 0 }}
-					camera={{ position: [0, 0, 12], fov: 40 }}>
-					<Center scale={7}>
-						<ASM2024Logo />
-					</Center>
-				</Canvas>
 				<div style={{ width: "100%", display: "flex", justifyContent: "center", top: 700 }}>
 					<GameplayTip ref={gamingTipsRef} />
 				</div>

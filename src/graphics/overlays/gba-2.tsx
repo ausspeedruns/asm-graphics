@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import type { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
@@ -11,8 +11,8 @@ import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
-import GBALeft from "../media/ASM23/gba-2-left.png";
-import GBARight from "../media/ASM23/gba-2-right.png";
+// import GBALeft from "../media/ASM23/gba-2-left.png";
+// import GBARight from "../media/ASM23/gba-2-right.png";
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -106,10 +106,10 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 		<Standard2Container>
 			<Topbar>
 				<LeftBox>
-					<img
+					{/* <img
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 						src={GBALeft}
-					/>
+					/> */}
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -144,10 +144,10 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[0].time} place={teamData[0].place} />
 
 				<RightBox>
-					<img
+					{/* <img
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 						src={GBARight}
-					/>
+					/> */}
 					<div
 						style={{
 							display: "flex",

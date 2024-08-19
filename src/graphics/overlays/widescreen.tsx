@@ -3,11 +3,10 @@ import styled from "styled-components";
 
 import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 
-import { WideInfo, WideInfo3D } from "../elements/info-box/wide";
+import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
-import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
 
 // import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
 // import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
@@ -98,13 +97,6 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					height: "100%",
 					clipPath: "path('M 0 0 H 1920 V 207 H 0 Z M 0 556 H 479 V 1017 H 0 Z')",
 				}}>
-				<SceneHill
-					time={props.asm24Time}
-					positions={{ hillXPos: -2.5 }}
-					contentStyle="widescreen"
-					runData={props.runData}
-					speedrunTime={props.timer}
-				/>
 			</div>
 			<TopBar>
 				{/* <img src={WidescreenTop} style={{ position: "absolute", height: "100%", right: -100 }} /> */}
@@ -117,7 +109,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						background: "var(--dh-orange-to-red)",
 					}}
 				/> */}
-				{/* <WideInfo timer={props.timer} runData={props.runData} /> */}
+				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
 			<Sidebar>
 				<Facecam

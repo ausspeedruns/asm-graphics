@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
@@ -6,7 +6,7 @@ import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
 import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 
-import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
+// import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
 import { useReplicant } from "@nodecg/react-hooks";
 import { SM64MovementAbilities } from "extensions/sm64-rando";
 import { useGSAP } from "@gsap/react";
@@ -116,7 +116,7 @@ export const SM64MovementRando = forwardRef<OverlayRef, OverlayProps>((props, re
 	return (
 		<WidescreenContainer>
 			<TopBar>
-				<img src={WidescreenTop} style={{ position: "absolute", height: "100%", right: -100 }} />
+				{/* <img src={WidescreenTop} style={{ position: "absolute", height: "100%", right: -100 }} /> */}
 				<WideInfo
 					timer={props.timer}
 					runData={props.runData}

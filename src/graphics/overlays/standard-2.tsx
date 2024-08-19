@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
@@ -10,7 +10,6 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
-import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
 
 // import StandardLeft from "../media/ASM23/standard-2-left.png";
 // import StandardRight from "../media/ASM23/standard-2-right.png";
@@ -126,12 +125,6 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<Standard2Container>
 			<WholeGraphicClip>
-				<SceneHill
-					time={props.asm24Time}
-					runData={props.runData}
-					contentStyle="standard-2p"
-					speedrunTime={props.timer}
-				/>
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
@@ -140,7 +133,7 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						src={StandardLeft}
 					/> */}
 
-					{/* <SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} /> */}
+					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
 				<AudioIndicator

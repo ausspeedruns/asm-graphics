@@ -5,7 +5,7 @@ import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { format } from "date-fns";
 import gsap from "gsap";
 
-import ASNNBug from "./media/ASM23/asnn.webm";
+import ASNNBug from "./media/asnn.webm";
 import { TickerOverlay } from "./ticker";
 import { FitText } from "./elements/fit-text";
 

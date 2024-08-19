@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import { Timer as TimerType } from "@asm-graphics/types/Timer";
-import { Canvas } from "@react-three/fiber";
-import { Center, OrbitControls, OrthographicCamera, Text3D } from "@react-three/drei";
 
 const TimerContainer = styled.div<FontProps>`
 	display: flex;
@@ -50,24 +48,10 @@ export const Timer: React.FC<Props> = (props: Props) => {
 		compressedTime = compressedTime?.substring(1);
 	}
 
-	// return (
-	// 	<TimerContainer fontSize={props.fontSize ?? DEFAULT_FONT_SIZE} style={props.style}>
-	// 		<span>{compressedTime}</span>
-	// 		<MilliText fontSize={props.fontSize ?? DEFAULT_FONT_SIZE}>.{millis}</MilliText>
-	// 	</TimerContainer>
-	// );
 	return (
-		<Canvas>
-			<OrbitControls />
-			<OrthographicCamera makeDefault zoom={0.5} />
-			<Center>
-				<Text3D font={"/bundles/asm-graphics/shared/fonts/seamless/Seamless_Regular.json"}>
-					{compressedTime}
-				</Text3D>
-			</Center>
-			<Text3D font={"/bundles/asm-graphics/shared/fonts/seamless/Seamless_Regular.json"} scale={0.5}>
-				.{millis}
-			</Text3D>
-		</Canvas>
+		<TimerContainer fontSize={props.fontSize ?? DEFAULT_FONT_SIZE} style={props.style}>
+			<span>{compressedTime}</span>
+			<MilliText fontSize={props.fontSize ?? DEFAULT_FONT_SIZE}>.{millis}</MilliText>
+		</TimerContainer>
 	);
 };

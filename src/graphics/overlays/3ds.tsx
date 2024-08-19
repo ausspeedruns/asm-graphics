@@ -6,7 +6,7 @@ import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 import { WideInfo, IWideStyling } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 
-import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
+// import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
 
 const ThreeDSContainer = styled.div`
 	height: 1016px;
@@ -41,10 +41,10 @@ export const ThreeDS: React.FC<OverlayProps> = (props) => {
 	return (
 		<ThreeDSContainer>
 			<TopBar>
-				<img
+				{/* <img
 					src={WidescreenTop}
 					style={{ opacity: 0.8, position: "absolute", height: 175, width: 1295.35, right: -100 }}
-				/>
+				/> */}
 				<div
 					style={{
 						position: "absolute",

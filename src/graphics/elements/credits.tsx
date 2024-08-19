@@ -3,7 +3,7 @@ import styled from "styled-components";
 import gsap from "gsap";
 import { useListenFor } from "@nodecg/react-hooks";
 
-import EventLogo from "../elements/event-specific/asm-24/asm-24-logo.webp";
+// import EventLogo from "../elements/event-specific/asm-24/asm-24-logo.webp";
 
 const CreditsContainer = styled.div`
 	position: relative;

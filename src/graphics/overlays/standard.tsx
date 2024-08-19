@@ -10,7 +10,6 @@ import { Couch } from "../elements/couch";
 
 // import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
 // import StandardBG from "../elements/event-specific/dh-24/Standard.png";
-import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -95,16 +94,6 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					verticalCoop
 				/>
 				<InfoBoxBG>
-					<div style={{ position: "absolute", height: "100%", width: "100%" }}>
-						<SceneHill
-							seed={0}
-							trees={50}
-							time={props.asm24Time}
-							runData={props.runData}
-							speedrunTime={props.timer}
-							contentStyle="standard"
-						/>
-					</div>
 					{/* <img
 						src={StandardBG}
 						style={{

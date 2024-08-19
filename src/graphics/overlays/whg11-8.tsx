@@ -8,7 +8,7 @@ import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import GBABG from "../media/ASM23/gba.png";
+// import GBABG from "../media/ASM23/gba.png";
 
 const WHGContainer = styled.div`
 	height: 1016px;
@@ -61,10 +61,10 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 			<Sidebar>
 				<Facecam height={352} teams={props.runData?.teams} />
 				<InfoBoxBG>
-					<img
+					{/* <img
 						src={GBABG}
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
-					/>
+					/> */}
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch commentators={props.commentators} host={props.host} style={{ zIndex: 3 }} />
 					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />

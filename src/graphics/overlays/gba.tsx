@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
@@ -8,7 +8,6 @@ import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
 // import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
 // import GBABG from "../elements/event-specific/dh-24/Standard.png";
 
@@ -81,17 +80,7 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<InfoBoxBG>
 					{/* <img src={GBABG} style={{ position: "absolute", width: "100%", bottom: 0, zIndex: 0 }} /> */}
 
-					<div style={{ position: "absolute", height: "100%", width: "100%" }}>
-						<SceneHill
-							seed={0}
-							trees={50}
-							time={props.asm24Time}
-							contentStyle="gba"
-							runData={props.runData}
-							speedrunTime={props.timer}
-						/>
-					</div>
-					{/* <VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} /> */}
+					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch
 						commentators={props.commentators}
 						host={props.host}

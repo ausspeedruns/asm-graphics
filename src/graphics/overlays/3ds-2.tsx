@@ -11,8 +11,6 @@ import { AudioIndicator } from "../elements/audio-indicator";
 import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
 
-import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
-
 const ThreeDS2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -65,15 +63,6 @@ export const ThreeDS2: React.FC<OverlayProps> = (props) => {
 		<ThreeDS2Container>
 			<Middle>
 				<div style={{ position: "absolute", height: 133, width: "100%", bottom: 0 }}>
-					<SceneHill
-						seed={0}
-						trees={50}
-						time={props.asm24Time}
-						runData={props.runData}
-						speedrunTime={props.timer}
-						positions={{ hillYPos: -10 }}
-						contentStyle="3ds-2p"
-					/>
 				</div>
 				<Facecam height={307} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 

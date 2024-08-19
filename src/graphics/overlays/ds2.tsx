@@ -11,8 +11,6 @@ import { AudioIndicator } from "../elements/audio-indicator";
 import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
 
-import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
-
 const DS2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -63,9 +61,6 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 	return (
 		<DS2Container>
 			<Middle>
-				<div style={{ position: "absolute", height: 664, width: "100%", bottom: 0 }}>
-					<SceneHill seed={0} trees={50} time={props.asm24Time} />
-				</div>
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 
 				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0].time} place={teamData[0].place} />

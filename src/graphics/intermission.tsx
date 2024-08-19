@@ -32,15 +32,12 @@ import GoCLogo from "./media/Sponsors/GoCCCWhite.svg";
 import StopwatchIcon from "./media/icons/stopwatch.svg";
 import RunnerIcon from "./media/icons/runner.svg";
 import ConsoleIcon from "./media/icons/console.svg";
-import { LerpNum, LerpNumRef } from "./elements/ticker/lerp-num";
 
 import ASLogo from "./media/AusSpeedruns-Logo.svg";
 import { PRIZES } from "./prizes";
-import { SceneIntermission } from "./elements/event-specific/asm-24/scene-intermission";
-import { timeOfDayTint, uiTime } from "./elements/event-specific/asm-24/colours";
 import { useNormalisedTime } from "../hooks/useCurrentTime";
 
-const IntermissionContainer = styled.div<{ time: string }>`
+const IntermissionContainer = styled.div`
 	position: relative;
 	width: 1920px;
 	height: 1080px;
@@ -49,7 +46,6 @@ const IntermissionContainer = styled.div<{ time: string }>`
 	display: flex;
 	color: var(--text-light);
 	/* clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 960 V 120 H 0'); */
-	--time: #${(props: { time: string }) => props.time};
 `;
 
 const HostName = styled.div`
@@ -506,18 +502,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	const estimate = nextRuns[0]?.estimate?.startsWith("00:") ? nextRuns[0]?.estimate?.replace("00:", "0:") : nextRuns[0]?.estimate;
 
 	return (
-		<IntermissionContainer time={uiTime(time)}>
-			<div
-				style={{
-					position: "absolute",
-					width: 1920,
-					height: 1080,
-					// background: "#000",
-					// clipPath: "path('M 0 0 H 1920 V 1080 H 0 V 1080 H 960 V 540 H 0')",
-				}}>
-				{/* <img src={DHBackground} /> */}
-				<SceneIntermission time={time} donationTotal={props.donation} />
-			</div>
+		<IntermissionContainer>
 			{/* <LogoContainer style={{ position: "absolute", top: 0, left: 0, borderRadius: "0 0 16px 0", height: 120 }}>
 				<img src={ASLogo} />
 			</LogoContainer> */}
@@ -600,7 +585,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				</IncentivesContainer>
 			</ShitNonDiageticInfoContainer>
 
-			{/* 
+			{/*
 			<IntermissionAds ref={adsRef} /> */}
 
 			<ShitNonDiageticInfoContainer

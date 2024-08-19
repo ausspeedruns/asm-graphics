@@ -15,8 +15,6 @@ import { getTeams } from "../elements/team-data";
 // import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
 // import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
 // import WidescreenBottom from "../media/ASM23/widescreen-2-bottom.png";
-import { SceneHill } from "../elements/event-specific/asm-24/scene-hill";
-import { lightValue } from "../elements/event-specific/asm-24/time-utils";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -140,22 +138,6 @@ const customSmallStyling: ISmallStyling = {
 	},
 };
 
-function lerpColor(color: string, alpha: number): string {
-	const hex = color.replace("#", "");
-	const r = parseInt(hex.substring(0, 2), 16);
-	const g = parseInt(hex.substring(2, 4), 16);
-	const b = parseInt(hex.substring(4, 6), 16);
-	return `rgba(${r}, ${g}, ${b}, ${remapNumbers(alpha, 0, 1, 0, 0.7)})`;
-}
-
-function remapNumbers(value: number, oldMin: number, oldMax: number, newMin: number, newMax: number): number {
-	const oldRange = oldMax - oldMin;
-	const newRange = newMax - newMin;
-	const normalizedValue = (value - oldMin) / oldRange;
-	const newValue = normalizedValue * newRange + newMin;
-	return newValue;
-}
-
 export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	const sponsorRef = useRef<SponsorBoxRef>(null);
 
@@ -170,13 +152,6 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 	return (
 		<Widescreen2Container>
 			<WholeGraphicClip>
-				<SceneHill
-					time={props.asm24Time}
-					contentStyle="widescreen-2p"
-					runData={props.runData}
-					speedrunTime={props.timer}
-					positions={{ hillYPos: -5 }}
-				/>
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
@@ -184,7 +159,7 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 						src={WidescreenLeft}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 					/> */}
-					{/* <SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} /> */}
+					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
 				<AudioIndicator
