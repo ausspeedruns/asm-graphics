@@ -90,7 +90,7 @@ const RunnerTablet: React.FC = () => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const previousDataActive = usePrevious(runDataActiveRep);
 
-	const [tab, setTab] = useState<TabsValues>(TABS.RANDO);
+	const [tab, setTab] = useState<TabsValues>(TABS.NAMES);
 	const [host] = useReplicant<Commentator>("host");
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 

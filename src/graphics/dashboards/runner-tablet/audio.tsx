@@ -155,14 +155,17 @@ export const RTAudio = (props: Props) => {
 		<RTAudioContainer className={props.className} style={props.style}>
 			<HeadsetSelectorContainer style={{ backgroundColor: selectedHeadsetObj?.colour }}>
 				{Headsets.filter((headset) => headset.name !== "Host" && headset.name !== "NONE").map((headset) => {
+					const selected = selectedHeadset === headset.name;
+
 					return (
 						<HeadsetName
 							key={headset.name}
 							style={{
-								background: headset.colour,
-								color: headset.textColour,
-								fontWeight: selectedHeadset === headset.name ? "bold" : "",
-								boxShadow: selectedHeadset === headset.name ? "" : "inset 0 0 20px 3px black",
+								background: selected ? headset.colour : "#ffffff",
+								color: selected ? headset.textColour : "#000",
+								fontWeight: "bold",
+								boxShadow: selected ? "" : `inset 0 0 0 10px ${headset.colour}`,
+								borderRight: selected ? `20px solid ${headset.colour}` : "",
 							}}
 							onClick={() => setSelectedHeadset(headset.name)}>
 							<FitText

@@ -17,10 +17,9 @@ export const HostHeadset: Headset = { name: "Host", micInput: 5, colour: "#00000
 export const Headsets = [
 	{ name: "Mario Red", colour: "#ff0000", textColour: "#fff", mixBus: 3, micInput: 1 },
 	{ name: "Sonic Blue", colour: "#0000ff", textColour: "#fff", mixBus: 5, micInput: 2 },
-	{ name: "Link Green", colour: "#006400", textColour: "#fff", mixBus: 7, micInput: 3 },
-	{ name: "Unnamed Unlabelled", colour: "#fff", textColour: "#000", mixBus: 9, micInput: 4 },
-	// { name: "Pikachu Yellow", colour: "#ffff00", textColour: "#000", mixBus: 7, micInput: 3 },
-	HostHeadset, // Currently Link Green { name: "Link Green", colour: "#006400", textColour: "#fff", mixBus: 9, micInput: 4 },
+	{ name: "Pikachu Yellow", colour: "#ffff00", textColour: "#000", mixBus: 7, micInput: 3 },
+	{ name: "Link Green", colour: "#006400", textColour: "#fff", mixBus: 9, micInput: 4 },
+	HostHeadset,
 	{ name: "NONE", colour: "#000", textColour: "#fff", mixBus: -1, micInput: -1 },
 ] as const;
 
