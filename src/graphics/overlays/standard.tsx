@@ -105,7 +105,7 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							zIndex: -1,
 						}}
 					/> */}
-					{/* <VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} /> */}
+					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch
 						style={{ zIndex: 3, marginTop: 400 }}
 						commentators={props.commentators}
