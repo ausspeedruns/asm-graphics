@@ -1,134 +1,135 @@
-import { useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
-
-import { Commentator } from "@asm-graphics/types/OverlayProps";
-
-import {
-	Autocomplete,
-	Button,
-	IconButton,
-	TextField,
-	ThemeProvider,
-	ToggleButton,
-	ToggleButtonGroup,
-} from "@mui/material";
-import { Add, Remove } from "@mui/icons-material";
 import { darkTheme } from "./theme";
-import { Headsets } from "../extensions/audio-data";
 
-const TextfieldStyled = styled(TextField)`
-	margin-bottom: 6px !important;
+import { Button, IconButton, ThemeProvider } from "@mui/material";
+import { Edit, Add, DragHandle } from "@mui/icons-material";
+import {
+	DndContext,
+	closestCenter,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+	DragEndEvent,
+} from "@dnd-kit/core";
+import {
+	arrayMove,
+	SortableContext,
+	sortableKeyboardCoordinates,
+	useSortable,
+	verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-	& .Mui-focused {
-		color: #a8bde3 !important;
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { CouchEditDialog } from "./commentator-edit-dialog";
+
+namespace Alert {
+	type Name =
+		| "ImportConfirm"
+		| "ReturnToStartConfirm"
+		| "RemoveAllRunsConfirm"
+		| "RemoveRunConfirm"
+		| "TwitchLogoutConfirm"
+		| "NoTwitchGame";
+
+	export interface Dialog extends Window {
+		openDialog: (opts: { name: Name; data?: { idk?: string }; func?: (confirm: boolean) => void }) => void;
 	}
+}
 
-	& .MuiInput-underline:after {
-		border-bottom: 2px solid #a8bde3 !important;
-	}
+/**
+ * Check if a dialog is "loaded" or not (due to NodeCG v2.2.2 changes with lazy iframes).
+ * If it's not, will quickly open and close it to load it.
+ * @param name Name of dialog.
+ */
+function checkDialog(name: string): Promise<void> {
+	return new Promise<void>((res) => {
+		const dialog = nodecg.getDialog(name);
+		const iframe = dialog?.querySelector("iframe");
+		if (iframe && dialog) {
+			// We check if it's loaded or not if our custom "openDialog" function exists.
+			const openDialog = (iframe.contentWindow as Alert.Dialog | null)?.openDialog;
+			if (openDialog) {
+				res();
+			} else {
+				iframe.addEventListener(
+					"load",
+					() => {
+						dialog.close();
+						res();
+					},
+					{ once: true },
+				);
+				dialog.open();
+			}
+		} else {
+			res();
+		}
+	});
+}
 
-	& .MuiInputBase-input {
-		color: #ffffff !important;
+/**
+ * Gets dialog's contentWindow based on name, if possible.
+ * @param name Name of dialog.
+ */
+function getDialog(name: string): Window | null {
+	try {
+		const dialog = nodecg.getDialog(name);
+		const iframe = dialog?.querySelector("iframe")?.contentWindow || null;
+		if (!iframe) {
+			throw new Error("Could not find the iFrame");
+		}
+		return iframe;
+	} catch (err) {
+		nodecg.log.error(`getDialog could not successfully find dialog "${name}":`, err);
+		// eslint-disable-next-line no-alert
+		window.alert(
+			`Attempted to open the NodeCG "${name}" dialog but failed (if you are using a standalone version of a dashboard panel, this is not yet supported).`,
+		);
 	}
-`;
-
-const HeadsetToggleButton = styled(ToggleButton)<{ $outline?: string }>`
-	&.MuiToggleButton-root:hover {
-		${(props) =>
-			props.$outline &&
-			css`
-				background-color: ${props.$outline}0A;
-			`}
-	}
-`;
+	return null;
+}
 
 export const DashCouch: React.FC = () => {
-	const [name, setName] = useState("");
-	const [pronouns, setPronouns] = useState("");
-	const [headset, setHeadset] = useState("");
-	const [tag, setTag] = useState("");
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep, setCommentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const [hostRep] = useReplicant<Commentator>("host");
 
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setName(event.target.value);
-	};
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		}),
+	);
 
-	const setHost = () => {
-		nodecg.sendMessage("update-host", {
-			id: "",
-			name: name,
-			pronouns: pronouns,
-			microphone: headset,
-			isRunner: false,
-			tag: "Host",
-		});
+	async function addCommentator() {
+		await checkDialog("commentator-edit-dialog");
+		const dialog = getDialog("commentator-edit-dialog") as CouchEditDialog.Dialog;
+		if (dialog) {
+			dialog.openDialog({ data: { id: "", name: "" } });
+		}
+	}
 
-		clearData();
-	};
+	function handleDragEnd(event: DragEndEvent) {
+		const { active, over } = event;
 
-	const addCommentator = () => {
-		nodecg.sendMessage("update-commentator", {
-			id: "",
-			name: name,
-			pronouns: pronouns,
-			microphone: headset,
-			isRunner: false,
-			tag,
-		});
+		if (active.id !== over?.id) {
+			if (!commentatorsRep) return;
 
-		clearData();
-	};
+			const oldIndex = commentatorsRep.findIndex((commentator) => commentator.id === active.id);
+			const newIndex = commentatorsRep.findIndex((commentator) => commentator.id === over?.id);
 
-	const clearData = () => {
-		setName("");
-		setPronouns("");
-		setHeadset("None");
-		setTag("");
+			const newOrder = arrayMove(commentatorsRep, oldIndex, newIndex);
+
+			setCommentatorsRep(newOrder);
+		}
 	}
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 8 }}>
-				<TextfieldStyled fullWidth label="Name" value={name} onChange={handleChange} />
-				<Autocomplete
-					freeSolo
-					options={["He/Him", "She/Her", "They/Them"]}
-					renderInput={(params) => <TextField {...params} label="Pronouns" />}
-					onInputChange={(_, newInputValue) => {
-						setPronouns(newInputValue);
-					}}
-				/>
-				<ToggleButtonGroup
-					value={headset}
-					onChange={(_, headset) => setHeadset(headset)}
-					exclusive
-					style={{ flexWrap: "wrap" }}>
-					{Headsets.map((headset) => {
-						return (
-							<HeadsetToggleButton value={headset.name} key={headset.name}>
-								{headset.name}
-							</HeadsetToggleButton>
-						);
-					})}
-				</ToggleButtonGroup>
-
-				<TextfieldStyled fullWidth label="Tag" value={tag} onChange={(e) => setTag(e.target.value)} />
-				<div style={{ display: "flex", gap: 8 }}>
-					<Button
-						style={{ flexGrow: 10 }}
-						variant="outlined"
-						startIcon={<Add />}
-						onClick={addCommentator}
-						disabled={name === ""}>
-						Add Commentator
-					</Button>
-					<Button onClick={setHost} disabled={name === ""} variant="outlined" style={{ flexGrow: 1 }}>
-						Set as Host
-					</Button>
-				</div>
 				<div
 					style={{
 						display: "flex",
@@ -136,8 +137,20 @@ export const DashCouch: React.FC = () => {
 						gap: 5,
 						marginTop: 5,
 					}}>
-					{hostRep && <HostComponent commentator={hostRep} />}
-					{commentatorsRep?.map((commentator) => <HostComponent commentator={commentator} />)}
+					{hostRep && <HostComponent commentator={hostRep} id="host" />}
+					<hr style={{ width: "90%", opacity: 0.5 }} />
+
+					{/* {commentatorsRep?.map((commentator) => <HostComponent commentator={commentator} />)} */}
+					<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+						<SortableContext items={commentatorsRep ?? []} strategy={verticalListSortingStrategy}>
+							{commentatorsRep?.map((commentator) => (
+								<HostComponent key={commentator.id} id={commentator.id} commentator={commentator} />
+							))}
+						</SortableContext>
+					</DndContext>
+					<Button variant="outlined" onClick={addCommentator} startIcon={<Add />}>
+						New Commentator
+					</Button>
 				</div>
 			</div>
 		</ThemeProvider>
@@ -185,25 +198,43 @@ interface HostComponentProps {
 	commentator: Commentator;
 	preview?: boolean;
 	inputs?: string[];
+	id: string;
 }
 
 const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) => {
-	const removeName = () => {
-		nodecg.sendMessage("delete-commentator", props.commentator.id);
+	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.id });
+
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
 	};
 
+	const isHost = props.commentator.tag === "Host";
+
+	async function editCommentator() {
+		await checkDialog("commentator-edit-dialog");
+		const dialog = getDialog("commentator-edit-dialog") as CouchEditDialog.Dialog;
+		if (dialog) {
+			dialog.openDialog({ data: props.commentator });
+		}
+	}
+
 	return (
-		<HostComponentContainer>
+		<HostComponentContainer ref={setNodeRef} style={style}>
+			{!isHost && (
+				<IconButton {...listeners} {...attributes}>
+					<DragHandle />
+				</IconButton>
+			)}
 			<Name>
 				<Tag>{props.commentator.tag}</Tag>
 				{props.commentator.name}
 				<Pronouns>{props.commentator.pronouns}</Pronouns>
 				{props.commentator.microphone && <Microphone>- Mic: {props.commentator.microphone}</Microphone>}
-				
 			</Name>
 
-			<IconButton style={{ alignSelf: "flex-end" }} onClick={removeName}>
-				<Remove />
+			<IconButton style={{ alignSelf: "flex-end" }} onClick={editCommentator}>
+				<Edit />
 			</IconButton>
 		</HostComponentContainer>
 	);

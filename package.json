@@ -107,6 +107,13 @@
 				"headerColor": "#CC7722",
 				"file": "randomiser.html",
 				"workspace": "ASM Misc"
+			},
+			{
+				"name": "commentator-edit-dialog",
+				"title": "",
+				"width": 6,
+				"file": "commentator-edit-dialog.html",
+				"dialog": true
 			}
 		],
 		"graphics": [
@@ -235,6 +242,8 @@
 	"repository": "https://github.com/nodecg/nodecg.git",
 	"license": "MPL-2.0",
 	"dependencies": {
+		"@dnd-kit/core": "^6.1.0",
+		"@dnd-kit/sortable": "^8.0.0",
 		"@emotion/react": "^11.13.0",
 		"@emotion/styled": "^11.13.0",
 		"@gsap/react": "^2.1.1",
