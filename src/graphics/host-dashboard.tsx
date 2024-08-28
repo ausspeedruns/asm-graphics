@@ -17,7 +17,7 @@ import { UpNext } from "./dashboards/upnext";
 import { AudioDialog } from "./dashboards/audio-dialog";
 import { DonationTabs } from "./dashboards/donation-tabs";
 
-const parents = nodecg.bundleConfig.twitch.parents
+const parents = (nodecg.bundleConfig.twitch?.parents ?? [])
 	.map((parent) => {
 		return `&parent=${parent}`;
 	})
