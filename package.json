@@ -314,6 +314,5 @@
 		"vite": "5.4.1",
 		"vite-plugin-html": "^3.2.2",
 		"vite-plugin-nodecg": "^2.1.0"
-	},
-	"packageManager": "yarn@4.3.1"
+	}
 }
