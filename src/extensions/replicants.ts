@@ -93,9 +93,6 @@ export const lowerThirdNameRep = nodecg.Replicant<{ name: string; title: string 
 export const runnerStatusRep = nodecg.Replicant<boolean>("runner:ready", { defaultValue: false });
 export const techStatusRep = nodecg.Replicant<boolean>("tech:ready", { defaultValue: false });
 
-/* ASMM */
-export const asmmTotalKmRep = nodecg.Replicant<number>("asmm:totalKM", { defaultValue: 0 });
-
 /* ASNN */
 export const asnnHeadlineRep = nodecg.Replicant<string>("asnn:headline", { defaultValue: "" });
 export const asnnTickerRep = nodecg.Replicant<string[]>("asnn:ticker", { defaultValue: [] });
