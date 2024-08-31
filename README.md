@@ -56,7 +56,6 @@ This is only intended to be used as an _education tool_. Please learn from the c
 - Online functionality with OBS support
 - Custom host dashboard
 - Automatic incentive data
-- Storybook testing
 - Custom nodecg-speedcontrol schedule import
 - Runner tablet
 - X32 Connectivity
