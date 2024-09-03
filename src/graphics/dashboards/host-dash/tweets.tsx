@@ -6,7 +6,7 @@ import _ from "underscore";
 
 import { Tweet } from "@asm-graphics/types/Twitter";
 
-import { GreenButton, RedButton } from "../../dashboard/elements/styled-ui";
+import { GreenButton, RedButton } from "../../../dashboard/elements/styled-ui";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { Delete, Undo } from "@mui/icons-material";
 

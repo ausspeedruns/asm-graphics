@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle } from "@mui/material";
-import { HostDashAudio } from "../host-dashboard-audio";
+import { HostDashAudio } from "../../host-dashboard-audio";
 
 export const AudioDialog = (props: DialogProps) => {
 	return (

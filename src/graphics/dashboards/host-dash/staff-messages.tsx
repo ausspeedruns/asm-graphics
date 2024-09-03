@@ -6,7 +6,7 @@ import { StaffMessage } from "@asm-graphics/types/StaffMessages";
 
 import { Box, Grid, Fab, Dialog, Button, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { Close, Check } from "@mui/icons-material";
-import { RedButton, GreenButton } from "../../dashboard/elements/styled-ui";
+import { RedButton, GreenButton } from "../../../dashboard/elements/styled-ui";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const StaffMessagesContainer = styled.div`

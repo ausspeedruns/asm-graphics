@@ -7,7 +7,7 @@ import { Check } from "@mui/icons-material";
 
 import { Donation } from "@asm-graphics/types/Donations";
 
-import { GreenButton, RedButton } from "../../dashboard/elements/styled-ui";
+import { GreenButton, RedButton } from "../../../dashboard/elements/styled-ui";
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);

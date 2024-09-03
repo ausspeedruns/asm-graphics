@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
-import clone from "clone";
 
 import { RunDataArray, RunData } from "@asm-graphics/types/RunData";
 
@@ -35,22 +34,25 @@ export const UpNext: React.FC<Props> = (props: Props) => {
 
 	const currentRunIndex = (runDataArrayRep ?? []).findIndex((run) => run.id === runDataActiveRep?.id);
 
-	const currentRun = clone((runDataArrayRep ?? ([] as undefined[]))[currentRunIndex]);
-	const upNext = clone((runDataArrayRep ?? ([] as undefined[]))[currentRunIndex + 1]);
+	const currentRun = (runDataArrayRep ?? [])[currentRunIndex];
+	const upNext = (runDataArrayRep ?? []).slice(currentRunIndex + 1);
 
 	return (
 		<UpcomingContainer style={props.style}>
-			{currentRun ? (
+			{currentRun && (
 				<>
 					<SingleRun run={currentRun} active style={{ width: "calc(100% + 16px)" }} />
-					{upNext ? (
-						<>
-							<Divider />
-							<SingleRun run={upNext} />
-						</>
-					) : null}
+					{upNext.length > 0 && <Divider />}
+					<div
+						style={{
+							maxHeight: "100%",
+						}}>
+						{upNext.map((run) => (
+							<SingleRun key={run.id} run={run} />
+						))}
+					</div>
 				</>
-			) : null}
+			)}
 		</UpcomingContainer>
 	);
 };
@@ -79,12 +81,15 @@ const Game = styled.span`
 	font-size: 1.2rem;
 	font-weight: bold;
 `;
+
 const Category = styled.span`
 	font-weight: bold;
 `;
+
 const Names = styled.span`
 	font-weight: bold;
 `;
+
 const RunInfo = styled.span``;
 
 interface RunProps {
@@ -116,8 +121,8 @@ const SingleRun: React.FC<RunProps> = (props: RunProps) => {
 	return (
 		<SingleRunContainer boxShadow={2} active={props.active ? "true" : "false"} style={props.style}>
 			<RunDataContainer>
-				<Game>{props.run.game?.replaceAll("\\n", " ")}</Game>
-				<Category>{props.run.category?.replaceAll("\\n", " ")}</Category>
+				<Game>{props.run.game}</Game>
+				<Category>{props.run.category}</Category>
 			</RunDataContainer>
 			<RunDataContainer>
 				<Names>{playerNames}</Names>

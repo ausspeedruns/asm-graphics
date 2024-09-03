@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Box } from "@mui/material";
 
-import { PRIZES } from "../prizes";
+import { PRIZES } from "../../prizes";
 
 const UpcomingContainer = styled.div`
 	display: flex;

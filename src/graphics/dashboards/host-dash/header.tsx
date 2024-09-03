@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 const HeaderContainer = styled.div`
-	min-height: 40px;
+	height: 100%;
 	font-weight: bold;
-	line-height: 40px;
 	text-transform: uppercase;
 	width: 100%;
-	background: #c7c7c7;
+	background: #cc7722;
+	color: white;
 
 	display: flex;
 
@@ -27,6 +27,7 @@ interface Props {
 	style?: React.CSSProperties;
 	onClick?: React.MouseEventHandler<HTMLDivElement>;
 	children?: React.ReactNode;
+	draggable?: boolean;
 }
 
 export const Header: React.FC<Props> = (props: React.PropsWithChildren<Props>) => {
@@ -42,7 +43,7 @@ export const Header: React.FC<Props> = (props: React.PropsWithChildren<Props>) =
 	}
 
 	return (
-		<HeaderContainer style={props.style} onClick={props.onClick}>
+		<HeaderContainer style={props.style} onClick={props.onClick} draggable={props.draggable}>
 			{props.text}
 			{props.children}
 		</HeaderContainer>

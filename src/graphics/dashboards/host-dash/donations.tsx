@@ -9,7 +9,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 
 import { Donation } from "@asm-graphics/types/Donations";
 
-import { GreenButton } from "../../dashboard/elements/styled-ui";
+import { GreenButton } from "../../../dashboard/elements/styled-ui";
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);

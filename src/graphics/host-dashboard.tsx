@@ -1,21 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { Description, Edit, Tune } from "@mui/icons-material";
-import { Button, Paper } from "@mui/material";
+import { Description, Edit, Tune, ResetTv } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
+import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
+import "react-mosaic-component/react-mosaic-component.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 
-import { HostEditDialog } from "./dashboards/host-edit-dialog";
-import { ScriptDialog } from "./dashboards/script-dialog";
-import { Timer } from "./dashboards/timer";
-import { HostTabs } from "./dashboards/host-tabs";
-import { Header } from "./dashboards/header";
-import { DonationMatches } from "./dashboards/donation-matches";
+import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog";
+import { ScriptDialog } from "./dashboards/host-dash/script-dialog";
+import { Timer } from "./dashboards/host-dash/timer";
+import { HostTabs } from "./dashboards/host-dash/host-tabs";
+import { Header } from "./dashboards/host-dash/header";
+import { DonationMatches } from "./dashboards/host-dash/donation-matches";
+import { UpNext } from "./dashboards/host-dash/upnext";
+import { AudioDialog } from "./dashboards/host-dash/audio-dialog";
+import { DonationTabs } from "./dashboards/host-dash/donation-tabs";
 
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
-import { UpNext } from "./dashboards/upnext";
-import { AudioDialog } from "./dashboards/audio-dialog";
-import { DonationTabs } from "./dashboards/donation-tabs";
 
 const parents = (nodecg.bundleConfig.twitch?.parents ?? [])
 	.map((parent) => {
@@ -23,9 +27,94 @@ const parents = (nodecg.bundleConfig.twitch?.parents ?? [])
 	})
 	.join("");
 
-export const HostDash: React.FC = () => {
+type ViewId = keyof typeof ELEMENTS;
+
+const ELEMENTS = {
+	Timer: <Timer />,
+	"Host Tabs": <HostTabs />,
+	Mute: <HostMicrophone />,
+	"Donation Total": <DonationTotal />,
+	"Donation Matches": <DonationMatches />,
+	"Donation Tabs": <DonationTabs />,
+	"Next Runs": <UpNext />,
+};
+
+function HostMicrophone() {
+	const [muted, setMuted] = useState(true);
+	const [couchMuted, setCouchMuted] = useState(false);
+
+	function muteOrUnmute() {
+		setMuted(!muted);
+		nodecg.sendMessage(muted ? "x32:unmute-host" : "x32:mute-host");
+	}
+
+	function muteOrUnmuteCouch() {
+		setCouchMuted(!couchMuted);
+		nodecg.sendMessage(couchMuted ? "x32:host-unmute-couch" : "x32:host-mute-couch");
+	}
+
+	return (
+		<div style={{ display: "flex", height: "100%" }}>
+			<Button
+				fullWidth
+				color={muted ? "error" : "success"}
+				onClick={muteOrUnmute}
+				variant="contained"
+				sx={{ height: "100%" }}>
+				{muted ? "UNMUTE" : "Mute"}
+			</Button>
+			<Button
+				color={couchMuted ? "error" : "success"}
+				onClick={muteOrUnmuteCouch}
+				variant="contained"
+				sx={{ height: "100%" }}>
+				{couchMuted ? "Unmute Couch" : "Mute Couch"}
+			</Button>
+		</div>
+	);
+}
+
+function DonationTotal() {
 	const [donationTotalRep] = useReplicant<number>("donationTotal", { defaultValue: 100 });
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total", { defaultValue: 100 });
+
+	return (
+		<DonationTotalContainer>
+			<Total>${((donationTotalRep ?? 0) + (manualDonationRep ?? 0)).toLocaleString()}</Total>
+		</DonationTotalContainer>
+	);
+}
+
+const initialLayout: MosaicNode<ViewId> = {
+	direction: "row",
+	first: {
+		direction: "row",
+		first: {
+			direction: "column",
+			first: "Timer",
+			second: "Host Tabs",
+		},
+		second: {
+			direction: "column",
+			first: {
+				direction: "column",
+				first: "Mute",
+				second: "Donation Total",
+			},
+			second: "Donation Tabs",
+			splitPercentage: 20
+		},
+	},
+	second: {
+		direction: "column",
+		first: "Donation Matches",
+		second: "Next Runs",
+	},
+	splitPercentage: (2 / 3) * 100,
+};
+
+export const HostDash: React.FC = () => {
+	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
 
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 
@@ -35,13 +124,10 @@ export const HostDash: React.FC = () => {
 
 	const currentTimeElRef = useRef<HTMLParagraphElement>(null);
 	const currentTimeRef = useRef("00:00:00");
-	const [timeFormat, setTimeFormat] = useState(false); // False: 24hr, True: 12 Hour
+	const [timeFormat, setTimeFormat] = useState(true); // False: 24hr, True: 12 Hour
 
 	const [playingAd, setPlayingAd] = useState<number | undefined>();
 	const adProgressBarRef = useRef<HTMLDivElement>(null);
-
-	const [muted, setMuted] = useState(true);
-	const [couchMuted, setCouchMuted] = useState(false);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -76,16 +162,6 @@ export const HostDash: React.FC = () => {
 		adProgressBarRef.current.style.animationDuration = `${playingAd}s`;
 	}, [adProgressBarRef.current, playingAd]);
 
-	function muteOrUnmute() {
-		setMuted(!muted);
-		nodecg.sendMessage(muted ? "x32:unmute-host" : "x32:mute-host");
-	}
-
-	function muteOrUnmuteCouch() {
-		setCouchMuted(!couchMuted);
-		nodecg.sendMessage(couchMuted ? "x32:host-unmute-couch" : "x32:host-mute-couch");
-	}
-
 	return (
 		<DashContainer>
 			<TopBar>
@@ -104,6 +180,10 @@ export const HostDash: React.FC = () => {
 				<Button onClick={() => setScriptsOpen(true)}>
 					<Description />
 					Scripts
+				</Button>
+				<Button onClick={() => setMosaicValue(initialLayout)}>
+					<ResetTv />
+					Reset Layout
 				</Button>
 				<p
 					ref={currentTimeElRef}
@@ -126,63 +206,38 @@ export const HostDash: React.FC = () => {
 			<ScriptDialog playAd={playAd} open={scriptsOpen} onClose={() => setScriptsOpen(false)} />
 			<AudioDialog open={audioOpen} onClose={() => setAudioOpen(false)} />
 
-			<Column>
-				<Paper>
-					<Timer />
-				</Paper>
-				<Paper style={{ flex: "1 1 0", overflow: "hidden" }}>
-					<HostTabs />
-				</Paper>
-			</Column>
-
-			<Column>
-				<div style={{ display: "flex", height: 75, gap: 4 }}>
-					<Button fullWidth color={muted ? "error" : "success"} onClick={muteOrUnmute} variant="contained">
-						{muted ? "UNMUTE" : "Mute"}
-					</Button>
-					<Button color={couchMuted ? "error" : "success"} onClick={muteOrUnmuteCouch} variant="contained">
-						{couchMuted ? "Unmute Couch" : "Mute Couch"}
-					</Button>
-				</div>
-				<Total>${((donationTotalRep ?? 0) + (manualDonationRep ?? 0)).toLocaleString()}</Total>
-				<Paper>
-					<Header text="Donation Matches" />
-					<DonationMatches />
-				</Paper>
-				<Paper style={{ flex: "1 1 0", overflow: "hidden" }}>
-					<DonationTabs />
-				</Paper>
-			</Column>
-
-			<Column>
-				<Paper style={{ aspectRatio: "16/9" }}>
-					<iframe
-						style={{ border: "none" }}
-						src={`https://player.twitch.tv/?channel=ausspeedruns${parents}&muted=true`}
-						width="100%"
-						height="100%"
-					/>
-				</Paper>
-				<Paper style={{ flex: "1 1 0" }}>
-					<iframe
-						style={{ border: "none" }}
-						src={`https://www.twitch.tv/embed/ausspeedruns/chat?${parents.slice(1)}`}
-						width="100%"
-						height="100%"
-					/>
-				</Paper>
-				<Paper>
-					<UpNext />
-				</Paper>
-			</Column>
+			<Mosaic<ViewId>
+				renderTile={(id, path) => (
+					<MosaicWindow<ViewId>
+						path={path}
+						title={id}
+						renderToolbar={(props) => (
+							<div style={{ width: "100%", height: "100%" }}>
+								<Header text={props.title} />
+							</div>
+						)}>
+						{ELEMENTS[id]}
+					</MosaicWindow>
+				)}
+				value={mosaicValue}
+				onChange={(newLayout) => setMosaicValue(newLayout)}
+			/>
 		</DashContainer>
 	);
 };
 
+const DonationTotalContainer = styled.div`
+	container-type: size;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+`;
+
 const Total = styled.div`
 	font-family: var(--main-font);
 	font-weight: bold;
-	font-size: 45px;
+	font-size: 75cqmin;
 	text-align: center;
 	font-variant-numeric: tabular-nums;
 `;
@@ -197,15 +252,13 @@ const Column = styled.div`
 const DashContainer = styled.div`
 	min-width: 100vw;
 	min-height: 100vh;
-	padding: 84px 8px 8px 8px;
+	padding-top: 72px;
 
 	font-family:
 		Noto Sans,
 		sans-serif;
 
 	display: grid;
-	grid-template-columns: 1fr 1.5fr 1fr;
-	gap: 8px;
 
 	background: #ececec;
 
@@ -219,7 +272,7 @@ const TopBar = styled.div`
 	position: fixed;
 	top: 0;
 	left: 0;
-	background: var(--asm-orange);
+	background: var(--asm-blue);
 	width: 100%;
 	height: 72px;
 	padding: 8px 24px;
@@ -262,7 +315,7 @@ const TopBar = styled.div`
 
 		padding: 8px;
 		color: white;
-		background: var(--orange-600);
+		background: var(--orange-500);
 		border: 2px solid white;
 		border-radius: 6px;
 
