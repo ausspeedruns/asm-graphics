@@ -99,7 +99,7 @@ export interface TickerItemHandles {
 export interface TickerProps {
 	runDataArray: RunDataArray;
 	runDataActive: RunDataActiveRun;
-	incentives?: (Goal | War)[];
+	incentives?: Incentive[];
 	donationAmount: number;
 	asmm?: number;
 	donationMatches: DonationMatch[];

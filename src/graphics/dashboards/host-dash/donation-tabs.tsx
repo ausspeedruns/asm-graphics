@@ -1,15 +1,14 @@
-import { Donation } from "@asm-graphics/types/Donations";
-import { Close } from "@mui/icons-material";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import { IconButton, Snackbar } from "@mui/material";
-import Tab from "@mui/material/Tab";
-import { useReplicant } from "@nodecg/react-hooks";
 import { useState } from "react";
 import styled from "styled-components";
+import { Close } from "@mui/icons-material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { IconButton, Snackbar, Tab } from "@mui/material";
+import { useReplicant } from "@nodecg/react-hooks";
+
 import { Donations } from "./donations";
 import { ManualDonations } from "./manual-donations";
+
+import type { Donation } from "@asm-graphics/types/Donations";
 
 export const DonationTabs = () => {
 	const [page, setPage] = useState("donations");

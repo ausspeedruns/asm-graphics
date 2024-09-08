@@ -21,12 +21,6 @@ import { DonationTabs } from "./dashboards/host-dash/donation-tabs";
 
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
-const parents = (nodecg.bundleConfig.twitch?.parents ?? [])
-	.map((parent) => {
-		return `&parent=${parent}`;
-	})
-	.join("");
-
 type ViewId = keyof typeof ELEMENTS;
 
 const ELEMENTS = {

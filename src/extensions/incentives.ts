@@ -51,7 +51,7 @@ if (nodecg.bundleConfig.graphql?.url) {
 	}, 5000);
 }
 
-nodecg.listenFor("updateIncentives", () => {
+nodecg.listenFor("refreshIncentives", () => {
 	getIncentives().then((success) => {
 		if (success) {
 			nodecg.sendMessage("incentivesUpdated", 200);
@@ -90,6 +90,7 @@ async function getIncentives() {
 			switch (incentive.type) {
 				case "goal":
 					return {
+						id: incentive.id,
 						active: incentive.active,
 						game: incentive.run.game,
 						notes: incentive.notes,
@@ -101,6 +102,7 @@ async function getIncentives() {
 					} as Goal;
 				case "war":
 					return {
+						id: incentive.id,
 						active: incentive.active,
 						game: incentive.run.game,
 						notes: incentive.notes,
@@ -121,11 +123,81 @@ async function getIncentives() {
 		incentivesUpdatedLastRep.value = Date.now();
 		return true;
 	} catch (error) {
-		nodecg.log.error("[GraphQL Incentives]: " + error);
+		nodecg.log.error(`[GraphQL Incentives (getIncentives)]: ${error}`);
 		return false;
 	}
 }
 
 function capitalizeFirstLetter(string: string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+nodecg.listenFor("updateIncentive", async (data, callback) => {
+	if (!nodecg.bundleConfig.graphql || !nodecg.bundleConfig.graphql.apiKey) return;
+
+	let incentive;
+	if (data.type === "Goal") {
+		incentive = convertGoalToKeystone(data as Goal);
+	} else if (data.type === "War") {
+		incentive = convertWarToKeystone(data as War);
+	}
+
+	if (!incentive) {
+		nodecg.log.error(`[GraphQL Incentives (updateIncentives)]: Incentive is not a Goal or War. Got: ${data.type}`);
+		return;
+	}
+
+	await request(
+		nodecg.bundleConfig.graphql!.url,
+		gql`
+			mutation UpdateIncentive($incentiveId: String!, $active: Boolean!, $data: JSON!, $apiKey: String!) {
+				updateIncentiveNodeCG(incentiveId: $incentiveId, active: $active, data: $data, apiKey: $apiKey) {
+					id
+					active
+					data
+				}
+			}
+		`,
+		{
+			incentiveId: incentive.id,
+			active: incentive.active,
+			data: incentive.data,
+			apiKey: nodecg.bundleConfig.graphql!.apiKey,
+		},
+	).catch((error) => {
+		if (callback && !callback.handled) {
+			callback(new Error("Failed to update incentive"));
+		}
+		nodecg.log.error(`[GraphQL Incentives (updateIncentives)]: ${error}`);
+		return;
+	});
+
+	if (callback && !callback.handled) {
+		callback(null);
+	}
+
+	getIncentives();
+});
+
+function convertWarToKeystone(war: War) {
+	return {
+		id: war.id,
+		active: war.active,
+		incentive: war.incentive,
+		data: {
+			options: war.options,
+		},
+	};
+}
+
+function convertGoalToKeystone(goal: Goal) {
+	return {
+		id: goal.id,
+		active: goal.active,
+		incentive: goal.incentive,
+		data: {
+			current: goal.total,
+			goal: goal.goal,
+		},
+	};
 }

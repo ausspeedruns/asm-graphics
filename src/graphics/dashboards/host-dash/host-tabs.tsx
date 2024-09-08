@@ -31,7 +31,7 @@ export const HostTabs = () => {
 	});
 
 	const updateIncentives = () => {
-		nodecg.sendMessage("updateIncentives");
+		nodecg.sendMessage("refreshIncentives");
 		if (incentiveLoadingRef.current) incentiveLoadingRef.current.classList.add("rotate");
 	};
 

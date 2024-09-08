@@ -11,7 +11,7 @@ import { DonationMatch } from "@asm-graphics/types/Donations";
 export const TickerOverlay: React.FC = () => {
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [incentivesRep] = useReplicant<(Goal | War)[]>("incentives");
+	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
 	const [donationRep] = useReplicant<number>("donationTotal");
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [asmmRep] = useReplicant<number>("asmm:totalKM");

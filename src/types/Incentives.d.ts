@@ -4,7 +4,10 @@ interface BaseIncentive {
 	notes: string;
 	active: boolean;
 	index: number;
+	id: string;
 }
+
+export type Incentive = Goal | War;
 
 export interface Goal extends BaseIncentive {
 	goal: number;

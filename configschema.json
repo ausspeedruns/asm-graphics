@@ -82,6 +82,10 @@
 				"event": {
 					"type": "string",
 					"default": ""
+				},
+				"apiKey": {
+					"type": "string",
+					"default": ""
 				}
 			},
 			"required": ["url"]

@@ -3,6 +3,7 @@ import type { Donation } from "./Donations";
 import type { Stream } from "./Streams";
 import type { StaffMessage } from "./StaffMessages";
 import type { Tweet } from "./Twitter";
+import type { Incentive } from "./Incentives";
 
 export type NodeCGMessages = {
 	// Audio
@@ -24,10 +25,9 @@ export type NodeCGMessages = {
 	"manual-donations:remove": string;
 	"markDonationReadUnread": string;
 	// Incentives
-	"disableIncentive": number;
-	"activateIncentive": number;
-	"updateIncentives": never;
+	"refreshIncentives": never;
 	"incentivesUpdated": number;
+	"updateIncentive": Incentive;
 	// OBS Audio
 	"update-audioindicator": string;
 	"update-obs-gate": number;

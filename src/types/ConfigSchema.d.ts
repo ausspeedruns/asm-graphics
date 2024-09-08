@@ -28,6 +28,7 @@ export interface ConfigSchema {
 	graphql?: {
 		url: string;
 		event: string;
+		apiKey?: string;
 	};
 	x32?: {
 		enabled: boolean;

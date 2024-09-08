@@ -10,7 +10,7 @@ import NodeCG from "@nodecg/types";
 
 const Intermission: React.FC = () => {
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
-	const [incentivesRep] = useReplicant<(Goal | War)[]>("incentives");
+	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);

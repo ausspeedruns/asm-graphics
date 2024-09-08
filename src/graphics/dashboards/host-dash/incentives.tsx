@@ -53,7 +53,7 @@ function removeExtrasInName(name: string) {
 }
 
 export const Incentives: React.FC<Props> = (props: Props) => {
-	const [incentivesRep] = useReplicant<(Goal | War)[]>("incentives");
+	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
 	const [runDataActiveRep] = useReplicant<RunData>("runDataActiveRun", {
 		bundle: "nodecg-speedcontrol",
 	});
@@ -179,7 +179,7 @@ const DisabledCover = styled.div`
 `;
 
 interface ItemProps {
-	incentive: Goal | War;
+	incentive: Incentive;
 }
 
 const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {

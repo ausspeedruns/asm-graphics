@@ -2,11 +2,10 @@ import * as nodecgApiContext from "./nodecg-api-context";
 
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { Donation, DonationMatch } from "@asm-graphics/types/Donations";
-import type { Goal, War } from "@asm-graphics/types/Incentives";
+import type { Incentive } from "@asm-graphics/types/Incentives";
 import type { Stream } from "@asm-graphics/types/Streams";
 import type { CurrentOverlay } from "@asm-graphics/types/CurrentOverlay";
 import type { StaffMessage } from "@asm-graphics/types/StaffMessages";
-import type { Tweet } from "@asm-graphics/types/Twitter";
 import type { AudioIndicator, OBSAudioIndicator } from "@asm-graphics/types/Audio";
 import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
@@ -59,7 +58,7 @@ export const x32AudioActivityRep = nodecg.Replicant<AudioIndicator>("audio-indic
 export const x32BusFadersRep = nodecg.Replicant<number[][]>("x32:busFaders", { defaultValue: [], persistent: false });
 
 /* Incentives */
-export const incentivesRep = nodecg.Replicant<(Goal | War)[]>("incentives", { defaultValue: [] });
+export const incentivesRep = nodecg.Replicant<Incentive[]>("incentives", { defaultValue: [] });
 
 /* Overlay/Online */
 export const currentOverlayRep = nodecg.Replicant<CurrentOverlay>("currentOverlay", {

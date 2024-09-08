@@ -1,8 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
-import { Box, Grid, Tooltip } from "@mui/material";
+import { Box, Button, Grid2, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -10,6 +10,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { Donation } from "@asm-graphics/types/Donations";
 
 import { GreenButton } from "../../../dashboard/elements/styled-ui";
+import { EditIncentiveDialog } from "./edit-incentive-dialog";
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);
@@ -37,13 +38,19 @@ const DonationsContainer = styled.div`
 // 	read: boolean
 // }
 
-export const Donations: React.FC = () => {
-	const [donations] = useReplicant<Donation[]>("donations");
+export const Donations = () => {
+	const [donationsRep] = useReplicant<Donation[]>("donations");
+	const [editIncentiveOpen, setEditIncentiveOpen] = useState(false);
 
-	const reversedDonations = [...donations ?? []].reverse() ?? [];
+	const reversedDonations = [...(donationsRep ?? [])].reverse() ?? [];
 
 	return (
 		<DonationsContainer>
+			<div style={{ display: "flex", justifyContent: "center", padding: "1% 20%" }}>
+				<Button onClick={() => setEditIncentiveOpen(true)} variant="outlined">
+					Edit Incentives
+				</Button>
+			</div>
 			<div style={{ padding: "0 8px", height: "100%" }}>
 				{reversedDonations.length > 0 && (
 					<AutoSizer>
@@ -60,6 +67,7 @@ export const Donations: React.FC = () => {
 					</AutoSizer>
 				)}
 			</div>
+			<EditIncentiveDialog open={editIncentiveOpen} onClose={() => setEditIncentiveOpen(false)} />
 		</DonationsContainer>
 	);
 };
@@ -154,7 +162,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				...props.style,
 				paddingTop: MARGIN,
 			}}>
-			<Grid direction="column" container style={{ paddingRight: 4, flexWrap: "nowrap" }}>
+			<Grid2 direction="column" container style={{ paddingRight: 4, flexWrap: "nowrap" }}>
 				<div>
 					<Amount>
 						${props.donation.amount.toLocaleString()}
@@ -166,15 +174,15 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
 					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
-			</Grid>
+			</Grid2>
 
 			{props.donation.read ? (
 				<DisabledCover />
 			) : (
 				<Tooltip title="Mark as read" placement="top">
-					<GreenButton variant="contained" onClick={toggleRead}>
+					<Button color="success" variant="contained" onClick={toggleRead}>
 						<Check />
-					</GreenButton>
+					</Button>
 				</Tooltip>
 			)}
 		</DonationContainer>

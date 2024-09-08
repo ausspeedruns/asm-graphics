@@ -91,7 +91,7 @@ export interface TickerItemHandles {
 }
 
 interface IncentivesProps {
-	incentives?: (Goal | War)[];
+	incentives?: Incentive[];
 	asmm?: number;
 	prizes?: Prize[];
 	photos?: NodeCG.AssetFile[];
