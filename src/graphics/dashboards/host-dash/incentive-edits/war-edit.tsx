@@ -190,20 +190,23 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 					})}
 				</div>
 			</div>
-			<Button
-				style={{ marginTop: 8 }}
-				color="success"
-				variant="outlined"
-				onClick={() => {
-					const mutableOptions = [...incentiveOptions];
-					mutableOptions.push({
-						name: "",
-						total: 0,
-					});
-					setIncentiveOptions(mutableOptions);
-				}}>
-				+ Add New Option
-			</Button>
+			{incentive.type === "War" && (
+				<Button
+					style={{ marginTop: 8 }}
+					color="success"
+					variant="outlined"
+					onClick={() => {
+						const mutableOptions = [...incentiveOptions];
+						mutableOptions.push({
+							name: "",
+							total: 0,
+						});
+						setIncentiveOptions(mutableOptions);
+					}}>
+					+ Add New Option
+				</Button>
+			)}
+
 			<br />
 			<Button
 				onClick={UpdateIncentive}

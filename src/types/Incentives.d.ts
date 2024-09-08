@@ -20,5 +20,5 @@ export interface War extends BaseIncentive {
 		name: string;
 		total: number;
 	}[];
-	type: "War";
+	type: "War" | "War-NoEdit";
 }
