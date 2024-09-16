@@ -50,11 +50,5 @@ async function init() {
 	}
 
 	require("./runner-tablet");
-
-	if (ncgConfig.asmm?.enabled) {
-		require("./asmm");
-	}
-
-	require("./sm64-rando");
 	require("./game-years");
 }

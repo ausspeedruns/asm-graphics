@@ -27,7 +27,6 @@ import { DS2 } from "./overlays/ds2";
 import { WHG } from "./overlays/whg11-8";
 import { ThreeDS } from "./overlays/3ds";
 import { ThreeDS2 } from "./overlays/3ds-2";
-import { SM64MovementRando } from "./overlays/sm64-rando";
 import { NoGraphics } from "./overlays/no-graphics";
 import { StandardVertical } from "./overlays/standard-vertical";
 
@@ -157,10 +156,6 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		{
 			component: <StandardVertical {...overlayArgs} />,
 			name: "Standard-Vertical",
-		},
-		{
-			component: <SM64MovementRando {...overlayArgs} />,
-			name: "SM64-Rando",
 		},
 		{
 			component: <NoGraphics />,

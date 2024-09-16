@@ -9,7 +9,6 @@ import type { StaffMessage } from "@asm-graphics/types/StaffMessages";
 import type { AudioIndicator, OBSAudioIndicator } from "@asm-graphics/types/Audio";
 import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
-import { SM64MovementAbilities } from "./sm64-rando";
 
 const nodecg = nodecgApiContext.get();
 
@@ -95,26 +94,3 @@ export const techStatusRep = nodecg.Replicant<boolean>("tech:ready", { defaultVa
 /* ASNN */
 export const asnnHeadlineRep = nodecg.Replicant<string>("asnn:headline", { defaultValue: "" });
 export const asnnTickerRep = nodecg.Replicant<string[]>("asnn:ticker", { defaultValue: [] });
-
-/* Randomiser */
-export const sm64RandoRep = nodecg.Replicant<SM64MovementAbilities>("rando:sm64-movement", {
-	defaultValue: {
-		jump: false,
-		tripleJump: false,
-		sideFlip: false,
-		longJump: false,
-		kick: false,
-		backFlip: false,
-		groundPound: false,
-		wallKick: false,
-		climb: false,
-		dive: false,
-		grab: false,
-		ledgeGrab: false,
-		keyUpstairs: false,
-		keyDownstairs: false,
-		capMetal: false,
-		capWing: false,
-		capInvisibility: false,
-	}
-});
