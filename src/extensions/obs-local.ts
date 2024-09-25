@@ -1,5 +1,5 @@
 import * as nodecgApiContext from "./nodecg-api-context";
-import { obsCurrentSceneRep, obsStreamTimecode } from "./replicants";
+import { obsCurrentSceneRep, obsStreamTimecode, automationSettingsRep } from "./replicants";
 import obs from "./util/obs";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
@@ -71,6 +71,10 @@ nodecg.listenFor("transition:toIntermission", (data) => {
 	if (!data.from.startsWith("GAMEPLAY")) return;
 
 	setTimeout(() => {
+		if (!automationSettingsRep.value?.runAdvance) {
+			return;
+		}
+
 		nodecg.sendMessageToBundle("changeToNextRun", "nodecg-speedcontrol");
 
 		// CUSTOM TRANSITIONS

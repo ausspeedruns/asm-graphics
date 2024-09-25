@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { createRoot } from "react-dom/client";
 import styled, { keyframes } from "styled-components";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
@@ -20,8 +20,9 @@ import Clip3 from "./media/audio/heartcontainer1.mp3";
 import Clip4 from "./media/audio/heartpiece1.mp3";
 import Clip5 from "./media/audio/itemget1.mp3";
 
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import NodeCG from "@nodecg/types";
+import type NodeCG from "@nodecg/types";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { Automations } from "@asm-graphics/types/Automations";
 
 const ClipArray = [Clip1, Clip2, Clip3, Clip4, Clip5];
 
@@ -163,6 +164,7 @@ export const Transition: React.FC = () => {
 	const gamingTipsRef = useRef<HTMLDivElement>(null);
 	const [transitionPhotosRep] = useReplicant<NodeCG.AssetFile[]>("assets:transitionPhotos");
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const [automationsRep] = useReplicant<Automations>("automations");
 
 	useListenFor("transition:UNKNOWN", () => {
 		console.log("Transitioning");
@@ -189,6 +191,11 @@ export const Transition: React.FC = () => {
 	// }, [normalRive]);
 
 	function runTransition(transition: "toIntermission" | "toGame" | "basic", specialText: string[] = []) {
+		if (!automationsRep?.runTransition) {
+			console.log("Not running transition");
+			return;
+		}
+
 		console.log("Running");
 
 		const tl = gsap.timeline();

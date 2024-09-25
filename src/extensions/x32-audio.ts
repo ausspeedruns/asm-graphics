@@ -1,7 +1,15 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 import X32 from "./util/x32";
 
-import { x32StatusRep, x32BusFadersRep, x32AudioActivityRep, microphoneGateRep, gameAudioActiveRep, hostLevelRep } from "./replicants";
+import {
+	x32StatusRep,
+	x32BusFadersRep,
+	x32AudioActivityRep,
+	microphoneGateRep,
+	gameAudioActiveRep,
+	hostLevelRep,
+	automationSettingsRep,
+} from "./replicants";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "@nodecg/types";
@@ -54,7 +62,8 @@ function fadeUnmute(channel: number, mixBus: number) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
-			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
+			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
+				faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Unmute
@@ -66,7 +75,8 @@ function fadeUnmute(channel: number, mixBus: number) {
 function fadeMute(channel: number, mixBus: number, force = false) {
 	if (force || faderValues[0]?.[channel] > 0) {
 		nodecg.log.debug(
-			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
+			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
+				faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Mute
@@ -178,6 +188,8 @@ nodecg.listenFor("transition:toGame", (_data) => {
 
 // On transition to intermission
 nodecg.listenFor("transition:toIntermission", () => {
+	if (!automationSettingsRep.value.audioMixing) return;
+
 	// Mute all inputs but host mic on main LR
 	loopAllX32(
 		(channel, mixBus) => {
@@ -198,6 +210,8 @@ nodecg.listenFor("transition:toIntermission", () => {
 
 // On transition to IRL scene
 nodecg.listenFor("transition:toIRL", () => {
+	if (!automationSettingsRep.value.audioMixing) return;
+
 	// Mute all other mics and game audio
 	loopAllX32((channel, mixBus) => {
 		// Don't even attempt to mute the channels since sometimes it gets lost

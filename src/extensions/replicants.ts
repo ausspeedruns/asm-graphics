@@ -9,6 +9,7 @@ import type { StaffMessage } from "@asm-graphics/types/StaffMessages";
 import type { AudioIndicator, OBSAudioIndicator } from "@asm-graphics/types/Audio";
 import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
+import type { Automations } from "@asm-graphics/types/Automations";
 
 const nodecg = nodecgApiContext.get();
 
@@ -94,3 +95,13 @@ export const techStatusRep = nodecg.Replicant<boolean>("tech:ready", { defaultVa
 /* ASNN */
 export const asnnHeadlineRep = nodecg.Replicant<string>("asnn:headline", { defaultValue: "" });
 export const asnnTickerRep = nodecg.Replicant<string[]>("asnn:ticker", { defaultValue: [] });
+
+/* Automation Settings */
+export const automationSettingsRep = nodecg.Replicant<Automations>("automations", {
+	defaultValue: {
+		runAdvance: true,
+		runTransition: true,
+		audioMixing: true,
+	},
+	persistent: true,
+});

@@ -1,11 +1,13 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-
+import { FormControlLabel, Switch, ThemeProvider } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import type { ConnectionStatus } from "@asm-graphics/types/Connections";
-import { Accordion, AccordionDetails, AccordionSummary, ThemeProvider } from "@mui/material";
+
 import { darkTheme } from "./theme";
+
+import type { ConnectionStatus } from "@asm-graphics/types/Connections";
+import type { Automations } from "@asm-graphics/types/Automations";
 
 const StatusContainer = styled.div`
 	display: flex;
@@ -51,58 +53,22 @@ function connectionStatusStyle(status: ConnectionStatus | boolean): { text: stri
 	}
 }
 
-// Duplicate function in obs-local.ts I know I'm a bad boy
-function determineSceneType(scene: string | undefined) {
-	if (typeof scene === "undefined") {
-		return "Unknown";
-	}
-
-	if (scene.startsWith("GAMEPLAY")) {
-		return "Gameplay";
-	} else if (scene.startsWith("INTERMISSION")) {
-		return "Intermission";
-	} else if (scene.startsWith("IRL")) {
-		return "IRL";
-	} else if (scene.startsWith("ASNN")) {
-		return "ASNN";
-	} else {
-		return "Unknown";
-	}
-}
-
 export const Status: React.FC = () => {
 	const [x32StatusRep] = useReplicant<ConnectionStatus>("x32:status");
 	const [obsStatusRep] = useReplicant<ConnectionStatus>("obs:status");
-	const [obsCurrentSceneRep] = useReplicant<string>("obs:currentScene");
+	const [automationsRep, setAutomationsRep] = useReplicant<Automations>("automations");
 
 	const x32StatusInfo = connectionStatusStyle(x32StatusRep ?? "disconnected");
 	const obsStatusInfo = connectionStatusStyle(obsStatusRep ?? "disconnected");
 
-	const sceneType = determineSceneType(obsCurrentSceneRep);
-
-	let automationPanel = <></>;
-	switch (sceneType) {
-		case "Gameplay":
-			automationPanel = <CurrentGameplayAutomations />;
-			break;
-		case "Intermission":
-			automationPanel = <CurrentIntermissionAutomations />;
-			break;
-		case "IRL":
-		case "ASNN":
-		case "Unknown":
-		default:
-			automationPanel = (
-				<Accordion>
-					<AccordionSummary>Going to anything</AccordionSummary>
-					<AccordionDetails>
-						<ul>
-							<li>Run Transition Graphic</li>
-						</ul>
-					</AccordionDetails>
-				</Accordion>
-			);
-			break;
+	function handleSwitchChange(type: keyof Automations) {
+		return (_: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+			setAutomationsRep({
+				runAdvance: type === "runAdvance" ? checked : (automationsRep?.runAdvance ?? false),
+				runTransition: type === "runTransition" ? checked : (automationsRep?.runTransition ?? false),
+				audioMixing: type === "audioMixing" ? checked : (automationsRep?.audioMixing ?? false),
+			});
+		};
 	}
 
 	return (
@@ -117,93 +83,41 @@ export const Status: React.FC = () => {
 					{x32StatusInfo.text}
 				</ConnectionStatus>
 				<Header>Automations</Header>
-				<h3>Current Scene Type</h3>
-				<h4>{sceneType === "Unknown" ? obsCurrentSceneRep : sceneType}</h4>
-				<section>{automationPanel}</section>
+				<AutomationSwitch
+					label="Auto Advance Run"
+					checked={automationsRep?.runAdvance}
+					onChange={handleSwitchChange("runAdvance")}
+				/>
+				<AutomationSwitch
+					label="Run Transition"
+					checked={automationsRep?.runTransition}
+					onChange={handleSwitchChange("runTransition")}
+				/>
+				<AutomationSwitch
+					label="Auto Audio Mixing"
+					checked={automationsRep?.audioMixing}
+					onChange={handleSwitchChange("audioMixing")}
+				/>
 			</StatusContainer>
 		</ThemeProvider>
 	);
 };
 
-const CurrentGameplayAutomations = () => {
-	return (
-		<>
-			<Accordion>
-				<AccordionSummary>Going to Intermission</AccordionSummary>
-				<AccordionDetails>
-					<ul>
-						<li>Advance run</li>
-						<li>Reset Runner and Tech status</li>
-						<li>Mute ALL channels on Stream and Speakers except Host</li>
-						<li>Unmute Host on Stream and Speakers?????</li>
-						<li>Run Transition Graphic</li>
-					</ul>
-				</AccordionDetails>
-			</Accordion>
-			<Accordion>
-				<AccordionSummary>Going to another Gameplay</AccordionSummary>
-				<AccordionDetails>
-					<p>Nothing.</p>
-				</AccordionDetails>
-			</Accordion>
-			<Accordion>
-				<AccordionSummary>Going to IRL</AccordionSummary>
-				<AccordionDetails>
-					<ul>
-						<li>Mute all audio inputs on Stream and Speakers</li>
-						<li>Unmute &quot;Special Mic&quot; (Channel 6) on Stream and Speakers</li>
-						<li>Run Transition Graphic</li>
-					</ul>
-				</AccordionDetails>
-			</Accordion>
-			<Accordion>
-				<AccordionSummary>Going to Other</AccordionSummary>
-				<AccordionDetails>
-					<ul>
-						<li>Run Transition Graphic</li>
-					</ul>
-				</AccordionDetails>
-			</Accordion>
-		</>
-	);
-};
-
-const CurrentIntermissionAutomations = () => {
-	return (
-		<>
-			<Accordion>
-				<AccordionSummary>Going to Gameplay</AccordionSummary>
-				<AccordionDetails>
-					<li>Unmute mics that have a Runner / Commentator assigned on Stream and Speakers</li>
-					<li>Run Transition Graphic</li>
-				</AccordionDetails>
-			</Accordion>
-			<Accordion>
-				<AccordionSummary>Going to another Intermission</AccordionSummary>
-				<AccordionDetails>
-					<p>Nothing.</p>
-				</AccordionDetails>
-			</Accordion>
-			<Accordion>
-				<AccordionSummary>Going to IRL</AccordionSummary>
-				<AccordionDetails>
-					<ul>
-						<li>Mute all audio inputs on Stream and Speakers</li>
-						<li>Unmute &quot;Special Mic&quot; (Channel 6) on Stream and Speakers</li>
-						<li>Run Transition Graphic</li>
-					</ul>
-				</AccordionDetails>
-			</Accordion>
-			<Accordion>
-				<AccordionSummary>Going to Other</AccordionSummary>
-				<AccordionDetails>
-					<ul>
-						<li>Run Transition Graphic</li>
-					</ul>
-				</AccordionDetails>
-			</Accordion>
-		</>
-	);
-};
+const AutomationSwitch = ({
+	label,
+	checked,
+	onChange,
+}: {
+	label: string;
+	checked?: boolean;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+}) => (
+	<FormControlLabel
+		value="start"
+		control={<Switch color="primary" checked={checked} onChange={onChange} />}
+		label={label}
+		labelPlacement="start"
+	/>
+);
 
 createRoot(document.getElementById("root")!).render(<Status />);
