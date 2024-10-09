@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
@@ -8,8 +8,7 @@ import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-// import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
-// import StandardBG from "../elements/event-specific/dh-24/Standard.png";
+import StandardBG from "../media/asap24/Standard.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -43,7 +42,6 @@ const SponsorBoxS = styled(SponsorsBox)`
 	/* height: 264px; */
 	flex-grow: 1;
 	/* margin-top: -70px; */
-	background-image: radial-gradient(#030c3875 30%, #030c3800 60%);
 `;
 
 const SponsorsSize = {
@@ -63,12 +61,15 @@ const VerticalInfoS = styled(VerticalInfo)`
 `;
 
 const customVerticalStyle: IVerticalStyling = {
-	timerSize: 75,
+	timerSize: 90,
 	gameInfoSize: 20,
 	gameTitleSize: 40,
 	gameStackHeight: 200,
 	timerStackHeight: 300,
 	categorySize: 38,
+	mainStyle: {
+		marginTop: 40,
+	}
 };
 
 export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
@@ -82,6 +83,8 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
+	console.log(props.commentators)
+
 	return (
 		<StandardContainer>
 			<Sidebar>
@@ -94,7 +97,7 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					verticalCoop
 				/>
 				<InfoBoxBG>
-					{/* <img
+					<img
 						src={StandardBG}
 						style={{
 							position: "absolute",
@@ -104,14 +107,14 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							bottom: 0,
 							zIndex: -1,
 						}}
-					/> */}
-					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+					/>
 					<Couch
-						style={{ zIndex: 3, marginTop: 400 }}
 						commentators={props.commentators}
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
+						darkTitle
 					/>
+					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

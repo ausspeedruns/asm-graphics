@@ -103,7 +103,7 @@ const UpcomingRunContainer = styled.div`
 
 const MetaDataContainer = styled.div`
 	padding: 16px;
-	background: var(--time);
+	background: var(--sec);
 	border-radius: 16px 0 0 16px;
 	color: var(--text-light);
 

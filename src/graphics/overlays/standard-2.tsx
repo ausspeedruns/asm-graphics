@@ -11,17 +11,8 @@ import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
-// import StandardLeft from "../media/ASM23/standard-2-left.png";
+import Standard2p from "../media/asap24/Standard2p.png";
 // import StandardRight from "../media/ASM23/standard-2-right.png";
-
-const TGXBox = styled.div`
-	border-style: solid;
-	border-width: 10px;
-	position: absolute;
-	height: 100px;
-	width: 100px;
-	background-color: var(--main);
-`;
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -125,6 +116,10 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 	return (
 		<Standard2Container>
 			<WholeGraphicClip>
+				<img
+					style={{ position: "absolute", width: "100%" }}
+					src={Standard2p}
+				/>
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>

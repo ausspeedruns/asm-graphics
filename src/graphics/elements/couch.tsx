@@ -4,8 +4,6 @@ import styled from "styled-components";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
-// import { TGX24_COLOURS } from "./event-specific/tgx-24/tgx24";
-
 const CouchContainer = styled.div`
 	font-family: var(--main-font);
 	display: flex;
@@ -19,7 +17,7 @@ const MenuBar = styled.div`
 	justify-content: center;
 	width: 100%;
 	color: var(--text-light);
-	font-family: var(--secondary-font);
+	font-family: var(--main-font);
 	font-size: 25px;
 `;
 
@@ -30,23 +28,13 @@ const PeopleContainer = styled.div`
 	justify-content: center;
 `;
 
-// function indexToColour(index: number) {
-// 	const data = TGX24_COLOURS[index % TGX24_COLOURS.length];
-// 	return {
-// 		color: data.color,
-// 		background: chamferCornerGenerator(data.background),
-// 		backgroundPosition: "bottom left, bottom right, top right, top left",
-// 		backgroundSize: "51% 51%",
-// 		backgroundRepeat: "no-repeat",
-// 	};
-// }
-
 interface Props {
 	commentators: Commentator[];
 	host?: Commentator;
 	audio?: AudioIndicator;
 	style?: React.CSSProperties;
 	className?: string;
+	darkTitle?: boolean;
 }
 
 export const Couch: React.FC<Props> = (props: Props) => {
@@ -63,7 +51,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 
 	return (
 		<CouchContainer className={props.className} style={props.style}>
-			<MenuBar>
+			<MenuBar style={{ color: props.darkTitle ? "var(--text-dark)" : "var(--text-light)" }}>
 				<div style={{ margin: "0 6px" }}>{label}</div>
 			</MenuBar>
 			<PeopleContainer>
@@ -101,12 +89,8 @@ const PersonCompressedContainer = styled.div`
 	margin: 4px;
 	box-sizing: border-box;
 	position: relative;
-	background: #010d33cf;
+	background: #222721;
 	padding: 8px 12px;
-
-	border-radius: 8px;
-	border: 1px solid var(--accent);
-	backdrop-filter: blur(2px);
 `;
 
 const SpeakingColour = styled.div<SpeakingProps>`
@@ -134,7 +118,6 @@ const Tag = styled.span`
 
 const Name = styled.span`
 	font-family: var(--secondary-font);
-	/* font-family: var(--main-font); */
 	/* font-weight: bold; */
 	z-index: 2;
 `;
@@ -143,7 +126,6 @@ const Pronouns = styled.div`
 	font-size: 15px;
 	text-transform: uppercase;
 	font-family: var(--main-font);
-	/* font-family: var(--secondary-font); */
 	z-index: 2;
 `;
 

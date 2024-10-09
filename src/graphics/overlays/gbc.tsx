@@ -8,6 +8,9 @@ import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
+import GBCLeft from "../media/asap24/GBC_01.png";
+import GBCRight from "../media/asap24/GBC_02.png";
+
 const GBCContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -17,7 +20,7 @@ const GBCContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 565px;
+	width: 578px;
 	border-right: 1px solid var(--pax-gold);
 	overflow: hidden;
 `;
@@ -25,12 +28,10 @@ const Sidebar = styled.div`
 const RightSidebar = styled.div`
 	position: absolute;
 	right: 0;
-	height: 1016.5px;
-	width: 224px;
+	height: 1016px;
+	width: 211px;
 	border-left: 1px solid var(--pax-gold);
 	overflow: hidden;
-	background-image: url("../shared/design/contour-maps/standard.svg");
-	background-size: cover;
 `;
 
 const SponsorBoxStyle = styled(SponsorsBox)`
@@ -50,9 +51,6 @@ const TwitterSize = {
 };
 
 const InfoBoxBG = styled.div`
-	background-image: url("../shared/design/contour-maps/standard.svg");
-	background-size: cover;
-	background-position: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -69,12 +67,20 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 			<Sidebar>
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 				<InfoBoxBG>
+					<img src={GBCLeft} style={{ position: "absolute" }} />
+					<Couch
+						commentators={props.commentators}
+						host={props.host}
+						audio={props.microphoneAudioIndicator}
+						darkTitle
+					/>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
-					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>
-			<RightSidebar />
+			<RightSidebar>
+				<img src={GBCRight} style={{ position: "absolute" }} />
+			</RightSidebar>
 		</GBCContainer>
 	);
 };

@@ -15,6 +15,7 @@ import { getTeams } from "../elements/team-data";
 // import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
 // import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
 // import WidescreenBottom from "../media/ASM23/widescreen-2-bottom.png";
+import WidescreenWhole from "../media/asap24/Widescreen2p.png";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -152,6 +153,10 @@ export const Widescreen2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => 
 	return (
 		<Widescreen2Container>
 			<WholeGraphicClip>
+				<img
+					src={WidescreenWhole}
+					style={{ position: "absolute", height: "100%", width: "100%" }}
+				/>
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>

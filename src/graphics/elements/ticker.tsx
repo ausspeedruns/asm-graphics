@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import _ from "lodash";
 
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Goal, War } from "@asm-graphics/types/Incentives";
+import type { Goal, Incentive, War } from "@asm-graphics/types/Incentives";
 import type { DonationMatch } from "@asm-graphics/types/Donations";
 
 import { TickerRuns } from "./ticker/runs";
@@ -22,6 +22,7 @@ import ChannelBug from "../media/ASM-Gif.gif";
 // import ChannelBugExtension from "../elements/event-specific/pax-23/ChannelBugExtension.png";
 // import ChannelBug from "../elements/event-specific/tgx-24/tgx24-bug.png";
 import GoCLogo from "../media/Sponsors/GoCWhite.svg";
+import PAX24TearOrange from "../media/asap24/ticker-orange.png";
 
 const TickerContainer = styled.div`
 	height: 64px;
@@ -57,7 +58,7 @@ const DonationArea = styled.div`
 const CurrentTimeArea = styled.div`
 	height: 100%;
 	width: fit-content;
-	background: var(--time);
+	background: var(--sec);
 	color: var(--text-light);
 	font-weight: bold;
 	/* border-left: 6px solid var(--accent); */
@@ -210,6 +211,7 @@ const Ticker = (props: TickerProps) => {
 		<TickerContainer>
 			<LeftBlock>
 				<ASMLogo src={ChannelBug} />
+				<img src={PAX24TearOrange} style={{ marginRight: -5, zIndex: 200 }} />
 				{/* <img src={ChannelBugExtension} /> */}
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
@@ -256,7 +258,6 @@ const GradientAnimation = keyframes`
 		background-position: 0% 50%;
 	}
 `;
-
 
 const GradientText = styled.div`
 	background: var(--goc-gradient);

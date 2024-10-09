@@ -75,7 +75,7 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
 	width: 100%;
-	border: 2px solid var(--time);
+	border: 2px solid var(--sec);
 	/* background: var(--main); */
 	background: transparent;
 	position: relative;

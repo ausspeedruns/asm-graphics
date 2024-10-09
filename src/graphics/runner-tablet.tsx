@@ -12,7 +12,6 @@ import { RTAudio } from "./dashboards/runner-tablet/audio";
 import { RTNames } from "./dashboards/runner-tablet/names";
 // import { RTSelection } from "./dashboards/runner-tablet/headset-selection";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import { RTRandomiser } from "./dashboards/runner-tablet/randomiser";
 
 const NavBar = styled.div`
 	width: 100%;
@@ -67,7 +66,6 @@ const TABS = {
 	NAMES: "names",
 	AUDIO: "audio",
 	HEADSET_SELECTION: "headset_selection",
-	RANDO: "rando",
 } as const;
 
 const RunnerTabletTheme = createTheme({
@@ -103,9 +101,6 @@ const RunnerTablet: React.FC = () => {
 			break;
 		case "audio":
 			currentTabBody = <RTAudio />;
-			break;
-		case "rando":
-			currentTabBody = <RTRandomiser />;
 			break;
 		// case "headset_selection":
 		// 	currentTabBody = <RTSelection close={() => setTab("names")} />;
@@ -158,11 +153,6 @@ const RunnerTablet: React.FC = () => {
 					<NavBarButton onClick={() => setTab("audio")} active={tab === "audio"}>
 						Audio
 					</NavBarButton>
-					{runDataActiveRep?.game === "Super Mario 64" && (
-						<NavBarButton onClick={() => setTab("rando")} active={tab === "rando"}>
-							RANDO
-						</NavBarButton>
-					)}
 					<RightSide>
 						<HostName>
 							{/* <span>Host</span> */}

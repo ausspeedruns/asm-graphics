@@ -22,10 +22,10 @@ const VerticalStack = styled.div`
 const Title = styled.span`
 	font-size: 28px;
 	white-space: nowrap;
-	margin-top: 8px;
+	/* margin-top: 8px; */
 	font-weight: bold;
 	font-family: var(--secondary-font);
-	margin-bottom: -4px;
+	/* margin-bottom: -8px; */
 `;
 
 const Subtitle = styled.span`

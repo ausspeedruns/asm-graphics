@@ -69,7 +69,11 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
 	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator");
 	const [microphoneAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators");
+	const [onScreenMessageShowRep] = useReplicant<boolean>("onScreenWarning:show");
+	const [onScreenMessageMessageRep] = useReplicant<string>("onScreenWarning:message");
+
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
+
 	const overlayRefs = useRef<OverlayRef[]>([]);
 
 	// Disable runner audio indicator if they are the only runner and there isn't another commentator (except Host)
@@ -93,6 +97,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		microphoneAudioIndicator: mutableMicAudioIndicator,
 		host: hostRep,
 		gameAudioIndicator: gameAudioIndicatorRep ?? -1,
+		onScreenWarning: {
+			message: onScreenMessageMessageRep ?? "",
+			show: onScreenMessageShowRep ?? false,
+		},
 	};
 
 	const Overlays = [

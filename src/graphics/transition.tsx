@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
-// import { useRive } from "@rive-app/react-canvas";
+import { useRive } from "@rive-app/react-canvas";
 
 // import ASMLogo from './media/ASM2022 Logo.svg';
 // import BGIMG from './media/pixel/Transition/BG.png';
@@ -11,8 +11,7 @@ import gsap from "gsap";
 // import EndWipeIMG from './media/pixel/Transition/EndWipe.png';
 
 // @ts-ignore
-// import ASAP23Transition from "./elements/event-specific/pax-23/asap2023_transition.riv";
-import ASGX23Transitions from "./elements/event-specific/tgx-24/";
+import ASAP24Transition from "./media/asap24/asap_2024_t1.riv";
 
 import Clip1 from "./media/audio/chestappears1.mp3";
 import Clip2 from "./media/audio/crystal.mp3";
@@ -20,7 +19,6 @@ import Clip3 from "./media/audio/heartcontainer1.mp3";
 import Clip4 from "./media/audio/heartpiece1.mp3";
 import Clip5 from "./media/audio/itemget1.mp3";
 
-import type NodeCG from "@nodecg/types";
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Automations } from "@asm-graphics/types/Automations";
 
@@ -40,7 +38,6 @@ const TransitionDiv = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	position: relative;
-	opacity: 0;
 
 	background-size: cover;
 	background-position: center;
@@ -54,53 +51,12 @@ const TransitionDiv = styled.div`
 	}
 `;
 
-const LoadingTextAnimation = keyframes`
-	/* 50% {
-		opacity: 0;
-	} */
-`;
-
-const LoadingText = styled.div`
-	animation: ${LoadingTextAnimation} 2s step-start infinite;
-	text-transform: uppercase;
-	font-family: "Russo One";
-	font-size: 100px;
-	/* -webkit-text-stroke-width: 20px;
-	-webkit-text-stroke-color: black;
-	paint-order: stroke fill; */
-	text-shadow: 10px 0 black,-10px 0 black, 0 10px black, 0 -10px black, 10px 10px black, -10px 10px black, -10px -10px black, 10px -10px black;
-`;
-
-const LoadingBar = styled.div`
-	width: 1600px;
-	height: 50px;
-	background: black;
-	border: 10px solid black;
-`;
-
-const LoadingBarProgress = styled.div`
-	position: absolute;
-	width: 0;
-	height: 100%;
-	background-color: white;
-`;
-
-const GameplayTip = styled.div`
-	font-size: 50px;
-	color: #fff;
-	font-style: italic;
-	/* -webkit-text-stroke-width: 10px;
-	-webkit-text-stroke-color: black;
-	paint-order: stroke fill; */
-	text-shadow: 4px 0 black, -4px 0 black, 0 4px black, 0 -4px black, 4px 4px black, -4px 4px black, -4px -4px black, 4px -4px black;
-`;
-
 function runString(runData: RunDataActiveRun | undefined) {
 	if (!runData) return ["Enjoy the run!"];
 
 	const allRunners = runData.teams.flatMap((team) => team.players.map((player) => player.name));
 
-	return [runData.game ?? "???", `By ${new Intl.ListFormat().format(allRunners)}`];
+	return [runData.game ?? "???", runData.category ?? "???", `By ${new Intl.ListFormat().format(allRunners)}`];
 }
 
 const TAGLINES = [
@@ -122,49 +78,22 @@ const TAGLINES = [
 	["By RUNNER NAME", "GAME NAME ...wait hang on"],
 ];
 
-function loadingSteps(steps: number) {
-    const stepPoints = [];
-    for (let i = 0; i < steps; i++) {
-        let randomPoint = Math.random();
-
-        if (i == 0) {
-            stepPoints.push(randomPoint);
-            continue;
-        }
-
-        randomPoint += stepPoints[i - 1];
-        stepPoints.push(randomPoint);
-    }
-
-    // Normalise
-    const maxPoint = stepPoints[stepPoints.length - 1];
-    const normalisedStepPoints = stepPoints.map((point) => (point / maxPoint) * 100);
-
-    // Convert to array of objects
-    const stepsArray = normalisedStepPoints.map((normalizedPoint) => ({
-        step: normalizedPoint,
-        wait: Math.random() > 0.3 ? Math.random() : 0,
-        duration: Math.random(),
-    }));
-
-	// Make sure the transition is at least 5 seconds
-	const totalTime = Math.max(4, stepsArray.reduce((total, step) => total + step.wait + step.duration, 0));
-	stepsArray.forEach((step) => {
-		step.wait *= (4 / totalTime);
-		step.duration *= (4 / totalTime);
-	});
-
-    return stepsArray;
-}
-
 export const Transition: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const transitionRef = useRef<HTMLDivElement>(null);
-	const loadingBarRef = useRef<HTMLDivElement>(null);
-	const gamingTipsRef = useRef<HTMLDivElement>(null);
-	const [transitionPhotosRep] = useReplicant<NodeCG.AssetFile[]>("assets:transitionPhotos");
+	const textContainerRef = useRef<HTMLDivElement>(null);
+	const gameRef = useRef<HTMLSpanElement>(null);
+	const bylineRef = useRef<HTMLSpanElement>(null);
+
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [automationsRep] = useReplicant<Automations>("automations");
+
+	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
+		// src: "/bundles/asm-graphics/shared/design/dh_transition.riv",
+		src: "/bundles/asm-graphics/shared/design/asap_2024.riv",
+		// autoplay: false,
+		// artboard: "artboard",
+	});
 
 	useListenFor("transition:UNKNOWN", () => {
 		console.log("Transitioning");
@@ -186,9 +115,9 @@ export const Transition: React.FC = () => {
 		runTransition("toIntermission", TAGLINES[Math.floor(Math.random() * TAGLINES.length)]);
 	});
 
-	// useEffect(() => {
-	// 	normalRive?.stopRendering();
-	// }, [normalRive]);
+	useEffect(() => {
+		normalRive?.stopRendering();
+	}, [normalRive]);
 
 	function runTransition(transition: "toIntermission" | "toGame" | "basic", specialText: string[] = []) {
 		if (!automationsRep?.runTransition) {
@@ -198,7 +127,13 @@ export const Transition: React.FC = () => {
 
 		console.log("Running");
 
+		gameRef.current!.innerText = specialText[0] ?? "";
+		bylineRef.current!.innerText = specialText[2] ?? "";
+
 		const tl = gsap.timeline();
+
+		tl.fromTo(textContainerRef.current, { opacity: 0 }, { opacity: 1, duration: 1 }, "+=1");
+
 		tl.call(
 			() => {
 				if (!audioRef.current) return;
@@ -206,46 +141,22 @@ export const Transition: React.FC = () => {
 				audioRef.current.play();
 			},
 			[],
+			"+=1",
 		);
 
-		if (gamingTipsRef.current) {
-			let prefix = "";
-
-			if (transition === "toIntermission") {
-				prefix = "TIP: ";
-			}
-
-			gamingTipsRef.current.innerText = prefix + specialText.join(" - ");
-		}
+		tl.to(textContainerRef.current, { opacity: 0, duration: 1 }, "+=1");
 
 		switch (transition) {
 			case "basic":
 			case "toIntermission":
 			case "toGame":
 			default:
-				if (!transitionRef.current) return;
-				tl.set(loadingBarRef.current, { width: 0 });
+				if (normalRive) {
+					normalRive.startRendering();
+					normalRive.reset();
 
-				console.log(transitionPhotosRep);
-				if (transitionPhotosRep) {
-					const imageSrc = transitionPhotosRep[Math.floor(Math.random() * transitionPhotosRep.length)].url;
-					transitionRef.current.style.backgroundImage = `url(${imageSrc})`;
-
-					console.log(`Setting image to ${imageSrc}`, transitionRef.current.style.backgroundImage);
+					normalRive.play("Intermission > Game");
 				}
-
-				tl.fromTo(transitionRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 });
-
-
-				const loadingBarAnim = loadingSteps(4);
-				for (let i = 0; i < loadingBarAnim.length; i++) {
-					const step = loadingBarAnim[i];
-					tl.to(loadingBarRef.current, { width: `${step.step}%`, duration: step.duration, ease: "linear" }, `+=${step.wait}`)
-
-				}
-				// tl.fromTo(loadingBarRef.current, { width: "0" }, { width: "100%", duration: 5 }, "+=0.5");
-
-				tl.fromTo(transitionRef.current, { opacity: 1 }, { opacity: 0, duration: 0.5 }, "+=0.5");
 				break;
 		}
 	}
@@ -257,17 +168,21 @@ export const Transition: React.FC = () => {
 	return (
 		<TransitionContainer>
 			<TransitionDiv ref={transitionRef}>
-				{/* <NormalTransitions /> */}
-				<div style={{ width: "100%", display: "flex", justifyContent: "center", top: 700 }}>
-					<GameplayTip ref={gamingTipsRef} />
-				</div>
-				<div style={{ width: "100%", display: "flex", justifyContent: "center", top: 800 }}>
-					<LoadingBar>
-						<LoadingBarProgress ref={loadingBarRef} />
-					</LoadingBar>
-				</div>
-				<div style={{ width: "100%", display: "flex", justifyContent: "center", top: 900 }}>
-					<LoadingText>Loading</LoadingText>
+				<NormalTransitions />
+				<div
+					style={{
+						position: "absolute",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						fontSize: 60,
+						color: "white",
+						width: "100%",
+						bottom: 200,
+					}}
+					ref={textContainerRef}>
+					<span style={{ fontFamily: "var(--secondary-font)", maxWidth: 1200 }} ref={gameRef}></span>
+					<span ref={bylineRef}></span>
 				</div>
 			</TransitionDiv>
 

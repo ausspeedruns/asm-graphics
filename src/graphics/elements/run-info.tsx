@@ -114,5 +114,9 @@ interface YearProps {
 }
 
 export const Year: React.FC<YearProps> = (props: YearProps) => {
+	if (!props.year) {
+		return <></>;
+	}
+
 	return <YearContainer style={props.style}>{props.year}</YearContainer>;
 };

@@ -1,9 +1,9 @@
 body {
 	margin: 0;
-	--main: var(--asm24-main);
+	--main: var(--pax24-main);
 	--primary: var(--main);
-	--nameplate: var(--asm-blue);
-	--nameplate-lighter: var(--asm23-nameplate-lighter);
+	--nameplate: var(--main);
+	--nameplate-lighter: var(--pax24-main-light);
 	--sec: var(--asm-blue);
 	--accent: var(--asm-blue);
 
@@ -11,7 +11,7 @@ body {
 	--text-dark: var(--main);
 
 	--main-font: var(--asm-font);
-	--secondary-font: var(--asm-secondary-font);
+	--secondary-font: "Poppins";
 	--mono-font: var(--asm-font);
 
 	--asm-orange: #cc7722;
@@ -25,51 +25,9 @@ body {
 	--orange-600: #964a00;
 	--orange-500: #cc7722;
 
-	--asm23-main: #020824;
-	--asm23-nameplate-lighter: #6fa6b9;
-
-	--asm24-main: #030c38;
-	--asm24-main-transparent: #030c3856;
-
 	/* GOC */
 	--goc-gradient: linear-gradient(90deg, #6969CB 13%, #A967B7 27.8%, #E964A2 42.6%, #F08184 57.4%, #F89D65 72.2%, #FFBA47 87%);
 
-	/* PAX */
-	--pax23-main: #222721;
-	--pax23-sec: #d3cec2;
-	--pax23-accent: #be945f;
-	--pax23-main-light: #343933;
-	--pax23-red: #db2530;
-	--pax23-yellow: #f7b03b;
-	--pax23-blue: #007eb7;
-	--pax23-purple: #904b97;
-	--pax23-rainbow-bar: linear-gradient(90deg, var(--pax23-red) 0%, var(--pax23-red) 25%, var(--pax23-yellow) 25%, var(--pax23-yellow) 50%, var(--pax23-blue) 50%, var(--pax23-blue) 75%, var(--pax23-purple) 75%, var(--pax23-purple) 100%);
-	--pax23-font: "Inter";
-
-	/* The Game Expo */
-	--tgx-main: #191919;
-	--tgx-main-lighter: #3b3b3b;
-	--tgx-secondary: #ffffff;
-	--tgx-red: #f80023;
-	--tgx-yellow: #ffc300;
-	--tgx-blue: #007eff;
-	--tgx-green: #00c091;
-	--tgx-rainbow-bar: linear-gradient(90deg, var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
-	--tgx-rainbow-bar-vertical: linear-gradient(180deg, var(--tgx-red) 0%, var(--tgx-red) 25%, var(--tgx-yellow) 25%, var(--tgx-yellow) 50%, var(--tgx-blue) 50%, var(--tgx-blue) 75%, var(--tgx-green) 75%, var(--tgx-green) 100%);
-	--tgx-font: "Helvetica Now Display";
-
-	/* Dreamhack */
-	--dh-main: #000000;
-	--dh-light-orange: #ff7e00;
-	--dh-orange: #FF4B0A;
-	--dh-yellow: #FFEB00;
-	--dh-red: #FF0046;
-	--dh-nameplate-lighter: #353535;
-
-	--dh-orange-to-orange: linear-gradient(90deg, var(--dh-light-orange), var(--dh-orange));
-	--dh-yellow-to-orange: linear-gradient(90deg, var(--dh-yellow), var(--dh-light-orange));
-	--dh-orange-to-red: linear-gradient(90deg, var(--dh-orange), var(--dh-red));
-
-	--dh-primary-font: "Anton";
-	--dh-font: "Public Sans";
+	--pax24-main: #222721;
+	--pax24-main-light: #444d42;
 }

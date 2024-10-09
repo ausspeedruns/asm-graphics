@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-import type { Goal, War } from "@asm-graphics/types/Incentives";
+import type { Incentive } from "@asm-graphics/types/Incentives";
 import type NodeCG from "@nodecg/types";
 
 import { WarGame } from "./incent-wars";

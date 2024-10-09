@@ -228,7 +228,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 		animation: (tl) => {
 			let computedTimeColour = "#000";
 			if (progressBarRef.current) {
-				computedTimeColour = getComputedStyle(progressBarRef.current).getPropertyValue("--time");
+				computedTimeColour = getComputedStyle(progressBarRef.current).getPropertyValue("--sec");
 			}
 
 			// Start

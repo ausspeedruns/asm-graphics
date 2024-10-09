@@ -8,9 +8,8 @@ import { Facecam } from "../elements/facecam";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
 
-// import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
-// import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
-// import WidescreenBottom from "../elements/event-specific/dh-24/Widescreen-1.png";
+import WidescreenTop from "../media/asap24/Widescreen_01.png";
+import WidescreenBottom from "../media/asap24/Widescreen_02.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -29,10 +28,10 @@ const TopBar = styled.div`
 
 const Sidebar = styled.div`
 	position: absolute;
-	top: 156px;
-	height: 860px;
+	bottom: 0;
+	height: 810px;
 	width: 479px;
-	border-right: 1px solid var(--time);
+	border-right: 1px solid var(--sec);
 	/* z-index: -1; */
 	overflow: hidden;
 `;
@@ -43,8 +42,7 @@ const SidebarBG = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	height: 449px;
-	padding-top: 14px;
+	height: 410px;
 	position: relative;
 	/* border-top: 1px solid var(--sec); */
 	overflow: hidden;
@@ -87,6 +85,8 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 
 	const nameplateMaxWidth = 200 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
+	console.log(props.onScreenWarning);
+
 	return (
 		<WidescreenContainer>
 			<div
@@ -96,10 +96,9 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					width: "100%",
 					height: "100%",
 					clipPath: "path('M 0 0 H 1920 V 207 H 0 Z M 0 556 H 479 V 1017 H 0 Z')",
-				}}>
-			</div>
+				}}></div>
 			<TopBar>
-				{/* <img src={WidescreenTop} style={{ position: "absolute", height: "100%", right: -100 }} /> */}
+				<img src={WidescreenTop} style={{ position: "absolute", height: "100%" }} />
 				{/* <div
 					style={{
 						position: "absolute",
@@ -130,16 +129,33 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							background: "var(--dh-orange-to-red)",
 						}}
 					/> */}
-					{/* <img
+					<img
 						src={WidescreenBottom}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover", marginTop: -5 }}
-					/> */}
+						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
+					/>
 					<Couch
-						style={{ zIndex: 2 }}
+						style={{ zIndex: 2, marginTop: 8 }}
 						commentators={props.commentators}
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
+						darkTitle
 					/>
+					{props.onScreenWarning?.show && (
+						<div
+							style={{
+								background: "#f00",
+								fontWeight: "bold",
+								zIndex: 2,
+								width: "80%",
+								color: "white",
+								padding: "0.5rem",
+								textAlign: "center",
+								textWrap: "balance",
+								fontSize: "1.3rem",
+							}}>
+							{props.onScreenWarning?.message}
+						</div>
+					)}
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

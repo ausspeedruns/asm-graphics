@@ -62,7 +62,7 @@ const TwitchDiv = styled.div`
 `;
 
 const PronounBox = styled.div<NameplateStyleProps>`
-	background: var(--time);
+	background: var(--sec);
 	font-weight: 400;
 	font-size: 20px;
 	text-transform: uppercase;

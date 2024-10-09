@@ -29,7 +29,7 @@ const Divider = styled.div`
 	min-height: 1px;
 	height: 1px;
 	width: 80%;
-	background-color: var(--sec);
+	background-color: white;
 	margin: 20px 0;
 `;
 
@@ -74,7 +74,7 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
 				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate || ""} />
 			</VerticalStack>
-			{/* <Divider /> */}
+			<Divider />
 			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: "100%" }}>
 				<RunInfo.GameTitle
 					maxWidth={styles.maxTextWidth!}
@@ -92,7 +92,7 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 					/>
 				</div>
 			</VerticalStack>
-			{/* <Divider /> */}
+			<Divider />
 			<RunInfo.Category
 				maxWidth={styles.maxTextWidth!}
 				category={props.runData?.category || ""}

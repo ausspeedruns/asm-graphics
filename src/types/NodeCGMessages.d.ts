@@ -87,4 +87,7 @@ export type NodeCGMessages = {
 	// Rando
 	"rando:unlock": { game: string, item: string },
 	"rando:lock": { game: string, item: string },
+	// On Screen Warnings
+	"onScreenWarning:setMessage": string;
+	"onScreenWarning:setShow": boolean;
 }
