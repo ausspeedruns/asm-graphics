@@ -181,7 +181,7 @@ export const Transition: React.FC = () => {
 						bottom: 200,
 					}}
 					ref={textContainerRef}>
-					<span style={{ fontFamily: "var(--secondary-font)", maxWidth: 1200 }} ref={gameRef}></span>
+					<span style={{ fontFamily: "var(--secondary-font)", maxWidth: 1200, textAlign: "center", textWrap: "balance" }} ref={gameRef}></span>
 					<span ref={bylineRef}></span>
 				</div>
 			</TransitionDiv>
