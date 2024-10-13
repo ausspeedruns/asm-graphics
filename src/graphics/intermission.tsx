@@ -138,7 +138,7 @@ const MarqueeText = styled.span`
 `;
 
 const RunContainer = styled.div`
-	width: 100%;
+	width: 85%;
 	/* height: 340px; */
 	height: 100%;
 	/* position: absolute; */
@@ -219,6 +219,7 @@ const DonationContainer = styled.div`
 	height: 98.5%;
 	width: 100%;
 	pointer-events: none;
+	margin-right: -46px;
 
 	& > * {
 		z-index: 10;
@@ -467,7 +468,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				}}>
 				<div
 					style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "flex-end" }}>
-					<div style={{ width: 400, height: 200 }}>
+					<div style={{ width: 400, height: 115, marginLeft: 16, marginBottom: 16 }}>
 						<Sponsors sponsors={props.sponsors} />
 					</div>
 					<div style={{ textAlign: "right", fontSize: 40, lineHeight: 1, marginBottom: 32 }}>
@@ -481,12 +482,13 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 				style={{
 					display: "flex",
 					position: "absolute",
-					right: 0,
+					right: 28,
 					height: 1080,
 					width: 960,
 					flexDirection: "column",
+					alignItems: "center",
 				}}>
-				<TimeContainer style={{ marginBottom: 16 }}>
+				<TimeContainer style={{ marginBottom: 16, marginTop: 12 }}>
 					<CurrentTime>
 						{currentHours}
 						{/* <span style={{ fontVariantNumeric: "normal", margin: "0 4px" }}>:</span> */}:
@@ -548,8 +550,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					{props.incentives && (
 						<InterIncentivesMemo
 							incentives={props.incentives}
-							prizes={PRIZES}
-							photos={props.photos}
+							// prizes={PRIZES}
+							// photos={props.photos}
 							upcomingRuns={nextRuns.slice(1, 3)}
 						/>
 					)}
@@ -563,6 +565,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						borderRadius: "16px 16px 0 0",
 						padding: 16,
 						gap: 16,
+						maxWidth: "100%"
 					}}>
 					{props.host && (
 						<HostName>
@@ -579,7 +582,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							preload="auto"
 							muted={props.muted}
 							ref={audioRef}>
-							{/* <source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" /> */}
+							<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 						</audio>
 						<div style={{ display: "flex", alignItems: "flex-end", gap: 8, width: "100%" }}>
 							<MusicIcon src={MusicIconImg} />

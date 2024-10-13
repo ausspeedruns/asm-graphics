@@ -59,6 +59,10 @@ const InfoBoxBG = styled.div`
 
 const customVerticalStyling: IVerticalStyling = {
 	maxTextWidth: 540,
+	mainStyle: {
+		zIndex: 4,
+		marginTop: 50
+	}
 };
 
 export const GBC: React.FC<OverlayProps> = (props) => {
