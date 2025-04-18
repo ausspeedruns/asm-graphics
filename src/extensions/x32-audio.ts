@@ -7,7 +7,8 @@ import {
 	x32AudioActivityRep,
 	microphoneGateRep,
 	gameAudioActiveRep,
-	hostLevelRep,
+	hostLevelStreamRep,
+	hostLevelSpeakersRep,
 	automationSettingsRep,
 } from "./replicants";
 
@@ -84,13 +85,11 @@ function fadeMute(channel: number, mixBus: number, force = false) {
 	}
 }
 
-let previousHostMicVolume: number[] = [];
-
 function setHostMute(active: boolean) {
-	const value = active ? hostLevelRep.value : 0;
+	const value = active ? hostLevelStreamRep.value : 0; // TODO: Test if this is really means the runners don't get a choice for audio levels
 
 	x32.setFaderLevel(HostHeadset.micInput, 0, value);
-	x32.setFaderLevel(HostHeadset.micInput, 1, value);
+	x32.setFaderLevel(HostHeadset.micInput, 1, active ? hostLevelSpeakersRep.value : 0);
 	x32.setFaderLevel(HostHeadset.micInput, 3, value);
 	x32.setFaderLevel(HostHeadset.micInput, 5, value);
 	x32.setFaderLevel(HostHeadset.micInput, 7, value);

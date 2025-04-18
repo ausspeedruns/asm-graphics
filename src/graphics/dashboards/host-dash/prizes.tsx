@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import { Box } from "@mui/material";
-
-import { PRIZES } from "../../prizes";
+import { Prize } from "@asm-graphics/types/Prizes";
+import { useReplicant } from "@nodecg/react-hooks";
 
 const UpcomingContainer = styled.div`
 	display: flex;
@@ -17,10 +17,12 @@ interface Props {
 }
 
 export const Prizes: React.FC<Props> = (props: Props) => {
+	const [prizesRep] = useReplicant<Prize[]>("prizes");
+
 	return (
 		<UpcomingContainer style={props.style}>
-			{PRIZES.map((prize, idx) => (
-				<Prize prize={prize} key={idx} />
+			{prizesRep?.map((prize) => (
+				<Prize prize={prize} key={prize.id} />
 			))}
 		</UpcomingContainer>
 	);
@@ -53,7 +55,7 @@ const Item = styled.span`
 const Requirements = styled.span``;
 
 interface PrizeProps {
-	prize: (typeof PRIZES)[number];
+	prize: Prize;
 }
 
 const Prize: React.FC<PrizeProps> = (props: PrizeProps) => {
@@ -66,7 +68,8 @@ const Prize: React.FC<PrizeProps> = (props: PrizeProps) => {
 			</PrizeContainer>
 			<PrizeContainer>
 				<Requirements>
-					{props.prize.requirement}{props.prize.requirementSubheading && ` - ${props.prize.requirementSubheading}`}
+					{props.prize.requirement}
+					{props.prize.requirementSubheading && ` - ${props.prize.requirementSubheading}`}
 				</Requirements>
 			</PrizeContainer>
 		</SingleRunContainer>

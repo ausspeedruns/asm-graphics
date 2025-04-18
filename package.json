@@ -113,6 +113,14 @@
 				"width": 3,
 				"headerColor": "#CC7722",
 				"file": "on-screen-warnings.html"
+			},
+			{
+				"name": "prizes",
+				"title": "Prizes",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "prizes.html",
+				"workspace": "ASM Misc"
 			}
 		],
 		"graphics": [
@@ -231,7 +239,7 @@
 		"lint": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx}",
 		"lint:fix": "eslint --no-eslintrc -c ./.eslintrc.json ./src/**/*.{ts,tsx} --fix",
 		"schema-types": "trash src/types/schemas && nodecg schema-types -o ./src/types",
-		"start": "node ../..",
+		"start": "nodecg start",
 		"watch": "pnpm run \"/^watch:.*/\"",
 		"watch:browser": "vite",
 		"watch:extension": "tsc -p tsconfig.extension.json -w"
@@ -265,6 +273,7 @@
 		"gsap": "^3.12.5",
 		"moment": "^2.30.1",
 		"needle": "^3.3.1",
+		"nodecg": "^2.5.3",
 		"obs-websocket-js": "^5.0.6",
 		"osc": "^2.4.5",
 		"react": "^18.3.1",

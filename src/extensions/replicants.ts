@@ -10,6 +10,7 @@ import type { AudioIndicator, OBSAudioIndicator } from "@asm-graphics/types/Audi
 import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 import type { Automations } from "@asm-graphics/types/Automations";
+import { Prize } from "@asm-graphics/types/Prizes";
 
 const nodecg = nodecgApiContext.get();
 
@@ -39,7 +40,8 @@ export const donationMatchesRep = nodecg.Replicant<DonationMatch[]>("donation-ma
 /* Audio Shared */
 export const gameAudioActiveRep = nodecg.Replicant<number>("game-audio-indicator", { defaultValue: -1 });
 export const microphoneGateRep = nodecg.Replicant<number>("x32:audio-gate", { defaultValue: -10 });
-export const hostLevelRep = nodecg.Replicant<number>("x32:host-level", { defaultValue: 0.75 });
+export const hostLevelStreamRep = nodecg.Replicant<number>("x32:host-level-stream", { defaultValue: 0.75 });
+export const hostLevelSpeakersRep = nodecg.Replicant<number>("x32:host-level-speakers", { defaultValue: 0.75 });
 export const gameAudioNamesRep = nodecg.Replicant<string[]>("game-audio-names", { defaultValue: [] });
 
 /* OBS Audio */
@@ -111,3 +113,6 @@ export const automationSettingsRep = nodecg.Replicant<Automations>("automations"
 /* On Screen Warnings */
 export const showOnScreenWarning = nodecg.Replicant<boolean>("onScreenWarning:show", { defaultValue: false });
 export const onScreenWarningMessage = nodecg.Replicant<string>("onScreenWarning:message", { defaultValue: "" });
+
+/* Prizes */
+export const prizesRep = nodecg.Replicant<Prize[]>("prizes", { defaultValue: [] });

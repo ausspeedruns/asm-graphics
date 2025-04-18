@@ -4,7 +4,7 @@ import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";
-import _ from "lodash";
+import equal from "fast-deep-equal";
 import usePrevious from "../../../hooks/usePrevious";
 import { FitText } from "../../elements/fit-text";
 import { Headsets, HostHeadset } from "../../../extensions/audio-data";
@@ -247,7 +247,7 @@ function useAudioDebounce(value: number[][], delay?: number) {
 		}
 
 		let timer: string | number | NodeJS.Timeout | undefined;
-		if (!_.isEqual(value, previousValue)) {
+		if (!equal(value, previousValue)) {
 			if (value && debouncedValue) {
 				console.log(
 					JSON.stringify(value),

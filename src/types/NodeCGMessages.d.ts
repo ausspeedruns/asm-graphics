@@ -4,6 +4,7 @@ import type { Stream } from "./Streams";
 import type { StaffMessage } from "./StaffMessages";
 import type { Tweet } from "./Twitter";
 import type { Incentive } from "./Incentives";
+import { Prize } from "./Prizes";
 
 export type NodeCGMessages = {
 	// Audio
@@ -90,4 +91,9 @@ export type NodeCGMessages = {
 	// On Screen Warnings
 	"onScreenWarning:setMessage": string;
 	"onScreenWarning:setShow": boolean;
+	// Prizes
+	"prizes:ReorderPrizes": Prize[];
+	"prizes:NewPrize": Prize;
+	"prizes:RemovePrize": string;
+	"prizes:UpdatePrize": Prize;
 }

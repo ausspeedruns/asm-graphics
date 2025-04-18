@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { TickerItemHandles } from "./incentives";
 import { FitText } from "../fit-text";
 
+import type { Prize } from "@asm-graphics/types/Prizes";
+
 const PrizesContainer = styled.div`
 	position: absolute;
 	top: 0;
@@ -28,14 +30,6 @@ const PrizesPage = styled.div`
 	margin-left: -16px;
 	margin-top: -16px;
 `;
-
-export type Prize = {
-	requirement: string;
-	requirementSubheading?: string;
-	quantity?: number;
-	item: string;
-	subItem?: string;
-};
 
 const PRIZE_PAGE_LENGTH = 2;
 const PRIZE_SPEED = 2;
@@ -80,7 +74,7 @@ export const Prizes = React.forwardRef<TickerItemHandles, PrizesProps>((props: P
 						<Prize
 							prize={prize}
 							index={i * PRIZE_PAGE_LENGTH + j}
-							key={prize.item}
+							key={prize.id}
 							ref={(el) => (prizesRefs.current[i * PRIZE_PAGE_LENGTH + j] = el!)}
 						/>
 					))}

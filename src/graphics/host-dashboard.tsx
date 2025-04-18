@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { Description, Edit, Tune, ResetTv } from "@mui/icons-material";
+import { Description, Edit, Tune, ResetTv, DarkMode, LightMode } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
@@ -123,6 +123,8 @@ export const HostDash: React.FC = () => {
 	const [playingAd, setPlayingAd] = useState<number | undefined>();
 	const adProgressBarRef = useRef<HTMLDivElement>(null);
 
+	const [darkMode, setDarkMode] = useState(false);
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (!currentTimeRef.current || !currentTimeElRef.current) return;
@@ -178,6 +180,10 @@ export const HostDash: React.FC = () => {
 				<Button onClick={() => setMosaicValue(initialLayout)}>
 					<ResetTv />
 					Reset Layout
+				</Button>
+				<Button onClick={() => setDarkMode(value => !value)}>
+					{darkMode ? <LightMode /> : <DarkMode />}
+					{darkMode ? "Light Mode" : "Dark Mode"}
 				</Button>
 				<p
 					ref={currentTimeElRef}

@@ -9,7 +9,6 @@ import _ from "underscore";
 // @ts-ignore
 import Twemoji from "react-twemoji";
 // import { useRive } from "@rive-app/react-canvas";
-import { PRIZES } from "./prizes";
 
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Tweet as ITweet } from "@asm-graphics/types/Twitter";

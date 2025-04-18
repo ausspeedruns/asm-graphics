@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { darkTheme } from "./theme";
-import { RecordVoiceOver, WbIncandescent } from "@mui/icons-material";
+import { RecordVoiceOver, WbIncandescent, Speaker, LiveTv } from "@mui/icons-material";
 
 const Label = styled.div`
 	display: flex;
@@ -99,12 +99,89 @@ function isNumeric(str: string) {
 
 export const DashboardMicAudio: React.FC = () => {
 	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate");
-	const [hostLevelRep, setHostLevelRep] = useReplicant<number>("x32:host-level");
+	const [hostLevelStreamRep, setHostLevelStreamRep] = useReplicant<number>("x32:host-level-stream");
+	const [hostLevelSpeakersRep, setHostLevelSpeakersRep] = useReplicant<number>("x32:host-level-speakers");
 
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<MicAudioContainer>
-				<Label><WbIncandescent /> Microphone Indicator Activation dB</Label>
+				<Label>
+					<RecordVoiceOver /> <LiveTv /> Host Audio Level STREAM
+				</Label>
+				<SliderContainer>
+					<Slider
+						style={{ margin: "auto" }}
+						size="small"
+						value={hostLevelStreamRep ?? 0}
+						onChange={(_, newVal) => {
+							if (!Array.isArray(newVal)) {
+								setHostLevelStreamRep(newVal);
+							}
+						}}
+						min={0}
+						max={1}
+						step={0.001}
+						marks={marks}
+						scale={floatToDB}
+						valueLabelDisplay="auto"
+						valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
+					/>
+					<Input
+						value={floatToDB(hostLevelStreamRep ?? 0).toFixed(1)}
+						size="small"
+						onChange={(e) => {
+							if (isNumeric(e.target.value)) {
+								setHostLevelStreamRep(parseFloat(e.target.value));
+							}
+						}}
+						inputProps={{
+							step: 1,
+							min: -90,
+							max: 10,
+							type: "number",
+						}}
+					/>
+				</SliderContainer>
+				<Label>
+					<RecordVoiceOver /> <Speaker /> Host Audio Level SPEAKERS
+				</Label>
+				<SliderContainer>
+					<Slider
+						style={{ margin: "auto" }}
+						size="small"
+						value={hostLevelSpeakersRep ?? 0}
+						onChange={(_, newVal) => {
+							if (!Array.isArray(newVal)) {
+								setHostLevelSpeakersRep(newVal);
+							}
+						}}
+						min={0}
+						max={1}
+						step={0.001}
+						marks={marks}
+						scale={floatToDB}
+						valueLabelDisplay="auto"
+						valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
+					/>
+					<Input
+						value={floatToDB(hostLevelSpeakersRep ?? 0).toFixed(1)}
+						size="small"
+						onChange={(e) => {
+							if (isNumeric(e.target.value)) {
+								setHostLevelSpeakersRep(parseFloat(e.target.value));
+							}
+						}}
+						inputProps={{
+							step: 1,
+							min: -90,
+							max: 10,
+							type: "number",
+						}}
+					/>
+				</SliderContainer>
+				<Label>
+					<WbIncandescent /> Microphone Indicator Activation dB
+				</Label>
 				<SliderContainer>
 					<Slider
 						style={{ margin: "auto" }}
@@ -129,41 +206,6 @@ export const DashboardMicAudio: React.FC = () => {
 						onChange={(e) => {
 							if (isNumeric(e.target.value)) {
 								setAudioGateRep(parseFloat(e.target.value));
-							}
-						}}
-						inputProps={{
-							step: 1,
-							min: -90,
-							max: 10,
-							type: "number",
-						}}
-					/>
-				</SliderContainer>
-				<Label><RecordVoiceOver /> Host Unmute Audio Level</Label>
-				<SliderContainer>
-					<Slider
-						style={{ margin: "auto" }}
-						size="small"
-						value={hostLevelRep ?? 0}
-						onChange={(_, newVal) => {
-							if (!Array.isArray(newVal)) {
-								setHostLevelRep(newVal);
-							}
-						}}
-						min={0}
-						max={1}
-						step={0.001}
-						marks={marks}
-						scale={floatToDB}
-						valueLabelDisplay="auto"
-						valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
-					/>
-					<Input
-						value={floatToDB(hostLevelRep ?? 0).toFixed(1)}
-						size="small"
-						onChange={(e) => {
-							if (isNumeric(e.target.value)) {
-								setHostLevelRep(parseFloat(e.target.value));
 							}
 						}}
 						inputProps={{

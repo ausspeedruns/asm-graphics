@@ -32,24 +32,16 @@ const RunsPage = styled.div`
 	margin-top: -16px;
 `;
 
-export type Prize = {
-	requirement: string;
-	requirementSubheading?: string;
-	quantity?: number;
-	item: string;
-	subItem?: string;
-};
-
 const RUNS_LIMIT = 2;
 const PRIZE_SPEED = 2;
 const PRIZE_DURATION = 10;
 const PRIZE_PAGE_STAGGER = 0.05;
 
-interface PrizesProps {
+interface UpcomingRunsProps {
 	upcomingRuns: RunData[];
 }
 
-export const UpcomingRuns = React.forwardRef<TickerItemHandles, PrizesProps>((props: PrizesProps, ref) => {
+export const UpcomingRuns = React.forwardRef<TickerItemHandles, UpcomingRunsProps>((props: UpcomingRunsProps, ref) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const runsRefs = useRef<TickerItemHandles[]>([]);
 
@@ -162,15 +154,15 @@ const Run = React.forwardRef<TickerItemHandles, RunProps>((props: RunProps, ref)
 				containerRef.current,
 				{ xPercent: -110 },
 				{ xPercent: 0, duration: PRIZE_SPEED, ease: "power3.out" },
-				`prizesStart+=${props.index / RUN_STAGGER_INVERSE + pageTimeOffset}`,
+				`upcomingRuns+=${props.index / RUN_STAGGER_INVERSE + pageTimeOffset}`,
 			);
 
-			// console.log(`${props.prize.item} | prizesStart+=${props.index / PRIZE_STAGGER_INVERSE + pageTimeOffset}`, props.index, PRIZE_STAGGER_INVERSE, pageTimeOffset)
+			// console.log(`${props.prize.item} | upcomingRuns+=${props.index / PRIZE_STAGGER_INVERSE + pageTimeOffset}`, props.index, PRIZE_STAGGER_INVERSE, pageTimeOffset)
 
 			tl.to(
 				containerRef.current,
 				{ xPercent: 110, duration: PRIZE_SPEED, ease: "power3.in" },
-				`prizesStart+=${props.index / RUN_STAGGER_INVERSE + PRIZE_DURATION + pageTimeOffset}`,
+				`upcomingRuns+=${props.index / RUN_STAGGER_INVERSE + PRIZE_DURATION + pageTimeOffset}`,
 			);
 			return tl;
 		},

@@ -2,7 +2,6 @@ import { useRef, useEffect, useState, memo } from "react";
 import styled, { keyframes } from "styled-components";
 import gsap from "gsap";
 import { format } from "date-fns";
-import _ from "lodash";
 
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Goal, Incentive, War } from "@asm-graphics/types/Incentives";
@@ -23,6 +22,7 @@ import ChannelBug from "../media/ASM-Gif.gif";
 // import ChannelBug from "../elements/event-specific/tgx-24/tgx24-bug.png";
 import GoCLogo from "../media/Sponsors/GoCWhite.svg";
 import PAX24TearOrange from "../media/asap24/ticker-orange.png";
+import type { Prize } from "@asm-graphics/types/Prizes";
 
 const TickerContainer = styled.div`
 	height: 64px;
@@ -105,6 +105,7 @@ export interface TickerProps {
 	asmm?: number;
 	donationMatches: DonationMatch[];
 	tickerOrder: Segments[];
+	prizes: Prize[];
 }
 
 type Segments = "cta" | "milestone" | "prizes" | "goals" | "wars" | "nextruns" | "asmm" | "donationMatches";

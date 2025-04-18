@@ -19,3 +19,9 @@ bower_components
 *.mp4
 config.json
 speedcontrol-config.json
+
+# NodeCG
+/cfg
+/bundles
+/assets
+/db

@@ -5,6 +5,7 @@ import { TickerItemHandles } from "../ticker";
 
 import { TickerItem } from "./item";
 import { TickerTitle } from "./title";
+import { Prize } from "@asm-graphics/types/Prizes";
 
 const TickerPrizesContainer = styled.div`
 	position: absolute;
@@ -29,6 +30,7 @@ const PrizesScroller = styled.div`
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
+	prizes: Prize[];
 }
 
 export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
@@ -59,10 +61,9 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 			</TickerTitle>
 			<div style={{ width: "100%", position: "relative" }}>
 				<PrizesScroller ref={prizesRef}>
-					<TickerItem title="Fellow Traveller Game Bundles" sub="$10 Donation" />
-					<TickerItem title="Neon Doctrine Bundle" sub="$30 Donation" />
-					<TickerItem title="Annapurna Interactive Game Bundle" sub="$50 Donation" />
-					<TickerItem title="Fellow Traveller Complete Bundle" sub="$50 Donation" />
+					{props.prizes.map((prize) => (
+						<TickerItem key={prize.id} title={prize.item} sub={prize.requirement} />
+					))}
 				</PrizesScroller>
 			</div>
 		</TickerPrizesContainer>

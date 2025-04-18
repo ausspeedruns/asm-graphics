@@ -52,4 +52,5 @@ async function init() {
 	require("./runner-tablet");
 	require("./game-years");
 	require("./on-screen-warnings");
+	require("./prizes");
 }

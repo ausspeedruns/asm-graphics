@@ -7,6 +7,7 @@ import { TickerMemo } from "./elements/ticker";
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Incentive } from "@asm-graphics/types/Incentives";
 import type { DonationMatch } from "@asm-graphics/types/Donations";
+import { Prize } from "@asm-graphics/types/Prizes";
 
 export const TickerOverlay: React.FC = () => {
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
@@ -16,6 +17,7 @@ export const TickerOverlay: React.FC = () => {
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [asmmRep] = useReplicant<number>("asmm:totalKM");
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
+	const [prizesRep] = useReplicant<Prize[]>("prizes");
 
 	return (
 		<TickerMemo
@@ -25,6 +27,7 @@ export const TickerOverlay: React.FC = () => {
 			incentives={incentivesRep ?? []}
 			asmm={asmmRep}
 			donationMatches={donationMatchesRep ?? []}
+			prizes={prizesRep ?? []}
 			tickerOrder={[
 				"cta",
 				"nextruns",

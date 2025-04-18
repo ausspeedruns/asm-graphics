@@ -47,33 +47,6 @@ export const Timer: React.FC = () => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", {
 		bundle: "nodecg-speedcontrol",
 	});
-	// const [runnerReadyRep] = useReplicant<boolean>("runner:ready", false);
-	const [techReadyRep] = useReplicant<boolean>("tech:ready");
-	// const [disableTime, setDisableTime] = useState(false);
-	// const [currentTime, setCurrentTime] = useState('00:00:00');
-	// const timerRef = useRef<HTMLDivElement>(null);
-
-	// TIMER
-	// useEffect(() => {
-	// 	setDisableTime(['running', 'finished'].includes(timerRep?.state || ''));
-	// }, []);
-
-	// useEffect(() => {
-	// 	setCurrentTime(timerRep?.time || '00:00:00');
-	// }, [timerRep]);
-
-	// const timerBlur = () => {
-	// 	setCurrentTime(timerRep?.time || '00:00:00');
-	// };
-
-	// const timerEdit = () => {
-	// 	if (currentTime.match(/^(\d+:)?(?:\d{1}|\d{2}):\d{2}$/)) {
-	// 		nodecg.sendMessageToBundle('timerEdit', 'nodecg-speedcontrol', currentTime);
-	// 		if (timerRef.current) {
-	// 			timerRef.current.blur();
-	// 		}
-	// 	}
-	// };
 
 	// PLAY/PAUSE
 	const playPress = () => {
@@ -105,19 +78,6 @@ export const Timer: React.FC = () => {
 
 	return (
 		<TimerContainer>
-			{/* <TextField
-				variant="filled"
-				InputProps={{ readOnly: true }}
-				value={timerRep?.time}
-				fullWidth
-				// onBlur={timerBlur}
-				// ref={timerRef}
-				// onKeyUp={timerEdit}
-			/> */}
-			<RunnerReadyText>
-				{/* {runnerReadyRep ? "RUNNER IS READY!" : "Runner not ready"} */}
-				{techReadyRep ? "TECH IS READY!" : "Tech not ready"}
-			</RunnerReadyText>
 			<CurrentTime
 				style={{
 					background: timerRep?.state === "finished" ? "#388E3C" : "",

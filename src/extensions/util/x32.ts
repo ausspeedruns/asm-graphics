@@ -343,6 +343,7 @@ class X32 extends TypedEmitter<X32Class> {
 		"Fx 4",
 	];
 
+
 	muteChannel = (channel: number, mixBus?: number) => {
 		this.oscSocket.send({
 			address: X32.generateChannelAddress("on", channel, mixBus),
