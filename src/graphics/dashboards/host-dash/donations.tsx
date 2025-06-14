@@ -81,7 +81,7 @@ interface DonationProps {
 
 const NewFlash = keyframes`
 	from { background-color: #000000; }
-	to { background-color: #eee; }
+	to { background-color: var(--inset-background); }
 `;
 
 const MARGIN = 6;
@@ -94,7 +94,7 @@ const DonationContainer = styled(Box)`
 	border-radius: 7px;
 	/* animation-name: ${NewFlash};
 	animation-duration: 0.5s; */
-	background-color: #eee;
+	background-color: var(--inset-background);
 	position: relative;
 	padding: ${PADDING}px;
 `;

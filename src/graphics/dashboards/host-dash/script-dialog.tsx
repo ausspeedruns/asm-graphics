@@ -160,7 +160,6 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 const Container = styled.div`
 	font-family: var(--main-font);
 	font-weight: normal;
-	color: black;
 	border: 1px solid black;
 	border-bottom: 2px solid black;
 

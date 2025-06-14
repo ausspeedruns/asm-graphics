@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Box } from "@mui/material";
-import { Prize } from "@asm-graphics/types/Prizes";
+import type { Prize } from "@asm-graphics/types/Prizes";
 import { useReplicant } from "@nodecg/react-hooks";
 
 const UpcomingContainer = styled.div`
@@ -16,7 +16,7 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-export const Prizes: React.FC<Props> = (props: Props) => {
+export const PrizesHost: React.FC<Props> = (props: Props) => {
 	const [prizesRep] = useReplicant<Prize[]>("prizes");
 
 	return (
@@ -37,7 +37,7 @@ const SingleRunContainer = styled(Box)`
 	padding: 8px;
 	border-radius: 7px;
 	width: 100%;
-	background: #eee;
+	background: var(--inset-background);
 `;
 
 const PrizeContainer = styled.div`
@@ -63,7 +63,7 @@ const Prize: React.FC<PrizeProps> = (props: PrizeProps) => {
 		<SingleRunContainer boxShadow={2}>
 			<PrizeContainer>
 				<Item>
-					{props.prize.quantity && `${props.prize.quantity}x - `} {props.prize.item} {props.prize.subItem}
+					{props.prize.quantity && `${props.prize.quantity}x - `} {props.prize.item} - {props.prize.subItem}
 				</Item>
 			</PrizeContainer>
 			<PrizeContainer>

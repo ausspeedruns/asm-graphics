@@ -141,7 +141,7 @@ export const Twitter: React.FC = () => {
 
 const NewFlash = keyframes`
 	from { background-color: #303030; }
-	to { background-color: #eee; }
+	to { background-color: var(--inset-background); }
 `;
 
 const SingleTweetContainer = styled(Box)`
@@ -149,7 +149,7 @@ const SingleTweetContainer = styled(Box)`
 	display: flex;
 	justify-content: space-between;
 	font-size: 13px;
-	background-color: #eee;
+	background-color: var(--inset-background);
 	padding: 8px;
 	border-radius: 7px;
 	animation-name: ${NewFlash};

@@ -86,6 +86,7 @@ export const obsCurrentSceneRep = nodecg.Replicant<string>("obs:currentScene", {
 export const obsStreamTimecode = nodecg.Replicant<string | undefined>("obs:streamTimecode", {
 	defaultValue: undefined,
 });
+export const obsDoLocalRecordingsRep = nodecg.Replicant<boolean>("obs:localRecordings", { defaultValue: false });
 
 /* Credits */
 export const lowerThirdNameRep = nodecg.Replicant<{ name: string; title: string }>("credits-name", {

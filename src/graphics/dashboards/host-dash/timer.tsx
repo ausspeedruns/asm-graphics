@@ -29,16 +29,10 @@ const MainButtons = styled.div`
 	margin: 8px 0;
 	width: 100%;
 	display: flex;
+	gap: 4px;
 `;
 
 const TeamBlock = styled.div``;
-
-const RunnerReadyText = styled.div`
-	text-align: center;
-	font-weight: bold;
-	font-size: 1.5rem;
-	margin-bottom: 8px;
-`;
 
 export const Timer: React.FC = () => {
 	const [timerRep] = useReplicant<TimerI>("timer", {
@@ -87,25 +81,34 @@ export const Timer: React.FC = () => {
 				<div>{timerRep?.time}</div>
 			</CurrentTime>
 			<MainButtons>
-				<Tooltip title={timerRep?.state === "running" ? "Pause" : "Play"}>
-					<div style={{ width: "100%", marginRight: 4 }}>
+				<Tooltip title={timerRep?.state === "running" ? "Pause" : "Start"}>
+					<div style={{ width: "100%" }}>
 						<Button
 							fullWidth
 							variant="contained"
 							disabled={timerRep?.state === "finished"}
-							onClick={playPress}>
-							{timerRep?.state === "running" ? <Pause /> : <PlayArrow />}
+							onClick={playPress}
+							color={timerRep?.state === "running" ? "primary" : "success"}>
+							{timerRep?.state === "running" ? (
+								<>
+									<Pause /> Pause
+								</>
+							) : (
+								<>
+									<PlayArrow /> Start
+								</>
+							)}
 						</Button>
 					</div>
 				</Tooltip>
 				<Tooltip title="Reset">
-					<div style={{ width: "100%", marginRight: 4 }}>
+					<div style={{ width: "100%" }}>
 						<Button
 							fullWidth
 							variant="contained"
 							disabled={timerRep?.state === "stopped"}
 							onClick={resetPress}>
-							<FastRewind />
+							<FastRewind /> Reset
 						</Button>
 					</div>
 				</Tooltip>
@@ -134,6 +137,17 @@ const TeamTimerContainer = styled.div`
 	display: flex;
 	gap: 4px;
 	align-items: center;
+	font-size: 1.2rem;
+`;
+
+const Names = styled.div`
+	margin-left: 8px;
+`;
+
+const EndTime = styled.div`
+	font-weight: bold;
+	font-size: 1.5rem;
+	margin-left: 16px;
 `;
 
 interface TeamTimerProps {
@@ -150,10 +164,17 @@ const TeamTimer: React.FC<TeamTimerProps> = (props: TeamTimerProps) => {
 			<StopForfeitButton team={props.team} timerRep={props.timerRep} />
 			<StopForfeitButton forfeit team={props.team} timerRep={props.timerRep} />
 			<UndoButton team={props.team} timerRep={props.timerRep} />
-			<div>{props.team.name || props.team.players.map((player) => player.name).join(", ")}</div>
-			<div>
-				{finishTime && state === "completed" ? finishTime : finishTime && state === "forfeit" ? `Forfeit ${finishTime}` : ""}
-			</div>
+			<Names>
+				{props.team.name && <span style={{ fontWeight: "bold" }}>{props.team.name}: </span>}
+				{props.team.players.map((player) => player.name).join(", ")}
+			</Names>
+			<EndTime>
+				{finishTime && state === "completed"
+					? finishTime
+					: finishTime && state === "forfeit"
+						? `Forfeit ${finishTime}`
+						: ""}
+			</EndTime>
 		</TeamTimerContainer>
 	);
 };
@@ -175,17 +196,28 @@ const StopForfeitButton: React.FC<StopButtonProps> = (props: StopButtonProps) =>
 	};
 
 	return (
-		<Tooltip title={props.forfeit ? "Forfeit" : "Stop"}>
-			<Button
-				fullWidth={props.fullWidth}
-				variant="contained"
-				disabled={
-					(props.team.id && !!props.timerRep?.teamFinishTimes[props.team.id]) ||
-					props.timerRep?.state === "stopped"
-				}
-				onClick={stopPress}>
-				{props.forfeit ? <Close /> : <Check />}
-			</Button>
+		<Tooltip title={props.forfeit ? "Forfeit" : "DONE"}>
+			<span>
+				<Button
+					fullWidth={props.fullWidth}
+					variant="contained"
+					disabled={
+						(props.team.id && !!props.timerRep?.teamFinishTimes[props.team.id]) ||
+						props.timerRep?.state === "stopped"
+					}
+					onClick={stopPress}
+					color={props.forfeit ? "error" : "success"}>
+					{props.forfeit ? (
+						<>
+							<Close /> Forfeit
+						</>
+					) : (
+						<>
+							<Check /> Done
+						</>
+					)}
+				</Button>
+			</span>
 		</Tooltip>
 	);
 };
@@ -213,7 +245,7 @@ const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 					!["running", "finished"].includes(props.timerRep?.state ?? "")
 				}
 				onClick={undoPress}>
-				<Undo />
+				<Undo /> Undo
 			</Button>
 		</Tooltip>
 	);

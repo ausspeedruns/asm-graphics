@@ -102,8 +102,7 @@ const Container = styled.div`
 `;
 
 const Heading = styled.div`
-	background: grey;
-	color: black;
+	background: var(--inset-background);
 	margin: 0;
 	padding: 8px;
 	font-size: 20px;

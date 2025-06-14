@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { Description, Edit, Tune, ResetTv, DarkMode, LightMode } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Button, ThemeProvider, useColorScheme } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import { darkTheme } from "../dashboard/theme";
 
 import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog";
 import { ScriptDialog } from "./dashboards/host-dash/script-dialog";
@@ -18,238 +19,54 @@ import { DonationMatches } from "./dashboards/host-dash/donation-matches";
 import { UpNext } from "./dashboards/host-dash/upnext";
 import { AudioDialog } from "./dashboards/host-dash/audio-dialog";
 import { DonationTabs } from "./dashboards/host-dash/donation-tabs";
+import { DonationTotal } from "./dashboards/host-dash/donation-total";
+import { HostMicrophone } from "./dashboards/host-dash/host-microphone";
 
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
-type ViewId = keyof typeof ELEMENTS;
+const DashContainer = styled.div<{ darkMode: boolean }>`
+	color-scheme: ${(props) => (props.darkMode ? "dark" : "light")};
 
-const ELEMENTS = {
-	Timer: <Timer />,
-	"Host Tabs": <HostTabs />,
-	Mute: <HostMicrophone />,
-	"Donation Total": <DonationTotal />,
-	"Donation Matches": <DonationMatches />,
-	"Donation Tabs": <DonationTabs />,
-	"Next Runs": <UpNext />,
-};
+	--orange: #cc7722;
+	--teal: #3f7d8f;
+	--background-color: var(--orange);
+	--text-color: light-dark(#000000, #ffffff);
+	--top-bar-background: light-dark(var(--teal), #0c1017);
+	--mosaic-background: light-dark(#e9e9e9, #05070a);
+	--panel-background: light-dark(#ffffff, #05070a);
+	--inset-background: light-dark(#eeeeee, #2f2f2f);
 
-function HostMicrophone() {
-	const [muted, setMuted] = useState(true);
-	const [couchMuted, setCouchMuted] = useState(false);
+	transition:
+		background 0.25s,
+		color 0.25s,
+		--background-color 0.25s,
+		--text-color 0.25s,
+		--top-bar-background 0.25s,
+		--mosaic-background 0.25s,
+		--panel-background 0.25s,
+		--inset-background 0.25s;
 
-	function muteOrUnmute() {
-		setMuted(!muted);
-		nodecg.sendMessage(muted ? "x32:unmute-host" : "x32:mute-host");
+	.mosaic.mosaic-blueprint-theme {
+		background-color: var(--mosaic-background);
+		transition: background-color 0.25s;
+
+		.mosaic-window {
+			border: 1px solid var(--orange);
+			border-radius: 8px;
+
+			.mosaic-window-body {
+				background-color: var(--panel-background);
+				transition: background-color 0.25s;
+			}
+
+			.mosaic-window-toolbar {
+				box-shadow: none;
+				border-radius: 0;
+				height: 45px;
+			}
+		}
 	}
 
-	function muteOrUnmuteCouch() {
-		setCouchMuted(!couchMuted);
-		nodecg.sendMessage(couchMuted ? "x32:host-unmute-couch" : "x32:host-mute-couch");
-	}
-
-	return (
-		<div style={{ display: "flex", height: "100%" }}>
-			<Button
-				fullWidth
-				color={muted ? "error" : "success"}
-				onClick={muteOrUnmute}
-				variant="contained"
-				sx={{ height: "100%" }}>
-				{muted ? "UNMUTE" : "Mute"}
-			</Button>
-			<Button
-				color={couchMuted ? "error" : "success"}
-				onClick={muteOrUnmuteCouch}
-				variant="contained"
-				sx={{ height: "100%" }}>
-				{couchMuted ? "Unmute Couch" : "Mute Couch"}
-			</Button>
-		</div>
-	);
-}
-
-function DonationTotal() {
-	const [donationTotalRep] = useReplicant<number>("donationTotal", { defaultValue: 100 });
-	const [manualDonationRep] = useReplicant<number>("manual-donation-total", { defaultValue: 100 });
-
-	return (
-		<DonationTotalContainer>
-			<Total>${((donationTotalRep ?? 0) + (manualDonationRep ?? 0)).toLocaleString()}</Total>
-		</DonationTotalContainer>
-	);
-}
-
-const initialLayout: MosaicNode<ViewId> = {
-	direction: "row",
-	first: {
-		direction: "row",
-		first: {
-			direction: "column",
-			first: "Timer",
-			second: "Host Tabs",
-		},
-		second: {
-			direction: "column",
-			first: {
-				direction: "column",
-				first: "Mute",
-				second: "Donation Total",
-			},
-			second: "Donation Tabs",
-			splitPercentage: 20
-		},
-	},
-	second: {
-		direction: "column",
-		first: "Donation Matches",
-		second: "Next Runs",
-	},
-	splitPercentage: (2 / 3) * 100,
-};
-
-export const HostDash: React.FC = () => {
-	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
-
-	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
-
-	const [hostOpen, setHostOpen] = useState(false);
-	const [scriptsOpen, setScriptsOpen] = useState(false);
-	const [audioOpen, setAudioOpen] = useState(false);
-
-	const currentTimeElRef = useRef<HTMLParagraphElement>(null);
-	const currentTimeRef = useRef("00:00:00");
-	const [timeFormat, setTimeFormat] = useState(true); // False: 24hr, True: 12 Hour
-
-	const [playingAd, setPlayingAd] = useState<number | undefined>();
-	const adProgressBarRef = useRef<HTMLDivElement>(null);
-
-	const [darkMode, setDarkMode] = useState(false);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			if (!currentTimeRef.current || !currentTimeElRef.current) return;
-
-			const newTime = new Date().toLocaleTimeString(timeFormat ? "en-AU" : "en-GB");
-
-			if (currentTimeRef.current === newTime) return;
-
-			currentTimeRef.current = newTime;
-			currentTimeElRef.current.innerText = newTime;
-		}, 200);
-
-		return () => clearInterval(interval);
-	}, [timeFormat]);
-
-	function playAd(ad: string, length: number) {
-		const adLength = length + 10;
-
-		setPlayingAd(adLength);
-		nodecg.sendMessage("playAd", ad);
-
-		setTimeout(() => {
-			setPlayingAd(undefined);
-		}, adLength * 1000); // 10 to account for transition into ad
-	}
-
-	useEffect(() => {
-		if (!adProgressBarRef.current) return;
-
-		console.log(adProgressBarRef.current.style.animationDuration, playingAd);
-		adProgressBarRef.current.style.animationDuration = `${playingAd}s`;
-	}, [adProgressBarRef.current, playingAd]);
-
-	return (
-		<DashContainer>
-			<TopBar>
-				<p>YOUR HOST:</p>
-				<h1>
-					{hostRep?.name} <span className="pronouns">{hostRep?.pronouns}</span>
-				</h1>
-				<Button onClick={() => setHostOpen(true)}>
-					<Edit />
-				</Button>
-				<Spacer />
-				<Button onClick={() => setAudioOpen(true)}>
-					<Tune />
-					Audio
-				</Button>
-				<Button onClick={() => setScriptsOpen(true)}>
-					<Description />
-					Scripts
-				</Button>
-				<Button onClick={() => setMosaicValue(initialLayout)}>
-					<ResetTv />
-					Reset Layout
-				</Button>
-				<Button onClick={() => setDarkMode(value => !value)}>
-					{darkMode ? <LightMode /> : <DarkMode />}
-					{darkMode ? "Light Mode" : "Dark Mode"}
-				</Button>
-				<p
-					ref={currentTimeElRef}
-					onClick={() => {
-						setTimeFormat(!timeFormat);
-					}}
-					style={{ cursor: "pointer", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
-					{currentTimeRef.current}
-				</p>
-			</TopBar>
-
-			{playingAd && (
-				<AdProgressBarContainer>
-					<AdProgressBar ref={adProgressBarRef} />
-					<AdProgressBarLabel>Advert Playing</AdProgressBarLabel>
-				</AdProgressBarContainer>
-			)}
-
-			<HostEditDialog open={hostOpen} submit={() => setHostOpen(false)} onClose={() => setHostOpen(false)} />
-			<ScriptDialog playAd={playAd} open={scriptsOpen} onClose={() => setScriptsOpen(false)} />
-			<AudioDialog open={audioOpen} onClose={() => setAudioOpen(false)} />
-
-			<Mosaic<ViewId>
-				renderTile={(id, path) => (
-					<MosaicWindow<ViewId>
-						path={path}
-						title={id}
-						renderToolbar={(props) => (
-							<div style={{ width: "100%", height: "100%" }}>
-								<Header text={props.title} />
-							</div>
-						)}>
-						{ELEMENTS[id]}
-					</MosaicWindow>
-				)}
-				value={mosaicValue}
-				onChange={(newLayout) => setMosaicValue(newLayout)}
-			/>
-		</DashContainer>
-	);
-};
-
-const DonationTotalContainer = styled.div`
-	container-type: size;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-`;
-
-const Total = styled.div`
-	font-family: var(--main-font);
-	font-weight: bold;
-	font-size: 75cqmin;
-	text-align: center;
-	font-variant-numeric: tabular-nums;
-`;
-
-const Column = styled.div`
-	display: flex;
-	gap: 8px;
-	flex-direction: column;
-	min-height: 100%;
-`;
-
-const DashContainer = styled.div`
 	min-width: 100vw;
 	min-height: 100vh;
 	padding-top: 72px;
@@ -260,7 +77,8 @@ const DashContainer = styled.div`
 
 	display: grid;
 
-	background: #ececec;
+	background: var(--background-color);
+	color: var(--text-color);
 
 	box-sizing: border-box;
 	* {
@@ -272,7 +90,7 @@ const TopBar = styled.div`
 	position: fixed;
 	top: 0;
 	left: 0;
-	background: var(--asm-blue);
+	background: var(--top-bar-background);
 	width: 100%;
 	height: 72px;
 	padding: 8px 24px;
@@ -315,14 +133,14 @@ const TopBar = styled.div`
 
 		padding: 8px;
 		color: white;
-		background: var(--orange-500);
+		background: var(--accent-color);
 		border: 2px solid white;
 		border-radius: 6px;
 
 		&:hover {
 			background: white;
-			border: 2px solid var(--orange-400);
-			color: var(--orange-400);
+			border: 2px solid var(--accent-color);
+			color: var(--accent-color);
 		}
 	}
 `;
@@ -340,14 +158,14 @@ const AdProgressBarContainer = styled.div`
 
 	display: flex;
 	justify-content: center;
-	background-color: gray;
+	background-color: var(--ad-progress-bg);
 
 	z-index: 10;
 `;
 
 const AdProgressBar = styled.div`
 	width: 100%;
-	background-color: red;
+	background-color: var(--ad-progress-fill);
 
 	animation: progressBarAnimation;
 	animation-timing-function: linear;
@@ -371,4 +189,182 @@ const AdProgressBarLabel = styled.div`
 	color: white;
 `;
 
-createRoot(document.getElementById("root")!).render(<HostDash />);
+type ViewId = keyof typeof ELEMENTS;
+
+const ELEMENTS = {
+	Timer: <Timer />,
+	"Host Tabs": <HostTabs />,
+	Mute: <HostMicrophone />,
+	"Donation Total": <DonationTotal />,
+	"Donation Matches": <DonationMatches />,
+	"Donation Tabs": <DonationTabs />,
+	"Next Runs": <UpNext />,
+};
+
+const initialLayout: MosaicNode<ViewId> = {
+	direction: "row",
+	first: {
+		direction: "row",
+		first: {
+			direction: "column",
+			first: "Timer",
+			second: "Host Tabs",
+		},
+		second: {
+			direction: "column",
+			first: {
+				direction: "column",
+				first: "Mute",
+				second: "Donation Total",
+			},
+			second: "Donation Tabs",
+			splitPercentage: 20,
+		},
+	},
+	second: {
+		direction: "column",
+		first: "Donation Matches",
+		second: "Next Runs",
+	},
+	splitPercentage: (2 / 3) * 100,
+};
+
+export const HostDash: React.FC = () => {
+	const { mode } = useColorScheme();
+	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
+
+	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
+
+	const [hostOpen, setHostOpen] = useState(false);
+	const [scriptsOpen, setScriptsOpen] = useState(false);
+	const [audioOpen, setAudioOpen] = useState(false);
+
+	const currentTimeElRef = useRef<HTMLParagraphElement>(null);
+	const currentTimeRef = useRef("00:00:00");
+	const [timeFormat, setTimeFormat] = useState(true); // False: 24hr, True: 12 Hour
+
+	const [playingAd, setPlayingAd] = useState<number | undefined>();
+	const adProgressBarRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (!currentTimeRef.current || !currentTimeElRef.current) return;
+
+			const newTime = new Date().toLocaleTimeString(timeFormat ? "en-AU" : "en-GB");
+
+			if (currentTimeRef.current === newTime) return;
+
+			currentTimeRef.current = newTime;
+			currentTimeElRef.current.innerText = newTime;
+		}, 200);
+
+		return () => clearInterval(interval);
+	}, [timeFormat]);
+
+	function playAd(ad: string, length: number) {
+		const adLength = length + 10;
+
+		setPlayingAd(adLength);
+		nodecg.sendMessage("playAd", ad);
+
+		setTimeout(() => {
+			setPlayingAd(undefined);
+		}, adLength * 1000); // 10 to account for transition into ad
+	}
+
+	useEffect(() => {
+		if (!adProgressBarRef.current) return;
+
+		adProgressBarRef.current.style.animationDuration = `${playingAd}s`;
+	}, [adProgressBarRef.current, playingAd]);
+
+	return (
+		<DashContainer darkMode={mode === "dark"}>
+			<TopBar>
+				<p>YOUR HOST:</p>
+				<h1>
+					{hostRep?.name} <span className="pronouns">{hostRep?.pronouns}</span>
+				</h1>
+				<Button onClick={() => setHostOpen(true)}>
+					<Edit />
+				</Button>
+				<Spacer />
+				<Button onClick={() => setAudioOpen(true)}>
+					<Tune />
+					Audio
+				</Button>
+				<Button onClick={() => setScriptsOpen(true)}>
+					<Description />
+					Scripts
+				</Button>
+				<Button onClick={() => setMosaicValue(initialLayout)}>
+					<ResetTv />
+					Reset Layout
+				</Button>
+				<ColourSchemeButton />
+				<p
+					ref={currentTimeElRef}
+					onClick={() => {
+						setTimeFormat(!timeFormat);
+					}}
+					style={{ cursor: "pointer", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
+					{currentTimeRef.current}
+				</p>
+			</TopBar>
+
+			{playingAd && (
+				<AdProgressBarContainer>
+					<AdProgressBar ref={adProgressBarRef} />
+					<AdProgressBarLabel>Advert Playing</AdProgressBarLabel>
+				</AdProgressBarContainer>
+			)}
+
+			<HostEditDialog open={hostOpen} submit={() => setHostOpen(false)} onClose={() => setHostOpen(false)} />
+			<ScriptDialog playAd={playAd} open={scriptsOpen} onClose={() => setScriptsOpen(false)} />
+			<AudioDialog open={audioOpen} onClose={() => setAudioOpen(false)} />
+
+			<Mosaic<ViewId>
+				renderTile={(id, path) => (
+					<MosaicWindow<ViewId>
+						path={path}
+						title={id}
+						renderToolbar={(props) => (
+							<div style={{ width: "100%", height: "100%" }}>
+								<Header text={props.title} />
+							</div>
+						)}>
+						{React.cloneElement(ELEMENTS[id], { darkMode: mode === "dark" })}
+					</MosaicWindow>
+				)}
+				value={mosaicValue}
+				onChange={(newLayout) => setMosaicValue(newLayout)}
+			/>
+		</DashContainer>
+	);
+};
+
+function ColourSchemeButton() {
+	const { mode, setMode } = useColorScheme();
+	const isDarkMode = mode === "dark";
+
+	const handleToggle = () => {
+		setMode(mode === "dark" ? "light" : "dark");
+	};
+
+	return (
+		<Button onClick={handleToggle}>
+			{isDarkMode ? <LightMode /> : <DarkMode />}
+			{isDarkMode ? "Light Mode" : "Dark Mode"}
+		</Button>
+	);
+}
+
+function HostDashApp() {
+	return (
+		<ThemeProvider theme={darkTheme}>
+			<HostDash />
+		</ThemeProvider>
+	);
+}
+
+createRoot(document.getElementById("root")!).render(<HostDashApp />);

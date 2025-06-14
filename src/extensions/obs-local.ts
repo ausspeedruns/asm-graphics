@@ -1,5 +1,5 @@
 import * as nodecgApiContext from "./nodecg-api-context";
-import { obsCurrentSceneRep, obsStreamTimecode, automationSettingsRep } from "./replicants";
+import { obsCurrentSceneRep, obsStreamTimecode, automationSettingsRep, obsDoLocalRecordingsRep } from "./replicants";
 import obs from "./util/obs";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
@@ -89,6 +89,8 @@ const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun
 
 nodecg.listenFor("transition:toGame", (data) => {
 	if (!data.to.startsWith("GAMEPLAY")) return;
+
+	cycleRecording();
 
 	setTimeout(() => {
 		// CUSTOM TRANSITIONS
@@ -187,4 +189,14 @@ async function updateStreamStatus() {
 	} else {
 		obsStreamTimecode.value = undefined;
 	}
+}
+
+async function cycleRecording() {
+	if (!obsDoLocalRecordingsRep.value) return;
+
+	// Stop the current recording
+	await obs.call("StopRecord");
+
+	// Start a new recording
+	await obs.call("StartRecord");
 }

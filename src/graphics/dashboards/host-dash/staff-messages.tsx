@@ -116,7 +116,7 @@ const MessageContainer = styled(Box)<ReadProps>`
 	border-radius: 7px;
 	animation-name: ${NewFlash};
 	animation-duration: 3s;
-	background-color: ${({ read }) => (read ? "#eee" : "#FF0000")};
+	background-color: ${({ read }) => (read ? "var(--inset-background)" : "#FF0000")};
 	color: ${({ read }) => (read ? "#000" : "#fff")};
 	position: relative;
 `;

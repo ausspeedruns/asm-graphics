@@ -42,7 +42,7 @@ const DonationMatchContainer = styled(Box)<ActiveProps>`
 	padding: 8px;
 	border-radius: 7px;
 	width: 100%;
-	background: #eee;
+	background: var(--inset-background);
 	opacity: ${({ active }) => (active ? "1" : "0.4")};
 `;
 

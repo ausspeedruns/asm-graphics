@@ -137,6 +137,7 @@ export const DashCouch: React.FC = () => {
 						gap: 5,
 						marginTop: 5,
 					}}>
+					<span>Host</span>
 					{hostRep && <HostComponent commentator={hostRep} id="host" />}
 					<hr style={{ width: "90%", opacity: 0.5 }} />
 

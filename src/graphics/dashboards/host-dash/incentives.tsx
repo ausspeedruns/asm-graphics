@@ -112,7 +112,7 @@ const IncentiveItemContainer = styled(Box)`
 	padding: 8px;
 	border-radius: 7px;
 	width: 100%;
-	background: #eee;
+	background: var(--inset-background);
 	position: relative;
 `;
 

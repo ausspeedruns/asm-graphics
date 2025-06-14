@@ -4,26 +4,21 @@ import styled from "styled-components";
 const HeaderContainer = styled.div`
 	height: 100%;
 	font-weight: bold;
-	text-transform: uppercase;
 	width: 100%;
-	background: #cc7722;
-	color: white;
+	background: var(--panel-background);
+	color: var(--text-color);
+
+	transition: background 0.25s;
 
 	display: flex;
-
-	justify-content: center;
+	padding-left: 32px;
+	border-radius: 0px;
 
 	align-items: center;
 `;
 
-const DestyledLink = styled.a`
-	color: inherit;
-	text-decoration: none;
-`;
-
 interface Props {
 	text: string;
-	url?: string;
 	style?: React.CSSProperties;
 	onClick?: React.MouseEventHandler<HTMLDivElement>;
 	children?: React.ReactNode;
@@ -31,21 +26,9 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = (props: React.PropsWithChildren<Props>) => {
-	if (props.url) {
-		return (
-			<HeaderContainer style={props.style}>
-				<DestyledLink href={props.url} target="blank">
-					{props.text}
-				</DestyledLink>
-				{props.children}
-			</HeaderContainer>
-		);
-	}
-
 	return (
 		<HeaderContainer style={props.style} onClick={props.onClick} draggable={props.draggable}>
-			{props.text}
-			{props.children}
+			<h3>{props.text}</h3>
 		</HeaderContainer>
 	);
 };

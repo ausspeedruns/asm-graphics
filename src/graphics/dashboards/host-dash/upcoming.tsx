@@ -61,7 +61,7 @@ const SingleRunContainer = styled(Box)<ActiveProps>`
 	padding: 8px;
 	border-radius: 7px;
 	width: 100%;
-	background: #eee;
+	background: var(--inset-background);
 	${({ active }) => (active === "true" ? "border-left: 8px solid #59a569; box-sizing: border-box;" : "")}
 `;
 

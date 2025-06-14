@@ -10,7 +10,7 @@ import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { IconButton } from "@mui/material";
 import { Refresh } from "@mui/icons-material";
 import { format } from "date-fns";
-import { Prizes } from "./prizes";
+import { PrizesHost } from "./prizes";
 
 export const HostTabs = () => {
 	const [page, setPage] = useState("0");
@@ -39,8 +39,8 @@ export const HostTabs = () => {
 		<Container>
 			<TabContext value={page}>
 				<TabList onChange={(_, newValue) => setPage(newValue)} aria-label="Incentives and Prizes">
-					<Tab label="Incentives" value="0" />
-					<Tab label="Prizes" value="1" />
+					<Tab style={{ maxWidth: "none" }} label="Incentives" value="0" />
+					<Tab style={{ maxWidth: "none" }} label="Prizes" value="1" />
 				</TabList>
 
 				<TabPanel value="0">
@@ -56,7 +56,7 @@ export const HostTabs = () => {
 				</TabPanel>
 
 				<TabPanel value="1">
-					<Prizes style={{ paddingRight: 8 }} />
+					<PrizesHost style={{ paddingRight: 8 }} />
 				</TabPanel>
 			</TabContext>
 		</Container>
@@ -96,8 +96,7 @@ const Container = styled.div`
 `;
 
 const Heading = styled.div`
-	background: grey;
-	color: black;
+	background: var(--inset-background);
 	margin: 0;
 	padding: 8px;
 	font-size: 20px;
