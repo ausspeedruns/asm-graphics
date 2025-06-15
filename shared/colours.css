@@ -1,17 +1,17 @@
 body {
 	margin: 0;
-	--main: var(--pax24-main);
+	--main: var(--acmi-main);
 	--primary: var(--main);
 	--nameplate: var(--main);
-	--nameplate-lighter: var(--pax24-main-light);
+	--nameplate-lighter: var(--acmi-main-light);
 	--sec: var(--asm-blue);
-	--accent: var(--asm-blue);
+	--accent: var(--acmi-secondary);
 
 	--text-light: white;
 	--text-dark: var(--main);
 
 	--main-font: var(--asm-font);
-	--secondary-font: "Poppins";
+	--secondary-font: var(--asm-secondary-font);
 	--mono-font: var(--asm-font);
 
 	--asm-orange: #cc7722;
@@ -30,4 +30,8 @@ body {
 
 	--pax24-main: #222721;
 	--pax24-main-light: #444d42;
+
+	--acmi-main: #000000;
+	--acmi-main-light: #1f1f1f;
+	--acmi-secondary: #ffffff;
 }

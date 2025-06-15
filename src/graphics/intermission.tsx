@@ -29,12 +29,16 @@ import { Sponsors } from "./elements/sponsors";
 import { IntermissionAds, IntermissionAdsRef } from "./elements/intermission/ad";
 import GoCLogo from "./media/Sponsors/GoCCCWhite.svg";
 
-import IntermissionBG from "./media/asap24/Intermission.png";
-import PAX24DonationTape from "./media/asap24/Sticky_Tape_Edited 1.png";
+import IntermissionBG from "./overlays/backgrounds/Intermission.png";
 
 import StopwatchIcon from "./media/icons/stopwatch.svg";
 import RunnerIcon from "./media/icons/runner.svg";
 import ConsoleIcon from "./media/icons/console.svg";
+
+import { Run } from "./elements/intermission/incent-upcoming-runs";
+
+import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
+import ACMILogo from './media/ACMI_Logo_RGB_White.svg';
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -45,6 +49,20 @@ const IntermissionContainer = styled.div`
 	display: flex;
 	color: var(--text-light);
 	/* clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 960 V 120 H 0'); */
+`;
+
+const RightColumn = styled.div`
+	display: flex;
+	position: absolute;
+	right: 0px;
+	height: 1080px;
+	width: 960px;
+	flex-direction: column;
+	align-items: center;
+
+	& > * {
+		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.3));
+	}
 `;
 
 const HostName = styled.div`
@@ -152,7 +170,7 @@ const Title = styled.div`
 	text-align: center;
 `;
 
-const GameName = styled(FitText)<{ containsNewLine?: boolean }>`
+const GameName = styled(FitText) <{ containsNewLine?: boolean }>`
 	/* font-weight: bold; */
 	max-width: 80%;
 	padding: 0 10%;
@@ -311,7 +329,7 @@ export const Intermission: React.FC = () => {
 			sponsors={sponsorsRep}
 			incentives={incentivesRep?.filter((incentive) => incentive.active)}
 			photos={photosRep}
-			// asmm={asmmRep}
+		// asmm={asmmRep}
 		/>
 	);
 };
@@ -381,7 +399,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	}, [currentSong, songEl]);
 
 	useImperativeHandle(ref, () => ({
-		showTweet(_newVal) {},
+		showTweet(_newVal) { },
 		showAd(ad) {
 			let adDuration = 0;
 			switch (ad) {
@@ -462,10 +480,10 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					position: "absolute",
 					left: 0,
 					height: 1080,
-					width: 860,
+					width: 960,
 					flexDirection: "column-reverse",
 				}}>
-				<div
+				{/* <div
 					style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "flex-end" }}>
 					<div style={{ width: 400, height: 115, marginLeft: 16, marginBottom: 16 }}>
 						<Sponsors sponsors={props.sponsors} />
@@ -475,19 +493,20 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						<br />
 						Victoria
 					</div>
-				</div>
+				</div> */}
 			</div>
-			<div
-				style={{
-					display: "flex",
-					position: "absolute",
-					right: 28,
-					height: 1080,
-					width: 960,
-					flexDirection: "column",
-					alignItems: "center",
-				}}>
-				<TimeContainer style={{ marginBottom: 16, marginTop: 12 }}>
+			<RightColumn>
+				<div
+					style={{
+						position: "absolute",
+						top: 0,
+						left: 960,
+						height: "100%",
+						width: 12,
+						background: "#ffffff",
+					}}
+				/>
+				<TimeContainer style={{ marginBottom: 16, marginTop: 60 }}>
 					<CurrentTime>
 						{currentHours}
 						{/* <span style={{ fontVariantNumeric: "normal", margin: "0 4px" }}>:</span> */}:
@@ -495,7 +514,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					</CurrentTime>
 					<CurrentDate>{currentDate}</CurrentDate>
 				</TimeContainer>
-				<RunContainer>
+				{/* <RunContainer>
 					<div
 						style={{
 							// height: 406,
@@ -523,17 +542,9 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							<FitText text={nextRuns[0]?.system} style={{ maxWidth: "80%" }} />
 						</ConsoleInfo>
 					</div>
-				</RunContainer>
+				</RunContainer> */}
 
-				<DonationContainer>
-					<img
-						src={PAX24DonationTape}
-						style={{
-							position: "absolute",
-							zIndex: 1,
-							filter: "drop-shadow(0px 7px 4.7px rgba(0, 0, 0, 0.7))",
-						}}
-					/>
+				{/* <DonationContainer>
 					<DonationInfo style={{ marginLeft: 0 }}>
 						<DonationSite>AusSpeedruns.com/Donate</DonationSite>
 					</DonationInfo>
@@ -544,8 +555,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						</DonationAmount>
 						<CureCancerLogo src={GoCLogo} />
 					</div>
-				</DonationContainer>
-				<IncentivesContainer ref={incentivesRef}>
+				</DonationContainer> */}
+				{/* <IncentivesContainer ref={incentivesRef}>
 					{props.incentives && (
 						<InterIncentivesMemo
 							incentives={props.incentives}
@@ -554,7 +565,34 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							upcomingRuns={nextRuns.slice(1, 3)}
 						/>
 					)}
-				</IncentivesContainer>
+				</IncentivesContainer> */}
+
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						width: "100%",
+						// height: "100%",
+						gap: 16,
+					}}>
+					{nextRuns.slice(0, 3).map((run, index) => {
+						return <Run run={run} key={index} index={index} style={{ height: 110 }} />;
+					})}
+				</div>
+
+				<div style={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					justifyContent: "center",
+					width: "50%",
+					height: "100%",
+					gap: 64,
+				}}>
+					<img src={AusSpeedrunsLogo} style={{ width: "100%" }} />
+					<img src={ACMILogo} />
+				</div>
 
 				<div
 					style={{
@@ -564,7 +602,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						borderRadius: "16px 16px 0 0",
 						padding: 16,
 						gap: 16,
-						maxWidth: "100%"
+						maxWidth: "100%",
 					}}>
 					{props.host && (
 						<HostName>
@@ -598,7 +636,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 						</div>
 					</Music>
 				</div>
-			</div>
+			</RightColumn>
 
 			{/* <IntermissionAds ref={adsRef} /> */}
 		</IntermissionContainer>

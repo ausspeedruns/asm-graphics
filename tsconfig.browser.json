@@ -20,7 +20,8 @@
 			"@asm-graphics/types/*": ["types/*"]
 		},
 		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"types": ["react", "node"]
 	},
 	"include": [
 		"**/*.ts",

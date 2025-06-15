@@ -15,7 +15,6 @@ export const TickerOverlay: React.FC = () => {
 	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
 	const [donationRep] = useReplicant<number>("donationTotal");
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
-	const [asmmRep] = useReplicant<number>("asmm:totalKM");
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
 	const [prizesRep] = useReplicant<Prize[]>("prizes");
 
@@ -25,7 +24,6 @@ export const TickerOverlay: React.FC = () => {
 			runDataActive={runDataActiveRep}
 			runDataArray={runDataArrayRep ?? []}
 			incentives={incentivesRep ?? []}
-			asmm={asmmRep}
 			donationMatches={donationMatchesRep ?? []}
 			prizes={prizesRep ?? []}
 			tickerOrder={[
@@ -33,8 +31,7 @@ export const TickerOverlay: React.FC = () => {
 				"nextruns",
 				"goals",
 				"wars",
-				// "asmm",
-				// "prizes",
+				"prizes",
 				"milestone",
 				"donationMatches",
 			]}

@@ -82,7 +82,7 @@ const UpcomingRunContainer = styled.div`
 
 const MetaDataContainer = styled.div`
 	padding: 16px;
-	background: var(--sec);
+	background: var(--asm-orange);
 	border-radius: 8px 0 0 8px;
 	color: var(--text-light);
 
@@ -139,11 +139,12 @@ const SubItem = styled.span`
 interface RunProps {
 	run: RunData;
 	index: number;
+	style?: React.CSSProperties;
 }
 
 const RUN_STAGGER_INVERSE = 1 / PRIZE_PAGE_STAGGER;
 
-const Run = React.forwardRef<TickerItemHandles, RunProps>((props: RunProps, ref) => {
+export const Run = React.forwardRef<TickerItemHandles, RunProps>((props: RunProps, ref) => {
 	const containerRef = useRef(null);
 
 	const pageTimeOffset = Math.floor(props.index / RUNS_LIMIT) * (PRIZE_DURATION + 1.5);
@@ -169,7 +170,7 @@ const Run = React.forwardRef<TickerItemHandles, RunProps>((props: RunProps, ref)
 	}));
 
 	return (
-		<UpcomingRunContainer ref={containerRef}>
+		<UpcomingRunContainer ref={containerRef} style={props.style}>
 			<MetaDataContainer>
 				<RequirementsContainer>
 					<Requirement>{props.run.scheduled ? format(props.run.scheduled, "h:mm a") : "Soon"}</Requirement>

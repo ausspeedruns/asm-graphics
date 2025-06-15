@@ -24,6 +24,9 @@ import GoCLogo from "../media/Sponsors/GoCWhite.svg";
 import PAX24TearOrange from "../media/asap24/ticker-orange.png";
 import type { Prize } from "@asm-graphics/types/Prizes";
 
+import ACMIBackground from './ticker/acmi-clock-bg.png';
+import EventBug from './ticker/ChannelBug.png';
+
 const TickerContainer = styled.div`
 	height: 64px;
 	width: 1920px;
@@ -58,7 +61,7 @@ const DonationArea = styled.div`
 const CurrentTimeArea = styled.div`
 	height: 100%;
 	width: fit-content;
-	background: var(--sec);
+	// background: var(--sec);
 	color: var(--text-light);
 	font-weight: bold;
 	/* border-left: 6px solid var(--accent); */
@@ -70,6 +73,9 @@ const CurrentTimeArea = styled.div`
 	align-items: center;
 	line-height: 20px;
 	font-family: var(--mono-font);
+
+	background-image: url(${ACMIBackground});
+	background-position: 65% 60%;
 `;
 
 const ContentArea = styled.div`
@@ -112,94 +118,94 @@ type Segments = "cta" | "milestone" | "prizes" | "goals" | "wars" | "nextruns" |
 
 const Ticker = (props: TickerProps) => {
 	const [currentTime, setCurrentTime] = useState(new Date());
-	const timelineRef = useRef<gsap.core.Timeline | null>(null);
-	const [segmentIndex, setSegmentIndex] = useState(0);
+	// const timelineRef = useRef<gsap.core.Timeline | null>(null);
+	// const [segmentIndex, setSegmentIndex] = useState(0);
 	const contentRef = useRef<HTMLDivElement>(null);
 	const runsRef = useRef<TickerItemHandles>(null);
-	const ctaRef = useRef<TickerItemHandles>(null);
-	const milestoneRef = useRef<TickerItemHandles>(null);
-	const goalsRef = useRef<TickerItemHandles>(null);
-	const warsRef = useRef<TickerItemHandles>(null);
-	const prizesRef = useRef<TickerItemHandles>(null);
-	const asmmRef = useRef<TickerItemHandles>(null);
-	const donationMatchesRef = useRef<TickerItemHandles>(null);
+	// const ctaRef = useRef<TickerItemHandles>(null);
+	// const milestoneRef = useRef<TickerItemHandles>(null);
+	// const goalsRef = useRef<TickerItemHandles>(null);
+	// const warsRef = useRef<TickerItemHandles>(null);
+	// const prizesRef = useRef<TickerItemHandles>(null);
+	// const asmmRef = useRef<TickerItemHandles>(null);
+	// const donationMatchesRef = useRef<TickerItemHandles>(null);
 
-	let goalIncentives: Goal[] = [];
-	let warIncentives: War[] = [];
-	if (props.incentives) {
-		goalIncentives = props.incentives
-			.filter((incentive) => {
-				if (incentive.active && incentive.type === "Goal") {
-					return incentive;
-				}
+	// let goalIncentives: Goal[] = [];
+	// let warIncentives: War[] = [];
+	// if (props.incentives) {
+	// 	goalIncentives = props.incentives
+	// 		.filter((incentive) => {
+	// 			if (incentive.active && incentive.type === "Goal") {
+	// 				return incentive;
+	// 			}
 
-				return undefined;
-			})
-			.slice(0, 3) as Goal[];
+	// 			return undefined;
+	// 		})
+	// 		.slice(0, 3) as Goal[];
 
-		warIncentives = props.incentives
-			.filter((incentive) => {
-				if (incentive.active && incentive.type === "War") {
-					return incentive;
-				}
+	// 	warIncentives = props.incentives
+	// 		.filter((incentive) => {
+	// 			if (incentive.active && incentive.type === "War") {
+	// 				return incentive;
+	// 			}
 
-				return undefined;
-			})
-			.slice(0, 3) as War[];
-	}
+	// 			return undefined;
+	// 		})
+	// 		.slice(0, 3) as War[];
+	// }
 
-	const showContent = (timeline: gsap.core.Timeline, element: TickerItemHandles | null) => {
-		if (!element) return;
+	// const showContent = (timeline: gsap.core.Timeline, element: TickerItemHandles | null) => {
+	// 	if (!element) return;
 
-		element.animation(timeline);
-	};
+	// 	element.animation(timeline);
+	// };
 
-	function startNextSegment(segment: Segments) {
-		// console.log(`Running segment ${segment}`, new Date().toLocaleTimeString());
-		if (timelineRef.current) {
-			timelineRef.current.kill();
-		}
+	// function startNextSegment(segment: Segments) {
+	// 	// console.log(`Running segment ${segment}`, new Date().toLocaleTimeString());
+	// 	if (timelineRef.current) {
+	// 		timelineRef.current.kill();
+	// 	}
 
-		timelineRef.current = gsap.timeline({
-			onComplete: () => {
-				// console.log("Segment complete", new Date().toLocaleTimeString());
-				setSegmentIndex((segmentIndex + 1) % props.tickerOrder.length);
-			},
-		});
+	// 	timelineRef.current = gsap.timeline({
+	// 		onComplete: () => {
+	// 			// console.log("Segment complete", new Date().toLocaleTimeString());
+	// 			setSegmentIndex((segmentIndex + 1) % props.tickerOrder.length);
+	// 		},
+	// 	});
 
-		switch (segment) {
-			case "cta":
-				showContent(timelineRef.current, ctaRef.current);
-				break;
-			case "nextruns":
-				showContent(timelineRef.current, runsRef.current);
-				break;
-			case "prizes":
-				showContent(timelineRef.current, prizesRef.current);
-				break;
-			case "goals":
-				showContent(timelineRef.current, goalsRef.current);
-				break;
-			case "wars":
-				showContent(timelineRef.current, warsRef.current);
-				break;
-			case "milestone":
-				showContent(timelineRef.current, milestoneRef.current);
-				break;
-			case "asmm":
-				showContent(timelineRef.current, asmmRef.current);
-				break;
-			case "donationMatches":
-				showContent(timelineRef.current, donationMatchesRef.current);
-				break;
-			default:
-				break;
-		}
-	}
+	// 	switch (segment) {
+	// 		case "cta":
+	// 			showContent(timelineRef.current, ctaRef.current);
+	// 			break;
+	// 		case "nextruns":
+	// 			showContent(timelineRef.current, runsRef.current);
+	// 			break;
+	// 		case "prizes":
+	// 			showContent(timelineRef.current, prizesRef.current);
+	// 			break;
+	// 		case "goals":
+	// 			showContent(timelineRef.current, goalsRef.current);
+	// 			break;
+	// 		case "wars":
+	// 			showContent(timelineRef.current, warsRef.current);
+	// 			break;
+	// 		case "milestone":
+	// 			showContent(timelineRef.current, milestoneRef.current);
+	// 			break;
+	// 		case "asmm":
+	// 			showContent(timelineRef.current, asmmRef.current);
+	// 			break;
+	// 		case "donationMatches":
+	// 			showContent(timelineRef.current, donationMatchesRef.current);
+	// 			break;
+	// 		default:
+	// 			break;
+	// 	}
+	// }
 
-	useEffect(() => {
-		startNextSegment(props.tickerOrder[segmentIndex]);
-	}, [segmentIndex]);
+	// useEffect(() => {
+	// 	startNextSegment(props.tickerOrder[segmentIndex]);
+	// }, [segmentIndex]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -212,30 +218,29 @@ const Ticker = (props: TickerProps) => {
 		<TickerContainer>
 			<LeftBlock>
 				<ASMLogo src={ChannelBug} />
-				<img src={PAX24TearOrange} style={{ marginRight: -5, zIndex: 200 }} />
-				{/* <img src={ChannelBugExtension} /> */}
+				<img src={EventBug} />
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={props.runDataActive} runArray={props.runDataArray} />
-				<TickerCTA ref={ctaRef} currentTotal={props.donationAmount} />
+				{/* <TickerCTA ref={ctaRef} currentTotal={props.donationAmount} />
 				<TickerMilestones currentTotal={props.donationAmount} ref={milestoneRef} />
 				<TickerGoals goals={goalIncentives} ref={goalsRef} />
 				<TickerWar wars={warIncentives} ref={warsRef} />
-				<TickerPrizes ref={prizesRef} />
+				<TickerPrizes ref={prizesRef} prizes={props.prizes} />
 				<TickerASMM ref={asmmRef} totalKM={props.asmm ?? 0} />
-				<TickerDonationMatches donationMatches={props.donationMatches} ref={donationMatchesRef} />
+				<TickerDonationMatches donationMatches={props.donationMatches} ref={donationMatchesRef} /> */}
 			</ContentArea>
 			{/* <div style={{ width: 8, height: "100%", background: "var(--tgx-rainbow-bar-vertical)" }} /> */}
 			<CurrentTimeArea>
-				{format(currentTime, "E d")}
-				<br />
+				{format(currentTime, "E d")}{" | "}
+				{/* <br /> */}
 				{format(currentTime, "h:mm a")}
 			</CurrentTimeArea>
-			<DonationMatches donationMatches={props.donationMatches} />
+			{/* <DonationMatches donationMatches={props.donationMatches} />
 			<DonationArea>
 				$<LerpNum value={props.donationAmount} />
 				<CharityLogo src={GoCLogo} />
-			</DonationArea>
+			</DonationArea> */}
 		</TickerContainer>
 	);
 };

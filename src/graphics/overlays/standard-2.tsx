@@ -11,8 +11,7 @@ import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
-import Standard2p from "../media/asap24/Standard2p.png";
-// import StandardRight from "../media/ASM23/standard-2-right.png";
+import Standard2p from "./backgrounds/Standard2p.png";
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -34,6 +33,12 @@ const LeftBox = styled.div`
 	display: flex;
 	background: var(--main);
 	position: relative;
+	padding-bottom: 12px;
+	box-sizing: border-box;
+
+	* {
+		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.1));
+	}
 `;
 
 const RightBox = styled.div`
@@ -45,12 +50,18 @@ const RightBox = styled.div`
 	/* background: var(--main); */
 	position: relative;
 	z-index: 2;
+	padding-bottom: 12px;
+	box-sizing: border-box;
+
+	* {
+		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.1));
+	}
 `;
 
 const SponsorSize = {
 	height: 230,
-	width: 440,
-	marginRight: -40,
+	width: 360,
+	// marginRight: -40,
 };
 
 const TwitterSize = {
@@ -151,8 +162,9 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					width={586}
 					maxNameWidth={190}
 					style={{
-						borderRight: "1px solid var(--sec)",
-						borderLeft: "1px solid var(--sec)",
+						borderRight: "1px solid var(--accent)",
+						borderLeft: "1px solid var(--accent)",
+						marginTop: -12,
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams}
@@ -190,6 +202,8 @@ export const Standard2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						/>
 					</div>
 				</RightBox>
+
+				<div style={{ position: 'absolute', bottom: 0, width: '100%', background: 'var(--accent)', height: 12, zIndex: 20 }} />
 			</Topbar>
 			<CentralDivider />
 		</Standard2Container>

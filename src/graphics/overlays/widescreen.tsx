@@ -8,8 +8,8 @@ import { Facecam } from "../elements/facecam";
 import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
 
-import WidescreenTop from "../media/asap24/Widescreen_01.png";
-import WidescreenBottom from "../media/asap24/Widescreen_02.png";
+import WidescreenTop from "./backgrounds/WidescreenTop.png";
+import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -23,7 +23,12 @@ const TopBar = styled.div`
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-color: var(--main);
 	position: relative;
-	/* border-bottom: 1px solid var(--sec); */
+	padding-bottom: 12px;
+	box-sizing: border-box;
+
+	* {
+		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.1));
+	}
 `;
 
 const Sidebar = styled.div`
@@ -31,7 +36,7 @@ const Sidebar = styled.div`
 	bottom: 0;
 	height: 810px;
 	width: 479px;
-	border-right: 1px solid var(--sec);
+	border-right: 1px solid var(--accent);
 	/* z-index: -1; */
 	overflow: hidden;
 `;
@@ -48,6 +53,10 @@ const SidebarBG = styled.div`
 	overflow: hidden;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	z-index: 1;
+
+	* {
+		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.1));
+	}
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -98,7 +107,7 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					clipPath: "path('M 0 0 H 1920 V 207 H 0 Z M 0 556 H 479 V 1017 H 0 Z')",
 				}}></div>
 			<TopBar>
-				<img src={WidescreenTop} style={{ position: "absolute", height: "100%" }} />
+				<img src={WidescreenTop} style={{ position: "absolute", width: "100%" }} />
 				{/* <div
 					style={{
 						position: "absolute",
@@ -108,7 +117,8 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						background: "var(--dh-orange-to-red)",
 					}}
 				/> */}
-				<WideInfo timer={props.timer} runData={props.runData} />
+				<WideInfo timer={props.timer} runData={props.runData} style={{ mainStyle: { paddingBottom: 12 } }} />
+				<div style={{ position: 'absolute', bottom: 0, width: '100%', background: 'var(--accent)', height: 12 }} />
 			</TopBar>
 			<Sidebar>
 				<Facecam

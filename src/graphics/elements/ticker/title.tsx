@@ -15,6 +15,7 @@ const TickerTitleContainer = styled.div`
 	padding: 0 10px;
 	text-align: center;
 	padding-bottom: 5px;
+	padding-top: 6px;
 `;
 
 interface Props {

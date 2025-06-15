@@ -8,7 +8,9 @@ import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import StandardBG from "../media/asap24/Standard.png";
+import StandardBG from "./backgrounds/Standard.png";
+
+import ACMILogo from '../media/ACMI_Logo_RGB_White.svg'
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -35,6 +37,10 @@ const InfoBoxBG = styled.div`
 	background-repeat: repeat;
 	background-position-y: 10px;
 	position: relative;
+
+	* {
+		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.1));
+	}
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -68,7 +74,7 @@ const customVerticalStyle: IVerticalStyling = {
 	timerStackHeight: 300,
 	categorySize: 38,
 	mainStyle: {
-		marginTop: 40,
+		// marginTop: 40,
 	}
 };
 
@@ -83,8 +89,6 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
-	console.log(props.commentators)
-
 	return (
 		<StandardContainer>
 			<Sidebar>
@@ -95,6 +99,7 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					pronounStartSide="right"
 					audioIndicator={props.microphoneAudioIndicator}
 					verticalCoop
+					style={{ borderBottom: "12px solid var(--accent)" }}
 				/>
 				<InfoBoxBG>
 					<img
@@ -112,9 +117,10 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 						commentators={props.commentators}
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
-						darkTitle
 					/>
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+
+					{/* <img src={ACMILogo} style={{ width: '60%', height: 'auto', marginBottom: 20 }} /> */}
 					<SponsorBoxS
 						sponsors={props.sponsors}
 						ref={sponsorRef}

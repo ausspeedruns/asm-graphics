@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
@@ -9,7 +8,7 @@ const CouchContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	min-height: 114px;
+	// min-height: 114px;
 `;
 
 const MenuBar = styled.div`
@@ -90,7 +89,7 @@ const PersonCompressedContainer = styled.div`
 	margin: 4px;
 	box-sizing: border-box;
 	position: relative;
-	background: #222721;
+	background: var(--main);
 	padding: 8px 12px;
 `;
 
