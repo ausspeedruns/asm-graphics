@@ -18,12 +18,6 @@ const TickerRunsContainer = styled.div`
 	align-items: center;
 	transform: translate(0px, 0px);
 	z-index: 0;
-
-	& div > div > span:nth-child(1) {
-		/* font-family: var(--main-font); */
-		font-weight: normal;
-		margin-bottom: -8px;
-	}
 `;
 
 interface Props {
@@ -108,9 +102,9 @@ const Title = styled.span`
 	font-size: 28px;
 	white-space: nowrap;
 	margin-top: 8px;
-	font-weight: bold;
+	font-weight: 1000;
 	font-family: var(--secondary-font);
-	/* margin-bottom: -8px; */
+	margin-bottom: -8px;
 `;
 
 const Subtitle = styled.span`

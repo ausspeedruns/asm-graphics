@@ -11,7 +11,7 @@ body {
 	--text-dark: var(--main);
 
 	--main-font: var(--asm-font);
-	--secondary-font: var(--asm-secondary-font);
+	--secondary-font: "Nova Square";
 	--mono-font: var(--asm-font);
 
 	--asm-orange: #cc7722;
