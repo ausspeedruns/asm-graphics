@@ -6,7 +6,7 @@ import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 
 import { IntermissionElement, IntermissionRef } from "./intermission";
-import NodeCG from "@nodecg/types";
+import NodeCG from "nodecg/types";
 
 const Intermission: React.FC = () => {
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");

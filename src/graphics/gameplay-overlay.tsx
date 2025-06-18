@@ -9,7 +9,7 @@ import _ from "underscore";
 import type { RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
 import type { Timer } from "@asm-graphics/types/Timer";
 import type { Commentator, OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 

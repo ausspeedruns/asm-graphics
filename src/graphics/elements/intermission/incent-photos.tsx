@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 
 import { TickerItemHandles } from "./incentives";
 

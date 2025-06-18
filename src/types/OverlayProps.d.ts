@@ -1,5 +1,5 @@
 import { AudioIndicator } from "./Audio";
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 import { RunDataActiveRun } from "./RunData";
 import { Timer } from "./Timer";
 import { Tweet } from "./Twitter";

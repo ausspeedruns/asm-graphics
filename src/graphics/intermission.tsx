@@ -13,7 +13,7 @@ import Twemoji from "react-twemoji";
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Tweet as ITweet } from "@asm-graphics/types/Twitter";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 import type { Incentive } from "@asm-graphics/types/Incentives";
 
 // import { InterCTA } from "./elements/intermission/cta";

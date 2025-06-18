@@ -4,7 +4,7 @@ import gsap from "gsap";
 
 import { Tweet } from "./tweet";
 
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 import { Tweet as ITweet } from "@asm-graphics/types/Twitter";
 
 const SponsorsContainer = styled.img`

@@ -4,7 +4,7 @@ import { Headsets } from "../extensions/audio-data";
 import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { darkTheme } from "./theme";
-import { NodeCGAPIClient } from "@nodecg/types/client/api/api.client";
+import { NodeCGAPIClient } from "nodecg/out/client/api/api.client";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { useReplicant } from "@nodecg/react-hooks";
 import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
