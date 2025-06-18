@@ -5,7 +5,7 @@ import _ from "underscore";
 import { gameAudioActiveRep } from "./replicants";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 
 const nodecg = nodecgApiContext.get();
 

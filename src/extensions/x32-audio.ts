@@ -13,7 +13,7 @@ import {
 } from "./replicants";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
 import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data";

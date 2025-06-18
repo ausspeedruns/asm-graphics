@@ -47,9 +47,6 @@ importers:
       '@nodecg/react-hooks':
         specifier: ^1.0.3
         version: 1.0.3(@types/express@5.0.3)(typescript@5.8.3)
-      '@nodecg/types':
-        specifier: ^2.1.12
-        version: 2.5.3(@types/express@5.0.3)(typescript@5.8.3)
       '@rive-app/react-canvas':
         specifier: ^4.14.4
         version: 4.21.3(react@18.3.1)

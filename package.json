@@ -260,7 +260,6 @@
 		"@mui/material": "^6.1.2",
 		"@mui/x-tree-view": "^7.19.0",
 		"@nodecg/react-hooks": "^1.0.3",
-		"@nodecg/types": "^2.1.12",
 		"@rive-app/react-canvas": "^4.14.4",
 		"axios": "1.7.7",
 		"bad-words": "^4.0.0",

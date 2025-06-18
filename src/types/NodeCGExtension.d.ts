@@ -1,7 +1,7 @@
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 import type { NodeCGMessages } from "./NodeCGMessages";
 import type { ConfigSchema } from "./ConfigSchema";
-import { NodeCGAPIClient } from "@nodecg/types/client/api/api.client";
+import type { NodeCGAPIClient } from "nodecg/out/client/api/api.client";
 
 type NeverKeys<T> = { [K in keyof T]: T[K] extends never ? K : never }[keyof T];
 type SendMessageCb<T> = (error?: unknown, response?: T) => void;

@@ -5,7 +5,7 @@ import _ from "underscore";
 import { commentatorsRep, headsetsUsed, hostRep } from "./replicants";
 
 import type { RunData, RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type NodeCG from "@nodecg/types";
+import type NodeCG from "nodecg/types";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const nodecg = nodecgApiContext.get();
