@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { GreenButton, RedButton } from "./elements/styled-ui";
 
-import { TextField, ThemeProvider } from "@mui/material";
+import { Checkbox, FormControlLabel, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
 
@@ -15,6 +15,7 @@ const Row = styled.div`
 
 export const Settings: React.FC = () => {
 	const [creditsNameRep, setCreditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name");
+	const [obsDoLocalRecordingsRep, setObsDoLocalRecordingsRep] = useReplicant<boolean>("obs:localRecordings");
 
 	function handleNameChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
 		const mutableName = creditsNameRep ?? { name: "", title: "" };
@@ -59,6 +60,15 @@ export const Settings: React.FC = () => {
 					Hide AoC
 				</RedButton>
 			</Row>
+			<FormControlLabel
+				control={
+					<Checkbox
+						checked={obsDoLocalRecordingsRep ?? false}
+						onChange={(e) => setObsDoLocalRecordingsRep(e.target.checked)}
+					/>
+				}
+				label="Enable OBS Local Recordings"
+			/>
 		</ThemeProvider>
 	);
 };
