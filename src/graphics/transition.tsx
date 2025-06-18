@@ -10,8 +10,7 @@ import { useRive } from "@rive-app/react-canvas";
 // import StartWipeIMG from './media/pixel/Transition/StartWipe.png';
 // import EndWipeIMG from './media/pixel/Transition/EndWipe.png';
 
-// @ts-ignore
-import ASAP24Transition from "./media/asap24/asap_2024_t1.riv";
+import TransitionStatic from "./overlays/backgrounds/TransitionStatic.png";
 
 import Clip1 from "./media/audio/chestappears1.mp3";
 import Clip2 from "./media/audio/crystal.mp3";
@@ -51,6 +50,14 @@ const TransitionDiv = styled.div`
 	}
 `;
 
+const BasicTransition = styled.img`
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+
+	opacity: 0;
+`;
+
 function runString(runData: RunDataActiveRun | undefined) {
 	if (!runData) return ["Enjoy the run!"];
 
@@ -84,16 +91,17 @@ export const Transition: React.FC = () => {
 	const textContainerRef = useRef<HTMLDivElement>(null);
 	const gameRef = useRef<HTMLSpanElement>(null);
 	const bylineRef = useRef<HTMLSpanElement>(null);
+	const staticImageRef = useRef<HTMLImageElement>(null);
 
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [automationsRep] = useReplicant<Automations>("automations");
 
-	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
-		// src: "/bundles/asm-graphics/shared/design/dh_transition.riv",
-		src: "/bundles/asm-graphics/shared/design/asap_2024.riv",
-		// autoplay: false,
-		// artboard: "artboard",
-	});
+	// const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
+	// 	// src: "/bundles/asm-graphics/shared/design/dh_transition.riv",
+	// 	src: "/bundles/asm-graphics/shared/design/asap_2024.riv",
+	// 	// autoplay: false,
+	// 	// artboard: "artboard",
+	// });
 
 	useListenFor("transition:UNKNOWN", () => {
 		console.log("Transitioning");
@@ -112,12 +120,13 @@ export const Transition: React.FC = () => {
 
 	useListenFor("transition:toIntermission", () => {
 		console.log("Transitioning to Intermission");
-		runTransition("toIntermission", TAGLINES[Math.floor(Math.random() * TAGLINES.length)]);
+		// runTransition("toIntermission", TAGLINES[Math.floor(Math.random() * TAGLINES.length)]);
+		runTransition("toIntermission");
 	});
 
-	useEffect(() => {
-		normalRive?.stopRendering();
-	}, [normalRive]);
+	// useEffect(() => {
+	// 	normalRive?.stopRendering();
+	// }, [normalRive]);
 
 	function runTransition(transition: "toIntermission" | "toGame" | "basic", specialText: string[] = []) {
 		if (!automationsRep?.runTransition) {
@@ -132,31 +141,33 @@ export const Transition: React.FC = () => {
 
 		const tl = gsap.timeline();
 
-		tl.fromTo(textContainerRef.current, { opacity: 0 }, { opacity: 1, duration: 1 }, "+=1");
+		tl.fromTo([textContainerRef.current, staticImageRef.current], { opacity: 0 }, { opacity: 1, duration: 1 }, "+=1");
 
-		tl.call(
-			() => {
-				if (!audioRef.current) return;
-				audioRef.current.src = ClipArray[Math.floor(Math.random() * ClipArray.length)];
-				audioRef.current.play();
-			},
-			[],
-			"+=1",
-		);
+		if (transition !== "toIntermission") {	
+			tl.call(
+				() => {
+					if (!audioRef.current) return;
+					audioRef.current.src = ClipArray[Math.floor(Math.random() * ClipArray.length)];
+					audioRef.current.play();
+				},
+				[],
+				"+=1",
+			);
+		}
 
-		tl.to(textContainerRef.current, { opacity: 0, duration: 1 }, "+=1");
+		tl.to([textContainerRef.current, staticImageRef.current], { opacity: 0, duration: 1 }, "+=1");
 
 		switch (transition) {
 			case "basic":
 			case "toIntermission":
 			case "toGame":
 			default:
-				if (normalRive) {
-					normalRive.startRendering();
-					normalRive.reset();
+				// if (normalRive) {
+				// 	normalRive.startRendering();
+				// 	normalRive.reset();
 
-					normalRive.play("Intermission > Game");
-				}
+				// 	normalRive.play("Intermission > Game");
+				// }
 				break;
 		}
 	}
@@ -168,7 +179,8 @@ export const Transition: React.FC = () => {
 	return (
 		<TransitionContainer>
 			<TransitionDiv ref={transitionRef}>
-				<NormalTransitions />
+				{/* <NormalTransitions /> */}
+				<BasicTransition src={TransitionStatic} ref={staticImageRef} />
 				<div
 					style={{
 						position: "absolute",
@@ -181,7 +193,15 @@ export const Transition: React.FC = () => {
 						bottom: 200,
 					}}
 					ref={textContainerRef}>
-					<span style={{ fontFamily: "var(--secondary-font)", maxWidth: 1200, textAlign: "center", textWrap: "balance" }} ref={gameRef}></span>
+					<span
+						style={{
+							fontFamily: "var(--secondary-font)",
+							maxWidth: 1200,
+							textAlign: "center",
+							textWrap: "balance",
+							fontWeight: 1000,
+						}}
+						ref={gameRef}></span>
 					<span ref={bylineRef}></span>
 				</div>
 			</TransitionDiv>
@@ -195,7 +215,9 @@ export const Transition: React.FC = () => {
 			</button>
 			<button
 				style={{ float: "right" }}
-				onClick={() => runTransition("toIntermission", TAGLINES[Math.floor(Math.random() * TAGLINES.length)])}>
+				// onClick={() => runTransition("toIntermission", TAGLINES[Math.floor(Math.random() * TAGLINES.length)])}
+				onClick={() => runTransition("toIntermission")}
+			>
 				Run intermission transition
 			</button>
 			<div>
