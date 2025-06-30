@@ -84,8 +84,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       nodecg:
-        specifier: ^2.5.3
-        version: 2.5.3(@types/express@5.0.3)(typescript@5.8.3)
+        specifier: ^2.6.1
+        version: 2.6.1(@types/express@5.0.3)(babel-plugin-macros@3.1.0)(reflect-metadata@0.1.14)(typescript@5.8.3)
       obs-websocket-js:
         specifier: ^5.0.6
         version: 5.0.6
@@ -226,8 +226,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2(vite@5.4.8(@types/node@22.15.31)(terser@5.42.0))
       vite-plugin-nodecg:
-        specifier: ^2.1.0
-        version: 2.1.0(vite@5.4.8(@types/node@22.15.31)(terser@5.42.0))
+        specifier: file:../vite-plugin-nodecg
+        version: file:../vite-plugin-nodecg(vite@5.4.8(@types/node@22.15.31)(terser@5.42.0))
 
 packages:
 
@@ -987,6 +987,18 @@ packages:
       '@emotion/styled':
         optional: true
 
+  '@nodecg/cli@2.6.1':
+    resolution: {integrity: sha512-YKz/RYi0RCDA7UuFdm8IXpSDijVJGmDSSTYZCyceYFV/nSMDNvSpUxfJWIut9hRnSCUwa16Si2iYAOla56mo3Q==}
+
+  '@nodecg/database-adapter-sqlite-legacy@2.6.1':
+    resolution: {integrity: sha512-9p0LJjkNvOPEUmgtOTbMqXbtt/B3z4oUKVNYs2c7hD4LvEC1ngQ6bqeOx+uzTg4HZV/OElVhMYIBKW0X+D3BnA==}
+
+  '@nodecg/database-adapter-types@2.6.1':
+    resolution: {integrity: sha512-+PhvD8OLwBlIt/Qvm3xAyKq/hGky5uibhmUxLChEI6O56kq9rg7oTiQH7y/AKpan6nBEaQFaP+dFDqnI2RM8lA==}
+
+  '@nodecg/internal-util@2.6.1':
+    resolution: {integrity: sha512-oBizrGAFPMWIvb9cVYBZeBJLe12JtuqchQ0o/WQ7gZ4K3SZiV4VTxwu84qZ0Rbed/itAFC5Y0WkB3JE66RiHCg==}
+
   '@nodecg/json-schema-defaults@1.0.4':
     resolution: {integrity: sha512-IxaxsLZ7Cv0+efU+L6qJDf8EoKXvgwNgPKbGTlGdSpRcAISaTkraJhNA9p90hvv1l21BdUiigSZ6p6MbKjl+yw==}
     hasBin: true
@@ -1012,6 +1024,9 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@open-iframe-resizer/core@1.6.0':
+    resolution: {integrity: sha512-qv4jo06YQP1qYzhUKeaBBA5r172n0zSmRCKvm9lom8e8mZEPZj4i6SBisKrhK0sUQttWKUfNQQDVxsik7gDzug==}
 
   '@passport-next/passport-openid@1.0.0':
     resolution: {integrity: sha512-W9uj4Ui/ZK/iBUNzSNxPWDQ8wCD1tUddGEVSGm0FN0B7ewo3yBQLGMoW3i3UqcwEzxdyGbAj06ohAhNQIXC4VA==}
@@ -1516,6 +1531,9 @@ packages:
   '@types/node@18.19.111':
     resolution: {integrity: sha512-90sGdgA+QLJr1F9X79tQuEut0gEYIfkX9pydI4XGRgvFo9g2JWswefI+WUSUHPYVBHYSEfTEqBxA5hQvAZB3Mw==}
 
+  '@types/node@20.19.1':
+    resolution: {integrity: sha512-jJD50LtlD2dodAEO653i3YF04NWak6jN3ky+Ri3Em3mGR39/glWiboM/IePaRbgwSfqM1TpGXfAg8ohn/4dTgA==}
+
   '@types/node@22.15.31':
     resolution: {integrity: sha512-jnVe5ULKl6tijxUhvQeNbQG/84fHfg+yMak02cT8QVhBx/F05rAVxCGBYYTh2EKz22D6JF5ktXuNwdx7b9iEGw==}
 
@@ -1747,6 +1765,10 @@ packages:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
 
+  ansis@3.17.0:
+    resolution: {integrity: sha512-0qWUglt9JEqLFr3w1I1pbrChn1grhaiAR2ocX1PP/flRmxgtwTzPFFFnfIlD6aMOLQZgSuCRlidD70lvx8yhzg==}
+    engines: {node: '>=14'}
+
   any-promise@1.3.0:
     resolution: {integrity: sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A==}
 
@@ -1862,6 +1884,9 @@ packages:
   base64url@3.0.1:
     resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
     engines: {node: '>=6.0.0'}
+
+  better-sqlite3@11.10.0:
+    resolution: {integrity: sha512-EwhOpyXiOEL/lKzHz9AW1msWFNzGc/z+LzeB3/jnFJpxu+th2yqvzsSWas1v9jgs9+xiXJcD5A8CJxAG2TaghQ==}
 
   better-sqlite3@9.6.0:
     resolution: {integrity: sha512-yR5HATnqeYNVnkaUTf4bOP2dJSnyhP4puJN/QPRyx4YkBEEUxib422n2XzPqDEHjQQqazoYoADdAm5vE15+dAQ==}
@@ -2241,6 +2266,14 @@ packages:
   decompress-response@6.0.0:
     resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
     engines: {node: '>=10'}
+
+  dedent@1.6.0:
+    resolution: {integrity: sha512-F1Z+5UCFpmQUzJa11agbyPVMbpgT/qA3/SKyJ1jyBgm7dUcUEa8v9JwDkerSQXfakBwFljIxhOJqGkjUwZ9FSA==}
+    peerDependencies:
+      babel-plugin-macros: ^3.1.0
+    peerDependenciesMeta:
+      babel-plugin-macros:
+        optional: true
 
   deep-extend@0.6.0:
     resolution: {integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==}
@@ -3411,9 +3444,9 @@ packages:
     resolution: {integrity: sha512-OXdegQq03OmXEjt2hZP33W2YPs/E5BcFQks46+G2gAxs4gHOIVD1u7EqlYLYSKsaIpyKCK9Gbk0ta1/gjRSMRQ==}
     engines: {node: '>=6'}
 
-  nodecg@2.5.3:
-    resolution: {integrity: sha512-9YsDrqGvhgM+rxQlwISqU+fkd4K022pBd8GQvYqBQ9HhyU3+FD83/l1KnYpdZGFe2AmGC6Yoh3RULrQJ4wbQAQ==}
-    engines: {node: ^18.12.0 || ^20.9.0 || ^22.11.0}
+  nodecg@2.6.1:
+    resolution: {integrity: sha512-lqUrbbP67rKYRYm6XTICIRqDIfAfvZrRj8PAgycFg7JsKKNLNpyCw68SrMRvCCdHuRrzL1fS+JHrakuHZrBsAA==}
+    engines: {node: ^20.9.0 || ^22.11.0}
     hasBin: true
 
   normalize.css@8.0.1:
@@ -3549,6 +3582,9 @@ packages:
 
   packery@2.1.2:
     resolution: {integrity: sha512-Coc+8Atz03c0iu1RK0PZIJMKcKrE4i9Z8UBBywqz7Dhy40mMPM5wMQfqO9P2eqFP+lxKjGMTHgRAwjBQc+AQ5w==}
+
+  packery@3.0.0:
+    resolution: {integrity: sha512-mTaE43T4kJCxkln4/lSFMjfI+19cZaFcg3Z64JO4XHlCxUgwhHWne+KeYAsBrHCaNJ1/8gyjormp3G5Uh1rNIA==}
 
   param-case@3.0.4:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
@@ -4207,6 +4243,10 @@ packages:
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
+  sql-highlight@6.1.0:
+    resolution: {integrity: sha512-ed7OK4e9ywpE7pgRMkMQmZDPKSVdm0oX5IEtZiKnFucSF0zu6c80GZBe38UqHuVhTWJ9xsKgSMjCG2bml86KvA==}
+    engines: {node: '>=14'}
+
   stack-trace@0.0.10:
     resolution: {integrity: sha512-KGzahc7puUKkzyMt+IqAep+TVNbKP+k2Lmwhub39m1AsTSkaDutx56aDCo+HLDzf/D26BIHTJWNiTG1KAJiQCg==}
 
@@ -4513,6 +4553,65 @@ packages:
       typeorm-aurora-data-api-driver:
         optional: true
 
+  typeorm@0.3.24:
+    resolution: {integrity: sha512-4IrHG7A0tY8l5gEGXfW56VOMfUVWEkWlH/h5wmcyZ+V8oCiLj7iTPp0lEjMEZVrxEkGSdP9ErgTKHKXQApl/oA==}
+    engines: {node: '>=16.13.0'}
+    hasBin: true
+    peerDependencies:
+      '@google-cloud/spanner': ^5.18.0 || ^6.0.0 || ^7.0.0
+      '@sap/hana-client': ^2.12.25
+      better-sqlite3: ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+      hdb-pool: ^0.1.6
+      ioredis: ^5.0.4
+      mongodb: ^5.8.0 || ^6.0.0
+      mssql: ^9.1.1 || ^10.0.1 || ^11.0.1
+      mysql2: ^2.2.5 || ^3.0.1
+      oracledb: ^6.3.0
+      pg: ^8.5.1
+      pg-native: ^3.0.0
+      pg-query-stream: ^4.0.0
+      redis: ^3.1.1 || ^4.0.0
+      reflect-metadata: ^0.1.14 || ^0.2.0
+      sql.js: ^1.4.0
+      sqlite3: ^5.0.3
+      ts-node: ^10.7.0
+      typeorm-aurora-data-api-driver: ^2.0.0 || ^3.0.0
+    peerDependenciesMeta:
+      '@google-cloud/spanner':
+        optional: true
+      '@sap/hana-client':
+        optional: true
+      better-sqlite3:
+        optional: true
+      hdb-pool:
+        optional: true
+      ioredis:
+        optional: true
+      mongodb:
+        optional: true
+      mssql:
+        optional: true
+      mysql2:
+        optional: true
+      oracledb:
+        optional: true
+      pg:
+        optional: true
+      pg-native:
+        optional: true
+      pg-query-stream:
+        optional: true
+      redis:
+        optional: true
+      sql.js:
+        optional: true
+      sqlite3:
+        optional: true
+      ts-node:
+        optional: true
+      typeorm-aurora-data-api-driver:
+        optional: true
+
   typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
     engines: {node: '>=14.17'}
@@ -4603,6 +4702,10 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
@@ -4620,8 +4723,8 @@ packages:
     peerDependencies:
       vite: '>=2.0.0'
 
-  vite-plugin-nodecg@2.1.0:
-    resolution: {integrity: sha512-Ujx18vi6iTHVARPeIyvJSXIc7Te5mSXqPgHMLlyo6Tjmvs0SRazlVVz7YLHWyOqesCIx3L1jbaZ8/DGIFLoNyA==}
+  vite-plugin-nodecg@file:../vite-plugin-nodecg:
+    resolution: {directory: ../vite-plugin-nodecg, type: directory}
     engines: {node: '>=16'}
     peerDependencies:
       vite: ^4.0.4 || ^5.1.5
@@ -5288,12 +5391,29 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.111
 
+  '@inquirer/checkbox@4.1.8(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/figures': 1.0.12
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+      ansi-escapes: 4.3.2
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 20.19.1
+
   '@inquirer/confirm@5.1.12(@types/node@18.19.111)':
     dependencies:
       '@inquirer/core': 10.1.13(@types/node@18.19.111)
       '@inquirer/type': 3.0.7(@types/node@18.19.111)
     optionalDependencies:
       '@types/node': 18.19.111
+
+  '@inquirer/confirm@5.1.12(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+    optionalDependencies:
+      '@types/node': 20.19.1
 
   '@inquirer/core@10.1.13(@types/node@18.19.111)':
     dependencies:
@@ -5308,6 +5428,19 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.111
 
+  '@inquirer/core@10.1.13(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/figures': 1.0.12
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+      ansi-escapes: 4.3.2
+      cli-width: 4.1.0
+      mute-stream: 2.0.0
+      signal-exit: 4.1.0
+      wrap-ansi: 6.2.0
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 20.19.1
+
   '@inquirer/editor@4.2.13(@types/node@18.19.111)':
     dependencies:
       '@inquirer/core': 10.1.13(@types/node@18.19.111)
@@ -5316,6 +5449,14 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.111
 
+  '@inquirer/editor@4.2.13(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+      external-editor: 3.1.0
+    optionalDependencies:
+      '@types/node': 20.19.1
+
   '@inquirer/expand@4.0.15(@types/node@18.19.111)':
     dependencies:
       '@inquirer/core': 10.1.13(@types/node@18.19.111)
@@ -5323,6 +5464,14 @@ snapshots:
       yoctocolors-cjs: 2.1.2
     optionalDependencies:
       '@types/node': 18.19.111
+
+  '@inquirer/expand@4.0.15(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 20.19.1
 
   '@inquirer/figures@1.0.12': {}
 
@@ -5333,12 +5482,26 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.111
 
+  '@inquirer/input@4.1.12(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+    optionalDependencies:
+      '@types/node': 20.19.1
+
   '@inquirer/number@3.0.15(@types/node@18.19.111)':
     dependencies:
       '@inquirer/core': 10.1.13(@types/node@18.19.111)
       '@inquirer/type': 3.0.7(@types/node@18.19.111)
     optionalDependencies:
       '@types/node': 18.19.111
+
+  '@inquirer/number@3.0.15(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+    optionalDependencies:
+      '@types/node': 20.19.1
 
   '@inquirer/password@4.0.15(@types/node@18.19.111)':
     dependencies:
@@ -5347,6 +5510,14 @@ snapshots:
       ansi-escapes: 4.3.2
     optionalDependencies:
       '@types/node': 18.19.111
+
+  '@inquirer/password@4.0.15(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+      ansi-escapes: 4.3.2
+    optionalDependencies:
+      '@types/node': 20.19.1
 
   '@inquirer/prompts@7.5.3(@types/node@18.19.111)':
     dependencies:
@@ -5363,6 +5534,21 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.111
 
+  '@inquirer/prompts@7.5.3(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/checkbox': 4.1.8(@types/node@20.19.1)
+      '@inquirer/confirm': 5.1.12(@types/node@20.19.1)
+      '@inquirer/editor': 4.2.13(@types/node@20.19.1)
+      '@inquirer/expand': 4.0.15(@types/node@20.19.1)
+      '@inquirer/input': 4.1.12(@types/node@20.19.1)
+      '@inquirer/number': 3.0.15(@types/node@20.19.1)
+      '@inquirer/password': 4.0.15(@types/node@20.19.1)
+      '@inquirer/rawlist': 4.1.3(@types/node@20.19.1)
+      '@inquirer/search': 3.0.15(@types/node@20.19.1)
+      '@inquirer/select': 4.2.3(@types/node@20.19.1)
+    optionalDependencies:
+      '@types/node': 20.19.1
+
   '@inquirer/rawlist@4.1.3(@types/node@18.19.111)':
     dependencies:
       '@inquirer/core': 10.1.13(@types/node@18.19.111)
@@ -5370,6 +5556,14 @@ snapshots:
       yoctocolors-cjs: 2.1.2
     optionalDependencies:
       '@types/node': 18.19.111
+
+  '@inquirer/rawlist@4.1.3(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 20.19.1
 
   '@inquirer/search@3.0.15(@types/node@18.19.111)':
     dependencies:
@@ -5379,6 +5573,15 @@ snapshots:
       yoctocolors-cjs: 2.1.2
     optionalDependencies:
       '@types/node': 18.19.111
+
+  '@inquirer/search@3.0.15(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/figures': 1.0.12
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 20.19.1
 
   '@inquirer/select@4.2.3(@types/node@18.19.111)':
     dependencies:
@@ -5390,9 +5593,23 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.111
 
+  '@inquirer/select@4.2.3(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/core': 10.1.13(@types/node@20.19.1)
+      '@inquirer/figures': 1.0.12
+      '@inquirer/type': 3.0.7(@types/node@20.19.1)
+      ansi-escapes: 4.3.2
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 20.19.1
+
   '@inquirer/type@3.0.7(@types/node@18.19.111)':
     optionalDependencies:
       '@types/node': 18.19.111
+
+  '@inquirer/type@3.0.7(@types/node@20.19.1)':
+    optionalDependencies:
+      '@types/node': 20.19.1
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -5594,6 +5811,52 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
+  '@nodecg/cli@2.6.1(@types/node@20.19.1)':
+    dependencies:
+      '@inquirer/prompts': 7.5.3(@types/node@20.19.1)
+      ajv: 8.17.1
+      chalk: 5.4.1
+      commander: 13.1.0
+      hosted-git-info: 8.1.0
+      json-schema-to-typescript: 15.0.4
+      nano-spawn: 0.2.1
+      npm-package-arg: 12.0.2
+      semver: 7.7.2
+      tar: 7.4.3
+    transitivePeerDependencies:
+      - '@types/node'
+
+  '@nodecg/database-adapter-sqlite-legacy@2.6.1(babel-plugin-macros@3.1.0)(reflect-metadata@0.1.14)':
+    dependencies:
+      '@nodecg/database-adapter-types': 2.6.1
+      '@nodecg/internal-util': 2.6.1
+      better-sqlite3: 11.10.0
+      typeorm: 0.3.24(babel-plugin-macros@3.1.0)(better-sqlite3@11.10.0)(reflect-metadata@0.1.14)
+    transitivePeerDependencies:
+      - '@google-cloud/spanner'
+      - '@sap/hana-client'
+      - babel-plugin-macros
+      - hdb-pool
+      - ioredis
+      - mongodb
+      - mssql
+      - mysql2
+      - oracledb
+      - pg
+      - pg-native
+      - pg-query-stream
+      - redis
+      - reflect-metadata
+      - sql.js
+      - sqlite3
+      - supports-color
+      - ts-node
+      - typeorm-aurora-data-api-driver
+
+  '@nodecg/database-adapter-types@2.6.1': {}
+
+  '@nodecg/internal-util@2.6.1': {}
+
   '@nodecg/json-schema-defaults@1.0.4':
     dependencies:
       argparse: 1.0.10
@@ -5771,6 +6034,8 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
+
+  '@open-iframe-resizer/core@1.6.0': {}
 
   '@passport-next/passport-openid@1.0.0':
     dependencies:
@@ -6398,6 +6663,10 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
+  '@types/node@20.19.1':
+    dependencies:
+      undici-types: 6.21.0
+
   '@types/node@22.15.31':
     dependencies:
       undici-types: 6.21.0
@@ -6700,6 +6969,8 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
+  ansis@3.17.0: {}
+
   any-promise@1.3.0: {}
 
   app-root-path@3.1.0: {}
@@ -6843,6 +7114,11 @@ snapshots:
   base64id@2.0.0: {}
 
   base64url@3.0.1: {}
+
+  better-sqlite3@11.10.0:
+    dependencies:
+      bindings: 1.5.0
+      prebuild-install: 7.1.3
 
   better-sqlite3@9.6.0:
     dependencies:
@@ -7273,6 +7549,10 @@ snapshots:
   decompress-response@6.0.0:
     dependencies:
       mimic-response: 3.1.0
+
+  dedent@1.6.0(babel-plugin-macros@3.1.0):
+    optionalDependencies:
+      babel-plugin-macros: 3.1.0
 
   deep-extend@0.6.0: {}
 
@@ -8606,11 +8886,15 @@ snapshots:
       long-timeout: 0.1.1
       sorted-array-functions: 1.3.0
 
-  nodecg@2.5.3(@types/express@5.0.3)(typescript@5.8.3):
+  nodecg@2.6.1(@types/express@5.0.3)(babel-plugin-macros@3.1.0)(reflect-metadata@0.1.14)(typescript@5.8.3):
     dependencies:
-      '@inquirer/prompts': 7.5.3(@types/node@18.19.111)
+      '@nodecg/cli': 2.6.1(@types/node@20.19.1)
+      '@nodecg/database-adapter-sqlite-legacy': 2.6.1(babel-plugin-macros@3.1.0)(reflect-metadata@0.1.14)
+      '@nodecg/database-adapter-types': 2.6.1
+      '@nodecg/internal-util': 2.6.1
       '@nodecg/json-schema-defaults': 1.0.4
       '@nodecg/json-schema-lib': 0.1.0
+      '@open-iframe-resizer/core': 1.6.0
       '@polymer/app-layout': 3.1.0
       '@polymer/app-route': 3.0.2
       '@polymer/iron-collapse': 3.0.1
@@ -8639,7 +8923,7 @@ snapshots:
       '@types/cookie-parser': 1.4.9(@types/express@5.0.3)
       '@types/express-session': 1.18.2
       '@types/multer': 1.4.13
-      '@types/node': 18.19.111
+      '@types/node': 20.19.1
       '@types/passport': 1.0.17
       '@types/soundjs': 0.6.31
       '@vaadin/vaadin-upload': 4.4.4
@@ -8647,14 +8931,10 @@ snapshots:
       ajv: 8.17.1
       ajv-draft-04: 1.0.0(ajv@8.17.1)
       ajv-formats: 2.1.1(ajv@8.17.1)
-      app-root-path: 3.1.0
-      better-sqlite3: 9.6.0
       body-parser: 1.20.3
-      chalk: 5.4.1
       cheerio: 1.0.0-rc.12
       chokidar: 4.0.3
       clipboard: 2.0.11
-      commander: 13.1.0
       compression: 1.8.0
       cookie-parser: 1.4.7
       cookies-js: 1.2.3
@@ -8670,20 +8950,15 @@ snapshots:
       fp-ts: 2.16.10
       git-rev-sync: 3.0.2
       hasha: 5.2.2
-      hosted-git-info: 8.1.0
       httpolyglot: 0.1.2
-      iframe-resizer: 4.4.5
-      io-ts: 2.2.22(fp-ts@2.16.10)
       is-error: 2.2.2
       json-ptr: 3.1.1
-      json-schema-to-typescript: 15.0.4
       klona: 2.0.6
       lodash: 4.17.21
       multer: 1.4.5-lts.2
       nano-spawn: 0.2.1
-      npm-package-arg: 12.0.2
       object-path: 0.11.8
-      packery: 2.1.2
+      packery: 3.0.0
       passport: 0.6.0
       passport-discord: 0.1.4
       passport-local: 1.0.0
@@ -8692,16 +8967,11 @@ snapshots:
       process: 0.11.10
       semver: 7.7.2
       serialize-error: 8.1.0
-      session-file-store: 1.5.0
       socket.io: 4.8.1
       socket.io-client: 4.8.1
       soundjs: 1.0.1
-      tar: 7.4.3
       ts-essentials: 9.4.2(typescript@5.8.3)
-      tslib: 2.8.1
-      typeorm: 0.3.19(better-sqlite3@9.6.0)
       util: 0.12.5
-      uuid: 9.0.1
       winston: 3.17.0
       yargs: 15.4.1
       zod: 3.25.64
@@ -8709,6 +8979,7 @@ snapshots:
       - '@google-cloud/spanner'
       - '@sap/hana-client'
       - '@types/express'
+      - babel-plugin-macros
       - bufferutil
       - debug
       - hdb-pool
@@ -8721,6 +8992,7 @@ snapshots:
       - pg-native
       - pg-query-stream
       - redis
+      - reflect-metadata
       - sql.js
       - sqlite3
       - supports-color
@@ -8892,6 +9164,11 @@ snapshots:
   package-json-from-dist@1.0.1: {}
 
   packery@2.1.2:
+    dependencies:
+      get-size: 2.0.3
+      outlayer: 2.1.1
+
+  packery@3.0.0:
     dependencies:
       get-size: 2.0.3
       outlayer: 2.1.1
@@ -9669,6 +9946,8 @@ snapshots:
 
   sprintf-js@1.0.3: {}
 
+  sql-highlight@6.1.0: {}
+
   stack-trace@0.0.10: {}
 
   statuses@2.0.1: {}
@@ -9986,6 +10265,29 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  typeorm@0.3.24(babel-plugin-macros@3.1.0)(better-sqlite3@11.10.0)(reflect-metadata@0.1.14):
+    dependencies:
+      '@sqltools/formatter': 1.2.5
+      ansis: 3.17.0
+      app-root-path: 3.1.0
+      buffer: 6.0.3
+      dayjs: 1.11.13
+      debug: 4.4.1
+      dedent: 1.6.0(babel-plugin-macros@3.1.0)
+      dotenv: 16.5.0
+      glob: 10.4.5
+      reflect-metadata: 0.1.14
+      sha.js: 2.4.11
+      sql-highlight: 6.1.0
+      tslib: 2.8.1
+      uuid: 11.1.0
+      yargs: 17.7.2
+    optionalDependencies:
+      better-sqlite3: 11.10.0
+    transitivePeerDependencies:
+      - babel-plugin-macros
+      - supports-color
+
   typescript@5.8.3: {}
 
   uid-safe@2.1.5:
@@ -10070,6 +10372,8 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
+  uuid@11.1.0: {}
+
   uuid@9.0.1: {}
 
   validate-npm-package-name@6.0.1: {}
@@ -10092,7 +10396,7 @@ snapshots:
       pathe: 0.2.0
       vite: 5.4.8(@types/node@22.15.31)(terser@5.42.0)
 
-  vite-plugin-nodecg@2.1.0(vite@5.4.8(@types/node@22.15.31)(terser@5.42.0)):
+  vite-plugin-nodecg@file:../vite-plugin-nodecg(vite@5.4.8(@types/node@22.15.31)(terser@5.42.0)):
     dependencies:
       globby: 14.1.0
       minimatch: 9.0.5
