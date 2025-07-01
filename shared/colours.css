@@ -1,17 +1,17 @@
 body {
 	margin: 0;
-	--main: var(--acmi-main);
+	--main: var(--asm-orange);
 	--primary: var(--main);
 	--nameplate: var(--main);
-	--nameplate-lighter: var(--acmi-main-light);
+	--nameplate-lighter: var(--orange-400);
 	--sec: var(--asm-blue);
-	--accent: var(--acmi-secondary);
+	--accent: var(--asm-blue);
 
 	--text-light: white;
 	--text-dark: var(--main);
 
 	--main-font: var(--asm-font);
-	--secondary-font: "Nova Square";
+	--secondary-font: var(--asm-secondary-font);
 	--mono-font: var(--asm-font);
 
 	--asm-orange: #cc7722;
@@ -34,4 +34,5 @@ body {
 	--acmi-main: #000000;
 	--acmi-main-light: #1f1f1f;
 	--acmi-secondary: #ffffff;
+	--acmi-secondary-font: "Nova Square";
 }

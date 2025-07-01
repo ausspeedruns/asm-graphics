@@ -4,6 +4,9 @@
 	"additionalProperties": false,
 
 	"properties": {
+        "$schema": {
+            "type": "string"
+        },
 		"obs": {
 			"type": "object",
 			"additionalProperties": false,

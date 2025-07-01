@@ -1,11 +1,8 @@
-import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
+import React, { useEffect, useState, useRef, forwardRef } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
 
-import { Tweet } from "./tweet";
-
 import type NodeCG from "nodecg/types";
-import { Tweet as ITweet } from "@asm-graphics/types/Twitter";
 
 const SponsorsContainer = styled.img`
 	object-fit: contain;
@@ -72,52 +69,22 @@ const SponsorsBoxContainer = styled.div`
 `;
 
 interface FullBoxProps {
-	// tweet: ITweet;
 	sponsors: NodeCG.AssetFile[];
 	style?: React.CSSProperties;
 	className?: string;
 	sponsorStyle?: React.CSSProperties;
-	tweetStyle?: React.CSSProperties;
 }
 
-export interface SponsorBoxRef {
-	showTweet?: (newVal: ITweet) => void;
-}
-
-const TweetBox = styled.div`
-	opacity: 0;
-	margin-top: -10px;
-	position: absolute;
-`;
-
-export const SponsorsBox = forwardRef<SponsorBoxRef, FullBoxProps>((props, ref) => {
+export function SponsorsBox(props: FullBoxProps) {
 	const sponsorMainRef = useRef<HTMLDivElement>(null);
-	const tweetRef = useRef<HTMLDivElement>(null);
-	const [tweet, setTweet] = useState<ITweet | undefined>(undefined);
-
-	useImperativeHandle(ref, () => ({
-		showTweet(newVal: ITweet) {
-			setTweet(newVal);
-			const tl = gsap.timeline();
-			tl.set(tweetRef.current, { opacity: 0 });
-			tl.to(sponsorMainRef.current, { opacity: 0, duration: 1 });
-			tl.to(tweetRef.current, { opacity: 1, duration: 1 });
-			tl.to(tweetRef.current, { opacity: 0, duration: 1 }, "+=10");
-			tl.to(sponsorMainRef.current, { opacity: 1, duration: 1 });
-		},
-	}));
-	//
 
 	return (
 		<SponsorsBoxContainer className={props.className} style={props.style}>
 			<div ref={sponsorMainRef} style={props.sponsorStyle}>
 				<Sponsors sponsors={props.sponsors} />
 			</div>
-			<TweetBox ref={tweetRef} style={props.tweetStyle}>
-				<Tweet tweet={tweet} />
-			</TweetBox>
 		</SponsorsBoxContainer>
 	);
-});
+};
 
 SponsorsBox.displayName = "SponsorsBox";

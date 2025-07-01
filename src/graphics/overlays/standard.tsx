@@ -8,9 +8,8 @@ import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import StandardBG from "./backgrounds/Standard.png";
-
-import ACMILogo from '../media/ACMI_Logo_RGB_White.svg'
+// import StandardBG from "./backgrounds/Standard.png";	
+import { Circuitry } from "./asm25/circuitry";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -35,12 +34,7 @@ const InfoBoxBG = styled.div`
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-blend-mode: multiply;
 	background-repeat: repeat;
-	background-position-y: 10px;
 	position: relative;
-
-	* {
-		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.1));
-	}
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -53,12 +47,6 @@ const SponsorBoxS = styled(SponsorsBox)`
 const SponsorsSize = {
 	height: 125,
 	width: 480,
-};
-
-const TwitterSize = {
-	height: 200,
-	width: 480,
-	marginTop: -44,
 };
 
 const VerticalInfoS = styled(VerticalInfo)`
@@ -75,18 +63,10 @@ const customVerticalStyle: IVerticalStyling = {
 	categorySize: 38,
 	mainStyle: {
 		// marginTop: 40,
-	}
+	},
 };
 
 export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
-	const sponsorRef = useRef<SponsorBoxRef>(null);
-
-	useImperativeHandle(ref, () => ({
-		showTweet(newVal) {
-			sponsorRef.current?.showTweet?.(newVal);
-		},
-	}));
-
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
 	return (
@@ -99,34 +79,22 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					pronounStartSide="right"
 					audioIndicator={props.microphoneAudioIndicator}
 					verticalCoop
-					style={{ borderBottom: "12px solid var(--accent)" }}
 				/>
 				<InfoBoxBG>
-					<img
-						src={StandardBG}
+					<Circuitry
+						// src={StandardBG}
 						style={{
 							position: "absolute",
-							height: "auto",
+							height: "100%",
 							width: "100%",
 							objectFit: "contain",
-							bottom: 0,
 							zIndex: -1,
 						}}
 					/>
-					<Couch
-						commentators={props.commentators}
-						host={props.host}
-						audio={props.microphoneAudioIndicator}
-					/>
+					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
-					{/* <img src={ACMILogo} style={{ width: '60%', height: 'auto', marginBottom: 20 }} /> */}
-					<SponsorBoxS
-						sponsors={props.sponsors}
-						ref={sponsorRef}
-						sponsorStyle={SponsorsSize}
-						tweetStyle={TwitterSize}
-					/>
+					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>

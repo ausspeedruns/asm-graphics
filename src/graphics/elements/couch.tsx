@@ -45,14 +45,14 @@ export const Couch: React.FC<Props> = (props: Props) => {
 		label = "Commentators";
 	} else if (props.commentators.length == 1) {
 		label = "Commentator";
-	} else if (props.host) {
+	} else if (props.host && props.host.name) {
 		label = "Host";
 	}
 
 	return (
 		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar style={{ color: props.darkTitle ? "var(--text-dark)" : "var(--text-light)" }}>
-				<div style={{ margin: "0 6px" }}>{label}</div>
+				{/* <div style={{ margin: "0 6px" }}>{label}</div> */}
 			</MenuBar>
 			<PeopleContainer>
 				{props.commentators.map((person) => {
@@ -85,12 +85,16 @@ const PersonCompressedContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	color: var(--text-light);
-	font-size: 22px;
+	font-size: 20px;
 	margin: 4px;
 	box-sizing: border-box;
 	position: relative;
 	background: var(--main);
 	padding: 8px 12px;
+
+	outline: 1px solid white;
+	outline-offset: 3px;
+	margin-bottom: 24px;
 `;
 
 const SpeakingColour = styled.div<SpeakingProps>`
@@ -129,6 +133,14 @@ const Pronouns = styled.div`
 	z-index: 2;
 `;
 
+const Role = styled.div`
+	position: absolute;
+	font-weight: bold;
+	font-size: 15px;
+	bottom: -25px;
+	left: -4px;
+`;
+
 interface PersonCompressedProps {
 	commentator: Commentator;
 	speaking?: boolean;
@@ -142,10 +154,11 @@ export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 			<SpeakingColour speaking={props.speaking} />
 			<Name>{props.commentator.name}</Name>
 			<Pronouns>
-				{!props.noTag && props.commentator.tag && <Tag>{props.commentator.tag}</Tag>}
-				{!props.noTag && props.commentator.tag && props.commentator.pronouns && <>- </>}
 				{props.commentator.pronouns}
 			</Pronouns>
+			<Role>
+				{props.commentator.tag}
+			</Role>
 		</PersonCompressedContainer>
 	);
 };

@@ -24,8 +24,8 @@ import GoCLogo from "../media/Sponsors/GoCWhite.svg";
 import PAX24TearOrange from "../media/asap24/ticker-orange.png";
 import type { Prize } from "@asm-graphics/types/Prizes";
 
-import ACMIBackground from './ticker/acmi-clock-bg.png';
-import EventBug from './ticker/ChannelBug.png';
+import ACMIBackground from "./ticker/acmi-clock-bg.png";
+import EventBug from "./ticker/ChannelBug.png";
 
 const TickerContainer = styled.div`
 	height: 64px;
@@ -70,7 +70,10 @@ const CurrentTimeArea = styled.div`
 	font-size: 22px;
 	text-align: center;
 	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	align-items: center;
+	gap: 4px;
 	line-height: 20px;
 	font-family: var(--mono-font);
 
@@ -218,7 +221,7 @@ const Ticker = (props: TickerProps) => {
 		<TickerContainer>
 			<LeftBlock>
 				<ASMLogo src={ChannelBug} />
-				<img src={EventBug} />
+				{/* <img src={EventBug} /> */}
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<TickerRuns ref={runsRef} currentRun={props.runDataActive} runArray={props.runDataArray} />
@@ -232,9 +235,8 @@ const Ticker = (props: TickerProps) => {
 			</ContentArea>
 			{/* <div style={{ width: 8, height: "100%", background: "var(--tgx-rainbow-bar-vertical)" }} /> */}
 			<CurrentTimeArea>
-				{format(currentTime, "E d")}{" | "}
-				{/* <br /> */}
-				{format(currentTime, "h:mm a")}
+				<span>{format(currentTime, "h:mm a")}</span>
+				<span>{format(currentTime, "E d")}</span>
 			</CurrentTimeArea>
 			{/* <DonationMatches donationMatches={props.donationMatches} />
 			<DonationArea>
