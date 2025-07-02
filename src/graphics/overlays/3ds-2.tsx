@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
@@ -50,13 +49,7 @@ const SponsorsSize = {
 	width: 430,
 };
 
-const TwitterSize = {
-	height: 163,
-	width: 480,
-	marginTop: -44,
-};
-
-export const ThreeDS2: React.FC<OverlayProps> = (props) => {
+export const ThreeDS2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
 	return (
@@ -87,7 +80,7 @@ export const ThreeDS2: React.FC<OverlayProps> = (props) => {
 				<InfoBoxBG>
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<Couch commentators={props.commentators} />
-					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
+					<SponsorBoxS sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Middle>
 		</ThreeDS2Container>

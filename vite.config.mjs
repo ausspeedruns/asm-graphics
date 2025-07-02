@@ -2,6 +2,8 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import NodeCGPlugin from "vite-plugin-nodecg";
 
+const ReactCompilerConfig = {};
+
 export default defineConfig(() => {
 	return {
 		plugins: [
@@ -15,6 +17,7 @@ export default defineConfig(() => {
 					"dashboard/*.tsx": "./src/dashboard/template.html",
 				},
 			}),
+			["babel-plugin-react-compiler", ReactCompilerConfig],
 		],
 	};
 });

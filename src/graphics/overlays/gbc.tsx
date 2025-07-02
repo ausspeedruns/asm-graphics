@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 
-import { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { VerticalInfo, IVerticalStyling } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
@@ -44,12 +43,6 @@ const SponsorsSize = {
 	width: 430,
 };
 
-const TwitterSize = {
-	height: 142,
-	width: 558,
-	marginTop: -47,
-};
-
 const InfoBoxBG = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -79,7 +72,7 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 						darkTitle
 					/>
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
-					<SponsorBoxStyle sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
+					<SponsorBoxStyle sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>
 			<RightSidebar>

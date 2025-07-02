@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 import { OverlayProps } from "@asm-graphics/types/OverlayProps";
@@ -62,11 +61,6 @@ const CentralDivider = styled.div`
 	background: var(--sec);
 `;
 
-// const Facecam = styled.div`
-// 	width: 901px;
-// 	height: 289px;
-// `;
-
 const NPIcon = styled.img`
 	width: 40px;
 	height: auto;
@@ -116,7 +110,7 @@ const RightBG = styled.div`
 	background: var(--main);
 `;
 
-export const Widescreen3: React.FC<OverlayProps> = (props) => {
+export const Widescreen3 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 3);
 
 	return (

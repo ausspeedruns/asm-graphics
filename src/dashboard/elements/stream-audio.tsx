@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Button, Input, Slider } from "@mui/material";
-import lightBlue from "@mui/material/colors/lightBlue";
 import { VolumeUp, VolumeOff } from "@mui/icons-material";
 
 interface DisabledProps {
@@ -14,7 +13,7 @@ const StreamAudioContainer = styled.div<DisabledProps>`
 	align-items: center;
 	flex-direction: column;
 	flex-grow: 1;
-	border: 1px solid ${({ disabled }) => (disabled ? "rgb(255 255 255 / 12%)" : lightBlue[500])};
+	border: 1px solid ${({ disabled }) => (disabled ? "rgb(255 255 255 / 12%)" : "#03a9f4")};
 	border-radius: 20px;
 	margin: 8px 4px;
 	padding: 8px;

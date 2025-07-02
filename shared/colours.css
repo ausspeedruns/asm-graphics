@@ -2,13 +2,13 @@ body {
 	margin: 0;
 	--main: var(--asm-orange);
 	--primary: var(--main);
-	--nameplate: var(--main);
-	--nameplate-lighter: var(--orange-400);
+	--nameplate: #202020;
+	--nameplate-lighter: #292929;
 	--sec: var(--asm-blue);
 	--accent: var(--asm-blue);
 
 	--text-light: white;
-	--text-dark: var(--main);
+	--text-dark: #202020;
 
 	--main-font: var(--asm-font);
 	--secondary-font: var(--asm-secondary-font);

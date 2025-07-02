@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import styled from "styled-components";
 import { AudioIndicator } from "@asm-graphics/types/Audio";
 
@@ -45,7 +46,7 @@ const RunnerNameDivider = styled.div`
 `;
 
 export const Facecam = (props: FacecamProps) => {
-	const allRunnerNames: JSX.Element[] = [];
+	const allRunnerNames: ReactNode[] = [];
 
 	if (!props.teams) {
 		// Fallback

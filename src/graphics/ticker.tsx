@@ -13,10 +13,12 @@ export const TickerOverlay: React.FC = () => {
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
-	const [donationRep] = useReplicant<number>("donationTotal");
+	// const [donationRep] = useReplicant<number>("donationTotal");
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
 	const [prizesRep] = useReplicant<Prize[]>("prizes");
+
+	const donationRep = 10000;
 
 	return (
 		<TickerMemo

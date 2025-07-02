@@ -28,7 +28,6 @@ const Body = styled.div`
 `;
 
 const Segment = styled.div`
-	background-color: #fff;
 	border-radius: 8px;
 	padding: 1rem;
 	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
@@ -58,7 +57,6 @@ const Segment = styled.div`
 const ListStyled = styled(List)`
 	overflow-y: auto;
 	max-height: 87vh;
-	background-color: #fff;
 	border-radius: 8px;
 	padding: 1rem;
 	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
@@ -89,7 +87,6 @@ const ListStyled = styled(List)`
 
 const DialogStyled = styled(Dialog)`
 	.MuiDialog-paper {
-		background-color: #e9e9e9;
 	}
 `;
 

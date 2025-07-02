@@ -94,13 +94,14 @@ const CurrentAmount = styled.span`
 
 interface Props {
 	wars: War[];
+	ref: React.Ref<TickerItemHandles>;
 }
 
-export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
+export const TickerWar = (props: Props) => {
 	const containerRef = useRef(null);
 	const warRefs = useRef<TickerItemHandles[]>([]);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			if (props.wars.length === 0) {
 				return tl;
@@ -151,7 +152,7 @@ export const TickerWar = React.forwardRef<TickerItemHandles, Props>((props: Prop
 			<MultiGoalContainer>{allGoals}</MultiGoalContainer>
 		</TickerWarContainer>
 	);
-});
+};
 
 const WarChoiceContainer = styled.div`
 	position: absolute;
@@ -171,14 +172,15 @@ const AllOptionContainer = styled.div`
 
 interface GoalProps {
 	war: War;
+	ref: React.Ref<TickerItemHandles>;
 }
 
-const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
+const WarGame = (props: GoalProps) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
 	const [animLabel] = useState(props.war.index.toString() + "a");
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.to(containerRef.current, { y: 0, duration: 1 }, "-=0.5");
@@ -236,7 +238,7 @@ const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 			<AllOptionContainer>{allOptions.length > 0 ? allOptions : <NoChoicesMade />}</AllOptionContainer>
 		</WarChoiceContainer>
 	);
-});
+};
 
 const OptionName = styled(FitText)`
 	max-width: 60%;
@@ -257,17 +259,18 @@ const TextDiv = styled.div`
 `;
 
 interface WarChoiceProps {
-	option: War["options"][0];
+	option: War["options"][number];
 	highest: number;
 	animLabel: string;
 	index?: number;
+	ref: React.Ref<TickerItemHandles>;
 }
 
-const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: WarChoiceProps, ref) => {
+const WarChoice = (props: WarChoiceProps) => {
 	const percentage = (props.option.total / props.highest) * 100;
 	const progressBarRef = useRef(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.set(progressBarRef.current, { width: 0 }, "warStart");
@@ -298,7 +301,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 			</TextDiv>
 		</ProgressContainer>
 	);
-});
+};
 
 const NoChoicesContainer = styled.div`
 	flex-grow: 1;
@@ -328,7 +331,7 @@ interface MoreChoicesProps {
 	more: number;
 }
 
-const MoreChoices: React.FC<MoreChoicesProps> = (props: MoreChoicesProps) => {
+const MoreChoices = (props: MoreChoicesProps) => {
 	return <MoreChoicesContainer>{props.more} more options</MoreChoicesContainer>;
 };
 

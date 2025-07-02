@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { HashRouter as Router, Route, Link, Routes } from "react-router-dom";
-import { useListenFor, useReplicant } from "@nodecg/react-hooks";
+import { HashRouter, Route, Link, Routes } from "react-router";
+import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
 import type { RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
 import type { Timer } from "@asm-graphics/types/Timer";
-import type { Commentator, OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import type { Commentator, OverlayProps } from "@asm-graphics/types/OverlayProps";
 import type NodeCG from "nodecg/types";
 
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
@@ -23,7 +23,7 @@ import { DS } from "./overlays/ds";
 import { GBA } from "./overlays/gba";
 import { GBA2 } from "./overlays/gba-2";
 import { GBC } from "./overlays/gbc";
-import { DS2 } from "./overlays/ds2";
+import { DS2 } from "./overlays/ds-2";
 import { WHG } from "./overlays/whg11-8";
 import { ThreeDS } from "./overlays/3ds";
 import { ThreeDS2 } from "./overlays/3ds-2";
@@ -51,30 +51,22 @@ interface GameplayOverlayProps {
 	preview?: boolean;
 }
 
-// https://stackoverflow.com/questions/58220995/cannot-read-property-history-of-undefined-usehistory-hook-of-react-router-5
-export const GameplayRouterParent = (props: GameplayOverlayProps) => {
-	return (
-		<Router>
-			<GameplayOverlay preview={props.preview} />
-		</Router>
-	);
-};
-
 const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [timerRep] = useReplicant<Timer>("timer", { bundle: "nodecg-speedcontrol" });
+
 	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const [hostRep] = useReplicant<Commentator>("host");
-	// const [currentOverlayRep] = useReplicant<CurrentOverlay, undefined>('currentOverlay', undefined);
+
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
+
 	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator");
 	const [microphoneAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators");
+
 	const [onScreenMessageShowRep] = useReplicant<boolean>("onScreenWarning:show");
 	const [onScreenMessageMessageRep] = useReplicant<string>("onScreenWarning:message");
 
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
-
-	const overlayRefs = useRef<OverlayRef[]>([]);
 
 	// Disable runner audio indicator if they are the only runner and there isn't another commentator (except Host)
 	const mutableMicAudioIndicator = _.clone(microphoneAudioIndicatorRep);
@@ -105,24 +97,24 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 
 	const Overlays = [
 		{
-			component: <Standard {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[0] = el)} />,
+			component: <Standard {...overlayArgs} />,
 			name: "",
 			// Default as standard
 		},
 		{
-			component: <Standard {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[1] = el)} />,
+			component: <Standard {...overlayArgs} />,
 			name: "Standard",
 		},
 		{
-			component: <Standard2 {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[2] = el)} />,
+			component: <Standard2 {...overlayArgs} />,
 			name: "Standard-2",
 		},
 		{
-			component: <Widescreen {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[3] = el)} />,
+			component: <Widescreen {...overlayArgs} />,
 			name: "Widescreen",
 		},
 		{
-			component: <Widescreen2 {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[4] = el)} />,
+			component: <Widescreen2 {...overlayArgs} />,
 			name: "Widescreen-2",
 		},
 		{
@@ -138,7 +130,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: "DS-2",
 		},
 		{
-			component: <GBA {...overlayArgs} ref={(el: OverlayRef) => (overlayRefs.current[6] = el)} />,
+			component: <GBA {...overlayArgs} />,
 			name: "GBA",
 		},
 		{
@@ -170,12 +162,6 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: "None",
 		},
 	];
-
-	useListenFor("showTweet", (newVal) => {
-		overlayRefs.current.forEach((ref) => {
-			if (ref) ref.showTweet?.(newVal);
-		});
-	});
 
 	useEffect(() => {
 		if (props.preview) {
@@ -230,4 +216,4 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	);
 };
 
-createRoot(document.getElementById("root")!).render(<GameplayRouterParent />);
+createRoot(document.getElementById("root")!).render(<HashRouter><GameplayOverlay /></HashRouter>);

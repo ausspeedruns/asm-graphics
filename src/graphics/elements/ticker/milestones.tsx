@@ -105,6 +105,7 @@ const ASM_MILESTONES: Milestone[] = [
 	{ event: "ASM2021", total: 15000 },
 	{ event: "ASM2022", total: 24551 },
 	{ event: "ASM2023", total: 35000 },
+	{ event: "ASM2024", total: 30500 },
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
@@ -114,6 +115,7 @@ const PAX_MILESTONES: Milestone[] = [
 	{ event: "PAX2021", total: 7222.37 },
 	{ event: "ASAP2022", total: 8348.56 },
 	{ event: "ASAP2023", total: 18007 },
+	{ event: "ASAP2024", total: 15197 },
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
@@ -124,6 +126,12 @@ const MISC_MILESTONES: Milestone[] = [
 // @ts-ignore
 const TGX_MILESTONES: Milestone[] = [
 	{ event: "ASGX2023", total: 2316 },
+	{ event: "ASGX2024", total: 6050 },
+].sort((a, b) => a.total - b.total);
+
+// @ts-ignore
+const DH_MILESTONES: Milestone[] = [
+	{ event: "ASDH2024", total: 10000 },
 ].sort((a, b) => a.total - b.total);
 
 interface Props {

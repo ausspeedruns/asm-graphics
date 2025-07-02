@@ -18,6 +18,7 @@ const WideInfoContainer = styled.div`
 	box-sizing: border-box;
 	gap: 50px;
 	overflow: hidden;
+	z-index: 2;
 `;
 
 const VerticalStack = styled.div`

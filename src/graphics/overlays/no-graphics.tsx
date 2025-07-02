@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Credits } from "../elements/credits";
@@ -16,7 +15,7 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-export const NoGraphics: React.FC<Props> = (props: Props) => {
+export const NoGraphics = (props: Props) => {
 	const [creditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name");
 	return (
 		<NoGraphicsContainer className={props.className} style={props.style}>

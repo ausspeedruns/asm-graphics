@@ -213,7 +213,7 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 		}
 
 		case "War": {
-			let warData: JSX.Element | JSX.Element[] = <WarNoOptions boxShadow={1}>No names submitted</WarNoOptions>;
+			let warData: React.ReactNode = <WarNoOptions boxShadow={1}>No names submitted</WarNoOptions>;
 
 			if (props.incentive.options.length !== 0) {
 				const mutableWarData = props.incentive.options.map((a) => ({ ...a }));

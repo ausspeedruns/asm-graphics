@@ -1,10 +1,9 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import type { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { SmallInfo, ISmallStyling } from "../elements/info-box/small";
-import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
@@ -52,12 +51,6 @@ const SponsorSize = {
 	marginRight: -40,
 };
 
-const TwitterSize = {
-	height: 220,
-	width: 420,
-	marginTop: -40,
-};
-
 const CentralDivider = styled.div`
 	height: 639px;
 	width: 2px;
@@ -91,15 +84,7 @@ const customSmallStyling: ISmallStyling = {
 	},
 };
 
-export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
-	const sponsorRef = useRef<SponsorBoxRef>(null);
-
-	useImperativeHandle(ref, () => ({
-		showTweet(newVal) {
-			sponsorRef.current?.showTweet?.(newVal);
-		},
-	}));
-
+export const GBA2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
 	return (
@@ -162,11 +147,9 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							audio={props.microphoneAudioIndicator}
 						/>
 						<SponsorsBox
-							ref={sponsorRef}
 							sponsors={props.sponsors}
 							style={{ flexGrow: 1 }}
 							sponsorStyle={SponsorSize}
-							tweetStyle={TwitterSize}
 						/>
 					</div>
 				</RightBox>
@@ -174,6 +157,4 @@ export const GBA2 = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 			<CentralDivider />
 		</Standard2Container>
 	);
-});
-
-GBA2.displayName = "GBA2";
+};

@@ -1,14 +1,13 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { VerticalInfo, IVerticalStyling } from "../elements/info-box/vertical";
-import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
+import { Circuitry } from "./asm25/circuitry";
 
-// import DreamhackLogo from "../elements/event-specific/dh-24/DreamHack_Logo_RGB_WHITE.png";
 // import GBABG from "../elements/event-specific/dh-24/Standard.png";
 
 const GBAContainer = styled.div`
@@ -28,11 +27,9 @@ const SponsorsBoxS = styled(SponsorsBox)`
 	width: 100%;
 	flex-grow: 1;
 	z-index: 2;
-	background: radial-gradient(#030c3875 30%, #030c3800 60%);
 `;
 
 const SponsorsStyled = {
-	height: 200,
 	width: 340,
 };
 
@@ -59,15 +56,7 @@ const customVerticalStyle: IVerticalStyling = {
 	},
 };
 
-export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
-	const sponsorRef = useRef<SponsorBoxRef>(null);
-
-	useImperativeHandle(ref, () => ({
-		showTweet(newVal) {
-			sponsorRef.current?.showTweet?.(newVal);
-		},
-	}));
-
+export const GBA = (props: OverlayProps) => {
 	return (
 		<GBAContainer>
 			<Sidebar>
@@ -78,26 +67,24 @@ export const GBA = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 				<InfoBoxBG>
-					{/* <img src={GBABG} style={{ position: "absolute", width: "100%", bottom: 0, zIndex: 0 }} /> */}
+					<Circuitry
+						// src={GBABG}
+						style={{ position: "absolute", width: "100%", height: "100%", zIndex: 0 }}
+					/>
 
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch
 						commentators={props.commentators}
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
-						style={{ marginTop: 350 }}
 					/>
 
 					<SponsorsBoxS
 						sponsors={props.sponsors}
-						ref={sponsorRef}
 						sponsorStyle={SponsorsStyled}
-						// tweetStyle={TwitterSize}
 					/>
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>
 	);
-});
-
-GBA.displayName = "GBA";
+};

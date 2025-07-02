@@ -1,8 +1,7 @@
-import React, { useImperativeHandle, useRef } from "react";
+import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 import clone from "clone";
 
-import { TickerItem } from "./item";
 import { TickerTitle } from "./title";
 
 import { TickerItemHandles } from "../ticker";
@@ -16,18 +15,19 @@ const TickerRunsContainer = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
-	transform: translate(0px, 0px);
+	transform: translate(0px, 64px);
 	z-index: 0;
 `;
 
 interface Props {
 	runArray: RunDataArray;
 	currentRun: RunDataActiveRun;
+	ref: React.Ref<TickerItemHandles>;
 }
 
 const numOfUpcomingRuns = 3;
 
-export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
+export const TickerRuns = (props: Props) => {
 	const containerRef = useRef(null);
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.currentRun?.id);
 	const upcomingRuns = clone(props.runArray)
@@ -49,12 +49,12 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 		return (
 			<>
 				<Run run={run} playerNames={playerNames ?? ""} key={run.id} />
-				{i < upcomingRuns.length - 1 && <BorderItem />}
+				{i < upcomingRuns.length - 1 && <BorderItem key={run.id + i} />}
 			</>
 		);
 	});
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.to(containerRef.current, { y: 0, duration: 1 });
@@ -73,9 +73,7 @@ export const TickerRuns = React.forwardRef<TickerItemHandles, Props>((props: Pro
 			{RunsArray}
 		</TickerRunsContainer>
 	);
-});
-
-TickerRuns.displayName = "TickerRuns";
+}
 
 const TickerItemContainer = styled.div`
 	height: 64px;

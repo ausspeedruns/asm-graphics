@@ -1,10 +1,9 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { IVerticalStyling, VerticalInfo } from "../elements/info-box/vertical";
-import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
@@ -35,6 +34,7 @@ const InfoBoxBG = styled.div`
 	background-blend-mode: multiply;
 	background-repeat: repeat;
 	position: relative;
+	padding: 10px 0
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -66,7 +66,7 @@ const customVerticalStyle: IVerticalStyling = {
 	},
 };
 
-export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
+export const Standard = (props: OverlayProps) => {
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
 	return (
@@ -83,6 +83,7 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 				<InfoBoxBG>
 					<Circuitry
 						// src={StandardBG}
+						bigShadowAngle={90}
 						style={{
 							position: "absolute",
 							height: "100%",
@@ -99,6 +100,4 @@ export const Standard = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 			</Sidebar>
 		</StandardContainer>
 	);
-});
-
-Standard.displayName = "Standard";
+};

@@ -11,13 +11,6 @@ export interface ConfigSchema {
 		parents?: string[];
 		clientId?: string;
 	};
-	googleCredentials: GoogleCredentials;
-	raisely: {
-		enabled: boolean;
-		accessToken?: string;
-		campaignId?: string;
-		profileId?: string;
-	};
 	hostname?: string;
 	tiltify?: {
 		enabled: boolean;
@@ -33,11 +26,6 @@ export interface ConfigSchema {
 	x32?: {
 		enabled: boolean;
 		ip: string;
-	};
-	asmm?: {
-		enabled: boolean;
-		url: string;
-		password: string;
 	};
 }
 

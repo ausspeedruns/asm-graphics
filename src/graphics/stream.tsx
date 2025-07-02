@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 import { ASMStream } from "./elements/individual-stream";
 
 const StreamContainer = styled.div``;
@@ -20,9 +20,9 @@ export const Stream: React.FC = () => {
 
 	return (
 		<StreamContainer>
-			<Router>
+			<BrowserRouter>
 				<Routes>{StreamElements}</Routes>
-			</Router>
+			</BrowserRouter>
 		</StreamContainer>
 	);
 };

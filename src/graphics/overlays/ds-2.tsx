@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
@@ -10,6 +9,7 @@ import { Couch } from "../elements/couch";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
+import { Circuitry } from "./asm25/circuitry";
 
 const DS2Container = styled.div`
 	height: 1016px;
@@ -28,10 +28,7 @@ const Middle = styled.div`
 	overflow: hidden;
 `;
 
-const InfoBoxBG = styled.div`
-	background-image: url("../shared/design/contour-maps/standard.svg");
-	background-size: cover;
-	background-position: center;
+const InfoBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -49,13 +46,7 @@ const SponsorsSize = {
 	width: 430,
 };
 
-const TwitterSize = {
-	height: 163,
-	width: 480,
-	marginTop: -44,
-};
-
-export const DS2: React.FC<OverlayProps> = (props) => {
+export const DS2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
 	return (
@@ -81,11 +72,15 @@ export const DS2: React.FC<OverlayProps> = (props) => {
 						zIndex: 2,
 					}}
 				/>
-				<InfoBoxBG>
-					<VerticalInfo timer={props.timer} runData={props.runData} />
-					<Couch commentators={props.commentators} />
-					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
-				</InfoBoxBG>
+				<InfoBox>
+					<Circuitry
+						style={{ position: "absolute", width: "100%", height: "100%" }}
+					/>
+
+					<VerticalInfo timer={props.timer} runData={props.runData} style={{ mainStyle: { zIndex: 2 } }} />
+					<Couch commentators={props.commentators} style={{ zIndex: 2 }} />
+					<SponsorBoxS sponsorStyle={SponsorsSize} sponsors={props.sponsors} style={{ zIndex: 2 }} />
+				</InfoBox>
 			</Middle>
 		</DS2Container>
 	);

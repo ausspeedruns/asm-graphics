@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
-import { Box, Button, Grid2, Tooltip } from "@mui/material";
+import { Box, Button, Grid, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -162,7 +162,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				...props.style,
 				paddingTop: MARGIN,
 			}}>
-			<Grid2 direction="column" container style={{ paddingRight: 4, flexWrap: "nowrap" }}>
+			<Grid direction="column" container style={{ paddingRight: 4, flexWrap: "nowrap" }}>
 				<div>
 					<Amount>
 						${props.donation.amount.toLocaleString()}
@@ -174,7 +174,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
 					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
-			</Grid2>
+			</Grid>
 
 			{props.donation.read ? (
 				<DisabledCover />

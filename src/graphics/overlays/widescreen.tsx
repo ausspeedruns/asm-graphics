@@ -1,15 +1,15 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
-import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
+import { Circuitry } from "./asm25/circuitry";
 
-import WidescreenTop from "./backgrounds/WidescreenTop.png";
-import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
+// import WidescreenTop from "./backgrounds/WidescreenTop.png";
+// import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -25,10 +25,6 @@ const TopBar = styled.div`
 	position: relative;
 	padding-bottom: 12px;
 	box-sizing: border-box;
-
-	* {
-		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.1));
-	}
 `;
 
 const Sidebar = styled.div`
@@ -53,10 +49,6 @@ const SidebarBG = styled.div`
 	overflow: hidden;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	z-index: 1;
-
-	* {
-		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.1));
-	}
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
@@ -70,6 +62,7 @@ const SponsorBoxS = styled(SponsorsBox)`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 2;
 `;
 
 const SponsorSize = {
@@ -77,24 +70,8 @@ const SponsorSize = {
 	width: 315,
 };
 
-const TwitterSize = {
-	height: 252,
-	width: 360,
-	marginTop: -41,
-};
-
-export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
-	const sponsorRef = useRef<SponsorBoxRef>(null);
-
-	useImperativeHandle(ref, () => ({
-		showTweet(newVal) {
-			sponsorRef.current?.showTweet?.(newVal);
-		},
-	}));
-
+export const Widescreen = (props: OverlayProps) => {
 	const nameplateMaxWidth = 200 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
-
-	console.log(props.onScreenWarning);
 
 	return (
 		<WidescreenContainer>
@@ -107,18 +84,8 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					clipPath: "path('M 0 0 H 1920 V 207 H 0 Z M 0 556 H 479 V 1017 H 0 Z')",
 				}}></div>
 			<TopBar>
-				<img src={WidescreenTop} style={{ position: "absolute", width: "100%" }} />
-				{/* <div
-					style={{
-						position: "absolute",
-						bottom: 0,
-						height: 8,
-						width: "100%",
-						background: "var(--dh-orange-to-red)",
-					}}
-				/> */}
-				<WideInfo timer={props.timer} runData={props.runData} style={{ mainStyle: { paddingBottom: 12 } }} />
-				<div style={{ position: 'absolute', bottom: 0, width: '100%', background: 'var(--accent)', height: 12 }} />
+				<Circuitry style={{ position: "absolute", width: "100%", height: "100%" }} />
+				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
 			<Sidebar>
 				<Facecam
@@ -139,8 +106,8 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 							background: "var(--dh-orange-to-red)",
 						}}
 					/> */}
-					<img
-						src={WidescreenBottom}
+					<Circuitry
+						// src={WidescreenBottom}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 					/>
 					<Couch
@@ -168,14 +135,10 @@ export const Widescreen = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
 					)}
 					<SponsorBoxS
 						sponsors={props.sponsors}
-						ref={sponsorRef}
 						sponsorStyle={SponsorSize}
-						tweetStyle={TwitterSize}
 					/>
 				</SidebarBG>
 			</Sidebar>
 		</WidescreenContainer>
 	);
-});
-
-Widescreen.displayName = "Widescreen";
+}

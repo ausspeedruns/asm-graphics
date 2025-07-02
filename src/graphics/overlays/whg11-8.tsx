@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 
-import { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { VerticalInfo, IVerticalStyling } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
@@ -43,12 +42,6 @@ const SponsorsSize = {
 	width: 430,
 };
 
-const TwitterSize = {
-	height: 163,
-	width: 400,
-	marginTop: -44,
-};
-
 const customVerticalStyle: IVerticalStyling = {
 	maxTextWidth: 400,
 	timerSize: 80,
@@ -67,7 +60,7 @@ export const WHG: React.FC<OverlayProps> = (props) => {
 					/> */}
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 					<Couch commentators={props.commentators} host={props.host} style={{ zIndex: 3 }} />
-					<SponsorBoxS sponsorStyle={SponsorsSize} tweetStyle={TwitterSize} sponsors={props.sponsors} />
+					<SponsorBoxS sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>
 		</WHGContainer>

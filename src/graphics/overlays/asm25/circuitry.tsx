@@ -10,19 +10,18 @@ const PlasticElement = styled.div`
 	z-index: 2;
 
 	backdrop-filter: blur(2px);
-
-	// Temp edges
-	box-shadow:
-		inset 6px 6px 3px rgba(217, 211, 224, 0.34),
-		inset -8px -7px 3px rgba(68, 42, 105, 0.77);
 `;
 
-// const CircuitBoard = styled.img`
-// 	position: absolute;
-// 	object-fit: cover;
-// 	height: 100%;
-// 	width: 100%;
-// `;
+function generateBoxShadows(bigShadowAngle: number) {
+	const bigAngleX = Math.cos((bigShadowAngle * Math.PI) / 180) * 150;
+	const bigAngleY = Math.sin((bigShadowAngle * Math.PI) / 180) * 150;
+
+	return `
+		inset 6px 6px 3px rgba(217, 211, 224, 0.34),
+		inset -8px -7px 3px rgba(68, 42, 105, 0.77),
+		inset ${bigAngleX}px ${bigAngleY}px 150px rgba(71, 31, 97, 0.6)
+		`;
+}
 
 const CircuitBoard = styled.div`
 	background-size: cover;
@@ -32,9 +31,13 @@ const CircuitBoard = styled.div`
 interface CircuitryProps {
 	style?: React.CSSProperties;
 	noCircuitBoard?: boolean;
+	bigShadowAngle?: number;
 }
 
 export function Circuitry(props: CircuitryProps) {
+
+	const test = generateBoxShadows(props.bigShadowAngle ?? 0);
+
 	return (
 		<CircuitBoard
 			style={{ backgroundImage: props.noCircuitBoard ? "none" : `url(${circuitBoardImage})`, ...props.style }}>
@@ -48,7 +51,9 @@ export function Circuitry(props: CircuitryProps) {
 					zIndex: 1,
 				}}
 			/>
-			<PlasticElement />
+			<PlasticElement style={{
+				boxShadow: test,
+			}} />
 		</CircuitBoard>
 	);
 }

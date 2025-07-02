@@ -9,6 +9,7 @@ const CouchContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	// min-height: 114px;
+	padding: 8px 0;
 `;
 
 const MenuBar = styled.div`
@@ -26,6 +27,7 @@ const PeopleContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	gap: 8px;
 `;
 
 interface Props {
@@ -35,6 +37,7 @@ interface Props {
 	style?: React.CSSProperties;
 	className?: string;
 	darkTitle?: boolean;
+	align?: "left" | "center" | "right";
 }
 
 export const Couch: React.FC<Props> = (props: Props) => {
@@ -54,8 +57,8 @@ export const Couch: React.FC<Props> = (props: Props) => {
 			<MenuBar style={{ color: props.darkTitle ? "var(--text-dark)" : "var(--text-light)" }}>
 				{/* <div style={{ margin: "0 6px" }}>{label}</div> */}
 			</MenuBar>
-			<PeopleContainer>
-				{props.commentators.map((person) => {
+			<PeopleContainer style={{ justifyContent: props.align ?? "center" }}>
+				{props.commentators.map((person, i) => {
 					if (person.name === "") {
 						return <></>;
 					}
@@ -64,6 +67,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 							key={person.id}
 							commentator={person}
 							speaking={props.audio?.[person.microphone ?? ""]}
+							index={i}
 						/>
 					);
 				})}
@@ -105,9 +109,11 @@ const SpeakingColour = styled.div<SpeakingProps>`
 	width: 100%;
 	height: 100%;
 	opacity: ${({ speaking }) => (speaking ? 1 : 0)};
-	background-color: #ffffff53;
+	// background-color: #ffffff53;
 	transition-duration: 0.2s;
 	transition-delay: ${({ speaking }) => (speaking ? undefined : "0.5s")};
+	
+	outline: 4px solid white;
 `;
 
 interface SpeakingProps {
@@ -145,6 +151,7 @@ interface PersonCompressedProps {
 	commentator: Commentator;
 	speaking?: boolean;
 	noTag?: boolean;
+	index?: number;
 	style?: React.CSSProperties;
 }
 
@@ -157,7 +164,7 @@ export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
 				{props.commentator.pronouns}
 			</Pronouns>
 			<Role>
-				{props.commentator.tag}
+				{props.commentator.tag ? props.commentator.tag : `COMMS ${props.index}`}
 			</Role>
 		</PersonCompressedContainer>
 	);

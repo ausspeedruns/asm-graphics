@@ -1,10 +1,9 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import { OverlayProps, OverlayRef } from "@asm-graphics/types/OverlayProps";
+import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { IVerticalStyling, VerticalInfo } from "../elements/info-box/vertical";
-import { SponsorBoxRef, SponsorsBox } from "../elements/sponsors";
+import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
@@ -61,12 +60,6 @@ const SponsorsSize = {
 	width: 480,
 };
 
-const TwitterSize = {
-	height: 200,
-	width: 480,
-	marginTop: -44,
-};
-
 const VerticalInfoS = styled(VerticalInfo)`
 	height: 348px;
 `;
@@ -80,15 +73,7 @@ const customVerticalStyle: IVerticalStyling = {
 	categorySize: 38,
 };
 
-export const StandardVertical = forwardRef<OverlayRef, OverlayProps>((props, ref) => {
-	const sponsorRef = useRef<SponsorBoxRef>(null);
-
-	useImperativeHandle(ref, () => ({
-		showTweet(newVal) {
-			sponsorRef.current?.showTweet?.(newVal);
-		},
-	}));
-
+export const StandardVertical = (props: OverlayProps) => {
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
 	return (
@@ -119,13 +104,9 @@ export const StandardVertical = forwardRef<OverlayRef, OverlayProps>((props, ref
 				<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 				<SponsorBoxS
 					sponsors={props.sponsors}
-					ref={sponsorRef}
 					sponsorStyle={SponsorsSize}
-					tweetStyle={TwitterSize}
 				/>
 			</RightSide>
 		</StandardContainer>
 	);
-});
-
-StandardVertical.displayName = "StandardVertical";
+};

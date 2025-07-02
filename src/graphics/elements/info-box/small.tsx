@@ -17,6 +17,7 @@ const SmallInfoContainer = styled.div`
 	align-items: center;
 	justify-content: space-evenly;
 	/* background: var(--main); */
+	z-index: 2;
 `;
 
 const VerticalStack = styled.div`
