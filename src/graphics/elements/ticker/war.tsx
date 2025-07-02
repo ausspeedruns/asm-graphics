@@ -1,37 +1,10 @@
-import React, { useImperativeHandle, useRef, useState } from "react";
+import { useImperativeHandle, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { War } from "@asm-graphics/types/Incentives";
 import { TickerItemHandles } from "../ticker";
 
-import { TickerTitle } from "./title";
 import { FitText } from "../fit-text";
-// import { tgxColour } from './item';
-
-const TickerWarContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 64px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	text-transform: uppercase;
-	color: var(--text-light);
-	font-size: 30px;
-	transform: translate(0, -64px);
-	overflow: hidden;
-	z-index: 2;
-	font-family: var(--secondary-font);
-`;
-
-const MultiGoalContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	position: relative;
-`;
 
 const Goal = styled.div`
 	display: flex;
@@ -92,68 +65,6 @@ const CurrentAmount = styled.span`
 	margin-left: 5px;
 `;
 
-interface Props {
-	wars: War[];
-	ref: React.Ref<TickerItemHandles>;
-}
-
-export const TickerWar = (props: Props) => {
-	const containerRef = useRef(null);
-	const warRefs = useRef<TickerItemHandles[]>([]);
-
-	useImperativeHandle(props.ref, () => ({
-		animation: (tl) => {
-			if (props.wars.length === 0) {
-				return tl;
-			}
-
-			// Start
-			tl.addLabel("warStart");
-			tl.set(containerRef.current, { y: -64 });
-			tl.to(containerRef.current, { y: 0, duration: 1 });
-
-			for (let i = 0; i < props.wars.length; i++) {
-				tl.add(warRefs.current[i].animation(tl));
-			}
-
-			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, "-=1");
-			tl.set(containerRef.current, { y: -64, duration: 1 });
-
-			return tl;
-		},
-	}));
-
-	if (props.wars.length === 0) {
-		return <></>;
-	}
-
-	const allGoals = props.wars.map((war, i) => {
-		return (
-			<WarGame
-				war={war}
-				key={war.index}
-				ref={(el) => {
-					if (el) {
-						warRefs.current[i] = el;
-					}
-				}}
-			/>
-		);
-	});
-
-	return (
-		<TickerWarContainer ref={containerRef}>
-			<TickerTitle>
-				Incentives
-				<br />
-				Wars
-			</TickerTitle>
-			<MultiGoalContainer>{allGoals}</MultiGoalContainer>
-		</TickerWarContainer>
-	);
-};
-
 const WarChoiceContainer = styled.div`
 	position: absolute;
 	width: 100%;
@@ -175,7 +86,7 @@ interface GoalProps {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-const WarGame = (props: GoalProps) => {
+export const WarGame = (props: GoalProps) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
 	const [animLabel] = useState(props.war.index.toString() + "a");
@@ -334,10 +245,6 @@ interface MoreChoicesProps {
 const MoreChoices = (props: MoreChoicesProps) => {
 	return <MoreChoicesContainer>{props.more} more options</MoreChoicesContainer>;
 };
-
-TickerWar.displayName = "TickerWar";
-WarGame.displayName = "WarGame";
-WarChoice.displayName = "WarChoice";
 
 function isColor(strColor: string) {
 	const s = new Option().style;

@@ -17,7 +17,7 @@ export default defineConfig(() => {
 					"dashboard/*.tsx": "./src/dashboard/template.html",
 				},
 			}),
-			["babel-plugin-react-compiler", ReactCompilerConfig],
+			// ["babel-plugin-react-compiler", ReactCompilerConfig],
 		],
 	};
 });

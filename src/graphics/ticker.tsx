@@ -31,8 +31,7 @@ export const TickerOverlay: React.FC = () => {
 			tickerOrder={[
 				"cta",
 				"nextruns",
-				"goals",
-				"wars",
+				"incentives",
 				"prizes",
 				"milestone",
 				"donationMatches",

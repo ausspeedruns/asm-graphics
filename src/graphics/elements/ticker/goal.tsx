@@ -1,35 +1,10 @@
-import React, { useImperativeHandle, useRef } from "react";
+import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { Goal } from "@asm-graphics/types/Incentives";
 import { TickerItemHandles } from "../ticker";
 
-import { TickerTitle } from "./title";
 import { FitText } from "../fit-text";
-
-const TickerGoalsContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 64px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	text-transform: uppercase;
-	color: var(--text-light);
-	font-size: 37px;
-	transform: translate(0, -64px);
-	overflow: hidden;
-	z-index: 2;
-`;
-
-const MultiGoalContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	position: relative;
-`;
 
 const GoalElement = styled.div`
 	display: flex;
@@ -91,67 +66,6 @@ const CurrentAmount = styled.span`
 	font-family: var(--secondary-font);
 `;
 
-interface Props {
-	goals: Goal[];
-}
-
-export const TickerGoals = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
-	const containerRef = useRef(null);
-	const goalRefs = useRef<TickerItemHandles[]>([]);
-
-	useImperativeHandle(ref, () => ({
-		animation: (tl) => {
-			if (props.goals.length === 0) {
-				return tl;
-			}
-
-			// Start
-			tl.addLabel("goalStart");
-			tl.set(containerRef.current, { y: -64 });
-			tl.to(containerRef.current, { y: 0, duration: 1 });
-
-			for (let i = 0; i < props.goals.length; i++) {
-				tl.add(goalRefs.current[i].animation(tl));
-			}
-
-			// End
-			tl.to(containerRef.current, { y: 64, duration: 1 }, "-=1");
-
-			return tl;
-		},
-	}));
-
-	if (props.goals.length === 0) {
-		return <></>;
-	}
-
-	const allGoals = props.goals.map((goal, i) => {
-		return (
-			<GoalBar
-				index={goal.index}
-				goal={goal}
-				key={goal.index}
-				ref={(el) => {
-					if (el) {
-						goalRefs.current[i] = el;
-					}
-				}}
-			/>
-		);
-	});
-
-	return (
-		<TickerGoalsContainer ref={containerRef}>
-			<TickerTitle>
-				Incentive
-				<br />
-				Goals
-			</TickerTitle>
-			<MultiGoalContainer>{allGoals}</MultiGoalContainer>
-		</TickerGoalsContainer>
-	);
-});
-
 const GoalBarContainer = styled.div`
 	position: absolute;
 	width: 100%;
@@ -164,16 +78,17 @@ const GoalBarContainer = styled.div`
 
 interface GoalProps {
 	goal: Goal;
-	index: number;
+	index?: number;
+	ref: React.Ref<TickerItemHandles>;
 }
 
-const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
+export const GoalBar = (props: GoalProps) => {
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 
 	const percentage = (props.goal.total / props.goal.goal) * 100;
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.set(progressBarRef.current, { width: 0 }, "goalStart");
@@ -221,7 +136,4 @@ const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps
 			</GoalElement>
 		</GoalBarContainer>
 	);
-});
-
-TickerGoals.displayName = "TickerGoals";
-GoalBar.displayName = "GoalBar";
+};

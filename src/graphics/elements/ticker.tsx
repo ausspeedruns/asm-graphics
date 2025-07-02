@@ -4,15 +4,13 @@ import gsap from "gsap";
 import { format } from "date-fns";
 
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Incentive, Goal, War } from "@asm-graphics/types/Incentives";
+import type { Incentive } from "@asm-graphics/types/Incentives";
 import type { DonationMatch } from "@asm-graphics/types/Donations";
 import type { Prize } from "@asm-graphics/types/Prizes";
 
 import { TickerRuns } from "./ticker/runs";
 import { TickerCTA } from "./ticker/cta";
 import { TickerMilestones } from "./ticker/milestones";
-import { TickerGoals } from "./ticker/goal";
-import { TickerWar } from "./ticker/war";
 import { LerpNum } from "./ticker/lerp-num";
 import { TickerPrizes } from "./ticker/prizes";
 import { TickerDonationMatches } from "./ticker/donation-matches";
@@ -22,6 +20,7 @@ import GoCLogo from "../media/Sponsors/GoCWhite.svg";
 
 // import EventBug from "./ticker/ChannelBug.png";
 import ContentBackground from '../overlays/asm25/board-158973_1920 1.png';
+import { TickerIncentives } from "./ticker/incentives";
 
 const TickerContainer = styled.div`
 	height: 64px;
@@ -127,13 +126,12 @@ export interface TickerProps {
 	runDataActive: RunDataActiveRun;
 	incentives?: Incentive[];
 	donationAmount: number;
-	asmm?: number;
 	donationMatches: DonationMatch[];
 	tickerOrder: Segments[];
 	prizes: Prize[];
 }
 
-type Segments = "cta" | "milestone" | "prizes" | "goals" | "wars" | "nextruns" | "asmm" | "donationMatches";
+type Segments = "cta" | "milestone" | "prizes" | "incentives" | "nextruns" | "asmm" | "donationMatches";
 
 const Ticker = (props: TickerProps) => {
 	const [currentTime, setCurrentTime] = useState(new Date());
@@ -143,34 +141,9 @@ const Ticker = (props: TickerProps) => {
 	const runsRef = useRef<TickerItemHandles>(null);
 	const ctaRef = useRef<TickerItemHandles>(null);
 	const milestoneRef = useRef<TickerItemHandles>(null);
-	const goalsRef = useRef<TickerItemHandles>(null);
-	const warsRef = useRef<TickerItemHandles>(null);
+	const incentivesRef = useRef<TickerItemHandles>(null);
 	const prizesRef = useRef<TickerItemHandles>(null);
 	const donationMatchesRef = useRef<TickerItemHandles>(null);
-
-	let goalIncentives: Goal[] = [];
-	let warIncentives: War[] = [];
-	if (props.incentives) {
-		goalIncentives = props.incentives
-			.filter((incentive) => {
-				if (incentive.active && incentive.type === "Goal") {
-					return incentive;
-				}
-
-				return undefined;
-			})
-			.slice(0, 3) as Goal[];
-
-		warIncentives = props.incentives
-			.filter((incentive) => {
-				if (incentive.active && incentive.type === "War") {
-					return incentive;
-				}
-
-				return undefined;
-			})
-			.slice(0, 3) as War[];
-	}
 
 	const showContent = (timeline: gsap.core.Timeline, element: TickerItemHandles | null) => {
 		if (!element) return;
@@ -201,11 +174,8 @@ const Ticker = (props: TickerProps) => {
 			case "prizes":
 				showContent(timelineRef.current, prizesRef.current);
 				break;
-			case "goals":
-				showContent(timelineRef.current, goalsRef.current);
-				break;
-			case "wars":
-				showContent(timelineRef.current, warsRef.current);
+			case "incentives":
+				showContent(timelineRef.current, incentivesRef.current);
 				break;
 			case "milestone":
 				showContent(timelineRef.current, milestoneRef.current);
@@ -242,8 +212,7 @@ const Ticker = (props: TickerProps) => {
 				<TickerRuns ref={runsRef} currentRun={props.runDataActive} runArray={props.runDataArray} />
 				<TickerCTA ref={ctaRef} currentTotal={props.donationAmount} />
 				<TickerMilestones currentTotal={props.donationAmount} ref={milestoneRef} />
-				<TickerGoals goals={goalIncentives} ref={goalsRef} />
-				<TickerWar wars={warIncentives} ref={warsRef} />
+				<TickerIncentives incentives={props.incentives ?? []} ref={incentivesRef} />
 				<TickerPrizes ref={prizesRef} prizes={props.prizes} />
 				<TickerDonationMatches donationMatches={props.donationMatches} ref={donationMatchesRef} />
 			</ContentArea>
