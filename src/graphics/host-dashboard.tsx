@@ -35,6 +35,7 @@ const DashContainer = styled.div<{ darkMode: boolean }>`
 	--mosaic-background: light-dark(#e9e9e9, #05070a);
 	--panel-background: light-dark(#ffffff, #05070a);
 	--inset-background: light-dark(#eeeeee, #2f2f2f);
+	--inset-background-2: light-dark(#dddddd,#3f3f3f);
 
 	transition:
 		background 0.25s,
@@ -322,7 +323,6 @@ export const HostDash: React.FC = () => {
 			<HostEditDialog open={hostOpen} submit={() => setHostOpen(false)} onClose={() => setHostOpen(false)} />
 			<ScriptDialog playAd={playAd} open={scriptsOpen} onClose={() => setScriptsOpen(false)} />
 			<AudioDialog open={audioOpen} onClose={() => setAudioOpen(false)} />
-
 			<Mosaic<ViewId>
 				renderTile={(id, path) => (
 					<MosaicWindow<ViewId>

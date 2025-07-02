@@ -4,7 +4,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 
 import { Box, Grid } from "@mui/material";
 
-import { Goal, War } from "@asm-graphics/types/Incentives";
+import type { Incentive } from "@asm-graphics/types/Incentives";
 import { RunData } from "@asm-graphics/types/RunData";
 
 const IncentivesContainer = styled.div`
@@ -76,6 +76,11 @@ export const Incentives: React.FC<Props> = (props: Props) => {
 		(incentive) => removeExtrasInName(incentive.game) !== removeExtrasInName(runDataActiveRep?.game || ""),
 	);
 
+	console.log("Incentives Rep:", incentivesRep);
+	console.log("Dead Incentives Removed:", removedDeadIncentives);
+	console.log("Current Run Incentives:", currentRunIncentives);
+	console.log("Other Incentives:", otherIncentives);
+
 	return (
 		<IncentivesContainer className={props.className} style={props.style}>
 			{currentRunIncentives.length > 0 ? (
@@ -135,11 +140,12 @@ const WarContainer = styled.div`
 	flex-grow: 1;
 	flex-wrap: wrap;
 	margin: 1% 1% 1% 0;
-	gap: 2%;
+	gap: 8px;
+	justify-content: center;
 `;
 
 const WarItem = styled(Box)`
-	background: #ddd;
+	background: var(--inset-background);
 	/* font-weight: bold; */
 	padding: 2%;
 	font-size: 1.2rem;
@@ -162,7 +168,7 @@ const GoalContainer = styled(Box)`
 	flex-grow: 1;
 	justify-content: space-evenly;
 	font-size: 1.3rem;
-	background: #ddd;
+	background: var(--inset-background);
 	/* font-weight: bold; */
 	padding: 1%;
 	margin: 1% 1% 1% 0;
