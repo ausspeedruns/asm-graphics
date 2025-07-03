@@ -11,7 +11,6 @@ import Twemoji from "react-twemoji";
 // import { useRive } from "@rive-app/react-canvas";
 
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Tweet as ITweet } from "@asm-graphics/types/Twitter";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type NodeCG from "nodecg/types";
 import type { Incentive } from "@asm-graphics/types/Incentives";
@@ -19,26 +18,26 @@ import type { Incentive } from "@asm-graphics/types/Incentives";
 // import { InterCTA } from "./elements/intermission/cta";
 import { InterIncentivesMemo } from "./elements/intermission/incentives";
 // import { InterNextRunItem, EndRunItem } from "./elements/intermission/next-run-item";
-import Mic from "@mui/icons-material/Mic";
 import { FitText } from "./elements/fit-text";
 import { LerpNum } from "./elements/ticker/lerp-num";
 
 // Assets
+// import Mic from "@mui/icons-material/Mic";
 import MusicIconImg from "./media/icons/MusicIcon.svg";
 import { Sponsors } from "./elements/sponsors";
 import { IntermissionAds, IntermissionAdsRef } from "./elements/intermission/ad";
 import GoCLogo from "./media/Sponsors/GoCCCWhite.svg";
 
-import IntermissionBG from "./overlays/backgrounds/Intermission.png";
+import IntermissionBG from "./overlays/backgrounds/Intermission_Traces 1.svg?react";
+import ASM25Speaker from "./overlays/backgrounds/Speaker.png";
 
 import StopwatchIcon from "./media/icons/stopwatch.svg";
 import RunnerIcon from "./media/icons/runner.svg";
 import ConsoleIcon from "./media/icons/console.svg";
 
-import { Run } from "./elements/intermission/incent-upcoming-runs";
-
-import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
-import ACMILogo from './media/ACMI_Logo_RGB_White.svg';
+// import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
+import { Circuitry } from "./overlays/asm25/circuitry";
+import { Chip } from "./overlays/asm25/chip";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -48,7 +47,17 @@ const IntermissionContainer = styled.div`
 	font-family: var(--main-font);
 	display: flex;
 	color: var(--text-light);
-	/* clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 960 V 120 H 0'); */
+	// clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 960 V 120 H 0');
+`;
+
+const LeftColumn = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: absolute;
+	left: 0px;
+	height: 1080px;
+	width: 1125px;
 `;
 
 const RightColumn = styled.div`
@@ -56,23 +65,23 @@ const RightColumn = styled.div`
 	position: absolute;
 	right: 0px;
 	height: 1080px;
-	width: 960px;
+	width: 850px;
 	flex-direction: column;
 	align-items: center;
-
-	& > * {
-		filter: drop-shadow(-5px 6px 3px rgba(0, 0, 0, 0.3));
-	}
 `;
 
 const HostName = styled.div`
 	font-size: 50px;
 	color: var(--text-light);
 	display: flex;
-	align-items: center;
-	justify-content: flex-end;
+	flex-direction: column;
+	align-items: flex-start;
 	font-family: var(--secondary-font);
 	font-weight: bold;
+
+	position: absolute;
+	left: 125px;
+	top: 15px;
 `;
 
 const HostPronoun = styled.span`
@@ -80,33 +89,39 @@ const HostPronoun = styled.span`
 	font-weight: 400;
 	color: var(--text-light);
 	text-transform: uppercase;
-	margin-left: 8px;
-	background: var(--sec);
+	margin-left: 2px;
+	background: var(--main);
 	height: 70%;
-	padding: 0 4px;
+	padding: 4px 8px;
 	line-height: 28px;
 	font-family: var(--main-font);
-	font-weight: bold;
+	// font-weight: bold;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	border-radius: 8px;
+
+	outline: 1px solid var(--text-light);
+	outline-offset: 3px;
+	box-shadow: inset 0 -3px 0 0 #B53600;
 `;
 
-const MUSIC_WIDTH = 400;
+const MUSIC_WIDTH = 399;
 
 const Music = styled.div`
-	max-width: 66%;
+	max-width: 399px;
 	text-align: center;
 	display: flex;
 	align-items: center;
 	font-family: var(--secondary-font);
 	flex-shrink: 1;
+
+	position: absolute;
+	left: 560px;
+	top: 70px;
 `;
 
 const MusicLabel = styled.div`
-	/* width: ${MUSIC_WIDTH}px; */
-	width: 91%;
+	width: 100%;
 	/* height: 100%; */
 	color: var(--text-light);
 	font-size: 28px;
@@ -126,8 +141,12 @@ const StaticMusicText = styled.span`
 `;
 
 const MusicIcon = styled.img`
-	height: 34px;
+	height: 50px;
 	width: auto;
+
+	position: absolute;
+	bottom: 34px;
+	left: 490px;
 `;
 
 const MusicMarquee = styled.div`
@@ -155,13 +174,13 @@ const MarqueeText = styled.span`
 `;
 
 const RunContainer = styled.div`
-	width: 85%;
-	/* height: 340px; */
-	height: 100%;
-	/* position: absolute; */
-	/* justify-content: space-between; */
-	font-size: 35px;
-	/* font-family: var(--secondary-font); */
+	width: 625px;
+	height: 215px;
+	font-size: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 `;
 
 const Title = styled.div`
@@ -170,7 +189,7 @@ const Title = styled.div`
 	text-align: center;
 `;
 
-const GameName = styled(FitText) <{ containsNewLine?: boolean }>`
+const GameName = styled(FitText)<{ containsNewLine?: boolean }>`
 	/* font-weight: bold; */
 	max-width: 80%;
 	padding: 0 10%;
@@ -213,14 +232,15 @@ const TimeContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 40px;
+	font-size: 30px;
+	gap: 8px;
 	/* min-width: 730px; */
 `;
 
 const CurrentTime = styled.span`
 	font-weight: bold;
 	font-family: var(--mono-font);
-	margin-right: 16px;
+	// margin-right: 16px;
 `;
 
 const CurrentDate = styled.span`
@@ -229,14 +249,12 @@ const CurrentDate = styled.span`
 
 const DonationContainer = styled.div`
 	display: flex;
-	position: absolute;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 98.5%;
 	width: 100%;
 	pointer-events: none;
-	margin-right: -46px;
+	margin-top: 40px;
 
 	& > * {
 		z-index: 10;
@@ -244,18 +262,21 @@ const DonationContainer = styled.div`
 `;
 
 const DonationAmount = styled.div`
-	font-size: 140px;
+	font-size: 200px;
 	font-family: var(--mono-font);
 	font-weight: 900;
+	-webkit-text-stroke: 4px #c72;
+	// letter-spacing: 8px;
 `;
 
 const DonationSymbol = styled.span`
 	font-size: 100px;
 	font-weight: 400;
+	-webkit-text-stroke: 2px #c72;
 `;
 
 const DonationInfo = styled.div`
-	font-size: 57px;
+	font-size: 35px;
 	font-weight: bold;
 `;
 
@@ -279,10 +300,11 @@ const MetaInformationContainer = styled.div`
 `;
 
 const IncentivesContainer = styled.div`
-	width: 96%;
-	height: 50%;
+	width: 700px;
+	height: 300px;
 	display: flex;
 	justify-content: center;
+	font-size: 30px;
 `;
 
 const LogoContainer = styled.div`
@@ -298,22 +320,81 @@ const LogoContainer = styled.div`
 	}
 `;
 
+const CameraContainer = styled.div`
+	position: relative;
+	margin-top: 124px;
+	width: 1000px;
+	height: 740px;
+`;
+
+const CAMERA_CUTOUT_WIDTH = 95;
+const CAMERA_CUTOUT_HEIGHT = 92;
+const CAMERA_CUTOUT_HEIGHT_OFFSET = -3;
+
+const PLASTIC_CUTOUT_TOP = 130;
+const PLASTIC_CUTOUT_BOTTOM = 820;
+const PLASTIC_CUTOUT_LEFT = 80;
+const PLASTIC_CUTOUT_RIGHT = 1050;
+const PlasticCutout = `path('M 0 0 H 1920 V 1080 H 0 V ${PLASTIC_CUTOUT_TOP} H ${PLASTIC_CUTOUT_LEFT} V ${PLASTIC_CUTOUT_BOTTOM} H ${PLASTIC_CUTOUT_RIGHT} V ${PLASTIC_CUTOUT_TOP} H 0 V 0')`;
+
+const CameraBorder = styled.div`
+	width: 100%;
+	height: 100%;
+	border: 10px solid #e9e9e9;
+	background: #000000;
+	border-radius: 16px;
+
+	clip-path: polygon(
+		0% 0%,
+		0% 100%,
+		${100 - CAMERA_CUTOUT_WIDTH}% 100%,
+		${100 - CAMERA_CUTOUT_WIDTH}% ${100 - CAMERA_CUTOUT_HEIGHT + CAMERA_CUTOUT_HEIGHT_OFFSET}%,
+		${CAMERA_CUTOUT_WIDTH}% ${100 - CAMERA_CUTOUT_HEIGHT + CAMERA_CUTOUT_HEIGHT_OFFSET}%,
+		${CAMERA_CUTOUT_WIDTH}% ${CAMERA_CUTOUT_HEIGHT + CAMERA_CUTOUT_HEIGHT_OFFSET}%,
+		${100 - CAMERA_CUTOUT_WIDTH}% ${CAMERA_CUTOUT_HEIGHT + CAMERA_CUTOUT_HEIGHT_OFFSET}%,
+		${100 - CAMERA_CUTOUT_WIDTH}% 100%,
+		100% 100%,
+		100% 0%
+	);
+
+	box-sizing: border-box;
+`;
+
+const CameraShadow = styled.div`
+	position: absolute;
+	top: ${100 - CAMERA_CUTOUT_HEIGHT + CAMERA_CUTOUT_HEIGHT_OFFSET - 0.1}%;
+	left: ${100 - CAMERA_CUTOUT_WIDTH}%;
+	width: ${CAMERA_CUTOUT_WIDTH - (100 - CAMERA_CUTOUT_WIDTH)}%;
+	height: ${CAMERA_CUTOUT_HEIGHT - (100 - CAMERA_CUTOUT_HEIGHT) + 0.1}%;
+	box-shadow: inset 0 0 20px 8px rgba(0, 0, 0, 1);
+`;
+
+const CameraChin = styled.div`
+	position: absolute;
+	bottom: 28px;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: flex-end;
+	color: #939393;
+	font-size: 30px;
+	gap: 16px;
+`;
+
+const LocationTag = styled.div``;
+
 export const Intermission: React.FC = () => {
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
 	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
-	const [donationRep] = useReplicant<number>("donationTotal");
+	// const [donationRep] = useReplicant<number>("donationTotal");
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
-	// const [asmmRep] = useReplicant<number>("asmm:totalKM");
+	const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
 	const intermissionRef = useRef<IntermissionRef>(null);
-
-	useListenFor("showTweet", (newVal) => {
-		if (intermissionRef.current) intermissionRef.current.showTweet(newVal);
-	});
 
 	useListenFor("playAd", (newVal) => {
 		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
@@ -329,13 +410,11 @@ export const Intermission: React.FC = () => {
 			sponsors={sponsorsRep}
 			incentives={incentivesRep?.filter((incentive) => incentive.active)}
 			photos={photosRep}
-		// asmm={asmmRep}
 		/>
 	);
 };
 
 export interface IntermissionRef {
-	showTweet: (newVal: ITweet) => void;
 	showAd: (ad: string) => void;
 }
 
@@ -352,12 +431,11 @@ interface IntermissionProps {
 }
 
 export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps>((props, ref) => {
-	const [currentHours, setCurrentHours] = useState("And you may ask yourself");
-	const [currentMinutes, setCurrentMinutes] = useState("And you may ask yourself"); // dumb dumb dumb dumb dumb
-	const [currentDate, setCurrentDate] = useState("Well – How did I get here?");
+	const [currentHours, setCurrentHours] = useState("00");
+	const [currentMinutes, setCurrentMinutes] = useState("00");
+	const [currentDate, setCurrentDate] = useState("Janurary 1st, 1971"); // Yeah you came looking for the UNIX epoch didn't you?
 	const [currentSong, setCurrentSong] = useState("");
 	const [showMarquee, setShowMarquee] = useState(false);
-	// const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
 	const songEl = useRef<HTMLSpanElement>(null);
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const adsRef = useRef<IntermissionAdsRef>(null);
@@ -399,7 +477,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	}, [currentSong, songEl]);
 
 	useImperativeHandle(ref, () => ({
-		showTweet(_newVal) { },
 		showAd(ad) {
 			let adDuration = 0;
 			switch (ad) {
@@ -469,148 +546,49 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	return (
 		<IntermissionContainer>
+			<Circuitry
+				noCircuitBoard
+				bigShadowAngle={90}
+				style={{
+					position: "absolute",
+					width: "100%",
+					height: "100%",
+					zIndex: -2,
+					clipPath: PlasticCutout,
+				}}
+			/>
 			{/* <LogoContainer style={{ position: "absolute", top: 0, left: 0, borderRadius: "0 0 16px 0", height: 120 }}>
 				<img src={ASLogo} />
 			</LogoContainer> */}
-			<img src={IntermissionBG} style={{ position: "absolute", top: 0, left: 0 }} />
+			<IntermissionBG style={{ position: "absolute", top: 0, left: 0 }} />
 
-			<div
-				style={{
-					display: "flex",
-					position: "absolute",
-					left: 0,
-					height: 1080,
-					width: 960,
-					flexDirection: "column-reverse",
-				}}>
-				{/* <div
-					style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "flex-end" }}>
-					<div style={{ width: 400, height: 115, marginLeft: 16, marginBottom: 16 }}>
-						<Sponsors sponsors={props.sponsors} />
-					</div>
-					<div style={{ textAlign: "right", fontSize: 40, lineHeight: 1, marginBottom: 32 }}>
-						<b>Melbourne</b>
-						<br />
-						Victoria
-					</div>
-				</div> */}
-			</div>
-			<RightColumn>
-				<div
-					style={{
-						position: "absolute",
-						top: 0,
-						left: 960,
-						height: "100%",
-						width: 12,
-						background: "#ffffff",
-					}}
-				/>
-				<TimeContainer style={{ marginBottom: 16, marginTop: 60 }}>
-					<CurrentTime>
-						{currentHours}
-						{/* <span style={{ fontVariantNumeric: "normal", margin: "0 4px" }}>:</span> */}:
-						{currentMinutes}
-					</CurrentTime>
-					<CurrentDate>{currentDate}</CurrentDate>
-				</TimeContainer>
-				{/* <RunContainer>
-					<div
-						style={{
-							// height: 406,
-							display: "flex",
-							flexDirection: "column",
-							alignContent: "center",
-							justifyContent: "space-between",
-							boxSizing: "border-box",
-						}}>
-						<Title>Next Up</Title>
-						<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
-						<Category text={nextRuns[0]?.category} />
-					</div>
-					<div style={{ display: "flex", width: "100%", justifyContent: "space-between", gap: 32 }}>
-						<PlayerInfo>
-							<img src={RunnerIcon} />
-							{playerNames}
-						</PlayerInfo>
-						<TimeInfo>
-							<img src={StopwatchIcon} />
-							<FitText text={estimate ?? "0"} />
-						</TimeInfo>
-						<ConsoleInfo>
-							<img src={ConsoleIcon} />
-							<FitText text={nextRuns[0]?.system} style={{ maxWidth: "80%" }} />
-						</ConsoleInfo>
-					</div>
-				</RunContainer> */}
-
-				{/* <DonationContainer>
-					<DonationInfo style={{ marginLeft: 0 }}>
-						<DonationSite>AusSpeedruns.com/Donate</DonationSite>
-					</DonationInfo>
-					<div style={{ display: "flex", alignItems: "center", gap: 16, height: 150 }}>
-						<DonationAmount>
-							<DonationSymbol>$</DonationSymbol>
-							<LerpNum value={props.donation} />
-						</DonationAmount>
-						<CureCancerLogo src={GoCLogo} />
-					</div>
-				</DonationContainer> */}
-				{/* <IncentivesContainer ref={incentivesRef}>
-					{props.incentives && (
-						<InterIncentivesMemo
-							incentives={props.incentives}
-							// prizes={PRIZES}
-							// photos={props.photos}
-							upcomingRuns={nextRuns.slice(1, 3)}
-						/>
-					)}
-				</IncentivesContainer> */}
-
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-						width: "100%",
-						// height: "100%",
-						gap: 16,
-					}}>
-					{nextRuns.slice(0, 3).map((run, index) => {
-						return <Run run={run} key={index} index={index} style={{ height: 110 }} />;
-					})}
-				</div>
-
-				<div style={{
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-					justifyContent: "center",
-					width: "50%",
-					height: "100%",
-					gap: 64,
-				}}>
-					<img src={AusSpeedrunsLogo} style={{ width: "100%" }} />
-					<img src={ACMILogo} />
-				</div>
-
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "space-between",
-						boxSizing: "border-box",
-						borderRadius: "16px 16px 0 0",
-						padding: 16,
-						gap: 16,
-						maxWidth: "100%",
-					}}>
+			<LeftColumn>
+				<CameraContainer>
+					<CameraBorder />
+					<CameraShadow />
+					<CameraChin>
+						<LocationTag>
+							<b>Adelaide,</b> South Australia
+						</LocationTag>
+						–
+						<TimeContainer>
+							<CurrentTime>
+								{currentHours}:{currentMinutes}
+							</CurrentTime>
+							<CurrentDate>{currentDate}</CurrentDate>
+						</TimeContainer>
+					</CameraChin>
+				</CameraContainer>
+				<div style={{ width: "80%", position: "relative", height: 150 }}>
+					<img style={{ position: "absolute", top: 20, left: -28 }} src={ASM25Speaker} />
 					{props.host && (
 						<HostName>
-							<Mic style={{ height: "2.5rem", width: "2.5rem" }} />
-							{props.host.name}
+							{/* <Mic style={{ height: "2.5rem", width: "2.5rem" }} /> */}
+							<FitText text={props.host.name} alignment="left" style={{ maxWidth: 335 }} />
 							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
 						</HostName>
 					)}
+					<MusicIcon src={MusicIconImg} />
 					<Music>
 						<audio
 							style={{ transform: "translate(100px, 0px)" }}
@@ -622,7 +600,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 						</audio>
 						<div style={{ display: "flex", alignItems: "flex-end", gap: 8, width: "100%" }}>
-							<MusicIcon src={MusicIconImg} />
+							{/* <MusicIcon src={MusicIconImg} /> */}
 							<MusicLabel>
 								<MusicMarquee style={{ opacity: showMarquee ? 1 : 0 }}>
 									<MarqueeText style={{ animationDuration: `${currentSong.length * 0.35}s` }}>
@@ -635,6 +613,172 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							</MusicLabel>
 						</div>
 					</Music>
+				</div>
+			</LeftColumn>
+			<RightColumn>
+				<DonationContainer>
+					<div style={{ display: "flex", alignItems: "center", gap: 16, height: 230, marginBottom: -18 }}>
+						<DonationAmount>
+							<DonationSymbol>$</DonationSymbol>
+							<LerpNum value={props.donation} />
+						</DonationAmount>
+					</div>
+					{/* <DonationInfo>
+						<DonationSite>AusSpeedruns.com/Donate</DonationSite>
+					</DonationInfo> */}
+				</DonationContainer>
+
+				<Chip numberOfPads={13} style={{ marginTop: 30 }}>
+					<RunContainer>
+						<div
+							style={{
+								// height: 406,
+								display: "flex",
+								flexDirection: "column",
+								alignContent: "center",
+								justifyContent: "space-between",
+								boxSizing: "border-box",
+							}}>
+							{/* <Title>Next Up</Title> */}
+							<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
+							<Category text={nextRuns[0]?.category} />
+						</div>
+						<div style={{ display: "flex", width: "90%", justifyContent: "space-between" }}>
+							<PlayerInfo>
+								<img src={RunnerIcon} />
+								{playerNames}
+							</PlayerInfo>
+							<TimeInfo>
+								<img src={StopwatchIcon} />
+								<FitText text={estimate ?? "0"} />
+							</TimeInfo>
+							<ConsoleInfo>
+								<img src={ConsoleIcon} />
+								<FitText text={nextRuns[0]?.system} style={{ maxWidth: "80%" }} />
+							</ConsoleInfo>
+						</div>
+					</RunContainer>
+				</Chip>
+
+				<div style={{ position: "relative", width: "100%", height: 290, marginTop: 8 }}>
+					<div
+						style={{
+							position: "absolute",
+							width: "100%",
+							height: "100%",
+							top: 0,
+							left: 0,
+							display: "flex",
+							justifyContent: "center",
+						}}>
+						<Chip numberOfPads={12} style={{ width: 700, height: 210 }} />
+					</div>
+					<div
+						style={{
+							position: "absolute",
+							width: "100%",
+							height: "100%",
+							top: 0,
+							left: 0,
+							display: "flex",
+							justifyContent: "center",
+						}}>
+						<IncentivesContainer ref={incentivesRef} style={{ width: 700 }}>
+							{props.incentives && (
+								<InterIncentivesMemo
+									incentives={props.incentives}
+									// prizes={PRIZES}
+									// photos={props.photos}
+									upcomingRuns={nextRuns.slice(1, 3)}
+								/>
+							)}
+						</IncentivesContainer>
+					</div>
+				</div>
+
+				<div style={{ display: "flex", gap: 32, marginTop: 50 }}>
+					<div
+						style={{
+							width: 330,
+							height: 115,
+							paddingBottom: 16,
+							background: "#c72",
+							padding: 20,
+							outline: "3px solid white",
+							outlineOffset: "3px",
+							position: "relative",
+							boxShadow: "inset 0 -6px 0 0 #B53600",
+						}}>
+						<Sponsors sponsors={props.sponsors} />
+						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>
+							Sponsors
+						</div>
+						<div
+							style={{
+								position: "absolute",
+								height: 20,
+								bottom: -25,
+								left: 5,
+								fontSize: 20,
+								backgroundColor: "#fff",
+								width: 3,
+							}}
+						/>
+						<div
+							style={{
+								position: "absolute",
+								width: 10,
+								bottom: -25,
+								left: 5,
+								fontSize: 20,
+								backgroundColor: "#fff",
+								height: 2,
+							}}
+						/>
+					</div>
+
+					<div
+						style={{
+							width: 300,
+							height: 115,
+							paddingBottom: 16,
+							background: "#c72",
+							padding: 20,
+							outline: "3px solid white",
+							outlineOffset: "3px",
+							position: "relative",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							boxShadow: "inset 0 -6px 0 0 #B53600",
+						}}>
+						<CureCancerLogo src={GoCLogo} />
+						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>
+							Charity
+						</div>
+						<div
+							style={{
+								position: "absolute",
+								height: 20,
+								bottom: -25,
+								left: 5,
+								fontSize: 20,
+								backgroundColor: "#fff",
+								width: 3,
+							}}
+						/>
+						<div
+							style={{
+								position: "absolute",
+								width: 10,
+								bottom: -25,
+								left: 5,
+								fontSize: 20,
+								backgroundColor: "#fff",
+								height: 2,
+							}}
+						/>
+					</div>
 				</div>
 			</RightColumn>
 

@@ -79,7 +79,7 @@ export const FitText: React.FunctionComponent<Props> = React.memo((props: Props)
 
 
 interface ElementsProps {
-	text?: JSX.Element;
+	text?: React.ReactNode;
 	style?: React.CSSProperties;
 	className?: string;
 	allowNewlines?: boolean;

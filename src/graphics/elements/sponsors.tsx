@@ -18,10 +18,10 @@ interface Props {
 	className?: string;
 }
 
-const AD_LENGTH = 30;
+const AD_LENGTH = 5;
 
 export const Sponsors: React.FC<Props> = (props: Props) => {
-	const [imgIndex, setImgIndex] = useState(props.start || 0);
+	const [imgIndex, setImgIndex] = useState(props.start ?? 0);
 	const imageRef = useRef<HTMLImageElement>(null);
 
 	useEffect(() => {

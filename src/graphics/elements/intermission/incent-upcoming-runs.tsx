@@ -32,22 +32,23 @@ const RunsPage = styled.div`
 	margin-top: -16px;
 `;
 
-const RUNS_LIMIT = 2;
+const RUNS_LIMIT = 1;
 const PRIZE_SPEED = 2;
 const PRIZE_DURATION = 10;
 const PRIZE_PAGE_STAGGER = 0.05;
 
 interface UpcomingRunsProps {
 	upcomingRuns: RunData[];
+	ref: React.Ref<TickerItemHandles>;
 }
 
-export const UpcomingRuns = React.forwardRef<TickerItemHandles, UpcomingRunsProps>((props: UpcomingRunsProps, ref) => {
+export const UpcomingRuns = (props: UpcomingRunsProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const runsRefs = useRef<TickerItemHandles[]>([]);
 
 	const upcomingRunElements: RunData[] = props.upcomingRuns.slice(0, RUNS_LIMIT);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("runsStart");
 			tl.set(containerRef.current, { xPercent: 100 });
@@ -62,12 +63,19 @@ export const UpcomingRuns = React.forwardRef<TickerItemHandles, UpcomingRunsProp
 		<UpcomingRunsContainer ref={containerRef}>
 			<RunsPage>
 				{upcomingRunElements.map((run, i) => (
-					<Run run={run} index={i} key={i} ref={(el) => (runsRefs.current[i] = el!)} />
+					<Run
+						run={run}
+						index={i}
+						key={i}
+						ref={(el) => {
+							runsRefs.current[i] = el!;
+						}}
+					/>
 				))}
 			</RunsPage>
 		</UpcomingRunsContainer>
 	);
-});
+};
 
 UpcomingRuns.displayName = "Runs";
 
@@ -77,7 +85,7 @@ const UpcomingRunContainer = styled.div`
 	background: white;
 	display: flex;
 	width: calc(100% - 48px);
-	height: 80px;
+	height: 130px;
 `;
 
 const MetaDataContainer = styled.div`
@@ -140,16 +148,17 @@ interface RunProps {
 	run: RunData;
 	index: number;
 	style?: React.CSSProperties;
+	ref: React.Ref<TickerItemHandles>;
 }
 
 const RUN_STAGGER_INVERSE = 1 / PRIZE_PAGE_STAGGER;
 
-export const Run = React.forwardRef<TickerItemHandles, RunProps>((props: RunProps, ref) => {
+export const Run = (props: RunProps) => {
 	const containerRef = useRef(null);
 
 	const pageTimeOffset = Math.floor(props.index / RUNS_LIMIT) * (PRIZE_DURATION + 1.5);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.fromTo(
 				containerRef.current,
@@ -196,11 +205,12 @@ export const Run = React.forwardRef<TickerItemHandles, RunProps>((props: RunProp
 					text={
 						<>
 							{props.run.game}
-							<SubItem> - {props.run.category}</SubItem>
+							<br />
+							<SubItem>{props.run.category}</SubItem>
 						</>
 					}
 				/>
 			</ItemContainer>
 		</UpcomingRunContainer>
 	);
-});
+};

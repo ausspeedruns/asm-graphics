@@ -7,8 +7,8 @@ import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import GBCLeft from "../media/asap24/GBC_01.png";
-import GBCRight from "../media/asap24/GBC_02.png";
+// import GBCLeft from "../media/asap24/GBC_01.png";
+// import GBCRight from "../media/asap24/GBC_02.png";
 
 const GBCContainer = styled.div`
 	height: 1016px;
@@ -64,7 +64,7 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 			<Sidebar>
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 				<InfoBoxBG>
-					<img src={GBCLeft} style={{ position: "absolute" }} />
+					{/* <img src={GBCLeft} style={{ position: "absolute" }} /> */}
 					<Couch
 						commentators={props.commentators}
 						host={props.host}
@@ -76,7 +76,7 @@ export const GBC: React.FC<OverlayProps> = (props) => {
 				</InfoBoxBG>
 			</Sidebar>
 			<RightSidebar>
-				<img src={GBCRight} style={{ position: "absolute" }} />
+				{/* <img src={GBCRight} style={{ position: "absolute" }} /> */}
 			</RightSidebar>
 		</GBCContainer>
 	);

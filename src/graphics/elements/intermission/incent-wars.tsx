@@ -33,16 +33,17 @@ const AllOptionContainer = styled.div`
 
 interface GoalProps {
 	war: War;
+	ref: React.Ref<TickerItemHandles>;
 }
 
 const MAX_OPTIONS = 3;
 
-export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
+export const WarGame = (props: GoalProps) => {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
 	const [animLabel] = useState(props.war.index.toString() + "a");
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.fromTo(containerRef.current, { xPercent: -100 }, { xPercent: 0, duration: 1 }, "-=0.5");
@@ -135,7 +136,7 @@ export const WarGame = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			</IncentiveContainer> */}
 		</WarChoiceContainer>
 	);
-});
+};
 
 const OptionName = styled(FitText)`
 	max-width: 90%;
@@ -153,7 +154,6 @@ const OptionContainer = styled.div`
 	box-sizing: border-box;
 	/* transform: translate(0, 40px); */
 	font-family: var(--secondary-font);
-	/* border: 1px solid var(--tgx-green); */
 	max-width: 1000px;
 	/* opacity: 0; */
 	gap: 8px;
@@ -216,19 +216,20 @@ interface WarChoiceProps {
 	index: number;
 	moreOptions?: boolean;
 	numberOfItems: number;
+	ref: React.Ref<TickerItemHandles>;
 }
 
-const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: WarChoiceProps, ref) => {
+const WarChoice = (props: WarChoiceProps) => {
 	const percentage = (props.option.total / props.highest) * 100;
 	const progressBarRef = useRef<HTMLDivElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 	const totalRef = useRef<HTMLSpanElement>(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			let computedTimeColour = "#000";
 			if (progressBarRef.current) {
-				computedTimeColour = getComputedStyle(progressBarRef.current).getPropertyValue("--sec");
+				computedTimeColour = getComputedStyle(progressBarRef.current).getPropertyValue("--text-dark");
 			}
 
 			// Start
@@ -301,7 +302,7 @@ const WarChoice = React.forwardRef<TickerItemHandles, WarChoiceProps>((props: Wa
 			</TextDiv>
 		</OptionContainer>
 	);
-});
+};
 
 const NoChoicesContainer = styled.div`
 	flex-grow: 1;
@@ -324,10 +325,14 @@ const NoChoiceSubheading = styled.span`
 	font-size: 35px;
 `;
 
-const NoChoicesMade = React.forwardRef<TickerItemHandles>((_, ref) => {
+interface NoChoicesMadeProps {
+	ref: React.Ref<TickerItemHandles>;
+}
+
+const NoChoicesMade = (props: NoChoicesMadeProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.fromTo(containerRef.current, { x: -950 }, { x: 0, duration: 1, ease: "power2.out" });
@@ -343,7 +348,4 @@ const NoChoicesMade = React.forwardRef<TickerItemHandles>((_, ref) => {
 			<NoChoiceSubheading>Donate and write a name!</NoChoiceSubheading>
 		</NoChoicesContainer>
 	);
-});
-
-WarGame.displayName = "WarGame";
-WarChoice.displayName = "WarChoice";
+};

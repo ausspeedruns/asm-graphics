@@ -29,6 +29,7 @@ import { ThreeDS } from "./overlays/3ds";
 import { ThreeDS2 } from "./overlays/3ds-2";
 import { NoGraphics } from "./overlays/no-graphics";
 import { StandardVertical } from "./overlays/standard-vertical";
+import { StandardWidescreen } from "./overlays/standard-widescreen";
 
 const GameplayOverlayCont = styled.div``;
 
@@ -156,6 +157,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		{
 			component: <StandardVertical {...overlayArgs} />,
 			name: "Standard-Vertical",
+		},
+		{
+			component: <StandardWidescreen {...overlayArgs} />,
+			name: "Standard-Widescreen",
 		},
 		{
 			component: <NoGraphics />,

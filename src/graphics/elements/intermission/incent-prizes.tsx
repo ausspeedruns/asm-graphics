@@ -38,9 +38,10 @@ const PRIZE_PAGE_STAGGER = 0.05;
 
 interface PrizesProps {
 	prizes: Prize[];
+	ref: React.Ref<TickerItemHandles>;
 }
 
-export const Prizes = React.forwardRef<TickerItemHandles, PrizesProps>((props: PrizesProps, ref) => {
+export const Prizes = (props: PrizesProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const prizesRefs = useRef<TickerItemHandles[]>([]);
 
@@ -49,7 +50,7 @@ export const Prizes = React.forwardRef<TickerItemHandles, PrizesProps>((props: P
 		groupedPrizes.push(props.prizes.slice(i, i + PRIZE_PAGE_LENGTH));
 	}
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("prizesStart");
 			tl.set(containerRef.current, { xPercent: 100 });
@@ -75,14 +76,16 @@ export const Prizes = React.forwardRef<TickerItemHandles, PrizesProps>((props: P
 							prize={prize}
 							index={i * PRIZE_PAGE_LENGTH + j}
 							key={prize.id}
-							ref={(el) => (prizesRefs.current[i * PRIZE_PAGE_LENGTH + j] = el!)}
+							ref={(el) => {
+								prizesRefs.current[i * PRIZE_PAGE_LENGTH + j] = el!;
+							}}
 						/>
 					))}
 				</PrizesPage>
 			))}
 		</PrizesContainer>
 	);
-});
+};
 
 Prizes.displayName = "Prizes";
 
@@ -159,16 +162,17 @@ const renderTextWithLineBreaks = (text: string) => {
 interface PrizeProps {
 	prize: Prize;
 	index: number;
+	ref: React.Ref<TickerItemHandles>;
 }
 
 const PRIZE_STAGGER_INVERSE = 1 / PRIZE_PAGE_STAGGER;
 
-const Prize = React.forwardRef<TickerItemHandles, PrizeProps>((props: PrizeProps, ref) => {
+const Prize = (props: PrizeProps) => {
 	const containerRef = useRef(null);
 
 	const pageTimeOffset = Math.floor(props.index / PRIZE_PAGE_LENGTH) * (PRIZE_DURATION + 1.5);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.fromTo(
 				containerRef.current,
@@ -213,4 +217,4 @@ const Prize = React.forwardRef<TickerItemHandles, PrizeProps>((props: PrizeProps
 			</ItemContainer>
 		</UpcomingRunContainer>
 	);
-});
+};

@@ -75,7 +75,7 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
 	width: 100%;
-	border: 2px solid var(--sec);
+	border: 2px solid #fff;
 	/* background: var(--main); */
 	background: transparent;
 	position: relative;
@@ -109,13 +109,14 @@ const CurrentAmount = styled.span`
 
 interface GoalProps {
 	goal: Goal;
+	ref: React.Ref<TickerItemHandles>;
 }
 
-export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
+export const GoalBar = (props: GoalProps) => {
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.fromTo(containerRef.current, { xPercent: -100 }, { xPercent: 0, duration: 1 }, "-=0.5");
@@ -166,6 +167,4 @@ export const GoalBar = React.forwardRef<TickerItemHandles, GoalProps>((props: Go
 			</IncentiveContainer> */}
 		</GoalBarContainer>
 	);
-});
-
-GoalBar.displayName = "GoalBar";
+};

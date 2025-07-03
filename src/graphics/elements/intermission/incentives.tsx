@@ -1,16 +1,16 @@
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-import type { Incentive } from "@asm-graphics/types/Incentives";
 import type NodeCG from "nodecg/types";
+import type { Incentive } from "@asm-graphics/types/Incentives";
+import type { Prize } from "@asm-graphics/types/Prizes";
 
 import { WarGame } from "./incent-wars";
 import { GoalBar } from "./incent-goal";
-// import { InterIncentASMM } from "./incent-asmm";
 import { FitText } from "../fit-text";
-import { Prize, Prizes } from "./incent-prizes";
+import { Prizes } from "./incent-prizes";
 import { Socials } from "./incent-socials";
 import { Photos } from "./incent-photos";
 import { UpcomingRuns } from "./incent-upcoming-runs";
@@ -46,20 +46,27 @@ const PipsContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	gap: 16px;
+	padding: 0 8px 20px 8px;
 `;
 
 const Pip = styled.div<{ $active?: boolean }>`
-	height: 10px;
+	height: 40px;
 	min-width: 10px;
 	flex-grow: 1;
-	background: #ffffff4c;
-	border-radius: 5px;
-	transition: 2s;
+	background: transparent;
+	// border-radius: 5px;
+	transition: 1s;
+	// background:rgb(177, 102, 27);
+	// box-shadow: inset 0 6px 0 0 rgb(206, 70, 12);
+
+	outline: 3px solid #fff;
+	outline-offset: 4px;
 
 	${(props) =>
 		props.$active &&
 		css`
-			background: #fff;
+			background: #c72;
+			box-shadow: inset 0 -6px 0 0 #b53600;
 		`}
 `;
 
@@ -68,22 +75,23 @@ const CurrentLabels = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 90px;
-	margin-bottom: 16px;
+	height: 80px;
+	margin-bottom: 4px;
 `;
 
 const MainLabel = styled(FitText)`
-	font-size: 45px;
-	height: 55px;
+	font-size: 100%;
+	height: 40px;
 	max-width: 100%;
 	margin-bottom: -10px;
 	font-family: var(--secondary-font);
 `;
 
 const Subheading = styled(FitText)`
-	font-size: 35px;
-	height: 35px;
+	font-size: 80%;
+	height: 30px;
 	max-width: 100%;
+	margin-bottom: 20px;
 `;
 
 export interface TickerItemHandles {
@@ -98,8 +106,8 @@ interface IncentivesProps {
 	upcomingRuns?: RunData[];
 }
 
-const MAX_INCENTIVES: number = 10;
-const TEST_RANGE: number[] = [];
+const MAX_INCENTIVES: number = 5;
+const TEST_RANGE: number[] = [0];
 
 export const InterIncentives = (props: IncentivesProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -107,7 +115,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 	const incentivesRef = useRef<TickerItemHandles[]>([]);
 	const [currentPanel, setCurrentPanel] = useState(0);
 
-	let allPanels: JSX.Element[] = [];
+	let allPanels: ReactNode[] = [];
 	let allLabels: { header: string; subheading?: string }[] = [];
 
 	let incentives: typeof props.incentives = [];
@@ -130,7 +138,9 @@ export const InterIncentives = (props: IncentivesProps) => {
 					<GoalBar
 						key={incentive.index}
 						goal={incentive}
-						ref={(el) => (el ? (incentivesRef.current[i] = el) : undefined)}
+						ref={(el) => {
+							el ? (incentivesRef.current[i] = el) : undefined;
+						}}
 					/>
 				);
 
@@ -139,7 +149,9 @@ export const InterIncentives = (props: IncentivesProps) => {
 					<WarGame
 						key={incentive.index}
 						war={incentive}
-						ref={(el) => (el ? (incentivesRef.current[i] = el) : undefined)}
+						ref={(el) => {
+							el ? (incentivesRef.current[i] = el) : undefined;
+						}}
 					/>
 				);
 
@@ -167,7 +179,9 @@ export const InterIncentives = (props: IncentivesProps) => {
 		allPanels.push(
 			<Prizes
 				key="ASMPrizes"
-				ref={(el) => (el ? (incentivesRef.current[10] = el) : undefined)}
+				ref={(el) => {
+					el ? (incentivesRef.current[10] = el) : undefined;
+				}}
 				prizes={props.prizes}
 			/>,
 		);
@@ -176,14 +190,28 @@ export const InterIncentives = (props: IncentivesProps) => {
 	}
 
 	// Socials
-	allPanels.push(<Socials key="ASMSocials" ref={(el) => (el ? (incentivesRef.current[15] = el) : undefined)} />);
-	allLabels.push({ header: "Our Socials", subheading: "Follow us to stay up to date!" });
+	// allPanels.push(
+	// 	<Socials
+	// 		key="ASMSocials"
+	// 		ref={(el) => {
+	// 			el ? (incentivesRef.current[15] = el) : undefined;
+	// 		}}
+	// 	/>,
+	// );
+	// allLabels.push({ header: "Our Socials", subheading: "Follow us to stay up to date!" });
 
 	// Event Photos
-	if (props.photos && props.photos.length > 5) {
-		allPanels.push(<Photos key="ASMPhotos" ref={(el) => (el ? (incentivesRef.current[20] = el) : undefined)} />);
-		allLabels.push({ header: "ASM 2024 Photos" });
-	}
+	// if (props.photos && props.photos.length > 5) {
+	// 	allPanels.push(
+	// 		<Photos
+	// 			key="ASMPhotos"
+	// 			ref={(el) => {
+	// 				el ? (incentivesRef.current[20] = el) : undefined;
+	// 			}}
+	// 		/>,
+	// 	);
+	// 	allLabels.push({ header: "ASM 2025 Photos" });
+	// }
 
 	// Upcoming Runs
 	if (props.upcomingRuns && props.upcomingRuns.length > 0) {
@@ -191,10 +219,12 @@ export const InterIncentives = (props: IncentivesProps) => {
 			<UpcomingRuns
 				upcomingRuns={props.upcomingRuns}
 				key="ASMRuns"
-				ref={(el) => (el ? (incentivesRef.current[25] = el) : undefined)}
+				ref={(el) => {
+					el ? (incentivesRef.current[25] = el) : undefined;
+				}}
 			/>,
 		);
-		allLabels.push({ header: "Upcoming Runs", subheading: "AusSpeedruns.com/Schedule" });
+		allLabels.push({ header: "Upcoming Run", subheading: "AusSpeedruns.com/Schedule" });
 	}
 
 	const showContent = (element: TickerItemHandles) => {

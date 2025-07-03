@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import NodeCGPlugin from "vite-plugin-nodecg";
+import svgr from "vite-plugin-svgr";
 
 const ReactCompilerConfig = {};
 
@@ -18,6 +19,7 @@ export default defineConfig(() => {
 				},
 			}),
 			// ["babel-plugin-react-compiler", ReactCompilerConfig],
+			svgr(),
 		],
 	};
 });

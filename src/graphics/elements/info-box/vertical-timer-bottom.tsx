@@ -46,7 +46,7 @@ export interface IVerticalStyling {
 	categorySize?: number;
 }
 
-const DefaultVerticalStyling: IVerticalStyling = {
+const DefaultVerticalStyling = {
 	timerStackHeight: 180,
 	timerSize: 110,
 	timerStyle: { marginBottom: -5 },
@@ -56,7 +56,7 @@ const DefaultVerticalStyling: IVerticalStyling = {
 	gameTitleSize: 37,
 	gameInfoSize: 25,
 	categorySize: 34,
-};
+} as const satisfies IVerticalStyling;
 
 interface Props {
 	className?: string;
@@ -66,19 +66,14 @@ interface Props {
 	hideDividers?: boolean;
 }
 
-export const VerticalInfo: React.FC<Props> = (props: Props) => {
+export const VerticalTimerBottomInfo = (props: Props) => {
 	const styles = { ...DefaultVerticalStyling, ...props.style };
 
 	return (
 		<VerticalInfoContainer className={props.className} style={styles.mainStyle}>
-			<VerticalStack style={{ height: styles.timerStackHeight }}>
-				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
-				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
-			</VerticalStack>
-			{!props.hideDividers && <Divider />}
 			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: "100%" }}>
 				<RunInfo.GameTitle
-					maxWidth={styles.maxTextWidth!}
+					maxWidth={styles.maxTextWidth}
 					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
 					style={{ fontSize: styles.gameTitleSize, lineHeight: `${styles.gameTitleSize}px` }}
 				/>
@@ -95,10 +90,15 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 			</VerticalStack>
 			{!props.hideDividers && <Divider />}
 			<RunInfo.Category
-				maxWidth={styles.maxTextWidth!}
+				maxWidth={styles.maxTextWidth}
 				category={props.runData?.category ?? ""}
 				fontSize={styles.categorySize}
 			/>
+			<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
+			{!props.hideDividers && <Divider />}
+			<VerticalStack style={{ height: styles.timerStackHeight }}>
+				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
+			</VerticalStack>
 		</VerticalInfoContainer>
 	);
 };

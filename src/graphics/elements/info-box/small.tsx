@@ -54,7 +54,7 @@ export interface ISmallStyling {
 	gameNameBottomMargin?: number;
 }
 
-const DefaultSmallStyling: ISmallStyling = {
+const DefaultSmallStyling = {
 	timerStackHeight: 120,
 	timerSize: 75,
 	categoryWidth: 270,
@@ -64,7 +64,7 @@ const DefaultSmallStyling: ISmallStyling = {
 	gameTitleSize: 45,
 	gameInfoSize: 25,
 	gameNameBottomMargin: -10,
-};
+} as const satisfies ISmallStyling;
 
 interface Props {
 	className?: string;
@@ -79,7 +79,7 @@ export const SmallInfo: React.FC<Props> = (props: Props) => {
 		<SmallInfoContainer className={props.className} style={styles.mainStyle}>
 			<VerticalStack style={{ height: styles.timerStackHeight, width: "100%" }}>
 				<RunInfo.GameTitle
-					maxWidth={styles.gameTitleWidth!}
+					maxWidth={styles.gameTitleWidth}
 					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
 					style={{
 						fontSize: styles.gameTitleSize,
@@ -89,18 +89,18 @@ export const SmallInfo: React.FC<Props> = (props: Props) => {
 				/>
 				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
 					<RunInfo.System
-						system={props.runData?.system || ""}
+						system={props.runData?.system ?? ""}
 						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
 					/>
 					<RunInfo.Year
-						year={props.runData?.release || ""}
+						year={props.runData?.release ?? ""}
 						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
 					/>
 				</div>
 			</VerticalStack>
 			<InfoSubBox style={{ ...styles.lowerStackStyle, height: styles.lowerStackHeight }}>
 				<VerticalStack style={{ height: styles.gameStackHeight, ...styles.categoryStyle }}>
-					<RunInfo.Category maxWidth={styles.categoryWidth!} category={props.runData?.category ?? ""} />
+					<RunInfo.Category maxWidth={styles.categoryWidth} category={props.runData?.category ?? ""} />
 					<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
 				</VerticalStack>
 				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
