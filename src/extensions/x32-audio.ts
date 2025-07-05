@@ -63,8 +63,7 @@ function fadeUnmute(channel: number, mixBus: number) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
-			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
-				faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
+			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Unmute
@@ -76,8 +75,7 @@ function fadeUnmute(channel: number, mixBus: number) {
 function fadeMute(channel: number, mixBus: number, force = false) {
 	if (force || faderValues[0]?.[channel] > 0) {
 		nodecg.log.debug(
-			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
-				faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
+			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Mute
@@ -205,6 +203,11 @@ nodecg.listenFor("transition:toIntermission", () => {
 		32,
 		1,
 	);
+
+	// Reset names
+	for (const mic of Headsets) {
+		x32.setChannelName(mic.micInput, mic.name);
+	}
 });
 
 // On transition to IRL scene
@@ -282,4 +285,19 @@ nodecg.listenFor("x32:host-mute-couch", () => {
 
 nodecg.listenFor("x32:host-unmute-couch", () => {
 	setHostCouchActive(true);
+});
+
+nodecg.listenFor("update-commentator", (commentator) => {
+	if (!commentator.microphone) return;
+
+	// Convert Headset name to index
+	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.microphone);
+	if (headsetIndex === -1) {
+		nodecg.log.warn(
+			`[X32 Audio] Could not find headset with name ${commentator.microphone} for commentator ${commentator.name}.`,
+		);
+		return;
+	}
+
+	x32.setChannelName(Headsets[headsetIndex].micInput, commentator.name);
 });
