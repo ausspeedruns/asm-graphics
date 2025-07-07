@@ -102,4 +102,7 @@ export type NodeCGMessages = {
 	"bingosync:joinRoom": RoomJoinParameters;
 	"bingosync:leaveRoom": never;
 	"bingosync:overrideCell": { cellSlot: string; cellData?: BoardCell };
+	// Countdown
+	"countdown:start": `${number}:${number}:${number}`;
+	"countdown:stop": never;
 }
