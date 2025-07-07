@@ -2,7 +2,7 @@ import * as nodecgApiContext from "./nodecg-api-context";
 import { v4 as uuid } from "uuid";
 import _ from "underscore";
 
-import { commentatorsRep, headsetsUsed, hostRep } from "./replicants";
+import { commentatorsRep, headsetsUsed, hostRep, showHostRep } from "./replicants";
 
 import type { RunData, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "nodecg/types";
@@ -56,6 +56,11 @@ nodecg.listenFor("delete-commentator", id => {
 	}
 
 	commentatorsRep.value = commentatorsRep.value.filter(commentator => commentator.id !== id);
+});
+
+nodecg.listenFor("showHost", (showHost: boolean) => {
+	Log.info(`Setting showHost to ${showHost}`);
+	showHostRep.value = showHost;
 });
 
 function updateExistingCommentator(commentator: Commentator, index: number) {

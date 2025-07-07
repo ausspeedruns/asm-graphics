@@ -25,6 +25,7 @@ import { CSS } from "@dnd-kit/utilities";
 
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { CouchEditDialog } from "./commentator-edit-dialog";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 namespace Alert {
 	type Name =
@@ -93,9 +94,10 @@ function getDialog(name: string): Window | null {
 	return null;
 }
 
-export const DashCouch: React.FC = () => {
+export function DashCouch() {
 	const [commentatorsRep, setCommentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const [hostRep] = useReplicant<Commentator>("host");
+	const [showHostRep] = useReplicant<boolean>("showHost");
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -127,6 +129,10 @@ export const DashCouch: React.FC = () => {
 		}
 	}
 
+	function handleShowHost(checked: boolean) {
+		nodecg.sendMessage("showHost", checked);
+	}
+
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 8 }}>
@@ -135,9 +141,22 @@ export const DashCouch: React.FC = () => {
 						display: "flex",
 						flexDirection: "column",
 						gap: 5,
-						marginTop: 5,
 					}}>
-					<span>Host</span>
+					<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 24 }}>
+						<span>Host</span>
+
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={showHostRep}
+									onChange={(e) => handleShowHost(e.target.checked)}
+									color="primary"
+								/>
+							}
+							label="Show Host?"
+							labelPlacement="start"
+						/>
+					</div>
 					{hostRep && <HostComponent commentator={hostRep} id="host" />}
 					<hr style={{ width: "90%", opacity: 0.5 }} />
 

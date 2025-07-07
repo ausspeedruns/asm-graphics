@@ -38,6 +38,7 @@ import ConsoleIcon from "./media/icons/console.svg";
 // import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
 import { Circuitry } from "./overlays/asm25/circuitry";
 import { Chip } from "./overlays/asm25/chip";
+import { DonationMatch } from "@asm-graphics/types/Donations";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -102,7 +103,7 @@ const HostPronoun = styled.span`
 
 	outline: 1px solid var(--text-light);
 	outline-offset: 3px;
-	box-shadow: inset 0 -3px 0 0 #B53600;
+	box-shadow: inset 0 -3px 0 0 #b53600;
 `;
 
 const MUSIC_WIDTH = 399;
@@ -270,7 +271,7 @@ const DonationAmount = styled.div`
 `;
 
 const DonationSymbol = styled.span`
-	font-size: 100px;
+	font-size: 50%;
 	font-weight: 400;
 	-webkit-text-stroke: 2px #c72;
 `;
@@ -363,8 +364,8 @@ const CameraBorder = styled.div`
 const CameraShadow = styled.div`
 	position: absolute;
 	top: ${100 - CAMERA_CUTOUT_HEIGHT + CAMERA_CUTOUT_HEIGHT_OFFSET - 0.1}%;
-	left: ${100 - CAMERA_CUTOUT_WIDTH}%;
-	width: ${CAMERA_CUTOUT_WIDTH - (100 - CAMERA_CUTOUT_WIDTH)}%;
+	left: ${100 - CAMERA_CUTOUT_WIDTH - 0.1}%;
+	width: ${CAMERA_CUTOUT_WIDTH - (100 - CAMERA_CUTOUT_WIDTH) + 0.1}%;
 	height: ${CAMERA_CUTOUT_HEIGHT - (100 - CAMERA_CUTOUT_HEIGHT) + 0.1}%;
 	box-shadow: inset 0 0 20px 8px rgba(0, 0, 0, 1);
 `;
@@ -381,6 +382,44 @@ const CameraChin = styled.div`
 	gap: 16px;
 `;
 
+const GradientTextWhiteBackground = styled.div`
+	background: white;
+	padding: 2px 4px;
+	border-radius: 8px;
+	display: inline-block;
+`;
+
+const GradientAnimation = keyframes`
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+`;
+
+const GradientText = styled.div`
+	background: var(--goc-gradient);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+
+	// display: flex;
+	// flex-direction: column;
+	// justify-content: center;
+	// align-items: center;
+
+	animation: ${GradientAnimation} 5s ease infinite;
+	background-size: 400% 400%;
+`;
+
+const MultiplierText = styled.div`
+	font-weight: 900;
+`;
+
 const LocationTag = styled.div``;
 
 export const Intermission: React.FC = () => {
@@ -392,6 +431,7 @@ export const Intermission: React.FC = () => {
 	// const [donationRep] = useReplicant<number>("donationTotal");
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
+	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
 	const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
 	const intermissionRef = useRef<IntermissionRef>(null);
@@ -399,6 +439,8 @@ export const Intermission: React.FC = () => {
 	useListenFor("playAd", (newVal) => {
 		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
 	});
+
+	const currentDonationMultiplier = (donationMatchesRep?.filter((match) => match.active).length ?? 0) + 1;
 
 	return (
 		<IntermissionElement
@@ -410,6 +452,7 @@ export const Intermission: React.FC = () => {
 			sponsors={sponsorsRep}
 			incentives={incentivesRep?.filter((incentive) => incentive.active)}
 			photos={photosRep}
+			donationMatchMultiplier={currentDonationMultiplier}
 		/>
 	);
 };
@@ -428,6 +471,7 @@ interface IntermissionProps {
 	incentives?: Incentive[];
 	asmm?: number;
 	photos?: NodeCG.AssetFile[];
+	donationMatchMultiplier?: number;
 }
 
 export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps>((props, ref) => {
@@ -617,8 +661,19 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			</LeftColumn>
 			<RightColumn>
 				<DonationContainer>
-					<div style={{ display: "flex", alignItems: "center", gap: 16, height: 230, marginBottom: -18 }}>
-						<DonationAmount>
+					<div
+						style={{
+							display: "flex",
+							alignItems: "center",
+							gap: 16,
+							height: 230,
+							marginBottom: -18,
+						}}>
+						<DonationAmount
+							style={{
+								fontSize: (props.donationMatchMultiplier ?? 1) > 1 ? 170 : undefined,
+								marginTop: (props.donationMatchMultiplier ?? 1) > 1 ? -50 : undefined,
+							}}>
 							<DonationSymbol>$</DonationSymbol>
 							<LerpNum value={props.donation} />
 						</DonationAmount>
@@ -626,6 +681,17 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					{/* <DonationInfo>
 						<DonationSite>AusSpeedruns.com/Donate</DonationSite>
 					</DonationInfo> */}
+					{props.donationMatchMultiplier && props.donationMatchMultiplier > 1 && (
+						<span style={{ marginTop: -40, fontSize: 30 }}>
+							Donations are worth{" "}
+							<GradientTextWhiteBackground>
+								<GradientText>
+									<MultiplierText>{props.donationMatchMultiplier}×</MultiplierText>
+								</GradientText>
+							</GradientTextWhiteBackground>{" "}
+							right now!
+						</span>
+					)}
 				</DonationContainer>
 
 				<Chip numberOfPads={13} style={{ marginTop: 30 }}>

@@ -13,6 +13,7 @@ export interface OverlayProps {
 	gameAudioIndicator: number;
 	microphoneAudioIndicator?: AudioIndicator;
 	onScreenWarning?: { message: string; show: boolean };
+	showHost?: boolean;
 }
 
 export type Commentator = {

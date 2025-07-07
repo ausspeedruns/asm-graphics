@@ -38,9 +38,10 @@ interface Props {
 	className?: string;
 	darkTitle?: boolean;
 	align?: "left" | "center" | "right";
+	showHost?: boolean;
 }
 
-export const Couch: React.FC<Props> = (props: Props) => {
+export function Couch(props: Props) {
 	if (props.commentators.length === 0 && !props.host) return <></>;
 
 	let label = "";
@@ -71,7 +72,7 @@ export const Couch: React.FC<Props> = (props: Props) => {
 						/>
 					);
 				})}
-				{props.host && props.host.name && (
+				{props.showHost && props.host && props.host.name && (
 					<PersonCompressed
 						key={"Host"}
 						commentator={props.host}
@@ -93,12 +94,17 @@ const PersonCompressedContainer = styled.div`
 	margin: 4px;
 	box-sizing: border-box;
 	position: relative;
+`;
+
+const NameContainer = styled.div`
 	background: var(--main);
 	padding: 8px 12px;
-
 	outline: 1px solid white;
 	outline-offset: 3px;
-	margin-bottom: 24px;
+	margin-bottom: 6px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
 `;
 
 const SpeakingColour = styled.div<SpeakingProps>`
@@ -112,7 +118,7 @@ const SpeakingColour = styled.div<SpeakingProps>`
 	// background-color: #ffffff53;
 	transition-duration: 0.2s;
 	transition-delay: ${({ speaking }) => (speaking ? undefined : "0.5s")};
-	
+
 	outline: 4px solid white;
 `;
 
@@ -120,16 +126,17 @@ interface SpeakingProps {
 	speaking?: boolean;
 }
 
-const Tag = styled.span`
-	font-weight: bold;
-	margin-right: 4px;
-	font-family: var(--secondary-font);
-`;
+// const Tag = styled.span`
+// 	font-weight: bold;
+// 	margin-right: 4px;
+// 	font-family: var(--secondary-font);
+// `;
 
 const Name = styled.span`
 	font-family: var(--secondary-font);
 	/* font-weight: bold; */
 	z-index: 2;
+	width: 100%;
 `;
 
 const Pronouns = styled.div`
@@ -140,10 +147,10 @@ const Pronouns = styled.div`
 `;
 
 const Role = styled.div`
-	position: absolute;
+	// position: absolute;
 	font-weight: bold;
 	font-size: 15px;
-	bottom: -25px;
+	// bottom: -25px;
 	left: -4px;
 `;
 
@@ -155,17 +162,17 @@ interface PersonCompressedProps {
 	style?: React.CSSProperties;
 }
 
-export const PersonCompressed: React.FC<PersonCompressedProps> = (props) => {
+// Note to future me: Just copy the component from a previous event, I have really messed it up for ASM2025.
+
+export function PersonCompressed(props: PersonCompressedProps) {
 	return (
 		<PersonCompressedContainer style={props.style}>
-			<SpeakingColour speaking={props.speaking} />
-			<Name>{props.commentator.name}</Name>
-			<Pronouns>
-				{props.commentator.pronouns}
-			</Pronouns>
-			<Role>
-				{props.commentator.tag ? props.commentator.tag : `COMMS ${props.index}`}
-			</Role>
+			<NameContainer>
+				<SpeakingColour speaking={props.speaking} />
+				<Name style={{ textAlign: props.commentator.pronouns ? "left" : "center" }}>{props.commentator.name}</Name>
+				<Pronouns>{props.commentator.pronouns}</Pronouns>
+			</NameContainer>
+			<Role>{props.commentator.tag ? props.commentator.tag : `COMMS ${props.index}`}</Role>
 		</PersonCompressedContainer>
 	);
-};
+}

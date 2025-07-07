@@ -182,6 +182,7 @@ export const Facecam = (props: FacecamProps) => {
 		<FacecamContainer
 			style={Object.assign(
 				{
+					minHeight: props.height,
 					height: props.height,
 					width: props.width,
 				},

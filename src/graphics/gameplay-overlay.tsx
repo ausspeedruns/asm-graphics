@@ -30,6 +30,8 @@ import { ThreeDS2 } from "./overlays/3ds-2";
 import { NoGraphics } from "./overlays/no-graphics";
 import { StandardVertical } from "./overlays/standard-vertical";
 import { StandardWidescreen } from "./overlays/standard-widescreen";
+import { StandardBand } from "./overlays/standard-band";
+import { Widescreen2Bingo } from "./overlays/widescreen-2-bingo";
 
 const GameplayOverlayCont = styled.div``;
 
@@ -58,6 +60,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 
 	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const [hostRep] = useReplicant<Commentator>("host");
+	const [showHostRep] = useReplicant<boolean>("showHost");
 
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
 
@@ -94,6 +97,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			message: onScreenMessageMessageRep ?? "",
 			show: onScreenMessageShowRep ?? false,
 		},
+		showHost: showHostRep ?? true,
 	};
 
 	const Overlays = [
@@ -163,6 +167,14 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: "Standard-Widescreen",
 		},
 		{
+			component: <StandardBand {...overlayArgs} />,
+			name: "Standard-Band",
+		},
+		{
+			component: <Widescreen2Bingo {...overlayArgs} />,
+			name: "Widescreen-2-Bingo",
+		},
+		{
 			component: <NoGraphics />,
 			name: "None",
 		},
@@ -221,4 +233,8 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	);
 };
 
-createRoot(document.getElementById("root")!).render(<HashRouter><GameplayOverlay /></HashRouter>);
+createRoot(document.getElementById("root")!).render(
+	<HashRouter>
+		<GameplayOverlay />
+	</HashRouter>,
+);

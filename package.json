@@ -121,6 +121,13 @@
 				"headerColor": "#CC7722",
 				"file": "prizes.html",
 				"workspace": "ASM Misc"
+			},
+			{
+				"name": "bingo",
+				"title": "Bingo",
+				"width": 3,
+				"headerColor": "#CC7722",
+				"file": "bingo.html"
 			}
 		],
 		"graphics": [
@@ -282,7 +289,6 @@
 		"react-window": "^1.8.11",
 		"styled-components": "^6.1.19",
 		"tiltify-api-client": "^2.2.1",
-		"tiny-typed-emitter": "^2.1.0",
 		"underscore": "^1.13.7",
 		"ws": "^8.18.3",
 		"zod": "^3.25.67"

@@ -1,4 +1,4 @@
-import React from "react";
+import type { CSSProperties } from "react";
 import styled from "styled-components";
 
 import { FitText } from "./fit-text";
@@ -17,16 +17,17 @@ const CategoryContainer = styled(BaseStyle)`
 	font-weight: bold;
 	font-size: 42px;
 	text-transform: uppercase;
+	// -webkit-text-stroke: 1px var(--main);
 `;
 
 interface CategoryProps {
 	category: string;
 	maxWidth: number;
-	style?: React.CSSProperties;
+	style?: CSSProperties;
 	fontSize?: number;
 }
 
-export const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
+export function Category(props: CategoryProps) {
 	return (
 		<CategoryContainer style={props.style}>
 			<FitText
@@ -50,10 +51,10 @@ const EstTime = styled.span``;
 interface EstimateProps {
 	estimate: string;
 	fontSize?: number;
-	style?: React.CSSProperties;
+	style?: CSSProperties;
 }
 
-export const Estimate: React.FC<EstimateProps> = (props: EstimateProps) => {
+export function Estimate(props: EstimateProps) {
 	let formattedEstimate = props.estimate;
 
 	if (formattedEstimate[0] === "0" && formattedEstimate[1] !== ":") {
@@ -63,31 +64,32 @@ export const Estimate: React.FC<EstimateProps> = (props: EstimateProps) => {
 	return (
 		<EstimateContainer style={props.style}>
 			<EstText fontSize={props.fontSize ?? 34}>{formattedEstimate && "EST "}</EstText>
-			<EstTime style={{fontSize: props.fontSize ?? 34}}>{formattedEstimate}</EstTime>
+			<EstTime style={{ fontSize: props.fontSize ?? 34 }}>{formattedEstimate}</EstTime>
 		</EstimateContainer>
 	);
-};
+}
 
 /*			GAME TITLE			*/
 const GameContainer = styled(BaseStyle)`
 	font-family: var(--secondary-font);
 	font-size: 50px;
 	font-weight: 1000;
+	// -webkit-text-stroke: 2px var(--main);
 `;
 
 interface GameProps {
 	game: string;
 	maxWidth: number;
-	style?: React.CSSProperties;
+	style?: CSSProperties;
 }
 
-export const GameTitle: React.FC<GameProps> = (props: GameProps) => {
+export function GameTitle(props: GameProps) {
 	return (
 		<GameContainer style={props.style}>
 			<FitText allowNewlines style={{ maxWidth: props.maxWidth }} text={props.game} />
 		</GameContainer>
 	);
-};
+}
 
 /*			SYSTEM			*/
 const SystemContainer = styled(BaseStyle)`
@@ -96,12 +98,12 @@ const SystemContainer = styled(BaseStyle)`
 
 interface SystemProps {
 	system: string;
-	style?: React.CSSProperties;
+	style?: CSSProperties;
 }
 
-export const System: React.FC<SystemProps> = (props: SystemProps) => {
+export function System(props: SystemProps) {
 	return <SystemContainer style={props.style}>{props.system}</SystemContainer>;
-};
+}
 
 /*			YEAR			*/
 const YearContainer = styled(BaseStyle)`
@@ -110,13 +112,13 @@ const YearContainer = styled(BaseStyle)`
 
 interface YearProps {
 	year: string;
-	style?: React.CSSProperties;
+	style?: CSSProperties;
 }
 
-export const Year: React.FC<YearProps> = (props: YearProps) => {
+export function Year(props: YearProps) {
 	if (!props.year) {
 		return <></>;
 	}
 
 	return <YearContainer style={props.style}>{props.year}</YearContainer>;
-};
+}

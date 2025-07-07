@@ -4,7 +4,8 @@ import type { Stream } from "./Streams";
 import type { StaffMessage } from "./StaffMessages";
 import type { Tweet } from "./Twitter";
 import type { Incentive } from "./Incentives";
-import { Prize } from "./Prizes";
+import type { Prize } from "./Prizes";
+import type { BoardCell, RoomJoinParameters } from "extensions/util/bingosync";
 
 export type NodeCGMessages = {
 	// Audio
@@ -19,6 +20,7 @@ export type NodeCGMessages = {
 	"update-commentator": Commentator;
 	"delete-commentator": string;
 	"update-host": Commentator;
+	"showHost": boolean;
 	// Donations
 	"donations:toggleRead": string;
 	"manual-donations:toggleRead": string;
@@ -96,4 +98,8 @@ export type NodeCGMessages = {
 	"prizes:NewPrize": Prize;
 	"prizes:RemovePrize": string;
 	"prizes:UpdatePrize": Prize;
+	// Bingosync
+	"bingosync:joinRoom": RoomJoinParameters;
+	"bingosync:leaveRoom": never;
+	"bingosync:overrideCell": { cellSlot: string; cellData?: BoardCell };
 }

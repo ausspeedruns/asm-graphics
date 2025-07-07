@@ -194,7 +194,6 @@ export const StandardWidescreen = (props: OverlayProps) => {
 
 				<RightBox>
 					<Circuitry
-						noCircuitBoard
 						// src={StandardLeft}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 					/>

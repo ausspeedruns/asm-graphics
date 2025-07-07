@@ -25,12 +25,16 @@ const VerticalStack = styled.div`
 	height: 100%;
 `;
 
-const Divider = styled.div`
+interface DividerProps {
+	margin: number;
+}
+
+const Divider = styled.div<DividerProps>`
 	min-height: 1px;
 	height: 1px;
 	width: 80%;
 	background-color: white;
-	margin: 20px 0;
+	margin: ${({ margin }) => `${margin}px 0`};
 `;
 
 export interface IVerticalStyling {
@@ -44,9 +48,10 @@ export interface IVerticalStyling {
 	gameInfoSize?: number;
 	mainStyle?: React.CSSProperties;
 	categorySize?: number;
+	dividerMargin?: number;
 }
 
-const DefaultVerticalStyling: IVerticalStyling = {
+const DefaultVerticalStyling = {
 	timerStackHeight: 180,
 	timerSize: 110,
 	timerStyle: { marginBottom: -5 },
@@ -56,7 +61,8 @@ const DefaultVerticalStyling: IVerticalStyling = {
 	gameTitleSize: 37,
 	gameInfoSize: 25,
 	categorySize: 34,
-};
+	dividerMargin: 20,
+} as const satisfies IVerticalStyling;
 
 interface Props {
 	className?: string;
@@ -75,7 +81,7 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
 				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
 			</VerticalStack>
-			{!props.hideDividers && <Divider />}
+			{!props.hideDividers && <Divider margin={styles.dividerMargin} />}
 			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: "100%" }}>
 				<RunInfo.GameTitle
 					maxWidth={styles.maxTextWidth!}
@@ -93,7 +99,7 @@ export const VerticalInfo: React.FC<Props> = (props: Props) => {
 					/>
 				</div>
 			</VerticalStack>
-			{!props.hideDividers && <Divider />}
+			{!props.hideDividers && <Divider margin={styles.dividerMargin} />}
 			<RunInfo.Category
 				maxWidth={styles.maxTextWidth!}
 				category={props.runData?.category ?? ""}

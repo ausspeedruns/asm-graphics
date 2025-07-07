@@ -10,7 +10,7 @@ import { useRive } from "@rive-app/react-canvas";
 // import StartWipeIMG from './media/pixel/Transition/StartWipe.png';
 // import EndWipeIMG from './media/pixel/Transition/EndWipe.png';
 
-import TransitionStatic from "./overlays/backgrounds/TransitionStatic.png";
+// import TransitionStatic from "./overlays/backgrounds/TransitionStatic.png";
 
 import Clip1 from "./media/audio/chestappears1.mp3";
 import Clip2 from "./media/audio/crystal.mp3";
@@ -180,7 +180,7 @@ export const Transition: React.FC = () => {
 		<TransitionContainer>
 			<TransitionDiv ref={transitionRef}>
 				{/* <NormalTransitions /> */}
-				<BasicTransition src={TransitionStatic} ref={staticImageRef} />
+				{/* <BasicTransition src={TransitionStatic} ref={staticImageRef} /> */}
 				<div
 					style={{
 						position: "absolute",

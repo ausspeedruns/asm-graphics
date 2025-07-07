@@ -53,4 +53,5 @@ async function init() {
 	require("./game-years");
 	require("./on-screen-warnings");
 	require("./prizes");
+	require("./bingo");
 }

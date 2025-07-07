@@ -1,5 +1,5 @@
 import osc from "osc";
-import { TypedEmitter } from "tiny-typed-emitter";
+import EventEmitter from "node:events";
 
 import * as nodecgApiContext from "../nodecg-api-context";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
@@ -7,14 +7,13 @@ import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 const nodecg = nodecgApiContext.get();
 
 interface X32Class {
-	status: (status: ConnectionStatus) => void;
-	faders: (faders: number[], mixBus: number) => void;
-	mainFaders: (mainFaders: number[]) => void;
-	meters: (meters: number[]) => void;
-	// 'mutes': (mutes: boolean[]) => void;
+	status: [status: ConnectionStatus];
+	faders: [faders: number[], mixBus: number];
+	mainFaders: [mainFaders: number[]];
+	meters: [meters: number[]];
 }
 
-class X32 extends TypedEmitter<X32Class> {
+class X32 extends EventEmitter<X32Class> {
 	public connected = false;
 	private heartbeatTimeout?: NodeJS.Timeout;
 	private heartbeatAttempts = 0;

@@ -17,7 +17,12 @@ const TimerContainer = styled.div<FontProps>`
 const MilliText = styled.span<FontProps>`
 	font-size: ${(props) => props.fontSize / 2}px;
 	letter-spacing: -1px;
-	margin-left: -3px;
+	margin-left: -9px;
+`;
+
+const DecimalGap = styled.div`
+	display: inline-block;
+	width: 4px;
 `;
 
 interface FontProps {
@@ -51,7 +56,10 @@ export const Timer: React.FC<Props> = (props: Props) => {
 	return (
 		<TimerContainer fontSize={props.fontSize ?? DEFAULT_FONT_SIZE} style={props.style}>
 			<span>{compressedTime}</span>
-			<MilliText fontSize={props.fontSize ?? DEFAULT_FONT_SIZE}>.{millis}</MilliText>
+			<MilliText fontSize={props.fontSize ?? DEFAULT_FONT_SIZE}>
+				.<DecimalGap />
+				{millis}
+			</MilliText>
 		</TimerContainer>
 	);
 };

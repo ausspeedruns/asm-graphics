@@ -10,7 +10,8 @@ import type { AudioIndicator, OBSAudioIndicator } from "@asm-graphics/types/Audi
 import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 import type { Automations } from "@asm-graphics/types/Automations";
-import { Prize } from "@asm-graphics/types/Prizes";
+import type { Prize } from "@asm-graphics/types/Prizes";
+import type { BoardState, RoomJoinParameters } from "./util/bingosync";
 
 const nodecg = nodecgApiContext.get();
 
@@ -28,6 +29,9 @@ export const hostRep = nodecg.Replicant<Commentator>("host", {
 export const headsetsUsed = nodecg.Replicant<Record<string, number>>("headsets-used", {
 	defaultValue: {},
 	persistent: true,
+});
+export const showHostRep = nodecg.Replicant<boolean>("showHost", {
+	defaultValue: true,
 });
 
 /* Donations */
@@ -117,3 +121,25 @@ export const onScreenWarningMessage = nodecg.Replicant<string>("onScreenWarning:
 
 /* Prizes */
 export const prizesRep = nodecg.Replicant<Prize[]>("prizes", { defaultValue: [] });
+
+/* Bingosync */
+export const bingosyncRoomDetailsRep = nodecg.Replicant<RoomJoinParameters>("bingosync:roomDetails", {
+	defaultValue: {
+		room: "",
+		nickname: "",
+		password: "",
+	},
+	persistent: true,
+});
+export const bingosyncBoardStateRep = nodecg.Replicant<BoardState>("bingosync:boardState", {
+	defaultValue: { cells: [] },
+	persistent: true,
+});
+export const bingosyncStatusRep = nodecg.Replicant<ConnectionStatus>("bingosync:status", {
+	defaultValue: "disconnected",
+	persistent: false,
+});
+export const bingosyncBoardStateOverrideRep = nodecg.Replicant<BoardState>("bingosync:boardStateOverride", {
+	defaultValue: { cells: [] },
+	persistent: true,
+});
