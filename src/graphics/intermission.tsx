@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import styled, { keyframes } from "styled-components";
 import { createRoot } from "react-dom/client";
-import clone from "clone";
+import { clone } from "underscore";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
 import { format } from "date-fns";

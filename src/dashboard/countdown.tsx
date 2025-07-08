@@ -41,11 +41,11 @@ export function CountdownDashboard() {
 			/>
 
 			<Stack direction="row" spacing={1}>
-				<Button variant="outlined" color="error" onClick={stopCountdown} fullWidth>
-					Stop
-				</Button>
 				<Button variant="contained" color="success" onClick={startCountdown} fullWidth>
 					Start
+				</Button>
+				<Button variant="outlined" color="error" onClick={stopCountdown} fullWidth>
+					Stop
 				</Button>
 			</Stack>
 		</ThemeProvider>

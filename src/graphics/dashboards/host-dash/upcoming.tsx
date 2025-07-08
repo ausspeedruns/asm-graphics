@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
-import clone from "clone";
+import { clone } from "underscore";
 
 import { RunDataArray, RunData } from "@asm-graphics/types/RunData";
 

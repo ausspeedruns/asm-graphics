@@ -1,6 +1,6 @@
 import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
-import clone from "clone";
+import { clone } from "underscore";
 
 import { TickerTitle } from "./title";
 
@@ -73,7 +73,7 @@ export const TickerRuns = (props: Props) => {
 			{RunsArray}
 		</TickerRunsContainer>
 	);
-}
+};
 
 const TickerItemContainer = styled.div`
 	height: 64px;

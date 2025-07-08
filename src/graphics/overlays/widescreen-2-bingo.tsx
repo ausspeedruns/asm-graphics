@@ -93,16 +93,6 @@ const BespokeCouch = styled.div`
 	z-index: 2;
 `;
 
-const CouchLabel = styled.span`
-	color: var(--text-light);
-	font-size: 30px;
-	margin-right: 8px;
-	padding: 0px 10px;
-	border-radius: 8px;
-	background: var(--asm24-main-transparent);
-	backdrop-filter: blur(4px);
-`;
-
 const BingoBoardStyled = styled(BingoBoard)`
 	position: absolute;
 	top: 341px;
