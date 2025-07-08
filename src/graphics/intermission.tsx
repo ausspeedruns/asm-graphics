@@ -6,8 +6,6 @@ import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
 import { format } from "date-fns";
 import _ from "underscore";
-// @ts-ignore
-import Twemoji from "react-twemoji";
 // import { useRive } from "@rive-app/react-canvas";
 
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";

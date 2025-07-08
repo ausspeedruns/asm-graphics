@@ -1,9 +1,9 @@
-import React from "react";
 import styled from "styled-components";
 
 const HeaderContainer = styled.div`
 	height: 100%;
 	font-weight: bold;
+	font-size: 16px;
 	width: 100%;
 	background: var(--panel-background);
 	color: var(--text-color);
@@ -25,10 +25,10 @@ interface Props {
 	draggable?: boolean;
 }
 
-export const Header: React.FC<Props> = (props: React.PropsWithChildren<Props>) => {
+export function Header(props: Props) {
 	return (
 		<HeaderContainer style={props.style} onClick={props.onClick} draggable={props.draggable}>
 			<h3>{props.text}</h3>
 		</HeaderContainer>
 	);
-};
+}

@@ -6,8 +6,6 @@ import { Button, ThemeProvider, useColorScheme } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import { darkTheme } from "../dashboard/theme";
 
 import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog";
@@ -47,7 +45,7 @@ const DashContainer = styled.div<{ darkMode: boolean }>`
 		--panel-background 0.25s,
 		--inset-background 0.25s;
 
-	.mosaic.mosaic-blueprint-theme {
+	.mosaic {
 		background-color: var(--mosaic-background);
 		transition: background-color 0.25s;
 
@@ -101,7 +99,7 @@ const TopBar = styled.div`
 	gap: 12px;
 
 	p,
-	h1 {
+	h2 {
 		color: white;
 		line-height: 72px;
 		margin: 0;
@@ -112,7 +110,7 @@ const TopBar = styled.div`
 		font-size: 20px;
 	}
 
-	h1 {
+	h2 {
 		display: flex;
 		align-items: center;
 		gap: 8px;
@@ -283,9 +281,9 @@ export const HostDash: React.FC = () => {
 		<DashContainer darkMode={mode === "dark"}>
 			<TopBar>
 				<p>YOUR HOST:</p>
-				<h1>
+				<h2>
 					{hostRep?.name} <span className="pronouns">{hostRep?.pronouns}</span>
-				</h1>
+				</h2>
 				<Button onClick={() => setHostOpen(true)}>
 					<Edit />
 				</Button>
