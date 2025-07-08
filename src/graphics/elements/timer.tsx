@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 
-import { Timer as TimerType } from "@asm-graphics/types/Timer";
+import type { Timer as TimerType } from "@asm-graphics/types/Timer";
 
 const TimerContainer = styled.div<FontProps>`
 	display: flex;
@@ -37,7 +36,7 @@ interface Props {
 
 const DEFAULT_FONT_SIZE = 80;
 
-export const Timer: React.FC<Props> = (props: Props) => {
+export function Timer(props: Props) {
 	let millis = 0;
 	if (props.timer) {
 		millis = Math.floor((props.timer?.milliseconds % 1000) / 100);
