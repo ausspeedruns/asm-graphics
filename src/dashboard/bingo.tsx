@@ -210,9 +210,9 @@ function backgroundGradientGenerator(colours: CellColour[]): string {
 	}
 
 	let currentPercentage = 0;
-	let adder = 100 / colours.length;
+	const adder = 100 / colours.length;
 
-	let allColours: string[] = [];
+	const allColours: string[] = [];
 
 	colours.forEach((colour) => {
 		allColours.push(`${colour} ${currentPercentage}%, ${colour} ${currentPercentage + adder}%`);

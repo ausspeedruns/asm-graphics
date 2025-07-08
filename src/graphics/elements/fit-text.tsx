@@ -28,7 +28,7 @@ interface Props {
 	alignment?: "centre" | "left" | "right";
 }
 
-export const FitText: React.FunctionComponent<Props> = React.memo((props: Props) => {
+export const FitText = React.memo((props: Props) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const textRef = useRef<HTMLDivElement>(null);
 
@@ -136,3 +136,4 @@ export const FitTextElements = React.memo((props: ElementsProps) => {
 });
 
 FitText.displayName = "FitText";
+FitTextElements.displayName = "FitTextElements";

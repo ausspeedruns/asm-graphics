@@ -1,6 +1,6 @@
 import { get as nodecgGet } from "./nodecg-api-context";
 import { Bingosync, BoardCell, RoomJoinParameters } from "./util/bingosync";
-import { bingosyncRoomDetailsRep, bingosyncStatusRep, bingosyncBoardStateRep, bingosyncBoardStateOverrideRep } from './replicants';
+import { bingosyncRoomDetailsRep, bingosyncStatusRep, bingosyncBoardStateRep, bingosyncBoardStateOverrideRep } from "./replicants";
 import { clone } from "underscore";
 
 const nodecg = nodecgGet();
@@ -73,7 +73,7 @@ async function joinRoomHandler(roomDetails: RoomJoinParameters) {
 	bingosyncStatusRep.value = "disconnected";
 	log.info(`Joining Bingosync room: ${roomDetails.room} as ${roomDetails.nickname}`);
 
-	let error = false;
+	const error = false;
 	await bingosync.joinRoom(roomDetails).catch((error) => {
 		error = true;
 		bingosyncStatusRep.value = "error";

@@ -151,7 +151,7 @@ export const ASNNDash = () => {
 			.map((text) => ({ id: crypto.randomUUID(), text }));
 
 		setTicker((prev) => [...prev, ...newTickers]);
-	}, [asnnTicker]);
+	}, [asnnTicker, ticker]);
 
 	function addNewHeadline() {
 		if (!headlineTextBox || headlineTextBox.trim() === "") {

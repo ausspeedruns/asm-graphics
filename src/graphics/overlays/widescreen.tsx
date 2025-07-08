@@ -141,4 +141,4 @@ export const Widescreen = (props: OverlayProps) => {
 			</Sidebar>
 		</WidescreenContainer>
 	);
-}
+};

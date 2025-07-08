@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
@@ -98,12 +98,13 @@ export const RTAudio = (props: Props) => {
 
 		return map;
 	}, [runDataActiveRep, couchNamesRep]);
+
 	const sortedHeadsets = useMemo(() => {
 		const selectedHeadsetArray = [];
 		const headsetsWithUser = [];
 		const headsetsWithoutUser = [];
 
-		for (let headset of Headsets) {
+		for (const headset of Headsets) {
 			if (headset.name === selectedHeadset) {
 				selectedHeadsetArray.push(headset);
 			} else if (headsetUserMap.has(headset.name)) {
@@ -114,7 +115,7 @@ export const RTAudio = (props: Props) => {
 		}
 
 		return [...selectedHeadsetArray, ...headsetsWithUser, ...headsetsWithoutUser];
-	}, [selectedHeadset, headsetUserMap, hostRep]);
+	}, [selectedHeadset, headsetUserMap]);
 
 	useEffect(() => {
 		setFaderValues(debouncedFadersRep);

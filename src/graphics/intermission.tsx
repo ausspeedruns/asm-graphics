@@ -192,9 +192,9 @@ const GameName = styled(FitText)<{ containsNewLine?: boolean }>`
 	/* font-weight: bold; */
 	max-width: 80%;
 	padding: 0 10%;
-	font-size: ${({ containsNewLine }) => (containsNewLine ? `50px` : `80px`)};
-	line-height: ${({ containsNewLine }) => (containsNewLine ? `50px` : `80px`)};
-	margin: ${({ containsNewLine }) => (containsNewLine ? `5px` : `20px`)} 0px;
+	font-size: ${({ containsNewLine }) => (containsNewLine ? "50px" : "80px")};
+	line-height: ${({ containsNewLine }) => (containsNewLine ? "50px" : "80px")};
+	margin: ${({ containsNewLine }) => (containsNewLine ? "5px" : "20px")} 0px;
 	font-family: var(--secondary-font);
 	text-transform: uppercase;
 `;
@@ -520,7 +520,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 	useImperativeHandle(ref, () => ({
 		showAd(ad) {
-			let adDuration = 0;
+			const adDuration = 0;
 			switch (ad) {
 				// case "GOC":
 				// 	adDuration = 36;

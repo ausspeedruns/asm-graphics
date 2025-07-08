@@ -35,7 +35,7 @@ const TextfieldStyled = styled(TextField)`
 const HeadsetToggleButton = styled(ToggleButton)<{ $outline?: string }>`
 	&.MuiToggleButton-root:hover {
 		${(props) =>
-			props.$outline &&
+		props.$outline &&
 			css`
 				background-color: ${props.$outline}0A;
 			`}

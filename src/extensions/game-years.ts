@@ -4,7 +4,7 @@ import _ from "underscore";
 import { run } from "node:test";
 
 const nodecg = nodecgApiContext.get();
-const logger = new nodecg.Logger(`Game years`);
+const logger = new nodecg.Logger("Game years");
 
 interface TwitchAPIData {
 	state: "off" | "authenticating" | "on";
@@ -26,7 +26,7 @@ function generateMultiQuery() {
 		return [];
 	}
 
-	let runQueries: { runId: string; query: string }[] = [];
+	const runQueries: { runId: string; query: string }[] = [];
 
 	runsRep.value.forEach((run) => {
 		if (!run.game || run.system == "IRL") {

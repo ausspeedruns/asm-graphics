@@ -34,22 +34,22 @@ interface ChipProps {
 }
 
 export function Chip(props: ChipProps) {
-    const { numberOfPads = 2, style, children } = props;
+	const { numberOfPads = 2, style, children } = props;
 
-    return (
-        <ChipBody style={style}>
-            <PadColumn style={{ left: -24 }}>
-                {Array.from({ length: numberOfPads }, (_, index) => (
-                    <Pad key={index} style={props.padStyle} />
-                ))}
-            </PadColumn>
-            {children}
-            <PadColumn style={{ right: -24 }}>
-                {Array.from({ length: numberOfPads }, (_, index) => (
-                    <Pad key={index} style={props.padStyle} />
-                ))}
-            </PadColumn>
-        </ChipBody>
-    );
+	return (
+		<ChipBody style={style}>
+			<PadColumn style={{ left: -24 }}>
+				{Array.from({ length: numberOfPads }, (_, index) => (
+					<Pad key={index} style={props.padStyle} />
+				))}
+			</PadColumn>
+			{children}
+			<PadColumn style={{ right: -24 }}>
+				{Array.from({ length: numberOfPads }, (_, index) => (
+					<Pad key={index} style={props.padStyle} />
+				))}
+			</PadColumn>
+		</ChipBody>
+	);
 
 }

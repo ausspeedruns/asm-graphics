@@ -58,7 +58,7 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 
 		const optionIndex = mutableOptions.findIndex((option) => option.name === oldName);
 
-		let mutableOption = { ...mutableOptions[optionIndex] };
+		const mutableOption = { ...mutableOptions[optionIndex] };
 		if (optionIndex > -1) {
 			mutableOption.name = newName;
 		}

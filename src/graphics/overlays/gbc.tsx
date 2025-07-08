@@ -58,7 +58,7 @@ const customVerticalStyling: IVerticalStyling = {
 	}
 };
 
-export const GBC: React.FC<OverlayProps> = (props) => {
+export function GBC(props: OverlayProps) {
 	return (
 		<GBCContainer>
 			<Sidebar>

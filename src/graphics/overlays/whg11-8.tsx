@@ -48,7 +48,7 @@ const customVerticalStyle: IVerticalStyling = {
 };
 
 // World's Hardest Game (11:8)
-export const WHG: React.FC<OverlayProps> = (props) => {
+export function WHG(props: OverlayProps) {
 	return (
 		<WHGContainer>
 			<Sidebar>

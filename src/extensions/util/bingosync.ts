@@ -33,7 +33,7 @@ export interface BoardState {
 }
 
 interface WebSocketMessage {
-	type: 'goal' | 'connected' |string;
+	type: "goal" | "connected" |string;
 	player: {
 		uuid: string;
 		name: string;
@@ -236,7 +236,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 	}
 
 	private handleWebSocketMessage(data: WebSocketMessage) {
-		if (data.type === 'goal') {
+		if (data.type === "goal") {
 			this.handleGoalMessage(data);
 		}
 	}

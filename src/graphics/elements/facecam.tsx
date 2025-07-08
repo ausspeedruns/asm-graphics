@@ -97,7 +97,7 @@ export const Facecam = (props: FacecamProps) => {
 				// Versus does not have a team name, display each name
 
 				team.players.forEach((player) => {
-					let correctMic = player.customData.microphone;
+					const correctMic = player.customData.microphone;
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {

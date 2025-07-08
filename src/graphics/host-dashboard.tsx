@@ -275,7 +275,7 @@ export const HostDash: React.FC = () => {
 		if (!adProgressBarRef.current) return;
 
 		adProgressBarRef.current.style.animationDuration = `${playingAd}s`;
-	}, [adProgressBarRef.current, playingAd]);
+	}, [playingAd]);
 
 	return (
 		<DashContainer darkMode={mode === "dark"}>

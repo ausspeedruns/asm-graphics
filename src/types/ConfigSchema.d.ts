@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export interface ConfigSchema {
 	obs: {
 		enabled: boolean;

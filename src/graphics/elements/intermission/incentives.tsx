@@ -271,7 +271,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 				</CurrentLabels>
 				<PipsContainer>
 					{allPanels.map((_, i) => {
-						return <Pip $active={i == currentPanel} />;
+						return <Pip key={i} $active={i == currentPanel} />;
 					})}
 				</PipsContainer>
 			</CurrentPanel>

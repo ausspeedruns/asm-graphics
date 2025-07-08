@@ -142,31 +142,31 @@ function approximateTimeFormatter(time: number): string {
 	// The minutes are not exact because we round up a little bit (e.g. if something is 18 minutes away, you will probably say "In 20 Minutes" rather than "In 15 Minutes")
 	if (minutes > 0) {
 		if (minutes >= 50) {
-			return `In 1 Hour`;
+			return "In 1 Hour";
 		}
 
 		if (minutes >= 40) {
-			return `In 45 Minutes`;
+			return "In 45 Minutes";
 		}
 
 		if (minutes >= 25) {
-			return `In 30 Minutes`;
+			return "In 30 Minutes";
 		}
 
 		if (minutes >= 18) {
-			return `In 20 Minutes`;
+			return "In 20 Minutes";
 		}
 
 		if (minutes >= 13) {
-			return `In 15 Minutes`;
+			return "In 15 Minutes";
 		}
 
 		if (minutes >= 8) {
-			return `In 10 Minutes`;
+			return "In 10 Minutes";
 		}
 
 		if (minutes >= 5) {
-			return `In 5 Minutes`;
+			return "In 5 Minutes";
 		}
 
 		return "Very Soon";

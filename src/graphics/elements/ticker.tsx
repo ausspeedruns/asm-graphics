@@ -19,7 +19,7 @@ import ChannelBug from "../media/ASM-Gif.gif";
 import GoCLogo from "../media/Sponsors/GoCWhite.svg";
 
 // import EventBug from "./ticker/ChannelBug.png";
-import ContentBackground from '../overlays/asm25/board-158973_1920 1.png';
+import ContentBackground from "../overlays/asm25/board-158973_1920 1.png";
 import { TickerIncentives } from "./ticker/incentives";
 
 const TickerContainer = styled.div`

@@ -181,7 +181,7 @@ function transitionFromIntermission(toScene: string, fromScene: string) {
 }
 
 async function updateStreamStatus() {
-	const status = await obs.call("GetStreamStatus")
+	const status = await obs.call("GetStreamStatus");
 
 	if (status.outputActive) {
 		obsStreamTimecode.value = status.outputTimecode;

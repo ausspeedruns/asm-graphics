@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-classes-per-file */
-
 // Sources:
 // https://github.com/colinbdclark/osc.js/pull/105
 // https://github.com/GamesDoneQuick/agdq19-layouts/blob/master/src/types/osc.d.ts

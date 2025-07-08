@@ -86,7 +86,7 @@ function getDialog(name: string): Window | null {
 		return iframe;
 	} catch (err) {
 		nodecg.log.error(`getDialog could not successfully find dialog "${name}":`, err);
-		// eslint-disable-next-line no-alert
+		 
 		window.alert(
 			`Attempted to open the NodeCG "${name}" dialog but failed (if you are using a standalone version of a dashboard panel, this is not yet supported).`,
 		);

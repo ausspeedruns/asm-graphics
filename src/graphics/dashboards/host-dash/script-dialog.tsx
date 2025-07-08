@@ -75,9 +75,9 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 								</p>
 								<p>Sample Game on Cancer script:</p>
 								<blockquote>
-									“For ASM 2024 we're raising money for Game on Cancer, a charity which funds
+									“For ASM 2024 we&apos;re raising money for Game on Cancer, a charity which funds
 									early-career cancer researchers who are working across all areas of cancer research
-									to make this the last generation to die from cancer. If you'd like to donate, you
+									to make this the last generation to die from cancer. If you&apos;d like to donate, you
 									can go to donate.ausspeedruns.com”
 								</blockquote>
 							</TabPanel>
@@ -112,7 +112,7 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 									the incentive link &ndash; incentives.ausspeedruns.com)
 								</p>
 								<p>
-									Sample incentives script: [Note: this is obviously as example, and won't be the
+									Sample incentives script: [Note: this is obviously as example, and won&apos;t be the
 									case]
 								</p>
 								<blockquote>
@@ -120,8 +120,8 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 									towards one of these incentives, simply mention it in the comments section on
 									Tiltify when making your donation.
 									<br />
-									The next one coming up is a bid war to choose the Mio's hairstyle in Xenoblade
-									Chronicles 3, and currently 'short hair' is ahead on $43.
+									The next one coming up is a bid war to choose the Mio&apos;s hairstyle in Xenoblade
+									Chronicles 3, and currently &apos;short hair&apos; is ahead on $43.
 									<br />
 									To see the full list of all the incentives, head to incentives.ausspeedruns.com”
 								</blockquote>
@@ -141,7 +141,7 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 									across more than 120 countries. Renowned for their cutting-edge products including
 									laptops, desktops, graphics cards, monitors, motherboards, peripherals and more -
 									MSI works closely with the gaming community to optimise product design, embodying
-									their commitment as a 'True Gaming' brand”
+									their commitment as a &apos;True Gaming&apos; brand”
 								</blockquote>
 							</TabPanel>
 						</TabContext>

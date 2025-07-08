@@ -1,21 +1,22 @@
-import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from "react";
+import { useState, useEffect, useRef, useImperativeHandle } from "react";
 import gsap, { Power2 } from "gsap";
 
-type LerpNumProps = {
+interface LerpNumProps {
 	value: number;
+	ref: React.Ref<LerpNumRef>;
 }
 
-export type LerpNumRef = {
+export interface LerpNumRef {
 	getDisplayValue: () => number;
 }
 
 // This is very dumb, I have no idea why I did this
-export const LerpNum = forwardRef<LerpNumRef, LerpNumProps>((props, ref) => {
+export function LerpNum (props: LerpNumProps) {
 	const [displayValue, setDisplayValue] = useState(0);
 	const [lerp, setLerp] = useState(false);
 	const dummyEl = useRef<HTMLDivElement>(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		getDisplayValue: () => displayValue,
 	}));
 
@@ -64,4 +65,4 @@ export const LerpNum = forwardRef<LerpNumRef, LerpNumProps>((props, ref) => {
 			<div ref={dummyEl} />
 		</>
 	);
-});
+};

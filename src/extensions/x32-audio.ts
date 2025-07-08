@@ -27,7 +27,7 @@ const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant(
 
 const x32 = new X32();
 
-let faderValues: number[][] = [];
+const faderValues: number[][] = [];
 
 // Update x32BusFadersRep on an interval
 setInterval(() => {

@@ -1,5 +1,5 @@
 import * as nodecgApiContext from "./nodecg-api-context";
-import { prizesRep } from './replicants';
+import { prizesRep } from "./replicants";
 
 const nodecg = nodecgApiContext.get();
 

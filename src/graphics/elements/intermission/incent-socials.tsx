@@ -63,7 +63,11 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 
 	return (
 		<SocialsContainer ref={containerRef}>
-			<Stagger ref={(el) => (staggerElements.current[0] = el!)} index={0}>
+			<Stagger
+				ref={(el) => {
+					staggerElements.current[0] = el!;
+				}}
+				index={0}>
 				<div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 32 }}>
 					<SocialBar>
 						<SocialIcon src={WebsiteIcon} />
@@ -74,7 +78,11 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 					</SocialBar>
 				</div>
 			</Stagger>
-			<Stagger ref={(el) => (staggerElements.current[1] = el!)} index={2}>
+			<Stagger
+				ref={(el) => {
+					staggerElements.current[1] = el!;
+				}}
+				index={2}>
 				<div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 32 }}>
 					<SocialBar>
 						<SocialIcon src={TwitchIcon} /> @AusSpeedruns
@@ -84,7 +92,11 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 					</SocialBar>
 				</div>
 			</Stagger>
-			<Stagger ref={(el) => (staggerElements.current[2] = el!)} index={4}>
+			<Stagger
+				ref={(el) => {
+					staggerElements.current[2] = el!;
+				}}
+				index={4}>
 				<SocialBar>
 					<SocialIcon src={DiscordIcon} /> AusSpeedruns.com/Discord
 				</SocialBar>
@@ -103,12 +115,13 @@ const StaggerContainer = styled.div`
 interface PrizeProps {
 	children?: React.ReactNode;
 	index: number;
+	ref?: React.Ref<TickerItemHandles>;
 }
 
-const Stagger = React.forwardRef<TickerItemHandles, PrizeProps>((props: PrizeProps, ref) => {
+function Stagger(props: PrizeProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.fromTo(
 				containerRef.current,
@@ -127,4 +140,4 @@ const Stagger = React.forwardRef<TickerItemHandles, PrizeProps>((props: PrizePro
 	}));
 
 	return <StaggerContainer ref={containerRef}>{props.children}</StaggerContainer>;
-});
+}
