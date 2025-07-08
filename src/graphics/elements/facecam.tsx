@@ -34,6 +34,7 @@ interface FacecamProps {
 	className?: string;
 	style?: React.CSSProperties;
 	verticalCoop?: boolean;
+	nameplateColours?: string[];
 }
 
 const NAMEPLATE_HEIGHT = 41;
@@ -70,7 +71,7 @@ export const Facecam = (props: FacecamProps) => {
 		// Versus
 		let alternatingPronounSides = props.pronounStartSide === "left";
 		props.teams.forEach((team, i) => {
-			let id = "a";
+			let id: string;
 			if (team.name) {
 				// Versus has a team name
 				id = team.id;
@@ -88,6 +89,7 @@ export const Facecam = (props: FacecamProps) => {
 						nameplateLeft={alternatingPronounSides}
 						style={{
 							fontSize: 25,
+							backgroundColor: props.nameplateColours?.[i] ?? undefined,
 						}}
 						key={team.id}
 						speaking={team.players.some((player) => props.audioIndicator?.[player.customData.microphone])}
@@ -111,6 +113,7 @@ export const Facecam = (props: FacecamProps) => {
 							nameplateLeft={alternatingPronounSides}
 							style={{
 								fontSize: 25,
+								backgroundColor: props.nameplateColours?.[i] ?? undefined,
 							}}
 							key={player.id}
 							speaking={props.audioIndicator?.[correctMic]}

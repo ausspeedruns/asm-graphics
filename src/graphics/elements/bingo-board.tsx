@@ -43,13 +43,16 @@ interface BingoBoardProps {
 }
 
 export function BingoBoard(props: BingoBoardProps) {
-	const cells =
-		props.board ??
-		Array.from({ length: 25 }, (_, i) => ({
-			slot: `slot${i}`,
-			name: "",
-			colors: ["blank"],
-		}));
+	const cells: BoardCell[] =
+		!props.board || props.board.length === 0
+			? Array.from({ length: 25 }, (_, i) => ({
+					slot: `slot${i}`,
+					name: "",
+					colors: ["blank"],
+				}))
+			: props.board;
+
+	console.log("BingoBoard cells", cells);
 
 	return (
 		<div
@@ -73,14 +76,15 @@ export function BingoBoard(props: BingoBoardProps) {
 							/>
 							<PlasticElement
 								style={{
-									boxShadow:
-										cellDone
-											? "inset -3px -3px 1.5px rgba(217, 211, 224, 0.34), inset 4px 3px 1.5px rgba(68, 42, 105, 0.77)"
-											: "inset 3px 3px 1.5px rgba(217, 211, 224, 0.34),	inset -4px -3px 1.5px rgba(68, 42, 105, 0.77)",
+									boxShadow: cellDone
+										? "inset -3px -3px 1.5px rgba(217, 211, 224, 0.34), inset 4px 3px 1.5px rgba(68, 42, 105, 0.77)"
+										: "inset 3px 3px 1.5px rgba(217, 211, 224, 0.34),	inset -4px -3px 1.5px rgba(68, 42, 105, 0.77)",
 								}}
 							/>
 						</div>
-						<span style={{ zIndex: 4, color: cellDone ? "rgba(255, 255, 255, 0.77)" : "white" }}>{cell.name}</span>
+						<span style={{ zIndex: 4, color: cellDone ? "rgba(255, 255, 255, 0.77)" : "white" }}>
+							{cell.name}
+						</span>
 					</Cell>
 				);
 			})}

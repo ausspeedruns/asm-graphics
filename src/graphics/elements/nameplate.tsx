@@ -29,10 +29,10 @@ const NameplateContainer = styled.div<NameplateStyleProps>`
 	flex-direction: ${(props) => nameplateDirection(props)};
 	justify-content: space-between;
 	align-items: stretch;
+	background: var(--nameplate);
 `;
 
 const Names = styled.div<NameplateStyleProps>`
-	background: var(--nameplate);
 	display: flex;
 	flex-grow: 1;
 	justify-content: center;

@@ -185,6 +185,7 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 					teams={props.runData?.teams}
 					maxNameWidth={190}
 					audioIndicator={props.microphoneAudioIndicator}
+					nameplateColours={["red", "blue"]}
 				/>
 
 				<RaceFinish
