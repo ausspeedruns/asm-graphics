@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import {
@@ -14,9 +15,8 @@ import { RichTreeView, TreeViewBaseItem } from "@mui/x-tree-view";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
 import { RunDataArray } from "@asm-graphics/types/RunData";
-import { useState } from "react";
 
-const layoutsRegex = /Layout:\s*(.*)/;
+const layoutsRegex = /LAYOUT:\s*(.*)/;
 const unknownLayoutLabel = "Unknown Layout";
 function collectLayouts(runDataArray: RunDataArray): TreeViewBaseItem[] {
 	const layouts: Record<string, { label: string; runId: string }[]> = {};
@@ -79,7 +79,7 @@ export const DashScheduleImporter = () => {
 	const layouts = collectLayouts(runsRep ?? []);
 
 	function loadRun(
-		event: React.SyntheticEvent,
+		_event: React.SyntheticEvent | null,
 		itemId: string,
 		isSelected: boolean,
 	  ) {
