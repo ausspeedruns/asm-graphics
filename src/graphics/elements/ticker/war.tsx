@@ -98,7 +98,7 @@ export const WarGame = (props: GoalProps) => {
 			// Start
 			tl.to(containerRef.current, { y: 0, duration: 1 }, "-=0.5");
 
-			for (let i = 0; i < Math.min(props.war.options.length, 5); i++) {
+			for (let i = 0; i < Math.min(props.war.options.length, MAX_ALLOWED - 1); i++) {
 				tl.add(optionRefs.current[props.war.options.length - 1 - i].animation(tl), animLabel);
 			}
 
