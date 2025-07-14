@@ -16,7 +16,7 @@ const VerticalStack = styled.div`
 	justify-content: flex-start;
 	margin: 0 12px;
 	height: 100%;
-	/* margin-top: -6px; */
+	margin-top: -6px;
 `;
 
 const Title = styled.span`
@@ -31,7 +31,7 @@ const Title = styled.span`
 const Subtitle = styled.span`
 	font-size: 17px;
 	white-space: nowrap;
-	/* margin-top: -8px; */
+	margin-top: -6px;
 	/* font-family: var(--secondary-font); */
 `;
 

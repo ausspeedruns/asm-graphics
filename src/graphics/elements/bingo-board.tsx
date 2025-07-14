@@ -16,6 +16,20 @@ const Cell = styled.div`
 	line-height: 1.1;
 `;
 
+export const cellColourMapping: Record<CellColour, string> = {
+	purple: "#e42d2d", // Not purple
+	blue: "#4a9d2a", // Not blue
+	green: "#4a9d2a",
+	red: "#9d2a2a",
+	yellow: "#9d8f2a",
+	orange: "#9d5f2a",
+	pink: "#9d2a7f",
+	brown: "#9d6f2a",
+	navy: "#2a4a9d",
+	teal: "#2a9d9d",
+	blank: "transparent",
+}
+
 function backgroundGradientGenerator(colours: CellColour[]): string {
 	if (colours.length === 0 || colours[0] === "blank") {
 		return "";
@@ -27,7 +41,8 @@ function backgroundGradientGenerator(colours: CellColour[]): string {
 	const allColours: string[] = [];
 
 	colours.forEach((colour) => {
-		allColours.push(`${colour} ${currentPercentage}%, ${colour} ${currentPercentage + adder}%`);
+		const hexColour = cellColourMapping[colour] ?? colour;
+		allColours.push(`${hexColour} ${currentPercentage}%, ${hexColour} ${currentPercentage + adder}%`);
 		currentPercentage += adder;
 	});
 
@@ -51,8 +66,6 @@ export function BingoBoard(props: BingoBoardProps) {
 					colors: ["blank"],
 				}))
 			: props.board;
-
-	console.log("BingoBoard cells", cells);
 
 	return (
 		<div

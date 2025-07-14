@@ -57,12 +57,11 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 		<TickerPrizesContainer ref={containerRef} className={props.className} style={props.style}>
 			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2 }}>
 				<span>Prizes</span>
-				<span style={{ fontSize: 16 }}>AUS Only</span>
 			</TickerTitle>
 			<div style={{ width: "100%", position: "relative" }}>
 				<PrizesScroller ref={prizesRef}>
 					{props.prizes.map((prize) => (
-						<TickerItem key={prize.id} title={prize.item} sub={prize.requirement} />
+						<TickerItem key={prize.id} title={prize.item} sub={`${prize.requirement}${prize.requirementSubheading ? ` - ${prize.requirementSubheading}` : ""}`} />
 					))}
 				</PrizesScroller>
 			</div>

@@ -29,7 +29,7 @@ const InfoBoxBG = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
-	height: 664px;
+	height: 644px;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-blend-mode: multiply;
 	background-repeat: repeat;

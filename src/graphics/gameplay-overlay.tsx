@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { HashRouter, Route, Link, Routes } from "react-router";
@@ -32,6 +32,11 @@ import { StandardVertical } from "./overlays/standard-vertical";
 import { StandardWidescreen } from "./overlays/standard-widescreen";
 import { StandardBand } from "./overlays/standard-band";
 import { Widescreen2Bingo } from "./overlays/widescreen-2-bingo";
+import { GBC2 } from "./overlays/gbc-2";
+import { TopBarOnly } from "./overlays/top-bar-only";
+
+import { useNormalisedTime } from "../hooks/useCurrentTime";
+import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 
 const GameplayOverlayCont = styled.div``;
 
@@ -54,7 +59,7 @@ interface GameplayOverlayProps {
 	preview?: boolean;
 }
 
-const GameplayOverlay = (props: GameplayOverlayProps) => {
+function GameplayOverlay(props: GameplayOverlayProps) {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [timerRep] = useReplicant<Timer>("timer", { bundle: "nodecg-speedcontrol" });
 
@@ -71,6 +76,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 	const [onScreenMessageMessageRep] = useReplicant<string>("onScreenWarning:message");
 
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
+
+	// const normalisedTime = useNormalisedTime(1000);
+	const [normalisedTime, setNormalisedTime] = useState(0);
+	const asm25Colours = normalisedTimeToColour(normalisedTime);
 
 	// Disable runner audio indicator if they are the only runner and there isn't another commentator (except Host)
 	const mutableMicAudioIndicator = _.clone(microphoneAudioIndicatorRep);
@@ -147,6 +156,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			name: "GBC",
 		},
 		{
+			component: <GBC2 {...overlayArgs} />,
+			name: "GBC-2",
+		},
+		{
 			component: <WHG {...overlayArgs} />,
 			name: "WHG",
 		},
@@ -173,6 +186,10 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 		{
 			component: <Widescreen2Bingo {...overlayArgs} />,
 			name: "Widescreen-2-Bingo",
+		},
+		{
+			component: <TopBarOnly {...overlayArgs} />,
+			name: "Top-Bar-Only",
 		},
 		{
 			component: <NoGraphics />,
@@ -215,12 +232,37 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 
 	return (
 		<GameplayOverlayCont>
-			<GameplayContainer>
+			<GameplayContainer
+				style={
+					{
+						"--plastic-top": asm25Colours.plasticTop + "5C",
+						"--plastic-bottom": asm25Colours.plasticBottom,
+						"--text-outline": asm25Colours.textOutline,
+						"--trace": asm25Colours.trace,
+						"--trace-outline": asm25Colours.traceOutline,
+						"--chip": asm25Colours.chip,
+					} as React.CSSProperties
+				}>
 				<Routes>{RouteData}</Routes>
 				<TickerOverlay />
 			</GameplayContainer>
 
 			{DevLinks}
+			<input
+				style={{ display: "block", width: "100%" }}
+				type="range"
+				min="0"
+				max="1"
+				step="0.01"
+				value={normalisedTime}
+				onChange={(e) => setNormalisedTime(parseFloat(e.target.value))}
+			/>
+			<div>
+				<button onClick={() => setNormalisedTime(0)}>Midday</button>
+				<button onClick={() => setNormalisedTime((sunsetStart + sunsetEnd) / 2)}>Sunset</button>
+				<button onClick={() => setNormalisedTime(0.5)}>Night</button>
+				<button onClick={() => setNormalisedTime((sunriseStart + sunriseEnd) / 2)}>Sunrise</button>
+			</div>
 			<div>
 				<button onClick={() => changeBGColor("#000")}>Black</button>
 				<button onClick={() => changeBGColor("#f00")}>Red</button>
@@ -231,7 +273,7 @@ const GameplayOverlay = (props: GameplayOverlayProps) => {
 			</div>
 		</GameplayOverlayCont>
 	);
-};
+}
 
 createRoot(document.getElementById("root")!).render(
 	<HashRouter>

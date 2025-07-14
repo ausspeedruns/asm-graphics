@@ -1,3 +1,5 @@
+import { useNormalisedTime } from "../../hooks/useCurrentTime";
+
 interface ColourSwatch {
     plasticTop: string;
     plasticBottom: string;
@@ -7,7 +9,7 @@ interface ColourSwatch {
     chip: string;
 }
 
-const dayTimeColours: ColourSwatch = {
+export const dayTimeColours: ColourSwatch = {
 	plasticTop: "#4A85DE",
 	plasticBottom: "#437c90",
 	textOutline: "#CC7722",
@@ -25,7 +27,7 @@ const sunsetTimeColours: ColourSwatch = {
 	chip: "#f2aeae",
 };
 
-const nightTimeColours: ColourSwatch = {
+const sunriseTimeColours: ColourSwatch = {
 	plasticTop: "#c5a0f2",
 	plasticBottom: "#f79fff",
 	textOutline: "#cc7722",
@@ -34,7 +36,7 @@ const nightTimeColours: ColourSwatch = {
 	chip: "#918da9",
 };
 
-const sunriseTimeColours: ColourSwatch = {
+const nightTimeColours: ColourSwatch = {
 	plasticTop: "#2b2b2b",
 	plasticBottom: "#202020",
 	textOutline: "#309128",
@@ -43,15 +45,70 @@ const sunriseTimeColours: ColourSwatch = {
 	chip: "#918da9",
 };
 
-export const useTimeColour = (time: Date): ColourSwatch => {
-	const hours = time.getHours();
-	if (hours >= 6 && hours < 12) {
-		return dayTimeColours;
-	} else if (hours >= 12 && hours < 18) {
-		return sunsetTimeColours;
-	} else if (hours >= 18 && hours < 24) {
-		return nightTimeColours;
-	} else {
-		return sunriseTimeColours;
+export const sunsetStart = 0.2203; // 5:23 PM
+export const sunsetEnd = 0.2646; // 6:21 PM
+export const sunriseStart = 0.7646; // 6:21 AM
+export const sunriseEnd = 0.8125; // 7:30 AM
+
+const timeColourTimeline = [
+	{ time: 0.0, colours: dayTimeColours },
+	{ time: sunsetStart, colours: dayTimeColours },
+	{ time: (sunsetStart + sunsetEnd) / 2, colours: sunsetTimeColours },
+	{ time: sunsetEnd, colours: nightTimeColours },
+	{ time: sunriseStart, colours: nightTimeColours },
+	{ time: (sunriseStart + sunriseEnd) / 2, colours: sunriseTimeColours },
+	{ time: sunriseEnd, colours: dayTimeColours },
+] as const;
+
+const allKeyframes = timeColourTimeline.map((keyframe) => keyframe.time);
+
+function lerpColourSwatch(swatchA: ColourSwatch, swatchB: ColourSwatch, t: number): ColourSwatch {
+	return {
+		plasticTop: lerp(swatchA.plasticTop, swatchB.plasticTop, t),
+		plasticBottom: lerp(swatchA.plasticBottom, swatchB.plasticBottom, t),
+		textOutline: lerp(swatchA.textOutline, swatchB.textOutline, t),
+		trace: lerp(swatchA.trace, swatchB.trace, t),
+		traceOutline: lerp(swatchA.traceOutline, swatchB.traceOutline, t),
+		chip: lerp(swatchA.chip, swatchB.chip, t),
+	};
+}
+
+function lerp(a: string, b: string, t: number): string {
+	const aRGB = parseInt(a.slice(1), 16);
+	const bRGB = parseInt(b.slice(1), 16);
+
+	const r = Math.round(((aRGB >> 16) * (1 - t)) + ((bRGB >> 16) * t));
+	const g = Math.round((((aRGB >> 8) & 0xFF) * (1 - t)) + (((bRGB >> 8) & 0xFF) * t));
+	const bValue = Math.round(((aRGB & 0xFF) * (1 - t)) + ((bRGB & 0xFF) * t));
+
+	return `#${((1 << 24) + (r << 16) + (g << 8) + bValue).toString(16).slice(1).toUpperCase()}`;
+}
+
+export function normalisedTimeToColour(normalisedTime: number): ColourSwatch {
+	let colours = dayTimeColours;
+
+	for (let i = 0; i < allKeyframes.length - 1; i++) {
+		const keyframeA = allKeyframes[i];
+
+		// Check if we are at the end of the timeline
+		if (i === allKeyframes.length - 1) {
+			colours = timeColourTimeline[i].colours;
+			break;
+		}
+
+		const keyframeB = allKeyframes[i + 1];
+
+		if (normalisedTime >= keyframeA && normalisedTime <= keyframeB) {
+			const t = (normalisedTime - keyframeA) / (keyframeB - keyframeA);
+			colours = lerpColourSwatch(timeColourTimeline[i].colours, timeColourTimeline[i + 1].colours, t);
+			break;
+		}
 	}
+
+	return colours;
+}
+
+export function useTimeColour(updateInterval = 1000): ColourSwatch {
+	const normalisedTime = useNormalisedTime(updateInterval);
+	return normalisedTimeToColour(normalisedTime);
 };

@@ -13,7 +13,7 @@ import { getTeams } from "../elements/team-data";
 import { Circuitry } from "./asm25/circuitry";
 import { useReplicant } from "@nodecg/react-hooks";
 import { BoardState } from "extensions/util/bingosync";
-import { BingoBoard } from "../elements/bingo-board";
+import { BingoBoard, cellColourMapping } from "../elements/bingo-board";
 
 // import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
 // import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
@@ -185,7 +185,7 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 					teams={props.runData?.teams}
 					maxNameWidth={190}
 					audioIndicator={props.microphoneAudioIndicator}
-					nameplateColours={["red", "blue"]}
+					nameplateColours={[cellColourMapping.purple, cellColourMapping.blue]}
 				/>
 
 				<RaceFinish

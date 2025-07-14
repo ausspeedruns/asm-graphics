@@ -15,7 +15,7 @@ const TickerRunsContainer = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
-	transform: translate(0px, 64px);
+	transform: translate(0px, -64px);
 	z-index: 0;
 `;
 

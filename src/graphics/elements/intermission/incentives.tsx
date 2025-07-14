@@ -65,8 +65,8 @@ const Pip = styled.div<{ $active?: boolean }>`
 	${(props) =>
 		props.$active &&
 		css`
-			background: #c72;
-			box-shadow: inset 0 -6px 0 0 #b53600;
+			background: var(--text-outline);
+			box-shadow: inset 0 -6px 0 0 rgba(0, 0, 0, 0.33);
 		`}
 `;
 

@@ -26,31 +26,16 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 			<DialogTitle>Charity Scripts</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					<div>
-						<p>Video Ads</p>
-						<Button variant="outlined" onClick={() => props.playAd("GOC", 36)}>
-							Game On Cancer (36 seconds)
+					<p>Video Ads</p>
+					<div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+						<Button variant="outlined" onClick={() => props.playAd("Gigabyte", 40)}>
+							Gigabyte (40 seconds)
 						</Button>
-						<Button variant="outlined" onClick={() => props.playAd("Laptop", 60)}>
-							Laptop (60 seconds)
+						<Button variant="outlined" onClick={() => props.playAd("UrbanClimb", 30)}>
+							Urban Climb (30 seconds)
 						</Button>
-						<Button variant="outlined" onClick={() => props.playAd("Raider_GE78", 84)}>
-							Raider_GE78 (84 seconds)
-						</Button>
-						<Button variant="outlined" onClick={() => props.playAd("Vector_17", 85)}>
-							Vector_17 (85 seconds)
-						</Button>
-						<Button variant="outlined" onClick={() => props.playAd("Prestige_13", 81)}>
-							Prestige_13 (81 seconds)
-						</Button>
-						<Button variant="outlined" onClick={() => props.playAd("Stealth_Laptop", 87)}>
-							Stealth_Laptop (87 seconds)
-						</Button>
-						<Button variant="outlined" onClick={() => props.playAd("Katana_Laptop", 86)}>
-							Katana_Laptop (86 seconds)
-						</Button>
-						<Button variant="outlined" onClick={() => props.playAd("Thin_15", 58)}>
-							Thin_15 (58 seconds)
+						<Button variant="outlined" onClick={() => props.playAd("InfiniteWorlds", 0)}>
+							Infinite Worlds (?? seconds)
 						</Button>
 					</div>
 					<hr />
@@ -77,8 +62,8 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 								<blockquote>
 									“For ASM 2024 we&apos;re raising money for Game on Cancer, a charity which funds
 									early-career cancer researchers who are working across all areas of cancer research
-									to make this the last generation to die from cancer. If you&apos;d like to donate, you
-									can go to donate.ausspeedruns.com”
+									to make this the last generation to die from cancer. If you&apos;d like to donate,
+									you can go to donate.ausspeedruns.com”
 								</blockquote>
 							</TabPanel>
 

@@ -7,7 +7,7 @@ const PlasticElement = styled.div`
 	height: 100%;
 	width: 100%;
 	background: rgba(105, 42, 153, 0.36);
-	z-index: 2;
+	z-index: -1;
 
 	backdrop-filter: blur(2px);
 `;
@@ -19,7 +19,7 @@ function generateBoxShadows(bigShadowAngle: number) {
 	return `
 		inset 6px 6px 3px rgba(217, 211, 224, 0.34),
 		inset -8px -7px 3px rgba(68, 42, 105, 0.77),
-		inset ${bigAngleX}px ${bigAngleY}px 150px rgba(71, 31, 97, 0.6)
+		inset ${bigAngleX}px ${bigAngleY}px 150px rgba(17, 17, 17, 0.6)
 		`;
 }
 
@@ -40,19 +40,20 @@ export function Circuitry(props: CircuitryProps) {
 
 	return (
 		<CircuitBoard
-			style={{ backgroundImage: props.noCircuitBoard ? "none" : `url(${circuitBoardImage})`, ...props.style }}>
+			style={{ backgroundImage: props.noCircuitBoard ? "none" : `url(${circuitBoardImage})`, zIndex: -3, ...props.style }}>
 			<div
 				style={{
-					backgroundColor: "#C39CE2",
+					backgroundColor: "var(--plastic-bottom)",
 					mixBlendMode: "color",
 					height: "100%",
 					width: "100%",
 					position: "absolute",
-					zIndex: 1,
+					zIndex: -2,
 				}}
 			/>
 			<PlasticElement style={{
 				boxShadow: test,
+				backgroundColor: "var(--plastic-top)",
 			}} />
 		</CircuitBoard>
 	);

@@ -20,14 +20,14 @@ import { FitText } from "./elements/fit-text";
 import { LerpNum } from "./elements/ticker/lerp-num";
 
 // Assets
-// import Mic from "@mui/icons-material/Mic";
+import Mic from "@mui/icons-material/Mic";
 import MusicIconImg from "./media/icons/MusicIcon.svg";
 import { Sponsors } from "./elements/sponsors";
 import { IntermissionAds, IntermissionAdsRef } from "./elements/intermission/ad";
 import GoCLogo from "./media/Sponsors/GoCCCWhite.svg";
 
 import IntermissionBG from "./overlays/backgrounds/Intermission_Traces 1.svg?react";
-import ASM25Speaker from "./overlays/backgrounds/Speaker.png";
+import ASM25Speaker from "./overlays/backgrounds/Speaker.svg?react";
 
 import StopwatchIcon from "./media/icons/stopwatch.svg";
 import RunnerIcon from "./media/icons/runner.svg";
@@ -36,7 +36,9 @@ import ConsoleIcon from "./media/icons/console.svg";
 // import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
 import { Circuitry } from "./overlays/asm25/circuitry";
 import { Chip } from "./overlays/asm25/chip";
-import { DonationMatch } from "@asm-graphics/types/Donations";
+import type { DonationMatch } from "@asm-graphics/types/Donations";
+import { useNormalisedTime } from "../hooks/useCurrentTime";
+import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -89,7 +91,7 @@ const HostPronoun = styled.span`
 	color: var(--text-light);
 	text-transform: uppercase;
 	margin-left: 2px;
-	background: var(--main);
+	background: var(--text-outline);
 	height: 70%;
 	padding: 4px 8px;
 	line-height: 28px;
@@ -101,13 +103,13 @@ const HostPronoun = styled.span`
 
 	outline: 1px solid var(--text-light);
 	outline-offset: 3px;
-	box-shadow: inset 0 -3px 0 0 #b53600;
+	box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, 0.33);
 `;
 
 const MUSIC_WIDTH = 399;
 
 const Music = styled.div`
-	max-width: 399px;
+	max-width: 363px;
 	text-align: center;
 	display: flex;
 	align-items: center;
@@ -115,7 +117,7 @@ const Music = styled.div`
 	flex-shrink: 1;
 
 	position: absolute;
-	left: 560px;
+	left: 111px;
 	top: 70px;
 `;
 
@@ -253,7 +255,7 @@ const DonationContainer = styled.div`
 	justify-content: center;
 	width: 100%;
 	pointer-events: none;
-	margin-top: 40px;
+	margin-top: 20px;
 
 	& > * {
 		z-index: 10;
@@ -264,7 +266,7 @@ const DonationAmount = styled.div`
 	font-size: 200px;
 	font-family: var(--mono-font);
 	font-weight: 900;
-	-webkit-text-stroke: 4px #c72;
+	-webkit-text-stroke: 4px var(--text-outline);
 	// letter-spacing: 8px;
 `;
 
@@ -420,7 +422,7 @@ const MultiplierText = styled.div`
 
 const LocationTag = styled.div``;
 
-export const Intermission: React.FC = () => {
+export function Intermission() {
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
 	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
@@ -432,6 +434,9 @@ export const Intermission: React.FC = () => {
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
 	const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
+	const normalisedTime = useNormalisedTime(1000);
+	// const [normalisedTime, setNormalisedTime] = useState(0);
+
 	const intermissionRef = useRef<IntermissionRef>(null);
 
 	useListenFor("playAd", (newVal) => {
@@ -441,19 +446,37 @@ export const Intermission: React.FC = () => {
 	const currentDonationMultiplier = (donationMatchesRep?.filter((match) => match.active).length ?? 0) + 1;
 
 	return (
-		<IntermissionElement
-			ref={intermissionRef}
-			activeRun={runDataActiveRep}
-			runArray={runDataArrayRep ?? []}
-			donation={(donationRep ?? 0) + (manualDonationRep ?? 0)}
-			host={hostRep}
-			sponsors={sponsorsRep}
-			incentives={incentivesRep?.filter((incentive) => incentive.active)}
-			photos={photosRep}
-			donationMatchMultiplier={currentDonationMultiplier}
-		/>
+		<>
+			<IntermissionElement
+				ref={intermissionRef}
+				activeRun={runDataActiveRep}
+				runArray={runDataArrayRep ?? []}
+				donation={(donationRep ?? 0) + (manualDonationRep ?? 0)}
+				host={hostRep}
+				sponsors={sponsorsRep}
+				incentives={incentivesRep?.filter((incentive) => incentive.active)}
+				photos={photosRep}
+				donationMatchMultiplier={currentDonationMultiplier}
+				normalisedTime={normalisedTime}
+			/>
+			<input
+				type="range"
+				min="0"
+				max="1"
+				step="0.001"
+				value={normalisedTime}
+				style={{width: "100%"}}
+				// onChange={(e) => setNormalisedTime(parseFloat(e.target.value))}
+			/>
+			<div>
+				{/* <button onClick={() => setNormalisedTime(0)}>Midday</button>
+				<button onClick={() => setNormalisedTime((sunsetStart + sunsetEnd) / 2)}>Sunset</button>
+				<button onClick={() => setNormalisedTime(0.5)}>Night</button>
+				<button onClick={() => setNormalisedTime((sunriseStart + sunriseEnd) / 2)}>Sunrise</button> */}
+			</div>
+		</>
 	);
-};
+}
 
 export interface IntermissionRef {
 	showAd: (ad: string) => void;
@@ -467,12 +490,13 @@ interface IntermissionProps {
 	muted?: boolean;
 	sponsors?: NodeCG.AssetFile[];
 	incentives?: Incentive[];
-	asmm?: number;
+	normalisedTime?: number;
 	photos?: NodeCG.AssetFile[];
 	donationMatchMultiplier?: number;
+	ref?: React.Ref<IntermissionRef>;
 }
 
-export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps>((props, ref) => {
+export function IntermissionElement(props: IntermissionProps) {
 	const [currentHours, setCurrentHours] = useState("00");
 	const [currentMinutes, setCurrentMinutes] = useState("00");
 	const [currentDate, setCurrentDate] = useState("Janurary 1st, 1971"); // Yeah you came looking for the UNIX epoch didn't you?
@@ -482,6 +506,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const adsRef = useRef<IntermissionAdsRef>(null);
 	const incentivesRef = useRef<HTMLDivElement>(null);
+
+	const asm25Colours = normalisedTimeToColour(props.normalisedTime ?? 0);
 
 	async function getCurrentSong() {
 		const song = await fetch("https://rainwave.cc/api4/info_all?sid=2", { method: "GET" });
@@ -502,9 +528,10 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 		}, 3000);
 
 		function setTimes() {
-			setCurrentHours(format(new Date(), "h"));
-			setCurrentMinutes(format(new Date(), "mm a"));
-			setCurrentDate(format(new Date(), "EEEE – d LLLL yyyy"));
+			const now = new Date();
+			setCurrentHours(format(now, "h"));
+			setCurrentMinutes(format(now, "mm a"));
+			setCurrentDate(format(now, "EEEE – d LLLL yyyy"));
 		}
 
 		return () => {
@@ -518,47 +545,53 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 		setShowMarquee(songEl.current.offsetWidth < songEl.current.scrollWidth);
 	}, [currentSong, songEl]);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		showAd(ad) {
-			const adDuration = 0;
+			let adDuration = 0;
 			switch (ad) {
-				// case "GOC":
-				// 	adDuration = 36;
-				// 	break;
+				case "UrbanClimb":
+					adDuration = 36;
+					break;
+				case "Gigabyte":
+					adDuration = 30;
+					break;
+				case "InfiniteWorlds":
+					adDuration = 30;
+					break;
 				default:
 					return;
 			}
 
-			// if (audioRef.current) {
-			// 	const tl = gsap.timeline();
+			if (audioRef.current) {
+				const tl = gsap.timeline();
 
-			// 	tl.set(audioRef.current, { x: 1 });
-			// 	tl.to(audioRef.current, {
-			// 		x: 0,
-			// 		duration: 5,
-			// 		onUpdate: () => {
-			// 			if (!audioRef.current) return;
-			// 			const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
-			// 			audioRef.current.volume = parseFloat(dummyElPos.toString());
-			// 		},
-			// 	});
-			// 	// tl.to(incentivesRef.current, { opacity: 0, duration: 3 });
-			// 	// tl.call(() => adsRef.current?.showAd(ad));
-			// 	// tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration + 3}`);
-			// 	tl.to(
-			// 		audioRef.current,
-			// 		{
-			// 			x: 1,
-			// 			duration: 5,
-			// 			onUpdate: () => {
-			// 				if (!audioRef.current) return;
-			// 				const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
-			// 				audioRef.current.volume = parseFloat(dummyElPos.toString());
-			// 			},
-			// 		},
-			// 		`+=${adDuration} + 10`,
-			// 	);
-			// }
+				tl.set(audioRef.current, { x: 1 });
+				tl.to(audioRef.current, {
+					x: 0,
+					duration: 5,
+					onUpdate: () => {
+						if (!audioRef.current) return;
+						const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
+						audioRef.current.volume = parseFloat(dummyElPos.toString());
+					},
+				});
+				// tl.to(incentivesRef.current, { opacity: 0, duration: 3 });
+				tl.call(() => adsRef.current?.showAd(ad));
+				// tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration + 3}`);
+				tl.to(
+					audioRef.current,
+					{
+						x: 1,
+						duration: 5,
+						onUpdate: () => {
+							if (!audioRef.current) return;
+							const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
+							audioRef.current.volume = parseFloat(dummyElPos.toString());
+						},
+					},
+					`+=${adDuration} + 10`,
+				);
+			}
 		},
 	}));
 
@@ -587,7 +620,17 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 		: nextRuns[0]?.estimate;
 
 	return (
-		<IntermissionContainer>
+		<IntermissionContainer
+			style={
+				{
+					"--plastic-top": asm25Colours.plasticTop + "5C",
+					"--plastic-bottom": asm25Colours.plasticBottom,
+					"--text-outline": asm25Colours.textOutline,
+					"--trace": asm25Colours.trace,
+					"--trace-outline": asm25Colours.traceOutline,
+					"--chip": asm25Colours.chip,
+				} as React.CSSProperties
+			}>
 			<Circuitry
 				noCircuitBoard
 				bigShadowAngle={90}
@@ -606,6 +649,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 
 			<LeftColumn>
 				<CameraContainer>
+					<IntermissionAds ref={adsRef} />
 					<CameraBorder />
 					<CameraShadow />
 					<CameraChin>
@@ -622,7 +666,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					</CameraChin>
 				</CameraContainer>
 				<div style={{ width: "80%", position: "relative", height: 150 }}>
-					<img style={{ position: "absolute", top: 20, left: -28 }} src={ASM25Speaker} />
+					<ASM25Speaker style={{ position: "absolute", top: 20, left: -28, zIndex: 4 }} />
 					{props.host && (
 						<HostName>
 							{/* <Mic style={{ height: "2.5rem", width: "2.5rem" }} /> */}
@@ -630,7 +674,8 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
 						</HostName>
 					)}
-					<MusicIcon src={MusicIconImg} />
+					{/* <MusicIcon src={MusicIconImg} /> */}
+					<Mic style={{ height: "auto", width: 65, position: "absolute", top: 44, left: 483 }} />
 					<Music>
 						<audio
 							style={{ transform: "translate(100px, 0px)" }}
@@ -642,7 +687,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 						</audio>
 						<div style={{ display: "flex", alignItems: "flex-end", gap: 8, width: "100%" }}>
-							{/* <MusicIcon src={MusicIconImg} /> */}
 							<MusicLabel>
 								<MusicMarquee style={{ opacity: showMarquee ? 1 : 0 }}>
 									<MarqueeText style={{ animationDuration: `${currentSong.length * 0.35}s` }}>
@@ -665,7 +709,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							alignItems: "center",
 							gap: 16,
 							height: 230,
-							marginBottom: -18,
 						}}>
 						<DonationAmount
 							style={{
@@ -692,7 +735,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 					)}
 				</DonationContainer>
 
-				<Chip numberOfPads={13} style={{ marginTop: 30 }}>
+				{/* <Chip numberOfPads={13} style={{ marginTop: 30 }}> */}
 					<RunContainer>
 						<div
 							style={{
@@ -722,7 +765,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							</ConsoleInfo>
 						</div>
 					</RunContainer>
-				</Chip>
+				{/* </Chip> */}
 
 				<div style={{ position: "relative", width: "100%", height: 290, marginTop: 8 }}>
 					<div
@@ -735,7 +778,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							display: "flex",
 							justifyContent: "center",
 						}}>
-						<Chip numberOfPads={12} style={{ width: 700, height: 210 }} />
+						{/* <Chip numberOfPads={12} style={{ width: 700, height: 210 }} /> */}
 					</div>
 					<div
 						style={{
@@ -766,12 +809,12 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							width: 330,
 							height: 115,
 							paddingBottom: 16,
-							background: "#c72",
+							background: "var(--text-outline)",
 							padding: 20,
 							outline: "3px solid white",
 							outlineOffset: "3px",
 							position: "relative",
-							boxShadow: "inset 0 -6px 0 0 #B53600",
+							boxShadow: "inset 0 -6px 0 0 rgba(0, 0, 0, 0.33)",
 						}}>
 						<Sponsors sponsors={props.sponsors} />
 						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>
@@ -806,7 +849,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							width: 300,
 							height: 115,
 							paddingBottom: 16,
-							background: "#c72",
+							background: "var(--text-outline)",
 							padding: 20,
 							outline: "3px solid white",
 							outlineOffset: "3px",
@@ -814,7 +857,7 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 							display: "flex",
 							alignItems: "center",
 							justifyContent: "center",
-							boxShadow: "inset 0 -6px 0 0 #B53600",
+							boxShadow: "inset 0 -6px 0 0 rgba(0, 0, 0, 0.33)",
 						}}>
 						<CureCancerLogo src={GoCLogo} />
 						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>
@@ -849,8 +892,6 @@ export const IntermissionElement = forwardRef<IntermissionRef, IntermissionProps
 			{/* <IntermissionAds ref={adsRef} /> */}
 		</IntermissionContainer>
 	);
-});
-
-IntermissionElement.displayName = "Intermission";
+}
 
 createRoot(document.getElementById("root")!).render(<Intermission />);

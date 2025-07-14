@@ -17,6 +17,7 @@ bower_components
 /bundle-analyzer
 /shared/dist
 *.mp4
+*.m4v
 config.json
 speedcontrol-config.json
 

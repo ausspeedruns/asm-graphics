@@ -3,7 +3,7 @@ import gsap, { Power2 } from "gsap";
 
 interface LerpNumProps {
 	value: number;
-	ref: React.Ref<LerpNumRef>;
+	ref?: React.Ref<LerpNumRef>;
 }
 
 export interface LerpNumRef {

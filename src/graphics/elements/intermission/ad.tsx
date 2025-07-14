@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import React, { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
 
@@ -7,7 +7,7 @@ import gsap from "gsap";
 
 const IntermissionAdsContainer = styled.div`
 	width: 100%;
-	/* opacity: 0; */
+	opacity: 0;
 	/* background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%); */
 	/* border-top: 1px solid var(--sec);
 	border-bottom: 1px solid var(--sec); */
@@ -15,6 +15,7 @@ const IntermissionAdsContainer = styled.div`
 	position: absolute;
 	top: 0;
 	background: black;
+	border-radius: 32px;;
 `;
 
 const VideoBox = styled.div`
@@ -22,9 +23,9 @@ const VideoBox = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	top: 0;
-	width: 64%;
-	height: 100%;
+	margin-top: 37px;
+	width: 900px;
+	height: 623px;
 	/* background: red; */
 `;
 
@@ -43,20 +44,21 @@ const Video = styled.video`
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
+	ref?: React.Ref<IntermissionAdsRef>;
 }
 
 export interface IntermissionAdsRef {
 	showAd: (ad: string) => void;
 }
 
-export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref) => {
+export function IntermissionAds(props: Props) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const textRef = useRef<HTMLDivElement>(null);
 	// const entryRef = useRef<HTMLVideoElement>(null);
 	// const exitRef = useRef<HTMLVideoElement>(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		showAd(ad) {
 			let adData = {
 				src: "",
@@ -65,60 +67,25 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			};
 
 			switch (ad) {
-				case "GOC":
+				case "UrbanClimb":
 					adData = {
-						src: "../shared/sponsors/GameOnCancer.mp4",
-						length: 36,
+						src: "../shared/sponsors/UrbanClimb.mp4",
+						length: 30,
 						volume: 1,
 					};
 					break;
-				case "Laptop":
+				case "Gigabyte":
 					adData = {
-						src: "../shared/sponsors/Laptop.mp4",
-						length: 60,
-						volume: 0.8,
+						src: "../shared/sponsors/Gigabyte.m4v",
+						length: 40,
+						volume: 0.6,
 					};
 					break;
-				case "Raider_GE78":
+				case "InfiniteWorlds":
 					adData = {
-						src: "../shared/sponsors/MSI_NB_Raider_GE78_HX_14V_16-10.mp4",
+						src: "../shared/sponsors/InfiniteWorlds.mp4",
 						length: 84,
-						volume: 0.8,
-					};
-					break;
-				case "Vector_17":
-					adData = {
-						src: "../shared/sponsors/MSI_NB_Vector_17_HX_A14V_16-10.mp4",
-						length: 85,
-						volume: 0.8,
-					};
-					break;
-				case "Prestige_13":
-					adData = {
-						src: "../shared/sponsors/MSI_Prestige13_AI_Evo_A1M_16-9.mp4",
-						length: 81,
-						volume: 0.8,
-					};
-					break;
-				case "Stealth_Laptop":
-					adData = {
-						src: "../shared/sponsors/MSI_Stealth_Laptop.mp4",
-						length: 87,
-						volume: 0.8,
-					};
-					break;
-				case "Katana_Laptop":
-					adData = {
-						src: "../shared/sponsors/RPL_Katana_Laptop.mp4",
-						length: 86,
-						volume: 0.8,
-					};
-					break;
-				case "Thin_15":
-					adData = {
-						src: "../shared/sponsors/Thin_15_B12U.mp4",
-						length: 58,
-						volume: 0.8,
+						volume: 0.6,
 					};
 					break;
 				default:
@@ -141,6 +108,9 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			// 	if (!entryRef.current) return;
 			// 	entryRef.current?.play();
 			// });
+			tl.to(containerRef.current, {
+				opacity: 1,
+			});
 
 			// // Prepare entry vid
 			// tl.set(entryRef.current, { opacity: 1 });
@@ -160,6 +130,9 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			// Swap from entry to exit
 			// tl.set(entryRef.current, { opacity: 0 });
 			// tl.set(exitRef.current, { opacity: 1 });
+			tl.to(containerRef.current, {
+				opacity: 0,
+			});
 
 			// Run exit
 			// tl.call(() => {
@@ -195,6 +168,4 @@ export const IntermissionAds = forwardRef<IntermissionAdsRef, Props>((props, ref
 			</div> */}
 		</IntermissionAdsContainer>
 	);
-});
-
-IntermissionAds.displayName = "IntermissionAds";
+}
