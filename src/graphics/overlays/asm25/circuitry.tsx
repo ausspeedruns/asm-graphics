@@ -32,6 +32,7 @@ interface CircuitryProps {
 	style?: React.CSSProperties;
 	noCircuitBoard?: boolean;
 	bigShadowAngle?: number;
+	disableBaseColourLayer?: boolean;
 }
 
 export function Circuitry(props: CircuitryProps) {
@@ -41,7 +42,7 @@ export function Circuitry(props: CircuitryProps) {
 	return (
 		<CircuitBoard
 			style={{ backgroundImage: props.noCircuitBoard ? "none" : `url(${circuitBoardImage})`, zIndex: -3, ...props.style }}>
-			<div
+			{!props.disableBaseColourLayer && (<div
 				style={{
 					backgroundColor: "var(--plastic-bottom)",
 					mixBlendMode: "color",
@@ -50,7 +51,7 @@ export function Circuitry(props: CircuitryProps) {
 					position: "absolute",
 					zIndex: -2,
 				}}
-			/>
+			/>)}
 			<PlasticElement style={{
 				boxShadow: test,
 				backgroundColor: "var(--plastic-top)",

@@ -37,6 +37,11 @@ obs.on("ConnectionClosed", async () => {
 });
 
 obs.on("SceneTransitionStarted", async (transitionName) => {
+	// Cut means we have fucked up and we don't want to do any automations
+	if (transitionName.transitionName === "Cut") {
+		return;
+	}
+
 	// Get the scene we are going from and to
 	const currentScene = programScene;
 	const toScene = previewScene;

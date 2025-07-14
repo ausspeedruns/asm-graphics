@@ -428,11 +428,11 @@ export function Intermission() {
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
-	// const [donationRep] = useReplicant<number>("donationTotal");
+	const [donationRep] = useReplicant<number>("donationTotal");
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
-	const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
+	// const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
 	const normalisedTime = useNormalisedTime(1000);
 	// const [normalisedTime, setNormalisedTime] = useState(0);
@@ -623,7 +623,7 @@ export function IntermissionElement(props: IntermissionProps) {
 		<IntermissionContainer
 			style={
 				{
-					"--plastic-top": asm25Colours.plasticTop + "5C",
+					"--plastic-top": asm25Colours.plasticTop + "E0",
 					"--plastic-bottom": asm25Colours.plasticBottom,
 					"--text-outline": asm25Colours.textOutline,
 					"--trace": asm25Colours.trace,
@@ -633,6 +633,7 @@ export function IntermissionElement(props: IntermissionProps) {
 			}>
 			<Circuitry
 				noCircuitBoard
+				disableBaseColourLayer
 				bigShadowAngle={90}
 				style={{
 					position: "absolute",
