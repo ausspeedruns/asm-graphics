@@ -39,6 +39,7 @@ import { Chip } from "./overlays/asm25/chip";
 import type { DonationMatch } from "@asm-graphics/types/Donations";
 import { useNormalisedTime } from "../hooks/useCurrentTime";
 import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
+import { SectionReactStyles } from "./overlays/asm25/section";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -81,7 +82,7 @@ const HostName = styled.div`
 	font-weight: bold;
 
 	position: absolute;
-	left: 125px;
+	left: 565px;
 	top: 15px;
 `;
 
@@ -175,13 +176,15 @@ const MarqueeText = styled.span`
 `;
 
 const RunContainer = styled.div`
-	width: 625px;
+	width: 750px;
+	max-width: 750px;
 	height: 215px;
 	font-size: 30px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
+	padding-bottom: 16px;
 `;
 
 const Title = styled.div`
@@ -465,7 +468,7 @@ export function Intermission() {
 				max="1"
 				step="0.001"
 				value={normalisedTime}
-				style={{width: "100%"}}
+				style={{ width: "100%" }}
 				// onChange={(e) => setNormalisedTime(parseFloat(e.target.value))}
 			/>
 			<div>
@@ -671,12 +674,12 @@ export function IntermissionElement(props: IntermissionProps) {
 					{props.host && (
 						<HostName>
 							{/* <Mic style={{ height: "2.5rem", width: "2.5rem" }} /> */}
-							<FitText text={props.host.name} alignment="left" style={{ maxWidth: 335 }} />
+							<FitText text={props.host.name} alignment="left" style={{ maxWidth: 386 }} />
 							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
 						</HostName>
 					)}
 					{/* <MusicIcon src={MusicIconImg} /> */}
-					<Mic style={{ height: "auto", width: 65, position: "absolute", top: 44, left: 483 }} />
+					<Mic style={{ height: "auto", width: 65, position: "absolute", top: 44, left: 482 }} />
 					<Music>
 						<audio
 							style={{ transform: "translate(100px, 0px)" }}
@@ -736,39 +739,38 @@ export function IntermissionElement(props: IntermissionProps) {
 					)}
 				</DonationContainer>
 
-				{/* <Chip numberOfPads={13} style={{ marginTop: 30 }}> */}
-					<RunContainer>
-						<div
-							style={{
-								// height: 406,
-								display: "flex",
-								flexDirection: "column",
-								alignContent: "center",
-								justifyContent: "space-between",
-								boxSizing: "border-box",
-							}}>
-							{/* <Title>Next Up</Title> */}
-							<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
-							<Category text={nextRuns[0]?.category} />
-						</div>
-						<div style={{ display: "flex", width: "90%", justifyContent: "space-between" }}>
-							<PlayerInfo>
-								<img src={RunnerIcon} />
-								{playerNames}
-							</PlayerInfo>
-							<TimeInfo>
-								<img src={StopwatchIcon} />
-								<FitText text={estimate ?? "0"} />
-							</TimeInfo>
-							<ConsoleInfo>
-								<img src={ConsoleIcon} />
-								<FitText text={nextRuns[0]?.system} style={{ maxWidth: "80%" }} />
-							</ConsoleInfo>
-						</div>
-					</RunContainer>
-				{/* </Chip> */}
+				<RunContainer style={{ ...SectionReactStyles}}>
+					<div
+						style={{
+							// height: 406,
+							display: "flex",
+							flexDirection: "column",
+							alignContent: "center",
+							justifyContent: "space-between",
+							boxSizing: "border-box",
+							maxWidth: "95%",
+						}}>
+						{/* <Title>Next Up</Title> */}
+						<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
+						<Category text={nextRuns[0]?.category} />
+					</div>
+					<div style={{ display: "flex", width: "90%", justifyContent: "space-between" }}>
+						<PlayerInfo>
+							<img src={RunnerIcon} />
+							{playerNames}
+						</PlayerInfo>
+						<TimeInfo>
+							<img src={StopwatchIcon} />
+							<FitText text={estimate ?? "0"} />
+						</TimeInfo>
+						<ConsoleInfo>
+							<img src={ConsoleIcon} />
+							<FitText text={nextRuns[0]?.system} style={{ maxWidth: "80%" }} />
+						</ConsoleInfo>
+					</div>
+				</RunContainer>
 
-				<div style={{ position: "relative", width: "100%", height: 290, marginTop: 8 }}>
+				<div style={{ position: "relative", width: "100%", height: 330, marginTop: 8 }}>
 					<div
 						style={{
 							position: "absolute",
@@ -779,7 +781,7 @@ export function IntermissionElement(props: IntermissionProps) {
 							display: "flex",
 							justifyContent: "center",
 						}}>
-						{/* <Chip numberOfPads={12} style={{ width: 700, height: 210 }} /> */}
+						<div style={{ width: 700, height: 210, ...SectionReactStyles }} />
 					</div>
 					<div
 						style={{
@@ -790,6 +792,7 @@ export function IntermissionElement(props: IntermissionProps) {
 							left: 0,
 							display: "flex",
 							justifyContent: "center",
+							paddingTop: 16,
 						}}>
 						<IncentivesContainer ref={incentivesRef} style={{ width: 700 }}>
 							{props.incentives && (
@@ -804,7 +807,7 @@ export function IntermissionElement(props: IntermissionProps) {
 					</div>
 				</div>
 
-				<div style={{ display: "flex", gap: 32, marginTop: 50 }}>
+				<div style={{ display: "flex", gap: 32, marginTop: 0 }}>
 					<div
 						style={{
 							width: 330,

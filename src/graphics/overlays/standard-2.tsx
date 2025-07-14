@@ -157,7 +157,6 @@ export const Standard2 = (props: OverlayProps) => {
 
 				<RightBox>
 					<Circuitry
-						noCircuitBoard
 						// src={StandardRight}
 						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 					/>

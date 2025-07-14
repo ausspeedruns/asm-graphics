@@ -42,7 +42,7 @@ interface UpcomingRunsProps {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-export const UpcomingRuns = (props: UpcomingRunsProps) => {
+export function UpcomingRuns(props: UpcomingRunsProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const runsRefs = useRef<TickerItemHandles[]>([]);
 
@@ -75,9 +75,7 @@ export const UpcomingRuns = (props: UpcomingRunsProps) => {
 			</RunsPage>
 		</UpcomingRunsContainer>
 	);
-};
-
-UpcomingRuns.displayName = "Runs";
+}
 
 const UpcomingRunContainer = styled.div`
 	font-family: var(--secondary-font);
@@ -126,6 +124,7 @@ const Quantity = styled.span`
 
 const ItemContainer = styled.div`
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	flex-grow: 1;
@@ -135,12 +134,15 @@ const ItemContainer = styled.div`
 
 const Item = styled(FitTextElements)`
 	font-weight: bold;
-	max-width: 720px;
+	max-width: 450px;
 `;
 
-const SubItem = styled.span`
+const SubItem = styled(FitTextElements)`
 	font-family: var(--main-font);
 	font-weight: normal;
+	max-width: 450px;
+	margin-top: -8px;
+	font-size: 75%;
 	/* margin-left: 16px; */
 `;
 
@@ -201,15 +203,9 @@ export const Run = (props: RunProps) => {
 				{/* <Item>
 					{props.prize.item} <SubItem>{props.prize.subItem}</SubItem>
 				</Item> */}
-				<Item
-					text={
-						<>
-							{props.run.game}
-							<br />
-							<SubItem>{props.run.category}</SubItem>
-						</>
-					}
-				/>
+				<Item text={<>{props.run.game}</>} />
+				<br />
+				<SubItem text={props.run.category} />
 			</ItemContainer>
 		</UpcomingRunContainer>
 	);

@@ -6,6 +6,7 @@ import { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
+import { SectionReactStyles } from "../../overlays/asm25/section";
 
 const WideInfoContainer = styled.div`
 	position: absolute;
@@ -84,7 +85,7 @@ export const WideInfo = (props: Props) => {
 				/>
 				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 			</VerticalStack>
-			<Timer style={styles.timerStyle} timer={props.timer} />
+			<Timer style={{ ...styles.timerStyle, ...SectionReactStyles, padding: "16px 32px" }} timer={props.timer} />
 		</WideInfoContainer>
 	);
 };

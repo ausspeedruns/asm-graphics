@@ -6,6 +6,7 @@ import { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
+import { SectionReactStyles } from "../../overlays/asm25/section";
 
 const VerticalInfoContainer = styled.div`
 	height: 340px;
@@ -96,7 +97,7 @@ export const VerticalTimerBottomInfo = (props: Props) => {
 			/>
 			<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
 			{!props.hideDividers && <Divider />}
-			<VerticalStack style={{ height: styles.timerStackHeight }}>
+			<VerticalStack style={{ height: styles.timerStackHeight, ...SectionReactStyles, padding: "16px 32px" }}>
 				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
 			</VerticalStack>
 		</VerticalInfoContainer>

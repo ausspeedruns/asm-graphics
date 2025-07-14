@@ -6,6 +6,7 @@ import { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
+import { SectionReactStyles } from "../../overlays/asm25/section";
 
 const SmallInfoContainer = styled.div`
 	box-sizing: border-box;
@@ -34,6 +35,8 @@ const InfoSubBox = styled.div`
 	justify-content: space-evenly;
 	width: 100%;
 	height: 137px;
+	padding: 0 16px;
+	box-sizing: border-box;
 `;
 
 export interface ISmallStyling {
@@ -103,7 +106,7 @@ export const SmallInfo: React.FC<Props> = (props: Props) => {
 					<RunInfo.Category maxWidth={styles.categoryWidth} category={props.runData?.category ?? ""} />
 					<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
 				</VerticalStack>
-				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
+				<Timer fontSize={styles.timerSize} timer={props.timer} style={{...styles.timerStyle, ...SectionReactStyles, padding: "16px 8px"}} />
 			</InfoSubBox>
 		</SmallInfoContainer>
 	);

@@ -37,8 +37,8 @@ bingosync.on("boardStateUpdate", (boardState) => {
 		}
 	});
 
-
-	bingosyncBoardStateRep.value = mutableBoardState;
+	// Got too many duplicte object replicatn errors, we cloning the long way now
+	bingosyncBoardStateRep.value = JSON.parse(JSON.stringify(mutableBoardState));
 });
 
 // Update new overrides on board state
@@ -63,9 +63,10 @@ nodecg.listenFor("bingosync:overrideCell", (cellData) => {
 	// Remove any cells that are undefined
 	newOverrides = newOverrides.filter((cell) => cell !== undefined);
 
-	bingosyncBoardStateOverrideRep.value = {
+	// Got too many duplicte object replicatn errors, we cloning the long way now
+	bingosyncBoardStateOverrideRep.value = JSON.parse(JSON.stringify({
 		cells: [...newOverrides],
-	};
+	}));
 });
 
 async function joinRoomHandler(roomDetails: RoomJoinParameters) {

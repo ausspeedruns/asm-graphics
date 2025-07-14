@@ -38,7 +38,6 @@ const PanelContainer = styled.div`
 const CurrentPanel = styled.div`
 	/* height: 126px; */
 	width: 100%;
-	padding-top: 0;
 	box-sizing: border-box;
 `;
 
@@ -46,7 +45,9 @@ const PipsContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	gap: 16px;
-	padding: 0 8px 20px 8px;
+	padding: 0 8px 32px 8px;
+	/* width: 80%;
+	margin: auto; */
 `;
 
 const Pip = styled.div<{ $active?: boolean }>`
@@ -76,7 +77,7 @@ const CurrentLabels = styled.div`
 	justify-content: center;
 	align-items: center;
 	height: 80px;
-	margin-bottom: 4px;
+	margin-bottom: 32px;
 `;
 
 const MainLabel = styled(FitText)`
@@ -91,7 +92,6 @@ const Subheading = styled(FitText)`
 	font-size: 80%;
 	height: 30px;
 	max-width: 100%;
-	margin-bottom: 20px;
 `;
 
 export interface TickerItemHandles {
