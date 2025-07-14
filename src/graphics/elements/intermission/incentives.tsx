@@ -26,6 +26,8 @@ const InterIncentivesContainer = styled.div`
 
 	display: flex;
 	flex-direction: column;
+	padding: 16px 0;
+	box-sizing: border-box;
 `;
 
 const PanelContainer = styled.div`
@@ -45,9 +47,9 @@ const PipsContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	gap: 16px;
-	padding: 0 8px 32px 8px;
-	/* width: 80%;
-	margin: auto; */
+	/* padding: 0 8px 32px 8px; */
+	width: 90%;
+	margin: auto;
 `;
 
 const Pip = styled.div<{ $active?: boolean }>`
@@ -76,7 +78,7 @@ const CurrentLabels = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 80px;
+	height: 70px;
 	margin-bottom: 32px;
 `;
 
@@ -84,7 +86,7 @@ const MainLabel = styled(FitText)`
 	font-size: 100%;
 	height: 40px;
 	max-width: 100%;
-	margin-bottom: -10px;
+	margin-bottom: -4px;
 	font-family: var(--secondary-font);
 `;
 
@@ -107,7 +109,7 @@ interface IncentivesProps {
 }
 
 const MAX_INCENTIVES: number = 5;
-const TEST_RANGE: number[] = [];
+const TEST_RANGE: number[] = [999];
 
 export const InterIncentives = (props: IncentivesProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -186,7 +188,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 			/>,
 		);
 
-		allLabels.push({ header: "Prizes", subheading: "AUS Only" });
+		allLabels.push({ header: "Prizes" });
 	}
 
 	// Socials

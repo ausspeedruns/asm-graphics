@@ -53,6 +53,8 @@ export function Couch(props: Props) {
 		label = "Host";
 	}
 
+	const showHost = typeof props.showHost === "boolean" ? props.showHost : true;
+
 	return (
 		<CouchContainer className={props.className} style={props.style}>
 			<MenuBar style={{ color: props.darkTitle ? "var(--text-dark)" : "var(--text-light)" }}>
@@ -72,7 +74,7 @@ export function Couch(props: Props) {
 						/>
 					);
 				})}
-				{props.showHost && props.host && props.host.name && (
+				{showHost && props.host && props.host.name && (
 					<PersonCompressed
 						key={"Host"}
 						commentator={props.host}

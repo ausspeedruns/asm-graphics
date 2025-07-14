@@ -796,7 +796,6 @@ export function IntermissionElement(props: IntermissionProps) {
 							left: 0,
 							display: "flex",
 							justifyContent: "center",
-							paddingTop: 16,
 						}}>
 						<IncentivesContainer ref={incentivesRef} style={{ width: 700 }}>
 							{props.incentives && (

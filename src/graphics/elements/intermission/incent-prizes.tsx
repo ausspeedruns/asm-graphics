@@ -26,14 +26,14 @@ const PrizesPage = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 16px;
+	gap: 4px;
 	margin-left: -16px;
 	margin-top: -16px;
 `;
 
-const PRIZE_PAGE_LENGTH = 2;
+const PRIZE_PAGE_LENGTH = 1;
 const PRIZE_SPEED = 2;
-const PRIZE_DURATION = 10;
+const PRIZE_DURATION = 5;
 const PRIZE_PAGE_STAGGER = 0.05;
 
 interface PrizesProps {
@@ -41,7 +41,7 @@ interface PrizesProps {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-export const Prizes = (props: PrizesProps) => {
+export function Prizes(props: PrizesProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const prizesRefs = useRef<TickerItemHandles[]>([]);
 
@@ -95,7 +95,7 @@ const UpcomingRunContainer = styled.div`
 	background: white;
 	display: flex;
 	width: calc(100% - 48px);
-	height: 80px;
+	/* height: 80px; */
 `;
 
 const MetaDataContainer = styled.div`
@@ -118,17 +118,19 @@ const RequirementsContainer = styled.div`
 
 const Requirement = styled.span`
 	font-weight: bold;
-	font-size: 30px;
+	font-size: 20px;
 	text-align: center;
+	max-width: 500px;
 `;
 
 const RequirementSubheading = styled.span`
-	font-size: 100%;
+	font-size: 40%;
+	text-align: center;
 `;
 
 const Quantity = styled.span`
 	font-weight: bold;
-	font-size: 50px;
+	font-size: 30px;
 `;
 
 const ItemContainer = styled.div`
@@ -142,7 +144,7 @@ const ItemContainer = styled.div`
 
 const Item = styled(FitText)`
 	font-weight: bold;
-	max-width: 720px;
+	max-width: 500px;
 `;
 
 // const SubItem = styled.span`
@@ -196,7 +198,7 @@ const Prize = (props: PrizeProps) => {
 		<UpcomingRunContainer ref={containerRef}>
 			<MetaDataContainer>
 				<RequirementsContainer>
-					<Requirement style={{ fontSize: props.prize.requirement.includes("\n") ? "24px" : "40px" }}>
+					<Requirement style={{ fontSize: props.prize.requirement.includes("\n") ? "20px" : "30px" }}>
 						{renderTextWithLineBreaks(props.prize.requirement)}
 					</Requirement>
 					{props.prize.requirementSubheading && (

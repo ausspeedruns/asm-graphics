@@ -92,7 +92,7 @@ export const Standard = (props: OverlayProps) => {
 							zIndex: -1,
 						}}
 					/>
-					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
+					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} showHost={props.showHost} />
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
 					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
