@@ -40,6 +40,7 @@ import type { DonationMatch } from "@asm-graphics/types/Donations";
 import { useNormalisedTime } from "../hooks/useCurrentTime";
 import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 import { SectionReactStyles } from "./overlays/asm25/section";
+import { Prize } from "@asm-graphics/types/Prizes";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -435,6 +436,7 @@ export function Intermission() {
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
+	const [prizesRep] = useReplicant<Prize[]>("prizes");
 	// const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
 	const normalisedTime = useNormalisedTime(1000);
@@ -461,6 +463,7 @@ export function Intermission() {
 				photos={photosRep}
 				donationMatchMultiplier={currentDonationMultiplier}
 				normalisedTime={normalisedTime}
+				prizes={prizesRep}
 			/>
 			<input
 				type="range"
@@ -496,6 +499,7 @@ interface IntermissionProps {
 	normalisedTime?: number;
 	photos?: NodeCG.AssetFile[];
 	donationMatchMultiplier?: number;
+	prizes?: Prize[];
 	ref?: React.Ref<IntermissionRef>;
 }
 
@@ -626,7 +630,7 @@ export function IntermissionElement(props: IntermissionProps) {
 		<IntermissionContainer
 			style={
 				{
-					"--plastic-top": asm25Colours.plasticTop + "E0",
+					"--plastic-top": asm25Colours.plasticTop + "80",
 					"--plastic-bottom": asm25Colours.plasticBottom,
 					"--text-outline": asm25Colours.textOutline,
 					"--trace": asm25Colours.trace,
@@ -798,7 +802,7 @@ export function IntermissionElement(props: IntermissionProps) {
 							{props.incentives && (
 								<InterIncentivesMemo
 									incentives={props.incentives}
-									// prizes={PRIZES}
+									prizes={props.prizes}
 									// photos={props.photos}
 									upcomingRuns={nextRuns.slice(1, 3)}
 								/>
