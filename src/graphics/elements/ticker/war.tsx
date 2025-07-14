@@ -81,6 +81,8 @@ const AllOptionContainer = styled.div`
 	flex-grow: 1;
 `;
 
+const MAX_ALLOWED = 4;
+
 interface GoalProps {
 	war: War;
 	ref: React.Ref<TickerItemHandles>;
@@ -134,9 +136,9 @@ export const WarGame = (props: GoalProps) => {
 		);
 	}
 
-	if (props.war.options.length > 6) {
-		const remaining = props.war.options.length - 6;
-		allOptions = allOptions.slice(0, 5);
+	if (props.war.options.length > MAX_ALLOWED) {
+		const remaining = props.war.options.length - MAX_ALLOWED;
+		allOptions = allOptions.slice(0, MAX_ALLOWED - 1);
 		allOptions.push(<MoreChoices key={"more"} more={remaining} />);
 	}
 
