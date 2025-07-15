@@ -14,6 +14,7 @@ const TimerContainer = styled.div<FontProps>`
 `;
 
 const MilliText = styled.span<FontProps>`
+	min-width: 42px;
 	font-size: ${(props) => props.fontSize / 2}px;
 	letter-spacing: -1px;
 	margin-left: -9px;
@@ -61,4 +62,4 @@ export function Timer(props: Props) {
 			</MilliText>
 		</TimerContainer>
 	);
-};
+}

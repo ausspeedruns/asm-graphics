@@ -77,8 +77,8 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 
-	// const normalisedTime = useNormalisedTime(1000);
-	const [normalisedTime, setNormalisedTime] = useState(0);
+	const normalisedTime = useNormalisedTime(1000);
+	// const [normalisedTime, setNormalisedTime] = useState(0);
 	const asm25Colours = normalisedTimeToColour(normalisedTime);
 
 	// Disable runner audio indicator if they are the only runner and there isn't another commentator (except Host)
@@ -255,13 +255,13 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 				max="1"
 				step="0.01"
 				value={normalisedTime}
-				onChange={(e) => setNormalisedTime(parseFloat(e.target.value))}
+				// onChange={(e) => setNormalisedTime(parseFloat(e.target.value))}
 			/>
 			<div>
-				<button onClick={() => setNormalisedTime(0)}>Midday</button>
+				{/* <button onClick={() => setNormalisedTime(0)}>Midday</button>
 				<button onClick={() => setNormalisedTime((sunsetStart + sunsetEnd) / 2)}>Sunset</button>
 				<button onClick={() => setNormalisedTime(0.5)}>Night</button>
-				<button onClick={() => setNormalisedTime((sunriseStart + sunriseEnd) / 2)}>Sunrise</button>
+				<button onClick={() => setNormalisedTime((sunriseStart + sunriseEnd) / 2)}>Sunrise</button> */}
 			</div>
 			<div>
 				<button onClick={() => changeBGColor("#000")}>Black</button>

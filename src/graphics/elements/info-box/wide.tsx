@@ -46,7 +46,7 @@ export interface IWideStyling {
 const DefaultWideStyling: IWideStyling = {
 	timerStackHeight: 180,
 	timerSize: 150,
-	timerStyle: { width: 423, zIndex: 2, fontSize: 130 },
+	timerStyle: { zIndex: 2, fontSize: 130 },
 	estimateSize: 34,
 	maxTextWidth: 540,
 	gameStackHeight: 100,
