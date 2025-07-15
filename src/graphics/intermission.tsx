@@ -81,6 +81,7 @@ const HostName = styled.div`
 	align-items: flex-start;
 	font-family: var(--secondary-font);
 	font-weight: bold;
+	justify-content: center;
 
 	position: absolute;
 	left: 565px;
@@ -94,7 +95,7 @@ const HostPronoun = styled.span`
 	text-transform: uppercase;
 	margin-left: 2px;
 	background: var(--text-outline);
-	height: 70%;
+	height: 80px;
 	padding: 4px 8px;
 	line-height: 28px;
 	font-family: var(--main-font);
@@ -676,7 +677,7 @@ export function IntermissionElement(props: IntermissionProps) {
 				<div style={{ width: "80%", position: "relative", height: 150 }}>
 					<ASM25Speaker style={{ position: "absolute", top: 20, left: -28, zIndex: 4 }} />
 					{props.host && (
-						<HostName>
+						<HostName style={{ height: props.host.pronouns ? 90 : 105 }}>
 							{/* <Mic style={{ height: "2.5rem", width: "2.5rem" }} /> */}
 							<FitText text={props.host.name} alignment="left" style={{ maxWidth: 386 }} />
 							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}

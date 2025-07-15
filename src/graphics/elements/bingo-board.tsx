@@ -17,8 +17,8 @@ const Cell = styled.div`
 `;
 
 export const cellColourMapping: Record<CellColour, string> = {
-	purple: "#e42d2d", // Not purple
-	blue: "#4a9d2a", // Not blue
+	purple: "#d41159", // Not purple
+	blue: "#1a85ff", // Not blue
 	green: "#4a9d2a",
 	red: "#9d2a2a",
 	yellow: "#9d8f2a",

@@ -109,7 +109,7 @@ interface IncentivesProps {
 }
 
 const MAX_INCENTIVES: number = 5;
-const TEST_RANGE: number[] = [999];
+const TEST_RANGE: number[] = [];
 
 export const InterIncentives = (props: IncentivesProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
