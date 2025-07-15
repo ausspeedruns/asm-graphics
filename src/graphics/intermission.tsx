@@ -217,7 +217,7 @@ const PlayerInfo = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	max-width: 100%;
+	max-width: 50%;
 `;
 
 const TimeInfo = styled.div`
@@ -744,7 +744,7 @@ export function IntermissionElement(props: IntermissionProps) {
 					)}
 				</DonationContainer>
 
-				<RunContainer style={{ ...SectionReactStyles}}>
+				<RunContainer style={{ ...SectionReactStyles }}>
 					<div
 						style={{
 							// height: 406,

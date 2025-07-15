@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import styled from "styled-components";
 
-import { FitText } from "./fit-text";
+import { FitText, FitTextElements } from "./fit-text";
 
 interface FontProps {
 	fontSize: number;
@@ -92,8 +92,11 @@ export function GameTitle(props: GameProps) {
 }
 
 /*			SYSTEM			*/
-const SystemContainer = styled(BaseStyle)`
+const SystemContainer = styled(FitTextElements)`
 	font-size: 35px;
+	font-family: var(--main-font);
+	color: var(--text-light);
+	max-width: 75%;
 `;
 
 interface SystemProps {
@@ -102,7 +105,7 @@ interface SystemProps {
 }
 
 export function System(props: SystemProps) {
-	return <SystemContainer style={props.style}>{props.system}</SystemContainer>;
+	return <SystemContainer style={props.style} text={props.system} />;
 }
 
 /*			YEAR			*/
