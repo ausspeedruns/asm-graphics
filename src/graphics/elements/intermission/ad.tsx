@@ -83,8 +83,8 @@ export function IntermissionAds(props: Props) {
 					break;
 				case "InfiniteWorlds":
 					adData = {
-						src: "../shared/sponsors/InfiniteWorlds.mp4",
-						length: 84,
+						src: "../shared/sponsors/InfiniteWorlds.mov",
+						length: 30,
 						volume: 0.6,
 					};
 					break;

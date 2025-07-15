@@ -34,7 +34,7 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 						<Button variant="outlined" onClick={() => props.playAd("UrbanClimb", 30)}>
 							Urban Climb (30 seconds)
 						</Button>
-						<Button variant="outlined" onClick={() => props.playAd("InfiniteWorlds", 0)}>
+						<Button variant="outlined" onClick={() => props.playAd("InfiniteWorlds", 30)}>
 							Infinite Worlds (?? seconds)
 						</Button>
 					</div>

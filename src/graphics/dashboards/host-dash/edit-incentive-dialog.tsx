@@ -86,6 +86,8 @@ const ListStyled = styled(List)`
 `;
 
 const DialogStyled = styled(Dialog)`
+	font-family: "Roboto", sans-serif;
+
 	.MuiDialog-paper {
 	}
 `;
