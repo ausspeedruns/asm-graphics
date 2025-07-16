@@ -260,6 +260,13 @@ export const ASNNDash = () => {
 					</Button>
 				</Row>
 
+				<RedButton
+					fullWidth
+					variant="contained"
+					onClick={() => setAsnnTicker([])}
+					disabled={ticker.length === 0}>
+					Reset Ticker
+				</RedButton>
 				<TickerListContainer>
 					<DndContext onDragEnd={onDragEndTicker} sensors={sensors} modifiers={[restrictToVerticalAxis]}>
 						<SortableContext items={ticker} strategy={verticalListSortingStrategy}>
