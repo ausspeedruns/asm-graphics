@@ -59,7 +59,7 @@ function loopAllX32(callback: (channel: number, mixBus: number) => void, max1 = 
 }
 
 // This will look to see if a channel is either unmuted or set to something above -∞
-function fadeUnmute(channel: number, mixBus: number) {
+function fadeUnmute(channel: number, mixBus: number, to =0.7) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
@@ -195,7 +195,7 @@ nodecg.listenFor("transition:toIntermission", () => {
 			if (channel === HostHeadset.micInput && mixBus <= 1) return;
 
 			if (channel === OBSChannel && mixBus === 1) {
-				fadeUnmute(channel, mixBus);
+				fadeUnmute(channel, mixBus, 0.6);
 			} else {
 				fadeMute(channel, mixBus);
 			}
