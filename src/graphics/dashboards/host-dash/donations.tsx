@@ -4,12 +4,10 @@ import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 import { Box, Button, Grid, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
-import { VariableSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { List, RowComponentProps } from "react-window";
 
 import { Donation } from "@asm-graphics/types/Donations";
 
-import { GreenButton } from "../../../dashboard/elements/styled-ui";
 import { EditIncentiveDialog } from "./edit-incentive-dialog";
 
 const DonationsContainer = styled.div`
@@ -17,6 +15,10 @@ const DonationsContainer = styled.div`
 	overflow-x: hidden;
 	overflow-y: auto;
 `;
+
+type RowProps = {
+	donations: Donation[];
+};
 
 // Donation object example
 // desc: "for PeekingBoo a joy to watch and listen to! Goodluck!"
@@ -53,18 +55,12 @@ export const Donations = () => {
 			</div>
 			<div style={{ padding: "0 8px", height: "100%" }}>
 				{reversedDonations.length > 0 && (
-					<AutoSizer>
-						{({ height, width }) => (
-							<List
-								height={height}
-								width={width}
-								itemCount={reversedDonations.length}
-								itemData={reversedDonations}
-								itemSize={(index) => getRowHeight(reversedDonations?.[index].desc ?? "")}>
-								{VirtualisedDonation}
-							</List>
-						)}
-					</AutoSizer>
+					<List<RowProps>
+						rowCount={reversedDonations.length}
+						rowProps={{ donations: reversedDonations }}
+						rowHeight={(index) => getRowHeight(reversedDonations?.[index].desc ?? "")}
+						rowComponent={VirtualisedDonation}
+					/>
 				)}
 			</div>
 			<EditIncentiveDialog open={editIncentiveOpen} onClose={() => setEditIncentiveOpen(false)} />
@@ -128,13 +124,7 @@ function getRowHeight(description: string) {
 	return 96 + Math.floor(description.length / 2.5);
 }
 
-type ReactWindowElement<T> = {
-	index: number;
-	style: React.CSSProperties;
-	data: Array<T>;
-};
-
-const VirtualisedDonation = ({ index, style, data }: ReactWindowElement<Donation>) => {
+function VirtualisedDonation({ index, style, donations }: RowComponentProps<RowProps>) {
 	return (
 		<DonationEl
 			style={{
@@ -143,12 +133,12 @@ const VirtualisedDonation = ({ index, style, data }: ReactWindowElement<Donation
 				height: parseFloat(style?.height?.toString() ?? "0") - (MARGIN + PADDING) * 2,
 				width: "97%",
 			}}
-			donation={data[index]}
+			donation={donations[index]}
 		/>
 	);
-};
+}
 
-const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
+function DonationEl(props: DonationProps) {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	const toggleRead = () => {
@@ -187,4 +177,4 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 			)}
 		</DonationContainer>
 	);
-};
+}
