@@ -2,7 +2,7 @@ import * as nodecgApiContext from "./nodecg-api-context";
 import { v4 as uuid } from "uuid";
 import _ from "underscore";
 
-import { commentatorsRep, headsetsUsed, hostRep, showHostRep } from "./replicants";
+import { automationSettingsRep, commentatorsRep, headsetsUsed, hostRep, showHostRep } from "./replicants";
 
 import type { RunData, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "nodecg/types";
@@ -118,40 +118,8 @@ function updateRunnerInformation(runner: Commentator) {
 }
 
 // Clear on new run
-SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
-	if (!oldVal) return;
-	if (newVal?.id === oldVal.id) return;
-
-	UpdateHeadsetUsage(oldVal);
+nodecg.listenFor("transition:toIntermission", () => {
+	if (!automationSettingsRep.value.clearCommentators) return;
 
 	commentatorsRep.value = [];
 });
-
-function UpdateHeadsetUsage(runData: RunData) {
-	const allCommentators: Commentator[] = [
-		...(runData?.teams ?? []).flatMap((team) =>
-			team.players.map((player) => {
-				return {
-					id: player.id,
-					name: player.name,
-					pronouns: player.pronouns,
-					twitch: player.social.twitch,
-					teamId: player.teamID,
-					isRunner: true,
-					microphone: player.customData.microphone,
-				};
-			}),
-		),
-		...commentatorsRep.value,
-	];
-
-	allCommentators.forEach(commentator => {
-		if (!commentator.microphone) return;
-
-		if (commentator.microphone in headsetsUsed.value) {
-			headsetsUsed.value[commentator.microphone] = headsetsUsed.value[commentator.microphone] + 1;
-		} else {
-			headsetsUsed.value[commentator.microphone] = 0;
-		}
-	});
-}

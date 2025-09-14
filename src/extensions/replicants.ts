@@ -111,6 +111,7 @@ export const automationSettingsRep = nodecg.Replicant<Automations>("automations"
 		runAdvance: true,
 		runTransition: true,
 		audioMixing: true,
+		clearCommentators: true,
 	},
 	persistent: true,
 });
