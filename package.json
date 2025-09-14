@@ -217,19 +217,6 @@
 					"svg",
 					"webp"
 				]
-			},
-			{
-				"name": "transitionPhotos",
-				"title": "Transition Photos",
-				"allowedTypes": [
-					"JPG",
-					"jpg",
-					"jpeg",
-					"gif",
-					"png",
-					"svg",
-					"webp"
-				]
 			}
 		],
 		"mount": [

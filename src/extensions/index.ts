@@ -19,8 +19,6 @@ module.exports = (nodecg: ExtendedServerAPI<ConfigSchema>) => {
 };
 
 async function init() {
-	const nodecg = nodecgApiContext.get();
-
 	require("./replicants");
 
 	// The order of these is literally just the chronological order of when they were made, a.k.a the best way to watch Star Wars
@@ -28,14 +26,12 @@ async function init() {
 	require("./audio");
 
 	if (ncgConfig.obs.enabled) {
-		// require('./util/obs');
 		require("./obs-local");
 	}
 
 	require("./commentators");
 
 	if (ncgConfig?.tiltify?.enabled) {
-		// require('./donations/tiltify');
 		require("./donations/tiltify-v5");
 	}
 
