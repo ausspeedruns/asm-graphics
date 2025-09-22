@@ -23,7 +23,7 @@ interface Props {
 	updateCb?: (comm: Commentator) => void;
 }
 
-export const HostName: React.FC<Props> = (props: Props) => {
+export function HostName(props: Props) {
 	const [allUsersRep] = useReplicant<User[]>("all-usernames");
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 	const [hostName, setHostName] = useState("");

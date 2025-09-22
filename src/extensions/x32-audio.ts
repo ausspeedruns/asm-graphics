@@ -17,6 +17,7 @@ import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
 import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const nodecg = nodecgApiContext.get();
 
@@ -59,11 +60,12 @@ function loopAllX32(callback: (channel: number, mixBus: number) => void, max1 = 
 }
 
 // This will look to see if a channel is either unmuted or set to something above -∞
-function fadeUnmute(channel: number, mixBus: number, to =0.7) {
+function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
-			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
+			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
+				faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Unmute
@@ -75,7 +77,8 @@ function fadeUnmute(channel: number, mixBus: number, to =0.7) {
 function fadeMute(channel: number, mixBus: number, force = false) {
 	if (force || faderValues[0]?.[channel] > 0) {
 		nodecg.log.debug(
-			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
+			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
+				faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Mute
@@ -161,6 +164,7 @@ SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 			team.players.forEach((player) => {
 				if (headsetIndex >= Headsets.length) return;
 				player.customData.microphone = Headsets[headsetIndex].name;
+				x32.setChannelName(Headsets[headsetIndex].micInput, player.name);
 				headsetIndex++;
 			});
 		});
@@ -300,4 +304,116 @@ nodecg.listenFor("update-commentator", (commentator) => {
 	}
 
 	x32.setChannelName(Headsets[headsetIndex].micInput, commentator.name);
+});
+
+export type X32TalkbackTarget = "all" | "runnersCouch" | "host" | "runners" | "couch" | string;
+
+const allRealHeadsets = Headsets.filter((headset) => headset.name !== "NONE");
+const allRunnerOrCouchHeadsets = allRealHeadsets.filter((headset) => headset.name !== "Host");
+
+let activeTalkbackChannels: number[] = [];
+
+nodecg.listenFor("x32:talkback-start", (target) => {
+	if (!x32.connected) return;
+
+	const mixbusTargets = [];
+
+	// Get specific runner mixbuses
+	const runnerMixbuses: number[] = [];
+	const currentRunData = SPEEDCONTROL_runDataActiveRep.value;
+	if (currentRunData) {
+		currentRunData.teams.forEach((team) => {
+			team.players.forEach((player) => {
+				if (player.customData?.microphone) {
+					const headset = Headsets.find((h) => h.name === player.customData.microphone);
+					if (headset) {
+						runnerMixbuses.push(headset.mixBus);
+					}
+				}
+			});
+		});
+	}
+
+	switch (target) {
+		case "all":
+			mixbusTargets.push(...allRealHeadsets.map((h) => h.mixBus));
+			break;
+		case "runnersCouch":
+			mixbusTargets.push(...allRunnerOrCouchHeadsets.map((h) => h.mixBus));
+			break;
+		case "host":
+			mixbusTargets.push(HostHeadset.mixBus);
+			break;
+		case "runners":
+			mixbusTargets.push(...runnerMixbuses);
+			break;
+		case "couch":
+			mixbusTargets.push(
+				...allRunnerOrCouchHeadsets.map((h) => h.mixBus).filter((mb) => !runnerMixbuses.includes(mb)),
+			);
+			break;
+		default:
+			// We must be a specific commentator name
+			const currentCommentators = nodecg.readReplicant<Commentator[]>("commentators");
+			if (currentCommentators) {
+				const commentator = currentCommentators.find((c) => c.id === target);
+				if (commentator?.microphone) {
+					const headset = Headsets.find((h) => h.name === commentator.microphone);
+					if (headset) {
+						mixbusTargets.push(headset.mixBus);
+						break;
+					}
+				}
+			}
+
+			// Check runner mixbuses
+			if (currentRunData) {
+				currentRunData.teams.forEach((team) => {
+					team.players.forEach((player) => {
+						if (player.id === target && player.customData?.microphone) {
+							const headset = Headsets.find((h) => h.name === player.customData.microphone);
+							if (headset) {
+								mixbusTargets.push(headset.mixBus);
+								return;
+							}
+						}
+					});
+
+					if (mixbusTargets.length > 0) return;
+				});
+			}
+
+			if (mixbusTargets.length === 0) {
+				nodecg.log.warn(`[X32 Audio] Could not find talkback target with name ${target}.`);
+			}
+
+			break;
+	}
+
+	if (mixbusTargets.length === 0) {
+		nodecg.log.warn(`[X32 Audio] No mixbuses found for talkback target ${target}.`);
+		return;
+	}
+
+	// Put all on the B channel
+	mixbusTargets.forEach((mixBus) => {
+		x32.setTalkbackMixbus("B", mixBus);
+	});
+
+	activeTalkbackChannels = mixbusTargets;
+
+	// Activate talkback
+	x32.enableTalkback("B", true);
+});
+
+nodecg.listenFor("x32:talkback-stop", () => {
+	if (!x32.connected) return;
+
+	// Deactivate talkback
+	x32.enableTalkback("B", false);
+
+	// Clear all talkback mixbuses
+	activeTalkbackChannels.forEach((mixBus) => {
+		x32.setTalkbackMixbus("B", mixBus);
+	});
 });

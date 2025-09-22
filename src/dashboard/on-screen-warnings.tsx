@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { GreenButton, RedButton } from "./elements/styled-ui";
 
 import { Button, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
@@ -33,24 +32,33 @@ export const OnScreenWarningsDash: React.FC = () => {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			Only Widescreen supports this. More to come?
+			<p style={{ margin: "16px 0 0 0", fontSize: "80%" }}>Pre-made messages:</p>
 			<Row>
 				<Button variant="outlined" onClick={() => setLocalMessage(MessageFlashingWarning)}>
 					Flashing Warning
 				</Button>
 			</Row>
 			<Row>
-				<TextField fullWidth label="Message" value={localMessage} onChange={handleMessageChange} />
+				<TextField
+					multiline
+					minRows={3}
+					fullWidth
+					label="Message"
+					value={localMessage}
+					onChange={handleMessageChange}
+				/>
 			</Row>
 			<Row>
-				<GreenButton variant={showRep ? "outlined" : "contained"} fullWidth onClick={showMessage}>
+				<Button color="success" variant={showRep ? "outlined" : "contained"} fullWidth onClick={showMessage}>
 					Show Warning
-				</GreenButton>
-				<RedButton
+				</Button>
+				<Button
+					color="error"
 					variant={showRep ? "contained" : "outlined"}
 					fullWidth
 					onClick={() => nodecg.sendMessage("onScreenWarning:setShow", false)}>
 					Hide Warning
-				</RedButton>
+				</Button>
 			</Row>
 		</ThemeProvider>
 	);

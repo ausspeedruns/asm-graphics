@@ -40,8 +40,6 @@ const CellColours = [
 	"yellow",
 ] as const;
 
-const BingoDashboardContainer = styled.div``;
-
 const StatusBox = styled.div`
 	height: 2rem;
 	color: white;
@@ -110,66 +108,60 @@ export function BingoDashboard() {
 		return numA - numB;
 	});
 
-	console.log(bingoSyncBoardStateOverrideRep, bingoSyncBoardStateRep);
-
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<BingoDashboardContainer>
-				<StatusBox style={{ backgroundColor: bingoStatusInfo.colour }}>{bingoStatusInfo.text}</StatusBox>
-				<Stack spacing={2} direction="column">
-					<TextField
-						label="Room Code"
-						value={roomCode}
-						onChange={(e) => setRoomCode(e.target.value)}
+			<StatusBox style={{ backgroundColor: bingoStatusInfo.colour }}>{bingoStatusInfo.text}</StatusBox>
+			<Stack spacing={2} direction="column">
+				<TextField
+					label="Room Code"
+					value={roomCode}
+					onChange={(e) => setRoomCode(e.target.value)}
+					size="small"
+				/>
+				<TextField
+					label="Password"
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+					size="small"
+				/>
+				<Stack direction="row" spacing={1}>
+					<Button
+						variant="contained"
+						color="success"
+						onClick={handleJoinRoom}
+						fullWidth
+						disabled={bingoSyncStatusRep === "connected"}>
+						Join Room
+					</Button>
+					<Button
 						variant="outlined"
-						size="small"
-					/>
-					<TextField
-						label="Password"
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						variant="outlined"
-						size="small"
-					/>
-					<Stack direction="row" spacing={1}>
-						<Button
-							variant="contained"
-							color="success"
-							onClick={handleJoinRoom}
-							fullWidth
-							disabled={bingoSyncStatusRep === "connected"}>
-							Join Room
-						</Button>
-						<Button
-							variant="outlined"
-							color="error"
-							onClick={handleLeaveRoom}
-							fullWidth
-							disabled={bingoSyncStatusRep === "disconnected"}>
-							Leave Room
-						</Button>
-					</Stack>
+						color="error"
+						onClick={handleLeaveRoom}
+						fullWidth
+						disabled={bingoSyncStatusRep === "disconnected"}>
+						Leave Room
+					</Button>
 				</Stack>
-				<div
-					style={{
-						display: "grid",
-						gridTemplateColumns: "repeat(5, 77px)",
-						justifyContent: "start",
-						marginTop: "1rem",
-					}}>
-					{sortedCells.map((cell) => (
-						<Cell
-							key={cell.slot}
-							cell={cell}
-							onClick={setSelectedCell}
-							overriddenCell={bingoSyncBoardStateOverrideRep?.cells.find(
-								(overrideCell) => overrideCell.slot === cell.slot,
-							)}
-						/>
-					))}
-				</div>
-			</BingoDashboardContainer>
+			</Stack>
+			<div
+				style={{
+					display: "grid",
+					gridTemplateColumns: "repeat(5, 77px)",
+					justifyContent: "start",
+					marginTop: "1rem",
+				}}>
+				{sortedCells.map((cell) => (
+					<Cell
+						key={cell.slot}
+						cell={cell}
+						onClick={setSelectedCell}
+						overriddenCell={bingoSyncBoardStateOverrideRep?.cells.find(
+							(overrideCell) => overrideCell.slot === cell.slot,
+						)}
+					/>
+				))}
+			</div>
 			<OverrideDialog
 				open={Boolean(selectedCell)}
 				onClose={() => setSelectedCell(undefined)}

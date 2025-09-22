@@ -25,6 +25,7 @@ export default defineConfig([
 			"eslint:recommended",
 			"plugin:react/recommended",
 			"plugin:@typescript-eslint/eslint-recommended",
+			"plugin:react-you-might-not-need-an-effect/legacy-recommended",
 		),
 
 		plugins: {

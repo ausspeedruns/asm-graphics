@@ -187,15 +187,6 @@ if (tiltifyConfig.enabled) {
 	ncgLog.info("Tiltify disabled");
 }
 
-nodecg.listenFor("markDonationReadUnread", (id) => {
-	const donationIndex = donationsRep.value.findIndex((donation) => donation.id === id);
-	if (donationIndex > -1) {
-		donationsRep.value[donationIndex].read = !donationsRep.value[donationIndex].read;
-	} else {
-		nodecg.log.error("[Donation] Could not find donation to mark as read/unread");
-	}
-});
-
 function getCurrencySymbol(currencyCode: string) {
 	switch (currencyCode.toUpperCase()) {
 		case "AUD":

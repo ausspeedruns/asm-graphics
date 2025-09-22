@@ -37,7 +37,7 @@ bingosync.on("boardStateUpdate", (boardState) => {
 		}
 	});
 
-	// Got too many duplicte object replicatn errors, we cloning the long way now
+	// Got too many duplicate object replicant errors, we cloning the long way now
 	bingosyncBoardStateRep.value = JSON.parse(JSON.stringify(mutableBoardState));
 });
 
@@ -47,7 +47,7 @@ nodecg.listenFor("bingosync:overrideCell", (cellData) => {
 	let found = false;
 	let newOverrides: BoardCell[] = bingosyncBoardStateOverrideRep.value.cells.map((cell) => {
 		console.log("Checking cell:", cell, "against slot:", cellData.cellSlot);
-		if (cell.slot === cellData.cellSlot) {
+		if (cell.slot === cellData.cellSlot && cellData.cellData) {
 			console.log("Found matching cell for override:", cell);
 			found = true;
 			return cellData.cellData;
@@ -63,7 +63,7 @@ nodecg.listenFor("bingosync:overrideCell", (cellData) => {
 	// Remove any cells that are undefined
 	newOverrides = newOverrides.filter((cell) => cell !== undefined);
 
-	// Got too many duplicte object replicatn errors, we cloning the long way now
+	// Got too many duplicate object replicant errors, we cloning the long way now
 	bingosyncBoardStateOverrideRep.value = JSON.parse(JSON.stringify({
 		cells: [...newOverrides],
 	}));

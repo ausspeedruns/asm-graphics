@@ -24,6 +24,7 @@ export const PrizesHost: React.FC<Props> = (props: Props) => {
 			{prizesRep?.map((prize) => (
 				<Prize prize={prize} key={prize.id} />
 			))}
+			{!prizesRep || prizesRep.length === 0 ? <div>No prizes have been set up.</div> : null}
 		</UpcomingContainer>
 	);
 };

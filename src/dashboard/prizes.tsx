@@ -34,6 +34,7 @@ import {
 	arrayMove,
 } from "@dnd-kit/sortable";
 import type { Prize } from "@asm-graphics/types/Prizes";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const PrizesDashboardContainer = styled.div``;
 
@@ -127,7 +128,9 @@ export const PrizesDashboard = () => {
 		<ThemeProvider theme={darkTheme}>
 			<PrizesDashboardContainer>
 				<Accordion expanded={accordionExpanded} onChange={() => setAccordionExpanded(!accordionExpanded)}>
-					<AccordionSummary>{editingId ? "Edit" : "Add"} Prize</AccordionSummary>
+					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+						{editingId ? "Edit" : "Add"} Prize
+					</AccordionSummary>
 					<AccordionDetails>
 						{editingId && (
 							<Typography
@@ -228,8 +231,10 @@ function PrizeElement(props: PrizeProps) {
 			margin={2}
 			gap={1}
 			style={style}
-			backgroundColor="#4b5f7e"
-			borderRadius={2}
+			sx={{
+				backgroundColor: "#4b5f7e",
+				borderRadius: 2,
+			}}
 			ref={setNodeRef}>
 			<Typography variant="caption" color="text.secondary">
 				{props.prize.id}

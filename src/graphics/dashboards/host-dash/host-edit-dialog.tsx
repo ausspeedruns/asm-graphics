@@ -7,7 +7,7 @@ interface HostEditDialogProps extends DialogProps {
 
 export const HostEditDialog = (props: HostEditDialogProps) => {
 	return (
-		<Dialog {...props}>
+		<Dialog maxWidth="md" fullWidth {...props}>
 			<DialogTitle>Edit Host Information</DialogTitle>
 			<DialogContent>
 				<DialogContentText>

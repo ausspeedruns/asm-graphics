@@ -1,11 +1,12 @@
 import type { Commentator } from "./OverlayProps";
 import type { Donation } from "./Donations";
-import type { Stream } from "./Streams";
-import type { StaffMessage } from "./StaffMessages";
-import type { Tweet } from "./Twitter";
 import type { Incentive } from "./Incentives";
 import type { Prize } from "./Prizes";
-import type { BoardCell, RoomJoinParameters } from "extensions/util/bingosync";
+import type { BoardCell, RoomJoinParameters } from "../extensions/util/bingosync";
+import type { HostRead } from "../extensions/host-reads";
+import type { IntermissionVideo } from "../extensions/intermission-videos";
+import type { LowerThirdPerson } from "extensions/full-screen-data";
+import type { X32TalkbackTarget } from "extensions/x32-audio";
 
 export type NodeCGMessages = {
 	// Audio
@@ -26,7 +27,6 @@ export type NodeCGMessages = {
 	"manual-donations:toggleRead": string;
 	"manual-donations:new": Donation;
 	"manual-donations:remove": string;
-	"markDonationReadUnread": string;
 	// Incentives
 	"refreshIncentives": never;
 	"incentivesUpdated": number;
@@ -43,15 +43,6 @@ export type NodeCGMessages = {
 	"transition:toGame": { to: string; from: string };
 	"transition:toIRL": { to: string, from: string };
 	"transition:UNKNOWN": { to: string, from: string }
-	// OBS Online
-	"connectOBS": never;
-	"disconnectOBS": never;
-	"changeOverlayPreview": string;
-	"changeOverlayLive": string;
-	"newTwitchStream": Stream;
-	"removeTwitchStream": string;
-	"goToIntermission": never;
-	"transitionGameplay": never;
 	// Runner Tablet
 	"runner:setReady": never;
 	"runner:setNotReady": never;
@@ -61,8 +52,6 @@ export type NodeCGMessages = {
 	"scheduleImport:import": never;
 	"scheduleImport:getGameYears": never;
 	"scheduleImport:inject-5-min-runs": never;
-	// Staff messages
-	"staff-sendMessage": StaffMessage;
 	// X32 Audio
 	"x32:setFader": { mixBus: number; float: number; channel: number };
 	"x32:changeGameAudio": number;
@@ -70,21 +59,16 @@ export type NodeCGMessages = {
 	"x32:unmute-host": never;
 	"x32:host-mute-couch": never;
 	"x32:host-unmute-couch": never;
-	// Twitter
-	"newTweet": Tweet;
-	"discardTweet": string;
-	"undoTweetDeletion": never;
-	"showTweet": Tweet;
-	"playAd": string;
-	"showPotentialTweet": Tweet | undefined;
-	"refresh-tweets": never;
+	"x32:talkback-start": X32TalkbackTarget;
+	"x32:talkback-stop": never;
 	// ASNN
 	"asnn:showName": { name: string; subtitle: string };
 	"asnn:hideName": never;
 	// Misc
 	"start-credits": never;
-	"show-lowerthird": never;
-	"hide-lowerthird": never;
+	"lowerthird:save-person": LowerThirdPerson;
+	"lowerthird:show": never;
+	"lowerthird:hide": never;
 	"show-acknowledgementofcountry": never;
 	"hide-acknowledgementofcountry": never;
 	// Rando
@@ -105,4 +89,12 @@ export type NodeCGMessages = {
 	// Countdown
 	"countdown:start": `${number}:${number}:${number}`;
 	"countdown:stop": never;
+	// Host Reads
+	"host-reads:add": HostRead;
+	"host-reads:remove": string;
+	"host-reads:update": HostRead;
+	// Intermission Videos
+	"intermission-videos:play": string;
+	"intermission-videos:update": IntermissionVideo;
+	"intermission-videos:refreshInfo": string;
 }

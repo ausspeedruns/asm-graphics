@@ -76,11 +76,6 @@ export const Incentives: React.FC<Props> = (props: Props) => {
 		(incentive) => removeExtrasInName(incentive.game) !== removeExtrasInName(runDataActiveRep?.game || ""),
 	);
 
-	console.log("Incentives Rep:", incentivesRep);
-	console.log("Dead Incentives Removed:", removedDeadIncentives);
-	console.log("Current Run Incentives:", currentRunIncentives);
-	console.log("Other Incentives:", otherIncentives);
-
 	return (
 		<IncentivesContainer className={props.className} style={props.style}>
 			{currentRunIncentives.length > 0 ? (
@@ -172,6 +167,8 @@ const GoalContainer = styled(Box)`
 	/* font-weight: bold; */
 	padding: 1%;
 	margin: 1% 1% 1% 0;
+	border: 1px solid var(--text-color);
+	border-radius: 4px;
 `;
 
 const DisabledCover = styled.div`

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { Description, Edit, Tune, ResetTv, DarkMode, LightMode } from "@mui/icons-material";
+import { createTheme } from "@mui/material/styles";
 import { Button, ThemeProvider, useColorScheme } from "@mui/material";
+import { Description, Edit, Tune, ResetTv, DarkMode, LightMode } from "@mui/icons-material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
-import { darkTheme } from "../dashboard/theme";
 
 import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog";
 import { ScriptDialog } from "./dashboards/host-dash/script-dialog";
@@ -22,18 +22,10 @@ import { HostMicrophone } from "./dashboards/host-dash/host-microphone";
 
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
+import "./host-dash.css";
+
 const DashContainer = styled.div<{ darkMode: boolean }>`
 	color-scheme: ${(props) => (props.darkMode ? "dark" : "light")};
-
-	--orange: #cc7722;
-	--teal: #3f7d8f;
-	--background-color: var(--orange);
-	--text-color: light-dark(#000000, #ffffff);
-	--top-bar-background: light-dark(var(--teal), #0c1017);
-	--mosaic-background: light-dark(#e9e9e9, #05070a);
-	--panel-background: light-dark(#ffffff, #05070a);
-	--inset-background: light-dark(#eeeeee, #2f2f2f);
-	--inset-background-2: light-dark(#dddddd,#3f3f3f);
 
 	transition:
 		background 0.25s,
@@ -228,7 +220,7 @@ const initialLayout: MosaicNode<ViewId> = {
 	splitPercentage: (2 / 3) * 100,
 };
 
-export const HostDash: React.FC = () => {
+export function HostDash() {
 	const { mode } = useColorScheme();
 	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
 
@@ -260,11 +252,11 @@ export const HostDash: React.FC = () => {
 		return () => clearInterval(interval);
 	}, [timeFormat]);
 
-	function playAd(ad: string, length: number) {
+	function playIntermissionVideo(ad: string, length: number) {
 		const adLength = length + 10;
 
 		setPlayingAd(adLength);
-		nodecg.sendMessage("playAd", ad);
+		nodecg.sendMessage("intermission-videos:play", ad);
 
 		setTimeout(() => {
 			setPlayingAd(undefined);
@@ -319,7 +311,7 @@ export const HostDash: React.FC = () => {
 			)}
 
 			<HostEditDialog open={hostOpen} submit={() => setHostOpen(false)} onClose={() => setHostOpen(false)} />
-			<ScriptDialog playAd={playAd} open={scriptsOpen} onClose={() => setScriptsOpen(false)} />
+			<ScriptDialog playAd={playIntermissionVideo} open={scriptsOpen} onClose={() => setScriptsOpen(false)} />
 			<AudioDialog open={audioOpen} onClose={() => setAudioOpen(false)} />
 			<Mosaic<ViewId>
 				renderTile={(id, path) => (
@@ -346,6 +338,7 @@ function ColourSchemeButton() {
 	const isDarkMode = mode === "dark";
 
 	const handleToggle = () => {
+		console.log("Toggling colour scheme to", mode === "dark" ? "light" : "dark");
 		setMode(mode === "dark" ? "light" : "dark");
 	};
 
@@ -357,9 +350,19 @@ function ColourSchemeButton() {
 	);
 }
 
+export const hostDashTheme = createTheme({
+	palette: {
+		primary: { main: "#CC7722" },
+		secondary: { main: "#03a9f4" },
+	},
+	colorSchemes: {
+		dark: true,
+	},
+});
+
 function HostDashApp() {
 	return (
-		<ThemeProvider theme={darkTheme}>
+		<ThemeProvider theme={hostDashTheme}>
 			<HostDash />
 		</ThemeProvider>
 	);

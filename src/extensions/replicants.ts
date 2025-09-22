@@ -3,15 +3,15 @@ import * as nodecgApiContext from "./nodecg-api-context";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { Donation, DonationMatch } from "@asm-graphics/types/Donations";
 import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { Stream } from "@asm-graphics/types/Streams";
-import type { CurrentOverlay } from "@asm-graphics/types/CurrentOverlay";
-import type { StaffMessage } from "@asm-graphics/types/StaffMessages";
 import type { AudioIndicator, OBSAudioIndicator } from "@asm-graphics/types/Audio";
 import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 import type { Automations } from "@asm-graphics/types/Automations";
 import type { Prize } from "@asm-graphics/types/Prizes";
 import type { BoardState, RoomJoinParameters } from "./util/bingosync";
+import type { HostRead } from "./host-reads";
+import type { IntermissionVideo } from "./intermission-videos";
+import type { LowerThirdPerson } from "./full-screen-data";
 
 const nodecg = nodecgApiContext.get();
 
@@ -66,15 +66,6 @@ export const x32BusFadersRep = nodecg.Replicant<number[][]>("x32:busFaders", { d
 /* Incentives */
 export const incentivesRep = nodecg.Replicant<Incentive[]>("incentives", { defaultValue: [] });
 
-/* Overlay/Online */
-export const currentOverlayRep = nodecg.Replicant<CurrentOverlay>("currentOverlay", {
-	defaultValue: { preview: "widescreen", live: "standard" },
-});
-export const twitchStreamsRep = nodecg.Replicant<Stream[]>("twitchStreams", { defaultValue: [] });
-
-/* Staff Messages DEPRECATED */
-export const staffMessagesRep = nodecg.Replicant<StaffMessage[]>("staff-messages", { defaultValue: [] });
-
 /* GraphQL */
 export const incentivesUpdatedLastRep = nodecg.Replicant<number | undefined>("incentives:updated-at", {
 	defaultValue: undefined,
@@ -92,8 +83,8 @@ export const obsStreamTimecode = nodecg.Replicant<string | undefined>("obs:strea
 });
 export const obsDoLocalRecordingsRep = nodecg.Replicant<boolean>("obs:localRecordings", { defaultValue: false });
 
-/* Credits */
-export const lowerThirdNameRep = nodecg.Replicant<{ name: string; title: string }>("credits-name", {
+/* Full Screen Info */
+export const lowerThirdPersonRep = nodecg.Replicant<LowerThirdPerson>("lowerThirdPerson", {
 	defaultValue: { name: "", title: "" },
 });
 
@@ -142,5 +133,14 @@ export const bingosyncStatusRep = nodecg.Replicant<ConnectionStatus>("bingosync:
 });
 export const bingosyncBoardStateOverrideRep = nodecg.Replicant<BoardState>("bingosync:boardStateOverride", {
 	defaultValue: { cells: [] },
+	persistent: true,
+});
+
+/* Host Reads */
+export const hostReadsRep = nodecg.Replicant<HostRead[]>("host-reads", { defaultValue: [] });
+
+/* Intermission Videos */
+export const intermissionVideosRep = nodecg.Replicant<IntermissionVideo[]>("intermission-videos", {
+	defaultValue: [],
 	persistent: true,
 });

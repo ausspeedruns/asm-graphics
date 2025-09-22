@@ -65,17 +65,16 @@ export const NameLowerThird = (props: Props) => {
 	const TextRef = useRef(null);
 	const [tl] = useState(gsap.timeline);
 
-	useListenFor("show-lowerthird", () => {
+	useListenFor("lowerthird:show", () => {
 		tl.clear();
 		tl.set([LogoRef.current, TextRef.current], { width: 0 });
 		tl.to([LogoRef.current, TextRef.current], { width: "auto", duration: 1 });
 		tl.play();
 	});
 
-	useListenFor("hide-lowerthird", () => {
+	useListenFor("lowerthird:hide", () => {
 		tl.clear();
 		tl.to([LogoRef.current, TextRef.current], { width: 0, duration: 1 });
-		// tl.set([LogoRef.current, TextRef.current], { width: 0 });
 		tl.play();
 	});
 
@@ -141,10 +140,10 @@ export const AcknowledgementOfCountry = (props: AcknowledgementOfCountryProps) =
 			<TextContainer ref={TextRef}>
 				<AcknowledgementText>
 					AusSpeedruns acknowledges the traditional owners of the lands on which we are gathered for this
-					event, the Kaurna people, and their continued connection to
-					Country. We pay our respects to their elders past and present, and extend that respect any First
-					Nations people in attendance today. AusSpeedruns also acknowledges the traditional owners of the
-					many lands, waterways and ecosystems on which our viewers from home are joining us.
+					event, the Kaurna people, and their continued connection to Country. We pay our respects to their
+					elders past and present, and extend that respect any First Nations people in attendance today.
+					AusSpeedruns also acknowledges the traditional owners of the many lands, waterways and ecosystems on
+					which our viewers from home are joining us.
 				</AcknowledgementText>
 			</TextContainer>
 		</NameLowerThirdContainer>

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Credits } from "../elements/credits";
 import { AcknowledgementOfCountry, NameLowerThird } from "../elements/name-lowerthird";
+import { LowerThirdPerson } from "extensions/full-screen-data";
 
 const NoGraphicsContainer = styled.div`
 	height: 1016px;
@@ -16,7 +17,7 @@ interface Props {
 }
 
 export const NoGraphics = (props: Props) => {
-	const [creditsNameRep] = useReplicant<{ name: string; title: string }>("credits-name");
+	const [creditsNameRep] = useReplicant<LowerThirdPerson>("lowerThirdPerson");
 	return (
 		<NoGraphicsContainer className={props.className} style={props.style}>
 			<Credits />

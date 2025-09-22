@@ -50,4 +50,7 @@ async function init() {
 	require("./on-screen-warnings");
 	require("./prizes");
 	require("./bingo");
+	require("./host-reads");
+	require("./intermission-videos");
+	require("./full-screen-data");
 }

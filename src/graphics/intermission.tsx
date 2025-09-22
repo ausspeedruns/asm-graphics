@@ -23,7 +23,7 @@ import { LerpNum } from "./elements/ticker/lerp-num";
 import Mic from "@mui/icons-material/Mic";
 import MusicIconImg from "./media/icons/MusicIcon.svg";
 import { Sponsors } from "./elements/sponsors";
-import { IntermissionAds, IntermissionAdsRef } from "./elements/intermission/ad";
+import { IntermissionVideoComponent, IntermissionAdsRef } from "./elements/intermission/video";
 import GoCLogo from "./media/Sponsors/GoCCCWhite.svg";
 
 import IntermissionBG from "./overlays/backgrounds/Intermission_Traces 1.svg?react";
@@ -41,6 +41,7 @@ import { useNormalisedTime } from "../hooks/useCurrentTime";
 import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 import { SectionReactStyles } from "./overlays/asm25/section";
 import { Prize } from "@asm-graphics/types/Prizes";
+import { IntermissionVideo } from "extensions/intermission-videos";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -438,6 +439,7 @@ export function Intermission() {
 	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
 	const [prizesRep] = useReplicant<Prize[]>("prizes");
+	const [videosRep] = useReplicant<IntermissionVideo[]>("intermission-videos");
 	// const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
 	const normalisedTime = useNormalisedTime(1000);
@@ -445,8 +447,13 @@ export function Intermission() {
 
 	const intermissionRef = useRef<IntermissionRef>(null);
 
-	useListenFor("playAd", (newVal) => {
-		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
+	useListenFor("intermission-videos:play", (newVal) => {
+		if (!intermissionRef.current) return;
+
+		const foundVideo = videosRep?.find((video) => video.asset === newVal);
+		if (foundVideo) {
+			intermissionRef.current.showVideo(foundVideo);
+		}
 	});
 
 	const currentDonationMultiplier = (donationMatchesRep?.filter((match) => match.active).length ?? 0) + 1;
@@ -486,7 +493,7 @@ export function Intermission() {
 }
 
 export interface IntermissionRef {
-	showAd: (ad: string) => void;
+	showVideo: (video: IntermissionVideo) => void;
 }
 
 interface IntermissionProps {
@@ -501,6 +508,7 @@ interface IntermissionProps {
 	photos?: NodeCG.AssetFile[];
 	donationMatchMultiplier?: number;
 	prizes?: Prize[];
+	videos?: IntermissionVideo[];
 	ref?: React.Ref<IntermissionRef>;
 }
 
@@ -554,52 +562,37 @@ export function IntermissionElement(props: IntermissionProps) {
 	}, [currentSong, songEl]);
 
 	useImperativeHandle(props.ref, () => ({
-		showAd(ad) {
-			let adDuration = 0;
-			switch (ad) {
-				case "UrbanClimb":
-					adDuration = 36;
-					break;
-				case "Gigabyte":
-					adDuration = 30;
-					break;
-				case "InfiniteWorlds":
-					adDuration = 30;
-					break;
-				default:
-					return;
-			}
+		showVideo(video) {
+			if (!audioRef.current || !video.videoInfo) return;
 
-			if (audioRef.current) {
-				const tl = gsap.timeline();
+			const tl = gsap.timeline();
 
-				tl.set(audioRef.current, { x: 1 });
-				tl.to(audioRef.current, {
-					x: 0,
+			tl.set(audioRef.current, { x: 1 });
+			tl.to(audioRef.current, {
+				x: 0,
+				duration: 5,
+				onUpdate: () => {
+					if (!audioRef.current) return;
+					const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
+					audioRef.current.volume = parseFloat(dummyElPos.toString());
+				},
+			});
+			// tl.to(incentivesRef.current, { opacity: 0, duration: 3 });
+			tl.call(() => adsRef.current?.showVideo(video));
+			// tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration + 3}`);
+			tl.to(
+				audioRef.current,
+				{
+					x: 1,
 					duration: 5,
 					onUpdate: () => {
 						if (!audioRef.current) return;
 						const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
 						audioRef.current.volume = parseFloat(dummyElPos.toString());
 					},
-				});
-				// tl.to(incentivesRef.current, { opacity: 0, duration: 3 });
-				tl.call(() => adsRef.current?.showAd(ad));
-				// tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration + 3}`);
-				tl.to(
-					audioRef.current,
-					{
-						x: 1,
-						duration: 5,
-						onUpdate: () => {
-							if (!audioRef.current) return;
-							const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
-							audioRef.current.volume = parseFloat(dummyElPos.toString());
-						},
-					},
-					`+=${adDuration} + 10`,
-				);
-			}
+				},
+				`+=${video.videoInfo.duration} + 10`,
+			);
 		},
 	}));
 
@@ -658,7 +651,7 @@ export function IntermissionElement(props: IntermissionProps) {
 
 			<LeftColumn>
 				<CameraContainer>
-					<IntermissionAds ref={adsRef} />
+					<IntermissionVideoComponent ref={adsRef} videos={props.videos} />
 					<CameraBorder />
 					<CameraShadow />
 					<CameraChin>

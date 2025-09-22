@@ -1,9 +1,9 @@
-import React, { useImperativeHandle, useRef } from "react";
+import { useImperativeHandle, useRef, useState } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
 
-// import adEntry from "../../media/ASM23/ad_ENTRY.webm";
-// import adExit from "../../media/ASM23/ad_EXIT.webm";
+import type { IntermissionVideo } from "extensions/intermission-videos";
+import { set } from "zod";
 
 const IntermissionAdsContainer = styled.div`
 	width: 100%;
@@ -15,7 +15,7 @@ const IntermissionAdsContainer = styled.div`
 	position: absolute;
 	top: 0;
 	background: black;
-	border-radius: 32px;;
+	border-radius: 32px;
 `;
 
 const VideoBox = styled.div`
@@ -36,71 +36,38 @@ const Video = styled.video`
 	opacity: 0;
 `;
 
-// const EntryExitVids = styled.video`
-// 	opacity: 0;
-// 	position: absolute;
-// `;
-
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
 	ref?: React.Ref<IntermissionAdsRef>;
+	videos?: IntermissionVideo[];
 }
 
 export interface IntermissionAdsRef {
-	showAd: (ad: string) => void;
+	showVideo: (video: IntermissionVideo) => void;
 }
 
-export function IntermissionAds(props: Props) {
+export function IntermissionVideoComponent(props: Props) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const textRef = useRef<HTMLDivElement>(null);
-	// const entryRef = useRef<HTMLVideoElement>(null);
-	// const exitRef = useRef<HTMLVideoElement>(null);
+	const [videoRunning, setVideoRunning] = useState(false);
 
 	useImperativeHandle(props.ref, () => ({
-		showAd(ad) {
-			let adData = {
-				src: "",
-				length: 0,
-				volume: 0,
-			};
+		showVideo(video) {
+			if (videoRunning || !video.videoInfo) return;
 
-			switch (ad) {
-				case "UrbanClimb":
-					adData = {
-						src: "../shared/sponsors/UrbanClimb.mp4",
-						length: 30,
-						volume: 1,
-					};
-					break;
-				case "Gigabyte":
-					adData = {
-						src: "../shared/sponsors/Gigabyte.m4v",
-						length: 40,
-						volume: 0.6,
-					};
-					break;
-				case "InfiniteWorlds":
-					adData = {
-						src: "../shared/sponsors/InfiniteWorlds.mov",
-						length: 30,
-						volume: 0.6,
-					};
-					break;
-				default:
-					return;
-			}
+			setVideoRunning(true);
 
-			if (adData.src === "") return;
+			console.log("Showing video:", video);
 
 			const tl = gsap.timeline();
 
-			// Prepare ad contents
+			// Prepare video contents
 			tl.call(() => {
 				if (!videoRef.current) return;
-				videoRef.current.volume = adData.volume;
-				videoRef.current.src = adData.src;
+				videoRef.current.volume = video.volume;
+				videoRef.current.src = video.asset;
 			});
 
 			// Run entry
@@ -125,7 +92,11 @@ export function IntermissionAds(props: Props) {
 			});
 
 			// Fade out ad
-			tl.to([videoRef.current, textRef.current], { opacity: 0, duration: 1 }, `+=${adData.length + 1}`);
+			tl.to(
+				[videoRef.current, textRef.current],
+				{ opacity: 0, duration: 1 },
+				`+=${video.videoInfo.duration + 1}`,
+			);
 
 			// Swap from entry to exit
 			// tl.set(entryRef.current, { opacity: 0 });
@@ -141,6 +112,7 @@ export function IntermissionAds(props: Props) {
 			// });
 
 			// tl.set(exitRef.current, { opacity: 0 });
+			tl.call(() => setVideoRunning(false));
 		},
 	}));
 

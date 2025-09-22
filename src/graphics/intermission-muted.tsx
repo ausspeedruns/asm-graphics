@@ -23,7 +23,7 @@ const Intermission: React.FC = () => {
 	});
 
 	useListenFor("playAd", (newVal) => {
-		if (intermissionRef.current) intermissionRef.current.showAd(newVal);
+		if (intermissionRef.current) intermissionRef.current.showVideo(newVal);
 	});
 
 	return (

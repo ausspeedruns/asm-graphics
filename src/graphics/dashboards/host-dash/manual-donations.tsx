@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import _, { uniqueId } from "underscore";
-import { Box, Grid, TextField, Tooltip } from "@mui/material";
-import { Check } from "@mui/icons-material";
+import { Box, Button, Grid, InputAdornment, TextField, Tooltip } from "@mui/material";
+import { Check, Delete, Undo } from "@mui/icons-material";
 
 import { Donation } from "@asm-graphics/types/Donations";
-
-import { GreenButton, RedButton } from "../../../dashboard/elements/styled-ui";
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);
@@ -23,6 +21,7 @@ const FormTopRow = styled.div`
 	display: flex;
 	width: 100%;
 	justify-content: space-between;
+	gap: 8px;
 `;
 
 // Donation object example
@@ -52,7 +51,11 @@ export const ManualDonations: React.FC = () => {
 	const [amount, setAmount] = useState("");
 
 	const allDonations =
-		donations?.map((donation, index) => <DonationEl donation={donation} key={donation.id.toString() + index.toString()} />).reverse() ?? [];
+		donations
+			?.map((donation, index) => (
+				<DonationEl donation={donation} key={donation.id.toString() + index.toString()} />
+			))
+			.reverse() ?? [];
 
 	function newDonation() {
 		if (isNaN(parseFloat(amount))) {
@@ -78,6 +81,8 @@ export const ManualDonations: React.FC = () => {
 		setMessage("");
 	}
 
+	const canAddNewDonation = author.trim() !== "" && !isNaN(parseFloat(amount)) && parseFloat(amount) > 0;
+
 	return (
 		<DonationsContainer>
 			<DonationForm>
@@ -95,6 +100,11 @@ export const ManualDonations: React.FC = () => {
 						type="number"
 						fullWidth
 						value={amount}
+						slotProps={{
+							input: {
+								startAdornment: <InputAdornment position="start">$</InputAdornment>,
+							},
+						}}
 						onChange={(e) => setAmount(e.target.value)}
 					/>
 				</FormTopRow>
@@ -107,9 +117,16 @@ export const ManualDonations: React.FC = () => {
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 				/>
-				<GreenButton variant="contained" onClick={newDonation} style={{ float: "right" }}>
-					Add
-				</GreenButton>
+				<div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
+					<Button
+						color="success"
+						variant="contained"
+						onClick={newDonation}
+						disabled={!canAddNewDonation}
+						size="large">
+						Add
+					</Button>
+				</div>
 			</DonationForm>
 			<Grid container direction="column" style={{ padding: 8, wordBreak: "break-word" }}>
 				{allDonations}
@@ -132,7 +149,6 @@ const NewFlash = keyframes`
 const DonationContainer = styled(Box)`
 	margin: 6px 0;
 	display: flex;
-	justify-content: space-between;
 	font-size: 13px;
 	padding: 8px;
 	border-radius: 7px;
@@ -171,7 +187,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	const toggleRead = () => {
-		nodecg.sendMessage("markDonationReadUnread", props.donation.id);
+		nodecg.sendMessage("manual-donations:toggleRead", props.donation.id);
 	};
 
 	const deleteDono = () => {
@@ -180,7 +196,12 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 
 	return (
 		<DonationContainer boxShadow={2}>
-			<Grid direction="column" container>
+			<Tooltip title="Delete" placement="top">
+				<Button color="error" variant="contained" onClick={deleteDono} style={{ flexGrow: 0, marginRight: 8 }}>
+					<Delete />
+				</Button>
+			</Tooltip>
+			<Grid direction="column" container style={{ flexGrow: 1, gap: 4 }}>
 				<div>
 					<Amount>${props.donation.amount.toLocaleString()}</Amount>
 					<Name>{props.donation.name}</Name>
@@ -191,21 +212,21 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				</span>
 			</Grid>
 
+			{props.donation.read && <DisabledCover />}
+
 			{props.donation.read ? (
-				<DisabledCover />
+				<Tooltip title="Mark as unread" placement="top">
+					<Button color="inherit" variant="outlined" onClick={toggleRead} style={{ flexGrow: 0 }}>
+						<Undo />
+					</Button>
+				</Tooltip>
 			) : (
 				<Tooltip title="Mark as read" placement="top">
-					<GreenButton variant="contained" onClick={toggleRead}>
+					<Button color="success" variant="contained" onClick={toggleRead} style={{ flexGrow: 0 }}>
 						<Check />
-					</GreenButton>
+					</Button>
 				</Tooltip>
 			)}
-
-			<Tooltip title="Mark as read" placement="top">
-				<RedButton variant="contained" onClick={deleteDono}>
-					–
-				</RedButton>
-			</Tooltip>
 		</DonationContainer>
 	);
 };

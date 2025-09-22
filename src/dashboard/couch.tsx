@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { darkTheme } from "./theme";
 
-import { Button, IconButton, ThemeProvider } from "@mui/material";
+import { Button, Dialog, DialogTitle, IconButton, ThemeProvider } from "@mui/material";
 import { Edit, Add, DragHandle } from "@mui/icons-material";
 import {
 	DndContext,
@@ -26,6 +26,7 @@ import { CSS } from "@dnd-kit/utilities";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { CouchEditDialog } from "./commentator-edit-dialog";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import { useState } from "react";
 
 namespace Alert {
 	type Name =
@@ -86,7 +87,7 @@ function getDialog(name: string): Window | null {
 		return iframe;
 	} catch (err) {
 		nodecg.log.error(`getDialog could not successfully find dialog "${name}":`, err);
-		 
+
 		window.alert(
 			`Attempted to open the NodeCG "${name}" dialog but failed (if you are using a standalone version of a dashboard panel, this is not yet supported).`,
 		);
@@ -98,6 +99,7 @@ export function DashCouch() {
 	const [commentatorsRep, setCommentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const [hostRep] = useReplicant<Commentator>("host");
 	const [showHostRep] = useReplicant<boolean>("showHost");
+	const [hostOnCouchInstructionsOpen, setHostOnCouchInstructionsOpen] = useState(false);
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -158,9 +160,8 @@ export function DashCouch() {
 						/>
 					</div>
 					{hostRep && <HostComponent commentator={hostRep} id="host" />}
+					<Button onClick={() => setHostOnCouchInstructionsOpen(true)}>Host on Couch</Button>
 					<hr style={{ width: "90%", opacity: 0.5 }} />
-
-					{/* {commentatorsRep?.map((commentator) => <HostComponent commentator={commentator} />)} */}
 					<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
 						<SortableContext items={commentatorsRep ?? []} strategy={verticalListSortingStrategy}>
 							{commentatorsRep?.map((commentator) => (
@@ -173,16 +174,33 @@ export function DashCouch() {
 					</Button>
 				</div>
 			</div>
+			<Dialog
+				open={hostOnCouchInstructionsOpen}
+				onClose={() => setHostOnCouchInstructionsOpen(false)}>
+				<DialogTitle>Host on Couch Instructions</DialogTitle>
+				<div style={{ padding: 16, maxWidth: 400 }}>
+					<ul>
+						<li>Move laptop and host to the couch</li>
+						<li>Add the host as a normal commentator</li>
+						<li>Disable "Show Host" at the top</li>
+					</ul>
+					<div style={{ textAlign: "right", marginTop: 16 }}>
+						<Button onClick={() => setHostOnCouchInstructionsOpen(false)}>Close</Button>
+					</div>
+				</div>
+			</Dialog>
 		</ThemeProvider>
 	);
-};
+}
 
 const HostComponentContainer = styled.div`
 	display: flex;
 	gap: 6px;
 	align-items: center;
 	justify-content: space-between;
-	background: #4d5e80;
+	background-color: rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(5px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
 	border-radius: 4px;
 	padding: 4px 4px 4px 8px;
 `;
@@ -229,7 +247,7 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 		transition,
 	};
 
-	const isHost = props.commentator.tag === "Host";
+	const isHost = props.commentator.id === "host";
 
 	async function editCommentator() {
 		await checkDialog("commentator-edit-dialog");
@@ -241,13 +259,9 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 
 	return (
 		<HostComponentContainer ref={setNodeRef} style={style}>
-			{!isHost && (
-				<IconButton {...listeners} {...attributes}>
-					<DragHandle />
-				</IconButton>
-			)}
+			{!isHost && <DragHandle {...listeners} {...attributes} />}
 			<Name>
-				<Tag>{props.commentator.tag}</Tag>
+				<Tag>{props.commentator.id !== "host" && props.commentator.tag}</Tag>
 				{props.commentator.name}
 				<Pronouns>{props.commentator.pronouns}</Pronouns>
 				{props.commentator.microphone && <Microphone>- Mic: {props.commentator.microphone}</Microphone>}

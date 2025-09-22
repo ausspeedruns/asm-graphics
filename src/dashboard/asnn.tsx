@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Button, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
-import { GreenButton, RedButton } from "./elements/styled-ui";
 import { Delete, DragIndicator } from "@mui/icons-material";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import {
@@ -75,9 +74,9 @@ function Ticker(props: TickerProps) {
 		<TickerItem ref={setNodeRef} style={style}>
 			<DragIndicator {...attributes} {...listeners} />
 			<p style={{ flexGrow: 1 }}>{props.ticker.text}</p>
-			<RedButton variant="contained" onClick={props.removeFunc}>
+			<Button color="error" variant="contained" onClick={props.removeFunc}>
 				<Delete />
-			</RedButton>
+			</Button>
 		</TickerItem>
 	);
 }
@@ -102,13 +101,13 @@ function HeadlineItem(props: HeadlineItemProps) {
 			<TickerItem>
 				<DragIndicator {...attributes} {...listeners} />
 				<p style={{ flexGrow: 1, fontWeight: props.showing ? "bold" : "normal" }}>{props.headline.text}</p>
-				<RedButton variant="contained" onClick={props.removeFunc} disabled={props.showing}>
+				<Button color="error" variant="contained" onClick={props.removeFunc} disabled={props.showing}>
 					<Delete />
-				</RedButton>
+				</Button>
 
-				<GreenButton fullWidth variant="contained" onClick={props.showFunc} disabled={props.showing}>
+				<Button color="success" fullWidth variant="contained" onClick={props.showFunc} disabled={props.showing}>
 					Show
-				</GreenButton>
+				</Button>
 			</TickerItem>
 		</div>
 	);
@@ -203,15 +202,15 @@ export const ASNNDash = () => {
 					/>
 				</Row>
 				<Row>
-					<GreenButton
+					<Button color="success"
 						variant="contained"
 						fullWidth
 						onClick={() => nodecg.sendMessage("asnn:showName", { name: name, subtitle: subtitle })}>
 						Show Name
-					</GreenButton>
-					<RedButton variant="contained" fullWidth onClick={() => nodecg.sendMessage("asnn:hideName")}>
+					</Button>
+					<Button color="error" variant="contained" fullWidth onClick={() => nodecg.sendMessage("asnn:hideName")}>
 						Hide Name
-					</RedButton>
+					</Button>
 				</Row>
 				<hr style={{ margin: "24px 0" }} />
 				<Row>
@@ -221,9 +220,9 @@ export const ASNNDash = () => {
 						value={headlineTextBox}
 						onChange={(e) => setHeadlineTextBox(e.target.value)}
 					/>
-					<GreenButton variant="contained" onClick={addNewHeadline} disabled={!headlineTextBox}>
+					<Button color="success" variant="contained" onClick={addNewHeadline} disabled={!headlineTextBox}>
 						Add
-					</GreenButton>
+					</Button>
 				</Row>
 
 				<TickerListContainer>
@@ -260,13 +259,14 @@ export const ASNNDash = () => {
 					</Button>
 				</Row>
 
-				<RedButton
+				<Button
+					color="error"
 					fullWidth
 					variant="contained"
 					onClick={() => setAsnnTicker([])}
 					disabled={ticker.length === 0}>
 					Reset Ticker
-				</RedButton>
+				</Button>
 				<TickerListContainer>
 					<DndContext onDragEnd={onDragEndTicker} sensors={sensors} modifiers={[restrictToVerticalAxis]}>
 						<SortableContext items={ticker} strategy={verticalListSortingStrategy}>
@@ -280,13 +280,14 @@ export const ASNNDash = () => {
 						</SortableContext>
 					</DndContext>
 				</TickerListContainer>
-				<GreenButton
+				<Button
+					color="success"
 					fullWidth
 					variant="contained"
 					onClick={() => setAsnnTicker(ticker.map((i) => i.text))}
 					disabled={isTickerElementsAndRealTickerEqual}>
 					Update Ticker
-				</GreenButton>
+				</Button>
 			</ASNNDashContainer>
 		</ThemeProvider>
 	);
