@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { Goal, War } from "@asm-graphics/types/Incentives";

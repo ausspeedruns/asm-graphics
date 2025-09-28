@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef } from "react";
+import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { Goal } from "@asm-graphics/types/Incentives";

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { useListenFor } from "@nodecg/react-hooks";
 import gsap from "gsap";

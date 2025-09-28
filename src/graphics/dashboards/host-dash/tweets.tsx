@@ -1,5 +1,5 @@
 // Copy paste from dashboard version
-import React, { useState } from "react";
+import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useReplicant, useListenFor } from "@nodecg/react-hooks";
 import _ from "underscore";

@@ -1,4 +1,3 @@
-import React from "react";
 
 const PARENTS = nodecg.bundleConfig.twitch.parents;
 

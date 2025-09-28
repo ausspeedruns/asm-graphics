@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef } from "react";
+import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { TickerItemHandles } from "../ticker";
@@ -32,13 +32,14 @@ interface Props {
 	className?: string;
 	style?: React.CSSProperties;
 	prizes: Prize[];
+	ref?: React.Ref<TickerItemHandles>;
 }
 
-export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
+export function TickerPrizes(props: Props) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const prizesRef = useRef<HTMLDivElement>(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.set(prizesRef.current, { right: "" });
@@ -68,6 +69,4 @@ export const TickerPrizes = React.forwardRef<TickerItemHandles, Props>((props: P
 			</div>
 		</TickerPrizesContainer>
 	);
-});
-
-TickerPrizes.displayName = "TickerPrizes";
+}

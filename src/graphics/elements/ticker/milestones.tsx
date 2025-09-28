@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef } from "react";
+import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { TickerItemHandles } from "../ticker";
@@ -136,6 +136,7 @@ const DH_MILESTONES: Milestone[] = [
 
 interface Props {
 	currentTotal: number;
+	ref?: React.Ref<TickerItemHandles>;
 }
 
 // Milestones to use for the events
@@ -155,7 +156,7 @@ function combineMilestones(milestones: Milestone[]): Milestone[] {
 	return [...milestones, ...filteredMilestones];
 }
 
-export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
+export function TickerMilestones(props: Props) {
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 
@@ -178,7 +179,7 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 		showMilestones = false;
 	}
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			if (!showMilestones) return tl;
 
@@ -238,6 +239,4 @@ export const TickerMilestones = React.forwardRef<TickerItemHandles, Props>((prop
 			</NextMilestone>
 		</TickerMilestonesContainer>
 	);
-});
-
-TickerMilestones.displayName = "TickerMilestones";
+}

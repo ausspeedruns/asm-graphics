@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import styled, { keyframes } from "styled-components";
 import { createRoot } from "react-dom/client";
 import { clone } from "underscore";

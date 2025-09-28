@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 import { OverlayProps } from "@asm-graphics/types/OverlayProps";

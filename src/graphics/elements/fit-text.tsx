@@ -1,7 +1,7 @@
 // From jr-layouts by Hoishin https://github.com/JapaneseRestream/jr-layouts
 // Slightly modified by Ewan Lyon
 
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 import styled from "styled-components";
 

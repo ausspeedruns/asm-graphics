@@ -1,5 +1,5 @@
 import { ThemeProvider, FormControlLabel, Radio, Checkbox, FormGroup, TextField, Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";

@@ -1,4 +1,3 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { FormControlLabel, Switch, ThemeProvider } from "@mui/material";
