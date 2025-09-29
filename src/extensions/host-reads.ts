@@ -15,16 +15,16 @@ nodecg.listenFor("host-reads:add", (data: HostRead) => {
 });
 
 nodecg.listenFor("host-reads:remove", (id: string) => {
-	const newData = hostReadsRep.value.filter(read => read.id !== id);
+	const newData = hostReadsRep.value.filter((read) => read.id !== id);
 	hostReadsRep.value = newData;
 });
 
 nodecg.listenFor("host-reads:update", (data: HostRead) => {
-	const newData = hostReadsRep.value.map(read => {
+	const newData = hostReadsRep.value.map((read) => {
 		if (read.id === data.id) {
 			return data;
 		}
-		
+
 		return read;
 	});
 

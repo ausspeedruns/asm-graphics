@@ -20,7 +20,7 @@ export const CellColours = [
 	"yellow",
 ] as const;
 
-export type CellColour = typeof CellColours[number];
+export type CellColour = (typeof CellColours)[number];
 
 export interface BoardCell {
 	slot: string;
@@ -33,7 +33,7 @@ export interface BoardState {
 }
 
 interface WebSocketMessage {
-	type: "goal" | "connected" |string;
+	type: "goal" | "connected" | string;
 	player: {
 		uuid: string;
 		name: string;
@@ -131,23 +131,18 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 		this.sessionId = sessionIdMatch[1];
 
 		// Now we need to fetch the socket key using the session ID
-		const socketKeyResponse = await fetch(
-			this.getUrl(`api/get-socket-key/${room}`),
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Cookie: `sessionid=${this.sessionId}`,
-				},
+		const socketKeyResponse = await fetch(this.getUrl(`api/get-socket-key/${room}`), {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Cookie: `sessionid=${this.sessionId}`,
 			},
-		);
+		});
 
 		if (!socketKeyResponse.ok) {
 			console.log("Socket key response", socketKeyResponse);
 			console.log("Socket key response body:", await socketKeyResponse.text());
-			throw new Error(
-				`Failed to get socket key: ${socketKeyResponse.statusText}`,
-			);
+			throw new Error(`Failed to get socket key: ${socketKeyResponse.statusText}`);
 		}
 
 		const socketKeyData = await socketKeyResponse.json();
@@ -256,9 +251,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 			return;
 		}
 
-		const cellIndex = this.boardState.cells.findIndex(
-			(cell) => cell.slot === square.slot,
-		);
+		const cellIndex = this.boardState.cells.findIndex((cell) => cell.slot === square.slot);
 
 		if (cellIndex === -1) {
 			console.warn(`Cell with slot ${square.slot} not found in board state.`);
@@ -280,9 +273,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 		return { cells };
 	}
 
-	private static parseCell(
-		cell: RawBoardState[number],
-	): BoardCell {
+	private static parseCell(cell: RawBoardState[number]): BoardCell {
 		return {
 			slot: cell.slot,
 			colors: cell.colors.split(" ") as CellColour[],

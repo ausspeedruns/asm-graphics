@@ -22,14 +22,16 @@ export function HostMicrophone() {
 				color={muted ? "error" : "success"}
 				onClick={muteOrUnmute}
 				variant="contained"
-				sx={{ height: "100%" }}>
+				sx={{ height: "100%" }}
+			>
 				{muted ? "UNMUTE" : "Mute"}
 			</Button>
 			<Button
 				color={couchMuted ? "error" : "success"}
 				onClick={muteOrUnmuteCouch}
 				variant="contained"
-				sx={{ height: "100%" }}>
+				sx={{ height: "100%" }}
+			>
 				{couchMuted ? "Unmute Couch" : "Mute Couch"}
 			</Button>
 		</div>

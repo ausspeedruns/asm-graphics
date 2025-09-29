@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import usePrevious from "./usePrevious";
 
-function useEffectDebugger(effectHook: React.EffectCallback, dependencies: React.DependencyList, dependencyNames: string[] = []) {
+function useEffectDebugger(
+	effectHook: React.EffectCallback,
+	dependencies: React.DependencyList,
+	dependencyNames: string[] = [],
+) {
 	const previousDeps = usePrevious<React.DependencyList>(dependencies ?? []);
 
 	const changedDeps = dependencies.reduce((accumulator: Record<string, any>, dependency, index) => {
@@ -11,8 +15,8 @@ function useEffectDebugger(effectHook: React.EffectCallback, dependencies: React
 				...accumulator,
 				[keyName]: {
 					before: previousDeps?.[index],
-					after: dependency
-				}
+					after: dependency,
+				},
 			};
 		}
 

@@ -2,7 +2,11 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 import * as nodecgApiContext from "../nodecg-api-context";
 import type { Donation } from "@asm-graphics/types/Donations";
-import { TiltifyCampaignReturn, TiltifyDonationMatchReturn, TiltifyDonationsReturn } from "@asm-graphics/types/TiltifyReturn";
+import {
+	TiltifyCampaignReturn,
+	TiltifyDonationMatchReturn,
+	TiltifyDonationsReturn,
+} from "@asm-graphics/types/TiltifyReturn";
 import _ from "underscore";
 
 const nodecg = nodecgApiContext.get();
@@ -24,11 +28,10 @@ async function getAccessToken() {
 			accessToken = res.data.access_token;
 			ncgLog.info("Token data", JSON.stringify(res.data));
 		}
-	} catch (error: unknown | AxiosError) {
+	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			ncgLog.error("getAccessToken axios error: ", JSON.stringify(error));
-		}
-		else {
+		} else {
 			ncgLog.error("getAccessToken unknown error: ", JSON.stringify(error));
 		}
 	}
@@ -43,16 +46,14 @@ async function getCampaignData() {
 			{ headers: { Authorization: `Bearer ${accessToken}` } },
 		);
 		if (res.data?.data?.amount_raised) donationTotalRep.value = parseFloat(res.data.data.amount_raised.value);
-	} catch (error: unknown | AxiosError) {
+	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.status === 401) {
 				getAccessToken();
-			}
-			else {
+			} else {
 				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
 			}
-		}
-		else {
+		} else {
 			ncgLog.error("getCampaignData unknown error: ", JSON.stringify(error));
 		}
 	}
@@ -89,16 +90,14 @@ async function getDonationsData() {
 
 			donationsRep.value = mutableDonations.concat(parsedDonos);
 		}
-	} catch (error: unknown | AxiosError) {
+	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.status === 401) {
 				getAccessToken();
-			}
-			else {
+			} else {
 				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
 			}
-		}
-		else {
+		} else {
 			ncgLog.error("getDonationsData unknown error: ", JSON.stringify(error));
 		}
 	}
@@ -145,16 +144,14 @@ async function getDonationMatchData() {
 			read: false, // Will always be false
 			desc: "", // Will always be empty,
 		}));
-	} catch (error: unknown | AxiosError) {
+	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.status === 401) {
 				getAccessToken();
-			}
-			else {
+			} else {
 				ncgLog.error("getDonationMatchData axios error: ", JSON.stringify(error));
 			}
-		}
-		else {
+		} else {
 			ncgLog.error("getDonationMatchData unknown error: ", JSON.stringify(error));
 		}
 	}

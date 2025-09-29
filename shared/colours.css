@@ -26,7 +26,15 @@ body {
 	--orange-500: #cc7722;
 
 	/* GOC */
-	--goc-gradient: linear-gradient(90deg, #6969CB 13%, #A967B7 27.8%, #E964A2 42.6%, #F08184 57.4%, #F89D65 72.2%, #FFBA47 87%);
+	--goc-gradient: linear-gradient(
+		90deg,
+		#6969cb 13%,
+		#a967b7 27.8%,
+		#e964a2 42.6%,
+		#f08184 57.4%,
+		#f89d65 72.2%,
+		#ffba47 87%
+	);
 
 	--pax24-main: #222721;
 	--pax24-main-light: #444d42;

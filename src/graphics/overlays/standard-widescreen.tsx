@@ -144,7 +144,8 @@ export const StandardWidescreen = (props: OverlayProps) => {
 							flexGrow: 1,
 							alignItems: "center",
 							zIndex: 2,
-						}}>
+						}}
+					>
 						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} />
 						<Couch
 							commentators={props.commentators}

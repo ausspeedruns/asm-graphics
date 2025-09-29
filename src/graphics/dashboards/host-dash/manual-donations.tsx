@@ -123,7 +123,8 @@ export const ManualDonations: React.FC = () => {
 						variant="contained"
 						onClick={newDonation}
 						disabled={!canAddNewDonation}
-						size="large">
+						size="large"
+					>
 						Add
 					</Button>
 				</div>

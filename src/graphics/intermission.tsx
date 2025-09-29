@@ -631,7 +631,8 @@ export function IntermissionElement(props: IntermissionProps) {
 					"--trace-outline": asm25Colours.traceOutline,
 					"--chip": asm25Colours.chip,
 				} as React.CSSProperties
-			}>
+			}
+		>
 			<Circuitry
 				noCircuitBoard
 				disableBaseColourLayer
@@ -685,7 +686,8 @@ export function IntermissionElement(props: IntermissionProps) {
 							autoPlay
 							preload="auto"
 							muted={props.muted}
-							ref={audioRef}>
+							ref={audioRef}
+						>
 							<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 						</audio>
 						<div style={{ display: "flex", alignItems: "flex-end", gap: 8, width: "100%" }}>
@@ -711,12 +713,14 @@ export function IntermissionElement(props: IntermissionProps) {
 							alignItems: "center",
 							gap: 16,
 							height: 230,
-						}}>
+						}}
+					>
 						<DonationAmount
 							style={{
 								fontSize: (props.donationMatchMultiplier ?? 1) > 1 ? 170 : undefined,
 								marginTop: (props.donationMatchMultiplier ?? 1) > 1 ? -50 : undefined,
-							}}>
+							}}
+						>
 							<DonationSymbol>$</DonationSymbol>
 							<LerpNum value={props.donation} />
 						</DonationAmount>
@@ -747,7 +751,8 @@ export function IntermissionElement(props: IntermissionProps) {
 							justifyContent: "space-between",
 							boxSizing: "border-box",
 							maxWidth: "95%",
-						}}>
+						}}
+					>
 						{/* <Title>Next Up</Title> */}
 						<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
 						<Category text={nextRuns[0]?.category} />
@@ -778,7 +783,8 @@ export function IntermissionElement(props: IntermissionProps) {
 							left: 0,
 							display: "flex",
 							justifyContent: "center",
-						}}>
+						}}
+					>
 						<div style={{ width: 700, height: 210, ...SectionReactStyles }} />
 					</div>
 					<div
@@ -790,7 +796,8 @@ export function IntermissionElement(props: IntermissionProps) {
 							left: 0,
 							display: "flex",
 							justifyContent: "center",
-						}}>
+						}}
+					>
 						<IncentivesContainer ref={incentivesRef} style={{ width: 700 }}>
 							{props.incentives && (
 								<InterIncentivesMemo
@@ -816,7 +823,8 @@ export function IntermissionElement(props: IntermissionProps) {
 							outlineOffset: "3px",
 							position: "relative",
 							boxShadow: "inset 0 -6px 0 0 rgba(0, 0, 0, 0.33)",
-						}}>
+						}}
+					>
 						<Sponsors sponsors={props.sponsors} />
 						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>
 							Sponsors
@@ -859,7 +867,8 @@ export function IntermissionElement(props: IntermissionProps) {
 							alignItems: "center",
 							justifyContent: "center",
 							boxShadow: "inset 0 -6px 0 0 rgba(0, 0, 0, 0.33)",
-						}}>
+						}}
+					>
 						<CureCancerLogo src={GoCLogo} />
 						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>
 							Charity

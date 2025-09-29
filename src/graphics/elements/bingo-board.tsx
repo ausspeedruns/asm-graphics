@@ -75,7 +75,8 @@ export function BingoBoard(props: BingoBoardProps) {
 				gridTemplateColumns: "repeat(5, 1fr)",
 				gridTemplateRows: "repeat(5, 1fr)",
 				...props.style,
-			}}>
+			}}
+		>
 			{cells.map((cell) => {
 				const cellDone = cell.colors.length >= 2;
 				return (

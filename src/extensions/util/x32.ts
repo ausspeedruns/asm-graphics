@@ -414,14 +414,14 @@ class X32 extends EventEmitter<X32Class> {
 	enableTalkback(channel: "A" | "B", on: boolean): void {
 		this.oscSocket.send({
 			address: `/-stat/talk/${channel}`,
-			args: [{ type: "i", value: on ? 1 : 0 }]
+			args: [{ type: "i", value: on ? 1 : 0 }],
 		});
 	}
 
 	setTalkbackMixbus(talkbackChannel: "A" | "B", mixBus: number) {
 		this.oscSocket.send({
 			address: `/config/talk/${talkbackChannel}/destmap,i`,
-			args: [{ type: "i", value: mixBus }]
+			args: [{ type: "i", value: mixBus }],
 		});
 	}
 
@@ -454,7 +454,7 @@ class X32 extends EventEmitter<X32Class> {
 	setChannelName(channel: number, name: string) {
 		this.oscSocket.send({
 			address: `/ch/${X32.oscNum(channel)}/config/name`,
-			args: [{ type: "s", value: name }]
+			args: [{ type: "s", value: name }],
 		});
 	}
 }

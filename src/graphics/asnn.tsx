@@ -1,4 +1,4 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled, { keyframes } from "styled-components";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";

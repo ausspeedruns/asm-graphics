@@ -102,10 +102,7 @@ export const StandardVertical = (props: OverlayProps) => {
 			</Sidebar>
 			<RightSide>
 				<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-				<SponsorBoxS
-					sponsors={props.sponsors}
-					sponsorStyle={SponsorsSize}
-				/>
+				<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
 			</RightSide>
 		</StandardContainer>
 	);

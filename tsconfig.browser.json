@@ -23,13 +23,6 @@
 		"resolveJsonModule": true,
 		"types": ["react", "node"]
 	},
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		"src/types/**/*.d.ts",
-		"node_modules/vite-plugin-svgr/client.d.ts"
-	],
-	"exclude": [
-		"bundles/nodecg-speedcontrol/src/types/augment-window.d.ts",
-	]
+	"include": ["**/*.ts", "**/*.tsx", "src/types/**/*.d.ts", "node_modules/vite-plugin-svgr/client.d.ts"],
+	"exclude": ["bundles/nodecg-speedcontrol/src/types/augment-window.d.ts"]
 }

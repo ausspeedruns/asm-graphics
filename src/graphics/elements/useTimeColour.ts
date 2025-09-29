@@ -1,12 +1,12 @@
 import { useNormalisedTime } from "../../hooks/useCurrentTime";
 
 interface ColourSwatch {
-    plasticTop: string;
-    plasticBottom: string;
-    textOutline: string;
-    trace: string;
-    traceOutline: string;
-    chip: string;
+	plasticTop: string;
+	plasticBottom: string;
+	textOutline: string;
+	trace: string;
+	traceOutline: string;
+	chip: string;
 }
 
 export const dayTimeColours: ColourSwatch = {
@@ -77,9 +77,9 @@ function lerp(a: string, b: string, t: number): string {
 	const aRGB = parseInt(a.slice(1), 16);
 	const bRGB = parseInt(b.slice(1), 16);
 
-	const r = Math.round(((aRGB >> 16) * (1 - t)) + ((bRGB >> 16) * t));
-	const g = Math.round((((aRGB >> 8) & 0xFF) * (1 - t)) + (((bRGB >> 8) & 0xFF) * t));
-	const bValue = Math.round(((aRGB & 0xFF) * (1 - t)) + ((bRGB & 0xFF) * t));
+	const r = Math.round((aRGB >> 16) * (1 - t) + (bRGB >> 16) * t);
+	const g = Math.round(((aRGB >> 8) & 0xff) * (1 - t) + ((bRGB >> 8) & 0xff) * t);
+	const bValue = Math.round((aRGB & 0xff) * (1 - t) + (bRGB & 0xff) * t);
 
 	return `#${((1 << 24) + (r << 16) + (g << 8) + bValue).toString(16).slice(1).toUpperCase()}`;
 }
@@ -111,4 +111,4 @@ export function normalisedTimeToColour(normalisedTime: number): ColourSwatch {
 export function useTimeColour(updateInterval = 1000): ColourSwatch {
 	const normalisedTime = useNormalisedTime(updateInterval);
 	return normalisedTimeToColour(normalisedTime);
-};
+}

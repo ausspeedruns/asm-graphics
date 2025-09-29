@@ -77,7 +77,7 @@ export const darkTheme = createTheme({
 				root: {
 					color: "rgba(255, 255, 255, 0.7)",
 					"&.Mui-checked": {
-					color: "white",
+						color: "white",
 					},
 				},
 			},

@@ -242,7 +242,8 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 						"--trace-outline": asm25Colours.traceOutline,
 						"--chip": asm25Colours.chip,
 					} as React.CSSProperties
-				}>
+				}
+			>
 				<Routes>{RouteData}</Routes>
 				<TickerOverlay />
 			</GameplayContainer>

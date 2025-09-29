@@ -2,12 +2,9 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { RunDataActiveRunSurrounding, RunDataArray } from "../types/RunData";
 
 function useCurrentRun() {
-	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding>(
-		"runDataActiveSurrounding",
-		{
-			bundle: "nodecg-speedcontrol",
-		},
-	);
+	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding>("runDataActiveSurrounding", {
+		bundle: "nodecg-speedcontrol",
+	});
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", {
 		bundle: "nodecg-speedcontrol",
 	});

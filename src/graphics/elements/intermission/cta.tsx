@@ -75,7 +75,7 @@ export const InterCTA: React.FC<Props> = (props: Props) => {
 				<CharityLogo src={GoCLogo} />
 				<Money>
 					<DollarSign>$</DollarSign>
-					{Math.floor(testDonationAmount > 0 ? testDonationAmount : props.donation ?? 0).toLocaleString()}
+					{Math.floor(testDonationAmount > 0 ? testDonationAmount : (props.donation ?? 0)).toLocaleString()}
 				</Money>
 			</Horizontal>
 		</InterCTAContainer>

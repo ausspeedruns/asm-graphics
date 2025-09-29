@@ -35,26 +35,34 @@ interface CircuitryProps {
 }
 
 export function Circuitry(props: CircuitryProps) {
-
 	const test = generateBoxShadows(props.bigShadowAngle ?? 0);
 
 	return (
 		<CircuitBoard
-			style={{ backgroundImage: props.noCircuitBoard ? "none" : `url(${circuitBoardImage})`, zIndex: -3, ...props.style }}>
-			{!props.disableBaseColourLayer && (<div
+			style={{
+				backgroundImage: props.noCircuitBoard ? "none" : `url(${circuitBoardImage})`,
+				zIndex: -3,
+				...props.style,
+			}}
+		>
+			{!props.disableBaseColourLayer && (
+				<div
+					style={{
+						backgroundColor: "var(--plastic-bottom)",
+						mixBlendMode: "color",
+						height: "100%",
+						width: "100%",
+						position: "absolute",
+						zIndex: -2,
+					}}
+				/>
+			)}
+			<PlasticElement
 				style={{
-					backgroundColor: "var(--plastic-bottom)",
-					mixBlendMode: "color",
-					height: "100%",
-					width: "100%",
-					position: "absolute",
-					zIndex: -2,
+					boxShadow: test,
+					backgroundColor: "var(--plastic-top)",
 				}}
-			/>)}
-			<PlasticElement style={{
-				boxShadow: test,
-				backgroundColor: "var(--plastic-top)",
-			}} />
+			/>
 		</CircuitBoard>
 	);
 }

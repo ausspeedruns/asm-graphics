@@ -76,7 +76,8 @@ export const Timer: React.FC = () => {
 					background: timerRep?.state === "finished" ? "#388E3C" : "",
 					color: fontColor,
 				}}
-				boxShadow={1}>
+				boxShadow={1}
+			>
 				<div>{timerRep?.time}</div>
 			</CurrentTime>
 			<MainButtons>
@@ -87,7 +88,8 @@ export const Timer: React.FC = () => {
 							variant="contained"
 							disabled={timerRep?.state === "finished"}
 							onClick={playPress}
-							color={timerRep?.state === "running" ? "primary" : "success"}>
+							color={timerRep?.state === "running" ? "primary" : "success"}
+						>
 							{timerRep?.state === "running" ? (
 								<>
 									<Pause /> Pause
@@ -106,7 +108,8 @@ export const Timer: React.FC = () => {
 							fullWidth
 							variant="contained"
 							disabled={timerRep?.state === "stopped"}
-							onClick={resetPress}>
+							onClick={resetPress}
+						>
 							<FastRewind /> Reset
 						</Button>
 					</div>
@@ -205,7 +208,8 @@ const StopForfeitButton: React.FC<StopButtonProps> = (props: StopButtonProps) =>
 						props.timerRep?.state === "stopped"
 					}
 					onClick={stopPress}
-					color={props.forfeit ? "error" : "success"}>
+					color={props.forfeit ? "error" : "success"}
+				>
 					{props.forfeit ? (
 						<>
 							<Close /> Forfeit
@@ -243,7 +247,8 @@ const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 					!props.timerRep.teamFinishTimes[props.team.id] ||
 					!["running", "finished"].includes(props.timerRep?.state ?? "")
 				}
-				onClick={undoPress}>
+				onClick={undoPress}
+			>
 				<Undo /> Undo
 			</Button>
 		</Tooltip>

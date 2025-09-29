@@ -134,12 +134,13 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 	const [bingoSyncBoardStateOverrideRep] = useReplicant<BoardState>("bingosync:boardStateOverride");
 	const teamData = getTeams(props.runData, props.timer, 2);
 
-	const unionedBoardStateCells = bingoSyncBoardStateRep?.cells.map((cell) => {
-		const overriddenCell = bingoSyncBoardStateOverrideRep?.cells.find(
-			(overrideCell) => overrideCell.slot === cell.slot,
-		);
-		return overriddenCell ?? cell;
-	}) ?? [];
+	const unionedBoardStateCells =
+		bingoSyncBoardStateRep?.cells.map((cell) => {
+			const overriddenCell = bingoSyncBoardStateOverrideRep?.cells.find(
+				(overrideCell) => overrideCell.slot === cell.slot,
+			);
+			return overriddenCell ?? cell;
+		}) ?? [];
 
 	return (
 		<Widescreen2BingoContainer>

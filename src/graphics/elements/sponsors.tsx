@@ -85,6 +85,6 @@ export function SponsorsBox(props: FullBoxProps) {
 			</div>
 		</SponsorsBoxContainer>
 	);
-};
+}
 
 SponsorsBox.displayName = "SponsorsBox";

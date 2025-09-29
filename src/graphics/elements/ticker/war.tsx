@@ -196,7 +196,10 @@ const WarChoice = (props: WarChoiceProps) => {
 		<ProgressContainer>
 			<ProgressBarContainer
 				ref={progressBarRef}
-				style={{ borderColor: "var(--accent)", background: isColor(props.option.name) ? props.option.name : "var(--accent)" }}
+				style={{
+					borderColor: "var(--accent)",
+					background: isColor(props.option.name) ? props.option.name : "var(--accent)",
+				}}
 			/>
 			<TextDiv>
 				<div

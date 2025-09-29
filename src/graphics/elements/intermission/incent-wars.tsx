@@ -255,11 +255,7 @@ const WarChoice = (props: WarChoiceProps) => {
 				);
 			}
 
-			tl.to(
-				containerRef.current,
-				{ x: 950, duration: 1, ease: "power2.in" },
-				`stagger+=${props.index / 8 + 10}`,
-			);
+			tl.to(containerRef.current, { x: 950, duration: 1, ease: "power2.in" }, `stagger+=${props.index / 8 + 10}`);
 			return tl;
 		},
 	}));
@@ -268,7 +264,8 @@ const WarChoice = (props: WarChoiceProps) => {
 		return (
 			<OptionContainer
 				ref={containerRef}
-				style={{ justifyContent: "center", maxWidth: `${100 / props.numberOfItems}%` }}>
+				style={{ justifyContent: "center", maxWidth: `${100 / props.numberOfItems}%` }}
+			>
 				<TextDiv>
 					<div
 						style={{
@@ -276,7 +273,8 @@ const WarChoice = (props: WarChoiceProps) => {
 							justifyContent: "center",
 							width: "100%",
 							fontSize: 25,
-						}}>
+						}}
+					>
 						<OptionName text={"More online!"} />
 					</div>
 				</TextDiv>

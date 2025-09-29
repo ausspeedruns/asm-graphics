@@ -134,7 +134,8 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 						padding: "0 6rem",
 						fontSize: "1.5rem",
 						margin: "2rem 0",
-					}}>
+					}}
+				>
 					<span>Name</span>
 					<span>Change by</span>
 					<span></span>
@@ -167,7 +168,8 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 									disabled={increments[i] === 0}
 									color="success"
 									key={`add-${i}`}
-									variant={increments[i] === 0 ? "outlined" : "contained"}>
+									variant={increments[i] === 0 ? "outlined" : "contained"}
+								>
 									Add
 								</Button>
 								<span
@@ -175,14 +177,16 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 										fontWeight: highestNumber === item.total ? "bold" : "normal",
 										fontSize: "1.5rem",
 									}}
-									key={`total-${i}`}>
+									key={`total-${i}`}
+								>
 									${item.total.toLocaleString()}
 								</span>
 								<Button
 									onClick={() => handleRemove(i)}
 									color="error"
 									key={`remove-${i}`}
-									variant="outlined">
+									variant="outlined"
+								>
 									Remove
 								</Button>
 							</>
@@ -202,7 +206,8 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 							total: 0,
 						});
 						setIncentiveOptions(mutableOptions);
-					}}>
+					}}
+				>
 					+ Add New Option
 				</Button>
 			)}
@@ -213,7 +218,8 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 				disabled={invalidData || !hasEdited}
 				variant="contained"
 				color="success"
-				fullWidth>
+				fullWidth
+			>
 				Update
 			</Button>
 		</StackStyled>

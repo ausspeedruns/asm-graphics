@@ -76,7 +76,8 @@ export function GoalEdit({ incentive, updateIncentive }: GoalProps) {
 					width: "50%",
 					gap: "1rem",
 					margin: "2rem 0",
-				}}>
+				}}
+			>
 				<FormControl fullWidth>
 					<OutlinedInput
 						type="number"
@@ -89,7 +90,8 @@ export function GoalEdit({ incentive, updateIncentive }: GoalProps) {
 					disabled={add === 0}
 					onClick={handleAdd}
 					variant={add === 0 ? "outlined" : "contained"}
-					color={add < 0 ? "error" : "success"}>
+					color={add < 0 ? "error" : "success"}
+				>
 					{add < 0 ? "Remove" : "Add"}
 				</Button>
 			</div>
@@ -99,7 +101,8 @@ export function GoalEdit({ incentive, updateIncentive }: GoalProps) {
 				onClick={UpdateIncentive}
 				disabled={invalidData || !hasEdited}
 				variant="contained"
-				color="success">
+				color="success"
+			>
 				Update
 			</Button>
 		</StackStyled>

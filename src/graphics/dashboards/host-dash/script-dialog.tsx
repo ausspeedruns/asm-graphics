@@ -71,7 +71,8 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 			scroll="paper"
 			sx={{ "& .MuiPaper-root": { height: "80%" } }}
 			style={{ colorScheme: mode }}
-			{...props}>
+			{...props}
+		>
 			<DialogTitle>Charity Scripts</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
@@ -89,7 +90,8 @@ export const ScriptDialog = (props: ScriptDialogProps) => {
 									key={video.asset}
 									variant="outlined"
 									onClick={() => props.playAd(video.asset, duration)}
-									style={{ textTransform: "none" }}>
+									style={{ textTransform: "none" }}
+								>
 									{video.displayName} ({duration}s)
 								</Button>
 							);

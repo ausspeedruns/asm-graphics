@@ -194,7 +194,7 @@ export const InterIncentivesFallback = (props: Props) => {
 			</ThankYou> */}
 			{/* <Socials ref={SocialsRef}> */}
 			<Socials ref={SocialsRef}>
-				<SocialBox style={{paddingBottom: 16}}>
+				<SocialBox style={{ paddingBottom: 16 }}>
 					<SocialLogo src={TGXLogo} />
 					<SocialLinks>
 						<SocialElement>
@@ -213,7 +213,7 @@ export const InterIncentivesFallback = (props: Props) => {
 						</SocialElement>
 					</SocialLinks>
 				</SocialBox>
-				<SocialBox style={{paddingBottom: 16}}>
+				<SocialBox style={{ paddingBottom: 16 }}>
 					<SocialLogo src={AusSpeedrunsLogo} />
 					<SocialLinks>
 						<SocialElement>

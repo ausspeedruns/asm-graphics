@@ -36,20 +36,21 @@ export const StaffMessages: React.FC = () => {
 	const [replyDialog, setReplyDialog] = useState(false);
 	const [replyMsg, setReplyMsg] = useState("");
 
-	const messageMap = staffMessagesRep
-		?.map((msg) => {
-			const date = new Date(msg.date);
-			return (
-				<Message
-					key={date.getTime()}
-					message={msg}
-					style={{
-						margin: msg.fromHost ? "0 0 0 32px" : "0 32px 0 0",
-					}}
-				/>
-			);
-		})
-		.reverse() ?? [];
+	const messageMap =
+		staffMessagesRep
+			?.map((msg) => {
+				const date = new Date(msg.date);
+				return (
+					<Message
+						key={date.getTime()}
+						message={msg}
+						style={{
+							margin: msg.fromHost ? "0 0 0 32px" : "0 32px 0 0",
+						}}
+					/>
+				);
+			})
+			.reverse() ?? [];
 
 	const sendStaffMessage = () => {
 		const msg: StaffMessage = {

@@ -120,9 +120,13 @@ export function Countdown() {
 					"--trace-outline": dayTimeColours.traceOutline,
 					"--chip": dayTimeColours.chip,
 				} as React.CSSProperties
-			}>
+			}
+		>
 			<div style={{ opacity: eventNumber <= 10 ? 1 : 0, width: 1920, height: 1080, position: "absolute" }}>
-				<Circuitry bigShadowAngle={90} style={{ position: "absolute", top: 0, left: 0, width: 1920, height: 1080 }} />
+				<Circuitry
+					bigShadowAngle={90}
+					style={{ position: "absolute", top: 0, left: 0, width: 1920, height: 1080 }}
+				/>
 			</div>
 			<EventImage src={ASM2024} style={{ opacity: eventNumber <= 9 ? 1 : 0 }} />
 			<EventImage src={ASM2023} style={{ opacity: eventNumber <= 8 ? 1 : 0 }} />

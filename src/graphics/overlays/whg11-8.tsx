@@ -65,4 +65,4 @@ export function WHG(props: OverlayProps) {
 			</Sidebar>
 		</WHGContainer>
 	);
-};
+}

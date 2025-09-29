@@ -77,7 +77,6 @@ export const FitText = memo((props: Props) => {
 	);
 });
 
-
 interface ElementsProps {
 	text?: React.ReactNode;
 	style?: React.CSSProperties;

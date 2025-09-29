@@ -131,7 +131,8 @@ export function BingoDashboard() {
 						color="success"
 						onClick={handleJoinRoom}
 						fullWidth
-						disabled={bingoSyncStatusRep === "connected"}>
+						disabled={bingoSyncStatusRep === "connected"}
+					>
 						Join Room
 					</Button>
 					<Button
@@ -139,7 +140,8 @@ export function BingoDashboard() {
 						color="error"
 						onClick={handleLeaveRoom}
 						fullWidth
-						disabled={bingoSyncStatusRep === "disconnected"}>
+						disabled={bingoSyncStatusRep === "disconnected"}
+					>
 						Leave Room
 					</Button>
 				</Stack>
@@ -150,7 +152,8 @@ export function BingoDashboard() {
 					gridTemplateColumns: "repeat(5, 77px)",
 					justifyContent: "start",
 					marginTop: "1rem",
-				}}>
+				}}
+			>
 				{sortedCells.map((cell) => (
 					<Cell
 						key={cell.slot}
@@ -229,7 +232,8 @@ function Cell(props: CellProps) {
 			style={{
 				background: backgroundGradientGenerator(props.overriddenCell?.colors ?? props.cell.colors),
 				fontWeight: props.overriddenCell ? "bold" : "normal",
-			}}>
+			}}
+		>
 			<CellText>{props.overriddenCell?.name ?? props.cell.name}</CellText>
 		</CellContainer>
 	);
@@ -324,7 +328,8 @@ function OverrideDialog(props: OverrideDialogProps) {
 										<Chip key={value} label={value} />
 									))}
 								</Box>
-							)}>
+							)}
+						>
 							{CellColours.map((colour) => (
 								<MenuItem key={colour} value={colour}>
 									{colour}

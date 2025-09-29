@@ -298,7 +298,8 @@ export function HostDash() {
 					onClick={() => {
 						setTimeFormat(!timeFormat);
 					}}
-					style={{ cursor: "pointer", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
+					style={{ cursor: "pointer", textAlign: "right", fontVariantNumeric: "tabular-nums" }}
+				>
 					{currentTimeRef.current}
 				</p>
 			</TopBar>
@@ -322,7 +323,8 @@ export function HostDash() {
 							<div style={{ width: "100%", height: "100%" }}>
 								<Header text={props.title} />
 							</div>
-						)}>
+						)}
+					>
 						{cloneElement(ELEMENTS[id], { darkMode: mode === "dark" })}
 					</MosaicWindow>
 				)}
@@ -331,7 +333,7 @@ export function HostDash() {
 			/>
 		</DashContainer>
 	);
-};
+}
 
 function ColourSchemeButton() {
 	const { mode, setMode } = useColorScheme();

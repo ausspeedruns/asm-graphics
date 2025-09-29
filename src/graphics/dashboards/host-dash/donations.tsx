@@ -151,7 +151,8 @@ function DonationEl(props: DonationProps) {
 			style={{
 				...props.style,
 				paddingTop: MARGIN,
-			}}>
+			}}
+		>
 			<Grid direction="column" container style={{ paddingRight: 4, flexWrap: "nowrap" }}>
 				<div>
 					<Amount>

@@ -19,11 +19,17 @@ interface Props {
 export const DonationMatches: React.FC<Props> = (props: Props) => {
 	const [donationMatchesRep] = useReplicant<IDonationMatch[]>("donation-matches");
 
-	const reversedMatches = [...donationMatchesRep ?? []].reverse();
+	const reversedMatches = [...(donationMatchesRep ?? [])].reverse();
 
 	const allDonationMatches = reversedMatches.map((donationMatch) => {
 		if (donationMatch.endsAt > Date.now()) {
-			return <DonationMatch key={donationMatch.id} active={donationMatch.endsAt > Date.now()} donationMatch={donationMatch} />;
+			return (
+				<DonationMatch
+					key={donationMatch.id}
+					active={donationMatch.endsAt > Date.now()}
+					donationMatch={donationMatch}
+				/>
+			);
 		}
 
 		return <></>;
@@ -106,7 +112,8 @@ const DonationMatch: React.FC<RunProps> = (props: RunProps) => {
 			<Row>
 				<Progress>
 					<ProgressBar
-						style={{ width: `${(props.donationMatch.amount / props.donationMatch.pledge) * 100}%` }}>
+						style={{ width: `${(props.donationMatch.amount / props.donationMatch.pledge) * 100}%` }}
+					>
 						{props.donationMatch.currencySymbol}
 						{props.donationMatch.amount.toLocaleString()}
 					</ProgressBar>

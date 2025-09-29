@@ -189,9 +189,8 @@ export const Run = (props: RunProps) => {
 						<RequirementSubheading>{props.run.requirementSubheading}</RequirementSubheading>
 					)} */}
 					<RequirementSubheading
-						text={props.run.teams
-							.map((team) => team.players.map((player) => player.name))
-							.join(", ")}></RequirementSubheading>
+						text={props.run.teams.map((team) => team.players.map((player) => player.name)).join(", ")}
+					></RequirementSubheading>
 				</RequirementsContainer>
 				{/* <Quantity>
 					{props.run.quantity}

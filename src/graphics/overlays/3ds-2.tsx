@@ -55,8 +55,7 @@ export const ThreeDS2 = (props: OverlayProps) => {
 	return (
 		<ThreeDS2Container>
 			<Middle>
-				<div style={{ position: "absolute", height: 133, width: "100%", bottom: 0 }}>
-				</div>
+				<div style={{ position: "absolute", height: 133, width: "100%", bottom: 0 }}></div>
 				<Facecam height={307} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 
 				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0].time} place={teamData[0].place} />

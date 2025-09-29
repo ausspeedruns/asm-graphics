@@ -177,7 +177,8 @@ export function GBC2(props: OverlayProps) {
 							flexGrow: 1,
 							alignItems: "center",
 							zIndex: 2,
-						}}>
+						}}
+					>
 						<Couch
 							commentators={props.commentators}
 							host={props.host}
@@ -198,4 +199,4 @@ export function GBC2(props: OverlayProps) {
 			</FillerBox>
 		</Standard2Container>
 	);
-};
+}

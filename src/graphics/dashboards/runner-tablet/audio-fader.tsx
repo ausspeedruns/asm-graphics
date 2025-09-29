@@ -87,13 +87,15 @@ export const AudioFader = (props: Props) => {
 	return (
 		<AudioFaderContainer
 			className={props.className}
-			style={{ opacity: props.fakeDisabled ? 0.4 : 1, ...props.style }}>
+			style={{ opacity: props.fakeDisabled ? 0.4 : 1, ...props.style }}
+		>
 			{props.label && (
 				<FaderLabel
 					style={{
 						fontStyle: props.label === "You" ? "italic" : "initial",
 						fontWeight: props.label === "You" ? "bold" : "initial",
-					}}>
+					}}
+				>
 					{props.label}
 				</FaderLabel>
 			)}

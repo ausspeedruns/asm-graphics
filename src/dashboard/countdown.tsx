@@ -71,10 +71,22 @@ export function CountdownDashboard() {
 			/>
 
 			<Stack direction="row" spacing={1}>
-				<Button variant="contained" color="success" onClick={startCountdown} fullWidth disabled={Boolean(countdownActive)}>
+				<Button
+					variant="contained"
+					color="success"
+					onClick={startCountdown}
+					fullWidth
+					disabled={Boolean(countdownActive)}
+				>
 					Start
 				</Button>
-				<Button variant={Boolean(countdownActive) ? "contained" : "outlined"} color="error" onClick={stopCountdown} fullWidth disabled={countdownActive !== null && !countdownActive}>
+				<Button
+					variant={Boolean(countdownActive) ? "contained" : "outlined"}
+					color="error"
+					onClick={stopCountdown}
+					fullWidth
+					disabled={countdownActive !== null && !countdownActive}
+				>
 					Stop
 				</Button>
 			</Stack>

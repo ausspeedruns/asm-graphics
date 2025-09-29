@@ -85,7 +85,7 @@ export function Prizes(props: PrizesProps) {
 			))}
 		</PrizesContainer>
 	);
-};
+}
 
 Prizes.displayName = "Prizes";
 

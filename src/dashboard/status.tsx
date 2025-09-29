@@ -66,7 +66,8 @@ export const Status: React.FC = () => {
 				runAdvance: type === "runAdvance" ? checked : (automationsRep?.runAdvance ?? false),
 				runTransition: type === "runTransition" ? checked : (automationsRep?.runTransition ?? false),
 				audioMixing: type === "audioMixing" ? checked : (automationsRep?.audioMixing ?? false),
-				clearCommentators: type === "clearCommentators" ? checked : (automationsRep?.clearCommentators ?? false),
+				clearCommentators:
+					type === "clearCommentators" ? checked : (automationsRep?.clearCommentators ?? false),
 			});
 		};
 	}

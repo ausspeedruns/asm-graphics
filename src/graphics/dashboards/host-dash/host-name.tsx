@@ -55,7 +55,8 @@ export function HostName(props: Props) {
 			style={{
 				flexDirection: props.vertical ? "column" : undefined,
 				...(props.style ?? {}),
-			}}>
+			}}
+		>
 			<div style={{ display: "flex", gap: 4, flexGrow: 1, padding: "8px 0" }}>
 				<Autocomplete
 					fullWidth
@@ -103,9 +104,10 @@ export function HostName(props: Props) {
 						pronouns: hostPronouns,
 						microphone: "host",
 					});
-				}}>
+				}}
+			>
 				Update
 			</Button>
 		</HostNameContainer>
 	);
-};
+}

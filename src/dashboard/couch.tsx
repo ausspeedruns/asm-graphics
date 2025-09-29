@@ -143,7 +143,8 @@ export function DashCouch() {
 						display: "flex",
 						flexDirection: "column",
 						gap: 5,
-					}}>
+					}}
+				>
 					<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 24 }}>
 						<span>Host</span>
 
@@ -174,9 +175,7 @@ export function DashCouch() {
 					</Button>
 				</div>
 			</div>
-			<Dialog
-				open={hostOnCouchInstructionsOpen}
-				onClose={() => setHostOnCouchInstructionsOpen(false)}>
+			<Dialog open={hostOnCouchInstructionsOpen} onClose={() => setHostOnCouchInstructionsOpen(false)}>
 				<DialogTitle>Host on Couch Instructions</DialogTitle>
 				<div style={{ padding: 16, maxWidth: 400 }}>
 					<ul>

@@ -37,4 +37,4 @@ export function TopBarOnly(props: OverlayProps) {
 			/>
 		</TopBarOnlyContainer>
 	);
-};
+}

@@ -56,7 +56,8 @@ export const OnScreenWarningsDash: React.FC = () => {
 					color="error"
 					variant={showRep ? "contained" : "outlined"}
 					fullWidth
-					onClick={() => nodecg.sendMessage("onScreenWarning:setShow", false)}>
+					onClick={() => nodecg.sendMessage("onScreenWarning:setShow", false)}
+				>
 					Hide Warning
 				</Button>
 			</Row>

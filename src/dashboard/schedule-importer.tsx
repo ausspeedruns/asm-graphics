@@ -78,11 +78,7 @@ export const DashScheduleImporter = () => {
 
 	const layouts = collectLayouts(runsRep ?? []);
 
-	function loadRun(
-		_event: React.SyntheticEvent | null,
-		itemId: string,
-		isSelected: boolean,
-	  ) {
+	function loadRun(_event: React.SyntheticEvent | null, itemId: string, isSelected: boolean) {
 		if (!isSelected || !loadRunOnSelect) return;
 		if (itemId.startsWith("DRAWER-")) return;
 
@@ -97,14 +93,16 @@ export const DashScheduleImporter = () => {
 					variant="contained"
 					color="secondary"
 					fullWidth
-					onClick={() => nodecg.sendMessage("scheduleImport:import")}>
+					onClick={() => nodecg.sendMessage("scheduleImport:import")}
+				>
 					Import {nodecg.bundleConfig?.graphql?.event} schedule
 				</Button>
 				<Button
 					variant="contained"
 					color="secondary"
 					fullWidth
-					onClick={() => nodecg.sendMessage("scheduleImport:getGameYears")}>
+					onClick={() => nodecg.sendMessage("scheduleImport:getGameYears")}
+				>
 					Set the Game Years
 				</Button>
 				<Accordion>
@@ -121,7 +119,8 @@ export const DashScheduleImporter = () => {
 												fontStyle: shouldNotHaveYear ? "italic" : undefined,
 												opacity: shouldNotHaveYear ? 0.4 : undefined,
 											}}
-											key={run.id}>
+											key={run.id}
+										>
 											{run.game}
 										</li>
 									);
@@ -133,7 +132,8 @@ export const DashScheduleImporter = () => {
 					variant="contained"
 					color="secondary"
 					fullWidth
-					onClick={() => nodecg.sendMessage("scheduleImport:inject-5-min-runs")}>
+					onClick={() => nodecg.sendMessage("scheduleImport:inject-5-min-runs")}
+				>
 					Add 5 min run games (ONLY PRESS DURING THE RUN BEFORE)
 				</Button>
 

@@ -35,7 +35,7 @@ const TextfieldStyled = styled(TextField)`
 const HeadsetToggleButton = styled(ToggleButton)<{ $outline?: string }>`
 	&.MuiToggleButton-root:hover {
 		${(props) =>
-		props.$outline &&
+			props.$outline &&
 			css`
 				background-color: ${props.$outline}0A;
 			`}
@@ -162,7 +162,8 @@ function CouchEditDialog() {
 						value={headset}
 						onChange={(_, headset) => setHeadset(headset)}
 						exclusive
-						style={{ flexWrap: "wrap" }}>
+						style={{ flexWrap: "wrap" }}
+					>
 						{Headsets.map((headset) => {
 							return (
 								<HeadsetToggleButton value={headset.name} key={headset.name}>

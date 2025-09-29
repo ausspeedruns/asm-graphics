@@ -64,7 +64,8 @@ export const DonationTabs = () => {
 					slotProps={{ indicator: { style: { display: "none" } } }}
 					onChange={(_, newValue) => setPage(newValue)}
 					aria-label="Incentives and Prizes"
-					variant="fullWidth">
+					variant="fullWidth"
+				>
 					<HostDashTab label="Donations" value="donations" />
 					<HostDashTab label="Manual Donations" value="manual" />
 				</HostDashTabList>

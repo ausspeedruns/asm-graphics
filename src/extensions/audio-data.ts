@@ -12,7 +12,13 @@ export const GameInputChannels = [9, 11, 13, 15] as const; // Channels are paire
 
 export const HandheldMicChannel = 6;
 
-export const HostHeadset: Headset = { name: "Host", micInput: 5, colour: "#000000", textColour: "#fff", mixBus: 11 } as const satisfies Headset;
+export const HostHeadset: Headset = {
+	name: "Host",
+	micInput: 5,
+	colour: "#000000",
+	textColour: "#fff",
+	mixBus: 11,
+} as const satisfies Headset;
 
 export const Headsets = [
 	{ name: "Mario Red", colour: "#ff0000", textColour: "#fff", mixBus: 3, micInput: 1 },

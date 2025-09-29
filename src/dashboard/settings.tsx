@@ -101,14 +101,16 @@ export function Settings() {
 					color="success"
 					variant="contained"
 					fullWidth
-					onClick={() => nodecg.sendMessage("lowerthird:show")}>
+					onClick={() => nodecg.sendMessage("lowerthird:show")}
+				>
 					Show Lowerthird
 				</Button>
 				<Button
 					color="error"
 					variant="contained"
 					fullWidth
-					onClick={() => nodecg.sendMessage("lowerthird:hide")}>
+					onClick={() => nodecg.sendMessage("lowerthird:hide")}
+				>
 					Hide Lowerthird
 				</Button>
 			</Row>
@@ -118,14 +120,16 @@ export function Settings() {
 					color="success"
 					variant="contained"
 					fullWidth
-					onClick={() => nodecg.sendMessage("show-acknowledgementofcountry")}>
+					onClick={() => nodecg.sendMessage("show-acknowledgementofcountry")}
+				>
 					Show AoC
 				</Button>
 				<Button
 					color="error"
 					variant="contained"
 					fullWidth
-					onClick={() => nodecg.sendMessage("hide-acknowledgementofcountry")}>
+					onClick={() => nodecg.sendMessage("hide-acknowledgementofcountry")}
+				>
 					Hide AoC
 				</Button>
 			</Row>
@@ -213,7 +217,8 @@ function HostReads() {
 					variant="contained"
 					fullWidth
 					onClick={addNewHostRead}
-					disabled={!newTitle || !newContent}>
+					disabled={!newTitle || !newContent}
+				>
 					Add Host Read
 				</Button>
 			</div>
@@ -288,7 +293,8 @@ function HostReadComponent(props: HostReadComponentProps) {
 						onClick={saveHostRead}
 						disabled={!hasBeenEdited}
 						size="small"
-						sx={{ flex: 2 }}>
+						sx={{ flex: 2 }}
+					>
 						Save
 					</Button>
 				</Row>
@@ -329,7 +335,8 @@ function IntermissionVideos() {
 			<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
 				<SortableContext
 					items={(intermissionVideosRep ?? []).map((video) => video.asset)}
-					strategy={verticalListSortingStrategy}>
+					strategy={verticalListSortingStrategy}
+				>
 					{intermissionVideosRep?.map((video) => (
 						<IntermissionVideoComponent key={video.asset} video={video} />
 					))}
@@ -428,7 +435,8 @@ function IntermissionVideoComponent(props: IntermissionVideoProps) {
 								size="small"
 								onClick={() =>
 									nodecg.sendMessage("intermission-videos:refreshInfo", intermissionVideo.asset)
-								}>
+								}
+							>
 								<Refresh fontSize="small" />
 							</IconButton>
 						</div>
@@ -472,7 +480,8 @@ function IntermissionVideoComponent(props: IntermissionVideoProps) {
 								color="success"
 								onClick={handleSaveIntermissionVideo}
 								disabled={!hasBeenEdited}
-								size="small">
+								size="small"
+							>
 								Save
 							</Button>
 						</div>

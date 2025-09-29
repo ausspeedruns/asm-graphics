@@ -156,7 +156,8 @@ export function EditIncentiveDialog(props: DialogProps) {
 							<li key={`section-${game.gameName}`}>
 								<ul style={{ padding: 0 }}>
 									<ListSubheader
-										sx={{ margin: "1rem 0 0 0", fontSize: "125%", lineHeight: "normal" }}>
+										sx={{ margin: "1rem 0 0 0", fontSize: "125%", lineHeight: "normal" }}
+									>
 										{game.gameName}
 									</ListSubheader>
 									{game.incentives.map((incentive) => (
@@ -165,7 +166,8 @@ export function EditIncentiveDialog(props: DialogProps) {
 											onClick={() => {
 												setSelectedIncentiveId(incentive.id);
 											}}
-											key={incentive.id}>
+											key={incentive.id}
+										>
 											<ListItemIcon>
 												{incentive.type === "Goal" ? <Flag /> : <PieChart />}
 											</ListItemIcon>
@@ -192,7 +194,8 @@ export function EditIncentiveDialog(props: DialogProps) {
 				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 				open={incentiveUpdated !== ""}
 				onClose={closeSnackbar}
-				autoHideDuration={5000}>
+				autoHideDuration={5000}
+			>
 				<Alert onClose={closeSnackbar} severity={snackbarSeverity} variant="filled" sx={{ width: "100%" }}>
 					{incentiveUpdated}
 				</Alert>

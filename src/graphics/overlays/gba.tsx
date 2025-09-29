@@ -73,16 +73,9 @@ export const GBA = (props: OverlayProps) => {
 					/>
 
 					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-					<Couch
-						commentators={props.commentators}
-						host={props.host}
-						audio={props.microphoneAudioIndicator}
-					/>
+					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
 
-					<SponsorsBoxS
-						sponsors={props.sponsors}
-						sponsorStyle={SponsorsStyled}
-					/>
+					<SponsorsBoxS sponsors={props.sponsors} sponsorStyle={SponsorsStyled} />
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>

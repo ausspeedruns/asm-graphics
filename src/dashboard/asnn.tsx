@@ -202,13 +202,20 @@ export const ASNNDash = () => {
 					/>
 				</Row>
 				<Row>
-					<Button color="success"
+					<Button
+						color="success"
 						variant="contained"
 						fullWidth
-						onClick={() => nodecg.sendMessage("asnn:showName", { name: name, subtitle: subtitle })}>
+						onClick={() => nodecg.sendMessage("asnn:showName", { name: name, subtitle: subtitle })}
+					>
 						Show Name
 					</Button>
-					<Button color="error" variant="contained" fullWidth onClick={() => nodecg.sendMessage("asnn:hideName")}>
+					<Button
+						color="error"
+						variant="contained"
+						fullWidth
+						onClick={() => nodecg.sendMessage("asnn:hideName")}
+					>
 						Hide Name
 					</Button>
 				</Row>
@@ -254,7 +261,8 @@ export const ASNNDash = () => {
 							setTicker([...ticker, { id: crypto.randomUUID(), text: tickerTextBox }]);
 							setTickerTextBox("");
 						}}
-						disabled={!tickerTextBox}>
+						disabled={!tickerTextBox}
+					>
 						Add
 					</Button>
 				</Row>
@@ -264,7 +272,8 @@ export const ASNNDash = () => {
 					fullWidth
 					variant="contained"
 					onClick={() => setAsnnTicker([])}
-					disabled={ticker.length === 0}>
+					disabled={ticker.length === 0}
+				>
 					Reset Ticker
 				</Button>
 				<TickerListContainer>
@@ -285,7 +294,8 @@ export const ASNNDash = () => {
 					fullWidth
 					variant="contained"
 					onClick={() => setAsnnTicker(ticker.map((i) => i.text))}
-					disabled={isTickerElementsAndRealTickerEqual}>
+					disabled={isTickerElementsAndRealTickerEqual}
+				>
 					Update Ticker
 				</Button>
 			</ASNNDashContainer>

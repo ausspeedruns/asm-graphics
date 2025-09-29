@@ -137,7 +137,8 @@ export const PrizesDashboard = () => {
 								variant="caption"
 								color="text.secondary"
 								marginBottom={2}
-								display="inline-block">
+								display="inline-block"
+							>
 								Editing {editingId}
 							</Typography>
 						)}
@@ -192,7 +193,8 @@ export const PrizesDashboard = () => {
 							fullWidth
 							color="success"
 							variant="contained"
-							onClick={editingId ? editPrize : addPrize}>
+							onClick={editingId ? editPrize : addPrize}
+						>
 							{editingId ? "Edit" : "Add"} Prize
 						</Button>
 					</AccordionActions>
@@ -235,7 +237,8 @@ function PrizeElement(props: PrizeProps) {
 				backgroundColor: "#4b5f7e",
 				borderRadius: 2,
 			}}
-			ref={setNodeRef}>
+			ref={setNodeRef}
+		>
 			<Typography variant="caption" color="text.secondary">
 				{props.prize.id}
 			</Typography>

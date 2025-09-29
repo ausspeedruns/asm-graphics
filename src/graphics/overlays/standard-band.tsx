@@ -79,7 +79,7 @@ export function StandardBand(props: OverlayProps) {
 			<Sidebar>
 				<Facecam
 					maxNameWidth={nameplateMaxWidth}
-					height={SIDEBAR_WIDTH / 4 * 3}
+					height={(SIDEBAR_WIDTH / 4) * 3}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
 					audioIndicator={props.microphoneAudioIndicator}

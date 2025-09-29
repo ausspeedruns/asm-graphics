@@ -7,7 +7,7 @@ import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-// import StandardBG from "./backgrounds/Standard.png";	
+// import StandardBG from "./backgrounds/Standard.png";
 import { Circuitry } from "./asm25/circuitry";
 
 const StandardContainer = styled.div`
@@ -92,7 +92,12 @@ export const Standard = (props: OverlayProps) => {
 							zIndex: -1,
 						}}
 					/>
-					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} showHost={props.showHost} />
+					<Couch
+						commentators={props.commentators}
+						host={props.host}
+						audio={props.microphoneAudioIndicator}
+						showHost={props.showHost}
+					/>
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
 					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />

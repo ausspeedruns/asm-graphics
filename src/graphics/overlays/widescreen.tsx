@@ -82,7 +82,8 @@ export const Widescreen = (props: OverlayProps) => {
 					width: "100%",
 					height: "100%",
 					clipPath: "path('M 0 0 H 1920 V 207 H 0 Z M 0 556 H 479 V 1017 H 0 Z')",
-				}}></div>
+				}}
+			></div>
 			<TopBar>
 				<Circuitry style={{ position: "absolute", width: "100%", height: "100%" }} />
 				<WideInfo timer={props.timer} runData={props.runData} />
@@ -129,14 +130,12 @@ export const Widescreen = (props: OverlayProps) => {
 								textAlign: "center",
 								textWrap: "balance",
 								fontSize: "1.3rem",
-							}}>
+							}}
+						>
 							{props.onScreenWarning?.message}
 						</div>
 					)}
-					<SponsorBoxS
-						sponsors={props.sponsors}
-						sponsorStyle={SponsorSize}
-					/>
+					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorSize} />
 				</SidebarBG>
 			</Sidebar>
 		</WidescreenContainer>

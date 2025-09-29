@@ -136,7 +136,8 @@ export const RTSelection = (props: Props) => {
 						alignItems: "center",
 						justifyContent: "center",
 						height: "100%",
-					}}>
+					}}
+				>
 					<RunnerName>
 						{runners[runnerIndex]?.name}{" "}
 						{runners[runnerIndex]?.pronouns && `[${runners[runnerIndex].pronouns?.toUpperCase()}]`}
@@ -236,7 +237,8 @@ const HeadsetButton = (props: HeadsetButtonProps) => {
 		<HeadsetButtonSelector
 			taken={Boolean(props.owner)}
 			style={{ background: props.headset.colour, color: props.headset.textColour }}
-			onClick={props.onClick}>
+			onClick={props.onClick}
+		>
 			<HeadsetInformation>
 				<HeadsetName>{headsetCodename}</HeadsetName>
 				<HeadsetColour>{headsetColour}</HeadsetColour>

@@ -85,7 +85,7 @@ export function Couch(props: Props) {
 			</PeopleContainer>
 		</CouchContainer>
 	);
-};
+}
 
 const PersonCompressedContainer = styled.div`
 	display: flex;
@@ -171,7 +171,9 @@ export function PersonCompressed(props: PersonCompressedProps) {
 		<PersonCompressedContainer style={props.style}>
 			<NameContainer>
 				<SpeakingColour speaking={props.speaking} />
-				<Name style={{ textAlign: props.commentator.pronouns ? "left" : "center" }}>{props.commentator.name}</Name>
+				<Name style={{ textAlign: props.commentator.pronouns ? "left" : "center" }}>
+					{props.commentator.name}
+				</Name>
 				<Pronouns>{props.commentator.pronouns}</Pronouns>
 			</NameContainer>
 			<Role>{props.commentator.tag ? props.commentator.tag : `COMMS ${props.index}`}</Role>

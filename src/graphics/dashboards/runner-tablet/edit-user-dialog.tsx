@@ -97,7 +97,8 @@ export const EditUserDialog = (props: Props) => {
 			open={props.open}
 			onClose={props.onClose}
 			aria-labelledby="alert-dialog-title"
-			aria-describedby="alert-dialog-description">
+			aria-describedby="alert-dialog-description"
+		>
 			<DialogTitle id="alert-dialog-title">{oldUsername ? `Edit ${oldUsername}` : "Add Commentator"}</DialogTitle>
 			<DialogContent style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 				<Autocomplete
@@ -173,7 +174,8 @@ export const EditUserDialog = (props: Props) => {
 												: "",
 										width: headset.name === "NONE" ? "15%" : "",
 									}}
-									onClick={() => setMicrophone(headset.name)}>
+									onClick={() => setMicrophone(headset.name)}
+								>
 									{headset.name}
 								</HeadsetButton>
 							);

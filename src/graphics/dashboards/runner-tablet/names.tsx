@@ -197,7 +197,8 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 					style={{
 						background: headset.colour,
 						color: headset.textColour,
-					}}>
+					}}
+				>
 					{headset.name}
 				</HeadsetName>
 			);

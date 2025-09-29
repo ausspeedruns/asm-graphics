@@ -7,7 +7,7 @@ export type Donation = {
 	amount: number;
 	currencySymbol: string;
 	currencyCode?: string;
-}
+};
 
 export interface DonationMatch extends Donation {
 	pledge: number;

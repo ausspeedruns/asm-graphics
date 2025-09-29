@@ -10,8 +10,8 @@ import type { X32TalkbackTarget } from "../extensions/x32-audio";
 
 export type NodeCGMessages = {
 	// Audio
-	"changeGameAudio": { manual: boolean, index: number }
-	"changeGameAudioName": { name: string, index: number }
+	changeGameAudio: { manual: boolean; index: number };
+	changeGameAudioName: { name: string; index: number };
 	// Commentators / Host
 	"update-hostname": Commentator;
 	"update-hostnames": Commentator[];
@@ -21,28 +21,28 @@ export type NodeCGMessages = {
 	"update-commentator": Commentator;
 	"delete-commentator": string;
 	"update-host": Commentator;
-	"showHost": boolean;
+	showHost: boolean;
 	// Donations
 	"donations:toggleRead": string;
 	"manual-donations:toggleRead": string;
 	"manual-donations:new": Donation;
 	"manual-donations:remove": string;
 	// Incentives
-	"refreshIncentives": never;
-	"incentivesUpdated": number;
-	"updateIncentive": Incentive;
+	refreshIncentives: never;
+	incentivesUpdated: number;
+	updateIncentive: Incentive;
 	// OBS Audio
 	"update-audioindicator": string;
 	"update-obs-gate": number;
 	"update-obs-audio": { id: string; inputName: string };
 	"remove-obs-audio": string;
-	"muteSourceAudio": { source: string, mute: boolean };
-	"changeSourceAudio": { source: string; volume: number }
+	muteSourceAudio: { source: string; mute: boolean };
+	changeSourceAudio: { source: string; volume: number };
 	// OBS Local
 	"transition:toIntermission": { to: string; from: string };
 	"transition:toGame": { to: string; from: string };
-	"transition:toIRL": { to: string, from: string };
-	"transition:UNKNOWN": { to: string, from: string }
+	"transition:toIRL": { to: string; from: string };
+	"transition:UNKNOWN": { to: string; from: string };
 	// Runner Tablet
 	"runner:setReady": never;
 	"runner:setNotReady": never;
@@ -72,8 +72,8 @@ export type NodeCGMessages = {
 	"show-acknowledgementofcountry": never;
 	"hide-acknowledgementofcountry": never;
 	// Rando
-	"rando:unlock": { game: string, item: string },
-	"rando:lock": { game: string, item: string },
+	"rando:unlock": { game: string; item: string };
+	"rando:lock": { game: string; item: string };
 	// On Screen Warnings
 	"onScreenWarning:setMessage": string;
 	"onScreenWarning:setShow": boolean;
@@ -97,4 +97,4 @@ export type NodeCGMessages = {
 	"intermission-videos:play": string;
 	"intermission-videos:update": IntermissionVideo;
 	"intermission-videos:refreshInfo": string;
-}
+};

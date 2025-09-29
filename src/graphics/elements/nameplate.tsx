@@ -128,7 +128,8 @@ export const Nameplate = (props: Props) => {
 			className={props.className}
 			nameplateLeft={props.nameplateLeft}
 			speaking={props.speaking}
-			vertical={props.vertical}>
+			vertical={props.vertical}
+		>
 			{props.icon}
 			<Names speaking={props.speaking} vertical={props.vertical}>
 				<SpeakingGlow speaking={props.speaking} />

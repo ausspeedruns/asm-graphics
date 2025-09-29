@@ -29,7 +29,7 @@ nodecg.listenFor("update-commentator", (commentator) => {
 		if (commentator.isRunner) {
 			updateRunnerInformation(commentator);
 		} else {
-			const commentatorIndex = commentatorsRep.value.findIndex(comm => comm.id === commentator.id);
+			const commentatorIndex = commentatorsRep.value.findIndex((comm) => comm.id === commentator.id);
 			if (commentatorIndex === -1) {
 				// Couldn't find commentator but has an id
 				commentatorsRep.value.push(commentator);
@@ -41,21 +41,19 @@ nodecg.listenFor("update-commentator", (commentator) => {
 		}
 	} else {
 		// New commentator
-		commentatorsRep.value.push(
-			{ ...commentator, id: crypto.randomUUID() }
-		);
+		commentatorsRep.value.push({ ...commentator, id: crypto.randomUUID() });
 	}
 });
 
-nodecg.listenFor("delete-commentator", id => {
+nodecg.listenFor("delete-commentator", (id) => {
 	Log.info(`Deleting ${id}`);
 
-	if (!commentatorsRep.value.find(commentator => commentator.id === id)) {
+	if (!commentatorsRep.value.find((commentator) => commentator.id === id)) {
 		Log.error(`Tried to delete commentator but could not find them in replicant. ${id}`);
 		return;
 	}
 
-	commentatorsRep.value = commentatorsRep.value.filter(commentator => commentator.id !== id);
+	commentatorsRep.value = commentatorsRep.value.filter((commentator) => commentator.id !== id);
 });
 
 nodecg.listenFor("showHost", (showHost: boolean) => {
@@ -96,7 +94,9 @@ function updateRunnerInformation(runner: Commentator) {
 	}
 
 	if (!SPEEDCONTROL_runDataActiveRep.value?.teams[teamIndex].players[playerIndex]) {
-		Log.error(`Found runner and team index but runner was undefined. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex} | Player Index: ${playerIndex}`);
+		Log.error(
+			`Found runner and team index but runner was undefined. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex} | Player Index: ${playerIndex}`,
+		);
 		return;
 	}
 
@@ -113,7 +113,7 @@ function updateRunnerInformation(runner: Commentator) {
 		social: {
 			...originalRunner.social,
 			twitch: runner.twitch,
-		}
+		},
 	};
 }
 

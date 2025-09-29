@@ -146,7 +146,7 @@ export const RTAudio = (props: Props) => {
 		nodecg.sendMessage("x32:setFader", { float: float, channel: channel, mixBus: mixBus });
 	};
 
-	const editingText = `Editing ${headsetUser === selectedHeadsetObj?.name ? selectedHeadset : headsetUser ?? selectedHeadset}`;
+	const editingText = `Editing ${headsetUser === selectedHeadsetObj?.name ? selectedHeadset : (headsetUser ?? selectedHeadset)}`;
 
 	const gameAudio = gameAudioNamesRep
 		?.map((gameAudio, index) => ({ name: gameAudio, index }))
@@ -168,7 +168,8 @@ export const RTAudio = (props: Props) => {
 								boxShadow: selected ? "" : `inset 0 0 0 10px ${headset.colour}`,
 								borderRight: selected ? `20px solid ${headset.colour}` : "",
 							}}
-							onClick={() => setSelectedHeadset(headset.name)}>
+							onClick={() => setSelectedHeadset(headset.name)}
+						>
 							<FitText
 								style={{ maxWidth: "100%" }}
 								text={headsetUserMap.get(headset.name) ?? headset.name}
@@ -220,7 +221,7 @@ export const RTAudio = (props: Props) => {
 									label={
 										headset.name === selectedHeadset
 											? "You"
-											: headsetUserMap.get(headset.name) ?? headset.name
+											: (headsetUserMap.get(headset.name) ?? headset.name)
 									}
 									mixBus={mixBus}
 									channel={headset.micInput}

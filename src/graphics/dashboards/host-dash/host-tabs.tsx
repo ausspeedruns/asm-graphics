@@ -76,7 +76,8 @@ export const HostTabs = () => {
 					slotProps={{ indicator: { style: { display: "none" } } }}
 					onChange={(_, newValue) => setPage(newValue)}
 					aria-label="Incentives and Prizes"
-					variant="fullWidth">
+					variant="fullWidth"
+				>
 					<HostDashTab style={{ maxWidth: "none" }} label="Incentives" value="0" />
 					<HostDashTab style={{ maxWidth: "none" }} label="Prizes" value="1" />
 				</HostDashTabList>

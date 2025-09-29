@@ -27,10 +27,10 @@ const ChipBody = styled.div`
 `;
 
 interface ChipProps {
-    numberOfPads?: number;
-    style?: React.CSSProperties;
-    children?: React.ReactNode;
-    padStyle?: React.CSSProperties;
+	numberOfPads?: number;
+	style?: React.CSSProperties;
+	children?: React.ReactNode;
+	padStyle?: React.CSSProperties;
 }
 
 export function Chip(props: ChipProps) {
@@ -51,5 +51,4 @@ export function Chip(props: ChipProps) {
 			</PadColumn>
 		</ChipBody>
 	);
-
 }

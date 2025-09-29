@@ -67,7 +67,8 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 				ref={(el) => {
 					staggerElements.current[0] = el!;
 				}}
-				index={0}>
+				index={0}
+			>
 				<div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 32 }}>
 					<SocialBar>
 						<SocialIcon src={WebsiteIcon} />
@@ -82,7 +83,8 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 				ref={(el) => {
 					staggerElements.current[1] = el!;
 				}}
-				index={2}>
+				index={2}
+			>
 				<div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 32 }}>
 					<SocialBar>
 						<SocialIcon src={TwitchIcon} /> @AusSpeedruns
@@ -96,7 +98,8 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 				ref={(el) => {
 					staggerElements.current[2] = el!;
 				}}
-				index={4}>
+				index={4}
+			>
 				<SocialBar>
 					<SocialIcon src={DiscordIcon} /> AusSpeedruns.com/Discord
 				</SocialBar>

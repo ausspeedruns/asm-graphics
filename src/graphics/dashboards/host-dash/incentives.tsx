@@ -236,7 +236,9 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 	return (
 		<IncentiveItemContainer boxShadow={2}>
 			<Grid container direction="column">
-				<GameTitle>{props.incentive.game} - <i>{props.incentive.incentive}</i></GameTitle>
+				<GameTitle>
+					{props.incentive.game} - <i>{props.incentive.incentive}</i>
+				</GameTitle>
 				<Notes>{props.incentive.notes}</Notes>
 			</Grid>
 

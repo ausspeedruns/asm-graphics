@@ -63,7 +63,11 @@ export function TickerPrizes(props: Props) {
 			<div style={{ width: "100%", position: "relative" }}>
 				<PrizesScroller ref={prizesRef}>
 					{props.prizes.map((prize) => (
-						<TickerItem key={prize.id} title={prize.item} sub={`${prize.requirement}${prize.requirementSubheading ? ` - ${prize.requirementSubheading}` : ""}`} />
+						<TickerItem
+							key={prize.id}
+							title={prize.item}
+							sub={`${prize.requirement}${prize.requirementSubheading ? ` - ${prize.requirementSubheading}` : ""}`}
+						/>
 					))}
 				</PrizesScroller>
 			</div>

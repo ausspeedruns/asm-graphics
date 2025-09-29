@@ -78,7 +78,8 @@ export function DashboardTalkback() {
 							variant={currentTarget === target.id ? "contained" : "outlined"}
 							disabled={Boolean(currentTarget && currentTarget !== target.id)}
 							color="primary"
-							onClick={() => handleToggleTalk(target.id)}>
+							onClick={() => handleToggleTalk(target.id)}
+						>
 							Talk to {target.id === "host" ? `Host (${hostRep?.name})` : target.name}
 						</Button>
 					))}
@@ -90,7 +91,8 @@ export function DashboardTalkback() {
 							variant={currentTarget === commentator.id ? "contained" : "outlined"}
 							color="primary"
 							disabled={Boolean(currentTarget && currentTarget !== commentator.id)}
-							onClick={() => handleToggleTalk(commentator.id)}>
+							onClick={() => handleToggleTalk(commentator.id)}
+						>
 							{commentator.name}
 						</Button>
 					))}

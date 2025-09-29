@@ -143,7 +143,8 @@ const GameAudioComponent = (props: GameAudioComponentProps) => {
 				variant={isGameAudioNameDifferent ? "contained" : "outlined"}
 				disabled={!isGameAudioNameDifferent}
 				onClick={updateGameName}
-				sx={{ height: 57 }}>
+				sx={{ height: 57 }}
+			>
 				Update
 			</Button>
 			<Checkbox

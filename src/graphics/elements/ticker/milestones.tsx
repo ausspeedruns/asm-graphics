@@ -119,9 +119,7 @@ const PAX_MILESTONES: Milestone[] = [
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
-const MISC_MILESTONES: Milestone[] = [
-	{ event: "FAST2020", total: 7033 },
-].sort((a, b) => a.total - b.total);
+const MISC_MILESTONES: Milestone[] = [{ event: "FAST2020", total: 7033 }].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
 const TGX_MILESTONES: Milestone[] = [
@@ -130,9 +128,7 @@ const TGX_MILESTONES: Milestone[] = [
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
-const DH_MILESTONES: Milestone[] = [
-	{ event: "ASDH2024", total: 10000 },
-].sort((a, b) => a.total - b.total);
+const DH_MILESTONES: Milestone[] = [{ event: "ASDH2024", total: 10000 }].sort((a, b) => a.total - b.total);
 
 interface Props {
 	currentTotal: number;
@@ -232,9 +228,7 @@ export function TickerMilestones(props: Props) {
 				</ProgressBarContainer>
 			</ProgressContainer>
 			<NextMilestone>
-				<NextMilestoneEvent>
-					{nextMilestone.event}
-				</NextMilestoneEvent>
+				<NextMilestoneEvent>{nextMilestone.event}</NextMilestoneEvent>
 				<NextMilestoneTotal>${Math.floor(nextMilestone.total).toLocaleString()}</NextMilestoneTotal>
 			</NextMilestone>
 		</TickerMilestonesContainer>

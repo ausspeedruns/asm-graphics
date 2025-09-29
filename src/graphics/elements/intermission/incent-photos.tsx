@@ -40,7 +40,7 @@ const NUMBER_OF_PHOTOS = 5;
 
 type IncentivePhotosProps = {
 	photos?: NodeCG.AssetFile[];
-}
+};
 
 export const Photos = React.forwardRef<TickerItemHandles, IncentivePhotosProps>((props, ref) => {
 	const containerRef = useRef<HTMLDivElement>(null);

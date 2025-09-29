@@ -73,10 +73,7 @@ export const DS2 = (props: OverlayProps) => {
 					}}
 				/>
 				<InfoBox>
-					<Circuitry
-						style={{ position: "absolute", width: "100%", height: "100%" }}
-						bigShadowAngle={90}
-					/>
+					<Circuitry style={{ position: "absolute", width: "100%", height: "100%" }} bigShadowAngle={90} />
 
 					<VerticalInfo timer={props.timer} runData={props.runData} style={{ mainStyle: { zIndex: 2 } }} />
 					<Couch commentators={props.commentators} style={{ zIndex: 2 }} />

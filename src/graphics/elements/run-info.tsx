@@ -37,7 +37,7 @@ export function Category(props: CategoryProps) {
 			/>
 		</CategoryContainer>
 	);
-};
+}
 
 /*			ESTIMATE			*/
 const EstimateContainer = styled(BaseStyle)``;

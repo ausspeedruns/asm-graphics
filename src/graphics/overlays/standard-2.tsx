@@ -168,7 +168,8 @@ export const Standard2 = (props: OverlayProps) => {
 							flexGrow: 1,
 							alignItems: "center",
 							zIndex: 2,
-						}}>
+						}}
+					>
 						<Couch
 							commentators={props.commentators}
 							host={props.host}
@@ -176,11 +177,7 @@ export const Standard2 = (props: OverlayProps) => {
 							audio={props.microphoneAudioIndicator}
 							align="left"
 						/>
-						<SponsorsBox
-							sponsors={props.sponsors}
-							style={{ flexGrow: 1 }}
-							sponsorStyle={SponsorSize}
-						/>
+						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} />
 					</div>
 				</RightBox>
 			</Topbar>

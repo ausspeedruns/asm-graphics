@@ -1,4 +1,3 @@
-
 const PARENTS = nodecg.bundleConfig.twitch.parents;
 
 interface ASMStreamProps {

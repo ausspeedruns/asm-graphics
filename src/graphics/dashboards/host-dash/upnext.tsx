@@ -45,7 +45,8 @@ export const UpNext: React.FC<Props> = (props: Props) => {
 					<div
 						style={{
 							maxHeight: "100%",
-						}}>
+						}}
+					>
 						{upNext.map((run) => (
 							<SingleRun key={run.id} run={run} />
 						))}

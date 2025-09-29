@@ -139,18 +139,15 @@ export const GBA2 = (props: OverlayProps) => {
 							width: "100%",
 							flexGrow: 1,
 							alignItems: "center",
-						}}>
+						}}
+					>
 						<Couch
 							commentators={props.commentators}
 							host={props.host}
 							style={{ width: "30%", zIndex: 3 }}
 							audio={props.microphoneAudioIndicator}
 						/>
-						<SponsorsBox
-							sponsors={props.sponsors}
-							style={{ flexGrow: 1 }}
-							sponsorStyle={SponsorSize}
-						/>
+						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} />
 					</div>
 				</RightBox>
 			</Topbar>

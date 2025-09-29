@@ -1,6 +1,11 @@
 import { get as nodecgGet } from "./nodecg-api-context";
 import { Bingosync, BoardCell, RoomJoinParameters } from "./util/bingosync";
-import { bingosyncRoomDetailsRep, bingosyncStatusRep, bingosyncBoardStateRep, bingosyncBoardStateOverrideRep } from "./replicants";
+import {
+	bingosyncRoomDetailsRep,
+	bingosyncStatusRep,
+	bingosyncBoardStateRep,
+	bingosyncBoardStateOverrideRep,
+} from "./replicants";
 import { clone } from "underscore";
 
 const nodecg = nodecgGet();
@@ -64,9 +69,11 @@ nodecg.listenFor("bingosync:overrideCell", (cellData) => {
 	newOverrides = newOverrides.filter((cell) => cell !== undefined);
 
 	// Got too many duplicate object replicant errors, we cloning the long way now
-	bingosyncBoardStateOverrideRep.value = JSON.parse(JSON.stringify({
-		cells: [...newOverrides],
-	}));
+	bingosyncBoardStateOverrideRep.value = JSON.parse(
+		JSON.stringify({
+			cells: [...newOverrides],
+		}),
+	);
 });
 
 async function joinRoomHandler(roomDetails: RoomJoinParameters) {
@@ -88,6 +95,8 @@ async function joinRoomHandler(roomDetails: RoomJoinParameters) {
 }
 
 if (bingosyncBoardStateRep.value.cells.length > 0) {
-	log.info("Bingosync board state already exists which means we might be recovering from a crash, automatically joining again.");
+	log.info(
+		"Bingosync board state already exists which means we might be recovering from a crash, automatically joining again.",
+	);
 	joinRoomHandler(bingosyncRoomDetailsRep.value);
 }

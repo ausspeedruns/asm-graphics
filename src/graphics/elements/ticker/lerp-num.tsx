@@ -11,7 +11,7 @@ export interface LerpNumRef {
 }
 
 // This is very dumb, I have no idea why I did this
-export function LerpNum (props: LerpNumProps) {
+export function LerpNum(props: LerpNumProps) {
 	const [displayValue, setDisplayValue] = useState(0);
 	const [lerp, setLerp] = useState(false);
 	const dummyEl = useRef<HTMLDivElement>(null);
@@ -66,4 +66,4 @@ export function LerpNum (props: LerpNumProps) {
 			<div ref={dummyEl} />
 		</>
 	);
-};
+}
