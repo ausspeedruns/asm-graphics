@@ -1,7 +1,7 @@
 // From jr-layouts by Hoishin https://github.com/JapaneseRestream/jr-layouts
 // Slightly modified by Ewan Lyon
 
-import { useRef, useEffect } from "react";
+import { Fragment, useRef, useEffect, memo } from "react";
 
 import styled from "styled-components";
 
@@ -13,10 +13,10 @@ export const Text = styled.div`
 const renderTextWithLineBreaks = (text: string) => {
 	const lines = text.split("\\n");
 	return lines.map((line, index) => (
-		<React.Fragment key={index}>
+		<Fragment key={index}>
 			{line}
 			{index !== lines.length - 1 && <br />}
-		</React.Fragment>
+		</Fragment>
 	));
 };
 
@@ -28,7 +28,7 @@ interface Props {
 	alignment?: "centre" | "left" | "right";
 }
 
-export const FitText = React.memo((props: Props) => {
+export const FitText = memo((props: Props) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const textRef = useRef<HTMLDivElement>(null);
 
@@ -86,7 +86,7 @@ interface ElementsProps {
 	alignment?: "centre" | "left" | "right";
 }
 
-export const FitTextElements = React.memo((props: ElementsProps) => {
+export const FitTextElements = memo((props: ElementsProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const textRef = useRef<HTMLDivElement>(null);
 

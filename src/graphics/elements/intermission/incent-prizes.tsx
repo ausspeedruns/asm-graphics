@@ -1,4 +1,4 @@
-import { useImperativeHandle, useRef } from "react";
+import { Fragment, type Ref, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import { TickerItemHandles } from "./incentives";
@@ -38,7 +38,7 @@ const PRIZE_PAGE_STAGGER = 0.05;
 
 interface PrizesProps {
 	prizes: Prize[];
-	ref: React.Ref<TickerItemHandles>;
+	ref: Ref<TickerItemHandles>;
 }
 
 export function Prizes(props: PrizesProps) {
@@ -154,10 +154,10 @@ const Item = styled(FitText)`
 const renderTextWithLineBreaks = (text: string) => {
 	const lines = text.split("\n");
 	return lines.map((line, index) => (
-		<React.Fragment key={index}>
+		<Fragment key={index}>
 			{line}
 			{index !== lines.length - 1 && <br />}
-		</React.Fragment>
+		</Fragment>
 	));
 };
 

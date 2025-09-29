@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useReplicant } from "@nodecg/react-hooks";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
@@ -11,9 +12,8 @@ import { RaceFinish } from "../elements/race-finish";
 import { PersonCompressed } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 import { Circuitry } from "./asm25/circuitry";
-import { useReplicant } from "@nodecg/react-hooks";
-import { BoardState } from "extensions/util/bingosync";
 import { BingoBoard, cellColourMapping } from "../elements/bingo-board";
+import type { BoardState } from "../../extensions/util/bingosync";
 
 // import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
 // import WidescreenRight from "../media/ASM23/widescreen-2-right.png";

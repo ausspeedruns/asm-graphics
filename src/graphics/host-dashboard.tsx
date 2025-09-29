@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { cloneElement, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { createTheme } from "@mui/material/styles";
@@ -323,7 +323,7 @@ export function HostDash() {
 								<Header text={props.title} />
 							</div>
 						)}>
-						{React.cloneElement(ELEMENTS[id], { darkMode: mode === "dark" })}
+						{cloneElement(ELEMENTS[id], { darkMode: mode === "dark" })}
 					</MosaicWindow>
 				)}
 				value={mosaicValue}

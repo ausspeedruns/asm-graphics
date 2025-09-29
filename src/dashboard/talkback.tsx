@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { darkTheme } from "./theme";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import { useReplicant } from "@nodecg/react-hooks";
-import type { X32TalkbackTarget } from "extensions/x32-audio";
+import type { X32TalkbackTarget } from "../extensions/x32-audio";
 import { useState } from "react";
 
 const DashboardTalkbackContainer = styled.div``;

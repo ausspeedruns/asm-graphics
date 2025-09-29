@@ -8,7 +8,7 @@ import Link from "../../media/runner-tablet/link.png";
 import { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
-import { Headset, Headsets } from "extensions/audio-data";
+import { Headset, Headsets } from "../../../extensions/audio-data";
 
 const RTSelectionContainer = styled.div`
 	background-color: #cc7722;

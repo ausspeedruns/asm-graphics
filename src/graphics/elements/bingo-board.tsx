@@ -1,4 +1,4 @@
-import type { BoardCell, CellColour } from "extensions/util/bingosync";
+import type { BoardCell, CellColour } from "../../extensions/util/bingosync";
 import styled from "styled-components";
 
 const Cell = styled.div`
@@ -28,7 +28,7 @@ export const cellColourMapping: Record<CellColour, string> = {
 	navy: "#2a4a9d",
 	teal: "#2a9d9d",
 	blank: "transparent",
-}
+};
 
 function backgroundGradientGenerator(colours: CellColour[]): string {
 	if (colours.length === 0 || colours[0] === "blank") {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
+import { useState, useEffect, useRef, useImperativeHandle, Fragment } from "react";
 import styled, { keyframes } from "styled-components";
 import { createRoot } from "react-dom/client";
 import { clone } from "underscore";
@@ -8,9 +8,9 @@ import { format } from "date-fns";
 import _ from "underscore";
 // import { useRive } from "@rive-app/react-canvas";
 
+import type NodeCG from "nodecg/types";
 import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
-import type NodeCG from "nodecg/types";
 import type { Incentive } from "@asm-graphics/types/Incentives";
 
 // import { InterCTA } from "./elements/intermission/cta";
@@ -41,7 +41,7 @@ import { useNormalisedTime } from "../hooks/useCurrentTime";
 import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 import { SectionReactStyles } from "./overlays/asm25/section";
 import { Prize } from "@asm-graphics/types/Prizes";
-import { IntermissionVideo } from "extensions/intermission-videos";
+import type { IntermissionVideo } from "../extensions/intermission-videos";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -606,10 +606,10 @@ export function IntermissionElement(props: IntermissionProps) {
 		playerNames = nextRuns[0]?.teams.map((team, index) => {
 			const players = team.players.map((player) => player.name).join(", ");
 			return (
-				<React.Fragment key={index}>
+				<Fragment key={index}>
 					<FitText text={players} />
 					{index !== nextRuns[0]?.teams.length - 1 && <span style={{ fontSize: "60%" }}> vs </span>}
-				</React.Fragment>
+				</Fragment>
 			);
 		});
 	}

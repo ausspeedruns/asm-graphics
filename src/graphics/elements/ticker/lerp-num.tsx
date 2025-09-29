@@ -51,6 +51,7 @@ export function LerpNum (props: LerpNumProps) {
 				},
 			});
 		} else {
+			// eslint-disable-next-line react-you-might-not-need-an-effect/no-derived-state
 			setDisplayValue(props.value);
 			if (dummyEl.current) dummyEl.current.style.transform = `translate(${props.value / 100}px, 0px)`;
 		}

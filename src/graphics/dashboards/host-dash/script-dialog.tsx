@@ -22,8 +22,8 @@ import RemarkGithubAlerts from "remark-github-alerts";
 import "remark-github-alerts/styles/github-colors-light.css";
 import "remark-github-alerts/styles/github-colors-dark-class.css";
 
-import type { HostRead } from "extensions/host-reads";
-import type { IntermissionVideo } from "extensions/intermission-videos";
+import type { HostRead } from "../../../extensions/host-reads";
+import type { IntermissionVideo } from "../../../extensions/intermission-videos";
 
 const Container = styled.div`
 	font-family: var(--main-font);

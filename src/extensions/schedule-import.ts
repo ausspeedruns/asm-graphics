@@ -2,7 +2,6 @@ import * as nodecgApiContext from "./nodecg-api-context";
 import { request, gql } from "graphql-request";
 import { z } from "zod";
 import moment from "moment";
-import { v4 as uuid } from "uuid";
 
 import type { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData";
 
@@ -82,7 +81,7 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 		const teams: RunDataTeam[] = [];
 
 		run.runners.forEach((runner, i) => {
-			const teamId = uuid();
+			const teamId = crypto.randomUUID();
 
 			const player: RunDataPlayer = {
 				name: runner.username,

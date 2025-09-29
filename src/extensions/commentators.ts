@@ -1,5 +1,4 @@
 import * as nodecgApiContext from "./nodecg-api-context";
-import { v4 as uuid } from "uuid";
 import _ from "underscore";
 
 import { automationSettingsRep, commentatorsRep, headsetsUsed, hostRep, showHostRep } from "./replicants";
@@ -43,7 +42,7 @@ nodecg.listenFor("update-commentator", (commentator) => {
 	} else {
 		// New commentator
 		commentatorsRep.value.push(
-			{ ...commentator, id: uuid() }
+			{ ...commentator, id: crypto.randomUUID() }
 		);
 	}
 });

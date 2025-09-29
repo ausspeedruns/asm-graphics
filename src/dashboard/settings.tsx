@@ -17,7 +17,7 @@ import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import type { HostRead } from "extensions/host-reads";
+import type { HostRead } from "../extensions/host-reads";
 import {
 	closestCenter,
 	DndContext,
@@ -35,8 +35,8 @@ import {
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { DragHandle, Refresh, VolumeUp } from "@mui/icons-material";
-import type { IntermissionVideo } from "extensions/intermission-videos";
-import type { LowerThirdPerson } from "extensions/full-screen-data";
+import type { IntermissionVideo } from "../extensions/intermission-videos";
+import type { LowerThirdPerson } from "../extensions/full-screen-data";
 
 const Row = styled.div`
 	display: flex;
@@ -51,14 +51,13 @@ export function Settings() {
 	const [creditsNameRep] = useReplicant<LowerThirdPerson>("lowerThirdPerson");
 
 	useEffect(() => {
-		console.log("New replicant info!", JSON.stringify(creditsNameRep), JSON.stringify(creditsInfo));
 		if (
 			creditsNameRep &&
 			(creditsNameRep.name !== creditsInfo.name || creditsNameRep.title !== creditsInfo.title)
 		) {
 			setCreditsInfo(creditsNameRep);
 		}
-	}, [creditsNameRep]);
+	}, [creditsNameRep, creditsInfo]);
 
 	function handleCreditsChange(
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

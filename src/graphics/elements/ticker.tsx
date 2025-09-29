@@ -190,7 +190,7 @@ const Ticker = (props: TickerProps) => {
 
 	useEffect(() => {
 		startNextSegment(props.tickerOrder[segmentIndex]);
-	}, [segmentIndex]);
+	}, [segmentIndex, props.tickerOrder, startNextSegment]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {

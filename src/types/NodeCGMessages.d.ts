@@ -5,8 +5,8 @@ import type { Prize } from "./Prizes";
 import type { BoardCell, RoomJoinParameters } from "../extensions/util/bingosync";
 import type { HostRead } from "../extensions/host-reads";
 import type { IntermissionVideo } from "../extensions/intermission-videos";
-import type { LowerThirdPerson } from "extensions/full-screen-data";
-import type { X32TalkbackTarget } from "extensions/x32-audio";
+import type { LowerThirdPerson } from "../extensions/full-screen-data";
+import type { X32TalkbackTarget } from "../extensions/x32-audio";
 
 export type NodeCGMessages = {
 	// Audio

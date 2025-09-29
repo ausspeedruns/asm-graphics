@@ -32,7 +32,7 @@ const customSmallStyle: ISmallStyling = {
 	timerSize: 65,
 };
 
-export const DS: React.FC<OverlayProps> = (props) => {
+export function DS(props: OverlayProps) {
 	return (
 		<DSContainer>
 			<Sidebar>
@@ -47,4 +47,4 @@ export const DS: React.FC<OverlayProps> = (props) => {
 			</Sidebar>
 		</DSContainer>
 	);
-};
+}

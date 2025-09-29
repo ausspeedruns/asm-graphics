@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Credits } from "../elements/credits";
 import { AcknowledgementOfCountry, NameLowerThird } from "../elements/name-lowerthird";
-import { LowerThirdPerson } from "extensions/full-screen-data";
+import type { LowerThirdPerson } from "../../extensions/full-screen-data";
 
 const NoGraphicsContainer = styled.div`
 	height: 1016px;
