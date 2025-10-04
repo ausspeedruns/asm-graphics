@@ -10,7 +10,6 @@ import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
-import { Circuitry } from "./asm25/circuitry";
 import { IVerticalStyling, VerticalTimerBottomInfo } from "../elements/info-box/vertical-timer-bottom";
 
 const StandardWidescreenContainer = styled.div`
@@ -130,11 +129,6 @@ export const StandardWidescreen = (props: OverlayProps) => {
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<Circuitry
-						noCircuitBoard
-						// src={StandardRight}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
 
 					<div
 						style={{
@@ -194,10 +188,6 @@ export const StandardWidescreen = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 407, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<RightBox>
-					<Circuitry
-						// src={StandardLeft}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
 
 					{/* <SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} /> */}
 					<VerticalTimerBottomInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />

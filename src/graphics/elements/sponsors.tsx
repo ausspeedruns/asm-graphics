@@ -1,14 +1,32 @@
-import { useEffect, useState, useRef, forwardRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
 
 import type NodeCG from "nodecg/types";
 
-const SponsorsContainer = styled.img`
+const SponsorsContainer = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100%;
+`;
+
+const SponsorImage = styled.img`
+	object-position: center;
 	object-fit: contain;
 	z-index: 3;
 	height: 100%;
 	width: 100%;
+`;
+
+const ASAP25SponsorGlow = styled.img`
+	position: absolute;
+	filter: blur(10px);
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	z-index: 2;
+	top: 0;
+	left: 0;
 `;
 
 interface Props {
@@ -20,9 +38,11 @@ interface Props {
 
 const AD_LENGTH = 5;
 
-export const Sponsors: React.FC<Props> = (props: Props) => {
+export function Sponsors(props: Props) {
 	const [imgIndex, setImgIndex] = useState(props.start ?? 0);
+	const imageContainerRef = useRef<HTMLDivElement>(null);
 	const imageRef = useRef<HTMLImageElement>(null);
+	const asap25GlowRef = useRef<HTMLImageElement>(null);
 
 	useEffect(() => {
 		// Change this to a tl loop
@@ -32,13 +52,14 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 			}
 			// Runs every 30 seconds
 			const tl = gsap.timeline();
-			tl.to(imageRef.current, { duration: 1, opacity: 0 });
+			tl.to(imageContainerRef.current, { duration: 1, opacity: 0 });
 			tl.call(() => {
-				if (imageRef.current && props.sponsors) {
+				if (imageRef.current && asap25GlowRef.current && props.sponsors) {
 					imageRef.current.src = props.sponsors[imgIndex]?.url;
+					asap25GlowRef.current.src = props.sponsors[imgIndex]?.url;
 				}
 			});
-			tl.to(imageRef.current, { duration: 1, opacity: 1 }, "+=0.5");
+			tl.to(imageContainerRef.current, { duration: 1, opacity: 1 }, "+=0.5");
 			tl.call(() => {
 				if (!props.sponsors) return;
 				setImgIndex(imgIndex + 1 >= props.sponsors.length ? 0 : imgIndex + 1);
@@ -52,14 +73,12 @@ export const Sponsors: React.FC<Props> = (props: Props) => {
 	}
 
 	return (
-		<SponsorsContainer
-			ref={imageRef}
-			className={props.className}
-			style={props.style}
-			src={props.sponsors[props.start ?? 0].url}
-		/>
+		<SponsorsContainer ref={imageContainerRef} className={props.className} style={props.style}>
+			<SponsorImage ref={imageRef} src={props.sponsors[props.start ?? 0].url} />
+			<ASAP25SponsorGlow ref={asap25GlowRef} src={props.sponsors[props.start ?? 0].url} />
+		</SponsorsContainer>
 	);
-};
+}
 
 const SponsorsBoxContainer = styled.div`
 	display: flex;
@@ -86,5 +105,3 @@ export function SponsorsBox(props: FullBoxProps) {
 		</SponsorsBoxContainer>
 	);
 }
-
-SponsorsBox.displayName = "SponsorsBox";

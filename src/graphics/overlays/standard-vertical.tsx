@@ -65,12 +65,12 @@ const VerticalInfoS = styled(VerticalInfo)`
 `;
 
 const customVerticalStyle: IVerticalStyling = {
-	timerSize: 75,
-	gameInfoSize: 20,
-	gameTitleSize: 40,
+	timerFontSize: 75,
+	gameInfoFontSize: 20,
+	gameTitleFontSize: 40,
 	gameStackHeight: 100,
 	timerStackHeight: 200,
-	categorySize: 38,
+	categoryFontSize: 38,
 };
 
 export const StandardVertical = (props: OverlayProps) => {

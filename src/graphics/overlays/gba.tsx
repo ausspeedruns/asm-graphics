@@ -6,9 +6,10 @@ import { VerticalInfo, IVerticalStyling } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
-import { Circuitry } from "./asm25/circuitry";
 
-// import GBABG from "../elements/event-specific/dh-24/Standard.png";
+import GBABG from "./backgrounds/GBA.png";
+
+import StandardSponsorBG from "./backgrounds/StandardSponsorBG.png";
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -24,9 +25,14 @@ const Sidebar = styled.div`
 `;
 
 const SponsorsBoxS = styled(SponsorsBox)`
-	width: 100%;
-	flex-grow: 1;
+	width: 60%;
 	z-index: 2;
+
+	background-image: url(${StandardSponsorBG});
+	background-size: cover;
+	background-position: center;
+
+	transform: rotate(-6deg) translateY(-5px);
 `;
 
 const SponsorsStyled = {
@@ -38,7 +44,7 @@ const InfoBoxBG = styled.div`
 	background: var(--main);
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
 	height: 664px;
 
@@ -49,10 +55,17 @@ const InfoBoxBG = styled.div`
 
 const customVerticalStyle: IVerticalStyling = {
 	maxTextWidth: 360,
-	gameTitleSize: 35,
-	timerSize: 60,
+	gameTitleFontSize: 20,
+	timerFontSize: 60,
+	estimateFontSize: 64,
+	categoryFontSize: 40,
+	gameInfoFontSize: 48,
 	mainStyle: {
-		height: 310,
+		marginBottom: 70,
+	},
+	gameTitleStyle: {
+		maxWidth: "80%",
+		minHeight: 40,
 	},
 };
 
@@ -67,13 +80,9 @@ export const GBA = (props: OverlayProps) => {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 				<InfoBoxBG>
-					<Circuitry
-						// src={GBABG}
-						style={{ position: "absolute", width: "100%", height: "100%", zIndex: 0 }}
-					/>
-
-					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+					<img src={GBABG} style={{ position: "absolute", height: "100%", width: "100%" }} />
 					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
+					<VerticalInfo hideDividers timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
 					<SponsorsBoxS sponsors={props.sponsors} sponsorStyle={SponsorsStyled} />
 				</InfoBoxBG>

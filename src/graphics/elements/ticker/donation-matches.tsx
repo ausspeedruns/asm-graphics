@@ -1,4 +1,4 @@
-import { useImperativeHandle, useRef } from "react";
+import { type Ref, useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
 import type { DonationMatch } from "@asm-graphics/types/Donations";
@@ -98,13 +98,14 @@ const CurrentAmount = styled.span`
 
 interface Props {
 	donationMatches: DonationMatch[];
+	ref?: Ref<TickerItemHandles>;
 }
 
-export const TickerDonationMatches = React.forwardRef<TickerItemHandles, Props>((props: Props, ref) => {
+export function TickerDonationMatches(props: Props) {
 	const containerRef = useRef(null);
 	const matchesRefs = useRef<TickerItemHandles[]>([]);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			if (
 				props.donationMatches.length === 0 ||
@@ -162,7 +163,7 @@ export const TickerDonationMatches = React.forwardRef<TickerItemHandles, Props>(
 			<MultiGoalContainer>{allMatches}</MultiGoalContainer>
 		</TickerGoalsContainer>
 	);
-});
+}
 
 const GoalBarContainer = styled.div`
 	position: absolute;
@@ -176,15 +177,16 @@ const GoalBarContainer = styled.div`
 
 interface GoalProps {
 	donationMatch: DonationMatch;
+	ref?: Ref<TickerItemHandles>;
 }
 
-const MatchBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProps, ref) => {
+function MatchBar(props: GoalProps) {
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 
 	const percentage = (props.donationMatch.amount / props.donationMatch.pledge) * 100;
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			tl.set(progressBarRef.current, { width: 0 }, "goalStart");
@@ -232,7 +234,4 @@ const MatchBar = React.forwardRef<TickerItemHandles, GoalProps>((props: GoalProp
 			</GoalElement>
 		</GoalBarContainer>
 	);
-});
-
-TickerDonationMatches.displayName = "TickerDonationMatches";
-MatchBar.displayName = "GoalBar";
+}

@@ -3,7 +3,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, ISmallStyling } from "../elements/info-box/small";
+import { SmallInfo, ISmallStyling } from "../elements/info-box/small-asap25";
 
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
@@ -11,14 +11,10 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { PersonCompressed } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
-import { Circuitry } from "./asm25/circuitry";
 import { BingoBoard, cellColourMapping } from "../elements/bingo-board";
 import type { BoardState } from "../../extensions/util/bingosync";
 
-// import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
-// import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
-// import WidescreenBottom from "../media/ASM23/widescreen-2-bottom.png";
-// import WidescreenWhole from "../media/asap24/Widescreen2p.png";
+import WidescreenWhole from "./backgrounds/Widescreen2p.png";
 
 const Widescreen2BingoContainer = styled.div`
 	height: 1016px;
@@ -30,7 +26,7 @@ const WholeGraphicClip = styled.div`
 	position: absolute;
 	width: 1920px;
 	height: 1016px;
-	clip-path: path("M 1920 0 H 1254 V 341 H 1921 Z M 666 0 H 0 V 341 H 666 M 1920 882 H 0 V 1016 H 1920 Z");
+	// clip-path: path("M 1920 0 H 1254 V 341 H 1921 Z M 666 0 H 0 V 341 H 666 M 1920 882 H 0 V 1016 H 1920 Z");
 	// background: var(--main);
 	z-index: 1;
 `;
@@ -58,6 +54,8 @@ const RightBox = styled.div`
 	/* background: var(--main); */
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	position: relative;
 	/* background: var(--main); */
 	z-index: 2;
@@ -102,32 +100,36 @@ const BingoBoardStyled = styled(BingoBoard)`
 	z-index: 2;
 `;
 
-const customSmallStyling: ISmallStyling = {
-	gameTitleSize: 60,
-	gameTitleWidth: 640,
-	categoryWidth: 262,
-	timerStackHeight: 160,
+const customSmallStyling = {
+	categoryWidth: 590,
+	timerStackHeight: 100,
+	gameInfoFontSize: 60,
+	// gameNameBottomMargin: -40,
 	mainStyle: {
-		width: 666,
 		height: "100%",
-		// background: 'var(--main)',
-		padding: 0,
+		width: "100%",
 		zIndex: 2,
+		padding: 0,
 	},
-	gameNameStyle: {
-		lineHeight: "50px",
-	},
-	lowerStackHeight: 120,
 	lowerStackStyle: {
 		justifyContent: "space-between",
 	},
 	timerStyle: {
 		flexGrow: 1,
 	},
-	categoryStyle: {
-		width: 284,
+	gameNameStyle: {
+		lineHeight: "42px",
+		fontSize: 30,
 	},
-};
+	categoryStyle: {
+		marginTop: 15,
+	},
+	gameStackHeight: 148,
+	estimateFontSize: 70,
+	estimateStyle: {
+		lineHeight: "29px",
+	},
+} as const satisfies ISmallStyling;
 
 export const Widescreen2Bingo = (props: OverlayProps) => {
 	const [bingoSyncBoardStateRep] = useReplicant<BoardState>("bingosync:boardState");
@@ -137,7 +139,7 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 	const unionedBoardStateCells =
 		bingoSyncBoardStateRep?.cells.map((cell) => {
 			const overriddenCell = bingoSyncBoardStateOverrideRep?.cells.find(
-				(overrideCell) => overrideCell.slot === cell.slot,
+				(overrideCell) => overrideCell.slot === cell.slot
 			);
 			return overriddenCell ?? cell;
 		}) ?? [];
@@ -145,18 +147,10 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 	return (
 		<Widescreen2BingoContainer>
 			<WholeGraphicClip>
-				{/* <img
-					src={WidescreenWhole}
-					style={{ position: "absolute", height: "100%", width: "100%" }}
-				/> */}
+				<img src={WidescreenWhole} style={{ position: "absolute", height: "100%", width: "100%" }} />
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<Circuitry
-						noCircuitBoard
-						// src={WidescreenLeft}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -189,25 +183,19 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 					nameplateColours={[cellColourMapping.purple, cellColourMapping.blue]}
 				/>
 
-				<RaceFinish
-					style={{ top: 265, left: 830, zIndex: 3 }}
-					time={teamData[0].time}
-					place={teamData[0].place}
-				/>
-				<RaceFinish
-					style={{ top: 265, left: 960, zIndex: 3 }}
-					time={teamData[1].time}
-					place={teamData[1].place}
-				/>
+				<RaceFinish style={{ top: 265, left: 830, zIndex: 3 }} time={teamData[0].time} place={teamData[0].place} />
+				<RaceFinish style={{ top: 265, left: 960, zIndex: 3 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<RightBox>
-					<Circuitry
-						noCircuitBoard
-						// src={WidescreenRight}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover", left: 0 }}
-					/>
 					<SponsorsBox
-						style={{ flexGrow: 1, zIndex: 2 }}
+						style={{
+							width: "85%",
+							height: "80%",
+							zIndex: 2,
+							background: "#000",
+							borderRadius: 35,
+							boxShadow: "inset 9px 7px 4px rgba(221, 221, 221, 0.25), inset 0px -4px 4px #fff",
+						}}
 						sponsors={props.sponsors}
 						sponsorStyle={SponsorSize}
 					/>
@@ -215,10 +203,9 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 			</Topbar>
 			<BingoBoardStyled board={unionedBoardStateCells} />
 			<BottomBlock>
-				<Circuitry
-					// src={WidescreenBottom}
-					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-				/>
+				<div style={{ fontFamily: "Permanent Marker", color: "#009AA2", fontSize: 50, textAlign: "center", lineHeight: 0.8, marginBottom: 16 }}>
+					Whole Bingo Board<br/>must be cleared
+				</div>
 				<BespokeCouch>
 					{/* <CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel> */}
 					{/* Since this is a special placement it has to be made custom here */}

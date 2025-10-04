@@ -8,7 +8,6 @@ import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
 // import StandardBG from "./backgrounds/Standard.png";
-import { Circuitry } from "./asm25/circuitry";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -59,12 +58,12 @@ const VerticalInfoS = styled(VerticalInfo)`
 `;
 
 const customVerticalStyle: IVerticalStyling = {
-	timerSize: 90,
-	gameInfoSize: 20,
-	gameTitleSize: 40,
+	timerFontSize: 90,
+	gameInfoFontSize: 20,
+	gameTitleFontSize: 40,
 	gameStackHeight: 200,
 	timerStackHeight: 140,
-	categorySize: 38,
+	categoryFontSize: 38,
 	mainStyle: {
 		// marginTop: 40,
 	},
@@ -86,17 +85,6 @@ export function StandardBand(props: OverlayProps) {
 					verticalCoop
 				/>
 				<InfoBoxBG>
-					<Circuitry
-						// src={StandardBG}
-						bigShadowAngle={90}
-						style={{
-							position: "absolute",
-							height: "100%",
-							width: "100%",
-							objectFit: "contain",
-							zIndex: -1,
-						}}
-					/>
 					<Couch
 						commentators={props.commentators}
 						host={props.host}

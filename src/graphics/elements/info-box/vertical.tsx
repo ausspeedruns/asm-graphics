@@ -5,7 +5,6 @@ import { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
-import { Section, SectionReactStyles } from "../../overlays/asm25/section";
 
 const VerticalInfoContainer = styled.div`
 	height: 340px;
@@ -14,7 +13,6 @@ const VerticalInfoContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
-	padding: 16px 0;
 `;
 
 const VerticalStack = styled.div`
@@ -39,28 +37,30 @@ const Divider = styled.div<DividerProps>`
 
 export interface IVerticalStyling {
 	timerStackHeight?: number;
-	timerSize?: number;
+	timerFontSize?: number;
 	timerStyle?: React.CSSProperties;
-	estimateSize?: number;
+	estimateFontSize?: number;
 	maxTextWidth?: number;
 	gameStackHeight?: number;
-	gameTitleSize?: number;
-	gameInfoSize?: number;
+	gameTitleFontSize?: number;
+	gameInfoFontSize?: number;
 	mainStyle?: React.CSSProperties;
-	categorySize?: number;
+	categoryFontSize?: number;
 	dividerMargin?: number;
+	gameTitleStyle?: React.CSSProperties;
+	estimateStyle?: React.CSSProperties;
 }
 
 const DefaultVerticalStyling = {
 	timerStackHeight: 180,
-	timerSize: 110,
+	timerFontSize: 110,
 	timerStyle: { marginBottom: -5 },
-	estimateSize: 30,
+	estimateFontSize: 30,
 	maxTextWidth: 500,
 	gameStackHeight: 100,
-	gameTitleSize: 37,
-	gameInfoSize: 25,
-	categorySize: 34,
+	gameTitleFontSize: 37,
+	gameInfoFontSize: 25,
+	categoryFontSize: 34,
 	dividerMargin: 20,
 } as const satisfies IVerticalStyling;
 
@@ -72,41 +72,44 @@ interface Props {
 	hideDividers?: boolean;
 }
 
-export const VerticalInfo: React.FC<Props> = (props: Props) => {
+export function VerticalInfo(props: Props) {
 	const styles = { ...DefaultVerticalStyling, ...props.style };
 
 	return (
 		<VerticalInfoContainer className={props.className} style={styles.mainStyle}>
-			<VerticalStack
-				style={{ height: styles.timerStackHeight, ...SectionReactStyles, padding: "16px 32px 10px" }}
-			>
-				<Timer fontSize={styles.timerSize} timer={props.timer} style={styles.timerStyle} />
-				<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
+			<VerticalStack style={{ height: styles.timerStackHeight }}>
+				<Timer fontSize={styles.timerFontSize} timer={props.timer} style={styles.timerStyle} />
+				<RunInfo.Estimate
+					fontSize={styles.estimateFontSize}
+					estimate={props.runData?.estimate ?? ""}
+					style={styles.estimateStyle}
+				/>
 			</VerticalStack>
 			{!props.hideDividers && <Divider margin={styles.dividerMargin} />}
 			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: "100%" }}>
 				<RunInfo.GameTitle
-					maxWidth={styles.maxTextWidth!}
+					maxWidth={styles.maxTextWidth}
 					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
-					style={{ fontSize: styles.gameTitleSize, lineHeight: `${styles.gameTitleSize}px` }}
+					style={{
+						fontSize: styles.gameTitleFontSize,
+						lineHeight: `${styles.gameTitleFontSize}px`,
+						...styles.gameTitleStyle,
+					}}
 				/>
 				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
 					<RunInfo.System
 						system={props.runData?.system ?? ""}
-						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
+						style={{ fontSize: styles.gameInfoFontSize, zIndex: 2 }}
 					/>
-					<RunInfo.Year
-						year={props.runData?.release ?? ""}
-						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
-					/>
+					<RunInfo.Year year={props.runData?.release ?? ""} style={{ fontSize: styles.gameInfoFontSize, zIndex: 2 }} />
 				</div>
 			</VerticalStack>
 			{!props.hideDividers && <Divider margin={styles.dividerMargin} />}
 			<RunInfo.Category
 				maxWidth={styles.maxTextWidth!}
 				category={props.runData?.category ?? ""}
-				fontSize={styles.categorySize}
+				fontSize={styles.categoryFontSize}
 			/>
 		</VerticalInfoContainer>
 	);
-};
+}

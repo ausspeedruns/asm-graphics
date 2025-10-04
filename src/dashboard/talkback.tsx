@@ -68,7 +68,7 @@ export function DashboardTalkback() {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<DashboardTalkbackContainer>
-				Hold button to talk. Avoid as much as possible during a run.
+				Avoid as much as possible during a run.
 				{currentTarget ? <TalkbackActiveIndicator /> : <EmptyTalkbackIndicator />}
 				<Stack spacing={1} mb={1}>
 					{targets.map((target) => (

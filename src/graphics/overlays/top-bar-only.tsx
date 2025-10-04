@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { WideInfo } from "../elements/info-box/wide";
-import { Circuitry } from "./asm25/circuitry";
 import { OverlayProps } from "@asm-graphics/types/OverlayProps";
 import { Facecam } from "../elements/facecam";
 
@@ -25,7 +24,6 @@ export function TopBarOnly(props: OverlayProps) {
 	return (
 		<TopBarOnlyContainer>
 			<TopBar>
-				<Circuitry style={{ position: "absolute", width: "100%", height: "100%" }} />
 				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
 			<Facecam

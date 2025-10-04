@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import ASAP25TickerArrow from "../../overlays/backgrounds/ASAP25TickerArrow.svg";
+
 const TickerTitleContainer = styled.div`
 	height: 59px;
 	width: fit-content;
@@ -15,6 +17,10 @@ const TickerTitleContainer = styled.div`
 	text-align: center;
 	padding-bottom: 2px;
 	padding-top: 3px;
+
+	// ASAP2025
+	background: #282828;
+	font-family: Noto Sans;
 `;
 
 interface Props {
@@ -23,10 +29,11 @@ interface Props {
 	children?: React.ReactNode;
 }
 
-export const TickerTitle: React.FC<Props> = (props: React.PropsWithChildren<Props>) => {
+export function TickerTitle(props: Props) {
 	return (
 		<TickerTitleContainer className={props.className} style={props.style}>
 			{props.children}
+			<img src={ASAP25TickerArrow} style={{ marginLeft: 16, marginBottom: -2 }} />
 		</TickerTitleContainer>
 	);
-};
+}

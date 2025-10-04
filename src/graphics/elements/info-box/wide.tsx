@@ -6,7 +6,6 @@ import { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
-import { SectionReactStyles } from "../../overlays/asm25/section";
 
 const WideInfoContainer = styled.div`
 	position: absolute;
@@ -15,9 +14,7 @@ const WideInfoContainer = styled.div`
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	padding: 0 200px;
 	box-sizing: border-box;
-	gap: 50px;
 	overflow: hidden;
 	z-index: 2;
 `;
@@ -32,28 +29,26 @@ const VerticalStack = styled.div`
 
 export interface IWideStyling {
 	timerStackHeight?: number;
-	timerSize?: number;
+	timerFontSize?: number;
 	timerStyle?: CSSProperties;
-	estimateSize?: number;
+	estimateFontSize?: number;
 	maxTextWidth?: number;
 	gameStackHeight?: number;
-	gameTitleSize?: number;
-	gameInfoSize?: number;
-	bottomRowMargin?: number;
+	gameTitleFontSize?: number;
+	gameInfoFontSize?: number;
 	mainStyle?: CSSProperties;
 }
 
-const DefaultWideStyling: IWideStyling = {
+const DefaultWideStyling = {
 	timerStackHeight: 180,
-	timerSize: 150,
-	timerStyle: { zIndex: 2, fontSize: 130 },
-	estimateSize: 34,
+	timerFontSize: 100,
+	timerStyle: { zIndex: 2 },
+	estimateFontSize: 64,
 	maxTextWidth: 540,
 	gameStackHeight: 100,
-	gameTitleSize: 37,
-	gameInfoSize: 25,
-	bottomRowMargin: -24,
-};
+	gameTitleFontSize: 30,
+	gameInfoFontSize: 64,
+} as const satisfies IWideStyling;
 
 interface Props {
 	className?: string;
@@ -62,30 +57,33 @@ interface Props {
 	runData?: RunDataActiveRun;
 }
 
-export const WideInfo = (props: Props) => {
+export function WideInfo(props: Props) {
 	const styles = { ...DefaultWideStyling, ...props.style };
 	return (
 		<WideInfoContainer className={props.className} style={styles.mainStyle}>
-			<VerticalStack style={{ flexGrow: 1 }}>
-				<RunInfo.GameTitle
-					maxWidth={styles.maxTextWidth!}
-					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
-					style={{ marginBottom: styles.bottomRowMargin, lineHeight: "42px" }}
-				/>
+			<RunInfo.GameTitle
+				maxWidth={styles.maxTextWidth}
+				game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
+				style={{ fontSize: styles.gameTitleFontSize, padding: "20px 40px" }}
+			/>
+			<VerticalStack style={{ width: 400, justifyContent: "center", gap: 8 }}>
+				<RunInfo.Category maxWidth={styles.maxTextWidth} category={props.runData?.category ?? ""} />
 				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
-					<RunInfo.System system={props.runData?.system ?? ""} />
-					<RunInfo.Year year={props.runData?.release ?? ""} />
+					<RunInfo.System
+						system={props.runData?.system ?? ""}
+						style={{ fontSize: styles.gameInfoFontSize, WebkitTextStrokeWidth: 2, transform: "rotate(-5deg)" }}
+					/>
+					<RunInfo.Year year={props.runData?.release ?? ""} style={{ fontSize: styles.gameInfoFontSize }} />
 				</div>
 			</VerticalStack>
-			<VerticalStack style={{ flexGrow: 1 }}>
-				<RunInfo.Category
-					maxWidth={styles.maxTextWidth!}
-					category={props.runData?.category ?? ""}
-					style={{ marginBottom: styles.bottomRowMargin }}
+			<VerticalStack>
+				<Timer style={{ padding: "16px 32px", ...styles.timerStyle }} timer={props.timer} />
+				<RunInfo.Estimate
+					estimate={props.runData?.estimate ?? ""}
+					fontSize={styles.estimateFontSize}
+					style={{ height: 0, marginTop: -14, lineHeight: 0 }}
 				/>
-				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 			</VerticalStack>
-			<Timer style={{ ...styles.timerStyle, ...SectionReactStyles, padding: "16px 32px" }} timer={props.timer} />
 		</WideInfoContainer>
 	);
-};
+}

@@ -6,10 +6,9 @@ import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 import { SponsorsBox } from "../elements/sponsors";
 import { Couch } from "../elements/couch";
-import { Circuitry } from "./asm25/circuitry";
 
-// import WidescreenTop from "./backgrounds/WidescreenTop.png";
-// import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
+import WidescreenTop from "./backgrounds/WidescreenTop.png";
+import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -35,13 +34,16 @@ const Sidebar = styled.div`
 	border-right: 1px solid var(--accent);
 	/* z-index: -1; */
 	overflow: hidden;
+
+	// ASAP2025
+	border-right: 1px solid #fff;
 `;
 
 const SidebarBG = styled.div`
 	/* background: var(--main); */
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	align-items: center;
 	height: 410px;
 	position: relative;
@@ -53,9 +55,8 @@ const SidebarBG = styled.div`
 
 const SponsorBoxS = styled(SponsorsBox)`
 	/* position: absolute; */
-	width: 100%;
+	width: 80%;
 	/* height: 459px; */
-	flex-grow: 1;
 	/* left: 0px;
 	top: 400px; */
 	overflow: hidden;
@@ -63,6 +64,12 @@ const SponsorBoxS = styled(SponsorsBox)`
 	justify-content: center;
 	align-items: center;
 	z-index: 2;
+
+	background: #000;
+	border-radius: 35px;
+	box-shadow:
+		inset 9px 7px 4px rgba(221, 221, 221, 0.25),
+		inset 0px -4px 4px #fff;
 `;
 
 const SponsorSize = {
@@ -75,7 +82,7 @@ export const Widescreen = (props: OverlayProps) => {
 
 	return (
 		<WidescreenContainer>
-			<div
+			{/* <div
 				style={{
 					position: "absolute",
 					zIndex: 1,
@@ -83,9 +90,16 @@ export const Widescreen = (props: OverlayProps) => {
 					height: "100%",
 					clipPath: "path('M 0 0 H 1920 V 207 H 0 Z M 0 556 H 479 V 1017 H 0 Z')",
 				}}
-			></div>
+			/> */}
 			<TopBar>
-				<Circuitry style={{ position: "absolute", width: "100%", height: "100%" }} />
+				<img
+					src={WidescreenTop}
+					style={{
+						position: "absolute",
+						width: "100%",
+						height: "100%",
+					}}
+				/>
 				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
 			<Sidebar>
@@ -98,18 +112,14 @@ export const Widescreen = (props: OverlayProps) => {
 					verticalCoop
 				/>
 				<SidebarBG>
-					{/* <div
+					<img
+						src={WidescreenBottom}
 						style={{
 							position: "absolute",
-							top: 0,
-							height: 8,
 							width: "100%",
-							background: "var(--dh-orange-to-red)",
+							height: "100%",
+							zIndex: 0,
 						}}
-					/> */}
-					<Circuitry
-						// src={WidescreenBottom}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
 					/>
 					<Couch
 						style={{ zIndex: 2, marginTop: 8 }}

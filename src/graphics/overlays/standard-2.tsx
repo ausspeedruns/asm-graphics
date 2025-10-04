@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, ISmallStyling } from "../elements/info-box/small";
+// import { SmallInfo, ISmallStyling } from "../elements/info-box/small";
+import { SmallInfo, ISmallStyling } from "../elements/info-box/small-asap25";
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
@@ -10,8 +11,7 @@ import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
-// import Standard2p from "./backgrounds/Standard2p.png";
-import { Circuitry } from "./asm25/circuitry";
+import Standard2p from "./backgrounds/Standard2p.png";
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -61,6 +61,9 @@ const CentralDivider = styled.div`
 	top: 296px;
 	left: 959px;
 	background: var(--sec);
+
+	// ASAP2025
+	background: #fff;
 `;
 
 const WholeGraphicClip = styled.div`
@@ -72,10 +75,10 @@ const WholeGraphicClip = styled.div`
 	z-index: 1;
 `;
 
-const customSmallStyling: ISmallStyling = {
-	categoryWidth: 260,
+const customSmallStyling = {
+	categoryWidth: 590,
 	timerStackHeight: 100,
-	lowerStackHeight: 100,
+	gameInfoFontSize: 60,
 	// gameNameBottomMargin: -40,
 	mainStyle: {
 		height: "100%",
@@ -91,11 +94,17 @@ const customSmallStyling: ISmallStyling = {
 	},
 	gameNameStyle: {
 		lineHeight: "42px",
+		fontSize: 30,
 	},
 	categoryStyle: {
-		width: 284,
+		marginTop: 15,
 	},
-};
+	gameStackHeight: 148,
+	estimateFontSize: 70,
+	estimateStyle: {
+		lineHeight: "29px",
+	},
+} as const satisfies ISmallStyling;
 
 export const Standard2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
@@ -103,19 +112,10 @@ export const Standard2 = (props: OverlayProps) => {
 	return (
 		<Standard2Container>
 			<WholeGraphicClip>
-				{/* <img
-					style={{ position: "absolute", width: "100%" }}
-					src={Standard2p}
-				/> */}
+				<img style={{ position: "absolute", width: "100%" }} src={Standard2p} />
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<Circuitry
-						noCircuitBoard
-						// src={StandardLeft}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
-
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -156,16 +156,12 @@ export const Standard2 = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 219, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<RightBox>
-					<Circuitry
-						// src={StandardRight}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
-
 					<div
 						style={{
 							display: "flex",
 							width: "100%",
-							flexGrow: 1,
+							height: "100%",
+							justifyContent: "space-around",
 							alignItems: "center",
 							zIndex: 2,
 						}}
@@ -175,9 +171,19 @@ export const Standard2 = (props: OverlayProps) => {
 							host={props.host}
 							style={{ width: "30%", zIndex: 3, marginLeft: 12 }}
 							audio={props.microphoneAudioIndicator}
-							align="left"
+							align="center"
 						/>
-						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} />
+						<SponsorsBox
+							sponsors={props.sponsors}
+							style={{
+								width: "60%",
+								background: "#000",
+								borderRadius: 35,
+								boxShadow: "inset 9px 7px 4px rgba(221, 221, 221, 0.25), inset 0px -4px 4px #fff",
+								marginBottom: 24,
+							}}
+							sponsorStyle={SponsorSize}
+						/>
 					</div>
 				</RightBox>
 			</Topbar>

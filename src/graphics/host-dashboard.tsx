@@ -272,7 +272,7 @@ export function HostDash() {
 	return (
 		<DashContainer darkMode={mode === "dark"}>
 			<TopBar>
-				<p>YOUR HOST:</p>
+				<p>YOU ARE:</p>
 				<h2>
 					{hostRep?.name} <span className="pronouns">{hostRep?.pronouns}</span>
 				</h2>

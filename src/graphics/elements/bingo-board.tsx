@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const Cell = styled.div`
 	font-family: var(--main-font);
-	background: #764a96;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -14,10 +13,12 @@ const Cell = styled.div`
 	text-wrap: balance;
 	position: relative;
 	line-height: 1.1;
+	color: white;
+	background-color: #3d3d3dff;
 `;
 
 export const cellColourMapping: Record<CellColour, string> = {
-	purple: "#d41159", // Not purple
+	purple: "#000000", // Not purple
 	blue: "#1a85ff", // Not blue
 	green: "#4a9d2a",
 	red: "#9d2a2a",
@@ -48,6 +49,8 @@ function backgroundGradientGenerator(colours: CellColour[]): string {
 
 	const linearGradient = `linear-gradient(90deg, ${allColours.join(", ")})`;
 
+	console.log(linearGradient);
+
 	return linearGradient;
 }
 
@@ -64,7 +67,8 @@ export function BingoBoard(props: BingoBoardProps) {
 					slot: `slot${i}`,
 					name: "",
 					colors: ["blank"],
-				}))
+					// colors: ["purple"],
+			  }))
 			: props.board;
 
 	return (
@@ -78,55 +82,13 @@ export function BingoBoard(props: BingoBoardProps) {
 			}}
 		>
 			{cells.map((cell) => {
-				const cellDone = cell.colors.length >= 2;
+				const cellDone = cell.colors.length >= 1 && cell.colors[0] !== "blank";
 				return (
-					<Cell key={cell.slot} style={{ background: backgroundGradientGenerator(cell.colors) }}>
-						<div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
-							<ExtraBacking
-								style={{
-									backgroundColor: cellDone ? "rgba(105, 42, 153, 0.61)" : undefined,
-									mixBlendMode: cellDone ? "multiply" : undefined,
-								}}
-							/>
-							<PlasticElement
-								style={{
-									boxShadow: cellDone
-										? "inset -3px -3px 1.5px rgba(217, 211, 224, 0.34), inset 4px 3px 1.5px rgba(68, 42, 105, 0.77)"
-										: "inset 3px 3px 1.5px rgba(217, 211, 224, 0.34),	inset -4px -3px 1.5px rgba(68, 42, 105, 0.77)",
-								}}
-							/>
-						</div>
-						<span style={{ zIndex: 4, color: cellDone ? "rgba(255, 255, 255, 0.77)" : "white" }}>
-							{cell.name}
-						</span>
+					<Cell key={cell.slot} style={{ background: backgroundGradientGenerator(cell.colors), boxShadow: cellDone ? "inset 0 0 15px 0 rgba(0,0,0,0.5)" : "none" }}>
+						<span style={{ zIndex: 4, opacity: cellDone ? 0.77 : 1 }}>{cell.name}Testing</span>
 					</Cell>
 				);
 			})}
 		</div>
 	);
 }
-
-const ExtraBacking = styled.div`
-	background-color: rgba(194, 156, 226, 0.14);
-	mix-blend-mode: color;
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	z-index: 1;
-`;
-
-const PlasticElement = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: rgba(105, 42, 153, 0.09);
-	z-index: 2;
-
-	backdrop-filter: blur(2px);
-	// box-shadow:
-	// 	inset 3px 3px 1.5px rgba(217, 211, 224, 0.34),
-	// 	inset -4px -3px 1.5px rgba(68, 42, 105, 0.77);
-	box-shadow:
-		inset -3px -3px 1.5px rgba(217, 211, 224, 0.34),
-		inset 4px 3px 1.5px rgba(68, 42, 105, 0.77);
-`;

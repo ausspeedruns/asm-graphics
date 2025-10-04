@@ -5,7 +5,6 @@ import { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
-import { SectionReactStyles } from "../../overlays/asm25/section";
 
 const SmallInfoContainer = styled.div`
 	box-sizing: border-box;
@@ -108,7 +107,7 @@ export const SmallInfo: React.FC<Props> = (props: Props) => {
 				<Timer
 					fontSize={styles.timerSize}
 					timer={props.timer}
-					style={{ ...styles.timerStyle, ...SectionReactStyles, padding: "16px 8px" }}
+					style={{ ...styles.timerStyle, padding: "16px 8px" }}
 				/>
 			</InfoSubBox>
 		</SmallInfoContainer>

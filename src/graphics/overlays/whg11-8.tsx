@@ -44,7 +44,7 @@ const SponsorsSize = {
 
 const customVerticalStyle: IVerticalStyling = {
 	maxTextWidth: 400,
-	timerSize: 80,
+	timerFontSize: 80,
 };
 
 // World's Hardest Game (11:8)

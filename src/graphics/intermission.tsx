@@ -26,20 +26,14 @@ import { Sponsors } from "./elements/sponsors";
 import { IntermissionVideoComponent, IntermissionAdsRef } from "./elements/intermission/video";
 import GoCLogo from "./media/Sponsors/GoCCCWhite.svg";
 
-import IntermissionBG from "./overlays/backgrounds/Intermission_Traces 1.svg?react";
-import ASM25Speaker from "./overlays/backgrounds/Speaker.svg?react";
-
 import StopwatchIcon from "./media/icons/stopwatch.svg";
 import RunnerIcon from "./media/icons/runner.svg";
 import ConsoleIcon from "./media/icons/console.svg";
 
 // import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
-import { Circuitry } from "./overlays/asm25/circuitry";
-import { Chip } from "./overlays/asm25/chip";
 import type { DonationMatch } from "@asm-graphics/types/Donations";
 import { useNormalisedTime } from "../hooks/useCurrentTime";
-import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
-import { SectionReactStyles } from "./overlays/asm25/section";
+// import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 import { Prize } from "@asm-graphics/types/Prizes";
 import type { IntermissionVideo } from "../extensions/intermission-videos";
 
@@ -523,13 +517,11 @@ export function IntermissionElement(props: IntermissionProps) {
 	const adsRef = useRef<IntermissionAdsRef>(null);
 	const incentivesRef = useRef<HTMLDivElement>(null);
 
-	const asm25Colours = normalisedTimeToColour(props.normalisedTime ?? 0);
-
 	async function getCurrentSong() {
 		const song = await fetch("https://rainwave.cc/api4/info_all?sid=2", { method: "GET" });
 		const songJson = await song.json();
 		setCurrentSong(
-			`${songJson.all_stations_info[2].title} – ${songJson.all_stations_info[2].artists} – ${songJson.all_stations_info[2].album}`,
+			`${songJson.all_stations_info[2].title} – ${songJson.all_stations_info[2].artists} – ${songJson.all_stations_info[2].album}`
 		);
 	}
 
@@ -591,7 +583,7 @@ export function IntermissionElement(props: IntermissionProps) {
 						audioRef.current.volume = parseFloat(dummyElPos.toString());
 					},
 				},
-				`+=${video.videoInfo.duration} + 10`,
+				`+=${video.videoInfo.duration} + 10`
 			);
 		},
 	}));
@@ -621,34 +613,10 @@ export function IntermissionElement(props: IntermissionProps) {
 		: nextRuns[0]?.estimate;
 
 	return (
-		<IntermissionContainer
-			style={
-				{
-					"--plastic-top": asm25Colours.plasticTop + "80",
-					"--plastic-bottom": asm25Colours.plasticBottom,
-					"--text-outline": asm25Colours.textOutline,
-					"--trace": asm25Colours.trace,
-					"--trace-outline": asm25Colours.traceOutline,
-					"--chip": asm25Colours.chip,
-				} as React.CSSProperties
-			}
-		>
-			<Circuitry
-				noCircuitBoard
-				disableBaseColourLayer
-				bigShadowAngle={90}
-				style={{
-					position: "absolute",
-					width: "100%",
-					height: "100%",
-					zIndex: -2,
-					clipPath: PlasticCutout,
-				}}
-			/>
+		<IntermissionContainer>
 			{/* <LogoContainer style={{ position: "absolute", top: 0, left: 0, borderRadius: "0 0 16px 0", height: 120 }}>
 				<img src={ASLogo} />
 			</LogoContainer> */}
-			<IntermissionBG style={{ position: "absolute", top: 0, left: 0 }} />
 
 			<LeftColumn>
 				<CameraContainer>
@@ -669,7 +637,6 @@ export function IntermissionElement(props: IntermissionProps) {
 					</CameraChin>
 				</CameraContainer>
 				<div style={{ width: "80%", position: "relative", height: 150 }}>
-					<ASM25Speaker style={{ position: "absolute", top: 20, left: -28, zIndex: 4 }} />
 					{props.host && (
 						<HostName style={{ height: props.host.pronouns ? 90 : 105 }}>
 							{/* <Mic style={{ height: "2.5rem", width: "2.5rem" }} /> */}
@@ -741,7 +708,7 @@ export function IntermissionElement(props: IntermissionProps) {
 					)}
 				</DonationContainer>
 
-				<RunContainer style={{ ...SectionReactStyles }}>
+				<RunContainer>
 					<div
 						style={{
 							// height: 406,
@@ -785,7 +752,7 @@ export function IntermissionElement(props: IntermissionProps) {
 							justifyContent: "center",
 						}}
 					>
-						<div style={{ width: 700, height: 210, ...SectionReactStyles }} />
+						<div style={{ width: 700, height: 210 }} />
 					</div>
 					<div
 						style={{
@@ -826,9 +793,7 @@ export function IntermissionElement(props: IntermissionProps) {
 						}}
 					>
 						<Sponsors sponsors={props.sponsors} />
-						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>
-							Sponsors
-						</div>
+						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>Sponsors</div>
 						<div
 							style={{
 								position: "absolute",
@@ -870,9 +835,7 @@ export function IntermissionElement(props: IntermissionProps) {
 						}}
 					>
 						<CureCancerLogo src={GoCLogo} />
-						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>
-							Charity
-						</div>
+						<div style={{ position: "absolute", bottom: -35, left: 20, fontSize: 20, color: "#fff" }}>Charity</div>
 						<div
 							style={{
 								position: "absolute",

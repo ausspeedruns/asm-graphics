@@ -11,6 +11,17 @@ const TimerContainer = styled.div<FontProps>`
 	text-align: center;
 	letter-spacing: 2px;
 	justify-content: center;
+
+	// ASAP2025
+	background: #121212;
+	padding: 25px;
+	border: 2px solid #6A6A6A;
+	border-radius: 11px;
+	color: #ffc94b;
+
+	& > span {
+		filter: drop-shadow(0px 0px 15.7px #ff4f23);
+	}
 `;
 
 const MilliText = styled.span<FontProps>`

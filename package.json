@@ -132,7 +132,7 @@
 			{
 				"name": "stage-view",
 				"title": "Stage View",
-				"width": 5,
+				"width": 8,
 				"headerColor": "#CC7722",
 				"file": "stage-view.html"
 			}

@@ -7,8 +7,9 @@ import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-// import StandardBG from "./backgrounds/Standard.png";
-import { Circuitry } from "./asm25/circuitry";
+import StandardBG from "./backgrounds/Standard.png";
+
+import StandardSponsorBG from "./backgrounds/StandardSponsorBG.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -21,27 +22,35 @@ const Sidebar = styled.div`
 	width: 565px;
 	border-right: 1px solid var(--accent);
 	overflow: hidden;
+
+	// ASAP2025
+	border-right: 1px solid #fff;
 `;
 
 const InfoBoxBG = styled.div`
 	background: var(--main);
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
 	height: 644px;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-blend-mode: multiply;
 	background-repeat: repeat;
 	position: relative;
-	padding: 10px 0
+	padding: 10px 0;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
-	/* width: 65%; */
+	width: 65%;
 	/* height: 264px; */
-	flex-grow: 1;
+	// flex-grow: 1;
 	/* margin-top: -70px; */
+	background-image: url(${StandardSponsorBG});
+	background-size: cover;
+	background-position: center;
+
+	transform: rotate(-6deg) translateY(-20px);
 `;
 
 const SponsorsSize = {
@@ -55,15 +64,26 @@ const VerticalInfoS = styled(VerticalInfo)`
 `;
 
 const customVerticalStyle: IVerticalStyling = {
-	timerSize: 90,
-	gameInfoSize: 20,
-	gameTitleSize: 40,
+	timerFontSize: 90,
+	gameInfoFontSize: 48,
+	gameTitleFontSize: 25,
 	gameStackHeight: 200,
 	timerStackHeight: 300,
-	categorySize: 38,
-	mainStyle: {
-		// marginTop: 40,
+	categoryFontSize: 40,
+	estimateFontSize: 64,
+	timerStyle: {
+		minWidth: 450,
 	},
+	gameTitleStyle: {
+		minWidth: "80%",
+		minHeight: 32,
+	},
+	estimateStyle: {
+		marginTop: -18,
+	},
+	mainStyle: {
+		marginBottom: 70,
+	}
 };
 
 export const Standard = (props: OverlayProps) => {
@@ -81,24 +101,14 @@ export const Standard = (props: OverlayProps) => {
 					verticalCoop
 				/>
 				<InfoBoxBG>
-					<Circuitry
-						// src={StandardBG}
-						bigShadowAngle={90}
-						style={{
-							position: "absolute",
-							height: "100%",
-							width: "100%",
-							objectFit: "contain",
-							zIndex: -1,
-						}}
-					/>
+					<img src={StandardBG} style={{ position: "absolute", width: "100%", height: "100%" }} />
 					<Couch
 						commentators={props.commentators}
 						host={props.host}
 						audio={props.microphoneAudioIndicator}
 						showHost={props.showHost}
 					/>
-					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} hideDividers />
 
 					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
 				</InfoBoxBG>

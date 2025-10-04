@@ -9,7 +9,6 @@ const CouchContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	// min-height: 114px;
-	padding: 8px 0;
 `;
 
 const MenuBar = styled.div`
@@ -100,14 +99,20 @@ const PersonCompressedContainer = styled.div`
 
 const NameContainer = styled.div`
 	background: var(--main);
-	padding: 8px 12px;
-	outline: 1px solid white;
-	outline-offset: 3px;
+	padding: 6px 6px;
+	padding-top: 12px;
 	margin-bottom: 6px;
 	position: relative;
 	display: flex;
 	flex-direction: column;
+
+	// ASAP2025
+	background: #000;
 `;
+
+interface SpeakingProps {
+	speaking?: boolean;
+}
 
 const SpeakingColour = styled.div<SpeakingProps>`
 	position: absolute;
@@ -124,10 +129,6 @@ const SpeakingColour = styled.div<SpeakingProps>`
 	outline: 4px solid white;
 `;
 
-interface SpeakingProps {
-	speaking?: boolean;
-}
-
 // const Tag = styled.span`
 // 	font-weight: bold;
 // 	margin-right: 4px;
@@ -136,9 +137,12 @@ interface SpeakingProps {
 
 const Name = styled.span`
 	font-family: var(--secondary-font);
-	/* font-weight: bold; */
+	font-weight: bold;
 	z-index: 2;
 	width: 100%;
+
+	// ASAP2025
+	font-family: Montserrat;
 `;
 
 const Pronouns = styled.div`
@@ -146,14 +150,24 @@ const Pronouns = styled.div`
 	text-transform: uppercase;
 	font-family: var(--main-font);
 	z-index: 2;
+
+	// ASAP2025
+	font-family: Montserrat;
+	font-weight: 600;
 `;
 
 const Role = styled.div`
-	// position: absolute;
 	font-weight: bold;
 	font-size: 15px;
-	// bottom: -25px;
-	left: -4px;
+	border-radius: 15px;
+	min-width: 20px;
+	text-align: center;
+`;
+
+const Row = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 `;
 
 interface PersonCompressedProps {
@@ -164,19 +178,43 @@ interface PersonCompressedProps {
 	style?: React.CSSProperties;
 }
 
-// Note to future me: Just copy the component from a previous event, I have really messed it up for ASM2025.
-
 export function PersonCompressed(props: PersonCompressedProps) {
+	const commentatorColour = props.commentator.tag === "Host" ? "#3f7d8f" : "#cc7722";
+
+	// ASAP2025
+	const putTagOnSameRow = (!props.commentator.pronouns && props.commentator.tag === "Host") || !props.commentator.tag;
+
 	return (
 		<PersonCompressedContainer style={props.style}>
 			<NameContainer>
 				<SpeakingColour speaking={props.speaking} />
-				<Name style={{ textAlign: props.commentator.pronouns ? "left" : "center" }}>
-					{props.commentator.name}
-				</Name>
-				<Pronouns>{props.commentator.pronouns}</Pronouns>
+				<div
+					style={{
+						position: "absolute",
+						width: "100%",
+						background: "#fff",
+						height: 1,
+						marginLeft: -6,
+						top: 6,
+					}}
+				/>
+				<Row>
+					<Name style={{ textAlign: props.commentator.pronouns ? "left" : "center" }}>{props.commentator.name}</Name>
+					{putTagOnSameRow && (
+						<Role style={{ background: commentatorColour, marginLeft: 8 }}>
+							{props.commentator.tag ? (props.commentator.tag === "Host" ? "H" : props.commentator.tag) : "C"}
+						</Role>
+					)}
+				</Row>
+				<Row>
+					<Pronouns style={{ color: commentatorColour }}>{props.commentator.pronouns}</Pronouns>
+					{!putTagOnSameRow && (
+						<Role style={{ background: commentatorColour }}>
+							{props.commentator.tag ? (props.commentator.tag === "Host" ? "H" : props.commentator.tag) : "C"}
+						</Role>
+					)}
+				</Row>
 			</NameContainer>
-			<Role>{props.commentator.tag ? props.commentator.tag : `COMMS ${props.index}`}</Role>
 		</PersonCompressedContainer>
 	);
 }

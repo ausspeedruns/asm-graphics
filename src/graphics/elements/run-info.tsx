@@ -10,6 +10,9 @@ interface FontProps {
 const BaseStyle = styled.div`
 	font-family: var(--main-font);
 	color: var(--text-light);
+
+	// ASAP2025
+	font-family: Reenie Beanie;
 `;
 
 /*			CATEGORY			*/
@@ -17,7 +20,11 @@ const CategoryContainer = styled(BaseStyle)`
 	font-weight: bold;
 	font-size: 42px;
 	text-transform: uppercase;
-	// -webkit-text-stroke: 1px var(--main);
+
+	// ASAP2025
+	color: #E97100;
+	font-family: Permanent Marker;
+	font-weight: normal;
 `;
 
 interface CategoryProps {
@@ -40,10 +47,15 @@ export function Category(props: CategoryProps) {
 }
 
 /*			ESTIMATE			*/
-const EstimateContainer = styled(BaseStyle)``;
+const EstimateContainer = styled(BaseStyle)`
+	// ASAP2025
+	color: #E97100;
+	-webkit-text-stroke: 2px #E97100;
+
+`;
 
 const EstText = styled.span<FontProps>`
-	font-size: ${({ fontSize }) => fontSize * 0.6}px;
+	font-size: ${({ fontSize }) => fontSize * 0.5}px;
 `;
 
 const EstTime = styled.span``;
@@ -74,7 +86,22 @@ const GameContainer = styled(BaseStyle)`
 	font-family: var(--secondary-font);
 	font-size: 50px;
 	font-weight: 1000;
-	// -webkit-text-stroke: 2px var(--main);
+	
+	// ASAP2025
+	background: #000000;
+	padding: 10px 20px;
+	border-radius: 11px;
+	color: #FFC94B;
+	font-family: Digital Numbers;
+	font-size: 20px;
+	font-weight: normal;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	& > div {
+		filter: drop-shadow(0px 0px 15.7px #FF4F23);
+	}
 `;
 
 interface GameProps {
@@ -97,6 +124,12 @@ const SystemContainer = styled(FitTextElements)`
 	font-family: var(--main-font);
 	color: var(--text-light);
 	max-width: 75%;
+
+	// ASAP2025
+	font-family: Reenie Beanie;
+	color: #009AA2;
+	-webkit-text-stroke: 4px #009AA2;
+	max-width: 100%;
 `;
 
 interface SystemProps {
@@ -111,6 +144,10 @@ export function System(props: SystemProps) {
 /*			YEAR			*/
 const YearContainer = styled(BaseStyle)`
 	font-size: 34px;
+
+	// ASAP2025
+	color: #009AA2;
+	-webkit-text-stroke: 4px #009AA2;
 `;
 
 interface YearProps {

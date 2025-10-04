@@ -11,7 +11,6 @@ import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
 // import Standard2p from "./backgrounds/Standard2p.png";
-import { Circuitry } from "./asm25/circuitry";
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -118,12 +117,6 @@ export function GBC2(props: OverlayProps) {
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<Circuitry
-						noCircuitBoard
-						// src={StandardLeft}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
-
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -164,12 +157,6 @@ export function GBC2(props: OverlayProps) {
 				<RaceFinish style={{ top: 219, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<RightBox>
-					<Circuitry
-						noCircuitBoard
-						// src={StandardRight}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
-
 					<div
 						style={{
 							display: "flex",
@@ -191,11 +178,9 @@ export function GBC2(props: OverlayProps) {
 				</RightBox>
 			</Topbar>
 			<FillerBox style={{ left: 0 }}>
-				<Circuitry style={{ position: "absolute", width: "100%", height: "100%" }} />
 			</FillerBox>
 			<CentralDivider />
 			<FillerBox style={{ right: 0 }}>
-				<Circuitry style={{ position: "absolute", width: "100%", height: "100%" }} />
 			</FillerBox>
 		</Standard2Container>
 	);

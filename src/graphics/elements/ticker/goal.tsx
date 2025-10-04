@@ -82,7 +82,7 @@ interface GoalProps {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-export const GoalBar = (props: GoalProps) => {
+export function GoalBar(props: GoalProps) {
 	const containerRef = useRef(null);
 	const progressBarRef = useRef(null);
 

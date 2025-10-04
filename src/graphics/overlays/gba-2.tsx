@@ -10,12 +10,12 @@ import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
-// import GBALeft from "../media/ASM23/gba-2-left.png";
-// import GBARight from "../media/ASM23/gba-2-right.png";
+import GBA2p from "./backgrounds/GBA2p.png";
 
 const Standard2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
+	position: relative;
 `;
 
 const Topbar = styled.div`
@@ -31,7 +31,6 @@ const LeftBox = styled.div`
 	width: 666px;
 	height: 100%;
 	display: flex;
-	background: var(--main);
 	position: relative;
 `;
 
@@ -41,7 +40,6 @@ const RightBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background: var(--main);
 	position: relative;
 `;
 
@@ -89,12 +87,10 @@ export const GBA2 = (props: OverlayProps) => {
 
 	return (
 		<Standard2Container>
+			<img src={GBA2p} style={{ position: "absolute", height: "100%", width: "100%" }} />
+
 			<Topbar>
 				<LeftBox>
-					{/* <img
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-						src={GBALeft}
-					/> */}
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -129,10 +125,6 @@ export const GBA2 = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[0].time} place={teamData[0].place} />
 
 				<RightBox>
-					{/* <img
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-						src={GBARight}
-					/> */}
 					<div
 						style={{
 							display: "flex",

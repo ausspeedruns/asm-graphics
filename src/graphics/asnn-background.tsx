@@ -1,5 +1,4 @@
 import { createRoot } from "react-dom/client";
-import { Circuitry } from "./overlays/asm25/circuitry";
 import { dayTimeColours } from "./elements/useTimeColour";
 
 function ASNNBackground() {
@@ -19,7 +18,6 @@ function ASNNBackground() {
 				} as React.CSSProperties
 			}
 		>
-			<Circuitry bigShadowAngle={90} style={{ position: "absolute", width: "100%", height: "100%" }} />
 		</div>
 	);
 }

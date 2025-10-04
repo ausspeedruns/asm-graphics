@@ -40,6 +40,7 @@ const EmphasisFont = styled.span`
 
 interface CTAProps {
 	currentTotal?: number;
+	ref?: React.Ref<TickerItemHandles>;
 }
 
 function getFact(total?: number) {
@@ -62,7 +63,7 @@ function getFact(total?: number) {
 	][random];
 }
 
-export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((_, ref) => {
+export function TickerCTA(props: CTAProps) {
 	const containerRef = useRef(null);
 	const donateRef = useRef(null);
 	const incentiveRef = useRef(null);
@@ -73,7 +74,7 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((_, ref) 
 	// 	setFact(getFact(props.currentTotal));
 	// }, [props.currentTotal]);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
 			// tl.call(() => setFact(getFact(props.currentTotal)));
@@ -112,6 +113,4 @@ export const TickerCTA = React.forwardRef<TickerItemHandles, CTAProps>((_, ref) 
 			</CTALine> */}
 		</TickerCTAContainer>
 	);
-});
-
-TickerCTA.displayName = "TickerCTA";
+}

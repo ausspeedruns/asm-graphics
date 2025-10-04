@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, ISmallStyling } from "../elements/info-box/small";
+import { SmallInfo, ISmallStyling } from "../elements/info-box/small-asap25";
 
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
@@ -10,12 +10,8 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { PersonCompressed } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
-import { Circuitry } from "./asm25/circuitry";
 
-// import WidescreenLeft from "../media/ASM23/widescreen-2-left.png";
-// import WidescreenRight from "../media/ASM23/widescreen-2-right.png";
-// import WidescreenBottom from "../media/ASM23/widescreen-2-bottom.png";
-// import WidescreenWhole from "../media/asap24/Widescreen2p.png";
+// import WidescreenWhole from "./backgrounds/Widescreen2p.png";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -109,7 +105,7 @@ const CouchLabel = styled.span`
 `;
 
 const customSmallStyling: ISmallStyling = {
-	gameTitleSize: 60,
+	gameTitleFontSize: 60,
 	gameTitleWidth: 640,
 	categoryWidth: 262,
 	timerStackHeight: 160,
@@ -148,11 +144,6 @@ export const Widescreen2 = (props: OverlayProps) => {
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<Circuitry
-						noCircuitBoard
-						// src={WidescreenLeft}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-					/>
 					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
 				</LeftBox>
 
@@ -196,11 +187,6 @@ export const Widescreen2 = (props: OverlayProps) => {
 				/>
 
 				<RightBox>
-					<Circuitry
-						noCircuitBoard
-						// src={WidescreenRight}
-						style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover", left: 0 }}
-					/>
 					<SponsorsBox
 						style={{ flexGrow: 1, zIndex: 2 }}
 						sponsors={props.sponsors}
@@ -210,10 +196,6 @@ export const Widescreen2 = (props: OverlayProps) => {
 			</Topbar>
 			<CentralDivider />
 			<BottomBlock>
-				<Circuitry
-					// src={WidescreenBottom}
-					style={{ position: "absolute", height: "100%", width: "100%", objectFit: "cover" }}
-				/>
 				<BespokeCouch>
 					{/* <CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel> */}
 					{/* Since this is a special placement it has to be made custom here */}

@@ -15,11 +15,11 @@ import { LerpNum } from "./ticker/lerp-num";
 import { TickerPrizes } from "./ticker/prizes";
 import { TickerDonationMatches } from "./ticker/donation-matches";
 
-import ChannelBug from "../media/ASM-Gif.gif";
+// import ChannelBug from "../media/ASM-Gif.gif";
 import GoCLogo from "../media/Sponsors/GoCWhite.svg";
 
-// import EventBug from "./ticker/ChannelBug.png";
-import ContentBackground from "../overlays/asm25/board-158973_1920 1.png";
+import EventBug from "../overlays/backgrounds/ChannelBug.png";
+import ContentBackground from "../overlays/backgrounds/Ticker.png";
 import { TickerIncentives } from "./ticker/incentives";
 
 const TickerContainer = styled.div`
@@ -93,7 +93,7 @@ const ContentAreaBackground = styled.img`
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	opacity: 0.15;
+	opacity: 0.2;
 `;
 
 const ContentAreaBackgroundTint = styled.div`
@@ -202,12 +202,12 @@ const Ticker = (props: TickerProps) => {
 	return (
 		<TickerContainer>
 			<LeftBlock>
-				<ASMLogo src={ChannelBug} />
-				{/* <img src={EventBug} /> */}
+				{/* <ASMLogo src={ChannelBug} /> */}
+				<img src={EventBug} />
 			</LeftBlock>
 			<ContentArea ref={contentRef}>
 				<ContentAreaBackground src={ContentBackground} />
-				<ContentAreaBackgroundTint />
+				{/* <ContentAreaBackgroundTint /> */}
 
 				<TickerRuns ref={runsRef} currentRun={props.runDataActive} runArray={props.runDataArray} />
 				<TickerCTA ref={ctaRef} currentTotal={props.donationAmount} />
