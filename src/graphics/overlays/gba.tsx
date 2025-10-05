@@ -26,6 +26,7 @@ const Sidebar = styled.div`
 
 const SponsorsBoxS = styled(SponsorsBox)`
 	width: 60%;
+	height: 200px;
 	z-index: 2;
 
 	background-image: url(${StandardSponsorBG});
@@ -84,7 +85,7 @@ export const GBA = (props: OverlayProps) => {
 					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
 					<VerticalInfo hideDividers timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 
-					<SponsorsBoxS sponsors={props.sponsors} sponsorStyle={SponsorsStyled} />
+					<SponsorsBoxS sponsors={props.sponsors} sponsorStyle={SponsorsStyled} noAsap25Glow />
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>

@@ -110,7 +110,7 @@ export const Standard = (props: OverlayProps) => {
 					/>
 					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} hideDividers />
 
-					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
+					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} noAsap25Glow />
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>

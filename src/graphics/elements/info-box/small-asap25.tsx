@@ -53,7 +53,6 @@ export interface ISmallStyling {
 	gameNameStyle?: React.CSSProperties;
 	categoryStyle?: React.CSSProperties;
 	estimateStyle?: React.CSSProperties;
-	gameNameBottomMargin?: number;
 }
 
 const DefaultSmallStyling = {
@@ -65,7 +64,6 @@ const DefaultSmallStyling = {
 	gameStackHeight: 80,
 	gameTitleFontSize: 45,
 	gameInfoFontSize: 25,
-	gameNameBottomMargin: -10,
 } as const satisfies ISmallStyling;
 
 interface Props {
@@ -75,7 +73,7 @@ interface Props {
 	runData: RunDataActiveRun | undefined;
 }
 
-export const SmallInfo: React.FC<Props> = (props: Props) => {
+export function SmallInfo(props: Props) {
 	const styles = { ...DefaultSmallStyling, ...props.style };
 	return (
 		<SmallInfoContainer className={props.className} style={styles.mainStyle}>
@@ -85,7 +83,6 @@ export const SmallInfo: React.FC<Props> = (props: Props) => {
 					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
 					style={{
 						fontSize: styles.gameTitleFontSize,
-						marginBottom: styles.gameNameBottomMargin,
 						width: "80%",
 						padding: "10px",
 						...styles.gameNameStyle,

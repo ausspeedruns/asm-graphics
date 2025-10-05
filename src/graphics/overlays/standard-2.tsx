@@ -95,9 +95,7 @@ const customSmallStyling = {
 	gameNameStyle: {
 		lineHeight: "42px",
 		fontSize: 30,
-	},
-	categoryStyle: {
-		marginTop: 15,
+		marginTop: -13,
 	},
 	gameStackHeight: 148,
 	estimateFontSize: 70,

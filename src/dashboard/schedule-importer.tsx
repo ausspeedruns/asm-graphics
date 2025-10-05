@@ -128,14 +128,6 @@ export const DashScheduleImporter = () => {
 						</ul>
 					</AccordionDetails>
 				</Accordion>
-				<Button
-					variant="contained"
-					color="secondary"
-					fullWidth
-					onClick={() => nodecg.sendMessage("scheduleImport:inject-5-min-runs")}
-				>
-					Add 5 min run games (ONLY PRESS DURING THE RUN BEFORE)
-				</Button>
 
 				<FormControlLabel
 					control={

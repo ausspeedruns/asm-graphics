@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
+import React, { useState, useEffect, useRef, useImperativeHandle, Fragment } from "react";
 import styled, { keyframes } from "styled-components";
 import { createRoot } from "react-dom/client";
 import { clone } from "underscore";
@@ -25,6 +25,7 @@ import MusicIconImg from "./media/icons/MusicIcon.svg";
 // import { Sponsors } from "./elements/sponsors";
 import { IntermissionVideoComponent, IntermissionAdsRef } from "./elements/intermission/video";
 import GoCLogo from "./media/Sponsors/GoCCCBlack.svg";
+import ASLogo from "./media/AusSpeedruns-LogoBlack.svg";
 
 import StopwatchIcon from "./media/icons/stopwatch.svg";
 import RunnerIcon from "./media/icons/runner.svg";
@@ -38,6 +39,8 @@ import { useNormalisedTime } from "../hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 import { Prize } from "@asm-graphics/types/Prizes";
 import type { IntermissionVideo } from "../extensions/intermission-videos";
+import { ASAP25UpcomingRun } from "./elements/intermission/asap25/upcoming-run";
+import { Incentives } from "./elements/intermission/asap25/incentives";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -71,8 +74,8 @@ const RightColumn = styled.div`
 `;
 
 const HostName = styled.div`
-	font-size: 50px;
-	color: var(--text-light);
+	font-size: 28px;
+	color: var(--text-dark);
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -80,43 +83,32 @@ const HostName = styled.div`
 	font-weight: bold;
 	justify-content: center;
 
-	position: absolute;
-	left: 565px;
-	top: 15px;
+	// position: absolute;
+	// left: 565px;
+	// top: 15px;
+
+	// ASAP2025
+	font-family: var(--main-font);
 `;
 
 const HostPronoun = styled.span`
-	font-size: 50%;
+	font-size: 80%;
 	font-weight: 400;
-	color: var(--text-light);
 	text-transform: uppercase;
-	margin-left: 2px;
-	background: var(--text-outline);
-	height: 80px;
-	padding: 4px 8px;
-	line-height: 28px;
 	font-family: var(--main-font);
-	// font-weight: bold;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-
-	outline: 1px solid var(--text-light);
-	outline-offset: 3px;
-	box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, 0.33);
 `;
 
-const MUSIC_WIDTH = 399;
+const MUSIC_WIDTH = 405;
 
 const Music = styled.div`
-	max-width: 363px;
+	max-width: 405px;
 	text-align: center;
 	display: flex;
 	align-items: center;
-	font-family: var(--secondary-font);
+	font-family: var(--main-font);
 	flex-shrink: 1;
 
-	position: absolute;
+	// position: absolute;
 	left: 111px;
 	top: 70px;
 `;
@@ -124,7 +116,7 @@ const Music = styled.div`
 const MusicLabel = styled.div`
 	width: 100%;
 	/* height: 100%; */
-	color: var(--text-light);
+	color: var(--text-dark);
 	font-size: 28px;
 	white-space: nowrap;
 	/* margin: 0 16px; */
@@ -142,10 +134,10 @@ const StaticMusicText = styled.span`
 `;
 
 const MusicIcon = styled.img`
-	height: 50px;
+	height: 40px;
 	width: auto;
 
-	position: absolute;
+	// position: absolute;
 	bottom: 34px;
 	left: 490px;
 `;
@@ -156,7 +148,7 @@ const MusicMarquee = styled.div`
 	margin: 0 auto;
 	overflow: hidden;
 	box-sizing: border-box;
-	color: var(--text-light);
+	color: var(--text-dark);
 `;
 
 const MarqueeKeyframes = keyframes`
@@ -257,8 +249,7 @@ const DonationContainer = styled.div`
 	justify-content: center;
 	width: 100%;
 	pointer-events: none;
-	margin-top: 20px;
-	color: #FFC94B;
+	color: #ffc94b;
 
 	& > * {
 		z-index: 10;
@@ -266,7 +257,7 @@ const DonationContainer = styled.div`
 `;
 
 const DonationAmount = styled.div`
-	font-size: 200px;
+	font-size: 180px;
 	font-family: var(--mono-font);
 	font-weight: 900;
 	-webkit-text-stroke: 6px black;
@@ -274,24 +265,26 @@ const DonationAmount = styled.div`
 `;
 
 const DonationSymbol = styled.span`
-	font-size: 50%;
+	font-size: 80%;
 	font-weight: 400;
-	-webkit-text-stroke: 6px black;
+	-webkit-text-stroke: 5px black;
 `;
 
 const DonationInfo = styled.div`
-	font-size: 35px;
-	font-weight: bold;
+	font-size: 40px;
+	font-weight: 900;
+	margin-top: -10px;
+	text-transform: uppercase;
 `;
 
 const DonationSite = styled.div`
-	font-weight: 600;
+	font-weight: 900;
 	color: black;
 `;
 
 const CureCancerLogo = styled.img`
 	object-fit: contain;
-	height: 100px;
+	height: 70px;
 `;
 
 const MetaInformationContainer = styled.div`
@@ -333,14 +326,14 @@ const CameraContainer = styled.div`
 	left: 57px;
 `;
 
-const CAMERA_CUTOUT_WIDTH = 95;
-const CAMERA_CUTOUT_HEIGHT = 92;
-const CAMERA_CUTOUT_HEIGHT_OFFSET = -3;
+// const CAMERA_CUTOUT_WIDTH = 95;
+// const CAMERA_CUTOUT_HEIGHT = 92;
+// const CAMERA_CUTOUT_HEIGHT_OFFSET = -3;
 
-// const PLASTIC_CUTOUT_TOP = 130;
-// const PLASTIC_CUTOUT_BOTTOM = 820;
-// const PLASTIC_CUTOUT_LEFT = 80;
-// const PLASTIC_CUTOUT_RIGHT = 1050;
+const PLASTIC_CUTOUT_TOP = 80;
+const PLASTIC_CUTOUT_BOTTOM = 785;
+const PLASTIC_CUTOUT_LEFT = 57;
+const PLASTIC_CUTOUT_RIGHT = 1116;
 // const PlasticCutout = `path('M 0 0 H 1920 V 1080 H 0 V ${PLASTIC_CUTOUT_TOP} H ${PLASTIC_CUTOUT_LEFT} V ${PLASTIC_CUTOUT_BOTTOM} H ${PLASTIC_CUTOUT_RIGHT} V ${PLASTIC_CUTOUT_TOP} H 0 V 0')`;
 
 // const CameraBorder = styled.div`
@@ -366,14 +359,16 @@ const CAMERA_CUTOUT_HEIGHT_OFFSET = -3;
 // 	box-sizing: border-box;
 // `;
 
-const CameraShadow = styled.div`
-	position: absolute;
-	top: ${100 - CAMERA_CUTOUT_HEIGHT + CAMERA_CUTOUT_HEIGHT_OFFSET - 0.1}%;
-	left: ${100 - CAMERA_CUTOUT_WIDTH - 0.1}%;
-	width: ${CAMERA_CUTOUT_WIDTH - (100 - CAMERA_CUTOUT_WIDTH) + 0.1}%;
-	height: ${CAMERA_CUTOUT_HEIGHT - (100 - CAMERA_CUTOUT_HEIGHT) + 0.1}%;
-	box-shadow: inset 0 0 20px 8px rgba(0, 0, 0, 1);
-`;
+const BackgroundCutout = `path('M 0 0 H 1920 V 1080 H 0 V ${PLASTIC_CUTOUT_TOP} H ${PLASTIC_CUTOUT_LEFT} V ${PLASTIC_CUTOUT_BOTTOM} H ${PLASTIC_CUTOUT_RIGHT} V ${PLASTIC_CUTOUT_TOP} H 0 V 0')`;
+
+// const CameraShadow = styled.div`
+// 	position: absolute;
+// 	top: ${100 - CAMERA_CUTOUT_HEIGHT + CAMERA_CUTOUT_HEIGHT_OFFSET - 0.1}%;
+// 	left: ${100 - CAMERA_CUTOUT_WIDTH - 0.1}%;
+// 	width: ${CAMERA_CUTOUT_WIDTH - (100 - CAMERA_CUTOUT_WIDTH) + 0.1}%;
+// 	height: ${CAMERA_CUTOUT_HEIGHT - (100 - CAMERA_CUTOUT_HEIGHT) + 0.1}%;
+// 	box-shadow: inset 0 0 20px 8px rgba(0, 0, 0, 1);
+// `;
 
 const CameraChin = styled.div`
 	position: absolute;
@@ -636,8 +631,7 @@ export function IntermissionElement(props: IntermissionProps) {
 			{/* <LogoContainer style={{ position: "absolute", top: 0, left: 0, borderRadius: "0 0 16px 0", height: 120 }}>
 				<img src={ASLogo} />
 			</LogoContainer> */}
-			<img src={IntermissionBG} style={{ position: "absolute", top: 0, left: 0 }} />
-
+			<img src={IntermissionBG} style={{ position: "absolute", top: 0, left: 0, clipPath: BackgroundCutout }} />
 			<LeftColumn>
 				<CameraContainer>
 					<IntermissionVideoComponent ref={adsRef} videos={props.videos} />
@@ -656,16 +650,27 @@ export function IntermissionElement(props: IntermissionProps) {
 						</TimeContainer>
 					</CameraChin>
 				</CameraContainer>
-				<div style={{ width: "80%", position: "relative", height: 150 }}>
-					{props.host && (
-						<HostName style={{ height: props.host.pronouns ? 90 : 105 }}>
+				{props.host && (
+					<div style={{ position: "absolute", top: 820, left: 551, display: "flex" }}>
+						<Mic style={{ height: 40, width: "auto" }} />
+						<HostName>
 							{/* <Mic style={{ height: "2.5rem", width: "2.5rem" }} /> */}
 							<FitText text={props.host.name} alignment="left" style={{ maxWidth: 386 }} />
 							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
 						</HostName>
-					)}
-					{/* <MusicIcon src={MusicIconImg} /> */}
-					<Mic style={{ height: "auto", width: 65, position: "absolute", top: 44, left: 482 }} />
+					</div>
+				)}
+				<div
+					style={{
+						position: "absolute",
+						top: 820,
+						left: 106,
+						color: "black",
+						display: "flex",
+						alignItems: "center",
+					}}
+				>
+					<MusicIcon src={MusicIconImg} />
 					<Music>
 						<audio
 							style={{ transform: "translate(100px, 0px)" }}
@@ -691,15 +696,17 @@ export function IntermissionElement(props: IntermissionProps) {
 						</div>
 					</Music>
 				</div>
+				<Incentives incentives={props.incentives} style={{ position: "absolute", top: 944, left: 120 }} />
 			</LeftColumn>
 			<RightColumn>
-				<DonationContainer>
+				<DonationContainer style={{ alignSelf: "flex-end", width: 739, height: 412, paddingTop: 10, justifyContent: "space-evenly" }}>
 					<div
 						style={{
 							display: "flex",
 							alignItems: "center",
 							gap: 16,
-							height: 230,
+							height: 129,
+							marginBottom: 31,
 						}}
 					>
 						<DonationAmount
@@ -716,9 +723,13 @@ export function IntermissionElement(props: IntermissionProps) {
 						<DonationSite>AusSpeedruns.com/Donate</DonationSite>
 					</DonationInfo>
 
+					<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "72%" }}>
 						<CureCancerLogo src={GoCLogo} />
-					{props.donationMatchMultiplier && props.donationMatchMultiplier > 1 && (
-						<span style={{ marginTop: -40, fontSize: 30 }}>
+						<img src={ASLogo} style={{ height: 50 }} />
+					</div>
+					{/* {props.donationMatchMultiplier && props.donationMatchMultiplier > 1 && ( */}
+					{props.donationMatchMultiplier && (
+						<span style={{ marginTop: 5, fontSize: 30, color: "black", fontWeight: "600" }}>
 							Donations are worth{" "}
 							<GradientTextWhiteBackground>
 								<GradientText>
@@ -730,7 +741,7 @@ export function IntermissionElement(props: IntermissionProps) {
 					)}
 				</DonationContainer>
 
-				<RunContainer>
+				{/* <RunContainer>
 					<div
 						style={{
 							// height: 406,
@@ -742,7 +753,6 @@ export function IntermissionElement(props: IntermissionProps) {
 							maxWidth: "95%",
 						}}
 					>
-						{/* <Title>Next Up</Title> */}
 						<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
 						<Category text={nextRuns[0]?.category} />
 					</div>
@@ -760,34 +770,15 @@ export function IntermissionElement(props: IntermissionProps) {
 							<FitText text={nextRuns[0]?.system} style={{ maxWidth: "80%" }} />
 						</ConsoleInfo>
 					</div>
-				</RunContainer>
+				</RunContainer> */}
 
-				<div style={{ position: "relative", width: "100%", height: 330, marginTop: 8 }}>
-					<div
-						style={{
-							position: "absolute",
-							width: "100%",
-							height: "100%",
-							top: 0,
-							left: 0,
-							display: "flex",
-							justifyContent: "center",
-						}}
-					>
-						<div style={{ width: 700, height: 210 }} />
-					</div>
-					<div
-						style={{
-							position: "absolute",
-							width: "100%",
-							height: "100%",
-							top: 0,
-							left: 0,
-							display: "flex",
-							justifyContent: "center",
-						}}
-					>
-						{/* <IncentivesContainer ref={incentivesRef} style={{ width: 700 }}>
+				<div style={{ position: "absolute", top: 450, left: 62, display: "flex", flexDirection: "column", gap: 16 }}>
+					<ASAP25UpcomingRun run={nextRuns[0]} players={playerNames} isNext />
+					{nextRuns[1] && <ASAP25UpcomingRun run={nextRuns[1]} players={playerNames} />}
+					{nextRuns[2] && <ASAP25UpcomingRun run={nextRuns[2]} players={playerNames} />}
+				</div>
+
+				{/* <IncentivesContainer ref={incentivesRef} style={{ width: 700 }}>
 							{props.incentives && (
 								<InterIncentivesMemo
 									incentives={props.incentives}
@@ -797,13 +788,9 @@ export function IntermissionElement(props: IntermissionProps) {
 								/>
 							)}
 						</IncentivesContainer> */}
-					</div>
-				</div>
 			</RightColumn>
-
 			{/* <IntermissionAds ref={adsRef} /> */}
-
-			<ASAP2025Dot style={{ top: 788, left: 252 }} /> {/* Song */}
+			<ASAP2025Dot style={{ top: 788, left: 120 }} /> {/* Song */}
 			<ASAP2025Dot style={{ top: 788, left: 564 }} /> {/* Host */}
 		</IntermissionContainer>
 	);

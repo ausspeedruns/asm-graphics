@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, ISmallStyling } from "../elements/info-box/small";
+import { SmallInfo, ISmallStyling } from "../elements/info-box/small-asap25";
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
@@ -21,9 +21,9 @@ const Standard2Container = styled.div`
 const Topbar = styled.div`
 	display: flex;
 	position: absolute;
-	height: 376px;
+	height: 341px;
 	width: 1920px;
-	border-bottom: 1px solid var(--asm-orange);
+	border-bottom: 1px solid white;
 	overflow: hidden;
 `;
 
@@ -45,27 +45,27 @@ const RightBox = styled.div`
 
 const SponsorSize = {
 	height: 230,
-	width: 430,
-	marginRight: -40,
+	width: 400,
 };
 
 const CentralDivider = styled.div`
-	height: 639px;
+	height: 590px;
 	width: 2px;
 	position: absolute;
-	top: 377px;
+	top: 341px;
 	left: 959px;
-	background: var(--asm-orange);
+	background: white;
 `;
 
 const customSmallStyling: ISmallStyling = {
-	categoryWidth: 265,
-	timerStackHeight: 188,
-	lowerStackHeight: 188,
+	categoryWidth: 590,
+	timerStackHeight: 100,
+	gameInfoFontSize: 60,
+	// gameNameBottomMargin: -40,
 	mainStyle: {
 		height: "100%",
 		width: "100%",
-		zIndex: 1,
+		zIndex: 2,
 		padding: 0,
 	},
 	lowerStackStyle: {
@@ -76,9 +76,15 @@ const customSmallStyling: ISmallStyling = {
 	},
 	gameNameStyle: {
 		lineHeight: "42px",
+		fontSize: 30,
 	},
 	categoryStyle: {
-		width: 284,
+		marginTop: 15,
+	},
+	gameStackHeight: 148,
+	estimateFontSize: 70,
+	estimateStyle: {
+		lineHeight: "29px",
 	},
 };
 
@@ -131,6 +137,9 @@ export const GBA2 = (props: OverlayProps) => {
 							width: "100%",
 							flexGrow: 1,
 							alignItems: "center",
+							gap: 16,
+							padding: 16,
+							boxSizing: "border-box",
 						}}
 					>
 						<Couch
@@ -139,7 +148,16 @@ export const GBA2 = (props: OverlayProps) => {
 							style={{ width: "30%", zIndex: 3 }}
 							audio={props.microphoneAudioIndicator}
 						/>
-						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} />
+						<SponsorsBox
+							sponsors={props.sponsors}
+							style={{
+								flexGrow: 1,
+								background: "#000",
+								borderRadius: 35,
+								boxShadow: "inset 9px 7px 4px rgba(221, 221, 221, 0.25), inset 0px -4px 4px #fff",
+							}}
+							sponsorStyle={SponsorSize}
+						/>
 					</div>
 				</RightBox>
 			</Topbar>

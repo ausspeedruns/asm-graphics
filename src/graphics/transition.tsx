@@ -63,7 +63,7 @@ function runString(runData: RunDataActiveRun | undefined) {
 
 	const allRunners = runData.teams.flatMap((team) => team.players.map((player) => player.name));
 
-	return [runData.game ?? "???", runData.category ?? "???", `By ${new Intl.ListFormat().format(allRunners)}`];
+	return [runData.game ?? "???", runData.category ?? "???", new Intl.ListFormat().format(allRunners)];
 }
 
 const TAGLINES = [
@@ -85,6 +85,10 @@ const TAGLINES = [
 	["By RUNNER NAME", "GAME NAME ...wait hang on"],
 ];
 
+const GAME_TEXTRUN = "Game";
+const CATEGORY_TEXTRUN = "Category";
+const RUNNER_TEXTRUN = "Runner";
+
 export const Transition: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const transitionRef = useRef<HTMLDivElement>(null);
@@ -98,9 +102,8 @@ export const Transition: React.FC = () => {
 	const [automationsRep] = useReplicant<Automations>("automations");
 
 	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
-		src: "/bundles/asm-graphics/shared/design/asm_2025.riv",
+		src: "/bundles/asm-graphics/shared/design/asap_25.riv",
 		autoplay: false,
-		artboard: "Artboard",
 	});
 
 	useListenFor("transition:UNKNOWN", () => {
@@ -146,7 +149,7 @@ export const Transition: React.FC = () => {
 
 		const tl = gsap.timeline();
 
-		tl.to(transitionRef.current, { opacity: 1, duration: 0.5 });
+		// tl.to(transitionRef.current, { opacity: 1, duration: 0.5 });
 
 		// tl.fromTo([textContainerRef.current, staticImageRef.current], { opacity: 0 }, { opacity: 1, duration: 1 }, "+=1");
 
@@ -158,11 +161,11 @@ export const Transition: React.FC = () => {
 					audioRef.current.play();
 				},
 				[],
-				"+=1",
+				"+=3"
 			);
 		}
 
-		tl.set(transitionRef.current, { opacity: 0 }, "+=5");
+		// tl.set(transitionRef.current, { opacity: 0 }, "+=5");
 
 		// tl.to([textContainerRef.current, staticImageRef.current], { opacity: 0, duration: 1 }, "+=1");
 
@@ -171,30 +174,24 @@ export const Transition: React.FC = () => {
 
 		switch (transition) {
 			case "basic":
-				normalRive.setTextRunValue("GameText", "ASM 2025");
-				normalRive.setTextRunValue("GameTextLayer1", "ASM 2025");
-				normalRive.setTextRunValue("GameTextLayer2", "ASM 2025");
-				normalRive.setTextRunValue("CategoryText", "AusSpeedruns presents");
-				normalRive.setTextRunValue("RunnerText", "");
+				normalRive.setTextRunValue(GAME_TEXTRUN, "ASAP 2025");
+				normalRive.setTextRunValue(CATEGORY_TEXTRUN, "AusSpeedruns presents");
+				normalRive.setTextRunValue(RUNNER_TEXTRUN, "");
 				break;
 			case "toIntermission":
-				normalRive.setTextRunValue("GameText", "ASM 2025");
-				normalRive.setTextRunValue("GameTextLayer1", "ASM 2025");
-				normalRive.setTextRunValue("GameTextLayer2", "ASM 2025");
-				normalRive.setTextRunValue("CategoryText", specialText[0] ?? "");
-				normalRive.setTextRunValue("RunnerText", specialText[1] ?? "");
+				normalRive.setTextRunValue(GAME_TEXTRUN, "ASAP 2025");
+				normalRive.setTextRunValue(CATEGORY_TEXTRUN, specialText[0] ?? "");
+				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[1] ?? "");
 				break;
 			case "toGame":
 			default:
-				normalRive.setTextRunValue("GameText", specialText[0] ?? "");
-				normalRive.setTextRunValue("GameTextLayer1", specialText[0] ?? "");
-				normalRive.setTextRunValue("GameTextLayer2", specialText[0] ?? "");
-				normalRive.setTextRunValue("CategoryText", specialText[1] ?? "");
-				normalRive.setTextRunValue("RunnerText", specialText[2] ?? "");
+				normalRive.setTextRunValue(GAME_TEXTRUN, specialText[0] ?? "");
+				normalRive.setTextRunValue(CATEGORY_TEXTRUN, specialText[1] ?? "");
+				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[2] ?? "");
 				break;
 		}
 
-		normalRive.play("ToGame");
+		normalRive.play("Transition");
 	}
 
 	const changeBGColor = (col: string) => {
@@ -203,7 +200,7 @@ export const Transition: React.FC = () => {
 
 	return (
 		<TransitionContainer>
-			<TransitionDiv ref={transitionRef} style={{ opacity: 0 }}>
+			<TransitionDiv ref={transitionRef}>
 				<NormalTransitions />
 				{/* <BasicTransition src={TransitionStatic} ref={staticImageRef} /> */}
 				{/* <div

@@ -113,7 +113,7 @@ interface GameProps {
 export function GameTitle(props: GameProps) {
 	return (
 		<GameContainer style={props.style}>
-			<FitText allowNewlines style={{ maxWidth: props.maxWidth }} text={props.game} />
+			<FitText allowNewlines style={{ maxWidth: props.maxWidth, lineHeight: 1.2 }} text={props.game} />
 		</GameContainer>
 	);
 }
@@ -128,7 +128,7 @@ const SystemContainer = styled(FitTextElements)`
 	// ASAP2025
 	font-family: Reenie Beanie;
 	color: #009AA2;
-	-webkit-text-stroke: 4px #009AA2;
+	-webkit-text-stroke: 3px #009AA2;
 	max-width: 100%;
 `;
 
@@ -147,7 +147,7 @@ const YearContainer = styled(BaseStyle)`
 
 	// ASAP2025
 	color: #009AA2;
-	-webkit-text-stroke: 4px #009AA2;
+	-webkit-text-stroke: 3px #009AA2;
 `;
 
 interface YearProps {
@@ -156,9 +156,9 @@ interface YearProps {
 }
 
 export function Year(props: YearProps) {
-	if (!props.year) {
-		return <></>;
-	}
+	// if (!props.year) {
+	// 	return <></>;
+	// }
 
-	return <YearContainer style={props.style}>{props.year}</YearContainer>;
+	return <YearContainer style={props.style}>{props.year ? props.year : 9999}</YearContainer>;
 }
