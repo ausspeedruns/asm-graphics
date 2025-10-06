@@ -86,13 +86,6 @@
 				"file": "run-info.html"
 			},
 			{
-				"name": "commentator-edit-dialog",
-				"title": "",
-				"width": 6,
-				"file": "commentator-edit-dialog.html",
-				"dialog": true
-			},
-			{
 				"name": "on-screen-warnings",
 				"title": "On Screen Warnings",
 				"width": 3,

@@ -1,10 +1,18 @@
-import { Autocomplete, Button, TextField, ThemeProvider, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import {
+	Autocomplete,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	TextField,
+	ToggleButton,
+	ToggleButtonGroup,
+	useColorScheme,
+} from "@mui/material";
 import styled, { css } from "styled-components";
 import { Headsets } from "../extensions/audio-data";
-import { useEffect, useMemo, useState } from "react";
-import { createRoot } from "react-dom/client";
-import { darkTheme } from "./theme";
-import { NodeCGAPIClient } from "nodecg/out/client/api/api.client";
+import { useMemo, useState } from "react";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 import { useReplicant } from "@nodecg/react-hooks";
 import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
@@ -14,22 +22,6 @@ const CouchEditDialogContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
-`;
-
-const TextfieldStyled = styled(TextField)`
-	margin-bottom: 6px !important;
-
-	& .Mui-focused {
-		color: #a8bde3 !important;
-	}
-
-	& .MuiInput-underline:after {
-		border-bottom: 2px solid #a8bde3 !important;
-	}
-
-	& .MuiInputBase-input {
-		color: #ffffff !important;
-	}
 `;
 
 const HeadsetToggleButton = styled(ToggleButton)<{ $outline?: string }>`
@@ -42,11 +34,7 @@ const HeadsetToggleButton = styled(ToggleButton)<{ $outline?: string }>`
 	}
 `;
 
-const Heading = styled.h1`
-	margin: 0;
-`;
-
-const Id = styled.span`
+const Id = styled.div`
 	font-size: 12px;
 	opacity: 0.5;
 `;
@@ -57,13 +45,19 @@ export namespace CouchEditDialog {
 	}
 }
 
-function CouchEditDialog() {
-	const [id, setId] = useState("");
-	const [name, setName] = useState("");
-	const [pronouns, setPronouns] = useState("");
-	const [headset, setHeadset] = useState("");
-	const [tag, setTag] = useState("");
-	const [dialog, setDialog] = useState<ReturnType<NodeCGAPIClient["getDialog"]>>();
+interface CouchEditDialogProps {
+	person?: Commentator;
+	open: boolean;
+	onClose: () => void;
+}
+
+export function CouchEditDialog(props: CouchEditDialogProps) {
+	console.log(props.person)
+	const { mode } = useColorScheme();
+	const [name, setName] = useState(props.person?.name ?? "");
+	const [pronouns, setPronouns] = useState(props.person?.pronouns ?? "");
+	const [headset, setHeadset] = useState(props.person?.microphone ?? "");
+	const [tag, setTag] = useState(props.person?.tag ?? "");
 	const [allUsersRep] = useReplicant<User[]>("all-usernames");
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 
@@ -80,30 +74,15 @@ function CouchEditDialog() {
 		}
 	}
 
-	useEffect(() => {
-		setDialog(nodecg.getDialog("commentator-edit-dialog"));
-	}, []);
+	// function setHost() {
+	// 	setTag("Host");
+	// }
 
-	(window as unknown as CouchEditDialog.Dialog).openDialog = ({ data }) => {
-		dialog?.open();
-		setId(data.id);
-		setName(data.name);
-		setPronouns(data.pronouns ?? "");
-		setHeadset(data.microphone ?? "");
-		setTag(data.tag ?? "");
-	};
-
-	function setHost() {
-		setTag("Host");
-		// nodecg.sendMessage("update-host", {
-		// 	id: "",
-		// 	name: name,
-		// 	pronouns: pronouns,
-		// 	microphone: headset,
-		// 	isRunner: false,
-		// 	tag: "Host",
-		// });
-	}
+	const hasUpdatedValues =
+		name !== (props.person?.name ?? "") ||
+		pronouns !== (props.person?.pronouns ?? "") ||
+		headset !== (props.person?.microphone ?? "") ||
+		tag !== (props.person?.tag ?? "");
 
 	function editCommentator() {
 		nodecg.sendMessage(tag === "Host" ? "update-host" : "update-commentator", {
@@ -114,23 +93,24 @@ function CouchEditDialog() {
 			isRunner: false,
 			tag,
 		});
-		close(true);
+		handleClose();
 	}
 
 	function deleteCommentator() {
 		nodecg.sendMessage("delete-commentator", id);
-		close(true);
+		handleClose();
 	}
 
-	function close(confirm = false) {
-		(dialog as any)._updateClosingReasonConfirmed(confirm);
-		dialog?.close();
+	function handleClose() {
+		props.onClose();
 	}
+
+	const id = props.person?.id ?? "";
 
 	return (
-		<ThemeProvider theme={darkTheme}>
-			<CouchEditDialogContainer>
-				<Heading>{id ? `Editing ${name}` : "Add Commentator"}</Heading>
+		<Dialog open={props.open} onClose={handleClose} fullWidth maxWidth="md" style={{ colorScheme: mode }}>
+			<DialogTitle>{id ? `Editing ${name}` : "Add Commentator"}</DialogTitle>
+			<DialogContent dividers style={{ display: "flex", flexDirection: "column", gap: 16, paddingTop: 8 }}>
 				{id && <Id>{id}</Id>}
 
 				<div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 8 }}>
@@ -175,30 +155,24 @@ function CouchEditDialog() {
 				</div>
 
 				<div style={{ display: "flex", gap: 8 }}>
-					<TextfieldStyled fullWidth label="Tag" value={tag} onChange={(e) => setTag(e.target.value)} />
-					<Button onClick={setHost} disabled={name === ""} variant="outlined" style={{ flexGrow: 1 }}>
-						Set as Host
+					<TextField fullWidth label="Tag" value={tag} onChange={(e) => setTag(e.target.value)} />
+				</div>
+			</DialogContent>
+			<DialogActions>
+				{id && (
+					<Button variant="contained" color="error" onClick={deleteCommentator} startIcon={<Delete />}>
+						Delete
+					</Button>
+				)}
+				<div style={{ display: "flex", gap: 8, justifyContent: "flex-end", flexGrow: 1 }}>
+					<Button variant="contained" color="success" disabled={!hasUpdatedValues} onClick={editCommentator}>
+						{id ? "Update" : "Add"}
+					</Button>
+					<Button variant="outlined" onClick={handleClose}>
+						Close
 					</Button>
 				</div>
-
-				<div style={{ display: "flex", gap: 8, justifyContent: "space-between" }}>
-					{id && (
-						<Button variant="contained" color="error" onClick={deleteCommentator} startIcon={<Delete />}>
-							Delete
-						</Button>
-					)}
-					<div style={{ display: "flex", gap: 8, justifyContent: "flex-end", flexGrow: 1 }}>
-						<Button variant="contained" color="success" onClick={editCommentator}>
-							{id ? "Update" : "Add"}
-						</Button>
-						<Button variant="outlined" onClick={() => close(false)}>
-							Close
-						</Button>
-					</div>
-				</div>
-			</CouchEditDialogContainer>
-		</ThemeProvider>
+			</DialogActions>
+		</Dialog>
 	);
 }
-
-createRoot(document.getElementById("root")!).render(<CouchEditDialog />);

@@ -144,3 +144,6 @@ export const intermissionVideosRep = nodecg.Replicant<IntermissionVideo[]>("inte
 	defaultValue: [],
 	persistent: true,
 });
+
+/* Speedcontrol Metadata */
+export const runStartTimeRep = nodecg.Replicant<number | null>("runStartTime", { defaultValue: null });

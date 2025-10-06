@@ -53,4 +53,5 @@ async function init() {
 	require("./host-reads");
 	require("./intermission-videos");
 	require("./full-screen-data");
+	require("./speedcontrol-converter");
 }

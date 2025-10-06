@@ -8,9 +8,9 @@ type SendMessageCb<T> = (error?: unknown, response?: T) => void;
 
 export interface ExtendedServerAPI<T extends Record<string, any>> extends NodeCG.ServerAPI<T> {
 	listenFor<E extends keyof NodeCGMessages>(
-		messageName: E,
+		messageName: E | string, // Allow string for non-typed messages since we could be talking to an external bundle
 		bundleName: string,
-		handlerFunc: (data: NodeCGMessages[E], ack?: NodeCG.Acknowledgement) => void,
+		handlerFunc: (data: NodeCGMessages[E] | unknown, ack?: NodeCG.Acknowledgement) => void,
 	): void;
 	listenFor<E extends keyof NodeCGMessages>(
 		messageName: E,

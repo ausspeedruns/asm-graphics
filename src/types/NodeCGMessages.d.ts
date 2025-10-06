@@ -7,6 +7,7 @@ import type { HostRead } from "../extensions/host-reads";
 import type { IntermissionVideo } from "../extensions/intermission-videos";
 import type { LowerThirdPerson } from "../extensions/full-screen-data";
 import type { X32TalkbackTarget } from "../extensions/x32-audio";
+import type { RunDataPlayer } from "./RunData";
 
 export type NodeCGMessages = {
 	// Audio
@@ -97,4 +98,7 @@ export type NodeCGMessages = {
 	"intermission-videos:play": string;
 	"intermission-videos:update": IntermissionVideo;
 	"intermission-videos:refreshInfo": string;
+	// Speedcontrol Converter
+	"speedcontrol:editRunner": { runId: string, runner: RunDataPlayer };
+	"speedcontrol:reorderRunners": { runId: string, newOrder: RunDataPlayer[] };
 };
