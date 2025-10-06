@@ -118,7 +118,11 @@ export const WarGame = (props: GoalProps) => {
 	let allOptions = [];
 	const sortedOptions = props.war.options.map((option) => ({ ...option }));
 	sortedOptions.sort((a, b) => a.total - b.total);
-	for (let i = 0; i < Math.min(props.war.options.length, 5); i++) {
+
+	const overMax = props.war.options.length > MAX_ALLOWED;
+	const displayCount = overMax ? MAX_ALLOWED - 1 : Math.min(props.war.options.length, 5);
+
+	for (let i = 0; i < displayCount; i++) {
 		const option = sortedOptions[props.war.options.length - 1 - i];
 		allOptions.push(
 			<WarChoice
@@ -136,9 +140,8 @@ export const WarGame = (props: GoalProps) => {
 		);
 	}
 
-	if (props.war.options.length > MAX_ALLOWED) {
-		const remaining = props.war.options.length - MAX_ALLOWED;
-		allOptions = allOptions.slice(0, MAX_ALLOWED - 1);
+	if (overMax) {
+		const remaining = props.war.options.length - displayCount;
 		allOptions.push(<MoreChoices key={"more"} more={remaining} />);
 	}
 

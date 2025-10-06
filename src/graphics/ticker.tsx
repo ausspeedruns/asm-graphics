@@ -27,7 +27,7 @@ export const TickerOverlay: React.FC = () => {
 			incentives={incentivesRep ?? []}
 			donationMatches={donationMatchesRep ?? []}
 			prizes={prizesRep ?? []}
-			tickerOrder={["cta", "nextruns", "incentives", "prizes", "milestone", "donationMatches"]}
+			tickerOrder={["cta", "nextruns", "incentives", "milestone", "donationMatches"]}
 		/>
 	);
 };

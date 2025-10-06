@@ -35,7 +35,7 @@ export const TickerRuns = (props: Props) => {
 		.slice(0, numOfUpcomingRuns);
 
 	const RunsArray = upcomingRuns.map((run, i) => {
-		let playerNames;
+		let playerNames: string;
 		if (run.teams.length === 0) {
 			playerNames = "";
 		} else {

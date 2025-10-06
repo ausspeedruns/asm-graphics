@@ -28,5 +28,3 @@ speedcontrol-config.json
 /assets
 /db
 /logs
-
-!/cfg/asm-graphics.base.json

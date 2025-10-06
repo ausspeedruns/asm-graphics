@@ -30,6 +30,8 @@ const TickerContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	overflow: hidden;
+
+	--secondary-font: Poppins;
 `;
 
 const ASMLogo = styled.img`
@@ -190,7 +192,7 @@ const Ticker = (props: TickerProps) => {
 
 	useEffect(() => {
 		startNextSegment(props.tickerOrder[segmentIndex]);
-	}, [segmentIndex, props.tickerOrder, startNextSegment]);
+	}, [segmentIndex, props.tickerOrder]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {

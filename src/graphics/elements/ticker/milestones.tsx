@@ -106,6 +106,7 @@ const ASM_MILESTONES: Milestone[] = [
 	{ event: "ASM2022", total: 24551 },
 	{ event: "ASM2023", total: 35000 },
 	{ event: "ASM2024", total: 30500 },
+	{ event: "ASM2025", total: 51000 },
 ].sort((a, b) => a.total - b.total);
 
 // @ts-ignore
@@ -136,7 +137,7 @@ interface Props {
 }
 
 // Milestones to use for the events
-const MILESTONES = combineMilestones(ASM_MILESTONES);
+const MILESTONES = combineMilestones(PAX_MILESTONES);
 
 function combineMilestones(milestones: Milestone[]): Milestone[] {
 	// If the first array is empty, just return the second array.
