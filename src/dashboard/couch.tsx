@@ -31,15 +31,16 @@ import { checkAndGetDialog } from "./utils/getDialog";
 
 export function DashCouch() {
 	const [commentatorsRep, setCommentatorsRep] = useReplicant<Commentator[]>("commentators");
-	const [hostRep] = useReplicant<Commentator>("host");
 	const [showHostRep] = useReplicant<boolean>("showHost");
 	const [hostOnCouchInstructionsOpen, setHostOnCouchInstructionsOpen] = useState(false);
+
+	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
 			coordinateGetter: sortableKeyboardCoordinates,
-		})
+		}),
 	);
 
 	async function addCommentator() {
@@ -71,6 +72,8 @@ export function DashCouch() {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 8 }}>
+				Editing of commentators is currently done via Stage View or through the Runner Tablet Graphic or Host
+				Dashboard.
 				<div
 					style={{
 						display: "flex",
@@ -83,13 +86,17 @@ export function DashCouch() {
 
 						<FormControlLabel
 							control={
-								<Checkbox checked={showHostRep} onChange={(e) => handleShowHost(e.target.checked)} color="primary" />
+								<Checkbox
+									checked={showHostRep}
+									onChange={(e) => handleShowHost(e.target.checked)}
+									color="primary"
+								/>
 							}
 							label="Show Host?"
 							labelPlacement="start"
 						/>
 					</div>
-					{hostRep && <HostComponent commentator={hostRep} id="host" />}
+					{host && <HostComponent commentator={host} id="host" />}
 					<Button onClick={() => setHostOnCouchInstructionsOpen(true)}>Host on Couch</Button>
 					<hr style={{ width: "90%", opacity: 0.5 }} />
 					<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -194,7 +201,7 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 				{props.commentator.microphone && <Microphone>- Mic: {props.commentator.microphone}</Microphone>}
 			</Name>
 
-			<IconButton style={{ alignSelf: "flex-end" }} onClick={editCommentator}>
+			<IconButton style={{ alignSelf: "flex-end" }} onClick={editCommentator} disabled>
 				<Edit />
 			</IconButton>
 		</HostComponentContainer>

@@ -418,7 +418,9 @@ class X32 extends EventEmitter<X32Class> {
 		});
 	}
 
-	setTalkbackMixbus(talkbackChannel: "A" | "B", mixBus: number) {
+	setTalkbackMixbus(talkbackChannel: "A" | "B", mixBus: number, enabled: boolean): void {
+		// TODO: Have a way to disable all other mixbuses if enabled is false?
+
 		this.oscSocket.send({
 			address: `/config/talk/${talkbackChannel}/destmap,i`,
 			args: [{ type: "i", value: mixBus }],

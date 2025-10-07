@@ -64,8 +64,7 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
-			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
-				faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
+			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Unmute
@@ -77,8 +76,7 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 function fadeMute(channel: number, mixBus: number, force = false) {
 	if (force || faderValues[0]?.[channel] > 0) {
 		nodecg.log.debug(
-			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${
-				faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
+			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Mute
@@ -306,98 +304,78 @@ nodecg.listenFor("update-commentator", (commentator) => {
 	x32.setChannelName(Headsets[headsetIndex].micInput, commentator.name);
 });
 
-export type X32TalkbackTarget = "all" | "runnersCouch" | "host" | "runners" | "couch" | string;
-
 const allRealHeadsets = Headsets.filter((headset) => headset.name !== "NONE");
-const allRunnerOrCouchHeadsets = allRealHeadsets.filter((headset) => headset.name !== "Host");
+const allRunnerOrCouchHeadsets = allRealHeadsets.filter((headset) => headset.name !== "Host" && headset.name !== "NONE");
 
 let activeTalkbackChannels: number[] = [];
 
-nodecg.listenFor("x32:talkback-start", (target) => {
+function getHeadsetsByTarget(targets: string[]): number[] {
+	const mixbusTargets: number[] = [];
+
+	// Targets is a list of string ids that represent either commentator ids or runner ids
+	const currentRunData = SPEEDCONTROL_runDataActiveRep.value;
+	const currentCommentators = nodecg.readReplicant<Commentator[]>("commentators");
+
+	targets.forEach((target) => {
+		// Check if we are a commentator
+		if (currentCommentators) {
+			const commentator = currentCommentators.find((c) => c.id === target);
+			if (commentator?.microphone) {
+				const headset = Headsets.find((h) => h.name === commentator.microphone);
+				if (headset) {
+					mixbusTargets.push(headset.mixBus);
+					return;
+				}
+			}
+		}
+
+		// Check runner mixbuses
+		if (currentRunData) {
+			currentRunData.teams.forEach((team) => {
+				team.players.forEach((player) => {
+					if (player.id === target && player.customData?.microphone) {
+						const headset = Headsets.find((h) => h.name === player.customData.microphone);
+						if (headset) {
+							mixbusTargets.push(headset.mixBus);
+							return;
+						}
+					}
+				});
+
+				if (mixbusTargets.length > 0) return;
+			});
+		}
+	});
+
+	return mixbusTargets;
+}
+
+nodecg.listenFor("x32:talkback-start", (targets) => {
 	if (!x32.connected) return;
 
-	const mixbusTargets = [];
-
-	// Get specific runner mixbuses
-	const runnerMixbuses: number[] = [];
-	const currentRunData = SPEEDCONTROL_runDataActiveRep.value;
-	if (currentRunData) {
-		currentRunData.teams.forEach((team) => {
-			team.players.forEach((player) => {
-				if (player.customData?.microphone) {
-					const headset = Headsets.find((h) => h.name === player.customData.microphone);
-					if (headset) {
-						runnerMixbuses.push(headset.mixBus);
-					}
-				}
-			});
-		});
-	}
-
-	switch (target) {
-		case "all":
-			mixbusTargets.push(...allRealHeadsets.map((h) => h.mixBus));
-			break;
-		case "runnersCouch":
-			mixbusTargets.push(...allRunnerOrCouchHeadsets.map((h) => h.mixBus));
-			break;
-		case "host":
-			mixbusTargets.push(HostHeadset.mixBus);
-			break;
-		case "runners":
-			mixbusTargets.push(...runnerMixbuses);
-			break;
-		case "couch":
-			mixbusTargets.push(
-				...allRunnerOrCouchHeadsets.map((h) => h.mixBus).filter((mb) => !runnerMixbuses.includes(mb)),
-			);
-			break;
-		default:
-			// We must be a specific commentator name
-			const currentCommentators = nodecg.readReplicant<Commentator[]>("commentators");
-			if (currentCommentators) {
-				const commentator = currentCommentators.find((c) => c.id === target);
-				if (commentator?.microphone) {
-					const headset = Headsets.find((h) => h.name === commentator.microphone);
-					if (headset) {
-						mixbusTargets.push(headset.mixBus);
-						break;
-					}
-				}
-			}
-
-			// Check runner mixbuses
-			if (currentRunData) {
-				currentRunData.teams.forEach((team) => {
-					team.players.forEach((player) => {
-						if (player.id === target && player.customData?.microphone) {
-							const headset = Headsets.find((h) => h.name === player.customData.microphone);
-							if (headset) {
-								mixbusTargets.push(headset.mixBus);
-								return;
-							}
-						}
-					});
-
-					if (mixbusTargets.length > 0) return;
-				});
-			}
-
-			if (mixbusTargets.length === 0) {
-				nodecg.log.warn(`[X32 Audio] Could not find talkback target with name ${target}.`);
-			}
-
-			break;
-	}
+	const mixbusTargets = getHeadsetsByTarget(targets);
 
 	if (mixbusTargets.length === 0) {
-		nodecg.log.warn(`[X32 Audio] No mixbuses found for talkback target ${target}.`);
+		nodecg.sendMessage("x32:talkback-stop");
+		activeTalkbackChannels = [];
 		return;
 	}
 
-	// Put all on the B channel
-	mixbusTargets.forEach((mixBus) => {
-		x32.setTalkbackMixbus("B", mixBus);
+	// Build desired state map (mixBus -> enabled)
+	const desired: Record<number, boolean> = {};
+
+	// Start with current channels as false, then mark targets as true
+	activeTalkbackChannels.forEach((mixBus) => (desired[mixBus] = false));
+	mixbusTargets.forEach((mixBus) => (desired[mixBus] = true));
+
+	// Apply all changes in a single loop
+	Object.entries(desired).forEach(([mixBusStr, enabled]) => {
+		const mixBus = Number(mixBusStr);
+
+		const currentlyEnabled = activeTalkbackChannels.includes(mixBus);
+		if (currentlyEnabled !== enabled) {
+			x32.setTalkbackMixbus("B", mixBus, enabled);
+		}
 	});
 
 	activeTalkbackChannels = mixbusTargets;
@@ -411,9 +389,4 @@ nodecg.listenFor("x32:talkback-stop", () => {
 
 	// Deactivate talkback
 	x32.enableTalkback("B", false);
-
-	// Clear all talkback mixbuses
-	activeTalkbackChannels.forEach((mixBus) => {
-		x32.setTalkbackMixbus("B", mixBus);
-	});
 });

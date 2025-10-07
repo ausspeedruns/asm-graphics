@@ -441,13 +441,13 @@ export function Intermission() {
 	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [donationRep] = useReplicant<number>("donationTotal");
 	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
 	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
 	const [prizesRep] = useReplicant<Prize[]>("prizes");
 	const [videosRep] = useReplicant<IntermissionVideo[]>("intermission-videos");
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
 	// const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
 	// const normalisedTime = useNormalisedTime(1000);
@@ -466,6 +466,8 @@ export function Intermission() {
 
 	const currentDonationMultiplier = (donationMatchesRep?.filter((match) => match.active).length ?? 0) + 1;
 
+	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
+
 	return (
 		<>
 			<IntermissionElement
@@ -473,7 +475,7 @@ export function Intermission() {
 				activeRun={runDataActiveRep}
 				runArray={runDataArrayRep ?? []}
 				donation={(donationRep ?? 0) + (manualDonationRep ?? 0)}
-				host={hostRep}
+				host={host}
 				sponsors={sponsorsRep}
 				incentives={incentivesRep?.filter((incentive) => incentive.active)}
 				photos={photosRep}

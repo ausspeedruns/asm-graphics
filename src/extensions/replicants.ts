@@ -19,13 +19,6 @@ nodecg.log.info("Setting up replicants");
 
 /* Commentators/Host */
 export const commentatorsRep = nodecg.Replicant<Commentator[]>("commentators", { defaultValue: [], persistent: true });
-export const hostRep = nodecg.Replicant<Commentator>("host", {
-	defaultValue: {
-		id: "host",
-		name: "",
-	},
-	persistent: true,
-});
 export const headsetsUsed = nodecg.Replicant<Record<string, number>>("headsets-used", {
 	defaultValue: {},
 	persistent: true,

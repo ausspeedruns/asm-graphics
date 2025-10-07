@@ -77,7 +77,6 @@ export const RTAudio = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names");
 	const [couchNamesRep] = useReplicant<Commentator[]>("commentators");
-	const [hostRep] = useReplicant<Commentator>("host");
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders");
 
 	const [selectedHeadset, setSelectedHeadset] = useState<string>(Headsets[0].name);

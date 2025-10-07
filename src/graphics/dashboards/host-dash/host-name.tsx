@@ -25,16 +25,16 @@ interface Props {
 
 export function HostName(props: Props) {
 	const [allUsersRep] = useReplicant<User[]>("all-usernames");
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 	const [hostName, setHostName] = useState("");
 	const [hostPronouns, setHostPronouns] = useState("");
-	const [hostRep] = useReplicant<Commentator>("host");
 
 	useEffect(() => {
-		setHostName(hostRep?.name ?? "");
-		setHostPronouns(hostRep?.pronouns ?? "");
-		// setHostDiscord(host?.discordID ?? '');
-	}, [hostRep]);
+		const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
+		setHostName(host?.name ?? "");
+		setHostPronouns(host?.pronouns ?? "");
+	}, [commentatorsRep]);
 
 	function handleNameSelected(name: string | null) {
 		if (name === null) return;
@@ -57,7 +57,7 @@ export function HostName(props: Props) {
 				...(props.style ?? {}),
 			}}
 		>
-			<div style={{ display: "flex", gap: 4, flexGrow: 1, padding: "8px 0" }}>
+			<div style={{ display: "flex", gap: 4, flexGrow: 1, padding: "8px 0", width: "100%" }}>
 				<Autocomplete
 					fullWidth
 					freeSolo
@@ -71,23 +71,16 @@ export function HostName(props: Props) {
 						<TextField {...params} label="Name" InputProps={{ ...params.InputProps }} />
 					)}
 				/>
-				<TextField
-					// style={{ flexShrink: 1 }}
-					label="Pronouns"
-					value={hostPronouns}
-					onChange={(e) => setHostPronouns(e.target.value)}
+				<Autocomplete
+					freeSolo
+					options={["He/Him", "She/Her", "They/Them"]}
+					renderInput={(params) => <TextField {...params} label="Pronouns" />}
+					onInputChange={(_, newInputValue) => {
+						setHostPronouns(newInputValue);
+					}}
+					inputValue={hostPronouns}
+					sx={{ minWidth: "30%" }}
 				/>
-			</div>
-			<div style={{ display: "flex", flexDirection: props.vertical ? undefined : "column" }}>
-				<Button size="small" onClick={() => setHostPronouns("He/Him")}>
-					He/Him
-				</Button>
-				<Button size="small" onClick={() => setHostPronouns("She/Her")}>
-					She/Her
-				</Button>
-				<Button size="small" onClick={() => setHostPronouns("They/Them")}>
-					They/Them
-				</Button>
 			</div>
 			<Button
 				variant="contained"

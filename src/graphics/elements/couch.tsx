@@ -61,7 +61,7 @@ export function Couch(props: Props) {
 			</MenuBar>
 			<PeopleContainer style={{ justifyContent: props.align ?? "center" }}>
 				{props.commentators.map((person, i) => {
-					if (person.name === "") {
+					if (person.name === "" || person.id === "host") {
 						return <></>;
 					}
 					return (
@@ -182,7 +182,7 @@ export function PersonCompressed(props: PersonCompressedProps) {
 	const commentatorColour = props.commentator.tag === "Host" ? "#3f7d8f" : "#cc7722";
 
 	// ASAP2025
-	const putTagOnSameRow = (!props.commentator.pronouns && props.commentator.tag === "Host") || !props.commentator.tag;
+	const putTagOnSameRow = (!props.commentator.pronouns && props.commentator.id === "host") || !props.commentator.tag;
 
 	return (
 		<PersonCompressedContainer style={props.style}>
@@ -202,7 +202,7 @@ export function PersonCompressed(props: PersonCompressedProps) {
 					<Name style={{ textAlign: props.commentator.pronouns ? "left" : "center" }}>{props.commentator.name}</Name>
 					{putTagOnSameRow && (
 						<Role style={{ background: commentatorColour, marginLeft: 8 }}>
-							{props.commentator.tag ? (props.commentator.tag === "Host" ? "H" : props.commentator.tag) : "C"}
+							{props.commentator.tag ? (props.commentator.id === "host" ? "H" : props.commentator.tag) : "C"}
 						</Role>
 					)}
 				</Row>
@@ -210,7 +210,7 @@ export function PersonCompressed(props: PersonCompressedProps) {
 					<Pronouns style={{ color: commentatorColour }}>{props.commentator.pronouns}</Pronouns>
 					{!putTagOnSameRow && (
 						<Role style={{ background: commentatorColour }}>
-							{props.commentator.tag ? (props.commentator.tag === "Host" ? "H" : props.commentator.tag) : "C"}
+							{props.commentator.tag ? (props.commentator.id === "host" ? "H" : props.commentator.tag) : "C"}
 						</Role>
 					)}
 				</Row>

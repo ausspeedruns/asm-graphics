@@ -224,7 +224,8 @@ export function HostDash() {
 	const { mode } = useColorScheme();
 	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
 
-	const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
+	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
 
 	const [hostOpen, setHostOpen] = useState(false);
 	const [scriptsOpen, setScriptsOpen] = useState(false);
@@ -274,7 +275,7 @@ export function HostDash() {
 			<TopBar>
 				<p>YOU ARE:</p>
 				<h2>
-					{hostRep?.name} <span className="pronouns">{hostRep?.pronouns}</span>
+					{host?.name} <span className="pronouns">{host?.pronouns}</span>
 				</h2>
 				<Button onClick={() => setHostOpen(true)}>
 					<Edit />

@@ -6,7 +6,6 @@ import type { BoardCell, RoomJoinParameters } from "../extensions/util/bingosync
 import type { HostRead } from "../extensions/host-reads";
 import type { IntermissionVideo } from "../extensions/intermission-videos";
 import type { LowerThirdPerson } from "../extensions/full-screen-data";
-import type { X32TalkbackTarget } from "../extensions/x32-audio";
 import type { RunDataPlayer } from "./RunData";
 
 export type NodeCGMessages = {
@@ -14,14 +13,8 @@ export type NodeCGMessages = {
 	changeGameAudio: { manual: boolean; index: number };
 	changeGameAudioName: { name: string; index: number };
 	// Commentators / Host
-	"update-hostname": Commentator;
-	"update-hostnames": Commentator[];
-	"rename-couch": Commentator;
-	"remove-hostname": string;
-	"remove-preview-hostname": number;
 	"update-commentator": Commentator;
 	"delete-commentator": string;
-	"update-host": Commentator;
 	showHost: boolean;
 	// Donations
 	"donations:toggleRead": string;
@@ -60,7 +53,7 @@ export type NodeCGMessages = {
 	"x32:unmute-host": never;
 	"x32:host-mute-couch": never;
 	"x32:host-unmute-couch": never;
-	"x32:talkback-start": X32TalkbackTarget;
+	"x32:talkback-start": string[];
 	"x32:talkback-stop": never;
 	// ASNN
 	"asnn:showName": { name: string; subtitle: string };

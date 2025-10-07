@@ -1,7 +1,7 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 import _ from "underscore";
 
-import { automationSettingsRep, commentatorsRep, headsetsUsed, hostRep, showHostRep } from "./replicants";
+import { automationSettingsRep, commentatorsRep, showHostRep } from "./replicants";
 
 import type { RunData, RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "nodecg/types";
@@ -14,13 +14,6 @@ const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant(
 	"runDataActiveRun",
 	"nodecg-speedcontrol",
 ) as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
-
-nodecg.listenFor("update-host", (host) => {
-	Log.info(`Updating host ${host.name}`);
-	host.tag = "Host";
-	host.id = "host";
-	hostRep.value = host;
-});
 
 nodecg.listenFor("update-commentator", (commentator) => {
 	Log.info(`Updating commentator ${commentator.id} ${commentator.name}`);

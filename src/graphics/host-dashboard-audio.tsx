@@ -26,10 +26,9 @@ interface HostDashAudioProps {
 	style?: CSSProperties;
 }
 
-export const HostDashAudio: React.FC<HostDashAudioProps> = (props: HostDashAudioProps) => {
+export function HostDashAudio(props: HostDashAudioProps) {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
-	// const [hostRep] = useReplicant<Commentator | undefined>("host", undefined);
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders");
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 

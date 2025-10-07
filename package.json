@@ -16,7 +16,8 @@
 				"title": "Couch",
 				"width": 3,
 				"headerColor": "#CC7722",
-				"file": "couch.html"
+				"file": "couch.html",
+				"workspace": "ASM Deprecated"
 			},
 			{
 				"name": "status",
@@ -30,7 +31,8 @@
 				"title": "Game Audio Indicator",
 				"width": 4,
 				"headerColor": "#CC7722",
-				"file": "game-audio-indicator.html"
+				"file": "game-audio-indicator.html",
+				"workspace": "ASM Deprecated"
 			},
 			{
 				"name": "mic-audio",
@@ -52,7 +54,8 @@
 				"title": "Stream",
 				"width": 3,
 				"headerColor": "#9146FF",
-				"file": "stream.html"
+				"file": "stream.html",
+				"workspace": "ASM Deprecated"
 			},
 			{
 				"name": "fullcam",
@@ -83,7 +86,8 @@
 				"title": "Run Info",
 				"width": 3,
 				"headerColor": "#CC7722",
-				"file": "run-info.html"
+				"file": "run-info.html",
+				"workspace": "ASM Deprecated"
 			},
 			{
 				"name": "on-screen-warnings",
@@ -105,7 +109,8 @@
 				"title": "Bingo",
 				"width": 3,
 				"headerColor": "#CC7722",
-				"file": "bingo.html"
+				"file": "bingo.html",
+				"workspace": "ASM Misc"
 			},
 			{
 				"name": "countdown",
@@ -114,13 +119,6 @@
 				"headerColor": "#CC7722",
 				"file": "countdown.html",
 				"workspace": "ASM Misc"
-			},
-			{
-				"name": "talkback",
-				"title": "Talkback",
-				"width": 2,
-				"headerColor": "#CC7722",
-				"file": "talkback.html"
 			},
 			{
 				"name": "stage-view",
