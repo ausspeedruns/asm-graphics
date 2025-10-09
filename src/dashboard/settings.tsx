@@ -45,7 +45,7 @@ const Row = styled.div`
 `;
 
 export function Settings() {
-	const [obsDoLocalRecordingsRep, setObsDoLocalRecordingsRep] = useReplicant<boolean>("obs:localRecordings");
+	// const [obsDoLocalRecordingsRep, setObsDoLocalRecordingsRep] = useReplicant<boolean>("obs:localRecordings");
 
 	const [creditsInfo, setCreditsInfo] = useState({ name: "", title: "" });
 	const [creditsNameRep] = useReplicant<LowerThirdPerson>("lowerThirdPerson");
@@ -57,7 +57,7 @@ export function Settings() {
 		) {
 			setCreditsInfo(creditsNameRep);
 		}
-	}, [creditsNameRep, creditsInfo]);
+	}, [creditsNameRep]);
 
 	function handleCreditsChange(
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -133,7 +133,7 @@ export function Settings() {
 					Hide AoC
 				</Button>
 			</Row>
-			<FormControlLabel
+			{/* <FormControlLabel
 				control={
 					<Checkbox
 						checked={obsDoLocalRecordingsRep ?? false}
@@ -141,7 +141,7 @@ export function Settings() {
 					/>
 				}
 				label="Enable OBS Local Recordings"
-			/>
+			/> */}
 			<hr style={{ margin: "24px 0" }} />
 			<HostReads />
 			<IntermissionVideos />

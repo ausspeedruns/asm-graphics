@@ -13,7 +13,7 @@ import type NodeCG from "nodecg/types";
 
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
-import { TickerOverlay } from "./ticker";
+import { TickerOverlay } from "./elements/ticker";
 import { Standard } from "./overlays/standard";
 import { Standard2 } from "./overlays/standard-2";
 import { Widescreen } from "./overlays/widescreen";

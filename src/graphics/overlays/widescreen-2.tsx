@@ -200,7 +200,7 @@ export const Widescreen2 = (props: OverlayProps) => {
 					{/* <CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel> */}
 					{/* Since this is a special placement it has to be made custom here */}
 					{props.commentators.map((person, i) => {
-						if (person.name === "") return <></>;
+						if (person.name === "" || person.id === "host") return <></>;
 						return (
 							<PersonCompressed
 								key={person.name}

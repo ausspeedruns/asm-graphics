@@ -69,11 +69,11 @@ export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) =>
 	const animRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (!props.time || props.time === "" || props.time === "undefined") {
-			gsap.to(animRef.current, { y: 35 });
+		if (props.time) {
+			gsap.to(animRef.current, { y: 0, duration: 1 });
 			return;
 		}
-		gsap.to(animRef.current, { y: 0, duration: 1 });
+		gsap.to(animRef.current, { y: 35 });
 	}, [props.time]);
 
 	let bgColour = "#e0e0e0";

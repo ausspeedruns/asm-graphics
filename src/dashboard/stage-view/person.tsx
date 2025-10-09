@@ -223,16 +223,39 @@ export function Person(props: PersonProps) {
 							<RecordVoiceOver />
 						</IconButton>
 					</Tooltip>
-					<Tooltip placement="top" title="Edit">
-						<IconButton size="small" color="inherit" onClick={editCommentator}>
-							<Edit fontSize="small" />
-						</IconButton>
+					<Tooltip
+						placement="top"
+						title={
+							props.isRunner ? (
+								<>
+									Editing Runners not supported
+									<br /> Please use the Run Editor Panel
+								</>
+							) : (
+								"Edit"
+							)
+						}
+					>
+						<span>
+							<IconButton
+								size="small"
+								color="inherit"
+								onClick={editCommentator}
+								disabled={props.isRunner}
+							>
+								<Edit fontSize="small" />
+							</IconButton>
+						</span>
 					</Tooltip>
 				</ActionsRow>
 			</PersonContainer>
 			{props.isRunner && (
 				<>
-					<Button onClick={moveGameAudio} disabled={isOnRunnersAudio}>
+					<Button
+						onClick={moveGameAudio}
+						disabled={isOnRunnersAudio}
+						variant={isOnRunnersAudio ? "contained" : "outlined"}
+					>
 						{isOnRunnersAudio ? "Active" : "Move"} Game Audio
 					</Button>
 				</>

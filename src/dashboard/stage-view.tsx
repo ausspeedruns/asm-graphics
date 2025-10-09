@@ -28,8 +28,6 @@ const TopBar = styled.div`
 `;
 
 const StageContainer = styled.div`
-	height: 400px;
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -211,6 +209,7 @@ export function DashboardStageView() {
 				newIndex,
 			);
 
+			console.log(newOrder);
 			nodecg.sendMessage("speedcontrol:reorderRunners", { runId: runDataActiveRep.id, newOrder });
 		}
 	}
@@ -233,7 +232,7 @@ export function DashboardStageView() {
 	function handleClosePersonEditDialog() {
 		setPersonEditDialogOpen(null);
 		setEditingCommentator(null);
-	} 	
+	}
 
 	const commentatorAndHostIds = commentatorsRep?.map((c) => c.id) ?? [];
 
@@ -242,6 +241,16 @@ export function DashboardStageView() {
 			<DashboardStageViewContainer>
 				<TopBar>
 					<CurrentRunInfo />
+					<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+						<i>I am aware this is a bit buggy. It will be remade next event.</i>
+						<Button
+							onClick={toggleTalkToAll}
+							color="primary"
+							variant={currentTalkbackTargets.length === allIds.length ? "contained" : "outlined"}
+						>
+							Talk to All
+						</Button>
+					</div>
 					<ScheduleInfo />
 				</TopBar>
 				<StageContainer>
@@ -342,19 +351,11 @@ export function DashboardStageView() {
 						justifyContent: "center",
 						opacity: 0.7,
 						margin: 40,
-						marginTop: 80,
 					}}
 				>
 					Crowd <ArrowDownward />
 				</div>
 				<BottomBar>
-					<Button
-						onClick={toggleTalkToAll}
-						color="primary"
-						variant={currentTalkbackTargets.length === allIds.length ? "contained" : "outlined"}
-					>
-						Talk to All
-					</Button>
 					<Button color="error" onClick={forceStopTalkback}>
 						Force Stop Talkback
 					</Button>

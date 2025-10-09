@@ -1,57 +1,71 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 
-import type { RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
-import type { ExtensionReturn } from "../../bundles/nodecg-speedcontrol/src/types/ExtensionReturn";
+import type { RunData, RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
 import { runStartTimeRep } from "./replicants";
 
 const nodecg = nodecgApiContext.get();
 
 const log = new nodecg.Logger("Speedcontrol Converter");
 
-const speedcontrol = nodecg.extensions['nodecg-speedcontrol'] as ExtensionReturn;
-
 const SPEEDCONTROL_runDataArrayRep = nodecg.Replicant<RunDataArray>("runDataArray", "nodecg-speedcontrol");
 const SPEEDCONTROL_runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");
 
-nodecg.listenFor("speedcontrol:editRunner", (data) => {
-	// Find the run object
+function getRunAndIndex(runId: string): [number, RunData | undefined] {
 	const runDataArray = SPEEDCONTROL_runDataArrayRep.value;
+	if (!runDataArray) {
+		log.error("No runDataArray Replicant found");
+		return [-1, undefined];
+	}
 
+	const runIndex = runDataArray.findIndex((run) => run.id === runId);
+	if (runIndex === -1) {
+		log.error(`No run found with ID ${runId}`);
+		return [-1, undefined];
+	}
+
+	return [runIndex, runDataArray[runIndex]];
+}
+
+function getRunnerTeamIndexAndPlayerIndex(run: RunData, runnerId: string): [number, number] {
+	const teamIndex = run.teams.findIndex((team) => team.players.some((p) => p.id === runnerId));
+	if (teamIndex === -1) {
+		log.error(`No team found for player ID ${runnerId}`);
+		return [-1, -1];
+	}
+
+	const playerIndex = run.teams[teamIndex].players.findIndex((p) => p.id === runnerId);
+	if (playerIndex === -1) {
+		log.error(`No player found in team for ID ${runnerId}`);
+		return [-1, -1];
+	}
+	return [teamIndex, playerIndex];
+}
+
+nodecg.listenFor("speedcontrol:editRunner", (data) => {
+	const runDataArray = SPEEDCONTROL_runDataArrayRep.value;
 	if (!runDataArray) {
 		log.error("No runDataArray Replicant found");
 		return;
 	}
 
-	const runIndex = runDataArray.findIndex((run) => run.id === data.runId);
-	if (runIndex === -1) {
-		log.error(`No run found with ID ${data.runId}`);
+	// Find the run object
+	const [runIndex, run] = getRunAndIndex(data.runId);
+
+	if (runIndex === -1 || !run) {
 		return;
 	}
 
-	// Find the player object
-	const run = runDataArray[runIndex];
-	const playerIndex = run.teams.flatMap((team) => team.players).findIndex((player) => player.id === data.runner.id);
-	if (playerIndex === -1) {
-		log.error(`No player found with ID ${data.runner.id}`);
+	const [teamIndex, playerIndex] = getRunnerTeamIndexAndPlayerIndex(run, data.runner.id);
+	if (teamIndex === -1 || playerIndex === -1) {
 		return;
 	}
 
 	// Update the player object
 	const player = data.runner;
-	const teamIndex = run.teams.findIndex((team) => team.players.some((p) => p.id === data.runner.id));
-	if (teamIndex === -1) {
-		log.error(`No team found for player ID ${data.runner.id}`);
-		return;
-	}
-
 	const team = run.teams[teamIndex];
-	const playerInTeamIndex = team.players.findIndex((p) => p.id === data.runner.id);
-	if (playerInTeamIndex === -1) {
-		log.error(`No player found in team for ID ${data.runner.id}`);
-		return;
-	}
 
-	team.players[playerInTeamIndex] = player;
+
+	team.players[playerIndex] = player;
 
 	runDataArray[runIndex] = run;
 	SPEEDCONTROL_runDataArrayRep.value = runDataArray;
@@ -69,12 +83,11 @@ nodecg.listenFor("speedcontrol:reorderRunners", (data) => {
 		log.error("No runDataArray Replicant found");
 		return;
 	}
-	const runIndex = runDataArray.findIndex((run) => run.id === data.runId);
-	if (runIndex === -1) {
-		log.error(`No run found with ID ${data.runId}`);
+	
+	const [runIndex, run] = getRunAndIndex(data.runId);
+	if (runIndex === -1 || !run) {
 		return;
 	}
-	const run = runDataArray[runIndex];
 
 	// Validate that all players in newOrder exist in the run
 	const allPlayerIds = run.teams.flatMap((team) => team.players.map((player) => player.id));
@@ -88,31 +101,24 @@ nodecg.listenFor("speedcontrol:reorderRunners", (data) => {
 	// Reorder players according to newOrder
 	const newTeams: typeof run.teams = [];
 	for (const player of data.newOrder) {
-		// Find the team this player belongs to
-		const teamIndex = run.teams.findIndex((team) => team.players.some((p) => p.id === player.id));
-		if (teamIndex === -1) {
-			log.error(`No team found for player ID ${player.id}`);
+		const [teamIndex, playerIndex] = getRunnerTeamIndexAndPlayerIndex(run, player.id);
+		if (teamIndex === -1 || playerIndex === -1) {
 			return;
 		}
+
 		const team = run.teams[teamIndex];
-		// Find the player in the team
-		const playerInTeamIndex = team.players.findIndex((p) => p.id === player.id);
-		if (playerInTeamIndex === -1) {
-			log.error(`No player found in team for ID ${player.id}`);
-			return;
-		}
-		const playerInTeam = team.players[playerInTeamIndex];
+
 		// Check if we already have a team for this player in newTeams
 		const newTeamIndex = newTeams.findIndex((t) => t.id === team.id);
 		if (newTeamIndex === -1) {
 			// Create a new team
 			newTeams.push({
 				id: team.id,
-				players: [playerInTeam],
+				players: [player],
 			});
 		} else {
 			// Add to existing team
-			newTeams[newTeamIndex].players.push(playerInTeam);
+			newTeams[newTeamIndex].players.push(player);
 		}
 	}
 

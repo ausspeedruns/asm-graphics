@@ -52,7 +52,6 @@ interface CouchEditDialogProps {
 }
 
 export function CouchEditDialog(props: CouchEditDialogProps) {
-	console.log(props.person)
 	const { mode } = useColorScheme();
 	const [name, setName] = useState(props.person?.name ?? "");
 	const [pronouns, setPronouns] = useState(props.person?.pronouns ?? "");
@@ -85,7 +84,7 @@ export function CouchEditDialog(props: CouchEditDialogProps) {
 		tag !== (props.person?.tag ?? "");
 
 	function editCommentator() {
-		nodecg.sendMessage(tag === "Host" ? "update-host" : "update-commentator", {
+		nodecg.sendMessage("update-commentator", {
 			id: id,
 			name: name,
 			pronouns: pronouns,

@@ -47,6 +47,7 @@ const Name = styled.div`
 `;
 
 const Subtitle = styled.div`
+	font-family: var(--main-font);
 	font-size: 34px;
 	line-height: 34px;
 	white-space: nowrap;
@@ -99,12 +100,26 @@ const IndigenousFlagsImage = styled.img`
 `;
 
 const AcknowledgementText = styled.div`
-	/* font-family: var(--secondary-font); */
+	font-family: var(--main-font);
 	font-size: 29px;
 	padding: 0 24px;
 	text-align: justify;
 	width: 1034px;
 `;
+
+const AdelaideContent = `
+AusSpeedruns acknowledges the traditional owners of the lands on which we are gathered for this
+event, the Kaurna people, and their continued connection to Country. We pay our respects to their
+elders past and present, and extend that respect any First Nations people in attendance today.
+AusSpeedruns also acknowledges the traditional owners of the many lands, waterways and ecosystems on
+which our viewers from home are joining us.`;
+
+const MelbourneContent = `
+AusSpeedruns acknowledges the traditional owners of the lands on which we are gathered for this
+event, the Wurundjeri Woi Wurrung people of the Kulin Nation, and their continued connection to
+Country. We pay our respects to their elders past and present, and extend that respect any First
+Nations people in attendance today. AusSpeedruns also acknowledges the traditional owners of the
+many lands, waterways and ecosystems on which our viewers from home are joining us.`;
 
 interface AcknowledgementOfCountryProps {
 	className?: string;
@@ -139,11 +154,7 @@ export const AcknowledgementOfCountry = (props: AcknowledgementOfCountryProps) =
 			</LogoContainer>
 			<TextContainer ref={TextRef}>
 				<AcknowledgementText>
-					AusSpeedruns acknowledges the traditional owners of the lands on which we are gathered for this
-					event, the Kaurna people, and their continued connection to Country. We pay our respects to their
-					elders past and present, and extend that respect any First Nations people in attendance today.
-					AusSpeedruns also acknowledges the traditional owners of the many lands, waterways and ecosystems on
-					which our viewers from home are joining us.
+					{MelbourneContent}
 				</AcknowledgementText>
 			</TextContainer>
 		</NameLowerThirdContainer>
