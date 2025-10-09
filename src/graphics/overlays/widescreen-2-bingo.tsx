@@ -96,7 +96,9 @@ const BingoBoardStyled = styled(BingoBoard)`
 	top: 341px;
 	left: 749px;
 	width: 422px;
+	max-width: 422px;
 	height: 422px;
+	max-height: 422px;
 	z-index: 2;
 `;
 
@@ -180,7 +182,6 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 					teams={props.runData?.teams}
 					maxNameWidth={190}
 					audioIndicator={props.microphoneAudioIndicator}
-					nameplateColours={[cellColourMapping.purple, cellColourMapping.blue]}
 				/>
 
 				<RaceFinish style={{ top: 265, left: 830, zIndex: 3 }} time={teamData[0].time} place={teamData[0].place} />

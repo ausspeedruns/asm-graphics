@@ -96,6 +96,7 @@ function toHost(person: Commentator | RunDataPlayer): Commentator {
 export function DashboardStageView() {
 	const [commentatorsRep, setCommentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const [gameAudioIndex] = useReplicant<number>("game-audio-indicator");
 	const [editingCommentator, setEditingCommentator] = useState<Commentator | null>(null);
 	const [runner, setRunner] = useState<RunDataPlayer | null>(null);
 	const [personEditDialogOpen, setPersonEditDialogOpen] = useState<"Commentator" | "Runner" | null>(null);
@@ -315,8 +316,8 @@ export function DashboardStageView() {
 									}
 									strategy={horizontalListSortingStrategy}
 								>
-									{runDataActiveRep?.teams.flatMap((team) =>
-										team.players.map((c) => (
+									{runDataActiveRep?.teams.flatMap((team, i) =>
+										team.players.map((c, j) => (
 											<Person
 												key={c.id}
 												person={c}
@@ -324,6 +325,8 @@ export function DashboardStageView() {
 												handleEditPerson={handleEditRunner}
 												currentTalkbackTargets={currentTalkbackTargets}
 												updateTalkbackTargets={setCurrentTalkbackTargets}
+												tempIndex={i + j}
+												audioIndex={gameAudioIndex}
 											/>
 										)),
 									)}

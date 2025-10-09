@@ -1,4 +1,5 @@
 import EventEmitter from "node:events";
+import { WebSocket as NodeWebSocket } from "ws";
 
 export interface RoomJoinParameters {
 	room: string;
@@ -66,7 +67,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 	private _room: string | null = null;
 	private key: string | null = null;
 	private sessionId: string | null = null;
-	private webSocket: WebSocket | null = null;
+	private webSocket: NodeWebSocket | null = null;
 	private boardState: BoardState | null = null;
 
 	private static readonly apiPath = "api/";
@@ -206,7 +207,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 			this.webSocket.close();
 		}
 
-		this.webSocket = new WebSocket(`${this.wsUrl}/broadcast`);
+		this.webSocket = new NodeWebSocket(`${this.wsUrl}/broadcast`);
 
 		this.webSocket.onopen = () => {
 			this.webSocket?.send(
@@ -217,7 +218,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 		};
 
 		this.webSocket.onmessage = (event) => {
-			const data = JSON.parse(event.data);
+			const data = JSON.parse(event.data.toString());
 			this.handleWebSocketMessage(data);
 		};
 

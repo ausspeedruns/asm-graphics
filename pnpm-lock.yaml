@@ -110,6 +110,9 @@ importers:
       underscore:
         specifier: ^1.13.7
         version: 1.13.7
+      ws:
+        specifier: ^8.18.3
+        version: 8.18.3
       zod:
         specifier: ^4.1.11
         version: 4.1.11
@@ -135,6 +138,9 @@ importers:
       '@types/underscore':
         specifier: ^1.13.0
         version: 1.13.0
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitejs/plugin-react':
         specifier: ^5.0.4
         version: 5.0.4(vite@7.1.7(@types/node@24.5.2)(terser@5.42.0))

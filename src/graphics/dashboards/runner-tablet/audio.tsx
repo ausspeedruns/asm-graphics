@@ -30,7 +30,28 @@ const BigName = styled(FitText)`
 	flex-grow: 1;
 `;
 
-const HeadsetName = styled.button`
+function adjustHexColour(hex: string, amount: number) {
+	let col = hex.replace("#", "");
+	if (col.length === 3) {
+		col = col
+			.split("")
+			.map((c) => c + c)
+			.join("");
+	}
+	const num = parseInt(col, 16);
+	let r = (num >> 16) + amount;
+	let g = ((num >> 8) & 0x00ff) + amount;
+	let b = (num & 0x0000ff) + amount;
+
+	r = Math.max(Math.min(255, r), 0);
+	g = Math.max(Math.min(255, g), 0);
+	b = Math.max(Math.min(255, b), 0);
+
+	const value = `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
+	return value;
+}
+
+const HeadsetName = styled.button<{ selected?: boolean; headset?: (typeof Headsets)[number] }>`
 	all: unset;
 	flex-grow: 1;
 	display: inline-flex;
@@ -39,14 +60,48 @@ const HeadsetName = styled.button`
 	font-size: 32px;
 	width: 100%;
 	text-align: center;
+	font-weight: bold;
+
+	--headset-colour: ${({ headset }) => headset?.colour};
+	--headset-text-colour: ${({ headset }) => headset?.textColour};
+	--pulse-colour: ${({ headset }) => adjustHexColour(headset?.colour ?? "#ffffff", -60)};
+
+	background: ${({ selected }) => (selected ? "var(--headset-colour)" : "#ffffff")};
+	color: ${({ selected }) => (selected ? "var(--headset-text-colour)" : "#000")};
+	box-shadow: ${({ selected }) => (selected ? "" : `inset 0 0 0 10px var(--headset-colour)`)};
+	border-right: ${({ selected }) => (selected ? `20px solid var(--headset-colour)` : "")};
+
+	animation: ${({ selected }) => (selected ? "pulse 0.5s infinite alternate" : "none")};
+
+	@keyframes pulse {
+		0% { background-color: var(--pulse-colour); border-right: 20px solid var(--pulse-colour); }
+		100% { background-color: var(--headset-colour); border-right: 20px solid var(--headset-colour); }
+	}
 `;
 
 const MixingScrollable = styled.div`
 	width: 100%;
 	flex-grow: 1;
 	height: 720px;
-	overflow: scroll;
+	overflow-x: hidden;
 	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		width: 20px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: #000000ff;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #f1f1f1;
+		border-radius: 9999px;
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		background: #555;
+	}
 `;
 
 const MixingContainer = styled.div`
@@ -160,13 +215,8 @@ export const RTAudio = (props: Props) => {
 					return (
 						<HeadsetName
 							key={headset.name}
-							style={{
-								background: selected ? headset.colour : "#ffffff",
-								color: selected ? headset.textColour : "#000",
-								fontWeight: "bold",
-								boxShadow: selected ? "" : `inset 0 0 0 10px ${headset.colour}`,
-								borderRight: selected ? `20px solid ${headset.colour}` : "",
-							}}
+							selected={selected}
+							headset={headset}
 							onClick={() => setSelectedHeadset(headset.name)}
 						>
 							<FitText
@@ -180,7 +230,7 @@ export const RTAudio = (props: Props) => {
 			<MixingScrollable>
 				<MixingContainer style={{ background: `${selectedHeadsetObj?.colour}22` }}>
 					<BigName text={editingText} />
-					<CategoryName>Headphone Volume</CategoryName>
+					<CategoryName>Main Volume</CategoryName>
 					<AudioFader
 						mixBus={mixBus}
 						channel={0}
@@ -189,11 +239,11 @@ export const RTAudio = (props: Props) => {
 						colour={selectedHeadsetObj?.colour}
 					/>
 					<CategoryName>Game</CategoryName>
-					{gameAudio?.map((gameAudioName) => {
+					{gameAudio?.map((gameAudioName, i) => {
 						return (
 							<AudioFader
-								key={gameAudioName.name}
-								label={gameAudioName.name}
+								key={i}
+								label={`Game ${i + 1}`}
 								mixBus={mixBus}
 								channel={9 + gameAudioName.index * 2}
 								value={faderValues[mixBus]?.[9 + gameAudioName.index + gameAudioName.index * 2]}

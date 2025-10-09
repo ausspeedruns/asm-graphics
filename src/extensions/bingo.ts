@@ -81,14 +81,10 @@ async function joinRoomHandler(roomDetails: RoomJoinParameters) {
 	bingosyncStatusRep.value = "disconnected";
 	log.info(`Joining Bingosync room: ${roomDetails.room} as ${roomDetails.nickname}`);
 
-	const error = false;
 	await bingosync.joinRoom(roomDetails).catch((error) => {
-		error = true;
 		bingosyncStatusRep.value = "error";
 		log.error("Failed to join Bingosync room:", error);
 	});
-
-	if (error) return;
 
 	bingosyncStatusRep.value = "connected";
 	log.info(`Successfully joined Bingosync room: ${roomDetails.room} as ${roomDetails.nickname}`);

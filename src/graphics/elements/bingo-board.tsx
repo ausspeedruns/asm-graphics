@@ -15,6 +15,7 @@ const Cell = styled.div`
 	line-height: 1.1;
 	color: white;
 	background-color: #3d3d3dff;
+	outline: 1px solid #ffc75b;
 `;
 
 export const cellColourMapping: Record<CellColour, string> = {
@@ -49,8 +50,6 @@ function backgroundGradientGenerator(colours: CellColour[]): string {
 
 	const linearGradient = `linear-gradient(90deg, ${allColours.join(", ")})`;
 
-	console.log(linearGradient);
-
 	return linearGradient;
 }
 
@@ -67,8 +66,7 @@ export function BingoBoard(props: BingoBoardProps) {
 					slot: `slot${i}`,
 					name: "",
 					colors: ["blank"],
-					// colors: ["purple"],
-			  }))
+				}))
 			: props.board;
 
 	return (
@@ -84,8 +82,15 @@ export function BingoBoard(props: BingoBoardProps) {
 			{cells.map((cell) => {
 				const cellDone = cell.colors.length >= 1 && cell.colors[0] !== "blank";
 				return (
-					<Cell key={cell.slot} style={{ background: backgroundGradientGenerator(cell.colors), boxShadow: cellDone ? "inset 0 0 15px 0 rgba(0,0,0,0.5)" : "none" }}>
-						<span style={{ zIndex: 4, opacity: cellDone ? 0.77 : 1 }}>{cell.name}Testing</span>
+					<Cell
+						key={cell.slot}
+						style={{
+							background: backgroundGradientGenerator(cell.colors),
+							boxShadow: cellDone ? "inset 0 0 15px 0 rgba(0,0,0,0.5)" : "none",
+							outline: cellDone ? "1px solid #ffc85b8c" : "1px solid #ffc75b",
+						}}
+					>
+						<span style={{ zIndex: 4, opacity: cellDone ? 0.77 : 1 }}>{cell.name}</span>
 					</Cell>
 				);
 			})}

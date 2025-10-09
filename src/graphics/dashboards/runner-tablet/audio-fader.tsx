@@ -1,7 +1,8 @@
-import { Slider } from "@mui/material";
+import { Button, Slider } from "@mui/material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import type { Headset } from "../../../extensions/audio-data";
+import { Add, Remove } from "@mui/icons-material";
 
 const AudioFaderContainer = styled.div`
 	width: 94%;
@@ -22,7 +23,7 @@ const DBValue = styled.p`
 	text-align: center;
 	font-size: 30px;
 	margin: 0;
-	min-width: 150px;
+	min-width: 100px;
 `;
 
 const FaderLabel = styled.div`
@@ -37,7 +38,6 @@ const FaderLabel = styled.div`
 
 const StyledSlider = styled(Slider)`
 	width: 85% !important;
-	margin-right: 32px;
 
 	& .MuiSlider-thumb {
 		height: 35px;
@@ -119,6 +119,16 @@ export const AudioFader = (props: Props) => {
 						},
 					}}
 				/>
+				<Button
+					variant="outlined"
+					onClick={() => setFaderVal((prev) => Math.max((prev ?? 0) - 0.05, 0))}
+					style={{ marginLeft: 20 }}
+				>
+					<Remove />
+				</Button>
+				<Button variant="outlined" onClick={() => setFaderVal((prev) => Math.min((prev ?? 0) + 0.05, 1))}>
+					<Add />
+				</Button>
 				<DBValue>{((faderVal ?? 0) * 100).toFixed(0)}</DBValue>
 			</SliderContainer>
 		</AudioFaderContainer>

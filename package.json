@@ -286,6 +286,7 @@
 		"remark-github-alerts": "^0.1.1",
 		"styled-components": "^6.1.19",
 		"underscore": "^1.13.7",
+		"ws": "^8.18.3",
 		"zod": "^4.1.11"
 	},
 	"devDependencies": {
@@ -296,6 +297,7 @@
 		"@types/react-dom": "^19.1.9",
 		"@types/styled-components": "^5.1.34",
 		"@types/underscore": "^1.13.0",
+		"@types/ws": "^8.18.1",
 		"@vitejs/plugin-react": "^5.0.4",
 		"babel-plugin-react-compiler": "19.1.0-rc.3",
 		"typescript": "^5.9.2",
