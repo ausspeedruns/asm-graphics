@@ -12,11 +12,15 @@ export function ScheduleInfo(props: ScheduleInfoProps) {
 	const [runStartTimeRep] = useReplicant<number | null>("runStartTime");
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [_, _1, nextRun] = useSurroundingRuns();
-	
-	let estimatedEndTime = "Error";
+
+	let estimatedEndTime: React.ReactNode = "Error";
 	if (runDataActiveRep?.estimateS) {
 		if (runStartTimeRep) {
-			estimatedEndTime = `Est End: ${format(runStartTimeRep + runDataActiveRep.estimateS * 1000, "h:mm b")}`;
+			estimatedEndTime = (
+				<>
+					Estimated End at <b>{format(runStartTimeRep + runDataActiveRep.estimateS * 1000, "h:mm b")}</b>
+				</>
+			);
 		} else if (runDataActiveRep.scheduledS) {
 			const isoTimeString = new Date(
 				runDataActiveRep.scheduledS + runDataActiveRep.estimateS * 1000,
@@ -49,16 +53,19 @@ export function ScheduleInfo(props: ScheduleInfoProps) {
 			</span>
 			<span>{estimatedEndTime}</span>
 			<span>
-				We are {differenceTime}{" "}
-				{runDataActiveRep?.scheduledS &&
-				runStartTimeRep &&
-				runStartTimeRep <= runDataActiveRep?.scheduledS * 1000
-					? "AHEAD"
-					: "BEHIND"}
+				We are{" "}
+				<b>
+					{differenceTime}{" "}
+					{runDataActiveRep?.scheduledS &&
+					runStartTimeRep &&
+					runStartTimeRep <= runDataActiveRep?.scheduledS * 1000
+						? "AHEAD"
+						: "BEHIND"}
+				</b>
 			</span>
 			<span>
 				{nextRun?.scheduledS
-					? `Next run starts at ${format(nextRun.scheduledS * 1000, "h:mm b")}`
+					? <>Next run starts at <b>{format(nextRun.scheduledS * 1000, "h:mm b")}</b></>
 					: "No next run"}
 			</span>
 		</div>

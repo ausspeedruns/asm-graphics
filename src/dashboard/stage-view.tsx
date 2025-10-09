@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { DndContext, DragEndEvent, useDroppable, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Button, ThemeProvider } from "@mui/material";
@@ -16,6 +16,8 @@ import { EditRunnerDialog } from "./stage-view/edit-person-dialog";
 import { ScheduleInfo } from "./stage-view/schedule-info";
 import { CurrentRunInfo } from "./stage-view/current-run-info";
 import { Person } from "./stage-view/person";
+import { DroppableZone } from "./stage-view/droppable-zone";
+import { useTalkback } from "./stage-view/use-talkback";
 
 const DashboardStageViewContainer = styled.div``;
 
@@ -54,13 +56,65 @@ const BottomBar = styled.div`
 	flex-wrap: wrap;
 `;
 
+const ZONES = { commentators: "zone:commentators", host: "zone:host", runners: "zone:runners" } as const;
+
+function toCommentator(person: Commentator | RunDataPlayer): Commentator {
+	if ("teamID" in person) {
+		return {
+			id: "", // let extension assign if new
+			name: person.name,
+			pronouns: person.pronouns,
+			twitch: person.social?.twitch,
+			microphone: person.customData?.microphone,
+		};
+	}
+	return {
+		...person,
+		tag: person.id === "host" ? undefined : person.tag,
+		id: person.id === "host" ? "" : person.id,
+	};
+}
+
+function toHost(person: Commentator | RunDataPlayer): Commentator {
+	const base =
+		"teamID" in person
+			? {
+					name: person.name,
+					pronouns: person.pronouns,
+					twitch: person.social?.twitch,
+					microphone: person.customData?.microphone,
+				}
+			: {
+					name: person.name,
+					pronouns: person.pronouns,
+					twitch: person.twitch,
+					microphone: person.microphone,
+				};
+	return { id: "host", tag: "Host", ...base };
+}
+
 export function DashboardStageView() {
 	const [commentatorsRep, setCommentatorsRep] = useReplicant<Commentator[]>("commentators");
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [editingCommentator, setEditingCommentator] = useState<Commentator | null>(null);
 	const [runner, setRunner] = useState<RunDataPlayer | null>(null);
 	const [personEditDialogOpen, setPersonEditDialogOpen] = useState<"Commentator" | "Runner" | null>(null);
-	const [currentTalkbackTargets, setCurrentTalkbackTargets] = useState<string[]>([]);
+
+	const allRunners = runDataActiveRep?.teams.flatMap((team) => team.players);
+	const {
+		currentTalkbackTargets,
+		setCurrentTalkbackTargets,
+		isTalkingToAllCommentators,
+		isTalkingToAllRunners,
+		allCommentatorIds,
+		allRunnerIds,
+		host,
+		allIds,
+		toggleTalkbackCommentators,
+		toggleTalkbackRunners,
+		toggleTalkToAll,
+		forceStopTalkback,
+	} = useTalkback(commentatorsRep, allRunners);
 
 	const sensors = useSensors(
 		useSensor(PointerSensor, {
@@ -70,49 +124,12 @@ export function DashboardStageView() {
 		}),
 	);
 
-	const ZONES = { commentators: "zone:commentators", host: "zone:host", runners: "zone:runners" } as const;
-
 	function containerOf(id?: string) {
 		if (!id) return undefined;
-		if (id === ZONES.commentators || commentatorAndHostIds.includes(id)) return ZONES.commentators;
+		if (id === ZONES.commentators || (commentatorsRep ?? []).some((c) => c.id === id)) return ZONES.commentators;
 		if (id === ZONES.host || id === "host") return ZONES.host;
 		if (id === ZONES.runners || allRunnerIds.includes(id)) return ZONES.runners;
 		return undefined;
-	}
-
-	function toCommentator(person: Commentator | RunDataPlayer): Commentator {
-		if ("teamID" in person) {
-			return {
-				id: "", // let extension assign if new
-				name: person.name,
-				pronouns: person.pronouns,
-				twitch: person.social?.twitch,
-				microphone: person.customData?.microphone,
-			};
-		}
-		return {
-			...person,
-			tag: person.id === "host" ? undefined : person.tag,
-			id: person.id === "host" ? "" : person.id,
-		};
-	}
-
-	function toHost(person: Commentator | RunDataPlayer): Commentator {
-		const base =
-			"teamID" in person
-				? {
-						name: person.name,
-						pronouns: person.pronouns,
-						twitch: person.social?.twitch,
-						microphone: person.customData?.microphone,
-					}
-				: {
-						name: person.name,
-						pronouns: person.pronouns,
-						twitch: person.twitch,
-						microphone: person.microphone,
-					};
-		return { id: "host", tag: "Host", ...base };
 	}
 
 	function handleCrossDragEnd(event: DragEndEvent) {
@@ -213,56 +230,11 @@ export function DashboardStageView() {
 	}
 
 	function handleClosePersonEditDialog() {
-		console.log("Closing dialog");
 		setPersonEditDialogOpen(null);
 		setEditingCommentator(null);
-	}
+	} 	
 
-	function forceStopTalkback() {
-		setCurrentTalkbackTargets([]);
-		nodecg.sendMessage("x32:talkback-stop");
-	}
-
-	const allCommentatorIds = commentatorsRep?.map((c) => c.id) ?? [];
-	const allRunnerIds = runDataActiveRep?.teams.flatMap((team) => team.players.map((c) => c.id)) ?? [];
-	const allIds = [...allCommentatorIds, ...allRunnerIds];
-	const isTalkingToAllRunners = allRunnerIds.every((id) => currentTalkbackTargets.includes(id));
-	const isTalkingToAllCommentators =
-		commentatorsRep?.length && commentatorsRep.every((c) => currentTalkbackTargets.includes(c.id));
-
-	function toggleTalkbackRunners() {
-		if (isTalkingToAllRunners) {
-			setCurrentTalkbackTargets([]);
-			nodecg.sendMessage("x32:talkback-stop");
-		} else {
-			setCurrentTalkbackTargets(allRunnerIds);
-			nodecg.sendMessage("x32:talkback-start", allRunnerIds);
-		}
-	}
-
-	function toggleTalkbackCommentators() {
-		if (isTalkingToAllCommentators) {
-			setCurrentTalkbackTargets([]);
-			nodecg.sendMessage("x32:talkback-stop");
-		} else {
-			const allCommentators = commentatorsRep?.filter((c) => c.id !== "host")?.map((c) => c.id) ?? []; // Excluding host
-			setCurrentTalkbackTargets(allCommentators);
-			nodecg.sendMessage("x32:talkback-start", allCommentators);
-		}
-	}
-
-	function toggleTalkToAll() {
-		if (currentTalkbackTargets.length > 0) {
-			setCurrentTalkbackTargets([]);
-			nodecg.sendMessage("x32:talkback-stop");
-		} else {
-			setCurrentTalkbackTargets(allIds);
-			nodecg.sendMessage("x32:talkback-start", allIds);
-		}
-	}
-
-	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
-	const commentatorAndHostIds = commentatorsRep?.filter((c) => c.id !== "host").map((c) => c.id) ?? [];
+	const commentatorAndHostIds = commentatorsRep?.map((c) => c.id) ?? [];
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -290,7 +262,7 @@ export function DashboardStageView() {
 							</Button>
 						</RowHeading>
 						<StageRow>
-							<CommentatorDroppable>
+							<DroppableZone id="zone:commentators">
 								<SortableContext items={commentatorAndHostIds} strategy={horizontalListSortingStrategy}>
 									{commentatorsRep
 										?.filter((c) => c.id !== "host")
@@ -304,11 +276,11 @@ export function DashboardStageView() {
 											/>
 										))}
 								</SortableContext>
-							</CommentatorDroppable>
+							</DroppableZone>
 							<Button color="inherit" onClick={addCommentator}>
 								<Add />
 							</Button>
-							<HostDroppable>
+							<DroppableZone id="zone:host" isHost isEmpty={!host}>
 								{host && (
 									<Person
 										person={host}
@@ -317,7 +289,7 @@ export function DashboardStageView() {
 										updateTalkbackTargets={setCurrentTalkbackTargets}
 									/>
 								)}
-							</HostDroppable>
+							</DroppableZone>
 						</StageRow>
 						<hr style={{ width: "50%", opacity: 0.5 }} />
 						<RowHeading>
@@ -335,7 +307,7 @@ export function DashboardStageView() {
 								Talk to Runners
 							</Button>
 						</RowHeading>
-						<RunnersDroppable>
+						<DroppableZone id="zone:runners">
 							<StageRow>
 								<SortableContext
 									items={
@@ -357,7 +329,7 @@ export function DashboardStageView() {
 									)}
 								</SortableContext>
 							</StageRow>
-						</RunnersDroppable>
+						</DroppableZone>
 					</DndContext>
 				</StageContainer>
 				<div
@@ -367,6 +339,7 @@ export function DashboardStageView() {
 						justifyContent: "center",
 						opacity: 0.7,
 						margin: 40,
+						marginTop: 80,
 					}}
 				>
 					Crowd <ArrowDownward />
@@ -398,60 +371,6 @@ export function DashboardStageView() {
 			/>
 		</ThemeProvider>
 	);
-}
-
-const CommentatorDroppableContainer = styled.div`
-	display: flex;
-	gap: 8px;
-`;
-
-interface CommentatorDroppableProps {
-	children: React.ReactNode;
-}
-
-function CommentatorDroppable(props: CommentatorDroppableProps) {
-	const { setNodeRef } = useDroppable({
-		id: "zone:commentators",
-	});
-
-	return <CommentatorDroppableContainer ref={setNodeRef}>{props.children}</CommentatorDroppableContainer>;
-}
-
-const HostDroppableContainer = styled.div<{ isEmpty: boolean }>`
-	border: 2px dashed white;
-	background-color: ${({ isEmpty }) => (isEmpty ? "rgba(255, 255, 255, 0.1)" : "transparent")};
-	min-height: 150px;
-	min-width: 150px;
-	border-radius: 5px;
-	border-color: ${({ isEmpty }) => (isEmpty ? "white" : "transparent")};
-	margin-left: 48px;
-`;
-
-interface HostDroppableProps {
-	children: React.ReactNode;
-}
-
-function HostDroppable(props: HostDroppableProps) {
-	const { setNodeRef } = useDroppable({
-		id: "zone:host",
-	});
-
-	return (
-		<HostDroppableContainer ref={setNodeRef} isEmpty={!props.children}>
-			{props.children}
-		</HostDroppableContainer>
-	);
-}
-
-const RunnersDroppableContainer = styled.div``;
-
-interface RunnersDroppableProps {
-	children: React.ReactNode;
-}
-
-function RunnersDroppable(props: RunnersDroppableProps) {
-	const { setNodeRef } = useDroppable({ id: "zone:runners" });
-	return <RunnersDroppableContainer ref={setNodeRef}>{props.children}</RunnersDroppableContainer>;
 }
 
 createRoot(document.getElementById("root")!).render(<DashboardStageView />);

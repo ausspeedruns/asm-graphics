@@ -85,17 +85,17 @@ export function HostName(props: Props) {
 			<Button
 				variant="contained"
 				onClick={() => {
-					nodecg.sendMessage("update-host", {
+					nodecg.sendMessage("update-commentator", {
 						id: "host",
 						name: hostName,
 						pronouns: hostPronouns,
-						microphone: "host",
+						microphone: "Host",
 					});
 					props.updateCb?.({
 						id: "host",
 						name: hostName,
 						pronouns: hostPronouns,
-						microphone: "host",
+						microphone: "Host",
 					});
 				}}
 			>

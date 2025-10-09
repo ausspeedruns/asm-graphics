@@ -3,7 +3,7 @@ import styled from "styled-components";
 import gsap from "gsap";
 import { useListenFor } from "@nodecg/react-hooks";
 
-// import EventLogo from "../elements/event-specific/asm-24/asm-24-logo.webp";
+import EventLogo from "../overlays/backgrounds/logo.png";
 
 const CreditsContainer = styled.div`
 	position: relative;
@@ -81,92 +81,96 @@ const NameWithRoles = styled.div`
 `;
 
 const TECH = [
-	"AtomicCaleb",
-	"Benjlin",
-	"Clubwho",
-	"CurtMantis",
+	"Pato",
+	"nei",
+	"vichisuki",
+	"morganmustdie",
+	"BalakehB",
 	"Dillon",
-	"fember",
-	"Kenorah",
-	"neɪ",
-	"Ninten",
-	"Sten",
-	"Synrey",
-	"tahis9",
-	"Tsukahh",
-	"vichi",
-	"Vot",
+	"Dezinator94",
+	"Benjlin",
+	"Techless",
+	"CurtMantis",
 ].sort(Intl.Collator().compare);
 
-const RUNNER_MANAGEMENT = [
-	"AtomicCaleb",
-	"FoksMachine",
-	"Galasrinie",
-	"Geolubread",
-	"JTMagicman",
-	"LaceyStripes",
+const FRONT_DESK = [
 	"srd_27",
-	"Synrey",
+	"JTMagicman",
+	"Geolubread",
 	"TasmaniaJones",
-	"Vot",
+	"aggymon",
+	"Galasrinie",
+	"Yuki_Layla",
+	"Synrey",
+	"Chokocchi",
+	"BalakehB",
 ].sort(Intl.Collator().compare);
 
-const SOCIAL_MEDIA = ["Haru", "Kenorah", "Kuiperbole", "LaceyStripes", "Synrey", "Vot"].sort(Intl.Collator().compare);
+const STAGE_HAND = [
+	"Kenorah",
+	"Dezinator94",
+	"Chokocchi",
+	"Techless",
+	"Synrey",
+	"Pato",
+	"Vot",
+	"Yuki_Layla",
+	"Kuiperbole",
+].sort(Intl.Collator().compare);
 
 const HOST = [
-	"anhedonic",
-	"Chokocchi",
-	"Dactyly",
-	"Geolubread",
 	"Ghoul02",
-	"Grimmo",
 	"jksessions",
+	"IcyKairi",
+	"Geolubread",
+	"TasmaniaJones",
 	"JTMagicman",
+	"Sten",
+	"BlazenBezza",
 	"Kenorah",
-	"KounterKitty",
-	"LaceyStripes",
-	"Noops",
-	"srd_27",
+	"Chokocchi",
+	"Grimmo",
+	"Dactyly",
 ].sort(Intl.Collator().compare);
 
 const RUNNERS = [
+	"werster",
 	"AeonFrodo",
-	"Alecat",
-	"Aun_El",
-	"BlazenBezza",
-	"Dactyly",
-	"Dezmone",
-	"ekimekim",
-	"Fady180",
-	"Felxstorm",
-	"Galasrinie",
-	"GameNerd607",
-	"Ghoul02",
-	"GrubbyD",
-	"ins0mnia",
-	"ItsCorpsey",
 	"JRP",
-	"JTMagicman",
-	"Kenorah",
-	"Kuiperbole",
-	"Nicosar",
-	"Ninten",
-	"Raikou",
-	"ribbongraph",
-	"Rippy",
-	"Sten",
-	"Synrey",
-	"syo",
-	"TasmaniaJones",
-	"Thom",
-	"Ticker",
+	"GameNerd607",
 	"vichisuki",
-	"Wingman953",
-	"Yuki~Layla",
+	"Logaaaaan64",
+	"Relentent",
+	"BlaDe",
+	"Raikou",
+	"jymmyboi",
+	"morganmustdie",
+	"Yuki_Layla",
 	"Zonda",
+	"Arianafan420",
+	"Barhunga",
+	"TySoN78",
+	"Rippy",
+	"BlazenBezza",
+	"Kenorah",
+	"rippersteveM5",
+	"ekimekim",
+	"JTMagicman",
+	"retronika",
+	"syo",
+	"Arahpthos",
+	"Baphy",
+	"BryanBrews2000",
+	"Ninten",
+	"ins0mnia",
+	"ribbongraph",
+	"Noops",
+	"FoksMachine",
+	"BalakehB",
+	"Eisog",
 ].sort(Intl.Collator().compare);
 
-export const Credits: React.FC = () => {
+export function Credits() {
 	const creditsBGRef = useRef<HTMLDivElement>(null);
 	const allCreditsRef = useRef<HTMLDivElement>(null);
 
@@ -181,7 +185,9 @@ export const Credits: React.FC = () => {
 	return (
 		<CreditsContainer ref={creditsBGRef}>
 			<AllCredits ref={allCreditsRef}>
-				<EventImg>{/* <img style={{ width: "90%", height: "auto" }} src={EventLogo} /> */}</EventImg>
+				<EventImg>
+					<img style={{ width: "90%", height: "auto" }} src={EventLogo} />
+				</EventImg>
 				<Title>
 					Australian Speedruns
 					<br />
@@ -208,7 +214,7 @@ export const Credits: React.FC = () => {
 						Software Manager<Name>Clubwho</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Runner Manager<Name>LaceyStripes</Name>
+						Runner Manager<Name>JTMagicman</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Marketing Manager<Name>Kuiperbole</Name>
@@ -219,9 +225,9 @@ export const Credits: React.FC = () => {
 					<NameWithRoles>
 						Creative Manager<Name>Synrey</Name>
 					</NameWithRoles>
-					{/* <NameWithRoles>
+					<NameWithRoles>
 						Event Consultant<Name>Upjohn</Name>
-					</NameWithRoles> */}
+					</NameWithRoles>
 				</NameContainer>
 				<Title>Tech</Title>
 				<NameContainer>
@@ -229,18 +235,18 @@ export const Credits: React.FC = () => {
 						<Name key={name}>{name}</Name>
 					))}
 				</NameContainer>
-				<Title>Runner Management</Title>
 				<NameContainer>
-					{RUNNER_MANAGEMENT.map((name) => (
+					{STAGE_HAND.map((name) => (
 						<Name key={name}>{name}</Name>
 					))}
 				</NameContainer>
-				<Title>Social Media</Title>
+				<Title>Front Desk</Title>
 				<NameContainer>
-					{SOCIAL_MEDIA.map((name) => (
+					{FRONT_DESK.map((name) => (
 						<Name key={name}>{name}</Name>
 					))}
 				</NameContainer>
+				<Title>Stage Hand</Title>
 				<Title>Hosts</Title>
 				<NameContainer>
 					{HOST.map((name) => (
@@ -257,7 +263,6 @@ export const Credits: React.FC = () => {
 				<NameContainer>
 					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
 					<NameWithRoles>PAX Australia</NameWithRoles>
-					<NameWithRoles>PlaySide Studios</NameWithRoles>
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
 					</NameWithRoles>
@@ -277,4 +282,4 @@ export const Credits: React.FC = () => {
 			</AllCredits>
 		</CreditsContainer>
 	);
-};
+}

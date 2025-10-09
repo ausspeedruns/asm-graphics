@@ -47,6 +47,10 @@ const Name = styled(FitText)`
 	max-width: 200px;
 	/* font-weight: bold; */
 	font-family: var(--main-font);
+
+	// ASAP2025
+	font-family: Montserrat;
+	font-weight: 900;
 `;
 
 const Expiration = styled(FitText)`

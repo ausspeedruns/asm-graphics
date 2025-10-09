@@ -19,6 +19,9 @@ const TickerCTAContainer = styled.div`
 	transform: translate(0px, -64px);
 	z-index: 2;
 	font-family: var(--main-font);
+
+	// ASAP2025
+	margin-top: -4px;
 `;
 
 const CTALine = styled.div`
