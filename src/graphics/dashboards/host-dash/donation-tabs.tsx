@@ -70,14 +70,14 @@ export const DonationTabs = () => {
 					<HostDashTab label="Manual Donations" value="manual" />
 				</HostDashTabList>
 
-				<TabPanel value="donations" sx={{ height: "100%" }}>
+				<TabPanel value="donations" sx={{ height: "100%", padding: 0 }}>
 					<Heading style={{ cursor: "pointer" }} onClick={copyDonateCommand}>
 						{(donationsRep ?? []).length} Donations
 					</Heading>
 					<Donations />
 				</TabPanel>
 
-				<TabPanel value="manual" sx={{ height: "100%" }}>
+				<TabPanel value="manual" sx={{ height: "100%", padding: 0 }}>
 					<Heading>Manual Donations ${(manualDonationRep ?? 0).toLocaleString()}</Heading>
 					<ManualDonations />
 				</TabPanel>

@@ -82,7 +82,7 @@ export const HostTabs = () => {
 					<HostDashTab style={{ maxWidth: "none" }} label="Prizes" value="1" />
 				</HostDashTabList>
 
-				<TabPanel value="0" sx={{ height: "100%" }}>
+				<TabPanel value="0" sx={{ height: "100%", padding: 0 }}>
 					<Heading>
 						Last Updated: {incentivesUpdatedRep ? format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"}
 						<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
@@ -94,7 +94,7 @@ export const HostTabs = () => {
 					/>
 				</TabPanel>
 
-				<TabPanel value="1" sx={{ height: "100%" }}>
+				<TabPanel value="1" sx={{ height: "100%", padding: 0 }}>
 					<PrizesHost style={{ paddingRight: 8 }} />
 				</TabPanel>
 			</TabContext>
