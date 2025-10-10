@@ -3,7 +3,7 @@ import _ from "underscore";
 
 import { automationSettingsRep, commentatorsRep, showHostRep } from "./replicants";
 
-import type { RunData, RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "nodecg/types";
 import { Commentator } from "@asm-graphics/types/OverlayProps";
 
@@ -114,5 +114,7 @@ function updateRunnerInformation(runner: Commentator) {
 nodecg.listenFor("transition:toIntermission", () => {
 	if (!automationSettingsRep.value.clearCommentators) return;
 
-	commentatorsRep.value = [];
+	const mutableCommentators = [...commentatorsRep.value];
+
+	commentatorsRep.value = mutableCommentators.filter(commentator => commentator.id === "host");
 });

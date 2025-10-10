@@ -90,6 +90,7 @@ export function HostName(props: Props) {
 						name: hostName,
 						pronouns: hostPronouns,
 						microphone: "Host",
+						tag: "Host",
 					});
 					props.updateCb?.({
 						id: "host",
