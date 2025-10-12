@@ -235,6 +235,7 @@ export function Credits() {
 						<Name key={name}>{name}</Name>
 					))}
 				</NameContainer>
+				<Title>Stage Hand</Title>
 				<NameContainer>
 					{STAGE_HAND.map((name) => (
 						<Name key={name}>{name}</Name>
@@ -246,7 +247,6 @@ export function Credits() {
 						<Name key={name}>{name}</Name>
 					))}
 				</NameContainer>
-				<Title>Stage Hand</Title>
 				<Title>Hosts</Title>
 				<NameContainer>
 					{HOST.map((name) => (
