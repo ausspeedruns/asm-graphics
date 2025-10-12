@@ -709,6 +709,7 @@ export function IntermissionElement(props: IntermissionProps) {
 							gap: 16,
 							height: 129,
 							marginBottom: 31,
+							paddingTop: 25,
 						}}
 					>
 						<DonationAmount
@@ -730,7 +731,7 @@ export function IntermissionElement(props: IntermissionProps) {
 						<img src={ASLogo} style={{ height: 50 }} />
 					</div>
 					{/* {props.donationMatchMultiplier && props.donationMatchMultiplier > 1 && ( */}
-					{props.donationMatchMultiplier && (
+					{props.donationMatchMultiplier > 1 && (
 						<span style={{ marginTop: 5, fontSize: 30, color: "black", fontWeight: "600" }}>
 							Donations are worth{" "}
 							<GradientTextWhiteBackground>

@@ -189,9 +189,6 @@ importers:
       needle:
         specifier: ^3.3.1
         version: 3.3.1
-      nodecg-speedcontrol:
-        specifier: 'link:'
-        version: 'link:'
       p-iteration:
         specifier: ^1.1.8
         version: 1.1.8

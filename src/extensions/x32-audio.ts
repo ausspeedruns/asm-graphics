@@ -197,7 +197,7 @@ nodecg.listenFor("transition:toIntermission", () => {
 			if (channel === HostHeadset.micInput && mixBus <= 1) return;
 
 			if (channel === OBSChannel && mixBus === 1) {
-				fadeUnmute(channel, mixBus, 0.6);
+				fadeUnmute(channel, mixBus, 0.4);
 			} else {
 				fadeMute(channel, mixBus);
 			}

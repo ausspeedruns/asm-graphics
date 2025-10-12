@@ -214,7 +214,7 @@ export function Person(props: PersonProps) {
 				</MicRow>
 
 				<ActionsRow>
-					<Tooltip placement="top" title={talkbackEnabled ? "Disable Talkback" : "Enable Talkback"}>
+					{/* <Tooltip placement="top" title={talkbackEnabled ? "Disable Talkback" : "Enable Talkback"}>
 						<IconButton
 							color={talkbackEnabled ? "primary" : "inherit"}
 							onClick={toggleTalkback}
@@ -222,7 +222,7 @@ export function Person(props: PersonProps) {
 						>
 							<RecordVoiceOver />
 						</IconButton>
-					</Tooltip>
+					</Tooltip> */}
 					<Tooltip
 						placement="top"
 						title={

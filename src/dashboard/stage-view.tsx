@@ -243,13 +243,13 @@ export function DashboardStageView() {
 					<CurrentRunInfo />
 					<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
 						<i>I am aware this is a bit buggy. It will be remade next event.</i>
-						<Button
+						{/* <Button
 							onClick={toggleTalkToAll}
 							color="primary"
 							variant={currentTalkbackTargets.length === allIds.length ? "contained" : "outlined"}
 						>
 							Talk to All
-						</Button>
+						</Button> */}
 					</div>
 					<ScheduleInfo />
 				</TopBar>
@@ -257,7 +257,7 @@ export function DashboardStageView() {
 					<DndContext onDragEnd={handleCrossDragEnd} sensors={sensors}>
 						<RowHeading>
 							Commentators
-							<Button
+							{/* <Button
 								startIcon={<RecordVoiceOver />}
 								onClick={toggleTalkbackCommentators}
 								color="primary"
@@ -269,7 +269,7 @@ export function DashboardStageView() {
 								}
 							>
 								Talk to Commentators
-							</Button>
+							</Button> */}
 						</RowHeading>
 						<StageRow>
 							<DroppableZone id="zone:commentators">
@@ -304,7 +304,7 @@ export function DashboardStageView() {
 						<hr style={{ width: "50%", opacity: 0.5 }} />
 						<RowHeading>
 							Runners{" "}
-							<Button
+							{/* <Button
 								startIcon={<RecordVoiceOver />}
 								onClick={toggleTalkbackRunners}
 								color="primary"
@@ -315,7 +315,7 @@ export function DashboardStageView() {
 								}
 							>
 								Talk to Runners
-							</Button>
+							</Button> */}
 						</RowHeading>
 						<DroppableZone id="zone:runners">
 							<StageRow>
@@ -356,9 +356,9 @@ export function DashboardStageView() {
 					Crowd <ArrowDownward />
 				</div>
 				<BottomBar>
-					<Button color="error" onClick={forceStopTalkback}>
+					{/* <Button color="error" onClick={forceStopTalkback}>
 						Force Stop Talkback
-					</Button>
+					</Button> */}
 				</BottomBar>
 			</DashboardStageViewContainer>
 			<CouchEditDialog

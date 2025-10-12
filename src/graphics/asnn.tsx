@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import gsap from "gsap";
 
 import ASNNBug from "./media/asnn.webm";
-import { TickerOverlay } from "./ticker";
+import { TickerOverlay } from "./elements/ticker";
 import { FitText } from "./elements/fit-text";
 
 const TestContainer = styled.div``;
