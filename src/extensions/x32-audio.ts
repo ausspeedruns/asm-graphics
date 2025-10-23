@@ -68,7 +68,7 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 			}`,
 		);
 		// Unmute
-		x32.fade(channel, mixBus, 0, 0.7, 1500);
+		x32.fade(channel, mixBus, 0, to, 1500);
 	}
 }
 
@@ -176,6 +176,15 @@ nodecg.listenFor("transition:toGame", (_data) => {
 	// Lerp stream and speakers mix to previewMix values
 	const previewMixFaders = faderValues[13];
 
+	// mute OBS (music) on speakers AND STREAM
+	loopAllX32(
+		(channel, mixBus) => {
+			if (channel === OBSChannel && mixBus <= 1) {
+				fadeMute(channel, mixBus);
+			}
+		}, 32, 1,
+	);
+
 	setTimeout(() => {
 		previewMixFaders.forEach((previewFader, channel) => {
 			if (channel === HostHeadset.micInput) return;
@@ -196,8 +205,9 @@ nodecg.listenFor("transition:toIntermission", () => {
 			// TODO: Cleanup
 			if (channel === HostHeadset.micInput && mixBus <= 1) return;
 
-			if (channel === OBSChannel && mixBus === 1) {
-				fadeUnmute(channel, mixBus, 0.4);
+			// unmute OBS (music) on speakers AND STREAM
+			if (channel === OBSChannel && mixBus <= 1) {
+				fadeUnmute(channel, mixBus, 0.32);
 			} else {
 				fadeMute(channel, mixBus);
 			}
