@@ -176,45 +176,52 @@ nodecg.listenFor("transition:toGame", (_data) => {
 	// Lerp stream and speakers mix to previewMix values
 	const previewMixFaders = faderValues[13];
 
-	// mute OBS (music) on speakers AND STREAM
-	loopAllX32(
-		(channel, mixBus) => {
-			if (channel === OBSChannel && mixBus <= 1) {
-				fadeMute(channel, mixBus);
-			}
-		}, 32, 1,
-	);
+	// TODO: replace these with replicants we can control in dashboard?
+	let unmuteDelay = 5000;
+	let muteDelay = 1000;
 
+	// apply preview mixbus to stream + speaker mixbuses
 	setTimeout(() => {
 		previewMixFaders.forEach((previewFader, channel) => {
-			if (channel === HostHeadset.micInput) return;
-			x32.fade(channel, 0, 0, previewFader, 2000); // Stream
-			x32.fade(channel, 1, 0, previewFader, 2000); // Speakers
+			if (channel !== HostHeadset.micInput && channel !== OBSChannel && channel !== OBSChannel+1){
+				fadeUnmute(channel, 0, previewFader); // stream
+				fadeUnmute(channel, 1, previewFader); // speakers
+			}
 		});
-	}, 1500);
+	}, unmuteDelay);
+
+	// mute OBS (intermission music + transition)
+	setTimeout(() => {
+		fadeMute(OBSChannel, 0); // stream
+		fadeMute(OBSChannel, 1); // speakers
+	}, muteDelay);
+
 });
+
 
 // On transition to intermission
 nodecg.listenFor("transition:toIntermission", () => {
 	if (!automationSettingsRep.value.audioMixing) return;
 
-	// Mute all inputs but host mic on main LR
-	loopAllX32(
-		(channel, mixBus) => {
-			// Don't even attempt to mute the channels since sometimes it gets lost
-			// TODO: Cleanup
-			if (channel === HostHeadset.micInput && mixBus <= 1) return;
+	// TODO: replace these with replicants we can control in dashboard?
+	let unmuteDelay = 2000;
+	let muteDelay = 1000;
+	let OBSVolume = 0.32;
 
-			// unmute OBS (music) on speakers AND STREAM
-			if (channel === OBSChannel && mixBus <= 1) {
-				fadeUnmute(channel, mixBus, 0.32);
-			} else {
+	// unmute OBS (intermission music + transition)
+	setTimeout(()=>{
+		fadeUnmute(OBSChannel, 0, OBSVolume); // stream
+		fadeUnmute(OBSChannel, 1, OBSVolume); // speakers
+	}, unmuteDelay);
+
+	// mute everything except OBS and host
+	setTimeout(()=>{
+		loopAllX32((channel, mixBus) => {
+			if (channel !== HostHeadset.micInput && channel !== OBSChannel && channel !== OBSChannel+1){
 				fadeMute(channel, mixBus);
 			}
-		},
-		32,
-		1,
-	);
+		}, 32, 1,);
+	}, muteDelay);
 
 	// Reset names
 	for (const mic of Headsets) {
