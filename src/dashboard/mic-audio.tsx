@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { darkTheme } from "./theme";
-import { RecordVoiceOver, WbIncandescent, Speaker, LiveTv } from "@mui/icons-material";
+import { RecordVoiceOver, WbIncandescent, Speaker, LiveTv, MusicNote } from "@mui/icons-material";
 
 const Label = styled.div`
 	display: flex;
@@ -100,6 +100,9 @@ export const DashboardMicAudio: React.FC = () => {
 	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate");
 	const [hostLevelStreamRep, setHostLevelStreamRep] = useReplicant<number>("x32:host-level-stream");
 	const [hostLevelSpeakersRep, setHostLevelSpeakersRep] = useReplicant<number>("x32:host-level-speakers");
+	const [obsLevelStreamRep, setObsLevelStreamRep] = useReplicant<number>("obs-level-stream");
+	const [obsLevelSpeakersRep, setObsLevelSpeakersRep] = useReplicant<number>("obs-level-speakers");	
+
 
 	return (
 		<ThemeProvider theme={darkTheme}>
@@ -109,7 +112,7 @@ export const DashboardMicAudio: React.FC = () => {
 				</Label>
 				<SliderContainer>
 					<Slider
-						style={{ margin: "auto" }}
+						style={{ margin: "auto", color:"#ff5eb1"   }}
 						size="small"
 						value={hostLevelStreamRep ?? 0}
 						onChange={(_, newVal) => {
@@ -146,7 +149,7 @@ export const DashboardMicAudio: React.FC = () => {
 				</Label>
 				<SliderContainer>
 					<Slider
-						style={{ margin: "auto" }}
+						style={{ margin: "auto", color:"#ff5eb1"   }}
 						size="small"
 						value={hostLevelSpeakersRep ?? 0}
 						onChange={(_, newVal) => {
@@ -178,6 +181,81 @@ export const DashboardMicAudio: React.FC = () => {
 						}}
 					/>
 				</SliderContainer>
+				<Label>
+					<MusicNote /> <LiveTv /> OBS (Music) Audio Level STREAM
+				</Label>
+				<SliderContainer>
+					<Slider
+						style={{ margin: "auto", color:"#fff"  }}
+						size="small"
+						value={obsLevelStreamRep ?? 0}
+						onChange={(_, newVal) => {
+							if (!Array.isArray(newVal)) {
+								setObsLevelStreamRep(newVal);
+							}
+						}}
+						min={0}
+						max={1}
+						step={0.001}
+						marks={marks}
+						scale={floatToDB}
+						valueLabelDisplay="auto"
+						valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
+					/>
+					<Input
+						value={floatToDB(obsLevelStreamRep ?? 0).toFixed(1)}
+						size="small"
+						onChange={(e) => {
+							if (isNumeric(e.target.value)) {
+								setObsLevelStreamRep(parseFloat(e.target.value));
+							}
+						}}
+						inputProps={{
+							step: 1,
+							min: -90,
+							max: 10,
+							type: "number",
+						}}
+					/>
+				</SliderContainer>
+				<Label>
+					<MusicNote /> <Speaker /> OBS (Music) Audio Level SPEAKERS
+				</Label>
+				<SliderContainer>
+					<Slider
+						style={{ margin: "auto", color:"#fff" }}
+						size="small"
+						value={obsLevelSpeakersRep ?? 0}
+						onChange={(_, newVal) => {
+							if (!Array.isArray(newVal)) {
+								setObsLevelSpeakersRep(newVal);
+							}
+						}}
+						min={0}
+						max={1}
+						step={0.001}
+						marks={marks}
+						scale={floatToDB}
+						valueLabelDisplay="auto"
+						valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
+						
+					/>
+					<Input
+						value={floatToDB(obsLevelSpeakersRep ?? 0).toFixed(1)}
+						size="small"
+						onChange={(e) => {
+							if (isNumeric(e.target.value)) {
+								setObsLevelSpeakersRep(parseFloat(e.target.value));
+							}
+						}}
+						inputProps={{
+							step: 1,
+							min: -90,
+							max: 10,
+							type: "number",
+						}}
+					/>
+				</SliderContainer>				
 				<Label>
 					<WbIncandescent /> Microphone Indicator Activation dB
 				</Label>

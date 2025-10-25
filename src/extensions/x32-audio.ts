@@ -9,6 +9,8 @@ import {
 	gameAudioActiveRep,
 	hostLevelStreamRep,
 	hostLevelSpeakersRep,
+	obsLevelStreamRep,
+	obsLevelSpeakersRep,
 	automationSettingsRep,
 } from "./replicants";
 
@@ -16,7 +18,16 @@ import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
-import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data";
+import { 
+	GameInputChannels,
+	HandheldMicChannel,
+	Headsets,
+	HostHeadset,
+	OBSChannel,
+	StreamMixBus,
+	SpeakersMixBus,
+	PreviewMixBus
+} from "./audio-data";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const nodecg = nodecgApiContext.get();
@@ -174,47 +185,52 @@ SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 // On transition to game view
 nodecg.listenFor("transition:toGame", (_data) => {
 	// Lerp stream and speakers mix to previewMix values
-	const previewMixFaders = faderValues[13];
+	const previewMixFaders = faderValues[PreviewMixBus];
 
-	// mute OBS (music) on speakers AND STREAM
-	loopAllX32(
-		(channel, mixBus) => {
-			if (channel === OBSChannel && mixBus <= 1) {
-				fadeMute(channel, mixBus);
-			}
-		}, 32, 1,
-	);
+	// TODO: replace these with replicants we can control in dashboard?
+	let unmuteDelay = 1000;
+	let muteDelay = 5000;
 
+	// apply preview mixbus to stream + speaker mixbuses
 	setTimeout(() => {
 		previewMixFaders.forEach((previewFader, channel) => {
 			if (channel === HostHeadset.micInput) return;
-			x32.fade(channel, 0, 0, previewFader, 2000); // Stream
-			x32.fade(channel, 1, 0, previewFader, 2000); // Speakers
+			if (channel === OBSChannel || channel === OBSChannel+1) return; // +1 to check both L and R channels
+			fadeUnmute(channel, StreamMixBus, previewFader);
+			fadeUnmute(channel, SpeakersMixBus, previewFader);
 		});
-	}, 1500);
+	}, unmuteDelay);
+
+	// mute OBS (intermission music + transition)
+	setTimeout(() => {
+		fadeMute(OBSChannel, StreamMixBus);
+		fadeMute(OBSChannel, SpeakersMixBus);
+	}, muteDelay);
+
 });
 
 // On transition to intermission
 nodecg.listenFor("transition:toIntermission", () => {
 	if (!automationSettingsRep.value.audioMixing) return;
 
-	// Mute all inputs but host mic on main LR
-	loopAllX32(
-		(channel, mixBus) => {
-			// Don't even attempt to mute the channels since sometimes it gets lost
-			// TODO: Cleanup
-			if (channel === HostHeadset.micInput && mixBus <= 1) return;
+	// TODO: replace these with replicants we can control in dashboard?
+	let unmuteDelay = 500;
+	let muteDelay = 2000;
 
-			// unmute OBS (music) on speakers AND STREAM
-			if (channel === OBSChannel && mixBus <= 1) {
-				fadeUnmute(channel, mixBus, 0.32);
-			} else {
-				fadeMute(channel, mixBus);
-			}
-		},
-		32,
-		1,
-	);
+	// unmute OBS (intermission music + transition)
+	setTimeout(()=>{
+		fadeUnmute(OBSChannel, StreamMixBus, obsLevelStreamRep.value);
+		fadeUnmute(OBSChannel, SpeakersMixBus, obsLevelSpeakersRep.value);
+	}, unmuteDelay);
+
+	// mute everything except OBS and host
+	setTimeout(()=>{
+		loopAllX32((channel, mixBus) => {
+			if (channel === HostHeadset.micInput) return;
+			if (channel === OBSChannel || channel === OBSChannel+1) return; // +1 to check both L and R channels
+			fadeMute(channel, mixBus);
+		}, 32, 1,);
+	}, muteDelay);
 
 	// Reset names
 	for (const mic of Headsets) {
@@ -271,14 +287,14 @@ nodecg.listenFor("x32:changeGameAudio", (channelIndex) => {
 		`[X32 Audio] Changing audio from ${activeIndex}/${X32.channelIndex[activeIndex]} to ${gameChannelIndex}/${X32.channelIndex[gameChannelIndex]}`,
 	);
 
-	x32.fade(activeIndex, 0, highestFaderVal, 0, 1500);
-	x32.fade(activeIndex, 1, highestSpeakerFaderVal, 0, 1500);
+	x32.fade(activeIndex, StreamMixBus, highestFaderVal, 0, 1500);
+	x32.fade(activeIndex, SpeakersMixBus, highestSpeakerFaderVal, 0, 1500);
 
 	// Wait for fade of previous game
 	setTimeout(() => {
 		// Assume that the audio level the previous game was at will also be ok
-		x32.fade(gameChannelIndex, 0, 0, highestFaderVal, 1500);
-		x32.fade(gameChannelIndex, 1, 0, highestSpeakerFaderVal, 1500);
+		x32.fade(gameChannelIndex, StreamMixBus, 0, highestFaderVal, 1500);
+		x32.fade(gameChannelIndex, SpeakersMixBus, 0, highestSpeakerFaderVal, 1500);
 		gameAudioActiveRep.value = channelIndex;
 	}, 1500);
 });
