@@ -29,4 +29,8 @@ export const Headsets = [
 	{ name: "NONE", colour: "#000", textColour: "#fff", mixBus: -1, micInput: -1 },
 ] as const satisfies Headset[];
 
+export const StreamMixBus = 0; // both L+R
+
+export const SpeakerMixBus = 1; // paired with 2 via Stereo Link
+
 export const PreviewMixBus = 13; // Paired with 14 via Stereo link

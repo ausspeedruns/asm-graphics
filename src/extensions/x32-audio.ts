@@ -16,7 +16,16 @@ import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
-import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data";
+import { 
+	GameInputChannels,
+	HandheldMicChannel,
+	Headsets,
+	HostHeadset,
+	OBSChannel,
+	StreamMixBus,
+	SpeakerMixBus,
+	PreviewMixBus
+} from "./audio-data";
 import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const nodecg = nodecgApiContext.get();
@@ -174,52 +183,51 @@ SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 // On transition to game view
 nodecg.listenFor("transition:toGame", (_data) => {
 	// Lerp stream and speakers mix to previewMix values
-	const previewMixFaders = faderValues[13];
+	const previewMixFaders = faderValues[PreviewMixBus];
 
 	// TODO: replace these with replicants we can control in dashboard?
-	let unmuteDelay = 5000;
-	let muteDelay = 1000;
+	let unmuteDelay = 1000;
+	let muteDelay = 5000;
 
 	// apply preview mixbus to stream + speaker mixbuses
 	setTimeout(() => {
 		previewMixFaders.forEach((previewFader, channel) => {
-			if (channel !== HostHeadset.micInput && channel !== OBSChannel && channel !== OBSChannel+1){
-				fadeUnmute(channel, 0, previewFader); // stream
-				fadeUnmute(channel, 1, previewFader); // speakers
-			}
+			if (channel === HostHeadset.micInput) return;
+			if (channel === OBSChannel || channel === OBSChannel+1) return; // +1 to check both L and R channels
+			fadeUnmute(channel, StreamMixBus, previewFader);
+			fadeUnmute(channel, SpeakerMixBus, previewFader);
 		});
 	}, unmuteDelay);
 
 	// mute OBS (intermission music + transition)
 	setTimeout(() => {
-		fadeMute(OBSChannel, 0); // stream
-		fadeMute(OBSChannel, 1); // speakers
+		fadeMute(OBSChannel, StreamMixBus);
+		fadeMute(OBSChannel, SpeakerMixBus);
 	}, muteDelay);
 
 });
-
 
 // On transition to intermission
 nodecg.listenFor("transition:toIntermission", () => {
 	if (!automationSettingsRep.value.audioMixing) return;
 
 	// TODO: replace these with replicants we can control in dashboard?
-	let unmuteDelay = 2000;
-	let muteDelay = 1000;
+	let unmuteDelay = 500;
+	let muteDelay = 2000;
 	let OBSVolume = 0.32;
 
 	// unmute OBS (intermission music + transition)
 	setTimeout(()=>{
-		fadeUnmute(OBSChannel, 0, OBSVolume); // stream
-		fadeUnmute(OBSChannel, 1, OBSVolume); // speakers
+		fadeUnmute(OBSChannel, StreamMixBus, OBSVolume);
+		fadeUnmute(OBSChannel, SpeakerMixBus, OBSVolume);
 	}, unmuteDelay);
 
 	// mute everything except OBS and host
 	setTimeout(()=>{
 		loopAllX32((channel, mixBus) => {
-			if (channel !== HostHeadset.micInput && channel !== OBSChannel && channel !== OBSChannel+1){
-				fadeMute(channel, mixBus);
-			}
+			if (channel === HostHeadset.micInput) return;
+			if (channel === OBSChannel || channel === OBSChannel+1) return; // +1 to check both L and R channels
+			fadeMute(channel, mixBus);
 		}, 32, 1,);
 	}, muteDelay);
 
