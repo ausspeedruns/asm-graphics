@@ -39,6 +39,8 @@ export const gameAudioActiveRep = nodecg.Replicant<number>("game-audio-indicator
 export const microphoneGateRep = nodecg.Replicant<number>("x32:audio-gate", { defaultValue: -10 });
 export const hostLevelStreamRep = nodecg.Replicant<number>("x32:host-level-stream", { defaultValue: 0.75 });
 export const hostLevelSpeakersRep = nodecg.Replicant<number>("x32:host-level-speakers", { defaultValue: 0.75 });
+export const obsLevelStreamRep = nodecg.Replicant<number>("obs-level-stream", { defaultValue: 0.32 });
+export const obsLevelSpeakersRep = nodecg.Replicant<number>("obs-level-speakers", { defaultValue: 0.32 });
 export const gameAudioNamesRep = nodecg.Replicant<string[]>("game-audio-names", { defaultValue: [] });
 
 /* OBS Audio */
