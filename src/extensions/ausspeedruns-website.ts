@@ -1,12 +1,12 @@
 import * as nodecgApiContext from "./nodecg-api-context";
-import { request, gql } from "graphql-request";
 import { z } from "zod";
 
 import { allAusSpeedrunsUsernamesRep } from "./replicants";
+import { queryGraphQL } from "./util/graphql";
 
 const nodecg = nodecgApiContext.get();
 
-const QUERY_USERS = gql`
+const QUERY_USERS = `
 	query {
 		users {
 			id
@@ -32,7 +32,7 @@ async function getAllUsers() {
 	if (!nodecg.bundleConfig.graphql) return;
 
 	try {
-		const results = await request(nodecg.bundleConfig.graphql.url, QUERY_USERS);
+		const results = await queryGraphQL(nodecg.bundleConfig.graphql.url, QUERY_USERS);
 
 		return queryUsers.parse(results).users;
 	} catch (error) {

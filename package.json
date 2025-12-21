@@ -38,8 +38,6 @@
 		"@uidotdev/usehooks": "^2.4.1",
 		"date-fns": "^4.1.0",
 		"fast-deep-equal": "^3.1.3",
-		"graphql": "^16.11.0",
-		"graphql-request": "6.1.0",
 		"gsap": "^3.13.0",
 		"nodecg": "^2.6.1",
 		"obs-websocket-js": "^5.0.6",
@@ -119,14 +117,6 @@
 				"headerColor": "#CC7722",
 				"file": "donations.html",
 				"workspace": "ASM Misc"
-			},
-			{
-				"name": "stream",
-				"title": "Stream",
-				"width": 3,
-				"headerColor": "#9146FF",
-				"file": "stream.html",
-				"workspace": "ASM Deprecated"
 			},
 			{
 				"name": "fullcam",

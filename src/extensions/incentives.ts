@@ -1,11 +1,11 @@
 // Mostly handles the activation and deactivation of incentives
 import { Goal, War } from "@asm-graphics/types/Incentives";
 import * as nodecgApiContext from "./nodecg-api-context";
-import { request, gql } from "graphql-request";
 import { z } from "zod";
 import _ from "underscore";
 
 import { incentivesRep, incentivesUpdatedLastRep } from "./replicants";
+import { queryGraphQL } from "./util/graphql";
 
 const nodecg = nodecgApiContext.get();
 
@@ -70,9 +70,9 @@ async function getIncentives() {
 	if (!nodecg.bundleConfig.graphql) return;
 
 	try {
-		const results = await request(
+		const results = await queryGraphQL(
 			nodecg.bundleConfig.graphql!.url,
-			gql`
+			`
 				query {
 					incentives(where: { event: { shortname: { equals: "${nodecg.bundleConfig.graphql.event}" } } }) {
 						id
@@ -153,9 +153,9 @@ nodecg.listenFor("updateIncentive", async (data, callback) => {
 		return;
 	}
 
-	await request(
+	await queryGraphQL(
 		nodecg.bundleConfig.graphql!.url,
-		gql`
+		`
 			mutation UpdateIncentive($incentiveId: String!, $active: Boolean!, $data: JSON!, $apiKey: String!) {
 				updateIncentiveNodeCG(incentiveId: $incentiveId, active: $active, data: $data, apiKey: $apiKey) {
 					id

@@ -59,12 +59,6 @@ importers:
       fast-deep-equal:
         specifier: ^3.1.3
         version: 3.1.3
-      graphql:
-        specifier: ^16.11.0
-        version: 16.11.0
-      graphql-request:
-        specifier: 6.1.0
-        version: 6.1.0(graphql@16.11.0)
       gsap:
         specifier: ^3.13.0
         version: 3.13.0
@@ -217,9 +211,6 @@ importers:
       '@mdi/font':
         specifier: ^7.4.47
         version: 7.4.47
-      '@nodecg/types':
-        specifier: ~2.4.3
-        version: 2.4.3(@types/express@5.0.3)(better-sqlite3@9.6.0)(typescript@4.9.5)
       '@types/clone':
         specifier: ^2.1.4
         version: 2.1.4
@@ -304,6 +295,9 @@ importers:
       mini-css-extract-plugin:
         specifier: ^2.9.4
         version: 2.9.4(webpack@5.104.1)
+      nodecg:
+        specifier: ^2.6.1
+        version: 2.6.1(@types/express@5.0.3)(babel-plugin-macros@3.1.0)(reflect-metadata@0.1.14)(typescript@4.9.5)
       nodecg-cli:
         specifier: ^8.7.0
         version: 8.7.0(@types/node@18.19.130)
@@ -850,11 +844,6 @@ packages:
   '@fontsource/roboto@4.5.8':
     resolution: {integrity: sha512-CnD7zLItIzt86q4Sj3kZUiLcBk1dSk81qcqgMGaZe7SQ1P8hFNxhMl5AZthK1zrDM5m74VVhaOpuMGIL4gagaA==}
 
-  '@graphql-typed-document-node/core@3.2.0':
-    resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-
   '@gsap/react@2.1.2':
     resolution: {integrity: sha512-JqliybO1837UcgH2hVOM4VO+38APk3ECNrsuSM4MuXp+rbf+/2IG2K1YJiqfTcXQHH7XlA0m3ykniFYstfq0Iw==}
     peerDependencies:
@@ -1341,9 +1330,6 @@ packages:
 
   '@nodecg/react-hooks@1.0.3':
     resolution: {integrity: sha512-v8CG3LObo72dHxR5Kxm7DV3iQKmxYzdzxoKKsntWC9Zftr6WQFWwv2AxH9AvDbZr/Sq5KOrIiDznkkl0VAYiEg==}
-
-  '@nodecg/types@2.4.3':
-    resolution: {integrity: sha512-PpLHrX3pO9g5ZxbdQsHd6q4S7a+HKlgJElVknwaW+OpwLQQy+iXbwYMDUrUed6pp4g65ti1I2FoqjmeKrYELgA==}
 
   '@nodecg/types@2.5.3':
     resolution: {integrity: sha512-dHkGSsW4PEy7SoMafCveWh6dsMZHP/JINHkSS70kVCY8ZMGdAqcTQcYegkrCuKevXDjxDQ2QulHYmc/aY+6LOw==}
@@ -3201,9 +3187,6 @@ packages:
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
     hasBin: true
 
-  cross-fetch@3.2.0:
-    resolution: {integrity: sha512-Q+xVJLoGOeIMXZmbUK4HYk+69cQH6LudR0Vu/pRm2YlU/hDV9CiS0gKUMaWY5f2NeUH9C1nV3bsTlCo0FsTV1Q==}
-
   cross-spawn@6.0.6:
     resolution: {integrity: sha512-VqCUuhcd1iB+dsv8gxPttb5iZh/D0iubSP21g36KXdEuf6I5JiioesUVjpCdHV9MZRUfVFlvwtIUyPfxo5trtw==}
     engines: {node: '>=4.8'}
@@ -4058,15 +4041,6 @@ packages:
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
-
-  graphql-request@6.1.0:
-    resolution: {integrity: sha512-p+XPfS4q7aIpKVcgmnZKhMNqhltk20hfXtkaIkTfjjmiKMJ5xrt5c743cL03y/K7y1rg3WrIC49xGiEQ4mxdNw==}
-    peerDependencies:
-      graphql: 14 - 16
-
-  graphql@16.11.0:
-    resolution: {integrity: sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw==}
-    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   gsap@3.13.0:
     resolution: {integrity: sha512-QL7MJ2WMjm1PHWsoFrAQH/J8wUeqZvMtHO58qdekHpCfhvhSL4gSiz6vJf5EeMP0LOn3ZCprL2ki/gjED8ghVw==}
@@ -7456,10 +7430,6 @@ snapshots:
 
   '@fontsource/roboto@4.5.8': {}
 
-  '@graphql-typed-document-node/core@3.2.0(graphql@16.11.0)':
-    dependencies:
-      graphql: 16.11.0
-
   '@gsap/react@2.1.2(gsap@3.13.0)(react@19.1.1)':
     dependencies:
       gsap: 3.13.0
@@ -8100,48 +8070,6 @@ snapshots:
       - '@types/express'
       - bufferutil
       - debug
-      - hdb-pool
-      - ioredis
-      - mongodb
-      - mssql
-      - mysql2
-      - oracledb
-      - pg
-      - pg-native
-      - pg-query-stream
-      - redis
-      - sql.js
-      - sqlite3
-      - supports-color
-      - ts-node
-      - typeorm-aurora-data-api-driver
-      - typescript
-      - utf-8-validate
-
-  '@nodecg/types@2.4.3(@types/express@5.0.3)(better-sqlite3@9.6.0)(typescript@4.9.5)':
-    dependencies:
-      '@polymer/polymer': 3.5.2
-      '@sentry/browser': 7.120.3
-      '@sentry/node': 7.120.3
-      '@types/cookie-parser': 1.4.9(@types/express@5.0.3)
-      '@types/express-session': 1.18.2
-      '@types/multer': 1.4.13
-      '@types/node': 18.19.130
-      '@types/passport': 1.0.17
-      '@types/soundjs': 0.6.31
-      ajv: 8.17.1
-      socket.io: 4.8.1
-      socket.io-client: 4.8.1
-      ts-essentials: 9.4.2(typescript@4.9.5)
-      typeorm: 0.3.19(better-sqlite3@9.6.0)
-      winston: 3.17.0
-      zod: 3.25.75
-    transitivePeerDependencies:
-      - '@google-cloud/spanner'
-      - '@sap/hana-client'
-      - '@types/express'
-      - better-sqlite3
-      - bufferutil
       - hdb-pool
       - ioredis
       - mongodb
@@ -10196,6 +10124,15 @@ snapshots:
       path-type: 4.0.0
       yaml: 1.10.2
 
+  cosmiconfig@8.3.6(typescript@4.9.5):
+    dependencies:
+      import-fresh: 3.3.1
+      js-yaml: 4.1.0
+      parse-json: 5.2.0
+      path-type: 4.0.0
+    optionalDependencies:
+      typescript: 4.9.5
+
   cosmiconfig@8.3.6(typescript@5.9.2):
     dependencies:
       import-fresh: 3.3.1
@@ -10208,12 +10145,6 @@ snapshots:
   cross-env@7.0.3:
     dependencies:
       cross-spawn: 7.0.6
-
-  cross-fetch@3.2.0:
-    dependencies:
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
 
   cross-spawn@6.0.6:
     dependencies:
@@ -11274,16 +11205,6 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  graphql-request@6.1.0(graphql@16.11.0):
-    dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@16.11.0)
-      cross-fetch: 3.2.0
-      graphql: 16.11.0
-    transitivePeerDependencies:
-      - encoding
-
-  graphql@16.11.0: {}
-
   gsap@3.13.0: {}
 
   hard-rejection@2.1.0: {}
@@ -12300,6 +12221,121 @@ snapshots:
       tar: 7.4.3
     transitivePeerDependencies:
       - '@types/node'
+
+  nodecg@2.6.1(@types/express@5.0.3)(babel-plugin-macros@3.1.0)(reflect-metadata@0.1.14)(typescript@4.9.5):
+    dependencies:
+      '@nodecg/cli': 2.6.1(@types/node@20.19.1)
+      '@nodecg/database-adapter-sqlite-legacy': 2.6.1(babel-plugin-macros@3.1.0)(reflect-metadata@0.1.14)
+      '@nodecg/database-adapter-types': 2.6.1
+      '@nodecg/internal-util': 2.6.1
+      '@nodecg/json-schema-defaults': 1.0.4
+      '@nodecg/json-schema-lib': 0.1.0
+      '@open-iframe-resizer/core': 1.6.0
+      '@polymer/app-layout': 3.1.0
+      '@polymer/app-route': 3.0.2
+      '@polymer/iron-collapse': 3.0.1
+      '@polymer/iron-flex-layout': 3.0.1
+      '@polymer/iron-icons': 3.0.1
+      '@polymer/iron-image': 3.0.2
+      '@polymer/iron-localstorage': 3.0.1
+      '@polymer/iron-pages': 3.0.1
+      '@polymer/iron-selector': 3.0.1
+      '@polymer/paper-button': 3.0.1
+      '@polymer/paper-card': 3.0.1
+      '@polymer/paper-dialog': 3.0.1
+      '@polymer/paper-dialog-behavior': 3.0.1
+      '@polymer/paper-dialog-scrollable': 3.0.1
+      '@polymer/paper-icon-button': 3.0.2
+      '@polymer/paper-item': 3.0.1
+      '@polymer/paper-slider': 3.0.1
+      '@polymer/paper-spinner': 3.0.2
+      '@polymer/paper-styles': 3.0.1
+      '@polymer/paper-tabs': 3.1.0
+      '@polymer/paper-toast': 3.0.1
+      '@polymer/paper-toolbar': 3.0.1
+      '@polymer/polymer': 3.5.2
+      '@sentry/browser': 7.120.3
+      '@sentry/node': 7.120.3
+      '@types/cookie-parser': 1.4.9(@types/express@5.0.3)
+      '@types/express-session': 1.18.2
+      '@types/multer': 1.4.13
+      '@types/node': 20.19.1
+      '@types/passport': 1.0.17
+      '@types/soundjs': 0.6.31
+      '@vaadin/vaadin-upload': 4.4.4
+      '@webcomponents/webcomponentsjs': 2.8.0
+      ajv: 8.17.1
+      ajv-draft-04: 1.0.0(ajv@8.17.1)
+      ajv-formats: 2.1.1(ajv@8.17.1)
+      body-parser: 1.20.3
+      cheerio: 1.0.0-rc.12
+      chokidar: 4.0.3
+      clipboard: 2.0.11
+      compression: 1.8.0
+      cookie-parser: 1.4.7
+      cookies-js: 1.2.3
+      cosmiconfig: 8.3.6(typescript@4.9.5)
+      draggabilly: 2.4.1
+      events: 3.3.0
+      express: 4.21.2
+      express-session: 1.18.1
+      express-transform-bare-module-specifiers: 1.0.4
+      extend: 3.0.2
+      fast-equals: 5.2.2
+      fast-memoize: 2.5.2
+      fp-ts: 2.16.10
+      git-rev-sync: 3.0.2
+      hasha: 5.2.2
+      httpolyglot: 0.1.2
+      is-error: 2.2.2
+      json-ptr: 3.1.1
+      klona: 2.0.6
+      lodash: 4.17.21
+      multer: 1.4.5-lts.2
+      nano-spawn: 0.2.1
+      object-path: 0.11.8
+      packery: 3.0.0
+      passport: 0.6.0
+      passport-discord: 0.1.4
+      passport-local: 1.0.0
+      passport-steam: 1.0.18
+      passport-twitch-helix: 1.1.0
+      process: 0.11.10
+      semver: 7.7.2
+      serialize-error: 8.1.0
+      socket.io: 4.8.1
+      socket.io-client: 4.8.1
+      soundjs: 1.0.1
+      ts-essentials: 9.4.2(typescript@4.9.5)
+      util: 0.12.5
+      winston: 3.17.0
+      yargs: 15.4.1
+      zod: 3.25.75
+    transitivePeerDependencies:
+      - '@google-cloud/spanner'
+      - '@sap/hana-client'
+      - '@types/express'
+      - babel-plugin-macros
+      - bufferutil
+      - debug
+      - hdb-pool
+      - ioredis
+      - mongodb
+      - mssql
+      - mysql2
+      - oracledb
+      - pg
+      - pg-native
+      - pg-query-stream
+      - redis
+      - reflect-metadata
+      - sql.js
+      - sqlite3
+      - supports-color
+      - ts-node
+      - typeorm-aurora-data-api-driver
+      - typescript
+      - utf-8-validate
 
   nodecg@2.6.1(@types/express@5.0.3)(babel-plugin-macros@3.1.0)(reflect-metadata@0.1.14)(typescript@5.9.2):
     dependencies:

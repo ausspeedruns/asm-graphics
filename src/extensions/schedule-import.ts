@@ -1,7 +1,7 @@
 import * as nodecgApiContext from "./nodecg-api-context";
-import { request, gql } from "graphql-request";
 import { z } from "zod";
 import { parse, differenceInSeconds, startOfDay, getUnixTime } from "date-fns";
+import { queryGraphQL } from "./util/graphql";
 
 import type { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData";
 
@@ -9,7 +9,7 @@ const nodecg = nodecgApiContext.get();
 
 const SPEEDCONTROL_runDataArray = nodecg.Replicant<RunDataArray>("runDataArray", "nodecg-speedcontrol");
 
-const SCHEDULE_QUERY = gql`
+const SCHEDULE_QUERY = `
 	query {
 		event(where: { shortname: "${nodecg.bundleConfig.graphql?.event}" }) {
 			runs(orderBy: {scheduledTime: asc}) {
@@ -67,7 +67,7 @@ async function getSchedule() {
 	if (nodecg.bundleConfig.graphql === undefined) return;
 
 	try {
-		const results = await request(nodecg.bundleConfig.graphql.url, SCHEDULE_QUERY);
+		const results = await queryGraphQL(nodecg.bundleConfig.graphql.url, SCHEDULE_QUERY);
 
 		return scheduleSchema.parse(results).event.runs;
 	} catch (error) {
