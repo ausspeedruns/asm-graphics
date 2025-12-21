@@ -2,14 +2,14 @@ packages:
   - bundles/**
 
 ignoredBuiltDependencies:
-  - '@serialport/bindings-cpp'
-  - '@vaadin/vaadin-usage-statistics'
+  - "@serialport/bindings-cpp"
+  - "@vaadin/vaadin-usage-statistics"
   - esbuild
   - iframe-resizer
 
 onlyBuiltDependencies:
-  - '@serialport/bindings-cpp'
-  - '@vaadin/vaadin-usage-statistics'
+  - "@serialport/bindings-cpp"
+  - "@vaadin/vaadin-usage-statistics"
   - better-sqlite3
   - esbuild
   - iframe-resizer
