@@ -1,7 +1,7 @@
 import * as nodecgApiContext from "./nodecg-api-context";
 import { request, gql } from "graphql-request";
 import { z } from "zod";
-import moment from "moment";
+import { parse, differenceInSeconds, startOfDay, getUnixTime } from "date-fns";
 
 import type { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData";
 
@@ -112,14 +112,15 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 			gameDisplay: run.game,
 		};
 
+		const estimateDate = parse(run.estimate, 'HH:mm:ss', new Date());
 		return {
 			id: run.id,
 			game: run.game,
 			category: run.category,
 			estimate: run.estimate,
-			estimateS: moment(run.estimate, "hh:mm:ss").diff(moment().startOf("day"), "seconds"),
+			estimateS: differenceInSeconds(estimateDate, startOfDay(estimateDate)),
 			scheduled: run.scheduledTime.toISOString(),
-			scheduledS: run.scheduledTime.getTime() / 1000,
+			scheduledS: getUnixTime(run.scheduledTime),
 			system: run.platform,
 			customData: customData,
 			teams: teams,
@@ -135,6 +136,6 @@ nodecg.listenFor("scheduleImport:import", () => {
 			// console.log(convertScheduleToSpeedcontrol(runs));
 			SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
 		},
-		() => {},
+		() => { },
 	);
 });

@@ -1,72 +1,182 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-
 import * as nodecgApiContext from "../nodecg-api-context";
 import type { Donation } from "@asm-graphics/types/Donations";
-import {
-	TiltifyCampaignReturn,
-	TiltifyDonationMatchReturn,
-	TiltifyDonationsReturn,
-} from "@asm-graphics/types/TiltifyReturn";
 import _ from "underscore";
+import z from "zod";
+import { donationTotalRep, donationsRep, donationMatchesRep } from "../replicants";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("Tiltify-V5");
 const tiltifyConfig = nodecg.bundleConfig.tiltify!; // This script only gets imported if there is a tiltify config
 
-import { donationTotalRep, donationsRep, donationMatchesRep } from "../replicants";
+const AmountSchema = z.object({
+	currency: z.string(),
+	value: z.string(),
+});
+
+const PaginationMetadataSchema = z.object({
+	after: z.string(),
+	before: z.string().optional(),
+	limit: z.number(),
+});
 
 let accessToken = "";
+
+const TiltifyOAuthTokenSchema = z.object({
+	access_token: z.string(),
+	expires_in: z.number(),
+	token_type: z.string(),
+});
 
 // Get access token
 async function getAccessToken() {
 	try {
-		const res = await axios.post(
+		const res = await fetch(
 			`https://v5api.tiltify.com/oauth/token?client_id=${tiltifyConfig.id}&client_secret=${tiltifyConfig.key}&grant_type=client_credentials`,
+			{ method: "POST" }
 		);
-		if (res.data.access_token) {
+		const data = await res.json();
+
+		const parsedData = TiltifyOAuthTokenSchema.safeParse(data);
+
+		if (!parsedData.success) {
+			ncgLog.error("getAccessToken: Failed to parse data");
+			ncgLog.error(JSON.stringify(data));
+			ncgLog.error("Errors:");
+			ncgLog.error(parsedData.error);
+			return;
+		}
+
+		if (data.access_token) {
 			ncgLog.info("Got access token!");
-			accessToken = res.data.access_token;
-			ncgLog.info("Token data", JSON.stringify(res.data));
+			accessToken = data.access_token;
+			ncgLog.info("Token data", JSON.stringify(data));
 		}
 	} catch (error) {
-		if (axios.isAxiosError(error)) {
-			ncgLog.error("getAccessToken axios error: ", JSON.stringify(error));
-		} else {
-			ncgLog.error("getAccessToken unknown error: ", JSON.stringify(error));
-		}
+		ncgLog.error("getAccessToken error: ", JSON.stringify(error));
 	}
 }
+
+const TiltifyCampaignSchema = z.object({
+	amount_raised: AmountSchema,
+	avatar: z.object({
+		alt: z.string(),
+		height: z.number(),
+		src: z.string(),
+		width: z.number(),
+	}),
+	cause_id: z.string(),
+	description: z.string(),
+	fundraising_event_id: z.string(),
+	goal: AmountSchema,
+	has_schedule: z.boolean(),
+	id: z.string(),
+	inserted_at: z.string(),
+	legacy_id: z.number(),
+	name: z.string(),
+	original_goal: AmountSchema,
+	published_at: z.string(),
+	retired_at: z.string().optional(),
+	slug: z.string(),
+	status: z.string(),
+	supporting_type: z.string(),
+	total_amount_raised: AmountSchema,
+	updated_at: z.string(),
+	url: z.string(),
+	user: z.object({
+		avatar: z.object({
+			alt: z.string(),
+			height: z.number(),
+			src: z.string(),
+			width: z.number(),
+		}),
+		description: z.string(),
+		id: z.string(),
+		legacy_id: z.number(),
+		slug: z.string(),
+		social: z.object({
+			discord: z.string().optional(),
+			facebook: z.string().optional(),
+			instagram: z.string().optional(),
+			snapchat: z.string().optional(),
+			tiktok: z.string().optional(),
+			twitch: z.string().optional(),
+			twitter: z.string().optional(),
+			youtube: z.string().optional(),
+		}),
+		total_amount_raised: AmountSchema,
+		url: z.string(),
+		username: z.string(),
+	}),
+	user_id: z.string(),
+});
+
+const TiltifyCampaignEndpointSchema = z.object({
+	data: TiltifyCampaignSchema,
+});
 
 // Get campaign data
 async function getCampaignData() {
 	if (!accessToken) return;
 	try {
-		const res = await axios.get<null, AxiosResponse<TiltifyCampaignReturn>>(
+		const res = await fetch(
 			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}`,
-			{ headers: { Authorization: `Bearer ${accessToken}` } },
+			{ headers: { Authorization: `Bearer ${accessToken}` } }
 		);
-		if (res.data?.data?.amount_raised) donationTotalRep.value = parseFloat(res.data.data.amount_raised.value);
-	} catch (error) {
-		if (axios.isAxiosError(error)) {
-			if (error.status === 401) {
-				void getAccessToken();
-			} else {
-				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
-			}
-		} else {
-			ncgLog.error("getCampaignData unknown error: ", JSON.stringify(error));
+		const data = await res.json();
+
+		const parsedData = TiltifyCampaignEndpointSchema.safeParse(data);
+
+		if (!parsedData.success) {
+			ncgLog.error("getCampaignData: Failed to parse data");
+			ncgLog.error(JSON.stringify(data));
+			ncgLog.error("Errors:");
+			ncgLog.error(parsedData.error);
+			return;
 		}
+
+		if (data?.data?.amount_raised) donationTotalRep.value = parseFloat(data.data.amount_raised.value);
+	} catch (error) {
+		ncgLog.error("getCampaignData error: ", JSON.stringify(error));
 	}
 }
+
+const TiltifyDonationSchema = z.object({
+	amount: AmountSchema,
+	campaign_id: z.string(),
+	completed_at: z.string(),
+	currency: z.string(),
+	donor_comment: z.string().nullable(),
+	donor_name: z.string(),
+	id: z.string(),
+	inserted_at: z.string(),
+	updated_at: z.string(),
+});
+
+const TiltifyDonationsEndpointSchema = z.object({
+	data: z.array(TiltifyDonationSchema),
+	metadata: PaginationMetadataSchema,
+});
 
 async function getDonationsData() {
 	if (!accessToken) return;
 	try {
-		const res = await axios.get<null, AxiosResponse<TiltifyDonationsReturn>>(
+		const res = await fetch(
 			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}/donations?limit=100`,
 			{ headers: { Authorization: `Bearer ${accessToken}` } },
 		);
-		const tiltifyResDonations = res.data.data;
+		const data = await res.json();
+
+		const parsedData = TiltifyDonationsEndpointSchema.safeParse(data);
+
+		if (!parsedData.success) {
+			ncgLog.error("getDonationsData: Failed to parse data");
+			ncgLog.error(JSON.stringify(data));
+			ncgLog.error("Errors:");
+			ncgLog.error(parsedData.error);
+			return;
+		}
+
+		const tiltifyResDonations = parsedData.data.data;
 
 		// New donations
 		const newDonos = tiltifyResDonations.filter(
@@ -82,7 +192,7 @@ async function getDonationsData() {
 				currencySymbol: getCurrencySymbol(donation.amount.currency),
 				name: donation.donor_name,
 				time: new Date(donation.completed_at).getTime(),
-				desc: donation.donor_comment,
+				desc: donation.donor_comment ?? "",
 				currencyCode: donation.amount.currency,
 			}));
 
@@ -91,27 +201,51 @@ async function getDonationsData() {
 			donationsRep.value = mutableDonations.concat(parsedDonos);
 		}
 	} catch (error) {
-		if (axios.isAxiosError(error)) {
-			if (error.status === 401) {
-				void getAccessToken();
-			} else {
-				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
-			}
-		} else {
-			ncgLog.error("getDonationsData unknown error: ", JSON.stringify(error));
-		}
+		ncgLog.error("getDonationsData error: ", JSON.stringify(error));
 	}
 }
+
+const TiltifyDonationMatchSchema = z.object({
+	active: z.boolean(),
+	amount: AmountSchema,
+	completed_at: z.date().nullable(),
+	donation_id: z.string(),
+	ends_at: z.string(),
+	id: z.string(),
+	inserted_at: z.string(),
+	matched_by: z.string(),
+	pledged_amount: AmountSchema,
+	started_at_amount: AmountSchema,
+	starts_at: z.string(),
+	total_amount_raised: AmountSchema,
+	updated_at: z.string(),
+});
+
+const TiltifyDonationMatchEndpointSchema = z.object({
+	data: z.array(TiltifyDonationMatchSchema),
+	metadata: PaginationMetadataSchema,
+});
 
 async function getDonationMatchData() {
 	if (!accessToken) return;
 	try {
-		const res = await axios.get<null, AxiosResponse<TiltifyDonationMatchReturn>>(
+		const res = await fetch(
 			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}/donation_matches`,
 			{ headers: { Authorization: `Bearer ${accessToken}` } },
 		);
-		const tiltifyResDonationMatches = res.data.data;
+		const data = await res.json();
 
+		const parsedData = TiltifyDonationMatchEndpointSchema.safeParse(data);
+
+		if (!parsedData.success) {
+			ncgLog.error("getDonationMatchData: Failed to parse data");
+			ncgLog.error(JSON.stringify(data));
+			ncgLog.error("Errors:");
+			ncgLog.error(parsedData.error);
+			return;
+		}
+
+		const tiltifyResDonationMatches = parsedData.data.data;
 		// {
 		// 	"active": true,
 		// 	"amount": { "currency": "AUD", "value": "3000.00" },
@@ -140,20 +274,12 @@ async function getDonationMatchData() {
 			currencySymbol: getCurrencySymbol(data.pledged_amount.currency),
 			updated: Date.now(),
 			endsAt: new Date(data.ends_at).getTime(),
-			completedAt: new Date(data.completed_at).getTime(),
+			completedAt: new Date(data.completed_at ?? "").getTime(),
 			read: false, // Will always be false
 			desc: "", // Will always be empty,
 		}));
 	} catch (error) {
-		if (axios.isAxiosError(error)) {
-			if (error.status === 401) {
-				void getAccessToken();
-			} else {
-				ncgLog.error("getDonationMatchData axios error: ", JSON.stringify(error));
-			}
-		} else {
-			ncgLog.error("getDonationMatchData unknown error: ", JSON.stringify(error));
-		}
+		ncgLog.error("getDonationMatchData error: ", JSON.stringify(error));
 	}
 }
 
