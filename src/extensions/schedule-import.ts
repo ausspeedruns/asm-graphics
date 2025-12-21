@@ -135,6 +135,6 @@ nodecg.listenFor("scheduleImport:import", () => {
 			// console.log(convertScheduleToSpeedcontrol(runs));
 			SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
 		},
-		() => { },
+		() => {},
 	);
 });

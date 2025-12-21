@@ -116,6 +116,6 @@ export function HostDashAudio(props: HostDashAudioProps) {
 			})}
 		</MixingContainer>
 	);
-};
+}
 
 createRoot(document.getElementById("root")!).render(<HostDashAudio />);

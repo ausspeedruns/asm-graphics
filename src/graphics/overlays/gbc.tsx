@@ -75,9 +75,7 @@ export function GBC(props: OverlayProps) {
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>
-			<RightSidebar>
-				{/* <img src={GBCRight} style={{ position: "absolute" }} /> */}
-			</RightSidebar>
+			<RightSidebar>{/* <img src={GBCRight} style={{ position: "absolute" }} /> */}</RightSidebar>
 		</GBCContainer>
 	);
 }

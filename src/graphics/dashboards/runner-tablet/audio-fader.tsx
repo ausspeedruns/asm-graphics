@@ -130,11 +130,14 @@ export const AudioFader = (props: Props) => {
 				>
 					<Remove />
 				</Button>
-				<Button variant="outlined" onClick={() => {
-					const newValue = Math.min((faderVal ?? 0) + 0.05, 1);
-					setFaderVal(newValue);
-					props.onChange(newValue);
-				}}>
+				<Button
+					variant="outlined"
+					onClick={() => {
+						const newValue = Math.min((faderVal ?? 0) + 0.05, 1);
+						setFaderVal(newValue);
+						props.onChange(newValue);
+					}}
+				>
 					<Add />
 				</Button>
 				<DBValue>{((faderVal ?? 0) * 100).toFixed(0)}</DBValue>

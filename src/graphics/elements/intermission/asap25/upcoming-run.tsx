@@ -31,7 +31,7 @@ interface Props {
 
 export function ASAP25UpcomingRun(props: Props) {
 	return (
-		<ASAP25UpcomingRunContainer style={{ fontSize: props.isNext ? 36 : 24}}>
+		<ASAP25UpcomingRunContainer style={{ fontSize: props.isNext ? 36 : 24 }}>
 			{/* Time */}
 			<TimeText>
 				{props.isNext ? "UP NEXT" : props.run?.scheduled ? format(props.run?.scheduled, "h:mm a") : "??:??"}
@@ -43,8 +43,10 @@ export function ASAP25UpcomingRun(props: Props) {
 			<div style={{ marginLeft: 20, display: "flex", flexDirection: "column" }}>
 				<FitText style={{ fontWeight: 900, maxWidth: 500 }} text={props.run?.game} alignment="left" />
 				<FitText text={props.run?.category} style={{ maxWidth: 500 }} alignment="left" />
-				<div style={{ display: "flex", alignItems: "baseline", gap: 8 }}><RunnerNames run={props.run} alignment="left" /></div>
+				<div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+					<RunnerNames run={props.run} alignment="left" />
+				</div>
 			</div>
 		</ASAP25UpcomingRunContainer>
-	)
+	);
 }

@@ -64,9 +64,13 @@ export function ScheduleInfo(props: ScheduleInfoProps) {
 				</b>
 			</span>
 			<span>
-				{nextRun?.scheduledS
-					? <>Next run starts at <b>{format(nextRun.scheduledS * 1000, "h:mm b")}</b></>
-					: "No next run"}
+				{nextRun?.scheduledS ? (
+					<>
+						Next run starts at <b>{format(nextRun.scheduledS * 1000, "h:mm b")}</b>
+					</>
+				) : (
+					"No next run"
+				)}
 			</span>
 		</div>
 	);

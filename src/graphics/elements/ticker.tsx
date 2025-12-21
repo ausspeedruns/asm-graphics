@@ -23,7 +23,6 @@ import ContentBackground from "../overlays/backgrounds/Ticker.png";
 import { TickerIncentives } from "./ticker/incentives";
 import { useReplicant } from "@nodecg/react-hooks";
 
-
 export function TickerOverlay() {
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
@@ -77,7 +76,7 @@ export function TickerOverlay() {
 			// tickerOrder={["donationMatches"]}
 		/>
 	);
-};
+}
 
 const TickerContainer = styled.div`
 	height: 64px;

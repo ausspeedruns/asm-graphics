@@ -116,5 +116,5 @@ nodecg.listenFor("transition:toIntermission", () => {
 
 	const mutableCommentators = [...commentatorsRep.value];
 
-	commentatorsRep.value = mutableCommentators.filter(commentator => commentator.id === "host");
+	commentatorsRep.value = mutableCommentators.filter((commentator) => commentator.id === "host");
 });

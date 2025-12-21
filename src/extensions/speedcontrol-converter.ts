@@ -64,7 +64,6 @@ nodecg.listenFor("speedcontrol:editRunner", (data) => {
 	const player = data.runner;
 	const team = run.teams[teamIndex];
 
-
 	team.players[playerIndex] = player;
 
 	runDataArray[runIndex] = run;
@@ -83,7 +82,7 @@ nodecg.listenFor("speedcontrol:reorderRunners", (data) => {
 		log.error("No runDataArray Replicant found");
 		return;
 	}
-	
+
 	const [runIndex, run] = getRunAndIndex(data.runId);
 	if (runIndex === -1 || !run) {
 		return;
@@ -141,4 +140,4 @@ nodecg.listenFor("timerStart", "nodecg-speedcontrol", () => {
 nodecg.listenFor("changeToNextRun", "nodecg-speedcontrol", () => {
 	log.info("Changing to next run, resetting runStartTime to null");
 	runStartTimeRep.value = null;
-})
+});

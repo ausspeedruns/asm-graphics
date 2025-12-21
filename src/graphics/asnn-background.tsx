@@ -17,8 +17,7 @@ function ASNNBackground() {
 					"--chip": dayTimeColours.chip,
 				} as React.CSSProperties
 			}
-		>
-		</div>
+		></div>
 	);
 }
 

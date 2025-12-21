@@ -412,7 +412,7 @@ class X32 extends EventEmitter<X32Class> {
 	}
 
 	enableTalkback(channel: "A" | "B", on: boolean): void {
-		console.log(`${on ? "Activating" : "Deactivating"} talkback channel ${channel}`)
+		console.log(`${on ? "Activating" : "Deactivating"} talkback channel ${channel}`);
 
 		this.oscSocket.send({
 			address: `/-stat/talk/${channel},i`,

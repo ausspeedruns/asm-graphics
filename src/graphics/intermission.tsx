@@ -537,7 +537,7 @@ export function IntermissionElement(props: IntermissionProps) {
 		const song = await fetch("https://rainwave.cc/api4/info_all?sid=2", { method: "GET" });
 		const songJson = await song.json();
 		setCurrentSong(
-			`${songJson.all_stations_info[2].title} – ${songJson.all_stations_info[2].artists} – ${songJson.all_stations_info[2].album}`
+			`${songJson.all_stations_info[2].title} – ${songJson.all_stations_info[2].artists} – ${songJson.all_stations_info[2].album}`,
 		);
 	}
 
@@ -599,7 +599,7 @@ export function IntermissionElement(props: IntermissionProps) {
 						audioRef.current.volume = parseFloat(dummyElPos.toString());
 					},
 				},
-				`+=${video.videoInfo.duration} + 10`
+				`+=${video.videoInfo.duration} + 10`,
 			);
 		},
 	}));
@@ -701,7 +701,15 @@ export function IntermissionElement(props: IntermissionProps) {
 				<Incentives incentives={props.incentives} style={{ position: "absolute", top: 944, left: 120 }} />
 			</LeftColumn>
 			<RightColumn>
-				<DonationContainer style={{ alignSelf: "flex-end", width: 739, height: 412, paddingTop: 10, justifyContent: "space-evenly" }}>
+				<DonationContainer
+					style={{
+						alignSelf: "flex-end",
+						width: 739,
+						height: 412,
+						paddingTop: 10,
+						justifyContent: "space-evenly",
+					}}
+				>
 					<div
 						style={{
 							display: "flex",
@@ -726,7 +734,9 @@ export function IntermissionElement(props: IntermissionProps) {
 						<DonationSite>AusSpeedruns.com/Donate</DonationSite>
 					</DonationInfo>
 
-					<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "72%" }}>
+					<div
+						style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "72%" }}
+					>
 						<CureCancerLogo src={GoCLogo} />
 						<img src={ASLogo} style={{ height: 50 }} />
 					</div>
@@ -775,7 +785,16 @@ export function IntermissionElement(props: IntermissionProps) {
 					</div>
 				</RunContainer> */}
 
-				<div style={{ position: "absolute", top: 450, left: 62, display: "flex", flexDirection: "column", gap: 16 }}>
+				<div
+					style={{
+						position: "absolute",
+						top: 450,
+						left: 62,
+						display: "flex",
+						flexDirection: "column",
+						gap: 16,
+					}}
+				>
 					<ASAP25UpcomingRun run={nextRuns[0]} players={playerNames} isNext />
 					{nextRuns[1] && <ASAP25UpcomingRun run={nextRuns[1]} players={playerNames} />}
 					{nextRuns[2] && <ASAP25UpcomingRun run={nextRuns[2]} players={playerNames} />}

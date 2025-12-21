@@ -1,4 +1,3 @@
-
 namespace Alert {
 	type Name =
 		| "ImportConfirm"

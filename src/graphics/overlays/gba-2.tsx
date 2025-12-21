@@ -103,14 +103,14 @@ export const GBA2 = (props: OverlayProps) => {
 				<AudioIndicator
 					active={props.gameAudioIndicator === 0}
 					side="left"
-					style={{ position: "absolute", top:300, left: 625 }}
+					style={{ position: "absolute", top: 300, left: 625 }}
 				/>
 				<AudioIndicator
 					active={props.gameAudioIndicator === 1}
 					side="right"
 					style={{
 						position: "absolute",
-						top:300,
+						top: 300,
 						right: 625,
 						zIndex: 2,
 					}}

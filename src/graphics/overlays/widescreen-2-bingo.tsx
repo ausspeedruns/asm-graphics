@@ -141,7 +141,7 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 	const unionedBoardStateCells =
 		bingoSyncBoardStateRep?.cells.map((cell) => {
 			const overriddenCell = bingoSyncBoardStateOverrideRep?.cells.find(
-				(overrideCell) => overrideCell.slot === cell.slot
+				(overrideCell) => overrideCell.slot === cell.slot,
 			);
 			return overriddenCell ?? cell;
 		}) ?? [];
@@ -184,8 +184,16 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<RaceFinish style={{ top: 265, left: 830, zIndex: 3 }} time={teamData[0].time} place={teamData[0].place} />
-				<RaceFinish style={{ top: 265, left: 960, zIndex: 3 }} time={teamData[1].time} place={teamData[1].place} />
+				<RaceFinish
+					style={{ top: 265, left: 830, zIndex: 3 }}
+					time={teamData[0].time}
+					place={teamData[0].place}
+				/>
+				<RaceFinish
+					style={{ top: 265, left: 960, zIndex: 3 }}
+					time={teamData[1].time}
+					place={teamData[1].place}
+				/>
 
 				<RightBox>
 					<SponsorsBox
@@ -204,8 +212,19 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 			</Topbar>
 			<BingoBoardStyled board={unionedBoardStateCells} />
 			<BottomBlock>
-				<div style={{ fontFamily: "Permanent Marker", color: "#009AA2", fontSize: 50, textAlign: "center", lineHeight: 0.8, marginBottom: 16 }}>
-					Whole Bingo Board<br/>must be cleared
+				<div
+					style={{
+						fontFamily: "Permanent Marker",
+						color: "#009AA2",
+						fontSize: 50,
+						textAlign: "center",
+						lineHeight: 0.8,
+						marginBottom: 16,
+					}}
+				>
+					Whole Bingo Board
+					<br />
+					must be cleared
 				</div>
 				<BespokeCouch>
 					{/* <CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel> */}

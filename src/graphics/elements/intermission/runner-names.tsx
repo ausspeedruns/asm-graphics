@@ -11,20 +11,20 @@ export function RunnerNames(props: Props) {
 	if (!props.run) return null;
 
 	let playerNames: React.ReactNode[] = [];
-		if (props.run.teams.length > 0) {
-			playerNames = props.run.teams.map((team, index) => {
-				const players = team.players.map((player) => player.name).join(", ");
+	if (props.run.teams.length > 0) {
+		playerNames = props.run.teams.map((team, index) => {
+			const players = team.players.map((player) => player.name).join(", ");
 
-				if (!props.run) return null;
+			if (!props.run) return null;
 
-				return (
-					<Fragment key={index}>
-						<FitText alignment={props.alignment} text={players} />
-						{index !== props.run.teams.length - 1 && <span style={{ fontSize: "60%" }}> vs </span>}
-					</Fragment>
-				);
-			});
-		}
+			return (
+				<Fragment key={index}>
+					<FitText alignment={props.alignment} text={players} />
+					{index !== props.run.teams.length - 1 && <span style={{ fontSize: "60%" }}> vs </span>}
+				</Fragment>
+			);
+		});
+	}
 
 	return playerNames;
 }

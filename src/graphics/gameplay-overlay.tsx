@@ -233,16 +233,16 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	return (
 		<GameplayOverlayCont>
 			<GameplayContainer
-				// style={
-				// 	{
-				// 		"--plastic-top": asm25Colours.plasticTop + "5C",
-				// 		"--plastic-bottom": asm25Colours.plasticBottom,
-				// 		"--text-outline": asm25Colours.textOutline,
-				// 		"--trace": asm25Colours.trace,
-				// 		"--trace-outline": asm25Colours.traceOutline,
-				// 		"--chip": asm25Colours.chip,
-				// 	} as React.CSSProperties
-				// }
+			// style={
+			// 	{
+			// 		"--plastic-top": asm25Colours.plasticTop + "5C",
+			// 		"--plastic-bottom": asm25Colours.plasticBottom,
+			// 		"--text-outline": asm25Colours.textOutline,
+			// 		"--trace": asm25Colours.trace,
+			// 		"--trace-outline": asm25Colours.traceOutline,
+			// 		"--chip": asm25Colours.chip,
+			// 	} as React.CSSProperties
+			// }
 			>
 				<Routes>{RouteData}</Routes>
 				<TickerOverlay />

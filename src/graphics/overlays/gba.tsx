@@ -83,7 +83,12 @@ export const GBA = (props: OverlayProps) => {
 				<InfoBoxBG>
 					<img src={GBABG} style={{ position: "absolute", height: "100%", width: "100%" }} />
 					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
-					<VerticalInfo hideDividers timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+					<VerticalInfo
+						hideDividers
+						timer={props.timer}
+						runData={props.runData}
+						style={customVerticalStyle}
+					/>
 
 					<SponsorsBoxS sponsors={props.sponsors} sponsorStyle={SponsorsStyled} noAsap25Glow />
 				</InfoBoxBG>

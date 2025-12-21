@@ -199,10 +199,16 @@ export function PersonCompressed(props: PersonCompressedProps) {
 					}}
 				/>
 				<Row>
-					<Name style={{ textAlign: props.commentator.pronouns ? "left" : "center" }}>{props.commentator.name}</Name>
+					<Name style={{ textAlign: props.commentator.pronouns ? "left" : "center" }}>
+						{props.commentator.name}
+					</Name>
 					{putTagOnSameRow && (
 						<Role style={{ background: commentatorColour, marginLeft: 8 }}>
-							{props.commentator.tag ? (props.commentator.id === "host" ? "H" : props.commentator.tag) : "C"}
+							{props.commentator.tag
+								? props.commentator.id === "host"
+									? "H"
+									: props.commentator.tag
+								: "C"}
 						</Role>
 					)}
 				</Row>
@@ -210,7 +216,11 @@ export function PersonCompressed(props: PersonCompressedProps) {
 					<Pronouns style={{ color: commentatorColour }}>{props.commentator.pronouns}</Pronouns>
 					{!putTagOnSameRow && (
 						<Role style={{ background: commentatorColour }}>
-							{props.commentator.tag ? (props.commentator.id === "host" ? "H" : props.commentator.tag) : "C"}
+							{props.commentator.tag
+								? props.commentator.id === "host"
+									? "H"
+									: props.commentator.tag
+								: "C"}
 						</Role>
 					)}
 				</Row>

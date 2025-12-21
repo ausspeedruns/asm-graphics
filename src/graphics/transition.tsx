@@ -161,7 +161,7 @@ export const Transition: React.FC = () => {
 					void audioRef.current.play();
 				},
 				[],
-				"+=3"
+				"+=3",
 			);
 		}
 

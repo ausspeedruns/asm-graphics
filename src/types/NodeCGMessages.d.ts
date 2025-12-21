@@ -92,6 +92,6 @@ export type NodeCGMessages = {
 	"intermission-videos:update": IntermissionVideo;
 	"intermission-videos:refreshInfo": string;
 	// Speedcontrol Converter
-	"speedcontrol:editRunner": { runId: string, runner: RunDataPlayer };
-	"speedcontrol:reorderRunners": { runId: string, newOrder: RunDataPlayer[] };
+	"speedcontrol:editRunner": { runId: string; runner: RunDataPlayer };
+	"speedcontrol:reorderRunners": { runId: string; newOrder: RunDataPlayer[] };
 };

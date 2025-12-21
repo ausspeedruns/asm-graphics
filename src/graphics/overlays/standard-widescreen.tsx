@@ -129,7 +129,6 @@ export const StandardWidescreen = (props: OverlayProps) => {
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-
 					<div
 						style={{
 							display: "flex",
@@ -188,7 +187,6 @@ export const StandardWidescreen = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 407, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
 
 				<RightBox>
-
 					{/* <SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} /> */}
 					<VerticalTimerBottomInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
 				</RightBox>

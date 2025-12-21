@@ -153,9 +153,7 @@ export const AcknowledgementOfCountry = (props: AcknowledgementOfCountryProps) =
 				<IndigenousFlagsImage src={IndigenousFlags} />
 			</LogoContainer>
 			<TextContainer ref={TextRef}>
-				<AcknowledgementText>
-					{MelbourneContent}
-				</AcknowledgementText>
+				<AcknowledgementText>{MelbourneContent}</AcknowledgementText>
 			</TextContainer>
 		</NameLowerThirdContainer>
 	);

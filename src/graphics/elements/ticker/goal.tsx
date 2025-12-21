@@ -136,4 +136,4 @@ export function GoalBar(props: GoalProps) {
 			</GoalElement>
 		</GoalBarContainer>
 	);
-};
+}

@@ -177,11 +177,9 @@ export function GBC2(props: OverlayProps) {
 					</div>
 				</RightBox>
 			</Topbar>
-			<FillerBox style={{ left: 0 }}>
-			</FillerBox>
+			<FillerBox style={{ left: 0 }}></FillerBox>
 			<CentralDivider />
-			<FillerBox style={{ right: 0 }}>
-			</FillerBox>
+			<FillerBox style={{ right: 0 }}></FillerBox>
 		</Standard2Container>
 	);
 }

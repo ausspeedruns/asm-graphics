@@ -64,7 +64,7 @@ intermissionVideoAssetsRep.on("change", (newVal) => {
 			video.loading = false;
 
 			intermissionVideosUpdate(video);
-		})
+		}),
 	);
 });
 

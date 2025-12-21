@@ -83,7 +83,7 @@ const customVerticalStyle: IVerticalStyling = {
 	},
 	mainStyle: {
 		marginBottom: 70,
-	}
+	},
 };
 
 export const Standard = (props: OverlayProps) => {
@@ -108,7 +108,12 @@ export const Standard = (props: OverlayProps) => {
 						audio={props.microphoneAudioIndicator}
 						showHost={props.showHost}
 					/>
-					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} hideDividers />
+					<VerticalInfoS
+						timer={props.timer}
+						runData={props.runData}
+						style={customVerticalStyle}
+						hideDividers
+					/>
 
 					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} noAsap25Glow />
 				</InfoBoxBG>

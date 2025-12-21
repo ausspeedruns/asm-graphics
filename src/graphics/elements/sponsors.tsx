@@ -81,7 +81,9 @@ export function Sponsors(props: Props) {
 	return (
 		<SponsorsContainer ref={imageContainerRef} className={props.className} style={props.style}>
 			<SponsorImage ref={imageRef} src={props.sponsors[props.start ?? 0].url} />
-			{!props.noAsap25Glow && <ASAP25SponsorGlow ref={asap25GlowRef} src={props.sponsors[props.start ?? 0].url} />}
+			{!props.noAsap25Glow && (
+				<ASAP25SponsorGlow ref={asap25GlowRef} src={props.sponsors[props.start ?? 0].url} />
+			)}
 		</SponsorsContainer>
 	);
 }

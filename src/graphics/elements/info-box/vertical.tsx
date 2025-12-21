@@ -101,7 +101,10 @@ export function VerticalInfo(props: Props) {
 						system={props.runData?.system ?? ""}
 						style={{ fontSize: styles.gameInfoFontSize, zIndex: 2 }}
 					/>
-					<RunInfo.Year year={props.runData?.release ?? ""} style={{ fontSize: styles.gameInfoFontSize, zIndex: 2 }} />
+					<RunInfo.Year
+						year={props.runData?.release ?? ""}
+						style={{ fontSize: styles.gameInfoFontSize, zIndex: 2 }}
+					/>
 				</div>
 			</VerticalStack>
 			{!props.hideDividers && <Divider margin={styles.dividerMargin} />}

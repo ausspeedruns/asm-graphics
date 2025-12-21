@@ -71,7 +71,11 @@ export function WideInfo(props: Props) {
 				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
 					<RunInfo.System
 						system={props.runData?.system ?? ""}
-						style={{ fontSize: styles.gameInfoFontSize, WebkitTextStrokeWidth: 2, transform: "rotate(-5deg)" }}
+						style={{
+							fontSize: styles.gameInfoFontSize,
+							WebkitTextStrokeWidth: 2,
+							transform: "rotate(-5deg)",
+						}}
 					/>
 					<RunInfo.Year year={props.runData?.release ?? ""} style={{ fontSize: styles.gameInfoFontSize }} />
 				</div>

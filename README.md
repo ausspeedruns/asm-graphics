@@ -25,7 +25,7 @@ This is only intended to be used as an _education tool_. Please learn from the c
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Config Schema](#config-schema)
+    - [Config Schema](#config-schema)
 - [Events used in](#events-used-in)
 - [License](#license)
 - [Authors](#authors)
@@ -36,19 +36,19 @@ This is only intended to be used as an _education tool_. Please learn from the c
 
 - Ticker/Omnibar system
 - Support for 12 different game layouts
-  - Widescreen / 16:9
-  - Widescreen 2p / 16:9
-  - Widescreen 3p / 16:9
-  - Standard / 4:3
-  - Standard 2p / 4:3
-  - Standard Portrait / 3:4
-  - Nintendo GameBoy & GameBoy Color
-  - Nintendo GameBoy Advance
-  - Nintendo GameBoy Advance 2p
-  - Nintendo DS
-  - Nintendo DS 2p
-  - Nintendo 3DS
-  - 11:8 (World's Hardest Game)
+    - Widescreen / 16:9
+    - Widescreen 2p / 16:9
+    - Widescreen 3p / 16:9
+    - Standard / 4:3
+    - Standard 2p / 4:3
+    - Standard Portrait / 3:4
+    - Nintendo GameBoy & GameBoy Color
+    - Nintendo GameBoy Advance
+    - Nintendo GameBoy Advance 2p
+    - Nintendo DS
+    - Nintendo DS 2p
+    - Nintendo 3DS
+    - 11:8 (World's Hardest Game)
 - Race and Co-op
 - Couch and Host names
 - Audio indicators
@@ -93,41 +93,41 @@ The config schema is used to define URLs, API keys and to enable/disable certain
 If you have [nodecg-cli](https://github.com/nodecg/nodecg-cli) installed just run the `nodecg defaultconfig` command to generate the config file to then edit, else create a config file in `nodecg/cfg/asm-graphics.json`.
 
 - `obs`
-  - Enables the use of OBS-WebSocket in the bundle, currently used for audio indicators but previously used to remotely change scenes during online events.
-  - `enabled`: Boolean
-  - `port`: Number
-  - `ip`: String
-  - `password`: String
+    - Enables the use of OBS-WebSocket in the bundle, currently used for audio indicators but previously used to remotely change scenes during online events.
+    - `enabled`: Boolean
+    - `port`: Number
+    - `ip`: String
+    - `password`: String
 - `twitch`
-  - `parents`: String[]
-    - [Twitch embed parameter](https://dev.twitch.tv/docs/embed/everything#embed-parameters)
+    - `parents`: String[]
+        - [Twitch embed parameter](https://dev.twitch.tv/docs/embed/everything#embed-parameters)
 - `twitter`
-  - Get tweets about the event to display on stream. _Will work for ~30 mins and then break._
-  - `enabled`: Boolean
-  - `key`: String
-    - Twitter API key
-  - `secret`: String
-    - Twitter API secret key
-  - `bearer`: String
-    - Twitter API bearer key
-  - `rules`: Object[]
-    - Twitter API rules on what to search for
-    - _Currently unused_
+    - Get tweets about the event to display on stream. _Will work for ~30 mins and then break._
+    - `enabled`: Boolean
+    - `key`: String
+        - Twitter API key
+    - `secret`: String
+        - Twitter API secret key
+    - `bearer`: String
+        - Twitter API bearer key
+    - `rules`: Object[]
+        - Twitter API rules on what to search for
+        - _Currently unused_
 - `hostname`: String
-  - Used when hosting NodeCG on an external server with a domain name
-  - Only used to configure a URL for online mode
+    - Used when hosting NodeCG on an external server with a domain name
+    - Only used to configure a URL for online mode
 - `tilitfy`
-  - `enabled`: Boolean
-  - `key`: String
-    - Tiltify API key
-  - `campaign`: String
-    - Tiltify campaign ID
+    - `enabled`: Boolean
+    - `key`: String
+        - Tiltify API key
+    - `campaign`: String
+        - Tiltify campaign ID
 - `graphql`
-  - Used for getting incentives and runner information from the [ausspeedruns.com](https://ausspeedruns.com/) website
-  - `url`: String
-    - URL for GraphQL server
-  - `event`: String
-    - Event's short name to filter results from the graphql server
+    - Used for getting incentives and runner information from the [ausspeedruns.com](https://ausspeedruns.com/) website
+    - `url`: String
+        - URL for GraphQL server
+    - `event`: String
+        - Event's short name to filter results from the graphql server
 
 ## Events used in
 

@@ -64,7 +64,8 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
-			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel].join(", ")}] ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
+			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel].join(", ")}] ${
+				faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Unmute
@@ -76,7 +77,8 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 function fadeMute(channel: number, mixBus: number, force = false) {
 	if (force || faderValues[0]?.[channel] > 0) {
 		nodecg.log.debug(
-			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel].join(", ")}] ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
+			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel].join(", ")}] ${
+				faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Mute
@@ -182,7 +184,9 @@ nodecg.listenFor("transition:toGame", (_data) => {
 			if (channel === OBSChannel && mixBus <= 1) {
 				fadeMute(channel, mixBus);
 			}
-		}, 32, 1,
+		},
+		32,
+		1,
 	);
 
 	setTimeout(() => {
@@ -315,7 +319,9 @@ nodecg.listenFor("update-commentator", (commentator) => {
 });
 
 const allRealHeadsets = Headsets.filter((headset) => headset.name !== "NONE");
-const allRunnerOrCouchHeadsets = allRealHeadsets.filter((headset) => headset.name !== "Host" && headset.name !== "NONE");
+const allRunnerOrCouchHeadsets = allRealHeadsets.filter(
+	(headset) => headset.name !== "Host" && headset.name !== "NONE",
+);
 
 let activeTalkbackChannels: number[] = [];
 

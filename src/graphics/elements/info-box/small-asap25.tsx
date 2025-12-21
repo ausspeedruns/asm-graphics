@@ -133,4 +133,4 @@ export function SmallInfo(props: Props) {
 			</InfoSubBox>
 		</SmallInfoContainer>
 	);
-};
+}

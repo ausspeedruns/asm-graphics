@@ -107,7 +107,7 @@ function WarOptionsAnimation(props: WarOptionsAnimationProps) {
 								});
 							}, DISPLAY_DURATION);
 						},
-					}
+					},
 				);
 			}
 		};
