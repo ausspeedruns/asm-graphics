@@ -19,37 +19,37 @@ export function useTalkback(commentators?: Commentator[], runners?: RunDataPlaye
 	function toggleTalkbackRunners() {
 		if (isTalkingToAllRunners) {
 			setCurrentTalkbackTargets([]);
-			nodecg.sendMessage("x32:talkback-stop");
+			void nodecg.sendMessage("x32:talkback-stop");
 		} else {
 			setCurrentTalkbackTargets(allRunnerIds);
-			nodecg.sendMessage("x32:talkback-start", allRunnerIds);
+			void nodecg.sendMessage("x32:talkback-start", allRunnerIds);
 		}
 	}
 
 	function toggleTalkbackCommentators() {
 		if (isTalkingToAllCommentators) {
 			setCurrentTalkbackTargets([]);
-			nodecg.sendMessage("x32:talkback-stop");
+			void nodecg.sendMessage("x32:talkback-stop");
 		} else {
 			const commentatorIds = commentators?.filter((c) => c.id !== "host")?.map((c) => c.id) ?? []; // Excluding host
 			setCurrentTalkbackTargets(commentatorIds);
-			nodecg.sendMessage("x32:talkback-start", commentatorIds);
+			void nodecg.sendMessage("x32:talkback-start", commentatorIds);
 		}
 	}
 
 	function toggleTalkToAll() {
 		if (currentTalkbackTargets.length > 0) {
 			setCurrentTalkbackTargets([]);
-			nodecg.sendMessage("x32:talkback-stop");
+			void nodecg.sendMessage("x32:talkback-stop");
 		} else {
 			setCurrentTalkbackTargets(allIds);
-			nodecg.sendMessage("x32:talkback-start", allIds);
+			void nodecg.sendMessage("x32:talkback-start", allIds);
 		}
 	}
 
 	function forceStopTalkback() {
 		setCurrentTalkbackTargets([]);
-		nodecg.sendMessage("x32:talkback-stop");
+		void nodecg.sendMessage("x32:talkback-stop");
 	}
 
 	return {

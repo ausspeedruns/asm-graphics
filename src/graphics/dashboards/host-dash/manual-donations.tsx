@@ -74,7 +74,7 @@ export const ManualDonations: React.FC = () => {
 			id: uniqueId(),
 		} as Donation;
 
-		nodecg.sendMessage("manual-donations:new", donation);
+		void nodecg.sendMessage("manual-donations:new", donation);
 
 		setAmount("");
 		setAuthor("");
@@ -188,11 +188,11 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	const toggleRead = () => {
-		nodecg.sendMessage("manual-donations:toggleRead", props.donation.id);
+		void nodecg.sendMessage("manual-donations:toggleRead", props.donation.id);
 	};
 
 	const deleteDono = () => {
-		nodecg.sendMessage("manual-donations:remove", props.donation.id);
+		void nodecg.sendMessage("manual-donations:remove", props.donation.id);
 	};
 
 	return (

@@ -158,7 +158,7 @@ export const Transition: React.FC = () => {
 				() => {
 					if (!audioRef.current) return;
 					audioRef.current.src = ClipArray[Math.floor(Math.random() * ClipArray.length)];
-					audioRef.current.play();
+					void audioRef.current.play();
 				},
 				[],
 				"+=3"

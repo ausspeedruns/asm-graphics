@@ -124,7 +124,7 @@ export const Facecam = (props: FacecamProps) => {
 			}
 		});
 
-		allRunnerNames.pop();
+		void allRunnerNames.pop();
 	} else {
 		let alternatingPronounSides = props.pronounStartSide === "right";
 		const team = props.teams[0];
@@ -178,7 +178,7 @@ export const Facecam = (props: FacecamProps) => {
 			});
 		}
 
-		allRunnerNames.pop();
+		void allRunnerNames.pop();
 	}
 
 	return (

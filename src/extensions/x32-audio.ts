@@ -64,7 +64,7 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
-			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
+			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel].join(", ")}] ${faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Unmute
@@ -76,7 +76,7 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 function fadeMute(channel: number, mixBus: number, force = false) {
 	if (force || faderValues[0]?.[channel] > 0) {
 		nodecg.log.debug(
-			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | ${faderValues[channel]} ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
+			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel].join(", ")}] ${faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Mute

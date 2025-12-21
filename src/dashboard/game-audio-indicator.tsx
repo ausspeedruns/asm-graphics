@@ -48,7 +48,7 @@ export const DashboardGameAudio: React.FC = () => {
 			return;
 		}
 
-		nodecg.sendMessage("changeGameAudio", { manual: manualMode, index: index });
+		void nodecg.sendMessage("changeGameAudio", { manual: manualMode, index: index });
 	}
 
 	return (
@@ -112,11 +112,11 @@ const GameAudioComponent = (props: GameAudioComponentProps) => {
 	const isGameAudioNameDifferent = gameAudioNameRep !== gameAudioName;
 
 	const updateGameName = () => {
-		nodecg.sendMessage("changeGameAudioName", { name: gameAudioName, index: props.index });
+		void nodecg.sendMessage("changeGameAudioName", { name: gameAudioName, index: props.index });
 	};
 
 	const disableGameName = () => {
-		nodecg.sendMessage("changeGameAudioName", { name: "", index: props.index });
+		void nodecg.sendMessage("changeGameAudioName", { name: "", index: props.index });
 	};
 
 	useEffect(() => {

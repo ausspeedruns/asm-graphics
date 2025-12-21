@@ -93,7 +93,7 @@ export const RTSelection = (props: Props) => {
 			console.log(runnerIndex, runners.length, runnerIndex >= runners.length);
 			// Submit to the authorities
 			headsetSelection.forEach((headset, i) => {
-				nodecg.sendMessage("update-commentator", {
+				void nodecg.sendMessage("update-commentator", {
 					...runners[i],
 					microphone: headset,
 				});

@@ -542,13 +542,13 @@ export function IntermissionElement(props: IntermissionProps) {
 	}
 
 	useEffect(() => {
-		getCurrentSong();
+		void getCurrentSong();
 		setTimes();
 
 		const interval = setInterval(setTimes, 1000);
 
 		const songInterval = setInterval(() => {
-			getCurrentSong();
+			void getCurrentSong();
 		}, 3000);
 
 		function setTimes() {

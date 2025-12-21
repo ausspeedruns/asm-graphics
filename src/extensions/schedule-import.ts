@@ -128,10 +128,13 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 }
 
 nodecg.listenFor("scheduleImport:import", () => {
-	getSchedule().then((runs) => {
-		if (runs === undefined) return;
-		console.log(JSON.stringify(runs));
-		// console.log(convertScheduleToSpeedcontrol(runs));
-		SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
-	});
+	getSchedule().then(
+		(runs) => {
+			if (runs === undefined) return;
+			console.log(JSON.stringify(runs));
+			// console.log(convertScheduleToSpeedcontrol(runs));
+			SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
+		},
+		() => { },
+	);
 });

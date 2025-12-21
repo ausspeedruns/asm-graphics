@@ -40,13 +40,13 @@ export function CountdownDashboard() {
 			return;
 		}
 
-		nodecg.sendMessage("countdown:start", time);
+		void nodecg.sendMessage("countdown:start", time);
 		setTimeSent(Date.now());
 		setCountdownActive(true);
 	}
 
 	function stopCountdown() {
-		nodecg.sendMessage("countdown:stop");
+		void nodecg.sendMessage("countdown:stop");
 
 		// Set time to the value we would be at if we had to stop
 		if (timeSent === null) return;
@@ -81,7 +81,7 @@ export function CountdownDashboard() {
 					Start
 				</Button>
 				<Button
-					variant={Boolean(countdownActive) ? "contained" : "outlined"}
+					variant={countdownActive ? "contained" : "outlined"}
 					color="error"
 					onClick={stopCountdown}
 					fullWidth

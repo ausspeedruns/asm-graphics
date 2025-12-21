@@ -34,7 +34,7 @@ export interface BoardState {
 }
 
 interface WebSocketMessage {
-	type: "goal" | "connected" | string;
+	type: "goal" | "connected" | (string & {});
 	player: {
 		uuid: string;
 		name: string;
@@ -218,7 +218,8 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 		};
 
 		this.webSocket.onmessage = (event) => {
-			const data = JSON.parse(event.data.toString());
+			const rawData = typeof event.data === "string" ? event.data : JSON.stringify(event.data);
+			const data = JSON.parse(rawData);
 			this.handleWebSocketMessage(data);
 		};
 
@@ -233,7 +234,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 
 	private handleWebSocketMessage(data: WebSocketMessage) {
 		if (data.type === "goal") {
-			this.handleGoalMessage(data);
+			void this.handleGoalMessage(data);
 		}
 	}
 

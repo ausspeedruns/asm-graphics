@@ -141,7 +141,9 @@ export const InterIncentives = (props: IncentivesProps) => {
 						key={incentive.index}
 						goal={incentive}
 						ref={(el) => {
-							el ? (incentivesRef.current[i] = el) : undefined;
+							if (el) {
+								incentivesRef.current[i] = el;
+							}
 						}}
 					/>
 				);
@@ -152,7 +154,9 @@ export const InterIncentives = (props: IncentivesProps) => {
 						key={incentive.index}
 						war={incentive}
 						ref={(el) => {
-							el ? (incentivesRef.current[i] = el) : undefined;
+							if (el) {
+								incentivesRef.current[i] = el;
+							}
 						}}
 					/>
 				);
@@ -182,7 +186,9 @@ export const InterIncentives = (props: IncentivesProps) => {
 			<Prizes
 				key="ASMPrizes"
 				ref={(el) => {
-					el ? (incentivesRef.current[10] = el) : undefined;
+					if (el) {
+						incentivesRef.current[10] = el;
+					}
 				}}
 				prizes={props.prizes}
 			/>,
@@ -222,7 +228,9 @@ export const InterIncentives = (props: IncentivesProps) => {
 				upcomingRuns={props.upcomingRuns}
 				key="ASMRuns"
 				ref={(el) => {
-					el ? (incentivesRef.current[25] = el) : undefined;
+					if (el) {
+						incentivesRef.current[25] = el;
+					}
 				}}
 			/>,
 		);

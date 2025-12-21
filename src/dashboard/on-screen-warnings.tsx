@@ -25,8 +25,8 @@ export const OnScreenWarningsDash: React.FC = () => {
 	}
 
 	function showMessage() {
-		nodecg.sendMessage("onScreenWarning:setMessage", localMessage);
-		nodecg.sendMessage("onScreenWarning:setShow", true);
+		void nodecg.sendMessage("onScreenWarning:setMessage", localMessage);
+		void nodecg.sendMessage("onScreenWarning:setShow", true);
 	}
 
 	return (

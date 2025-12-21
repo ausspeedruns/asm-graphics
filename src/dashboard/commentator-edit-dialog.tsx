@@ -84,7 +84,7 @@ export function CouchEditDialog(props: CouchEditDialogProps) {
 		tag !== (props.person?.tag ?? "");
 
 	function editCommentator() {
-		nodecg.sendMessage("update-commentator", {
+		void nodecg.sendMessage("update-commentator", {
 			id: id,
 			name: name,
 			pronouns: pronouns,
@@ -96,7 +96,7 @@ export function CouchEditDialog(props: CouchEditDialogProps) {
 	}
 
 	function deleteCommentator() {
-		nodecg.sendMessage("delete-commentator", id);
+		void nodecg.sendMessage("delete-commentator", id);
 		handleClose();
 	}
 

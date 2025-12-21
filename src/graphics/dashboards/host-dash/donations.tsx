@@ -142,7 +142,7 @@ function DonationEl(props: DonationProps) {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	const toggleRead = () => {
-		nodecg.sendMessage("donations:toggleRead", props.donation.id);
+		void nodecg.sendMessage("donations:toggleRead", props.donation.id);
 	};
 
 	return (

@@ -67,7 +67,7 @@ export function Settings() {
 	}
 
 	function updateCreditsInfo() {
-		nodecg.sendMessage("lowerthird:save-person", creditsInfo);
+		void nodecg.sendMessage("lowerthird:save-person", creditsInfo);
 	}
 
 	const canUpdate =
@@ -156,7 +156,7 @@ function HostReads() {
 	const [newContent, setNewContent] = useState("");
 
 	function addNewHostRead() {
-		nodecg.sendMessage("host-reads:add", { id: crypto.randomUUID(), title: newTitle, content: newContent });
+		void nodecg.sendMessage("host-reads:add", { id: crypto.randomUUID(), title: newTitle, content: newContent });
 
 		setNewTitle("");
 		setNewContent("");
@@ -250,11 +250,11 @@ function HostReadComponent(props: HostReadComponentProps) {
 	};
 
 	function deleteHostRead() {
-		nodecg.sendMessage("host-reads:remove", read.id);
+		void nodecg.sendMessage("host-reads:remove", read.id);
 	}
 
 	function saveHostRead() {
-		nodecg.sendMessage("host-reads:update", { ...read, title, content });
+		void nodecg.sendMessage("host-reads:update", { ...read, title, content });
 	}
 
 	return (
@@ -366,11 +366,11 @@ function IntermissionVideoComponent(props: IntermissionVideoProps) {
 	};
 
 	function setIntermissionVideoEnabled(isEnabled: boolean) {
-		nodecg.sendMessage("intermission-videos:update", { ...intermissionVideo, enabled: isEnabled });
+		void nodecg.sendMessage("intermission-videos:update", { ...intermissionVideo, enabled: isEnabled });
 	}
 
 	function handleSaveIntermissionVideo() {
-		nodecg.sendMessage("intermission-videos:update", {
+		void nodecg.sendMessage("intermission-videos:update", {
 			...intermissionVideo,
 			displayName: title,
 			volume: volumeInput / 100,

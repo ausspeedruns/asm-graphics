@@ -77,7 +77,7 @@ export const PrizesDashboard = () => {
 			subItem,
 		};
 
-		nodecg.sendMessage("prizes:NewPrize", newPrize);
+		void nodecg.sendMessage("prizes:NewPrize", newPrize);
 
 		resetForm();
 	}
@@ -94,7 +94,7 @@ export const PrizesDashboard = () => {
 			subItem,
 		};
 
-		nodecg.sendMessage("prizes:UpdatePrize", editedPrize);
+		void nodecg.sendMessage("prizes:UpdatePrize", editedPrize);
 
 		resetForm();
 	}
@@ -110,7 +110,7 @@ export const PrizesDashboard = () => {
 
 			const newOrder = arrayMove(prizesRep, oldIndex, newIndex);
 
-			nodecg.sendMessage("prizes:ReorderPrizes", newOrder);
+			void nodecg.sendMessage("prizes:ReorderPrizes", newOrder);
 		}
 	}
 

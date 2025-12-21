@@ -170,7 +170,7 @@ export function Person(props: PersonProps) {
 
 	function moveGameAudio() {
 		if (!props.isRunner) return;
-		nodecg.sendMessage("changeGameAudio", { manual: true, index: props.tempIndex });
+		void nodecg.sendMessage("changeGameAudio", { manual: true, index: props.tempIndex });
 	}
 
 	const talkbackEnabled = props.currentTalkbackTargets.includes(props.person.id);

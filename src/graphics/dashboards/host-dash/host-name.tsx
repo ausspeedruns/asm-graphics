@@ -54,7 +54,7 @@ export function HostName(props: Props) {
 			className={props.className}
 			style={{
 				flexDirection: props.vertical ? "column" : undefined,
-				...(props.style ?? {}),
+				...props.style,
 			}}
 		>
 			<div style={{ display: "flex", gap: 4, flexGrow: 1, padding: "8px 0", width: "100%" }}>
@@ -85,7 +85,7 @@ export function HostName(props: Props) {
 			<Button
 				variant="contained"
 				onClick={() => {
-					nodecg.sendMessage("update-commentator", {
+					void nodecg.sendMessage("update-commentator", {
 						id: "host",
 						name: hostName,
 						pronouns: hostPronouns,

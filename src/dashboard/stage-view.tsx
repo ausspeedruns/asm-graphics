@@ -145,11 +145,11 @@ export function DashboardStageView() {
 
 		if (to === ZONES.commentators) {
 			const comm = toCommentator(active.data.current?.person as any);
-			nodecg.sendMessage("update-commentator", comm);
+			void nodecg.sendMessage("update-commentator", comm);
 
 			if (from === "host") {
 				// Clear host
-				nodecg.sendMessage("delete-commentator", "host");
+				void nodecg.sendMessage("delete-commentator", "host");
 			}
 			// If source was commentator, you may want to delete the original to avoid duplicates:
 			// if (from === "commentator" && active.id !== "host") nodecg.sendMessage("delete-commentator", active.id as string);
@@ -158,11 +158,11 @@ export function DashboardStageView() {
 
 		if (to === ZONES.host) {
 			// Move previous host into commentators (if any)
-			if (host) nodecg.sendMessage("update-commentator", toCommentator(host));
+			if (host) void nodecg.sendMessage("update-commentator", toCommentator(host));
 			// Promote dropped to host
-			nodecg.sendMessage("update-commentator", toHost(active.data.current?.person as any));
+			void nodecg.sendMessage("update-commentator", toHost(active.data.current?.person as any));
 			// Remove original if it was a commentator
-			if (from === "commentator") nodecg.sendMessage("delete-commentator", active.id as string);
+			if (from === "commentator") void nodecg.sendMessage("delete-commentator", active.id as string);
 			return;
 		}
 
@@ -210,7 +210,7 @@ export function DashboardStageView() {
 			);
 
 			console.log(newOrder);
-			nodecg.sendMessage("speedcontrol:reorderRunners", { runId: runDataActiveRep.id, newOrder });
+			void nodecg.sendMessage("speedcontrol:reorderRunners", { runId: runDataActiveRep.id, newOrder });
 		}
 	}
 

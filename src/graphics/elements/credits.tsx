@@ -80,6 +80,8 @@ const NameWithRoles = styled.div`
 	}
 `;
 
+const collator = new Intl.Collator();
+
 const TECH = [
 	"Pato",
 	"nei",
@@ -91,7 +93,7 @@ const TECH = [
 	"Benjlin",
 	"Techless",
 	"CurtMantis",
-].sort(Intl.Collator().compare);
+].sort((a, b) => collator.compare(a, b));
 
 const FRONT_DESK = [
 	"srd_27",
@@ -104,7 +106,7 @@ const FRONT_DESK = [
 	"Synrey",
 	"Chokocchi",
 	"BalakehB",
-].sort(Intl.Collator().compare);
+].sort((a, b) => collator.compare(a, b));
 
 const STAGE_HAND = [
 	"Kenorah",
@@ -116,7 +118,7 @@ const STAGE_HAND = [
 	"Vot",
 	"Yuki_Layla",
 	"Kuiperbole",
-].sort(Intl.Collator().compare);
+].sort((a, b) => collator.compare(a, b));
 
 const HOST = [
 	"Ghoul02",
@@ -131,7 +133,7 @@ const HOST = [
 	"Chokocchi",
 	"Grimmo",
 	"Dactyly",
-].sort(Intl.Collator().compare);
+].sort((a, b) => collator.compare(a, b));
 
 const RUNNERS = [
 	"werster",
@@ -168,7 +170,7 @@ const RUNNERS = [
 	"FoksMachine",
 	"BalakehB",
 	"Eisog",
-].sort(Intl.Collator().compare);
+].sort((a, b) => collator.compare(a, b));
 
 export function Credits() {
 	const creditsBGRef = useRef<HTMLDivElement>(null);

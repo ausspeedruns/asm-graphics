@@ -47,18 +47,23 @@ const incentiveSchema = z.object({
 
 if (nodecg.bundleConfig.graphql?.url) {
 	setInterval(async () => {
-		getIncentives();
+		void getIncentives();
 	}, 5000);
 }
 
 nodecg.listenFor("refreshIncentives", () => {
-	getIncentives().then((success) => {
-		if (success) {
-			nodecg.sendMessage("incentivesUpdated", 200);
-		} else {
-			nodecg.sendMessage("incentivesUpdated", 418);
-		}
-	});
+	getIncentives().then(
+		(success) => {
+			if (success) {
+				nodecg.sendMessage("incentivesUpdated", 200);
+			} else {
+				nodecg.sendMessage("incentivesUpdated", 418);
+			}
+		},
+		() => {
+			nodecg.sendMessage("incentivesUpdated", 500);
+		},
+	);
 });
 
 async function getIncentives() {
@@ -123,7 +128,8 @@ async function getIncentives() {
 		incentivesUpdatedLastRep.value = Date.now();
 		return true;
 	} catch (error) {
-		nodecg.log.error(`[GraphQL Incentives (getIncentives)]: ${error}`);
+		nodecg.log.error(`[GraphQL Incentives (getIncentives)]:`);
+		nodecg.log.error(error);
 		return false;
 	}
 }
@@ -176,7 +182,7 @@ nodecg.listenFor("updateIncentive", async (data, callback) => {
 		callback(null);
 	}
 
-	getIncentives();
+	void getIncentives();
 });
 
 function convertWarToKeystone(war: War) {

@@ -10,7 +10,7 @@ export interface ExtendedServerAPI<T extends Record<string, any>> extends NodeCG
 	listenFor<E extends keyof NodeCGMessages>(
 		messageName: E | string, // Allow string for non-typed messages since we could be talking to an external bundle
 		bundleName: string,
-		handlerFunc: (data: NodeCGMessages[E] | unknown, ack?: NodeCG.Acknowledgement) => void,
+		handlerFunc: (data: unknown, ack?: NodeCG.Acknowledgement) => void,
 	): void;
 	listenFor<E extends keyof NodeCGMessages>(
 		messageName: E,

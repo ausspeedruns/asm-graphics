@@ -13,11 +13,11 @@
 		"moduleResolution": "node",
 		"importHelpers": true,
 		"module": "ES2022",
-		"baseUrl": "./src/",
 		"paths": {
-			"@asm-graphics/*": ["extension/*"],
-			"@asm-graphics/types": ["types"],
-			"@asm-graphics/types/*": ["types/*"]
+			"@asm-graphics/*": ["./src/extension/*"],
+			"@asm-graphics/types": ["./src/types"],
+			"@asm-graphics/types/*": ["./src/types/*"],
+			"*": ["./src/*"]
 		},
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,

@@ -71,7 +71,7 @@ export function HostDashAudio(props: HostDashAudioProps) {
 		});
 
 		setFaderValues(nextFaderValues);
-		nodecg.sendMessage("x32:setFader", { float: float, channel: channel, mixBus: mixBus });
+		void nodecg.sendMessage("x32:setFader", { float: float, channel: channel, mixBus: mixBus });
 	};
 
 	return (

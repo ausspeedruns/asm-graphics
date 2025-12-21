@@ -87,7 +87,7 @@ export function IntermissionVideoComponent(props: Props) {
 			// Run ad
 			tl.call(() => {
 				if (!videoRef.current) return;
-				videoRef.current.play();
+				void videoRef.current.play();
 			});
 
 			// Fade out ad

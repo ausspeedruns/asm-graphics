@@ -49,7 +49,7 @@ async function getCampaignData() {
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.status === 401) {
-				getAccessToken();
+				void getAccessToken();
 			} else {
 				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
 			}
@@ -93,7 +93,7 @@ async function getDonationsData() {
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.status === 401) {
-				getAccessToken();
+				void getAccessToken();
 			} else {
 				ncgLog.error("getDonationsData axios error: ", JSON.stringify(error));
 			}
@@ -147,7 +147,7 @@ async function getDonationMatchData() {
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.status === 401) {
-				getAccessToken();
+				void getAccessToken();
 			} else {
 				ncgLog.error("getDonationMatchData axios error: ", JSON.stringify(error));
 			}
@@ -162,24 +162,24 @@ async function tiltifyInit() {
 	// Update access every hour
 	setInterval(
 		() => {
-			getAccessToken();
+			void getAccessToken();
 		},
 		30 * 60 * 1000,
 	);
 
 	// Get data
 	setInterval(() => {
-		getCampaignData();
-		getDonationsData();
-		getDonationMatchData();
+		void getCampaignData();
+		void getDonationsData();
+		void getDonationMatchData();
 	}, 5000);
 
-	getAccessToken();
+	void getAccessToken();
 }
 
 if (tiltifyConfig.enabled) {
 	ncgLog.info("Tiltify enabled");
-	tiltifyInit();
+	void tiltifyInit();
 } else {
 	ncgLog.info("Tiltify disabled");
 }

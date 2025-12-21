@@ -70,7 +70,7 @@ export const EditUserDialog = (props: Props) => {
 
 	function handleSave() {
 		// Update commentator information
-		nodecg.sendMessage("update-commentator", {
+		void nodecg.sendMessage("update-commentator", {
 			id: id,
 			name: username,
 			pronouns: pronouns,
@@ -88,7 +88,7 @@ export const EditUserDialog = (props: Props) => {
 		if (props.commentator.isRunner) return;
 		if (!props.commentator.id) return;
 
-		nodecg.sendMessage("delete-commentator", props.commentator.id);
+		void nodecg.sendMessage("delete-commentator", props.commentator.id);
 		props.onClose();
 	}
 

@@ -142,5 +142,5 @@ async function fetchGameData(game: string) {
 }
 
 nodecg.listenFor("scheduleImport:getGameYears", () => {
-	getGameData();
+	void getGameData();
 });

@@ -7,12 +7,12 @@ export function HostMicrophone() {
 
 	function muteOrUnmute() {
 		setMuted(!muted);
-		nodecg.sendMessage(muted ? "x32:unmute-host" : "x32:mute-host");
+		void nodecg.sendMessage(muted ? "x32:unmute-host" : "x32:mute-host");
 	}
 
 	function muteOrUnmuteCouch() {
 		setCouchMuted(!couchMuted);
-		nodecg.sendMessage(couchMuted ? "x32:host-unmute-couch" : "x32:host-mute-couch");
+		void nodecg.sendMessage(couchMuted ? "x32:host-unmute-couch" : "x32:host-mute-couch");
 	}
 
 	return (

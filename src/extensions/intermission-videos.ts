@@ -53,7 +53,7 @@ intermissionVideoAssetsRep.on("change", (newVal) => {
 	intermissionVideosRep.value = [...newIntermissionVideosRep, ...newVideos];
 
 	// For each new video, get its information
-	Promise.all(
+	void Promise.all(
 		newVideos.map(async (video) => {
 			try {
 				video.videoInfo = await getVideoInformation(video.asset);
@@ -64,7 +64,7 @@ intermissionVideoAssetsRep.on("change", (newVal) => {
 			video.loading = false;
 
 			intermissionVideosUpdate(video);
-		}),
+		})
 	);
 });
 

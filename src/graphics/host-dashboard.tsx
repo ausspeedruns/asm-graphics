@@ -257,7 +257,7 @@ export function HostDash() {
 		const adLength = length + 10;
 
 		setPlayingAd(adLength);
-		nodecg.sendMessage("intermission-videos:play", ad);
+		void nodecg.sendMessage("intermission-videos:play", ad);
 
 		setTimeout(() => {
 			setPlayingAd(undefined);

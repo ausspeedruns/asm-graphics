@@ -197,7 +197,7 @@ export const RTAudio = (props: Props) => {
 		});
 
 		setFaderValues(nextFaderValues);
-		nodecg.sendMessage("x32:setFader", { float: float, channel: channel, mixBus: mixBus });
+		void nodecg.sendMessage("x32:setFader", { float: float, channel: channel, mixBus: mixBus });
 	};
 
 	const editingText = `Editing ${headsetUser === selectedHeadsetObj?.name ? selectedHeadset : (headsetUser ?? selectedHeadset)}`;

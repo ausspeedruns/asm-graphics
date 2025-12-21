@@ -66,10 +66,8 @@ function getDialog(name: string): Window | null {
 	return null;
 }
 
-export function checkAndGetDialog(name: string): Promise<Window | null> {
-	return new Promise<Window | null>(async (res) => {
-		await checkDialog(name);
-		const dialog = getDialog(name);
-		res(dialog);
-	});
+export async function checkAndGetDialog(name: string): Promise<Window | null> {
+	await checkDialog(name);
+	const dialog = getDialog(name);
+	return dialog;
 }

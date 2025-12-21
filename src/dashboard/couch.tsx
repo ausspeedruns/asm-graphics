@@ -66,7 +66,7 @@ export function DashCouch() {
 	}
 
 	function handleShowHost(checked: boolean) {
-		nodecg.sendMessage("showHost", checked);
+		void nodecg.sendMessage("showHost", checked);
 	}
 
 	return (

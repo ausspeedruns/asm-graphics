@@ -43,4 +43,4 @@ async function getAllUsers() {
 
 getAllUsers().then((allUsers) => {
 	allAusSpeedrunsUsernamesRep.value = allUsers ?? [];
-});
+}, () => { });

@@ -95,7 +95,7 @@ const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun
 nodecg.listenFor("transition:toGame", (data) => {
 	if (!data.to.startsWith("GAMEPLAY")) return;
 
-	cycleRecording();
+	void cycleRecording();
 
 	setTimeout(() => {
 		// CUSTOM TRANSITIONS
@@ -110,7 +110,7 @@ let setTransitionQueue: string | null = null;
 
 obs.on("SceneTransitionVideoEnded", (_transitionName) => {
 	if (setTransitionQueue) {
-		SetCurrentSceneTransition(setTransitionQueue);
+		void SetCurrentSceneTransition(setTransitionQueue);
 	}
 });
 
@@ -120,7 +120,7 @@ async function SetCurrentSceneTransition(transitionName: string) {
 
 	if (currentTransition != transitionName) {
 		ncgLog.info(`Setting Current Scene Transition to: ${setTransitionQueue}`);
-		obs.call("SetCurrentSceneTransition", {
+		void obs.call("SetCurrentSceneTransition", {
 			transitionName: transitionName,
 		});
 

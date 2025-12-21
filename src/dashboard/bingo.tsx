@@ -90,7 +90,7 @@ export function BingoDashboard() {
 	}, [bingoSyncRoomDetailsRep]);
 
 	function handleJoinRoom() {
-		nodecg.sendMessage("bingosync:joinRoom", {
+		void nodecg.sendMessage("bingosync:joinRoom", {
 			room: roomCode,
 			nickname: "AusSpeedruns",
 			password: password,
@@ -98,7 +98,7 @@ export function BingoDashboard() {
 	}
 
 	function handleLeaveRoom() {
-		nodecg.sendMessage("bingosync:leaveRoom");
+		void nodecg.sendMessage("bingosync:leaveRoom");
 	}
 
 	const clonedBingoSyncBoardStateRep = [...(bingoSyncBoardStateRep?.cells ?? [])];
@@ -264,7 +264,7 @@ function OverrideDialog(props: OverrideDialogProps) {
 		}
 
 		if (name === props.originalCell.name && colours === props.originalCell.colors) {
-			nodecg.sendMessage("bingosync:overrideCell", {
+			void nodecg.sendMessage("bingosync:overrideCell", {
 				cellSlot: props.originalCell.slot,
 				cellData: undefined, // Reset the override
 			});
@@ -272,7 +272,7 @@ function OverrideDialog(props: OverrideDialogProps) {
 			return;
 		}
 
-		nodecg.sendMessage("bingosync:overrideCell", {
+		void nodecg.sendMessage("bingosync:overrideCell", {
 			cellSlot: props.originalCell.slot,
 			cellData: {
 				slot: props.originalCell.slot,

@@ -33,11 +33,13 @@ async function connect(): Promise<void> {
 
 if (ncgOBSConfig.enabled) {
 	nodecg.log.info("[OBS] Setting up connection");
-	connect();
+	void connect();
 	obs.on("ConnectionClosed", () => {
 		nodecg.log.warn("[OBS] Connection lost, retrying in 5 seconds");
 		obsConnectionRep.value = "disconnected";
-		setTimeout(connect, 5000);
+		setTimeout(() => {
+			void connect();
+		}, 5000);
 	});
 
 	obs.on("ConnectionError", (err) => {

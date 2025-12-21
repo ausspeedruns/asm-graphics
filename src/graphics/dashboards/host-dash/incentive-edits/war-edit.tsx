@@ -36,7 +36,7 @@ type WarProps = {
 export function WarEdit({ incentive, updateIncentive }: WarProps) {
 	const [incentiveOptions, setIncentiveOptions] = useState<War["options"]>(incentive.options);
 	const [active, setActive] = useState(incentive.active);
-	const [increments, setIncrements] = useState<number[]>(new Array(incentive.options.length).fill(0));
+	const [increments, setIncrements] = useState<number[]>(Array.from({ length: incentive.options.length }, () => 0));
 
 	function UpdateIncentive() {
 		if (!incentive.id) return;

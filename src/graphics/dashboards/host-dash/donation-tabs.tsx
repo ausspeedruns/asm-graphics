@@ -48,7 +48,7 @@ export const DonationTabs = () => {
 	const [copyNotification, setCopyNotification] = useState(false);
 
 	const copyDonateCommand = () => {
-		navigator.clipboard.writeText("!donate").then(() => {
+		void navigator.clipboard.writeText("!donate").then(() => {
 			setCopyNotification(true);
 		});
 	};

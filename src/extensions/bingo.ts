@@ -94,5 +94,5 @@ if (bingosyncBoardStateRep.value.cells.length > 0) {
 	log.info(
 		"Bingosync board state already exists which means we might be recovering from a crash, automatically joining again.",
 	);
-	joinRoomHandler(bingosyncRoomDetailsRep.value);
+	void joinRoomHandler(bingosyncRoomDetailsRep.value);
 }

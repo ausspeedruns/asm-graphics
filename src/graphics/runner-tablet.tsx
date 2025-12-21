@@ -137,9 +137,9 @@ const RunnerTablet: React.FC = () => {
 
 	function fullscreen() {
 		if (document.fullscreenElement) {
-			document.exitFullscreen();
+			void document.exitFullscreen();
 		} else {
-			document.documentElement.requestFullscreen();
+			void document.documentElement.requestFullscreen();
 		}
 	}
 
