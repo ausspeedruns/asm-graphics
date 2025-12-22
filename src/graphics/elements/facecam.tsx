@@ -6,6 +6,10 @@ import { RunDataTeam } from "@asm-graphics/types/RunData";
 
 import { Nameplate } from "./nameplate";
 
+import DiscordLogo from "../media/icons/discord.svg";
+import TwitterLogo from "../media/icons/twitter.svg";
+import YouTubeLogo from "../media/icons/youtube.svg";
+
 const nodecgConfig = nodecg.bundleConfig;
 
 const FacecamContainer = styled.div`
@@ -247,20 +251,20 @@ const SocialMediaLabel = styled.span`
 	margin: 0 5px;
 `;
 
-export const NoCam: React.FC = () => {
+export function NoCam() {
 	return (
 		<NoCamContainer>
 			<SocialMedia>
 				<SocialMediaItem>
-					<img src={require("../media/twitter.svg")} />
+					<img src={TwitterLogo} />
 					<SocialMediaLabel>@ AusSpeedruns</SocialMediaLabel>
 				</SocialMediaItem>
 				<SocialMediaItem>
-					<img src={require("../media/youtube.svg")} />
+					<img src={YouTubeLogo} />
 					<SocialMediaLabel>Australian Speedruns</SocialMediaLabel>
 				</SocialMediaItem>
 				<SocialMediaItem>
-					<img src={require("../media/discord.svg")} />
+					<img src={DiscordLogo} />
 					<SocialMediaLabel>discord.ausspeedruns.com</SocialMediaLabel>
 				</SocialMediaItem>
 				<SocialMediaLabel
@@ -270,9 +274,9 @@ export const NoCam: React.FC = () => {
 						color: "#F2DAB2",
 					}}
 				>
-					#PAXxAusSpeedruns2021
+					{nodecgConfig.graphql?.event ?? "AusSpeedruns"}
 				</SocialMediaLabel>
 			</SocialMedia>
 		</NoCamContainer>
 	);
-};
+}

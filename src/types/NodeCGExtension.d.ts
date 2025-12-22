@@ -1,7 +1,6 @@
 import type NodeCG from "nodecg/types";
 import type { NodeCGMessages } from "./NodeCGMessages";
 import type { ConfigSchema } from "./ConfigSchema";
-import type { NodeCGAPIClient } from "nodecg/out/client/api/api.client";
 
 type NeverKeys<T> = { [K in keyof T]: T[K] extends never ? K : never }[keyof T];
 type SendMessageCb<T> = (error?: unknown, response?: T) => void;
@@ -21,7 +20,7 @@ export interface ExtendedServerAPI<T extends Record<string, any>> extends NodeCG
 	sendMessage<E extends keyof NodeCGMessages>(messageName: E, data: NodeCGMessages[E]): void;
 }
 
-export interface ExtendedClientAPI<T extends Record<string, any>> extends NodeCGAPIClient<T> {
+export interface ExtendedClientAPI<T extends Record<string, any>> extends NodeCG.ClientAPI<T> {
 	sendMessage<E extends NeverKeys<NodeCGMessages>>(messageName: E, cb: SendMessageCb<unknown>): void;
 	sendMessage<E extends keyof NodeCGMessages>(
 		messageName: E,
