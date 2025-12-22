@@ -44,15 +44,15 @@ export const Timer: React.FC = () => {
 	// PLAY/PAUSE
 	const playPress = () => {
 		if (timerRep?.state === "stopped" || timerRep?.state === "paused") {
-			nodecg.sendMessageToBundle("timerStart", "nodecg-speedcontrol");
+			void nodecg.sendMessageToBundle("timerStart", "nodecg-speedcontrol");
 		} else if (timerRep?.state === "running") {
-			nodecg.sendMessageToBundle("timerPause", "nodecg-speedcontrol");
+			void nodecg.sendMessageToBundle("timerPause", "nodecg-speedcontrol");
 		}
 	};
 
 	// RESET
 	const resetPress = () => {
-		nodecg.sendMessageToBundle("timerReset", "nodecg-speedcontrol");
+		void nodecg.sendMessageToBundle("timerReset", "nodecg-speedcontrol");
 	};
 
 	let fontColor = "#000";
@@ -191,7 +191,7 @@ interface StopButtonProps {
 const StopForfeitButton: React.FC<StopButtonProps> = (props: StopButtonProps) => {
 	// STOP
 	const stopPress = () => {
-		nodecg.sendMessageToBundle("timerStop", "nodecg-speedcontrol", {
+		void nodecg.sendMessageToBundle("timerStop", "nodecg-speedcontrol", {
 			id: props.team.id,
 			forfeit: props.forfeit,
 		});
@@ -234,7 +234,7 @@ interface UndoButtonProps {
 const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 	// UNDO
 	const undoPress = () => {
-		nodecg.sendMessageToBundle("timerUndo", "nodecg-speedcontrol", props.team.id);
+		void nodecg.sendMessageToBundle("timerUndo", "nodecg-speedcontrol", props.team.id);
 	};
 
 	return (

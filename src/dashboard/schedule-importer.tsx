@@ -83,7 +83,7 @@ export const DashScheduleImporter = () => {
 		if (itemId.startsWith("DRAWER-")) return;
 
 		const runId = itemId;
-		nodecg.sendMessageToBundle("changeActiveRun", "nodecg-speedcontrol", runId);
+		void nodecg.sendMessageToBundle("changeActiveRun", "nodecg-speedcontrol", runId);
 	}
 
 	return (
