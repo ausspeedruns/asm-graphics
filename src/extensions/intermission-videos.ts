@@ -3,7 +3,7 @@ import ffprobe from "@ffprobe-installer/ffprobe";
 
 import { intermissionVideosRep } from "./replicants";
 
-import type { NodeCG } from "nodecg/out/types/nodecg";
+import type NodeCG from "nodecg/types";
 import { spawn } from "node:child_process";
 
 export interface IntermissionVideo {

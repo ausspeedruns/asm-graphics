@@ -14,8 +14,8 @@ const AmountSchema = z.object({
 });
 
 const PaginationMetadataSchema = z.object({
-	after: z.string(),
-	before: z.string().optional(),
+	after: z.string().nullable(),
+	before: z.string().nullable(),
 	limit: z.number(),
 });
 
@@ -41,7 +41,6 @@ async function getAccessToken() {
 		if (!parsedData.success) {
 			ncgLog.error("getAccessToken: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
-			ncgLog.error("Errors:");
 			ncgLog.error(parsedData.error);
 			return;
 		}
@@ -56,14 +55,16 @@ async function getAccessToken() {
 	}
 }
 
+const AvatarSchema = z.object({
+	alt: z.string(),
+	height: z.number(),
+	src: z.string(),
+	width: z.number(),
+});
+
 const TiltifyCampaignSchema = z.object({
 	amount_raised: AmountSchema,
-	avatar: z.object({
-		alt: z.string(),
-		height: z.number(),
-		src: z.string(),
-		width: z.number(),
-	}),
+	avatar: AvatarSchema,
 	cause_id: z.string(),
 	description: z.string(),
 	fundraising_event_id: z.string(),
@@ -83,25 +84,20 @@ const TiltifyCampaignSchema = z.object({
 	updated_at: z.string(),
 	url: z.string(),
 	user: z.object({
-		avatar: z.object({
-			alt: z.string(),
-			height: z.number(),
-			src: z.string(),
-			width: z.number(),
-		}),
+		avatar: AvatarSchema,
 		description: z.string(),
 		id: z.string(),
 		legacy_id: z.number(),
 		slug: z.string(),
 		social: z.object({
-			discord: z.string().optional(),
-			facebook: z.string().optional(),
-			instagram: z.string().optional(),
-			snapchat: z.string().optional(),
-			tiktok: z.string().optional(),
-			twitch: z.string().optional(),
-			twitter: z.string().optional(),
-			youtube: z.string().optional(),
+			discord: z.string().nullable(),
+			facebook: z.string().nullable(),
+			instagram: z.string().nullable(),
+			snapchat: z.string().nullable(),
+			tiktok: z.string().nullable(),
+			twitch: z.string().nullable(),
+			twitter: z.string().nullable(),
+			youtube: z.string().nullable(),
 		}),
 		total_amount_raised: AmountSchema,
 		url: z.string(),
@@ -126,10 +122,100 @@ async function getCampaignData() {
 
 		const parsedData = TiltifyCampaignEndpointSchema.safeParse(data);
 
+		// {
+		// 	data: {
+		// 		id: "c20c9685-cd1b-4d5f-8595-74378cb06859",
+		// 		name: "AusSpeedruns At DreamHack 2024",
+		// 		status: "retired",
+		// 		user: {
+		// 			id: "816e4ebc-24c4-46bf-806d-27ea12750cc0",
+		// 			description: "Australian Speedrunning Marathon or ASM for short is the aussie representation of the video game hobby known as Speedrunning. When we're not breaking times in games, we're working together to produce a marathon of our content to raise money for charity!",
+		// 			url: "/@ausspeedruns",
+		// 			username: "AusSpeedruns",
+		// 			slug: "ausspeedruns",
+		// 			avatar: {
+		// 				width: 200,
+		// 				alt: "alt",
+		// 				src: "https://assets.tiltify.com/uploads/user/thumbnail/42581/d9d68bdb-24ec-4bb4-9595-de50a7479667.jpeg",
+		// 				height: 200
+		// 			},
+		// 			social: {
+		// 				twitch: "ausspeedruns",
+		// 				twitter: "ausspeedruns",
+		// 				facebook: null,
+		// 				discord: "https://discord.ausspeedruns.com/",
+		// 				website: "https://AusSpeedruns.com",
+		// 				snapchat: null,
+		// 				instagram: "ausspeedruns",
+		// 				youtube: "@AusSpeedruns",
+		// 				tiktok: "ausspeedruns"
+		// 			},
+		// 			total_amount_raised: {
+		// 				value: "157778.91",
+		// 				currency: "USD"
+		// 			},
+		// 			legacy_id: 42581
+		// 		},
+		// 		description: "AusSpeedruns is at the one and only DreamHack Melbourne!! We have 3 days of speedrunning lined up ranging from Super Mario 64 to Half Life 2 to BioShock to even more! Check out the schedule here: https://ausspeedruns.com/ASDH2024/schedule. We are as always excited to be raising money for Game On Cancer to help support cancer research!",
+		// 		url: "/@ausspeedruns/asdh2024",
+		// 		cause_id: "71e7c11b-2a80-48ed-bf7a-f1c85cb901e6",
+		// 		inserted_at: "2024-04-22T11:02:38Z",
+		// 		updated_at: "2025-04-07T18:53:43Z",
+		// 		user_id: "816e4ebc-24c4-46bf-806d-27ea12750cc0",
+		// 		slug: "asdh2024",
+		// 		campaign_id: null,
+		// 		avatar: {
+		// 			width: 64,
+		// 			alt: "alt",
+		// 			src: "https://assets.tiltify.com/uploads/event/thumbnail/528963/blob-bc5bd9c1-d48d-4ea6-b9b7-6c04cb8bda4e.png",
+		// 			height: 64
+		// 		},
+		// 		fundraising_event_id: "efbb0649-4394-4bd2-ae08-9d3a8e852ebd",
+		// 		supporting_type: "none",
+		// 		retired_at: "2024-07-02T12:45:51Z",
+		// 		published_at: "2024-04-22T11:02:38Z",
+		// 		parent_facts: [
+		// 			{
+		// 				id: "ff68d181-11d6-4946-84c9-e2471f78692c",
+		// 				name: "Cure Cancer",
+		// 				usage_type: "cause"
+		// 			},
+		// 			{
+		// 				id: "efbb0649-4394-4bd2-ae08-9d3a8e852ebd",
+		// 				name: "AusSpeedruns x Game On Cancer® 2024",
+		// 				usage_type: "fundraising_event_activation"
+		// 			}
+		// 		],
+		// 		original_goal: {
+		// 			value: "3000",
+		// 			currency: "AUD"
+		// 		},
+		// 		goal: {
+		// 			value: "10000",
+		// 			currency: "AUD"
+		// 		},
+		// 		amount_raised: {
+		// 			value: "9956.00",
+		// 			currency: "AUD"
+		// 		},
+		// 		total_amount_raised: {
+		// 			value: "9956.00",
+		// 			currency: "AUD"
+		// 		},
+		// 		livestream: {
+		// 			type: "twitch",
+		// 			channel: "ausspeedruns"
+		// 		},
+		// 		legacy_id: 528963,
+		// 		donate_url: "https://donate.tiltify.com/@ausspeedruns/asdh2024",
+		// 		has_schedule: false,
+		// 		team_campaign_id: null
+		// 	}
+		// }
+
 		if (!parsedData.success) {
 			ncgLog.error("getCampaignData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
-			ncgLog.error("Errors:");
 			ncgLog.error(parsedData.error);
 			return;
 		}
@@ -144,12 +230,12 @@ const TiltifyDonationSchema = z.object({
 	amount: AmountSchema,
 	campaign_id: z.string(),
 	completed_at: z.string(),
-	currency: z.string(),
+	currency: z.string().optional(),
 	donor_comment: z.string().nullable(),
 	donor_name: z.string(),
 	id: z.string(),
-	inserted_at: z.string(),
-	updated_at: z.string(),
+	inserted_at: z.string().optional(),
+	updated_at: z.string().optional(),
 });
 
 const TiltifyDonationsEndpointSchema = z.object({
@@ -171,7 +257,6 @@ async function getDonationsData() {
 		if (!parsedData.success) {
 			ncgLog.error("getDonationsData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
-			ncgLog.error("Errors:");
 			ncgLog.error(parsedData.error);
 			return;
 		}
@@ -208,7 +293,7 @@ async function getDonationsData() {
 const TiltifyDonationMatchSchema = z.object({
 	active: z.boolean(),
 	amount: AmountSchema,
-	completed_at: z.date().nullable(),
+	completed_at: z.string().nullable(),
 	donation_id: z.string(),
 	ends_at: z.string(),
 	id: z.string(),
@@ -240,26 +325,39 @@ async function getDonationMatchData() {
 		if (!parsedData.success) {
 			ncgLog.error("getDonationMatchData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
-			ncgLog.error("Errors:");
 			ncgLog.error(parsedData.error);
 			return;
 		}
 
 		const tiltifyResDonationMatches = parsedData.data.data;
+
 		// {
-		// 	"active": true,
-		// 	"amount": { "currency": "AUD", "value": "3000.00" },
-		// 	"completed_at": null,
-		// 	"donation_id": "b45db459-090b-49ad-aec9-abfd9870e845",
-		// 	"ends_at": "2024-03-24T06:38:18Z",
-		// 	"id": "ede97d2e-1c90-41e8-b318-68c3550dcb80",
-		// 	"inserted_at": "2024-03-22T00:38:21Z",
-		// 	"matched_by": "A Bear with a Shotgun",
-		// 	"pledged_amount": { "currency": "AUD", "value": "3000.00" },
-		// 	"started_at_amount": { "currency": "AUD", "value": "0.00" },
-		// 	"starts_at": "2024-03-24T06:38:18Z",
-		// 	"total_amount_raised": { "currency": "AUD", "value": "50.00" },
-		// 	"updated_at": "2024-03-22T00:38:21Z"
+		// 	active: false,
+		// 	id: "93105479-47e9-4390-bde1-10dd53bd3c27",
+		// 	amount: {
+		// 		value: "2000.00",
+		// 		currency: "AUD"
+		// 	},
+		// 	inserted_at: "2024-04-26T00:45:15Z",
+		// 	updated_at: "2024-04-26T12:29:06Z",
+		// 	completed_at: "2024-04-26T12:29:06Z",
+		// 	starts_at: "2024-04-29T00:45:13Z",
+		// 	donation_id: "44bca58b-12a7-47b1-981c-41f493079d37",
+		// 	ends_at: "2024-04-29T00:45:13Z",
+		// 	started_at_amount: {
+		// 		value: "55.00",
+		// 		currency: "AUD"
+		// 	},
+		// 	pledged_amount: {
+		// 		value: "2000.00",
+		// 		currency: "AUD"
+		// 	},
+		// 	match_type: "amount",
+		// 	total_amount_raised: {
+		// 		value: "1982.00",
+		// 		currency: "AUD"
+		// 	},
+		// 	matched_by: "A Bear with a Shotgun"
 		// }
 
 		// Donation matches

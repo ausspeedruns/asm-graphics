@@ -36,7 +36,6 @@ async function init() {
 	}
 
 	require("./incentives");
-	require("./staff-messages");
 	require("./donations");
 	require("./schedule-import");
 	require("./ausspeedruns-website");
