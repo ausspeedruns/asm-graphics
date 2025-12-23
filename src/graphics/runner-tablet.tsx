@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { ThemeProvider, createTheme } from "@mui/material";
-import usePrevious from "../hooks/usePrevious";
+import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
 
 // import type { Timer } from '@asm-graphics/types/Timer';
 import type { Commentator } from "@asm-graphics/types/OverlayProps";

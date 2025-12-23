@@ -16,7 +16,10 @@
                 "./src/extensions/*"
             ],
             "@asm-graphics/types/*": [
-                "./src/types/*"
+                "./src/shared/types/*"
+            ],
+            "@asm-graphics/shared/*": [
+                "./src/shared/*"
             ]
         },
         "types": [
@@ -25,6 +28,6 @@
     },
     "include": [
         "./src/extensions/**/*.ts",
-        "./src/types/**/*.d.ts"
+        "./src/shared/**/*.d.ts"
     ]
 }

@@ -7,7 +7,7 @@ import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData
 
 import { IntermissionElement, type IntermissionRef } from "./intermission";
 import type NodeCG from "nodecg/types";
-import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
 
 function Intermission() {
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");

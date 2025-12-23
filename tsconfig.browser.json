@@ -14,8 +14,11 @@
         "noUnusedLocals": false,
         "paths": {
             "@asm-graphics/types/*": [
-                "./src/types/*"
+                "./src/shared/types/*"
             ],
+            "@asm-graphics/shared/*": [
+                "./src/shared/*"
+            ]
         },
         "types": [
             "react",
@@ -25,8 +28,7 @@
     "include": [
         "./src/dashboard/**/*",
         "./src/graphics/**/*",
-        "./src/hooks/**/*",
-        "./src/types/**/*",
+        "./src/shared/**/*",
         "node_modules/vite-plugin-svgr/client.d.ts"
     ],
     "exclude": [

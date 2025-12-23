@@ -9,7 +9,7 @@ import type { Automations } from "@asm-graphics/types/Automations.js";
 import type { Prize } from "@asm-graphics/types/Prizes.js";
 import type { BoardState, RoomJoinParameters } from "./util/bingosync.js";
 import type { HostRead } from "./host-reads.js";
-import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo.js";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.js";
 import type { LowerThirdPerson } from "./full-screen-data.js";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
 

@@ -5,8 +5,8 @@ import { useReplicant } from "@nodecg/react-hooks";
 
 import type { Timer } from "@asm-graphics/types/Timer";
 
-import useSurroundingRuns from "../hooks/useSurroundingRuns";
-import useCurrentTime from "../hooks/useCurrentTime";
+import useSurroundingRuns from "@asm-graphics/shared/hooks/useSurroundingRuns";
+import useCurrentTime from "@asm-graphics/shared/hooks/useCurrentTime";
 
 const DashRunInformationContainer = styled.div``;
 

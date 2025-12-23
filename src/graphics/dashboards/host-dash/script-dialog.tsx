@@ -22,7 +22,7 @@ import "remark-github-alerts/styles/github-colors-light.css";
 import "remark-github-alerts/styles/github-colors-dark-class.css";
 
 import type { HostRead } from "../../../extensions/host-reads";
-import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
 
 const Container = styled.div`
 	font-family: var(--main-font);

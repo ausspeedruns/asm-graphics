@@ -35,10 +35,10 @@ import IntermissionBG from "./overlays/backgrounds/Intermission.png";
 
 // import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
 import type { DonationMatch } from "@asm-graphics/types/Donations";
-import { useNormalisedTime } from "../hooks/useCurrentTime";
+import { useNormalisedTime } from "@asm-graphics/shared/hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 import type { Prize } from "@asm-graphics/types/Prizes";
-import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
 import { ASAP25UpcomingRun } from "./elements/intermission/asap25/upcoming-run";
 import { Incentives } from "./elements/intermission/asap25/incentives";
 

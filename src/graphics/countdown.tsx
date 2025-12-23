@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 // import styled from "styled-components";
 import { Timer } from "./elements/timer";
-import type { Timer as TimerType } from "../types/Timer";
+import type { Timer as TimerType } from "@asm-graphics/types/Timer";
 
 // import { dayTimeColours } from "./elements/useTimeColour";
 

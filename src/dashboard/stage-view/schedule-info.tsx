@@ -2,7 +2,7 @@ import { format, formatDistanceStrict } from "date-fns";
 import { useReplicant } from "@nodecg/react-hooks";
 
 import type { RunDataActiveRun } from "../../../bundles/nodecg-speedcontrol/src/types";
-import useSurroundingRuns from "../../hooks/useSurroundingRuns";
+import useSurroundingRuns from "@asm-graphics/shared/hooks/useSurroundingRuns";
 
 interface ScheduleInfoProps {
 	style?: React.CSSProperties;

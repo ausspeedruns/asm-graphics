@@ -2,7 +2,7 @@ import { useImperativeHandle, useRef, useState } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
 
-import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
 
 const IntermissionAdsContainer = styled.div`
 	width: 100%;

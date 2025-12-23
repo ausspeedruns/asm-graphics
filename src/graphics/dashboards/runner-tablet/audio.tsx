@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";
 import equal from "fast-deep-equal";
-import usePrevious from "../../../hooks/usePrevious";
+import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
 import { FitText } from "../../elements/fit-text";
 import { Headsets, HostHeadset } from "../../../extensions/audio-data";
 

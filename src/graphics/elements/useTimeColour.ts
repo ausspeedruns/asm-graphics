@@ -1,4 +1,4 @@
-import { useNormalisedTime } from "../../hooks/useCurrentTime";
+import { useNormalisedTime } from "@asm-graphics/shared/hooks/useCurrentTime";
 
 interface ColourSwatch {
 	plasticTop: string;
