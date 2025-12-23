@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 
-import { Donation } from "@asm-graphics/types/Donations";
+import type { Donation } from "@asm-graphics/types/Donations";
 
 import { darkTheme } from "./theme";
 import { Box, Grid, ThemeProvider } from "@mui/material";

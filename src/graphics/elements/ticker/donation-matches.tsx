@@ -124,7 +124,11 @@ export function TickerDonationMatches(props: Props) {
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
 			for (let i = 0; i < matchesRefs.current.length; i++) {
-				tl.add(matchesRefs.current[i].animation(tl));
+				const matchRef = matchesRefs.current[i];
+
+				if (!matchRef) continue;
+
+				tl.add(matchRef.animation(tl));
 			}
 
 			// End

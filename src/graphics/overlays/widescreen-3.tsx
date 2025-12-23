@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
@@ -143,18 +143,18 @@ export const Widescreen3 = (props: OverlayProps) => {
 
 					<RaceFinish
 						style={{ top: 758, left: 1046, zIndex: 3 }}
-						time={teamData[0].time}
-						place={teamData[0].place}
+						time={teamData[0]?.time}
+						place={teamData[0]?.place}
 					/>
 					<RaceFinish
 						style={{ top: 758, left: 1346, zIndex: 3 }}
-						time={teamData[1].time}
-						place={teamData[1].place}
+						time={teamData[1]?.time}
+						place={teamData[1]?.place}
 					/>
 					<RaceFinish
 						style={{ top: 758, left: 1647, zIndex: 3 }}
-						time={teamData[2].time}
-						place={teamData[2].place}
+						time={teamData[2]?.time}
+						place={teamData[2]?.place}
 					/>
 					<InfoBox>
 						<InfoBoxRow style={{ height: "23%" }}>

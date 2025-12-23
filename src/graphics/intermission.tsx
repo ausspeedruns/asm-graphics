@@ -23,7 +23,7 @@ import { LerpNum } from "./elements/ticker/lerp-num";
 import Mic from "@mui/icons-material/Mic";
 import MusicIconImg from "./media/icons/MusicIcon.svg";
 // import { Sponsors } from "./elements/sponsors";
-import { IntermissionVideoComponent, IntermissionAdsRef } from "./elements/intermission/video";
+import { IntermissionVideoComponent, type IntermissionAdsRef } from "./elements/intermission/video";
 import GoCLogo from "./media/Sponsors/GoCCCBlack.svg";
 import ASLogo from "./media/AusSpeedruns-LogoBlack.svg";
 
@@ -37,8 +37,8 @@ import IntermissionBG from "./overlays/backgrounds/Intermission.png";
 import type { DonationMatch } from "@asm-graphics/types/Donations";
 import { useNormalisedTime } from "../hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
-import { Prize } from "@asm-graphics/types/Prizes";
-import type { IntermissionVideo } from "../extensions/intermission-videos";
+import type { Prize } from "@asm-graphics/types/Prizes";
+import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo";
 import { ASAP25UpcomingRun } from "./elements/intermission/asap25/upcoming-run";
 import { Incentives } from "./elements/intermission/asap25/incentives";
 
@@ -607,20 +607,20 @@ export function IntermissionElement(props: IntermissionProps) {
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.activeRun?.id);
 	const nextRuns = clone(props.runArray).slice(currentRunIndex).slice(0, 3);
 
-	let playerNames: React.ReactNode[] = [];
-	if (nextRuns[0]?.teams.length === 0) {
-		playerNames = [];
-	} else {
-		playerNames = nextRuns[0]?.teams.map((team, index) => {
-			const players = team.players.map((player) => player.name).join(", ");
-			return (
-				<Fragment key={index}>
-					<FitText text={players} />
-					{index !== nextRuns[0]?.teams.length - 1 && <span style={{ fontSize: "60%" }}> vs </span>}
-				</Fragment>
-			);
-		});
-	}
+	// let playerNames: React.ReactNode[] = [];
+	// if (nextRuns[0]?.teams.length === 0) {
+	// 	playerNames = [];
+	// } else {
+	// 	playerNames = nextRuns[0]?.teams.map((team, index) => {
+	// 		const players = team.players.map((player) => player.name).join(", ");
+	// 		return (
+	// 			<Fragment key={index}>
+	// 				<FitText text={players} />
+	// 				{index !== nextRuns[0]?.teams.length - 1 && <span style={{ fontSize: "60%" }}> vs </span>}
+	// 			</Fragment>
+	// 		);
+	// 	});
+	// }
 
 	const gameName = nextRuns[0]?.customData.gameDisplay ?? nextRuns[0]?.game ?? "";
 
@@ -741,7 +741,7 @@ export function IntermissionElement(props: IntermissionProps) {
 						<img src={ASLogo} style={{ height: 50 }} />
 					</div>
 					{/* {props.donationMatchMultiplier && props.donationMatchMultiplier > 1 && ( */}
-					{props.donationMatchMultiplier > 1 && (
+					{props.donationMatchMultiplier && props.donationMatchMultiplier > 1 && (
 						<span style={{ marginTop: 5, fontSize: 30, color: "black", fontWeight: "600" }}>
 							Donations are worth{" "}
 							<GradientTextWhiteBackground>
@@ -795,9 +795,9 @@ export function IntermissionElement(props: IntermissionProps) {
 						gap: 16,
 					}}
 				>
-					<ASAP25UpcomingRun run={nextRuns[0]} players={playerNames} isNext />
+					{/* <ASAP25UpcomingRun run={nextRuns[0]} players={playerNames} isNext />
 					{nextRuns[1] && <ASAP25UpcomingRun run={nextRuns[1]} players={playerNames} />}
-					{nextRuns[2] && <ASAP25UpcomingRun run={nextRuns[2]} players={playerNames} />}
+					{nextRuns[2] && <ASAP25UpcomingRun run={nextRuns[2]} players={playerNames} />} */}
 				</div>
 
 				{/* <IncentivesContainer ref={incentivesRef} style={{ width: 700 }}>

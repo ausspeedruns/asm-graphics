@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import type NodeCG from "nodecg/types";
 
-import { TickerItemHandles } from "./incentives";
+import type { TickerItemHandles } from "./incentives";
 
 const PhotosContainer = styled.div`
 	position: absolute;
@@ -38,15 +38,16 @@ const EventPhoto = styled.img`
 
 const NUMBER_OF_PHOTOS = 5;
 
-type IncentivePhotosProps = {
+interface IncentivePhotosProps {
 	photos?: NodeCG.AssetFile[];
-};
+	ref: React.Ref<TickerItemHandles>;
+}
 
-export const Photos = React.forwardRef<TickerItemHandles, IncentivePhotosProps>((props, ref) => {
+export function Photos(props: IncentivePhotosProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const photosRef = useRef<HTMLDivElement>(null);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.set(containerRef.current, { xPercent: 100 });
 			tl.fromTo(photosRef.current, { xPercent: -210 }, { xPercent: 210, duration: 30, ease: "none" });
@@ -74,6 +75,4 @@ export const Photos = React.forwardRef<TickerItemHandles, IncentivePhotosProps>(
 			</EventPhotos>
 		</PhotosContainer>
 	);
-});
-
-Photos.displayName = "Socials";
+}

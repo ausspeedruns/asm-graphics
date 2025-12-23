@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, ISmallStyling } from "../elements/info-box/small-asap25";
+import { SmallInfo, type ISmallStyling } from "../elements/info-box/small-asap25";
 
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
@@ -177,13 +177,13 @@ export const Widescreen2 = (props: OverlayProps) => {
 
 				<RaceFinish
 					style={{ top: 265, left: 830, zIndex: 3 }}
-					time={teamData[0].time}
-					place={teamData[0].place}
+					time={teamData[0]?.time}
+					place={teamData[0]?.place ?? -1}
 				/>
 				<RaceFinish
 					style={{ top: 265, left: 960, zIndex: 3 }}
-					time={teamData[1].time}
-					place={teamData[1].place}
+					time={teamData[1]?.time}
+					place={teamData[1]?.place ?? -1}
 				/>
 
 				<RightBox>

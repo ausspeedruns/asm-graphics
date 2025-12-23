@@ -1,24 +1,27 @@
-import * as nodecgApiContext from "./nodecg-api-context";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
-import type { Donation, DonationMatch } from "@asm-graphics/types/Donations";
-import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { AudioIndicator, OBSAudioIndicator } from "@asm-graphics/types/Audio";
-import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite";
-import type { ConnectionStatus } from "@asm-graphics/types/Connections";
-import type { Automations } from "@asm-graphics/types/Automations";
-import type { Prize } from "@asm-graphics/types/Prizes";
-import type { BoardState, RoomJoinParameters } from "./util/bingosync";
-import type { HostRead } from "./host-reads";
-import type { IntermissionVideo } from "./intermission-videos";
-import type { LowerThirdPerson } from "./full-screen-data";
+import type { Donation, DonationMatch } from "@asm-graphics/types/Donations.js";
+import type { Incentive } from "@asm-graphics/types/Incentives.js";
+import type { AudioIndicator, OBSAudioIndicator } from "@asm-graphics/types/Audio.js";
+import type { User as AusSpeedrunsUser } from "@asm-graphics/types/AusSpeedrunsWebsite.js";
+import type { ConnectionStatus } from "@asm-graphics/types/Connections.js";
+import type { Automations } from "@asm-graphics/types/Automations.js";
+import type { Prize } from "@asm-graphics/types/Prizes.js";
+import type { BoardState, RoomJoinParameters } from "./util/bingosync.js";
+import type { HostRead } from "./host-reads.js";
+import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo.js";
+import type { LowerThirdPerson } from "./full-screen-data.js";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
 
 const nodecg = nodecgApiContext.get();
 
 nodecg.log.info("Setting up replicants");
 
 /* Commentators/Host */
-export const commentatorsRep = nodecg.Replicant<Commentator[]>("commentators", { defaultValue: [], persistent: true });
+export const commentatorsRep = nodecg.Replicant<RunDataPlayer[]>("commentators", {
+	defaultValue: [],
+	persistent: true,
+});
 export const headsetsUsed = nodecg.Replicant<Record<string, number>>("headsets-used", {
 	defaultValue: {},
 	persistent: true,

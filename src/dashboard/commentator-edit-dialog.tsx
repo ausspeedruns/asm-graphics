@@ -13,9 +13,9 @@ import {
 import styled, { css } from "styled-components";
 import { Headsets } from "../extensions/audio-data";
 import { useMemo, useState } from "react";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import { useReplicant } from "@nodecg/react-hooks";
-import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
+import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import { Delete } from "@mui/icons-material";
 
 const CouchEditDialogContainer = styled.div`

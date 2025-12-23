@@ -1,7 +1,34 @@
-"use strict";
+import type { ExtendedServerAPI } from "@asm-graphics/types/NodeCGExtension.js";
 
-import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
-import type { ExtendedServerAPI } from "@asm-graphics/types/NodeCGExtension";
+export interface ConfigSchema {
+	obs: {
+		enabled: boolean;
+		port: number;
+		ip: string;
+		password: string;
+		customTransitionsFolder?: string;
+	};
+	twitch?: {
+		parents?: string[];
+		clientId?: string;
+	};
+	hostname?: string;
+	tiltify?: {
+		enabled: boolean;
+		key: string;
+		campaign: string;
+		id: string;
+	};
+	graphql?: {
+		url: string;
+		event: string;
+		apiKey?: string;
+	};
+	x32?: {
+		enabled: boolean;
+		ip: string;
+	};
+}
 
 let context: ExtendedServerAPI<ConfigSchema>;
 

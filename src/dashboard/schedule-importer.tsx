@@ -11,10 +11,10 @@ import {
 	Stack,
 	ThemeProvider,
 } from "@mui/material";
-import { RichTreeView, TreeViewBaseItem } from "@mui/x-tree-view";
+import { RichTreeView, type TreeViewBaseItem } from "@mui/x-tree-view";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
-import { RunDataArray } from "@asm-graphics/types/RunData";
+import type { RunDataArray } from "@asm-graphics/types/RunData";
 
 const layoutsRegex = /LAYOUT:\s*(.*)/;
 const unknownLayoutLabel = "Unknown Layout";
@@ -24,14 +24,29 @@ function collectLayouts(runDataArray: RunDataArray): TreeViewBaseItem[] {
 		const gameName = run.game ?? `??? - ${run.id}`;
 
 		if (Object.hasOwn(run.customData, "specialRequirements")) {
-			const match = layoutsRegex.exec(run.customData.specialRequirements);
+			const match = layoutsRegex.exec(run.customData.specialRequirements ?? "");
 
 			if (match) {
-				if (!layouts[match[1]]) {
-					layouts[match[1]] = [];
+				const layoutName = match[1]?.trim();
+
+				if (!layoutName) {
+					if (!layouts[unknownLayoutLabel]) {
+						layouts[unknownLayoutLabel] = [];
+					}
+
+					layouts[unknownLayoutLabel].push({
+						label: gameName,
+						runId: run.id,
+					});
+
+					return;
 				}
 
-				layouts[match[1]].push({
+				if (!layouts[layoutName]) {
+					layouts[layoutName] = [];
+				}
+
+				layouts[layoutName].push({
 					label: gameName,
 					runId: run.id,
 				});

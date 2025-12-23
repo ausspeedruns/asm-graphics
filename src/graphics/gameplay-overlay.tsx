@@ -6,9 +6,9 @@ import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
-import type { RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphics/types/RunData";
 import type { Timer } from "@asm-graphics/types/Timer";
-import type { Commentator, OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 import type NodeCG from "nodecg/types";
 
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
@@ -63,7 +63,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [timerRep] = useReplicant<Timer>("timer", { bundle: "nodecg-speedcontrol" });
 
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const [showHostRep] = useReplicant<boolean>("showHost");
 	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
 
@@ -90,7 +90,9 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	) {
 		const runner = runDataActiveRep?.teams.flatMap((team) => team.players)[0];
 
-		mutableMicAudioIndicator[runner.customData.microphone] = false;
+		if (runner?.customData["microphone"]) {
+			mutableMicAudioIndicator[runner.customData["microphone"]] = false;
+		}
 	}
 
 	const overlayArgs: OverlayProps = {

@@ -1,7 +1,7 @@
 import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import { TickerItemHandles } from "./incentives";
+import type { TickerItemHandles } from "./incentives";
 
 import WebsiteIcon from "../../media/icons/website.svg";
 import YouTubeIcon from "../../media/icons/youtube.svg";
@@ -46,11 +46,15 @@ const TRANSITION_SPEED = 2;
 const ITEM_HOLD_DURATION = 10;
 const STAGGER_AMOUNT = 0.05;
 
-export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
+interface SocialsProps {
+	ref?: React.Ref<TickerItemHandles>;
+}
+
+export function Socials(props: SocialsProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const staggerElements = useRef<TickerItemHandles[]>([]);
 
-	useImperativeHandle(ref, () => ({
+	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("socialsStagger");
 			tl.set(containerRef.current, { xPercent: 100 });
@@ -106,9 +110,7 @@ export const Socials = React.forwardRef<TickerItemHandles>((_, ref) => {
 			</Stagger>
 		</SocialsContainer>
 	);
-});
-
-Socials.displayName = "Socials";
+}
 
 const StaggerContainer = styled.div`
 	display: flex;

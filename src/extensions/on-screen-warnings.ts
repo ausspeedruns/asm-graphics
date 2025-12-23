@@ -1,6 +1,6 @@
-import * as nodecgApiContext from "./nodecg-api-context";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import { showOnScreenWarning, onScreenWarningMessage } from "./replicants";
+import { showOnScreenWarning, onScreenWarningMessage } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 

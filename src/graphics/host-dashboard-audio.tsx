@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, CSSProperties } from "react";
+import { useEffect, useState, useMemo, type CSSProperties } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 

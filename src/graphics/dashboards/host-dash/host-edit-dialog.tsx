@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogContentText, DialogProps, DialogTitle } from "@mui/material";
+import { Dialog, DialogContent, DialogContentText, type DialogProps, DialogTitle } from "@mui/material";
 import { HostName } from "./host-name";
 
 interface HostEditDialogProps extends DialogProps {

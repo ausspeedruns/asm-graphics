@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"strict": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		/* Modern Strictness & DX */
+		"noUncheckedIndexedAccess": true,
+		"verbatimModuleSyntax": true,
+		"useDefineForClassFields": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedParameters": true,
+	}
+}

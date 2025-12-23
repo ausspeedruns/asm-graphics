@@ -1,28 +1,35 @@
 {
-	"compilerOptions": {
-		"jsx": "react-jsx",
-		"strict": true,
-		// "noEmit": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-		"target": "ES2022",
-		"lib": ["ES2022", "dom"],
-		"esModuleInterop": true,
-		"moduleResolution": "node",
-		"importHelpers": true,
-		"module": "ES2022",
-		"paths": {
-			"@asm-graphics/*": ["./src/extension/*"],
-			"@asm-graphics/types": ["./src/types"],
-			"@asm-graphics/types/*": ["./src/types/*"],
-			"*": ["./src/*"]
-		},
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"types": ["react", "node"]
-	},
-	"include": ["**/*.ts", "**/*.tsx", "src/types/**/*.d.ts", "node_modules/vite-plugin-svgr/client.d.ts"],
-	"exclude": ["bundles/nodecg-speedcontrol/src/types/augment-window.d.ts"]
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "jsx": "react-jsx",
+        "noEmit": true,
+        "isolatedModules": true,
+        "noUnusedLocals": false,
+        "paths": {
+            "@asm-graphics/types/*": [
+                "./src/types/*"
+            ],
+        },
+        "types": [
+            "react",
+            "node"
+        ]
+    },
+    "include": [
+        "./src/dashboard/**/*",
+        "./src/graphics/**/*",
+        "./src/hooks/**/*",
+        "./src/types/**/*",
+        "node_modules/vite-plugin-svgr/client.d.ts"
+    ],
+    "exclude": [
+        "./src/extensions/**/*"
+    ]
 }

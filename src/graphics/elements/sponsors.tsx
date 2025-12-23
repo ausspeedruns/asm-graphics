@@ -57,11 +57,11 @@ export function Sponsors(props: Props) {
 			tl.call(() => {
 				if (props.sponsors) {
 					if (imageRef.current && props.sponsors) {
-						imageRef.current.src = props.sponsors[imgIndex]?.url;
+						imageRef.current.src = props.sponsors[imgIndex]?.url ?? "";
 					}
 
 					if (asap25GlowRef.current) {
-						asap25GlowRef.current.src = props.sponsors[imgIndex]?.url;
+						asap25GlowRef.current.src = props.sponsors[imgIndex]?.url ?? "";
 					}
 				}
 			});
@@ -80,9 +80,9 @@ export function Sponsors(props: Props) {
 
 	return (
 		<SponsorsContainer ref={imageContainerRef} className={props.className} style={props.style}>
-			<SponsorImage ref={imageRef} src={props.sponsors[props.start ?? 0].url} />
+			<SponsorImage ref={imageRef} src={props.sponsors[props.start ?? 0]?.url} />
 			{!props.noAsap25Glow && (
-				<ASAP25SponsorGlow ref={asap25GlowRef} src={props.sponsors[props.start ?? 0].url} />
+				<ASAP25SponsorGlow ref={asap25GlowRef} src={props.sponsors[props.start ?? 0]?.url} />
 			)}
 		</SponsorsContainer>
 	);

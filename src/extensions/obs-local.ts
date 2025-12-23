@@ -1,8 +1,8 @@
-import * as nodecgApiContext from "./nodecg-api-context";
-import { obsCurrentSceneRep, obsStreamTimecode, automationSettingsRep, obsDoLocalRecordingsRep } from "./replicants";
-import obs from "./util/obs";
+import * as nodecgApiContext from "./nodecg-api-context.js";
+import { obsCurrentSceneRep, obsStreamTimecode, automationSettingsRep, obsDoLocalRecordingsRep } from "./replicants.js";
+import obs from "./util/obs.js";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData.js";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("OBS-Local");
@@ -84,8 +84,8 @@ nodecg.listenFor("transition:toIntermission", (data) => {
 
 		// CUSTOM TRANSITIONS
 		// Change the transitions for when we leave a game to be the next entry transition
-		if (runDataActiveRunRep.value?.customData.exitTransition) {
-			setTransitionQueue = runDataActiveRunRep.value.customData.entryTransition;
+		if (runDataActiveRunRep.value?.customData['exitTransition']) {
+			setTransitionQueue = runDataActiveRunRep.value.customData['entryTransition'] ?? null;
 		}
 	}, 3000);
 });
@@ -100,8 +100,8 @@ nodecg.listenFor("transition:toGame", (data) => {
 	setTimeout(() => {
 		// CUSTOM TRANSITIONS
 		// Change the transitions for when we leave a game to be the next enter transition
-		if (runDataActiveRunRep.value?.customData.exitTransition) {
-			setTransitionQueue = runDataActiveRunRep.value.customData.exitTransition;
+		if (runDataActiveRunRep.value?.customData['exitTransition']) {
+			setTransitionQueue = runDataActiveRunRep.value.customData['exitTransition'] ?? null;
 		}
 	}, 1500);
 });

@@ -1,11 +1,10 @@
-import * as nodecgApiContext from "./nodecg-api-context";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 import _ from "underscore";
 
-import { automationSettingsRep, commentatorsRep, showHostRep } from "./replicants";
+import { automationSettingsRep, commentatorsRep, showHostRep } from "./replicants.js";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import type NodeCG from "nodecg/types";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const nodecg = nodecgApiContext.get();
 const Log = new nodecg.Logger("Commentators");
@@ -13,24 +12,20 @@ const Log = new nodecg.Logger("Commentators");
 const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant(
 	"runDataActiveRun",
 	"nodecg-speedcontrol",
-) as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
+) as unknown as NodeCG.default.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 
 nodecg.listenFor("update-commentator", (commentator) => {
 	Log.info(`Updating commentator ${commentator.id} ${commentator.name}`);
 
 	if (commentator.id) {
-		if (commentator.isRunner) {
-			updateRunnerInformation(commentator);
+		const commentatorIndex = commentatorsRep.value.findIndex((comm) => comm.id === commentator.id);
+		if (commentatorIndex === -1) {
+			// Couldn't find commentator but has an id
+			commentatorsRep.value.push(commentator);
+			Log.warn(`Commentator had an ID but could not find the ID in the replicant. ${commentator.id}`);
 		} else {
-			const commentatorIndex = commentatorsRep.value.findIndex((comm) => comm.id === commentator.id);
-			if (commentatorIndex === -1) {
-				// Couldn't find commentator but has an id
-				commentatorsRep.value.push(commentator);
-				Log.warn(`Commentator had an ID but could not find the ID in the replicant. ${commentator.id}`);
-			} else {
-				// Edit existing commentator
-				updateExistingCommentator(commentator, commentatorIndex);
-			}
+			// Edit existing commentator
+			updateExistingCommentator(commentator, commentatorIndex);
 		}
 	} else {
 		// New commentator
@@ -54,13 +49,13 @@ nodecg.listenFor("showHost", (showHost: boolean) => {
 	showHostRep.value = showHost;
 });
 
-function updateExistingCommentator(commentator: Commentator, index: number) {
+function updateExistingCommentator(commentator: RunDataPlayer, index: number) {
 	const commentatorsMutable = [...commentatorsRep.value];
 	commentatorsMutable[index] = commentator;
 	commentatorsRep.value = commentatorsMutable;
 }
 
-function updateRunnerInformation(runner: Commentator) {
+function updateRunnerInformation(runner: RunDataPlayer) {
 	let teamIndex = -1;
 	let playerIndex = -1;
 	let foundPlayer = false;
@@ -86,26 +81,42 @@ function updateRunnerInformation(runner: Commentator) {
 		return;
 	}
 
-	if (!SPEEDCONTROL_runDataActiveRep.value?.teams[teamIndex].players[playerIndex]) {
+	const team = SPEEDCONTROL_runDataActiveRep.value?.teams[teamIndex];
+
+	if (!team) {
+		Log.error(
+			`Found runner and team index but team was undefined. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex}`,
+		);
+		return;
+	}
+
+	if (!team.players[playerIndex]) {
 		Log.error(
 			`Found runner and team index but runner was undefined. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex} | Player Index: ${playerIndex}`,
 		);
 		return;
 	}
 
-	const originalRunner = _.clone(SPEEDCONTROL_runDataActiveRep.value.teams[teamIndex].players[playerIndex]);
+	const originalRunner = _.clone(team.players[playerIndex]);
 
-	SPEEDCONTROL_runDataActiveRep.value.teams[teamIndex].players[playerIndex] = {
+	if (!originalRunner) {
+		Log.error(
+			`Could not clone original runner. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex} | Player Index: ${playerIndex}`,
+		);
+		return;
+	}
+
+	team.players[playerIndex] = {
 		...originalRunner,
 		customData: {
 			...originalRunner.customData,
-			microphone: runner.microphone ?? "",
+			microphone: runner.customData["microphone"] ?? "",
 		},
 		name: runner.name,
 		pronouns: runner.pronouns,
 		social: {
 			...originalRunner.social,
-			twitch: runner.twitch,
+			twitch: runner.social.twitch,
 		},
 	};
 }

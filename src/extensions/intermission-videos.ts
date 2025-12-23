@@ -1,23 +1,15 @@
-import * as nodecgApiContext from "./nodecg-api-context";
+import * as nodecgApiContext from "./nodecg-api-context.js";
+import { spawn } from "node:child_process";
 import ffprobe from "@ffprobe-installer/ffprobe";
 
-import { intermissionVideosRep } from "./replicants";
-
 import type NodeCG from "nodecg/types";
-import { spawn } from "node:child_process";
+import type { IntermissionVideo, VideoInformation } from "@asm-graphics/types/IntermissionVideo.js";
 
-export interface IntermissionVideo {
-	asset: string; // Serves as PK
-	volume: number;
-	displayName: string;
-	videoInfo?: VideoInformation;
-	enabled: boolean;
-	loading: boolean; // Not saved in replicant
-}
+import { intermissionVideosRep } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 
-const intermissionVideoAssetsRep = nodecg.Replicant<NodeCG.AssetFile[]>("assets:intermissionVideos", {
+const intermissionVideoAssetsRep = nodecg.Replicant<NodeCG.default.AssetFile[]>("assets:intermissionVideos", {
 	persistent: false,
 });
 
@@ -99,13 +91,6 @@ function intermissionVideosUpdate(data: IntermissionVideo) {
 	intermissionVideosRep.value = newData;
 }
 
-interface VideoInformation {
-	duration: number; // in seconds
-	verticalResolution: number;
-	horizontalResolution: number;
-	aspectRatio: string; // e.g. "16:9"
-}
-
 async function getVideoInformation(filePath: string): Promise<VideoInformation | undefined> {
 	return new Promise((resolve, reject) => {
 		const ffprobeProcess = spawn(ffprobe.path, [
@@ -137,7 +122,7 @@ async function getVideoInformation(filePath: string): Promise<VideoInformation |
 			} else {
 				const [width, height, duration] = output.split("\n").map(Number);
 
-				if (isNaN(width) || isNaN(height) || isNaN(duration)) {
+				if (!width || !height || !duration || isNaN(width) || isNaN(height) || isNaN(duration)) {
 					reject(
 						new Error(
 							`Failed to parse ffprobe output. Width: ${width}, Height: ${height}, Duration: ${duration}`,

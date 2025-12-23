@@ -5,7 +5,7 @@ import { createTheme } from "@mui/material/styles";
 import { Button, ThemeProvider, useColorScheme } from "@mui/material";
 import { Description, Edit, Tune, ResetTv, DarkMode, LightMode } from "@mui/icons-material";
 import { useReplicant } from "@nodecg/react-hooks";
-import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
+import { Mosaic, type MosaicNode, MosaicWindow } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
 
 import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog";

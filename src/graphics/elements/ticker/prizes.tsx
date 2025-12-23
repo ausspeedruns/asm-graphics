@@ -1,11 +1,11 @@
 import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../ticker";
 
 import { TickerItem } from "./item";
 import { TickerTitle } from "./title";
-import { Prize } from "@asm-graphics/types/Prizes";
+import type { Prize } from "@asm-graphics/types/Prizes";
 
 const TickerPrizesContainer = styled.div`
 	position: absolute;

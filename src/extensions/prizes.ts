@@ -1,9 +1,18 @@
-import * as nodecgApiContext from "./nodecg-api-context";
-import { prizesRep } from "./replicants";
+import * as nodecgApiContext from "./nodecg-api-context.js";
+import { prizesRep } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 
 const log = new nodecg.Logger("Prizes");
+
+export interface Prize {
+	id: string;
+	requirement: string;
+	requirementSubheading?: string;
+	quantity?: number;
+	item: string;
+	subItem?: string;
+}
 
 nodecg.listenFor("prizes:ReorderPrizes", (prizes) => {
 	log.info("Reordering Prizes:", prizes);

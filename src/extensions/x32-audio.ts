@@ -1,5 +1,5 @@
-import * as nodecgApiContext from "./nodecg-api-context";
-import X32 from "./util/x32";
+import * as nodecgApiContext from "./nodecg-api-context.js";
+import X32 from "./util/x32.js";
 
 import {
 	x32StatusRep,
@@ -10,21 +10,20 @@ import {
 	hostLevelStreamRep,
 	hostLevelSpeakersRep,
 	automationSettingsRep,
-} from "./replicants";
+} from "./replicants.js";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
-import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data.js";
 
 const nodecg = nodecgApiContext.get();
 
 const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant(
 	"runDataActiveRun",
 	"nodecg-speedcontrol",
-) as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
+) as unknown as NodeCG.default.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 
 const x32 = new X32();
 
@@ -64,7 +63,7 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 	// console.log(JSON.stringify(mutedChannels), JSON.stringify(faderValues))
 	if (faderValues[0]?.[channel] === 0) {
 		nodecg.log.debug(
-			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel].join(", ")}] ${
+			`[X32 Audio] UNMUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel]?.join(", ")}] ${
 				faderValues[0]?.[channel] === 0 ? "| ACTIONING" : ""
 			}`,
 		);
@@ -75,14 +74,23 @@ function fadeUnmute(channel: number, mixBus: number, to = 0.7) {
 
 // This will look to see if a channel is either muted or set to -∞ already
 function fadeMute(channel: number, mixBus: number, force = false) {
-	if (force || faderValues[0]?.[channel] > 0) {
+	const value = faderValues[0]?.[channel];
+
+	if (value === undefined) {
+		nodecg.log.warn(
+			`[X32 Audio] Tried to mute channel ${channel} on mixBus ${mixBus} but fader value is undefined.`,
+		);
+		return;
+	}
+
+	if (force || value > 0) {
 		nodecg.log.debug(
-			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel].join(", ")}] ${
-				faderValues[0]?.[channel] > 0 ? "| ACTIONING" : ""
+			`[X32 Audio] MUTING ${X32.channelIndex[channel]} | ${X32.mixBusIndex[mixBus]} | [${faderValues[channel]?.join(", ")}] ${
+				value > 0 ? "| ACTIONING" : ""
 			}`,
 		);
 		// Mute
-		x32.fade(channel, mixBus, faderValues[0]?.[channel], 0, 1500);
+		x32.fade(channel, mixBus, value, 0, 1500);
 	}
 }
 
@@ -105,23 +113,32 @@ function setHostCouchActive(active: boolean) {
 	if (active) {
 		volume = previousHostCouchVolume;
 	} else {
-		previousHostCouchVolume = faderValues[HostHeadset.mixBus];
+		const hostFader = faderValues[HostHeadset.mixBus];
+
+		if (!hostFader) {
+			nodecg.log.warn(
+				`[X32 Audio] Tried to set host couch active state to ${active} but could not find fader values for mixBus ${HostHeadset.mixBus}.`,
+			);
+			return;
+		}
+
+		previousHostCouchVolume = hostFader;
 		for (let i = 0; i < 16; i++) {
 			volume[i] = 0;
 		}
 	}
 
 	// Commentators
-	x32.setFaderLevel(1, HostHeadset.mixBus, volume[1]);
-	x32.setFaderLevel(2, HostHeadset.mixBus, volume[2]);
-	x32.setFaderLevel(3, HostHeadset.mixBus, volume[3]);
-	x32.setFaderLevel(4, HostHeadset.mixBus, volume[4]);
+	x32.setFaderLevel(1, HostHeadset.mixBus, volume[1] ?? 0.7);
+	x32.setFaderLevel(2, HostHeadset.mixBus, volume[2] ?? 0.7);
+	x32.setFaderLevel(3, HostHeadset.mixBus, volume[3] ?? 0.7);
+	x32.setFaderLevel(4, HostHeadset.mixBus, volume[4] ?? 0.7);
 
 	// Game
-	x32.setFaderLevel(9, HostHeadset.mixBus, volume[9]);
-	x32.setFaderLevel(11, HostHeadset.mixBus, volume[11]);
-	x32.setFaderLevel(13, HostHeadset.mixBus, volume[13]);
-	x32.setFaderLevel(15, HostHeadset.mixBus, volume[15]);
+	x32.setFaderLevel(9, HostHeadset.mixBus, volume[9] ?? 0.7);
+	x32.setFaderLevel(11, HostHeadset.mixBus, volume[11] ?? 0.7);
+	x32.setFaderLevel(13, HostHeadset.mixBus, volume[13] ?? 0.7);
+	x32.setFaderLevel(15, HostHeadset.mixBus, volume[15] ?? 0.7);
 }
 
 //#region X32 Events
@@ -133,6 +150,8 @@ x32.on("status", (status) => {
 x32.on("faders", (faders, bus) => {
 	const prevMainBus = faderValues[bus]?.[0];
 	faderValues[bus] = faders;
+
+	if (typeof prevMainBus === "undefined") return;
 	faderValues[bus][0] = prevMainBus;
 });
 
@@ -147,7 +166,10 @@ x32.on("mainFaders", (faders) => {
 
 x32.on("meters", (meters) => {
 	Headsets.forEach((mic) => {
-		updateAudioIndicator(meters[mic.micInput], mic);
+		const meter = meters[mic.micInput];
+		if (typeof meter === "undefined") return;
+
+		updateAudioIndicator(meter, mic);
 	});
 });
 
@@ -162,9 +184,17 @@ SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 		let headsetIndex = 0;
 		newVal?.teams.forEach((team) => {
 			team.players.forEach((player) => {
-				if (headsetIndex >= Headsets.length) return;
-				player.customData.microphone = Headsets[headsetIndex].name;
-				x32.setChannelName(Headsets[headsetIndex].micInput, player.name);
+				const headset = Headsets[headsetIndex];
+
+				if (!headset) {
+					nodecg.log.warn(
+						`[X32 Audio] Not enough headsets for runners. Tried to assign headset index ${headsetIndex} to runner ${player.name}.`,
+					);
+					return;
+				}
+
+				player.customData['microphone'] = headset.name;
+				x32.setChannelName(headset.micInput, player.name);
 				headsetIndex++;
 			});
 		});
@@ -190,7 +220,7 @@ nodecg.listenFor("transition:toGame", (_data) => {
 	);
 
 	setTimeout(() => {
-		previewMixFaders.forEach((previewFader, channel) => {
+		previewMixFaders?.forEach((previewFader, channel) => {
 			if (channel === HostHeadset.micInput) return;
 			x32.fade(channel, 0, 0, previewFader, 2000); // Stream
 			x32.fade(channel, 1, 0, previewFader, 2000); // Speakers
@@ -257,19 +287,26 @@ nodecg.listenFor("x32:changeGameAudio", (channelIndex) => {
 
 	const gameChannelIndex = GameInputChannels[channelIndex];
 
+	if (typeof gameChannelIndex === "undefined") {
+		nodecg.log.error(
+			`[X32 Audio] Tried changing game audio to Channel with the index of ${channelIndex} but that is out of range.`,
+		);
+		return;
+	}
+
 	// Get current active game audio
 	// Highest is considered active
 	let highestFaderVal = Number.NEGATIVE_INFINITY;
 	let activeIndex = -1;
 	for (let i = GameInputChannels[0]; i < (GameInputChannels.at(-1) ?? GameInputChannels[0]); i++) {
 		const value = faderValues[0]?.[i];
-		if (value > highestFaderVal) {
-			highestFaderVal = value;
+		if ((value ?? Number.NEGATIVE_INFINITY) > highestFaderVal) {
+			highestFaderVal = value ?? 0;
 			activeIndex = i;
 		}
 	}
 
-	const highestSpeakerFaderVal = faderValues[1][activeIndex];
+	const highestSpeakerFaderVal = faderValues[1]?.[activeIndex] ?? 0;
 
 	nodecg.log.debug(
 		`[X32 Audio] Changing audio from ${activeIndex}/${X32.channelIndex[activeIndex]} to ${gameChannelIndex}/${X32.channelIndex[gameChannelIndex]}`,
@@ -304,18 +341,27 @@ nodecg.listenFor("x32:host-unmute-couch", () => {
 });
 
 nodecg.listenFor("update-commentator", (commentator) => {
-	if (!commentator.microphone) return;
+	if (!commentator.customData.microphone) return;
 
 	// Convert Headset name to index
-	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.microphone);
+	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.customData.microphone);
 	if (headsetIndex === -1) {
 		nodecg.log.warn(
-			`[X32 Audio] Could not find headset with name ${commentator.microphone} for commentator ${commentator.name}.`,
+			`[X32 Audio] Could not find headset with name ${commentator.customData.microphone} for commentator ${commentator.name}.`,
 		);
 		return;
 	}
 
-	x32.setChannelName(Headsets[headsetIndex].micInput, commentator.name);
+	const micInput = Headsets[headsetIndex]?.micInput;
+
+	if (!micInput) {
+		nodecg.log.warn(
+			`[X32 Audio] Headset with name ${commentator.customData.microphone} for commentator ${commentator.name} does not have a valid mic input.`,
+		);
+		return;
+	}
+
+	x32.setChannelName(micInput, commentator.name);
 });
 
 const allRealHeadsets = Headsets.filter((headset) => headset.name !== "NONE");
@@ -330,14 +376,14 @@ function getHeadsetsByTarget(targets: string[]): number[] {
 
 	// Targets is a list of string ids that represent either commentator ids or runner ids
 	const currentRunData = SPEEDCONTROL_runDataActiveRep.value;
-	const currentCommentators = nodecg.readReplicant<Commentator[]>("commentators");
+	const currentCommentators = nodecg.readReplicant<RunDataPlayer[]>("commentators");
 
 	targets.forEach((target) => {
 		// Check if we are a commentator
 		if (currentCommentators) {
 			const commentator = currentCommentators.find((c) => c.id === target);
-			if (commentator?.microphone) {
-				const headset = Headsets.find((h) => h.name === commentator.microphone);
+			if (commentator?.customData['microphone']) {
+				const headset = Headsets.find((h) => h.name === commentator.customData['microphone']);
 				if (headset) {
 					mixbusTargets.push(headset.mixBus);
 					return;
@@ -349,8 +395,8 @@ function getHeadsetsByTarget(targets: string[]): number[] {
 		if (currentRunData) {
 			currentRunData.teams.forEach((team) => {
 				team.players.forEach((player) => {
-					if (player.id === target && player.customData?.microphone) {
-						const headset = Headsets.find((h) => h.name === player.customData.microphone);
+					if (player.id === target && player.customData["microphone"]) {
+						const headset = Headsets.find((h) => h.name === player.customData["microphone"]);
 						if (headset) {
 							mixbusTargets.push(headset.mixBus);
 							return;

@@ -1,7 +1,7 @@
-import * as nodecgApiContext from "../nodecg-api-context";
+import * as nodecgApiContext from "../nodecg-api-context.js";
 import OBSWebSocket, { EventSubscription } from "obs-websocket-js";
 
-import type { ConnectionStatus } from "@asm-graphics/types/Connections";
+import type { ConnectionStatus } from "@asm-graphics/types/Connections.js";
 
 const nodecg = nodecgApiContext.get();
 const ncgOBSConfig = nodecg.bundleConfig.obs;

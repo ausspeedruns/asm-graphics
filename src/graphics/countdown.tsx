@@ -66,6 +66,12 @@ export function Countdown() {
 
 	useListenFor("countdown:start", (time) => {
 		const [hours, minutes, seconds] = time.split(":").map(Number);
+
+		if (hours === undefined || minutes === undefined || seconds === undefined) {
+			console.error("Invalid time format received for countdown:start:", time);
+			return;
+		}
+		
 		const parsedTimer = Date.now() + (hours * 3600 + minutes * 60 + seconds) * 1000;
 		setEndTime(parsedTimer);
 	});

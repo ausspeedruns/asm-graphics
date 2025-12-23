@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import styled from "styled-components";
-import { AudioIndicator } from "@asm-graphics/types/Audio";
+import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
-import { RunDataTeam } from "@asm-graphics/types/RunData";
+import type { RunDataTeam } from "@asm-graphics/types/RunData";
 
 import { Nameplate } from "./nameplate";
 
@@ -96,7 +96,9 @@ export const Facecam = (props: FacecamProps) => {
 							backgroundColor: props.nameplateColours?.[i] ?? undefined,
 						}}
 						key={team.id}
-						speaking={team.players.some((player) => props.audioIndicator?.[player.customData.microphone])}
+						speaking={team.players.some(
+							(player) => props.audioIndicator?.[player.customData.microphone ?? ""],
+						)}
 					/>,
 				);
 			} else {
@@ -120,7 +122,7 @@ export const Facecam = (props: FacecamProps) => {
 								backgroundColor: props.nameplateColours?.[i] ?? undefined,
 							}}
 							key={player.id}
-							speaking={props.audioIndicator?.[correctMic]}
+							speaking={correctMic ? props.audioIndicator?.[correctMic] : undefined}
 						/>,
 					);
 					allRunnerNames.push(<RunnerNameDivider key={id + "-divider"} />);
@@ -132,6 +134,10 @@ export const Facecam = (props: FacecamProps) => {
 	} else {
 		let alternatingPronounSides = props.pronounStartSide === "right";
 		const team = props.teams[0];
+
+		if (!team) {
+			return null;
+		}
 
 		if (team.relayPlayerID) {
 			// Relay, display relay player name
@@ -145,7 +151,7 @@ export const Facecam = (props: FacecamProps) => {
 						fontSize: 25,
 					}}
 					key={team.relayPlayerID}
-					speaking={props.audioIndicator?.[team.players[0].customData.microphone]}
+					speaking={props.audioIndicator?.[team.players[0]?.customData.microphone ?? ""]}
 				/>,
 			);
 			allRunnerNames.push(<RunnerNameDivider key={team.relayPlayerID + "-divider"} />);
@@ -160,8 +166,8 @@ export const Facecam = (props: FacecamProps) => {
 				let height = NAMEPLATE_HEIGHT;
 				if (
 					props.verticalCoop &&
-					props.teams![0].players.length > 1 &&
-					props.teams![0].players.some((player) => player.pronouns)
+					team.players.length > 1 &&
+					team.players.some((player) => player.pronouns)
 				) {
 					height = NAMEPLATE_HEIGHT_VERTICAL;
 				}
@@ -173,8 +179,8 @@ export const Facecam = (props: FacecamProps) => {
 						maxWidth={props.maxNameWidth}
 						key={player.id}
 						player={player}
-						speaking={props.audioIndicator?.[player.customData.microphone]}
-						vertical={props.teams![0].players.length > 1 ? props.verticalCoop : false}
+						speaking={props.audioIndicator?.[player.customData.microphone ?? ""]}
+						vertical={team.players.length > 1 ? props.verticalCoop : false}
 						style={{ height: height }}
 					/>,
 				);

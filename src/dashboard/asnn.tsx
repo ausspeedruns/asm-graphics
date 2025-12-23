@@ -8,10 +8,10 @@ import { Delete, DragIndicator } from "@mui/icons-material";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import {
 	DndContext,
-	DragEndEvent,
+	type DragEndEvent,
 	KeyboardSensor,
 	PointerSensor,
-	UniqueIdentifier,
+	type UniqueIdentifier,
 	useSensor,
 	useSensors,
 } from "@dnd-kit/core";

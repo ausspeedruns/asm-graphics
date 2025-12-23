@@ -4,7 +4,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { Box, Grid } from "@mui/material";
 
 import type { Incentive } from "@asm-graphics/types/Incentives";
-import { RunData } from "@asm-graphics/types/RunData";
+import type { RunData } from "@asm-graphics/types/RunData";
 
 const IncentivesContainer = styled.div`
 	display: flex;

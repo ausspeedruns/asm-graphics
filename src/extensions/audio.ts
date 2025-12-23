@@ -1,7 +1,7 @@
-import { RunData, RunDataActiveRun } from "../types/RunData";
-import * as nodecgApiContext from "./nodecg-api-context";
+import type { RunData, RunDataActiveRun } from "@asm-graphics/types/RunData.js";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import { gameAudioActiveRep, gameAudioNamesRep, x32StatusRep } from "./replicants";
+import { gameAudioActiveRep, gameAudioNamesRep, x32StatusRep } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger("Audio");
@@ -46,7 +46,7 @@ const GAME_AUDIO_CHANNELS = [
 		name: "Game 4",
 		channels: [15, 16],
 	},
-];
+] as const;
 
 interface ZippedRunnerAudio {
 	audioInfo: (typeof GAME_AUDIO_CHANNELS)[number];
@@ -67,12 +67,22 @@ function getRunnersAndGameAudio(teams?: RunData["teams"]): ZippedRunnerAudio[] {
 	if (teams.length > 1) {
 		for (let i = 0; i < GAME_AUDIO_CHANNELS.length; i++) {
 			const gameAudio = GAME_AUDIO_CHANNELS[i];
+
+			if (!gameAudio) {
+				continue; // huh
+			}
+			
 			const runnerAudio: ZippedRunnerAudio = {
 				audioInfo: gameAudio,
 			};
 
 			if (i < teams.length) {
 				const team = teams[i];
+
+				if (!team) {
+					continue; // huh
+				}
+
 				runnerAudio.runner = {
 					name: team.players.map((player) => player.name).join(", "),
 					id: team.id,
@@ -87,6 +97,10 @@ function getRunnersAndGameAudio(teams?: RunData["teams"]): ZippedRunnerAudio[] {
 
 	/** Single team co-op gets different game audio channels in the event of different consoles */
 	const team = teams[0];
+
+	if (!team) {
+		return data; // huh
+	}
 
 	// Somehow have a team with no players
 	if (team.players.length == 0) {
@@ -105,12 +119,22 @@ function getRunnersAndGameAudio(teams?: RunData["teams"]): ZippedRunnerAudio[] {
 	if (team.players.length > 1) {
 		for (let i = 0; i < GAME_AUDIO_CHANNELS.length; i++) {
 			const gameAudio = GAME_AUDIO_CHANNELS[i];
+
+			if (!gameAudio) {
+				continue; // huh
+			}
+			
 			const runnerAudio: ZippedRunnerAudio = {
 				audioInfo: gameAudio,
 			};
 
 			if (i < team.players.length) {
 				const player = team.players[i];
+
+				if (!player) {
+					continue; // huh
+				}
+
 				runnerAudio.runner = { name: player.name, id: player.id };
 			}
 
@@ -122,10 +146,15 @@ function getRunnersAndGameAudio(teams?: RunData["teams"]): ZippedRunnerAudio[] {
 
 	// 1 Player
 	const player = team.players[0];
+
+	if (!player) {
+		return data; // huh
+	}
+
 	return [
 		{
 			audioInfo: GAME_AUDIO_CHANNELS[0],
-			runner: { name: team.players[0].name, id: player.id },
+			runner: { name: player.name, id: player.id },
 		},
 		{
 			audioInfo: GAME_AUDIO_CHANNELS[1],

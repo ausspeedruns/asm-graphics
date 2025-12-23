@@ -1,7 +1,7 @@
 // From jr-layouts by Hoishin https://github.com/JapaneseRestream/jr-layouts
 // Slightly modified by Ewan Lyon
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, memo } from "react";
 
 import styled from "styled-components";
 
@@ -15,7 +15,7 @@ interface Props {
 	className?: string;
 }
 
-export const FitText: React.FunctionComponent<Props> = React.memo((props: Props) => {
+export const FitText = memo((props: Props) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const textRef = useRef<HTMLDivElement>(null);
 

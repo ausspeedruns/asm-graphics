@@ -8,7 +8,7 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogContentText,
-	DialogProps,
+	type DialogProps,
 	DialogTitle,
 	Tab,
 } from "@mui/material";
@@ -17,13 +17,12 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Markdown from "react-markdown";
 
-// @ts-expect-error: No default export
 import RemarkGithubAlerts from "remark-github-alerts";
 import "remark-github-alerts/styles/github-colors-light.css";
 import "remark-github-alerts/styles/github-colors-dark-class.css";
 
 import type { HostRead } from "../../../extensions/host-reads";
-import type { IntermissionVideo } from "../../../extensions/intermission-videos";
+import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo";
 
 const Container = styled.div`
 	font-family: var(--main-font);
@@ -52,15 +51,16 @@ interface ScriptDialogProps extends DialogProps {
 	playAd: (name: string, length: number) => void;
 }
 
-export const ScriptDialog = (props: ScriptDialogProps) => {
+export function ScriptDialog(props: ScriptDialogProps) {
 	const { mode } = useColorScheme();
 	const [hostReadsRep] = useReplicant<HostRead[]>("host-reads");
 	const [intermissionVideosRep] = useReplicant<IntermissionVideo[]>("intermission-videos");
 	const [tab, setTab] = useState("");
 
 	useEffect(() => {
-		if (hostReadsRep && hostReadsRep.length > 0) {
-			setTab(hostReadsRep[0].id);
+		const initialHostRead = hostReadsRep?.[0];
+		if (initialHostRead) {
+			setTab(initialHostRead.id);
 		}
 	}, [hostReadsRep]);
 

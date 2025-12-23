@@ -5,7 +5,7 @@ import _, { uniqueId } from "underscore";
 import { Box, Button, Grid, InputAdornment, TextField, Tooltip } from "@mui/material";
 import { Check, Delete, Undo } from "@mui/icons-material";
 
-import { Donation } from "@asm-graphics/types/Donations";
+import type { Donation } from "@asm-graphics/types/Donations";
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);

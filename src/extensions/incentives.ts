@@ -1,11 +1,11 @@
 // Mostly handles the activation and deactivation of incentives
-import { Goal, War } from "@asm-graphics/types/Incentives";
-import * as nodecgApiContext from "./nodecg-api-context";
+import type { Goal, War } from "@asm-graphics/types/Incentives.js";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 import { z } from "zod";
 import _ from "underscore";
 
-import { incentivesRep, incentivesUpdatedLastRep } from "./replicants";
-import { queryGraphQL } from "./util/graphql";
+import { incentivesRep, incentivesUpdatedLastRep } from "./replicants.js";
+import { queryGraphQL } from "./util/graphql.js";
 
 const nodecg = nodecgApiContext.get();
 

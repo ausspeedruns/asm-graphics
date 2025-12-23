@@ -173,10 +173,9 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 			};
 		}
 
-		const commentatorIndex = commentators.findIndex((commentator) => commentator.id === id) ?? -1;
-		console.log(commentatorIndex);
-		if (commentatorIndex !== -1) {
-			return commentators[commentatorIndex];
+		const commentator = commentators.find((commentator) => commentator.id === id);
+		if (commentator) {
+			return commentator;
 		}
 
 		return {

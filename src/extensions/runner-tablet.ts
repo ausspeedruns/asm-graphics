@@ -1,6 +1,6 @@
-import * as nodecgApiContext from "./nodecg-api-context";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import { runnerStatusRep, techStatusRep } from "./replicants";
+import { runnerStatusRep, techStatusRep } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 

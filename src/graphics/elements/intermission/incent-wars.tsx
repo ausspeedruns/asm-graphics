@@ -1,8 +1,8 @@
 import { useImperativeHandle, useRef, useState } from "react";
 import styled from "styled-components";
 
-import { War } from "@asm-graphics/types/Incentives";
-import { TickerItemHandles } from "./incentives";
+import type { War } from "@asm-graphics/types/Incentives";
+import type { TickerItemHandles } from "./incentives";
 import { FitText } from "../fit-text";
 
 const WarChoiceContainer = styled.div`
@@ -79,6 +79,9 @@ export const WarGame = (props: GoalProps) => {
 	const allOptions = [];
 	for (let i = 0; i < Math.min(MAX_OPTIONS, sortedOptions.length); i++) {
 		const option = sortedOptions[i];
+
+		if (!option) continue;
+
 		allOptions.push(
 			<WarChoice
 				animLabel={animLabel}

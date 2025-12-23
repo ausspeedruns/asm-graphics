@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { VerticalInfo, IVerticalStyling } from "../elements/info-box/vertical";
+import { VerticalInfo, type IVerticalStyling } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";

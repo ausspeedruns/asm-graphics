@@ -58,8 +58,8 @@ export const ThreeDS2 = (props: OverlayProps) => {
 				<div style={{ position: "absolute", height: 133, width: "100%", bottom: 0 }}></div>
 				<Facecam height={307} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 
-				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
-				<RaceFinish style={{ top: 276, left: 960 }} time={teamData[1].time} place={teamData[1].place} />
+				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
+				<RaceFinish style={{ top: 276, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === 0}

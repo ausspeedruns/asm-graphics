@@ -1,10 +1,10 @@
-import * as nodecgApiContext from "./nodecg-api-context";
-// import obs from "./util/obs";
+import * as nodecgApiContext from "./nodecg-api-context.js";
+// import obs from "./util/obs.js";
 import _ from "underscore";
 
-import { gameAudioActiveRep } from "./replicants";
+import { gameAudioActiveRep } from "./replicants.js";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData.js";
 import type NodeCG from "nodecg/types";
 
 const nodecg = nodecgApiContext.get();
@@ -12,9 +12,9 @@ const nodecg = nodecgApiContext.get();
 const runDataActiveRep = nodecg.Replicant(
 	"runDataActiveRun",
 	"nodecg-speedcontrol",
-) as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
+) as unknown as NodeCG.default.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 
-nodecg.listenFor("update-audioindicator", (teamId) => {
+nodecg.listenFor("update-audioindicator", (_teamId) => {
 	// gameAudioActiveRep.value = teamId;
 	// changeStreamMutes(teamId);
 });

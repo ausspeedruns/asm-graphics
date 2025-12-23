@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, ISmallStyling } from "../elements/info-box/small-asap25";
+import { SmallInfo, type ISmallStyling } from "../elements/info-box/small-asap25";
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
@@ -127,8 +127,8 @@ export const GBA2 = (props: OverlayProps) => {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<RaceFinish style={{ top: 220, left: 830 }} time={teamData[0].time} place={teamData[0].place} />
-				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[0].time} place={teamData[0].place} />
+				<RaceFinish style={{ top: 220, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
+				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[0]?.time} place={teamData[0]?.place} />
 
 				<RightBox>
 					<div

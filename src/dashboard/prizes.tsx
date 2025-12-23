@@ -20,7 +20,7 @@ import { CSS } from "@dnd-kit/utilities";
 import {
 	closestCenter,
 	DndContext,
-	DragEndEvent,
+	type DragEndEvent,
 	KeyboardSensor,
 	PointerSensor,
 	useSensor,

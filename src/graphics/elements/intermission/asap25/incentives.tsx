@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Incentive, War } from "@asm-graphics/types/Incentives";
+import type { Incentive, War } from "@asm-graphics/types/Incentives";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
@@ -119,8 +119,8 @@ function WarOptionsAnimation(props: WarOptionsAnimationProps) {
 
 	return (
 		<div ref={optionRef} style={{ display: "flex", justifyContent: "space-between" }}>
-			<span>{option.name}</span>
-			<span style={{ fontWeight: "bold", marginLeft: 8 }}>${option.total}</span>
+			<span>{option?.name}</span>
+			<span style={{ fontWeight: "bold", marginLeft: 8 }}>${option?.total}</span>
 		</div>
 	);
 }

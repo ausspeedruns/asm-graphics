@@ -14,7 +14,7 @@ import { Prizes } from "./incent-prizes";
 import { Socials } from "./incent-socials";
 import { Photos } from "./incent-photos";
 import { UpcomingRuns } from "./incent-upcoming-runs";
-import { RunData } from "@asm-graphics/types/RunData";
+import type { RunData } from "@asm-graphics/types/RunData";
 
 gsap.registerPlugin(useGSAP);
 

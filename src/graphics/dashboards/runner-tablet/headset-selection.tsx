@@ -5,10 +5,10 @@ import Mario from "../../media/runner-tablet/mario.png";
 import Sonic from "../../media/runner-tablet/sonic.png";
 import Pikachu from "../../media/runner-tablet/pikachu.png";
 import Link from "../../media/runner-tablet/link.png";
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { useReplicant } from "@nodecg/react-hooks";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
-import { Headset, Headsets } from "../../../extensions/audio-data";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import { type Headset, Headsets } from "../../../extensions/audio-data";
 
 const RTSelectionContainer = styled.div`
 	background-color: #cc7722;
@@ -93,8 +93,12 @@ export const RTSelection = (props: Props) => {
 			console.log(runnerIndex, runners.length, runnerIndex >= runners.length);
 			// Submit to the authorities
 			headsetSelection.forEach((headset, i) => {
+				const runner = runners[i];
+
+				if (!runner) return;
+
 				void nodecg.sendMessage("update-commentator", {
-					...runners[i],
+					...runner,
 					microphone: headset,
 				});
 			});
@@ -154,7 +158,7 @@ export const RTSelection = (props: Props) => {
 							// recommended={headset.name === sortedHeadsetUsage[headsetSelection.length - (headsetSelection.length >= 2 ? 2 : 0)][0]}
 							owner={
 								headsetSelection.indexOf(headset.name) >= 0
-									? runners[headsetSelection.indexOf(headset.name)].name
+									? runners[headsetSelection.indexOf(headset.name)]?.name
 									: undefined
 							}
 							onClick={() => handleSelection(headset.name)}

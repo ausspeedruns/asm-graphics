@@ -1,5 +1,5 @@
 import { useReplicant } from "@nodecg/react-hooks";
-import { RunDataActiveRunSurrounding, RunDataArray } from "../types/RunData";
+import type { RunDataActiveRunSurrounding, RunDataArray } from "../types/RunData";
 
 function useCurrentRun() {
 	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding>("runDataActiveSurrounding", {

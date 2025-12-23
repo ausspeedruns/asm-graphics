@@ -4,7 +4,7 @@ import gsap from "gsap";
 
 // @ts-ignore
 import TwitchLogo from "../media/icons/TwitchWhite.svg";
-import { RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 import { FitText } from "./fit-text";
 

@@ -58,7 +58,11 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 
 		const optionIndex = mutableOptions.findIndex((option) => option.name === oldName);
 
-		const mutableOption = { ...mutableOptions[optionIndex] };
+		const option = mutableOptions[optionIndex];
+
+		if (!option) return;
+
+		const mutableOption = { ...option };
 		if (optionIndex > -1) {
 			mutableOption.name = newName;
 		}
@@ -87,8 +91,12 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 	}
 
 	function handleIncrement(index: number) {
-		const mutableOption = { ...incentiveOptions[index] };
-		mutableOption.total += increments[index];
+		const option = incentiveOptions[index];
+
+		if (!option) return;
+
+		const mutableOption = { ...option };
+		mutableOption.total += increments[index] ?? 0;
 
 		const mutableOptions = [...incentiveOptions];
 		mutableOptions[index] = mutableOption;
@@ -112,7 +120,7 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 				{incentiveOptions.length > 0 ? (
 					<h1>
 						<span style={{ fontSize: "75%" }}>Currently</span>{" "}
-						<b>{[...incentiveOptions].sort((a, b) => b.total - a.total)[0].name}</b>
+						<b>{[...incentiveOptions].sort((a, b) => b.total - a.total)[0]?.name}</b>
 					</h1>
 				) : (
 					<p>No options submitted</p>

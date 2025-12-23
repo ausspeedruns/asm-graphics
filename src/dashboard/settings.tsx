@@ -21,7 +21,7 @@ import type { HostRead } from "../extensions/host-reads";
 import {
 	closestCenter,
 	DndContext,
-	DragEndEvent,
+	type DragEndEvent,
 	KeyboardSensor,
 	PointerSensor,
 	useSensor,
@@ -35,7 +35,7 @@ import {
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { DragHandle, Refresh, VolumeUp } from "@mui/icons-material";
-import type { IntermissionVideo } from "../extensions/intermission-videos";
+import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo";
 import type { LowerThirdPerson } from "../extensions/full-screen-data";
 
 const Row = styled.div`

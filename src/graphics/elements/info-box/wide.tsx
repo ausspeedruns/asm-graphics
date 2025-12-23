@@ -1,8 +1,8 @@
 import type { CSSProperties } from "react";
 import styled from "styled-components";
 
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import { Timer as ITimer } from "@asm-graphics/types/Timer";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";

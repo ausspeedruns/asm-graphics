@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { ISmallStyling, SmallInfo } from "../elements/info-box/small";
+import { type ISmallStyling, SmallInfo } from "../elements/info-box/small";
 import { Facecam } from "../elements/facecam";
 
 const DSContainer = styled.div`

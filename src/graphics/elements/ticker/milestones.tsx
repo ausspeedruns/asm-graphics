@@ -1,7 +1,7 @@
 import { useImperativeHandle, useRef } from "react";
 import styled from "styled-components";
 
-import { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../ticker";
 
 import { TickerTitle } from "./title";
 
@@ -145,7 +145,7 @@ function combineMilestones(milestones: Milestone[]): Milestone[] {
 		return NUMBER_MILESTONES;
 	}
 
-	const lastMilestone = milestones[milestones.length - 1].total;
+	const lastMilestone = milestones[milestones.length - 1]?.total ?? 0;
 
 	// Filter out items from the second array that are less than or equal to the last item of the first array.
 	const filteredMilestones = NUMBER_MILESTONES.filter((milestone) => milestone.total > lastMilestone);
@@ -164,13 +164,13 @@ export function TickerMilestones(props: Props) {
 
 	const prevMilestone = prevMilestoneArray[prevMilestoneArray.length - 1];
 
-	const moneyDifference = props.currentTotal - prevMilestone.total;
+	const moneyDifference = props.currentTotal - (prevMilestone?.total ?? 0);
 
 	let showMilestones = true;
 	let goalDifference = 1;
 	let percentage = 100;
 	if (nextMilestone) {
-		goalDifference = nextMilestone.total - prevMilestone.total;
+		goalDifference = nextMilestone.total - (prevMilestone?.total ?? 0);
 		percentage = (moneyDifference / goalDifference) * 100;
 	} else {
 		showMilestones = false;
@@ -218,8 +218,8 @@ export function TickerMilestones(props: Props) {
 				Progress
 			</TickerTitle>
 			<PrevMilestone>
-				<NextMilestoneEvent>{prevMilestone.event}</NextMilestoneEvent>
-				<NextMilestoneTotal>${Math.floor(prevMilestone.total).toLocaleString()}</NextMilestoneTotal>
+				<NextMilestoneEvent>{prevMilestone?.event}</NextMilestoneEvent>
+				<NextMilestoneTotal>${Math.floor(prevMilestone?.total ?? 0).toLocaleString()}</NextMilestoneTotal>
 			</PrevMilestone>
 			<ProgressContainer>
 				<ProgressBarContainer ref={progressBarRef}>

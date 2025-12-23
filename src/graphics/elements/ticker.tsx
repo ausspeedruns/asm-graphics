@@ -247,7 +247,11 @@ const Ticker = (props: TickerProps) => {
 	}
 
 	useEffect(() => {
-		startNextSegment(props.tickerOrder[segmentIndex]);
+		const segment = props.tickerOrder[segmentIndex];
+
+		if (!segment) return;
+
+		startNextSegment(segment);
 	}, [segmentIndex]);
 
 	useEffect(() => {

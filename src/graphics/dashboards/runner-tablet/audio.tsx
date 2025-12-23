@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";

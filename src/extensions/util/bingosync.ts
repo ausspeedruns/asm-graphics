@@ -1,5 +1,6 @@
 import EventEmitter from "node:events";
 import { WebSocket as NodeWebSocket } from "ws";
+import z from "zod";
 
 export interface RoomJoinParameters {
 	room: string;
@@ -33,6 +34,14 @@ export interface BoardState {
 	cells: BoardCell[];
 }
 
+const CellSchema = z.object({
+	colors: z.string(),
+	slot: z.string(),
+	name: z.string(),
+});
+
+const RawBoardStateSchema = z.array(CellSchema);
+
 interface WebSocketMessage {
 	type: "goal" | "connected" | (string & {});
 	player: {
@@ -41,18 +50,12 @@ interface WebSocketMessage {
 		color: CellColour;
 		is_spectator: boolean;
 	};
-	square: RawBoardState[number];
+	square: z.infer<typeof CellSchema>;
 	player_color: CellColour;
 	remove: boolean;
 	timestamp: string;
 	room: string;
 }
-
-type RawBoardState = {
-	colors: string;
-	slot: string;
-	name: string;
-}[];
 
 type ConnectionState = "disconnected" | "connecting" | "connected";
 
@@ -125,11 +128,11 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 
 		const cookies = joinRoomResponse.headers.get("Set-Cookie");
 		const sessionIdMatch = cookies?.match(/sessionid=([^;]+)/);
-		if (!sessionIdMatch) {
+		if (!sessionIdMatch || sessionIdMatch.length < 2) {
 			throw new Error("Session ID not found in redirect location.");
 		}
 
-		this.sessionId = sessionIdMatch[1];
+		this.sessionId = sessionIdMatch[1] ?? null;
 
 		// Now we need to fetch the socket key using the session ID
 		const socketKeyResponse = await fetch(this.getUrl(`api/get-socket-key/${room}`), {
@@ -148,7 +151,16 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 
 		const socketKeyData = await socketKeyResponse.json();
 
-		this.key = socketKeyData.socket_key;
+		if (
+			socketKeyData &&
+			typeof socketKeyData === "object" &&
+			"socket_key" in socketKeyData &&
+			typeof socketKeyData.socket_key === "string"
+		) {
+			this.key = socketKeyData.socket_key;
+		} else {
+			this.key = null;
+		}
 
 		this.state = "connected";
 
@@ -188,7 +200,15 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 			throw new Error(`Failed to fetch board: ${boardResponse.statusText}`);
 		}
 
-		const rawBoard: RawBoardState = await boardResponse.json();
+		const maybeRawBoardData = await boardResponse.json();
+
+		const parsedBoardData = RawBoardStateSchema.safeParse(maybeRawBoardData);
+
+		if (!parsedBoardData.success) {
+			throw new Error("Failed to parse board data from Bingosync.");
+		}
+
+		const rawBoard = parsedBoardData.data;
 
 		const parsedBoard = Bingosync.parseBoardState(rawBoard);
 
@@ -265,7 +285,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 		this.emit("boardStateUpdate", this.boardState);
 	}
 
-	private static parseBoardState(rawBoard: RawBoardState): BoardState {
+	private static parseBoardState(rawBoard: z.infer<typeof RawBoardStateSchema>): BoardState {
 		const cells: BoardCell[] = rawBoard.map((cell) => ({
 			slot: cell.slot,
 			colors: cell.colors.split(" ") as CellColour[],
@@ -275,7 +295,7 @@ export class Bingosync extends EventEmitter<BingosyncEvents> {
 		return { cells };
 	}
 
-	private static parseCell(cell: RawBoardState[number]): BoardCell {
+	private static parseCell(cell: z.infer<typeof CellSchema>): BoardCell {
 		return {
 			slot: cell.slot,
 			colors: cell.colors.split(" ") as CellColour[],

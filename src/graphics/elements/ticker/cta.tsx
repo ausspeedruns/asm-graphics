@@ -1,7 +1,7 @@
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
 import styled from "styled-components";
 
-import { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../ticker";
 
 const TickerCTAContainer = styled.div`
 	position: absolute;

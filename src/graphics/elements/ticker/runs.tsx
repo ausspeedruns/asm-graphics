@@ -4,7 +4,7 @@ import { clone } from "underscore";
 
 import { TickerTitle } from "./title";
 
-import { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../ticker";
 import type { RunDataArray, RunDataActiveRun, RunData } from "../../../types/RunData";
 
 const TickerRunsContainer = styled.div`

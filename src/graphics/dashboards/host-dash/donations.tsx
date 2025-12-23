@@ -4,9 +4,9 @@ import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 import { Box, Button, Grid, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
-import { List, RowComponentProps } from "react-window";
+import { List, type RowComponentProps } from "react-window";
 
-import { Donation } from "@asm-graphics/types/Donations";
+import type { Donation } from "@asm-graphics/types/Donations";
 
 import { EditIncentiveDialog } from "./edit-incentive-dialog";
 
@@ -58,7 +58,7 @@ export const Donations = () => {
 					<List<RowProps>
 						rowCount={reversedDonations.length}
 						rowProps={{ donations: reversedDonations }}
-						rowHeight={(index) => getRowHeight(reversedDonations?.[index].desc ?? "")}
+						rowHeight={(index) => getRowHeight(reversedDonations?.[index]?.desc ?? "")}
 						rowComponent={VirtualisedDonation}
 					/>
 				)}
@@ -125,6 +125,10 @@ function getRowHeight(description: string) {
 }
 
 function VirtualisedDonation({ index, style, donations }: RowComponentProps<RowProps>) {
+	const donation = donations[index];
+
+	if (!donation) return <></>;
+
 	return (
 		<DonationEl
 			style={{
@@ -133,7 +137,7 @@ function VirtualisedDonation({ index, style, donations }: RowComponentProps<RowP
 				height: parseFloat(style?.height?.toString() ?? "0") - (MARGIN + PADDING) * 2,
 				width: "97%",
 			}}
-			donation={donations[index]}
+			donation={donation}
 		/>
 	);
 }

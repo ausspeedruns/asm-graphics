@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 
-import { Timer as TimerI } from "@asm-graphics/types/Timer";
+import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Button, Box, Tooltip } from "@mui/material";
 import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from "@mui/icons-material";
-import { RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData";
 
 const TimerContainer = styled.div`
 	padding: 8px;
@@ -33,8 +33,8 @@ const MainButtons = styled.div`
 
 const TeamBlock = styled.div``;
 
-export const Timer: React.FC = () => {
-	const [timerRep] = useReplicant<TimerI>("timer", {
+export function Timer() {
+	const [timerRep] = useReplicant<ITimer>("timer", {
 		bundle: "nodecg-speedcontrol",
 	});
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", {
@@ -116,9 +116,9 @@ export const Timer: React.FC = () => {
 				</Tooltip>
 				{runDataActiveRep?.teams.length === 1 && timerRep && (
 					<>
-						<StopForfeitButton fullWidth team={runDataActiveRep?.teams[0]} timerRep={timerRep} />
-						<StopForfeitButton fullWidth forfeit team={runDataActiveRep?.teams[0]} timerRep={timerRep} />
-						<UndoButton fullWidth team={runDataActiveRep?.teams[0]} timerRep={timerRep} />
+						<StopForfeitButton fullWidth team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
+						<StopForfeitButton fullWidth forfeit team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
+						<UndoButton fullWidth team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
 					</>
 				)}
 			</MainButtons>
@@ -154,7 +154,7 @@ const EndTime = styled.div`
 
 interface TeamTimerProps {
 	team: RunDataTeam;
-	timerRep: TimerI;
+	timerRep: ITimer;
 }
 
 const TeamTimer: React.FC<TeamTimerProps> = (props: TeamTimerProps) => {
@@ -183,7 +183,7 @@ const TeamTimer: React.FC<TeamTimerProps> = (props: TeamTimerProps) => {
 
 interface StopButtonProps {
 	team: RunDataTeam;
-	timerRep: TimerI;
+	timerRep: ITimer;
 	forfeit?: boolean;
 	fullWidth?: boolean;
 }
@@ -227,7 +227,7 @@ const StopForfeitButton: React.FC<StopButtonProps> = (props: StopButtonProps) =>
 
 interface UndoButtonProps {
 	team: RunDataTeam;
-	timerRep: TimerI;
+	timerRep: ITimer;
 	fullWidth?: boolean;
 }
 

@@ -1,9 +1,9 @@
-import * as nodecgApiContext from "./nodecg-api-context";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 import { z } from "zod";
 import { parse, differenceInSeconds, startOfDay, getUnixTime } from "date-fns";
-import { queryGraphQL } from "./util/graphql";
+import { queryGraphQL } from "./util/graphql.js";
 
-import type { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData";
+import type { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData.js";
 
 const nodecg = nodecgApiContext.get();
 
@@ -101,7 +101,7 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 				};
 			} else {
 				if (teams.length == 0) teams[0] = { id: teamId, players: [] };
-				teams[0].players.push(player);
+				teams[0]?.players.push(player);
 			}
 		});
 

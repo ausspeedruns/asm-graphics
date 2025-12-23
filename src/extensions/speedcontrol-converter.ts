@@ -1,7 +1,7 @@
-import * as nodecgApiContext from "./nodecg-api-context";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import type { RunData, RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData";
-import { runStartTimeRep } from "./replicants";
+import type { RunData, RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData.js";
+import { runStartTimeRep } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 
@@ -33,7 +33,7 @@ function getRunnerTeamIndexAndPlayerIndex(run: RunData, runnerId: string): [numb
 		return [-1, -1];
 	}
 
-	const playerIndex = run.teams[teamIndex].players.findIndex((p) => p.id === runnerId);
+	const playerIndex = run.teams[teamIndex]?.players.findIndex((p) => p.id === runnerId) ?? -1;
 	if (playerIndex === -1) {
 		log.error(`No player found in team for ID ${runnerId}`);
 		return [-1, -1];
@@ -63,6 +63,11 @@ nodecg.listenFor("speedcontrol:editRunner", (data) => {
 	// Update the player object
 	const player = data.runner;
 	const team = run.teams[teamIndex];
+
+	if (!team) {
+		log.error(`No team found at index ${teamIndex} for run ID ${data.runId}`);
+		return;
+	}
 
 	team.players[playerIndex] = player;
 
@@ -107,6 +112,11 @@ nodecg.listenFor("speedcontrol:reorderRunners", (data) => {
 
 		const team = run.teams[teamIndex];
 
+		if (!team) {
+			log.error(`No team found at index ${teamIndex} for run ID ${data.runId}`);
+			return;
+		}
+
 		// Check if we already have a team for this player in newTeams
 		const newTeamIndex = newTeams.findIndex((t) => t.id === team.id);
 		if (newTeamIndex === -1) {
@@ -116,8 +126,13 @@ nodecg.listenFor("speedcontrol:reorderRunners", (data) => {
 				players: [player],
 			});
 		} else {
+			const newTeam = newTeams[newTeamIndex];
+			if (!newTeam) {
+				log.error(`No team found at index ${newTeamIndex} in newTeams for run ID ${data.runId}`);
+				return;
+			}
 			// Add to existing team
-			newTeams[newTeamIndex].players.push(player);
+			newTeam.players.push(player);
 		}
 	}
 

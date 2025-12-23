@@ -1,5 +1,5 @@
-import { hostReadsRep } from "./replicants";
-import * as nodecgApiContext from "./nodecg-api-context";
+import { hostReadsRep } from "./replicants.js";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 
 export interface HostRead {
 	id: string;

@@ -1,6 +1,6 @@
-import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema";
-import * as nodecgApiContext from "./nodecg-api-context";
-import { ExtendedServerAPI } from "@asm-graphics/types/NodeCGExtension";
+import type { ConfigSchema } from "@asm-graphics/types/ConfigSchema.js";
+import * as nodecgApiContext from "./nodecg-api-context.js";
+import type { ExtendedServerAPI } from "@asm-graphics/types/NodeCGExtension.js";
 
 let ncgConfig: ExtendedServerAPI<ConfigSchema>["bundleConfig"];
 

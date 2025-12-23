@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
-import { DndContext, DragEndEvent, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
+import { DndContext, type DragEndEvent, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Button, ThemeProvider } from "@mui/material";

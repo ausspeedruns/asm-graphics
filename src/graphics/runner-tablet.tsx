@@ -11,7 +11,7 @@ import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import { RTAudio } from "./dashboards/runner-tablet/audio";
 import { RTNames } from "./dashboards/runner-tablet/names";
 // import { RTSelection } from "./dashboards/runner-tablet/headset-selection";
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 
 const NavBar = styled.div`
 	width: 100%;

@@ -9,14 +9,14 @@ import {
 	FormControl,
 	InputLabel,
 	Select,
-	SelectChangeEvent,
+	type SelectChangeEvent,
 	Box,
 	Chip,
 	MenuItem,
 	OutlinedInput,
 } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import { ConnectionStatus } from "@asm-graphics/types/Connections";
+import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 import { darkTheme } from "./theme";
 import {
 	type BoardCell,

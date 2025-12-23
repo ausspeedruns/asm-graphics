@@ -2,10 +2,10 @@ import { useMemo, useState } from "react";
 import styled from "styled-components";
 
 import { TextField, Button, Autocomplete } from "@mui/material";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect } from "react";
-import { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
+import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 
 const HostNameContainer = styled.div`
 	display: flex;

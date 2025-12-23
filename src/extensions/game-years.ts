@@ -1,5 +1,5 @@
-import { RunData, RunDataArray } from "@asm-graphics/types/RunData";
-import * as nodecgApiContext from "./nodecg-api-context";
+import type { RunData, RunDataArray } from "@asm-graphics/types/RunData.js";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 import _ from "underscore";
 import { run } from "node:test";
 
@@ -115,6 +115,11 @@ async function processRun(run: RunData) {
 	const data = await fetchGameData(run.game);
 
 	const json = await data.json();
+
+	if (!json || !Array.isArray(json) || json.length === 0) {
+		logger.error(`No game data found for run: ${run.id} - ${run.game}`);
+		return;
+	}
 
 	if (!isGameResult(json[0])) {
 		logger.error(`Failed to get game data for run: ${run.id} - ${run.game}`, json);

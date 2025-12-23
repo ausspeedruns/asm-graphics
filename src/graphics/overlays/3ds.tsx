@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { WideInfo, IWideStyling } from "../elements/info-box/wide";
+import { WideInfo, type IWideStyling } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 
 // import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";

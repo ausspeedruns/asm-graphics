@@ -92,15 +92,28 @@ export function normalisedTimeToColour(normalisedTime: number): ColourSwatch {
 
 		// Check if we are at the end of the timeline
 		if (i === allKeyframes.length - 1) {
-			colours = timeColourTimeline[i].colours;
+			const timeColour = timeColourTimeline[i];
+
+			if (timeColour) {
+				colours = timeColour.colours;
+			}
+
 			break;
 		}
 
 		const keyframeB = allKeyframes[i + 1];
 
+		if (!keyframeA || !keyframeB) continue;
+
 		if (normalisedTime >= keyframeA && normalisedTime <= keyframeB) {
 			const t = (normalisedTime - keyframeA) / (keyframeB - keyframeA);
-			colours = lerpColourSwatch(timeColourTimeline[i].colours, timeColourTimeline[i + 1].colours, t);
+
+			const lerpASwatch = timeColourTimeline[i]?.colours;
+			const lerpBSwatch = timeColourTimeline[i + 1]?.colours;
+
+			if (!lerpASwatch || !lerpBSwatch) break;
+
+			colours = lerpColourSwatch(lerpASwatch, lerpBSwatch, t);
 			break;
 		}
 	}

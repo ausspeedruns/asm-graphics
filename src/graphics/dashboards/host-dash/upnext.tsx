@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 
-import { RunDataArray, RunData } from "@asm-graphics/types/RunData";
+import type { RunDataArray, RunData } from "@asm-graphics/types/RunData";
 
 import { Box } from "@mui/material";
 

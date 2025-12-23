@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
-import { Incentive } from "@asm-graphics/types/Incentives";
-import { Commentator } from "@asm-graphics/types/OverlayProps";
-import { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { Incentive } from "@asm-graphics/types/Incentives";
+import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
 
-import { IntermissionElement, IntermissionRef } from "./intermission";
+import { IntermissionElement, type IntermissionRef } from "./intermission";
 import type NodeCG from "nodecg/types";
-import type { IntermissionVideo } from "extensions/intermission-videos";
+import type { IntermissionVideo } from "@asm-graphics/types/IntermissionVideo";
 
 function Intermission() {
 	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");

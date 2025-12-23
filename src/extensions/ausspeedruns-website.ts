@@ -1,8 +1,8 @@
-import * as nodecgApiContext from "./nodecg-api-context";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 import { z } from "zod";
 
-import { allAusSpeedrunsUsernamesRep } from "./replicants";
-import { queryGraphQL } from "./util/graphql";
+import { allAusSpeedrunsUsernamesRep } from "./replicants.js";
+import { queryGraphQL } from "./util/graphql.js";
 
 const nodecg = nodecgApiContext.get();
 

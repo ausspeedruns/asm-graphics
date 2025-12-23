@@ -1,4 +1,4 @@
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { Fragment } from "react/jsx-runtime";
 import { FitText } from "../fit-text";
 

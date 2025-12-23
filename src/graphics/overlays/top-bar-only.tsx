@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { WideInfo } from "../elements/info-box/wide";
-import { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 import { Facecam } from "../elements/facecam";
 
 const TopBarOnlyContainer = styled.div`

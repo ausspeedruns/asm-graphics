@@ -1,8 +1,8 @@
 import osc from "osc";
 import EventEmitter from "node:events";
 
-import * as nodecgApiContext from "../nodecg-api-context";
-import type { ConnectionStatus } from "@asm-graphics/types/Connections";
+import * as nodecgApiContext from "../nodecg-api-context.js";
+import type { ConnectionStatus } from "@asm-graphics/types/Connections.js";
 
 const nodecg = nodecgApiContext.get();
 

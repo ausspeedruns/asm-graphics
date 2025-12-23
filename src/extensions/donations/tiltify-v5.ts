@@ -1,8 +1,8 @@
-import * as nodecgApiContext from "../nodecg-api-context";
-import type { Donation } from "@asm-graphics/types/Donations";
+import * as nodecgApiContext from "../nodecg-api-context.js";
+import type { Donation } from "@asm-graphics/types/Donations.js";
 import _ from "underscore";
 import z from "zod";
-import { donationTotalRep, donationsRep, donationMatchesRep } from "../replicants";
+import { donationTotalRep, donationsRep, donationMatchesRep } from "../replicants.js";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("Tiltify-V5");
@@ -45,10 +45,10 @@ async function getAccessToken() {
 			return;
 		}
 
-		if (data.access_token) {
+		if (parsedData.data.access_token) {
 			ncgLog.info("Got access token!");
-			accessToken = data.access_token;
-			ncgLog.info("Token data", JSON.stringify(data));
+			accessToken = parsedData.data.access_token;
+			ncgLog.info("Token data", JSON.stringify(parsedData.data));
 		}
 	} catch (error) {
 		ncgLog.error("getAccessToken error: ", JSON.stringify(error));
@@ -220,7 +220,7 @@ async function getCampaignData() {
 			return;
 		}
 
-		if (data?.data?.amount_raised) donationTotalRep.value = parseFloat(data.data.amount_raised.value);
+		if (parsedData.data.data.amount_raised) donationTotalRep.value = parseFloat(parsedData.data.data.amount_raised.value);
 	} catch (error) {
 		ncgLog.error("getCampaignData error: ", JSON.stringify(error));
 	}

@@ -1,11 +1,11 @@
-import { get as nodecgGet } from "./nodecg-api-context";
-import { Bingosync, BoardCell, RoomJoinParameters } from "./util/bingosync";
+import { get as nodecgGet } from "./nodecg-api-context.js";
+import { Bingosync, type BoardCell, type RoomJoinParameters } from "./util/bingosync.js";
 import {
 	bingosyncRoomDetailsRep,
 	bingosyncStatusRep,
 	bingosyncBoardStateRep,
 	bingosyncBoardStateOverrideRep,
-} from "./replicants";
+} from "./replicants.js";
 import { clone } from "underscore";
 
 const nodecg = nodecgGet();

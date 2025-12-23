@@ -1,5 +1,5 @@
-import { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import { Timer } from "@asm-graphics/types/Timer";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { Timer } from "@asm-graphics/types/Timer";
 
 type TeamData = {
 	id: string;
@@ -21,9 +21,9 @@ export const getTeams = (runData?: RunDataActiveRun, timer?: Timer, defaultTeams
 			const id = team?.id ?? "";
 
 			// Determine time and place
-			const time = Object.hasOwn(finishTimes, id) ? finishTimes[id].time : "";
+			const time = Object.hasOwn(finishTimes, id) ? finishTimes[id]?.time : "";
 			const place = Object.hasOwn(finishTimes, id)
-				? finishTimes[id].state === "forfeit"
+				? finishTimes[id]?.state === "forfeit"
 					? -1
 					: sortedFinishTimes.findIndex(([tid]) => tid === id) + 1
 				: 4;

@@ -59,8 +59,8 @@ function timeFormat(time?: string) {
 }
 
 interface RaceFinishProps {
-	time: string | undefined;
-	place: number;
+	time?: string;
+	place?: number;
 	style?: React.CSSProperties;
 	className?: string;
 }

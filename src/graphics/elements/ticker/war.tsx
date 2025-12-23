@@ -1,8 +1,8 @@
 import { useImperativeHandle, useRef, useState } from "react";
 import styled from "styled-components";
 
-import { War } from "@asm-graphics/types/Incentives";
-import { TickerItemHandles } from "../ticker";
+import type { War } from "@asm-graphics/types/Incentives";
+import type { TickerItemHandles } from "../ticker";
 
 import { FitText } from "../fit-text";
 
@@ -99,7 +99,11 @@ export const WarGame = (props: GoalProps) => {
 			tl.to(containerRef.current, { y: 0, duration: 1 }, "-=0.5");
 
 			for (let i = 0; i < Math.min(props.war.options.length, MAX_ALLOWED - 1); i++) {
-				tl.add(optionRefs.current[props.war.options.length - 1 - i].animation(tl), animLabel);
+				const optionRef = optionRefs.current[props.war.options.length - 1 - i];
+
+				if (!optionRef) continue;
+
+				tl.add(optionRef.animation(tl), animLabel);
 			}
 
 			// End
@@ -124,6 +128,9 @@ export const WarGame = (props: GoalProps) => {
 
 	for (let i = 0; i < displayCount; i++) {
 		const option = sortedOptions[props.war.options.length - 1 - i];
+
+		if (!option) continue;
+
 		allOptions.push(
 			<WarChoice
 				animLabel={animLabel}

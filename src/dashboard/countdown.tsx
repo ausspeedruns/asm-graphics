@@ -26,6 +26,11 @@ function parseTimerFormat(value: string): number {
 	}
 
 	const [hours, minutes, seconds] = value.split(":").map(Number);
+
+	if (!hours || !minutes || !seconds) {
+		throw new Error("Invalid timer format. Expected HH:MM:SS.");
+	}
+
 	return (hours * 3600 + minutes * 60 + seconds) * 1000;
 }
 

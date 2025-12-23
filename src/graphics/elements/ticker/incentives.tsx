@@ -58,7 +58,10 @@ export function TickerIncentives(props: Props) {
 			tl.to(containerRef.current, { y: 0, duration: 1 });
 
 			for (let i = 0; i < incentivesToDisplay.length; i++) {
-				tl.add(incentiveRefs.current[i].animation(tl));
+				const ref = incentiveRefs.current[i];
+
+				if (!ref) continue;
+				tl.add(ref.animation(tl));
 			}
 
 			// End
