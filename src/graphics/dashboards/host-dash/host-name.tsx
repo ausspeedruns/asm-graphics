@@ -2,10 +2,10 @@ import { useMemo, useState } from "react";
 import styled from "styled-components";
 
 import { TextField, Button, Autocomplete } from "@mui/material";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect } from "react";
 import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 const HostNameContainer = styled.div`
 	display: flex;
@@ -20,12 +20,12 @@ interface Props {
 	vertical?: boolean;
 	className?: string;
 	style?: React.CSSProperties;
-	updateCb?: (comm: Commentator) => void;
+	updateCb?: (comm: RunDataPlayer) => void;
 }
 
 export function HostName(props: Props) {
 	const [allUsersRep] = useReplicant<User[]>("all-usernames");
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 	const [hostName, setHostName] = useState("");
 	const [hostPronouns, setHostPronouns] = useState("");
@@ -89,14 +89,26 @@ export function HostName(props: Props) {
 						id: "host",
 						name: hostName,
 						pronouns: hostPronouns,
-						microphone: "Host",
-						tag: "Host",
+						teamID: "",
+						social: {
+							twitch: "",
+						},
+						customData: {
+							microphone: "Host",
+							tag: "Host",
+						},
 					});
 					props.updateCb?.({
 						id: "host",
 						name: hostName,
 						pronouns: hostPronouns,
-						microphone: "Host",
+						teamID: "",
+						social: {
+							twitch: "",
+						},
+						customData: {
+							microphone: "Host",
+						},
 					});
 				}}
 			>

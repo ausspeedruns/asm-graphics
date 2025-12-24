@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Autocomplete, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import { Headsets } from "../../../extensions/audio-data";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They", "They/He", "They/She", "Any/All"];
 
@@ -29,7 +29,7 @@ interface Props {
 	style?: React.CSSProperties;
 	open: boolean;
 	onClose: () => void;
-	commentator?: Commentator;
+	commentator?: RunDataPlayer;
 }
 
 export const EditUserDialog = (props: Props) => {
@@ -47,9 +47,9 @@ export const EditUserDialog = (props: Props) => {
 		setID(props.commentator?.id ?? "");
 		setUsername(props.commentator?.name ?? "");
 		setOldUsername(props.commentator?.name ?? "");
-		setTwitch(props.commentator?.twitch ?? "");
+		setTwitch(props.commentator?.social?.twitch ?? "");
 		setPronouns(props.commentator?.pronouns ?? "");
-		setMicrophone(props.commentator?.microphone ?? "NONE");
+		setMicrophone(props.commentator?.customData?.microphone ?? "NONE");
 	}, [props.commentator]);
 
 	function handleNameSelected(name: string | null) {
@@ -74,10 +74,13 @@ export const EditUserDialog = (props: Props) => {
 			id: id,
 			name: username,
 			pronouns: pronouns,
-			microphone: microphone,
-			isRunner: props.commentator?.isRunner,
-			teamId: props.commentator?.teamId,
-			twitch: twitch,
+			customData: {
+				microphone: microphone,
+			},
+			teamID: props.commentator?.teamID ?? "",
+			social: {
+				twitch: twitch,
+			},
 		});
 
 		props.onClose();
@@ -85,7 +88,6 @@ export const EditUserDialog = (props: Props) => {
 
 	function handleDelete() {
 		if (!props.commentator) return;
-		if (props.commentator.isRunner) return;
 		if (!props.commentator.id) return;
 
 		void nodecg.sendMessage("delete-commentator", props.commentator.id);
@@ -121,18 +123,16 @@ export const EditUserDialog = (props: Props) => {
 						/>
 					)}
 				/>
-				{props.commentator?.isRunner && (
-					<TextField
-						fullWidth
-						style={{ fontSize: "2rem !important" }}
-						value={twitch}
-						onChange={(e) => {
-							setTwitch(e.target.value);
-						}}
-						label="Runner Twitch"
-						InputProps={{ style: { fontSize: "2rem" } }}
-					/>
-				)}
+				<TextField
+					fullWidth
+					style={{ fontSize: "2rem !important" }}
+					value={twitch}
+					onChange={(e) => {
+						setTwitch(e.target.value);
+					}}
+					label="Runner Twitch"
+					InputProps={{ style: { fontSize: "2rem" } }}
+				/>
 				<div style={{ display: "flex" }}>
 					<div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
 						<button onClick={() => setPronouns("He/Him")}>He/Him</button>
@@ -185,7 +185,7 @@ export const EditUserDialog = (props: Props) => {
 			</DialogContent>
 			<DialogActions style={{ justifyContent: "space-between" }}>
 				<Button onClick={props.onClose}>Cancel</Button>
-				{!props.commentator?.isRunner && props.commentator?.id && (
+				{props.commentator?.id && (
 					<Button variant="outlined" onClick={handleDelete}>
 						Delete
 					</Button>

@@ -18,12 +18,7 @@ import {
 import { useReplicant } from "@nodecg/react-hooks";
 import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 import { darkTheme } from "./theme";
-import {
-	type BoardCell,
-	type BoardState,
-	type RoomJoinParameters,
-	type CellColour,
-} from "@asm-graphics/shared/BingoSync.js";
+import type { BoardCell, BoardState, RoomJoinParameters, CellColour } from "@asm-graphics/shared/BingoSync";
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
 const CellColours = [

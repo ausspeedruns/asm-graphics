@@ -13,10 +13,10 @@ import {
 import styled, { css } from "styled-components";
 import { Headsets } from "../extensions/audio-data";
 import { useMemo, useState } from "react";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import { Delete } from "@mui/icons-material";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 const CouchEditDialogContainer = styled.div`
 	display: flex;
@@ -41,12 +41,12 @@ const Id = styled.div`
 
 export namespace CouchEditDialog {
 	export interface Dialog extends Window {
-		openDialog: (opts: { data: Commentator }) => void;
+		openDialog: (opts: { data: RunDataPlayer }) => void;
 	}
 }
 
 interface CouchEditDialogProps {
-	person?: Commentator;
+	person?: RunDataPlayer;
 	open: boolean;
 	onClose: () => void;
 }
@@ -55,8 +55,8 @@ export function CouchEditDialog(props: CouchEditDialogProps) {
 	const { mode } = useColorScheme();
 	const [name, setName] = useState(props.person?.name ?? "");
 	const [pronouns, setPronouns] = useState(props.person?.pronouns ?? "");
-	const [headset, setHeadset] = useState(props.person?.microphone ?? "");
-	const [tag, setTag] = useState(props.person?.tag ?? "");
+	const [headset, setHeadset] = useState(props.person?.customData.microphone ?? "");
+	const [tag, setTag] = useState(props.person?.customData.tag ?? "");
 	const [allUsersRep] = useReplicant<User[]>("all-usernames");
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 
@@ -80,17 +80,20 @@ export function CouchEditDialog(props: CouchEditDialogProps) {
 	const hasUpdatedValues =
 		name !== (props.person?.name ?? "") ||
 		pronouns !== (props.person?.pronouns ?? "") ||
-		headset !== (props.person?.microphone ?? "") ||
-		tag !== (props.person?.tag ?? "");
+		headset !== (props.person?.customData.microphone ?? "") ||
+		tag !== (props.person?.customData.tag ?? "");
 
 	function editCommentator() {
 		void nodecg.sendMessage("update-commentator", {
 			id: id,
 			name: name,
 			pronouns: pronouns,
-			microphone: headset,
-			isRunner: false,
-			tag,
+			teamID: props.person?.teamID ?? "",
+			social: props.person?.social ?? {},
+			customData: {
+				microphone: headset,
+				tag: tag,
+			}
 		});
 		handleClose();
 	}

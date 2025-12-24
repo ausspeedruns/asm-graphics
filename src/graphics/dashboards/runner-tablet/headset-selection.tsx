@@ -5,9 +5,8 @@ import Mario from "../../media/runner-tablet/mario.png";
 import Sonic from "../../media/runner-tablet/sonic.png";
 import Pikachu from "../../media/runner-tablet/pikachu.png";
 import Link from "../../media/runner-tablet/link.png";
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 import { useReplicant } from "@nodecg/react-hooks";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import { type Headset, Headsets } from "../../../extensions/audio-data";
 
 const RTSelectionContainer = styled.div`
@@ -67,17 +66,20 @@ export const RTSelection = (props: Props) => {
 
 	const [runnerIndex, setRunnerIndex] = useState(0);
 	const [headsetSelection, setHeadsetSelection] = useState<string[]>([]);
-	const runners = useMemo<Commentator[]>(() => {
+	const runners = useMemo<RunDataPlayer[]>(() => {
 		return (runDataActiveRep?.teams ?? []).flatMap((team) =>
 			team.players.map((player) => {
 				return {
 					id: player.id,
 					name: player.name,
 					pronouns: player.pronouns,
-					twitch: player.social.twitch,
-					teamId: player.teamID,
-					isRunner: true,
-					microphone: player.customData.microphone,
+					social: {
+						twitch: player.social.twitch,
+					},
+					teamID: player.teamID,
+					customData: {
+						microphone: player.customData.microphone ?? "",
+					},
 				};
 			}),
 		);
@@ -99,7 +101,10 @@ export const RTSelection = (props: Props) => {
 
 				void nodecg.sendMessage("update-commentator", {
 					...runner,
-					microphone: headset,
+					customData: {
+						...runner.customData,
+						microphone: headset,
+					},
 				});
 			});
 
@@ -123,9 +128,9 @@ export const RTSelection = (props: Props) => {
 		return () => clearTimeout(timer);
 	}, [headsetSelection, props, runners]);
 
-	useEffect(() => {
-		setHeadsetSelection(runners.filter((runner) => runner.isRunner)?.map((runner) => runner.microphone ?? ""));
-	}, [runners]);
+	// useEffect(() => {
+	// 	setHeadsetSelection(runners.filter((runner) => runner.isRunner)?.map((runner) => runner.microphone ?? ""));
+	// }, [runners]);
 
 	return (
 		<RTSelectionContainer className={props.className} style={props.style}>

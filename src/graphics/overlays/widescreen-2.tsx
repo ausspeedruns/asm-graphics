@@ -205,7 +205,7 @@ export const Widescreen2 = (props: OverlayProps) => {
 							<PersonCompressed
 								key={person.name}
 								commentator={person}
-								speaking={props.microphoneAudioIndicator?.[person.microphone ?? ""]}
+								speaking={props.microphoneAudioIndicator?.[person.customData?.microphone ?? ""]}
 								index={i}
 							/>
 						);

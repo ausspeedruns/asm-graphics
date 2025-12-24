@@ -1,8 +1,7 @@
 import { useState } from "react";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { RunDataPlayer } from "../../../bundles/nodecg-speedcontrol/src/types";
 
-export function useTalkback(commentators?: Commentator[], runners?: RunDataPlayer[]) {
+export function useTalkback(commentators?: RunDataPlayer[], runners?: RunDataPlayer[]) {
 	const [currentTalkbackTargets, setCurrentTalkbackTargets] = useState<string[]>([]);
 
 	const allCommentatorIds = commentators?.filter((c) => c.id !== "host").map((c) => c.id) ?? [];

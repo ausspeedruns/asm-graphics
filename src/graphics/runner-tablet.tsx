@@ -6,12 +6,11 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
 
 // import type { Timer } from '@asm-graphics/types/Timer';
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 import { RTAudio } from "./dashboards/runner-tablet/audio";
 import { RTNames } from "./dashboards/runner-tablet/names";
 // import { RTSelection } from "./dashboards/runner-tablet/headset-selection";
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 
 const NavBar = styled.div`
 	width: 100%;
@@ -89,7 +88,7 @@ const RunnerTablet: React.FC = () => {
 	const previousDataActive = usePrevious(runDataActiveRep);
 
 	const [tab, setTab] = useState<TabsValues>(TABS.NAMES);
-	const [host] = useReplicant<Commentator>("host");
+	const [host] = useReplicant<RunDataPlayer>("host");
 	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
 
 	const [live, setLive] = useState(false);

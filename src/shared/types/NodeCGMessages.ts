@@ -1,4 +1,3 @@
-import type { Commentator } from "./OverlayProps.js";
 import type { Donation } from "./Donations.js";
 import type { Incentive } from "./Incentives.js";
 import type { Prize } from "./Prizes.js";
@@ -13,7 +12,7 @@ export type NodeCGMessages = {
 	changeGameAudio: { manual: boolean; index: number };
 	changeGameAudioName: { name: string; index: number };
 	// Commentators / Host
-	"update-commentator": Commentator;
+	"update-commentator": RunDataPlayer;
 	"delete-commentator": string;
 	showHost: boolean;
 	// Donations

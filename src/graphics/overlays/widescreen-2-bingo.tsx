@@ -235,7 +235,7 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 							<PersonCompressed
 								key={person.name}
 								commentator={person}
-								speaking={props.microphoneAudioIndicator?.[person.microphone ?? ""]}
+								speaking={props.microphoneAudioIndicator?.[person.customData?.microphone ?? ""]}
 								index={i}
 							/>
 						);

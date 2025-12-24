@@ -23,14 +23,14 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { CouchEditDialog } from "./commentator-edit-dialog";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { useState } from "react";
 import { checkAndGetDialog } from "./utils/getDialog";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 export function DashCouch() {
-	const [commentatorsRep, setCommentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep, setCommentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const [showHostRep] = useReplicant<boolean>("showHost");
 	const [hostOnCouchInstructionsOpen, setHostOnCouchInstructionsOpen] = useState(false);
 
@@ -46,7 +46,7 @@ export function DashCouch() {
 	async function addCommentator() {
 		const dialog = (await checkAndGetDialog("commentator-edit-dialog")) as CouchEditDialog.Dialog;
 		if (dialog) {
-			dialog.openDialog({ data: { id: "", name: "" } });
+			dialog.openDialog({ data: { id: "", name: "", teamID: "", pronouns: "", social: {}, customData: {} } });
 		}
 	}
 
@@ -168,13 +168,13 @@ const Microphone = styled.span`
 `;
 
 interface HostComponentProps {
-	commentator: Commentator;
+	commentator: RunDataPlayer;
 	preview?: boolean;
 	inputs?: string[];
 	id: string;
 }
 
-const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) => {
+function HostComponent(props: HostComponentProps) {
 	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.id });
 
 	const style = {
@@ -195,10 +195,12 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 		<HostComponentContainer ref={setNodeRef} style={style}>
 			{!isHost && <DragHandle {...listeners} {...attributes} />}
 			<Name>
-				<Tag>{props.commentator.id !== "host" && props.commentator.tag}</Tag>
+				<Tag>{props.commentator.id !== "host" && props.commentator.customData.tag}</Tag>
 				{props.commentator.name}
 				<Pronouns>{props.commentator.pronouns}</Pronouns>
-				{props.commentator.microphone && <Microphone>- Mic: {props.commentator.microphone}</Microphone>}
+				{props.commentator.customData.microphone && (
+					<Microphone>- Mic: {props.commentator.customData.microphone}</Microphone>
+				)}
 			</Name>
 
 			<IconButton style={{ alignSelf: "flex-end" }} onClick={editCommentator} disabled>
@@ -206,6 +208,6 @@ const HostComponent: React.FC<HostComponentProps> = (props: HostComponentProps) 
 			</IconButton>
 		</HostComponentContainer>
 	);
-};
+}
 
 createRoot(document.getElementById("root")!).render(<DashCouch />);

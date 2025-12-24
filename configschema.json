@@ -103,9 +103,5 @@
 			"required": ["enabled", "ip"]
 		}
 	},
-	"__esModule": {
-		"type": "boolean",
-		"default": true
-	},
 	"required": ["obs", "tiltify"]
 }

@@ -2,8 +2,7 @@ import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 
 import TwitchSVG from "../../media/icons/TwitchGlitchPurple.svg";
 import { EditUserDialog } from "./edit-user-dialog";
@@ -115,21 +114,25 @@ interface Props {
 
 export const RTNames: React.FC<Props> = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const [isEditUserOpen, setIsEditUserOpen] = useState(false);
-	const [dialogRunner, setDialogRunner] = useState<Commentator | undefined>(undefined);
+	const [dialogRunner, setDialogRunner] = useState<RunDataPlayer | undefined>(undefined);
 
-	const commentators: Commentator[] = [
+	const commentators: RunDataPlayer[] = [
 		...(runDataActiveRep?.teams ?? []).flatMap((team) =>
 			team.players.map((player) => {
 				return {
 					id: player.id,
 					name: player.name,
 					pronouns: player.pronouns,
-					twitch: player.social.twitch,
-					teamId: player.teamID,
+					social: {
+						twitch: player.social.twitch,
+					},
+					teamID: player.teamID,
 					isRunner: true,
-					microphone: player.customData.microphone,
+					customData: {
+						microphone: player.customData.microphone ?? "",
+					},
 				};
 			}),
 		),
@@ -145,15 +148,20 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 		setIsEditUserOpen(true);
 	}
 
-	function getRunnerData(id?: string): Commentator {
+	function getRunnerData(id?: string): RunDataPlayer {
 		console.log(id);
 		if (!id) {
 			return {
 				id: "",
 				name: "",
 				pronouns: "",
-				teamId: "",
-				twitch: "",
+				teamID: "",
+				social: {
+					twitch: "",
+				},
+				customData: {
+					microphone: "",
+				},
 			};
 		}
 
@@ -166,10 +174,13 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				id: runner?.id ?? `runner-0${runnerIndex}`,
 				name: runner?.name ?? "Unknown Runner",
 				pronouns: runner?.pronouns,
-				isRunner: true,
-				microphone: runner?.customData.microphone,
-				teamId: runner?.teamID,
-				twitch: runner?.social.twitch,
+				customData: {
+					microphone: runner?.customData.microphone ?? "",
+				},
+				teamID: runner?.teamID ?? "",
+				social: {
+					twitch: runner?.social.twitch,
+				},
 			};
 		}
 
@@ -182,8 +193,13 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 			id: "",
 			name: "",
 			pronouns: "",
-			teamId: "",
-			twitch: "",
+			teamID: "",
+			social: {
+				twitch: "",
+			},
+			customData: {
+				microphone: "",
+			},
 		};
 	}
 
@@ -226,20 +242,20 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 			<NameInputs>
 				{commentators.map((commentator) => {
 					return (
-						<NameRow isRunner={commentator.isRunner} key={commentator.id}>
-							{commentator.microphone && <CommentatorHeadset headset={commentator.microphone} />}
+						<NameRow key={commentator.id}>
+							{commentator.customData.microphone && <CommentatorHeadset headset={commentator.customData.microphone} />}
 							{commentator.name}
 							{commentator.pronouns && <RunnerPronouns>[{commentator.pronouns}]</RunnerPronouns>}
-							{commentator.twitch && commentator.isRunner && (
+							{commentator.social.twitch && (
 								<RunnerTwitch>
 									<TwitchImg src={TwitchSVG} />
-									{commentator.twitch}
+									{commentator.social.twitch}
 								</RunnerTwitch>
 							)}
 							<EditButton variant="outlined" onClick={() => openEditUserDialog(commentator.id)}>
 								Edit
 							</EditButton>
-							{!commentator.microphone && <AnnoyingSetHeadsetNotification />}
+							{!commentator.customData.microphone && <AnnoyingSetHeadsetNotification />}
 						</NameRow>
 					);
 				})}

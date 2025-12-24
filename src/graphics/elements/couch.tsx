@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 const CouchContainer = styled.div`
 	font-family: var(--main-font);
@@ -30,8 +30,8 @@ const PeopleContainer = styled.div`
 `;
 
 interface Props {
-	commentators: Commentator[];
-	host?: Commentator;
+	commentators: RunDataPlayer[];
+	host?: RunDataPlayer;
 	audio?: AudioIndicator;
 	style?: React.CSSProperties;
 	className?: string;
@@ -68,7 +68,7 @@ export function Couch(props: Props) {
 						<PersonCompressed
 							key={person.id}
 							commentator={person}
-							speaking={props.audio?.[person.microphone ?? ""]}
+							speaking={props.audio?.[person.customData.microphone ?? ""]}
 							index={i}
 						/>
 					);
@@ -171,7 +171,7 @@ const Row = styled.div`
 `;
 
 interface PersonCompressedProps {
-	commentator: Commentator;
+	commentator: RunDataPlayer;
 	speaking?: boolean;
 	noTag?: boolean;
 	index?: number;
@@ -179,10 +179,10 @@ interface PersonCompressedProps {
 }
 
 export function PersonCompressed(props: PersonCompressedProps) {
-	const commentatorColour = props.commentator.tag === "Host" ? "#3f7d8f" : "#cc7722";
+	const commentatorColour = props.commentator.customData.tag === "Host" ? "#3f7d8f" : "#cc7722";
 
 	// ASAP2025
-	const putTagOnSameRow = (!props.commentator.pronouns && props.commentator.id === "host") || !props.commentator.tag;
+	const putTagOnSameRow = (!props.commentator.pronouns && props.commentator.id === "host") || !props.commentator.customData.tag;
 
 	return (
 		<PersonCompressedContainer style={props.style}>
@@ -204,10 +204,10 @@ export function PersonCompressed(props: PersonCompressedProps) {
 					</Name>
 					{putTagOnSameRow && (
 						<Role style={{ background: commentatorColour, marginLeft: 8 }}>
-							{props.commentator.tag
+							{props.commentator.customData.tag
 								? props.commentator.id === "host"
 									? "H"
-									: props.commentator.tag
+									: props.commentator.customData.tag
 								: "C"}
 						</Role>
 					)}
@@ -216,10 +216,10 @@ export function PersonCompressed(props: PersonCompressedProps) {
 					<Pronouns style={{ color: commentatorColour }}>{props.commentator.pronouns}</Pronouns>
 					{!putTagOnSameRow && (
 						<Role style={{ background: commentatorColour }}>
-							{props.commentator.tag
+							{props.commentator.customData.tag
 								? props.commentator.id === "host"
 									? "H"
-									: props.commentator.tag
+									: props.commentator.customData.tag
 								: "C"}
 						</Role>
 					)}

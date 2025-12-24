@@ -2,8 +2,7 @@ import { useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
-import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataArray, RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 
 import { IntermissionElement, type IntermissionRef } from "./intermission";
 import type NodeCG from "nodecg/types";
@@ -15,7 +14,7 @@ function Intermission() {
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [donationRep] = useReplicant<number>("donationTotal");
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const [videosRep] = useReplicant<IntermissionVideo[]>("intermission-videos");
 
 	const intermissionRef = useRef<IntermissionRef>(null);

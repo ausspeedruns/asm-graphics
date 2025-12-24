@@ -7,7 +7,6 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { Button, ThemeProvider } from "@mui/material";
 import { Add, ArrowDownward, RecordVoiceOver } from "@mui/icons-material";
 
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 import type { RunDataActiveRun, RunDataPlayer } from "../../bundles/nodecg-speedcontrol/src/types";
 
 import { CouchEditDialog } from "./commentator-edit-dialog";
@@ -56,46 +55,27 @@ const BottomBar = styled.div`
 
 const ZONES = { commentators: "zone:commentators", host: "zone:host", runners: "zone:runners" } as const;
 
-function toCommentator(person: Commentator | RunDataPlayer): Commentator {
-	if ("teamID" in person) {
-		return {
-			id: "", // let extension assign if new
-			name: person.name,
-			pronouns: person.pronouns,
-			twitch: person.social?.twitch,
-			microphone: person.customData?.microphone,
-		};
-	}
+function toHost(person: RunDataPlayer): RunDataPlayer {
 	return {
-		...person,
-		tag: person.id === "host" ? undefined : person.tag,
-		id: person.id === "host" ? "" : person.id,
+		id: "host",
+		name: person.name,
+		pronouns: person.pronouns,
+		teamID: person.teamID,
+		social: {
+			twitch: person.social?.twitch,
+		},
+		customData: {
+			microphone: person.customData?.microphone ?? "",
+			tag: "Host",
+		},
 	};
 }
 
-function toHost(person: Commentator | RunDataPlayer): Commentator {
-	const base =
-		"teamID" in person
-			? {
-					name: person.name,
-					pronouns: person.pronouns,
-					twitch: person.social?.twitch,
-					microphone: person.customData?.microphone,
-				}
-			: {
-					name: person.name,
-					pronouns: person.pronouns,
-					twitch: person.twitch,
-					microphone: person.microphone,
-				};
-	return { id: "host", tag: "Host", ...base };
-}
-
 export function DashboardStageView() {
-	const [commentatorsRep, setCommentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep, setCommentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [gameAudioIndex] = useReplicant<number>("game-audio-indicator");
-	const [editingCommentator, setEditingCommentator] = useState<Commentator | null>(null);
+	const [editingCommentator, setEditingCommentator] = useState<RunDataPlayer | null>(null);
 	const [runner, setRunner] = useState<RunDataPlayer | null>(null);
 	const [personEditDialogOpen, setPersonEditDialogOpen] = useState<"Commentator" | "Runner" | null>(null);
 
@@ -144,7 +124,7 @@ export function DashboardStageView() {
 		if (!to) return;
 
 		if (to === ZONES.commentators) {
-			const comm = toCommentator(active.data.current?.person as any);
+			const comm = active.data.current?.person;
 			void nodecg.sendMessage("update-commentator", comm);
 
 			if (from === "host") {
@@ -158,9 +138,14 @@ export function DashboardStageView() {
 
 		if (to === ZONES.host) {
 			// Move previous host into commentators (if any)
-			if (host) void nodecg.sendMessage("update-commentator", toCommentator(host));
+			if (host)
+				void nodecg.sendMessage("update-commentator", {
+					...host,
+					id: "",
+					customData: { ...host.customData, tag: "" },
+				});
 			// Promote dropped to host
-			void nodecg.sendMessage("update-commentator", toHost(active.data.current?.person as any));
+			void nodecg.sendMessage("update-commentator", toHost(active.data.current?.person));
 			// Remove original if it was a commentator
 			if (from === "commentator") void nodecg.sendMessage("delete-commentator", active.id as string);
 			return;
@@ -219,7 +204,7 @@ export function DashboardStageView() {
 		setPersonEditDialogOpen("Commentator");
 	}
 
-	function handleEditCommentator(commentator: Commentator) {
+	function handleEditCommentator(commentator: RunDataPlayer) {
 		setEditingCommentator(commentator);
 		setPersonEditDialogOpen("Commentator");
 	}

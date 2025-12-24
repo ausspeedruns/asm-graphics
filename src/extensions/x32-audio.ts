@@ -341,13 +341,13 @@ nodecg.listenFor("x32:host-unmute-couch", () => {
 });
 
 nodecg.listenFor("update-commentator", (commentator) => {
-	if (!commentator.customData.microphone) return;
+	if (!commentator.customData['microphone']) return;
 
 	// Convert Headset name to index
-	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.customData.microphone);
+	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.customData['microphone']);
 	if (headsetIndex === -1) {
 		nodecg.log.warn(
-			`[X32 Audio] Could not find headset with name ${commentator.customData.microphone} for commentator ${commentator.name}.`,
+			`[X32 Audio] Could not find headset with name ${commentator.customData['microphone']} for commentator ${commentator.name}.`,
 		);
 		return;
 	}
@@ -356,7 +356,7 @@ nodecg.listenFor("update-commentator", (commentator) => {
 
 	if (!micInput) {
 		nodecg.log.warn(
-			`[X32 Audio] Headset with name ${commentator.customData.microphone} for commentator ${commentator.name} does not have a valid mic input.`,
+			`[X32 Audio] Headset with name ${commentator.customData['microphone']} for commentator ${commentator.name} does not have a valid mic input.`,
 		);
 		return;
 	}

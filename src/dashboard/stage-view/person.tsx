@@ -7,7 +7,6 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import { Headsets } from "../../extensions/audio-data";
 
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
 
 const MegaContainer = styled.div`
 	height: 100%;
@@ -139,7 +138,7 @@ type PersonBase<T> = {
 
 type PersonProps =
 	| (PersonBase<RunDataPlayer> & { isRunner: true; tempIndex: number; audioIndex?: number })
-	| (PersonBase<Commentator> & { isRunner?: false });
+	| (PersonBase<RunDataPlayer> & { isRunner?: false });
 
 export function Person(props: PersonProps) {
 	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -183,7 +182,7 @@ export function Person(props: PersonProps) {
 		animation: talkbackEnabled ? "flash 250ms step-start infinite" : undefined,
 	};
 
-	const rawMicrophone = props.isRunner ? props.person.customData.microphone : props.person.microphone;
+	const rawMicrophone = props.person.customData.microphone;
 	const headset = getHeadsetData(rawMicrophone);
 
 	const isOnRunnersAudio = props.isRunner && props.audioIndex === props.tempIndex;
@@ -195,7 +194,7 @@ export function Person(props: PersonProps) {
 					<NameText>{props.person.name}</NameText>
 					<PronounsText>{props.person.pronouns}</PronounsText>
 				</NameBlock>
-				{!props.isRunner && props.person.tag && <TagBadge>{props.person.tag}</TagBadge>}
+				{!props.isRunner && props.person.customData.tag && <TagBadge>{props.person.customData.tag}</TagBadge>}
 
 				<MicRow>
 					<MicIcon bg={headset?.colour} fg={headset?.textColour}>

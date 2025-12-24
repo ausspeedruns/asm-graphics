@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 import styled from "styled-components";
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";
@@ -131,7 +130,7 @@ interface Props {
 export const RTAudio = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names");
-	const [couchNamesRep] = useReplicant<Commentator[]>("commentators");
+	const [couchNamesRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders");
 
 	const [selectedHeadset, setSelectedHeadset] = useState<string>(Headsets[0].name);
@@ -147,7 +146,7 @@ export const RTAudio = (props: Props) => {
 		});
 
 		couchNamesRep?.map((couch) => {
-			if (couch.microphone) map.set(couch.microphone, couch.name);
+			if (couch.customData?.microphone) map.set(couch.customData.microphone, couch.name);
 		});
 
 		return map;

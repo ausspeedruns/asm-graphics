@@ -6,8 +6,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./dashboards/runner-tablet/audio-fader";
 import { Headsets, HostHeadset } from "../extensions/audio-data";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 
 const MixingContainer = styled.div`
 	font-family:
@@ -28,7 +27,7 @@ interface HostDashAudioProps {
 
 export function HostDashAudio(props: HostDashAudioProps) {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders");
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 
@@ -45,7 +44,7 @@ export function HostDashAudio(props: HostDashAudioProps) {
 		});
 
 		commentatorsRep?.map((couch) => {
-			if (couch.microphone) map.set(couch.microphone, couch.name);
+			if (couch.customData.microphone) map.set(couch.customData.microphone, couch.name);
 		});
 
 		return map;

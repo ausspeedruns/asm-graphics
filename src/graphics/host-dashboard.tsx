@@ -8,6 +8,8 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { Mosaic, type MosaicNode, MosaicWindow } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
 
+import "./host-dash.css";
+
 import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog";
 import { ScriptDialog } from "./dashboards/host-dash/script-dialog";
 import { Timer } from "./dashboards/host-dash/timer";
@@ -20,9 +22,7 @@ import { DonationTabs } from "./dashboards/host-dash/donation-tabs";
 import { DonationTotal } from "./dashboards/host-dash/donation-total";
 import { HostMicrophone } from "./dashboards/host-dash/host-microphone";
 
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
-
-import "./host-dash.css";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 const DashContainer = styled.div<{ darkMode: boolean }>`
 	color-scheme: ${(props) => (props.darkMode ? "dark" : "light")};
@@ -224,7 +224,7 @@ export function HostDash() {
 	const { mode } = useColorScheme();
 	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
 
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
 
 	const [hostOpen, setHostOpen] = useState(false);

@@ -9,8 +9,7 @@ import _ from "underscore";
 // import { useRive } from "@rive-app/react-canvas";
 
 import type NodeCG from "nodecg/types";
-import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Commentator } from "@asm-graphics/types/OverlayProps";
+import type { RunDataArray, RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 import type { Incentive } from "@asm-graphics/types/Incentives";
 
 // import { InterCTA } from "./elements/intermission/cta";
@@ -447,7 +446,7 @@ export function Intermission() {
 	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
 	const [prizesRep] = useReplicant<Prize[]>("prizes");
 	const [videosRep] = useReplicant<IntermissionVideo[]>("intermission-videos");
-	const [commentatorsRep] = useReplicant<Commentator[]>("commentators");
+	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
 	// const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
 	// const normalisedTime = useNormalisedTime(1000);
@@ -509,7 +508,7 @@ export interface IntermissionRef {
 interface IntermissionProps {
 	activeRun: RunDataActiveRun;
 	runArray: RunDataArray;
-	host?: Commentator;
+	host?: RunDataPlayer;
 	donation: number;
 	muted?: boolean;
 	sponsors?: NodeCG.AssetFile[];

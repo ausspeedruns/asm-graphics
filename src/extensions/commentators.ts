@@ -21,6 +21,15 @@ nodecg.listenFor("update-commentator", (commentator) => {
 		const commentatorIndex = commentatorsRep.value.findIndex((comm) => comm.id === commentator.id);
 		if (commentatorIndex === -1) {
 			// Couldn't find commentator but has an id
+
+			// Maybe they are a runner?
+			const updatedRunner = updateRunnerInformation(commentator);
+			if (updatedRunner) {
+				Log.info(`Updated runner information for commentator ${commentator.id} ${commentator.name}`);
+				return;
+			}
+
+			// Just add them as new commentator
 			commentatorsRep.value.push(commentator);
 			Log.warn(`Commentator had an ID but could not find the ID in the replicant. ${commentator.id}`);
 		} else {
@@ -55,7 +64,7 @@ function updateExistingCommentator(commentator: RunDataPlayer, index: number) {
 	commentatorsRep.value = commentatorsMutable;
 }
 
-function updateRunnerInformation(runner: RunDataPlayer) {
+function updateRunnerInformation(runner: RunDataPlayer): boolean {
 	let teamIndex = -1;
 	let playerIndex = -1;
 	let foundPlayer = false;
@@ -78,7 +87,7 @@ function updateRunnerInformation(runner: RunDataPlayer) {
 
 	if (!foundPlayer) {
 		Log.error(`Could not find runner to update. Runner: ${runner.id} ${runner.name}`);
-		return;
+		return false;
 	}
 
 	const team = SPEEDCONTROL_runDataActiveRep.value?.teams[teamIndex];
@@ -87,14 +96,14 @@ function updateRunnerInformation(runner: RunDataPlayer) {
 		Log.error(
 			`Found runner and team index but team was undefined. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex}`,
 		);
-		return;
+		return false;
 	}
 
 	if (!team.players[playerIndex]) {
 		Log.error(
 			`Found runner and team index but runner was undefined. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex} | Player Index: ${playerIndex}`,
 		);
-		return;
+		return false;
 	}
 
 	const originalRunner = _.clone(team.players[playerIndex]);
@@ -103,7 +112,7 @@ function updateRunnerInformation(runner: RunDataPlayer) {
 		Log.error(
 			`Could not clone original runner. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex} | Player Index: ${playerIndex}`,
 		);
-		return;
+		return false;
 	}
 
 	team.players[playerIndex] = {
@@ -119,6 +128,8 @@ function updateRunnerInformation(runner: RunDataPlayer) {
 			twitch: runner.social.twitch,
 		},
 	};
+
+	return true;
 }
 
 // Clear on new run
