@@ -17,7 +17,7 @@ import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import type { HostRead } from "../extensions/host-reads";
+import type { HostRead } from "@asm-graphics/shared/HostRead";
 import {
 	closestCenter,
 	DndContext,
@@ -36,7 +36,7 @@ import {
 } from "@dnd-kit/sortable";
 import { DragHandle, Refresh, VolumeUp } from "@mui/icons-material";
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-import type { LowerThirdPerson } from "../extensions/full-screen-data";
+import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic";
 
 const Row = styled.div`
 	display: flex;

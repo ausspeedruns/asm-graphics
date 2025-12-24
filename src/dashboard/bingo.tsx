@@ -23,7 +23,7 @@ import {
 	type BoardState,
 	type RoomJoinParameters,
 	type CellColour,
-} from "../extensions/util/bingosync";
+} from "@asm-graphics/shared/BingoSync.js";
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
 const CellColours = [

@@ -1,4 +1,4 @@
-import type { BoardCell, CellColour } from "../../extensions/util/bingosync";
+import type { BoardCell, CellColour } from "@asm-graphics/shared/BingoSync.js";
 import styled from "styled-components";
 
 const Cell = styled.div`

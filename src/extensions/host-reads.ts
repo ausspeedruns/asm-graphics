@@ -1,11 +1,6 @@
 import { hostReadsRep } from "./replicants.js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
-
-export interface HostRead {
-	id: string;
-	title: string;
-	content: string;
-}
+import type { HostRead } from "@asm-graphics/shared/HostRead.js";
 
 const nodecg = nodecgApiContext.get();
 

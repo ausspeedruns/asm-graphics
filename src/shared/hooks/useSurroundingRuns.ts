@@ -1,5 +1,5 @@
 import { useReplicant } from "@nodecg/react-hooks";
-import type { RunData, RunDataActiveRunSurrounding, RunDataArray } from "../types/RunData";
+import type { RunData, RunDataActiveRunSurrounding, RunDataArray } from "@asm-graphics/types/RunData.js";
 
 function useSurroundingRuns(): readonly [RunData | undefined, RunData | undefined, RunData | undefined] {
 	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding>("runDataActiveRunSurrounding", {

@@ -28,6 +28,6 @@
     },
     "include": [
         "./src/extensions/**/*.ts",
-        "./src/shared/**/*.d.ts"
+        "./src/shared/**/*"
     ]
 }

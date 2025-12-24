@@ -12,7 +12,7 @@ import { RaceFinish } from "../elements/race-finish";
 import { PersonCompressed } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 import { BingoBoard, cellColourMapping } from "../elements/bingo-board";
-import type { BoardState } from "../../extensions/util/bingosync";
+import type { BoardState } from "@asm-graphics/shared/BingoSync";
 
 import WidescreenWhole from "./backgrounds/Widescreen2p.png";
 

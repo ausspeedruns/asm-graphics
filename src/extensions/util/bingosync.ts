@@ -2,37 +2,7 @@ import EventEmitter from "node:events";
 import { WebSocket as NodeWebSocket } from "ws";
 import z from "zod";
 
-export interface RoomJoinParameters {
-	room: string;
-	nickname: string;
-	password: string;
-}
-
-export const CellColours = [
-	"blank",
-	"orange",
-	"red",
-	"blue",
-	"green",
-	"purple",
-	"navy",
-	"teal",
-	"brown",
-	"pink",
-	"yellow",
-] as const;
-
-export type CellColour = (typeof CellColours)[number];
-
-export interface BoardCell {
-	slot: string;
-	colors: CellColour[];
-	name: string;
-}
-
-export interface BoardState {
-	cells: BoardCell[];
-}
+import type { BoardState, BoardCell, CellColour, RoomJoinParameters } from "@asm-graphics/shared/BingoSync.js";
 
 const CellSchema = z.object({
 	colors: z.string(),

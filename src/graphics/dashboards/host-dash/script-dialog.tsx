@@ -21,7 +21,7 @@ import RemarkGithubAlerts from "remark-github-alerts";
 import "remark-github-alerts/styles/github-colors-light.css";
 import "remark-github-alerts/styles/github-colors-dark-class.css";
 
-import type { HostRead } from "../../../extensions/host-reads";
+import type { HostRead } from "@asm-graphics/shared/HostRead";
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
 
 const Container = styled.div`

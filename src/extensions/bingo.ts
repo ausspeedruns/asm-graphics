@@ -1,5 +1,6 @@
 import { get as nodecgGet } from "./nodecg-api-context.js";
-import { Bingosync, type BoardCell, type RoomJoinParameters } from "./util/bingosync.js";
+import { Bingosync } from "./util/bingosync.js";
+import type { BoardCell, RoomJoinParameters } from "@asm-graphics/shared/BingoSync.js";
 import {
 	bingosyncRoomDetailsRep,
 	bingosyncStatusRep,

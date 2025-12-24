@@ -45,11 +45,6 @@
 				}
 			}
 		},
-		"hostname": {
-			"type": "string",
-			"description": "Entry point hostname",
-			"default": "localhost"
-		},
 		"tiltify": {
 			"type": "object",
 			"description": "Reads incentive data off the website",

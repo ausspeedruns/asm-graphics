@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import usePrevious from "./usePrevious";
+import usePrevious from "./usePrevious.js";
 
 function useEffectDebugger(
 	effectHook: React.EffectCallback,

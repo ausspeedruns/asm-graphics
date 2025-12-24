@@ -10,7 +10,6 @@ export interface ConfigSchema {
 		parents?: string[];
 		clientId?: string;
 	};
-	hostname?: string;
 	tiltify?: {
 		enabled: boolean;
 		key: string;
@@ -25,20 +24,5 @@ export interface ConfigSchema {
 	x32?: {
 		enabled: boolean;
 		ip: string;
-	};
-}
-
-interface GoogleCredentials {
-	enabled: boolean; // Custom added
-	sheetname: string; // Custom added
-	spreadsheet: string;
-	installed: {
-		client_id: string;
-		project_id: string;
-		auth_uri: string;
-		token_uri: string;
-		auth_provider_x509_cert_url: string;
-		client_secret: string;
-		redirect_uris: string[];
 	};
 }

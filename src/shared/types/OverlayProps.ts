@@ -1,7 +1,7 @@
-import { AudioIndicator } from "./Audio";
+import type { AudioIndicator } from "./Audio.js";
 import type NodeCG from "nodecg/types";
-import { RunDataActiveRun } from "./RunData";
-import { Timer } from "./Timer";
+import type { RunDataActiveRun } from "./RunData.js";
+import type { Timer } from "./Timer.js";
 
 export interface OverlayProps {
 	runData: RunDataActiveRun | undefined;
@@ -9,7 +9,7 @@ export interface OverlayProps {
 	commentators: Commentator[];
 	host?: Commentator;
 	preview?: boolean;
-	sponsors: NodeCG.AssetFile[];
+	sponsors: NodeCG.default.AssetFile[];
 	gameAudioIndicator: number;
 	microphoneAudioIndicator?: AudioIndicator;
 	onScreenWarning?: { message: string; show: boolean };

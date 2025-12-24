@@ -1,12 +1,12 @@
-import type { Commentator } from "./OverlayProps";
-import type { Donation } from "./Donations";
-import type { Incentive } from "./Incentives";
-import type { Prize } from "./Prizes";
-import type { BoardCell, RoomJoinParameters } from "../extensions/util/bingosync";
-import type { HostRead } from "../extensions/host-reads";
-import type { IntermissionVideo } from "../extensions/intermission-videos";
-import type { LowerThirdPerson } from "../extensions/full-screen-data";
-import type { RunDataPlayer } from "./RunData";
+import type { Commentator } from "./OverlayProps.js";
+import type { Donation } from "./Donations.js";
+import type { Incentive } from "./Incentives.js";
+import type { Prize } from "./Prizes.js";
+import type { BoardCell, RoomJoinParameters } from "@asm-graphics/shared/BingoSync.js";
+import type { HostRead } from "@asm-graphics/shared/HostRead.js";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.js";
+import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic.js";
+import type { RunDataPlayer } from "./RunData.js";
 
 export type NodeCGMessages = {
 	// Audio
