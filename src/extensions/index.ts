@@ -25,9 +25,7 @@ async function init() {
 
 	require("./audio");
 
-	if (ncgConfig.obs.enabled) {
-		require("./obs-local");
-	}
+	require("./obs-local");
 
 	require("./commentators");
 

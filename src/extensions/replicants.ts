@@ -78,6 +78,8 @@ export const obsStreamTimecode = nodecg.Replicant<string | undefined>("obs:strea
 	defaultValue: undefined,
 });
 export const obsDoLocalRecordingsRep = nodecg.Replicant<boolean>("obs:localRecordings", { defaultValue: false });
+export const obsAutoReconnectRep = nodecg.Replicant<boolean>("obs:autoReconnect", { defaultValue: true });
+export const obsReconnectIntervalRep = nodecg.Replicant<number>("obs:reconnectInterval", { defaultValue: 5000 });
 
 /* Full Screen Info */
 export const lowerThirdPersonRep = nodecg.Replicant<LowerThirdPerson>("lowerThirdPerson", {

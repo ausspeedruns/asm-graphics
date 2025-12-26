@@ -128,7 +128,7 @@
 				"title": "Full Cam",
 				"width": 3,
 				"headerColor": "#CC7722",
-				"file": "settings.html",
+				"file": "full-cam.html",
 				"workspace": "ASM Misc"
 			},
 			{
@@ -192,6 +192,13 @@
 				"width": 8,
 				"headerColor": "#CC7722",
 				"file": "stage-view.html"
+			},
+			{
+				"name": "settings",
+				"title": "Settings",
+				"fullbleed": true,
+				"headerColor": "#CC7722",
+				"file": "settings.html"
 			}
 		],
 		"graphics": [

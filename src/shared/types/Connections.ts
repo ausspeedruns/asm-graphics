@@ -1,1 +1,1 @@
-export type ConnectionStatus = "disconnected" | "connected" | "warning" | "error";
+export type ConnectionStatus = "disconnected" | "connected" | "warning" | "error" | "connecting";

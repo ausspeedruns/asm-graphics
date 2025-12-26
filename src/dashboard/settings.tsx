@@ -7,8 +7,10 @@ import {
 	Checkbox,
 	CircularProgress,
 	FormControlLabel,
+	FormGroup,
 	IconButton,
 	Input,
+	InputAdornment,
 	Slider,
 	TextField,
 	ThemeProvider,
@@ -36,7 +38,8 @@ import {
 } from "@dnd-kit/sortable";
 import { DragHandle, Refresh, VolumeUp } from "@mui/icons-material";
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic";
+import { Grid } from "@mui/material";
+import type { ConnectionStatus } from "@asm-graphics/types/Connections";
 
 const Row = styled.div`
 	display: flex;
@@ -44,107 +47,33 @@ const Row = styled.div`
 	margin: 8px 0;
 `;
 
+const GridItem = styled(Grid)`
+	padding: 16px;
+	border: 1px solid #ffffff70;
+	border-radius: 8px;
+
+	& h3 {
+		margin-top: 0;
+	}
+`;
+
 export function Settings() {
-	// const [obsDoLocalRecordingsRep, setObsDoLocalRecordingsRep] = useReplicant<boolean>("obs:localRecordings");
-
-	const [creditsInfo, setCreditsInfo] = useState({ name: "", title: "" });
-	const [creditsNameRep] = useReplicant<LowerThirdPerson>("lowerThirdPerson");
-
-	useEffect(() => {
-		if (
-			creditsNameRep &&
-			(creditsNameRep.name !== creditsInfo.name || creditsNameRep.title !== creditsInfo.title)
-		) {
-			setCreditsInfo(creditsNameRep);
-		}
-	}, [creditsNameRep]);
-
-	function handleCreditsChange(
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-		field: "name" | "title",
-	) {
-		setCreditsInfo((prev) => ({ ...prev, [field]: e.target.value }));
-	}
-
-	function updateCreditsInfo() {
-		void nodecg.sendMessage("lowerthird:save-person", creditsInfo);
-	}
-
-	const canUpdate =
-		creditsInfo.name !== (creditsNameRep?.name ?? "") || creditsInfo.title !== (creditsNameRep?.title ?? "");
-
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<Button color="success" variant="contained" fullWidth onClick={() => nodecg.sendMessage("start-credits")}>
-				Roll Credits
-			</Button>
-			<hr style={{ margin: "24px 0" }} />
-			<div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
-				<TextField
-					fullWidth
-					label="Credits Name"
-					value={creditsInfo?.name}
-					onChange={(e) => handleCreditsChange(e, "name")}
-				/>
-				<TextField
-					fullWidth
-					label="Credits Title"
-					value={creditsInfo?.title}
-					onChange={(e) => handleCreditsChange(e, "title")}
-				/>
-			</div>
-			<Button color="primary" variant="contained" fullWidth onClick={updateCreditsInfo} disabled={!canUpdate}>
-				Update
-			</Button>
-			<Row>
-				<Button
-					color="success"
-					variant="contained"
-					fullWidth
-					onClick={() => nodecg.sendMessage("lowerthird:show")}
-				>
-					Show Lowerthird
-				</Button>
-				<Button
-					color="error"
-					variant="contained"
-					fullWidth
-					onClick={() => nodecg.sendMessage("lowerthird:hide")}
-				>
-					Hide Lowerthird
-				</Button>
-			</Row>
-			<hr style={{ margin: "24px 0" }} />
-			<Row>
-				<Button
-					color="success"
-					variant="contained"
-					fullWidth
-					onClick={() => nodecg.sendMessage("show-acknowledgementofcountry")}
-				>
-					Show AoC
-				</Button>
-				<Button
-					color="error"
-					variant="contained"
-					fullWidth
-					onClick={() => nodecg.sendMessage("hide-acknowledgementofcountry")}
-				>
-					Hide AoC
-				</Button>
-			</Row>
-			{/* <FormControlLabel
-				control={
-					<Checkbox
-						checked={obsDoLocalRecordingsRep ?? false}
-						onChange={(e) => setObsDoLocalRecordingsRep(e.target.checked)}
-					/>
-				}
-				label="Enable OBS Local Recordings"
-			/> */}
-			<hr style={{ margin: "24px 0" }} />
-			<HostReads />
-			<IntermissionVideos />
+			<Grid container spacing={2}>
+				<GridItem size="grow">
+					<HostReads />
+				</GridItem>
+				<GridItem size="grow">
+					<IntermissionVideos />
+				</GridItem>
+				<GridItem size="grow">
+					<EventUpload />
+				</GridItem>
+				<GridItem size="grow">
+					<OBSSettings />
+				</GridItem>
+			</Grid>
 		</ThemeProvider>
 	);
 }
@@ -489,6 +418,183 @@ function IntermissionVideoComponent(props: IntermissionVideoProps) {
 				)}
 			</AccordionDetails>
 		</Accordion>
+	);
+}
+
+function EventUpload() {
+	return (
+		<div>
+			<h3>Event Upload (NOT IMPLEMENTED)</h3>
+			<p>
+				Upload a ZIP file containing all event assets and configuration. The event will be set up automatically.
+			</p>
+			<form
+				onSubmit={async (e) => {
+					e.preventDefault();
+					const form = e.target as HTMLFormElement;
+					const fileInput = form.elements.namedItem("eventZip") as HTMLInputElement;
+					if (!fileInput.files?.[0]) return;
+					const file = fileInput.files[0];
+					const data = new FormData();
+					data.append("eventZip", file);
+					// await nodecg.sendMessage("event:upload", data);
+					fileInput.value = "";
+				}}
+			>
+				<label
+					htmlFor="eventZip"
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						justifyContent: "center",
+						border: "2px dashed #888",
+						borderRadius: 8,
+						padding: "32px 0",
+						cursor: "pointer",
+						background: "#222",
+						color: "#ccc",
+						marginBottom: 16,
+						transition: "border-color 0.2s",
+					}}
+					onDragOver={(e) => {
+						e.preventDefault();
+						e.currentTarget.style.borderColor = "#1976d2";
+					}}
+					onDragLeave={(e) => {
+						e.preventDefault();
+						e.currentTarget.style.borderColor = "#888";
+					}}
+					onDrop={(e) => {
+						e.preventDefault();
+						e.currentTarget.style.borderColor = "#888";
+						const fileInput = document.getElementById("eventZip") as HTMLInputElement;
+						if (e.dataTransfer.files.length > 0 && fileInput) {
+							fileInput.files = e.dataTransfer.files;
+						}
+					}}
+				>
+					<input
+						type="file"
+						id="eventZip"
+						name="eventZip"
+						accept=".zip"
+						required
+						style={{ display: "none" }}
+					/>
+					<span style={{ fontSize: 24, marginBottom: 8 }}>📦</span>
+					<span style={{ fontWeight: 500 }}>Click or drag ZIP file here to upload</span>
+					<span style={{ fontSize: 12, opacity: 0.7, marginTop: 4 }}>.zip only</span>
+				</label>
+				<Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
+					Upload Event ZIP
+				</Button>
+			</form>
+		</div>
+	);
+}
+
+function OBSSettings() {
+	const [obsStatusRep] = useReplicant<ConnectionStatus>("obs:status");
+	const [obsDoLocalRecordingsRep, setObsDoLocalRecordingsRep] = useReplicant<boolean>("obs:localRecordings");
+	const [obsAutoReconnectRep, setObsAutoReconnectRep] = useReplicant<boolean>("obs:autoReconnect");
+	const [obsReconnectIntervalRep, setObsReconnectIntervalRep] = useReplicant<number>("obs:reconnectInterval");
+
+	return (
+		<div>
+			<h3>
+				OBS Settings <ConnectionTag status={obsStatusRep} />
+			</h3>
+			<Row>
+				<Button
+					variant="contained"
+					color="success"
+					fullWidth
+					disabled={obsStatusRep === "connected"}
+					loading={obsStatusRep === "connecting"}
+					onClick={() => void nodecg.sendMessage("obs:setConnected", true)}
+				>
+					Connect
+				</Button>
+				<Button
+					variant="outlined"
+					color="error"
+					fullWidth
+					disabled={obsStatusRep === "disconnected"}
+					onClick={() => void nodecg.sendMessage("obs:setConnected", false)}
+				>
+					Disconnect
+				</Button>
+			</Row>
+			<TextField label="OBS Address" fullWidth margin="dense" />
+			<TextField label="OBS Password" type="password" fullWidth margin="dense" />
+			<TextField
+				label="Reconnect Interval (ms)"
+				slotProps={{ input: { endAdornment: <InputAdornment position="end">ms</InputAdornment> } }}
+				type="number"
+				fullWidth
+				value={obsReconnectIntervalRep}
+				onChange={(e) => setObsReconnectIntervalRep(Number(e.target.value))}
+				margin="normal"
+			/>
+
+			<FormGroup>
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={obsDoLocalRecordingsRep ?? false}
+							onChange={(e) => setObsDoLocalRecordingsRep(e.target.checked)}
+						/>
+					}
+					label="Enable OBS Local Recordings"
+				/>
+
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={obsAutoReconnectRep ?? false}
+							onChange={(e) => setObsAutoReconnectRep(e.target.checked)}
+						/>
+					}
+					label="Auto-reconnect to OBS"
+				/>
+			</FormGroup>
+		</div>
+	);
+}
+
+function ConnectionTag(props: { status?: ConnectionStatus }) {
+	const { status } = props;
+
+	let color = "#888";
+	let text = "Disconnected";
+
+	if (status === "connected") {
+		color = "#4caf50";
+		text = "Connected";
+	} else if (status === "connecting") {
+		color = "#ff9800";
+		text = "Connecting...";
+	} else if (status === "error") {
+		color = "#f44336";
+		text = "Error";
+	} else if (status === "warning") {
+		color = "#ff9800";
+		text = "Warning";
+	}
+
+	return (
+		<span
+			style={{
+				backgroundColor: color,
+				color: "#fff",
+				padding: "2px 8px",
+				borderRadius: 4,
+				fontSize: "0.8em",
+			}}
+		>
+			{text}
+		</span>
 	);
 }
 

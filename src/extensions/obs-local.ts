@@ -1,11 +1,23 @@
+import { EventSubscription, OBSWebSocket } from "obs-websocket-js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
-import { obsCurrentSceneRep, obsStreamTimecode, automationSettingsRep, obsDoLocalRecordingsRep } from "./replicants.js";
-import obs from "./util/obs.js";
+import {
+	obsCurrentSceneRep,
+	obsStreamTimecode,
+	automationSettingsRep,
+	obsDoLocalRecordingsRep,
+	obsStatusRep,
+	obsAutoReconnectRep,
+	obsReconnectIntervalRep,
+} from "./replicants.js";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData.js";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("OBS-Local");
+
+const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");
+
+const obs = new OBSWebSocket();
 
 type SceneType = "Gameplay" | "Intermission" | "IRL" | "ASNN" | "Unknown";
 
@@ -13,6 +25,7 @@ let previewScene: string;
 let programScene: string;
 
 let streamStatusGetter: string | number | NodeJS.Timeout | undefined;
+let reconnectTimeout: string | number | NodeJS.Timeout | undefined;
 
 obs.on("CurrentPreviewSceneChanged", ({ sceneName }) => {
 	previewScene = sceneName;
@@ -24,6 +37,12 @@ obs.on("CurrentProgramSceneChanged", ({ sceneName }) => {
 });
 
 obs.on("Identified", async () => {
+	const isStudioMode = (await obs.call("GetStudioModeEnabled")).studioModeEnabled;
+
+	if (!isStudioMode) {
+		await obs.call("SetStudioModeEnabled", { studioModeEnabled: true });
+	}
+
 	previewScene = (await obs.call("GetCurrentPreviewScene")).currentPreviewSceneName;
 	programScene = (await obs.call("GetCurrentProgramScene")).currentProgramSceneName;
 	obsCurrentSceneRep.value = programScene;
@@ -32,8 +51,41 @@ obs.on("Identified", async () => {
 });
 
 obs.on("ConnectionClosed", async () => {
+	nodecg.log.warn("[OBS] Connection closed");
+
 	clearTimeout(streamStatusGetter);
 	obsStreamTimecode.value = undefined;
+	obsStatusRep.value = "disconnected";
+
+	if (obsAutoReconnectRep.value) {
+		reconnectTimeout = setTimeout(() => {
+			void connectOBS();
+		}, obsReconnectIntervalRep.value);
+	}
+});
+
+obsAutoReconnectRep.on("change", (newVal) => {
+	if (!newVal) {
+		clearTimeout(reconnectTimeout);
+	}
+});
+
+obsReconnectIntervalRep.on("change", () => {
+	if (obsStatusRep.value === "connected" || obsStatusRep.value === "connecting") {
+		return;
+	}
+
+	if (obsAutoReconnectRep.value) {
+		clearTimeout(reconnectTimeout);
+		reconnectTimeout = setTimeout(() => {
+			void connectOBS();
+		}, obsReconnectIntervalRep.value);
+	}
+});
+
+obs.on("ConnectionError", (err) => {
+	nodecg.log.warn("[OBS] Connection error:", err);
+	obsStatusRep.value = "error";
 });
 
 obs.on("SceneTransitionStarted", async (transitionName) => {
@@ -84,13 +136,11 @@ nodecg.listenFor("transition:toIntermission", (data) => {
 
 		// CUSTOM TRANSITIONS
 		// Change the transitions for when we leave a game to be the next entry transition
-		if (runDataActiveRunRep.value?.customData['exitTransition']) {
-			setTransitionQueue = runDataActiveRunRep.value.customData['entryTransition'] ?? null;
+		if (runDataActiveRunRep.value?.customData["exitTransition"]) {
+			setTransitionQueue = runDataActiveRunRep.value.customData["entryTransition"] ?? null;
 		}
 	}, 3000);
 });
-
-const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");
 
 nodecg.listenFor("transition:toGame", (data) => {
 	if (!data.to.startsWith("GAMEPLAY")) return;
@@ -100,8 +150,8 @@ nodecg.listenFor("transition:toGame", (data) => {
 	setTimeout(() => {
 		// CUSTOM TRANSITIONS
 		// Change the transitions for when we leave a game to be the next enter transition
-		if (runDataActiveRunRep.value?.customData['exitTransition']) {
-			setTransitionQueue = runDataActiveRunRep.value.customData['exitTransition'] ?? null;
+		if (runDataActiveRunRep.value?.customData["exitTransition"]) {
+			setTransitionQueue = runDataActiveRunRep.value.customData["exitTransition"] ?? null;
 		}
 	}, 1500);
 });
@@ -204,4 +254,48 @@ async function cycleRecording() {
 
 	// Start a new recording
 	await obs.call("StartRecord");
+}
+async function connectOBS() {
+	const ncgOBSConfig = nodecg.bundleConfig.obs;
+
+	obsStatusRep.value = "connecting";
+
+	try {
+		const { obsWebSocketVersion, negotiatedRpcVersion } = await obs.connect(
+			`ws://${ncgOBSConfig.ip}:${ncgOBSConfig.port}`,
+			ncgOBSConfig.password,
+			{
+				eventSubscriptions: EventSubscription.All | EventSubscription.InputVolumeMeters,
+				rpcVersion: 1,
+			},
+		);
+
+		nodecg.log.info(
+			`[OBS] Connection successful | Version ${obsWebSocketVersion} (using RPC ${negotiatedRpcVersion})`,
+		);
+		obsStatusRep.value = "connected";
+	} catch (err) {
+		// nodecg.log.warn('[OBS] Connection error');
+		nodecg.log.warn("[OBS] Connection error:", err);
+		obsStatusRep.value = "disconnected";
+	}
+}
+
+function disconnectOBS() {
+	obs.disconnect();
+}
+
+nodecg.listenFor("obs:setConnected", (connected) => {
+	if (connected) {
+		void connectOBS();
+	} else {
+		disconnectOBS();
+	}
+});
+
+if (nodecg.bundleConfig.obs?.enabled) {
+	nodecg.log.info("[OBS-Local] OBS Local extension is enabled.");
+	void connectOBS();
+} else {
+	nodecg.log.info("[OBS-Local] OBS Local extension is disabled; not connecting.");
 }

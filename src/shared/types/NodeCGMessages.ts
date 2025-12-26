@@ -36,6 +36,8 @@ export type NodeCGMessages = {
 	"transition:toGame": { to: string; from: string };
 	"transition:toIRL": { to: string; from: string };
 	"transition:UNKNOWN": { to: string; from: string };
+	"obs:setRecording": boolean;
+	"obs:setConnected": boolean;
 	// Runner Tablet
 	"runner:setReady": never;
 	"runner:setNotReady": never;
