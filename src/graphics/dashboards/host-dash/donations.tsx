@@ -41,7 +41,7 @@ type RowProps = {
 // }
 
 export const Donations = () => {
-	const [donationsRep] = useReplicant<Donation[]>("donations");
+	const [donationsRep] = useReplicant("donations");
 	const [editIncentiveOpen, setEditIncentiveOpen] = useState(false);
 
 	const reversedDonations = [...(donationsRep ?? [])].reverse() ?? [];

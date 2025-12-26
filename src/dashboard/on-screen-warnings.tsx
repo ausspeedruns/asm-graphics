@@ -15,8 +15,8 @@ const Row = styled.div`
 const MessageFlashingWarning = "This game contains flashing lights, viewer discretion is advised.";
 
 export const OnScreenWarningsDash: React.FC = () => {
-	const [showRep] = useReplicant<boolean>("onScreenWarning:show");
-	const [messageRep] = useReplicant<string>("onScreenWarning:message");
+	const [showRep] = useReplicant("onScreenWarning:show");
+	const [messageRep] = useReplicant("onScreenWarning:message");
 
 	const [localMessage, setLocalMessage] = useState(messageRep ?? "");
 

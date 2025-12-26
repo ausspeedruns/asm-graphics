@@ -114,7 +114,7 @@ interface Props {
 
 export const RTNames: React.FC<Props> = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
+	const [commentatorsRep] = useReplicant("commentators");
 	const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 	const [dialogRunner, setDialogRunner] = useState<RunDataPlayer | undefined>(undefined);
 

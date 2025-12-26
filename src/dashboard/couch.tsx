@@ -30,8 +30,8 @@ import { checkAndGetDialog } from "./utils/getDialog";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 export function DashCouch() {
-	const [commentatorsRep, setCommentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
-	const [showHostRep] = useReplicant<boolean>("showHost");
+	const [commentatorsRep, setCommentatorsRep] = useReplicant("commentators");
+	const [showHostRep] = useReplicant("showHost");
 	const [hostOnCouchInstructionsOpen, setHostOnCouchInstructionsOpen] = useState(false);
 
 	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");

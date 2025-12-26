@@ -24,8 +24,8 @@ interface Props {
 }
 
 export function HostName(props: Props) {
-	const [allUsersRep] = useReplicant<User[]>("all-usernames");
-	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
+	const [allUsersRep] = useReplicant("all-usernames");
+	const [commentatorsRep] = useReplicant("commentators");
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 	const [hostName, setHostName] = useState("");
 	const [hostPronouns, setHostPronouns] = useState("");

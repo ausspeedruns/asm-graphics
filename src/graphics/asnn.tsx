@@ -152,8 +152,8 @@ export const ASNN = () => {
 	const nameEl = useRef<HTMLDivElement>(null);
 	const subtitleEl = useRef<HTMLDivElement>(null);
 	const nameplateEl = useRef<HTMLDivElement>(null);
-	const [asnnHeadline] = useReplicant<string>("asnn:headline");
-	const [asnnTicker] = useReplicant<string[]>("asnn:ticker");
+	const [asnnHeadline] = useReplicant("asnn:headline");
+	const [asnnTicker] = useReplicant("asnn:ticker");
 
 	// const tickerTexts = [
 	// 	'AUSSPEEDRUNS INTERVIEWS GONE MISSING, SEARCH PARTY NON-EXISTENT',

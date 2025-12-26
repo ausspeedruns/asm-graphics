@@ -2,11 +2,15 @@ import * as nodecgApiContext from "../nodecg-api-context.js";
 import type { Donation } from "@asm-graphics/types/Donations.js";
 import _ from "underscore";
 import z from "zod";
-import { donationTotalRep, donationsRep, donationMatchesRep } from "../replicants.js";
+import { getReplicant } from "../replicants.js";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("Tiltify-V5");
 const tiltifyConfig = nodecg.bundleConfig.tiltify!; // This script only gets imported if there is a tiltify config
+
+const donationTotalRep = getReplicant("donationTotal");
+const donationsRep = getReplicant("donations");
+const donationMatchesRep = getReplicant("donation-matches");
 
 const AmountSchema = z.object({
 	currency: z.string(),
@@ -32,7 +36,7 @@ async function getAccessToken() {
 	try {
 		const res = await fetch(
 			`https://v5api.tiltify.com/oauth/token?client_id=${tiltifyConfig.id}&client_secret=${tiltifyConfig.key}&grant_type=client_credentials`,
-			{ method: "POST" }
+			{ method: "POST" },
 		);
 		const data = await res.json();
 
@@ -114,10 +118,9 @@ const TiltifyCampaignEndpointSchema = z.object({
 async function getCampaignData() {
 	if (!accessToken) return;
 	try {
-		const res = await fetch(
-			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}`,
-			{ headers: { Authorization: `Bearer ${accessToken}` } }
-		);
+		const res = await fetch(`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}`, {
+			headers: { Authorization: `Bearer ${accessToken}` },
+		});
 		const data = await res.json();
 
 		const parsedData = TiltifyCampaignEndpointSchema.safeParse(data);
@@ -220,7 +223,8 @@ async function getCampaignData() {
 			return;
 		}
 
-		if (parsedData.data.data.amount_raised) donationTotalRep.value = parseFloat(parsedData.data.data.amount_raised.value);
+		if (parsedData.data.data.amount_raised)
+			donationTotalRep.value = parseFloat(parsedData.data.data.amount_raised.value);
 	} catch (error) {
 		ncgLog.error("getCampaignData error: ", JSON.stringify(error));
 	}

@@ -66,10 +66,10 @@ function connectionStatusStyle(status: ConnectionStatus | boolean): { text: stri
 }
 
 export function BingoDashboard() {
-	const [bingoSyncStatusRep] = useReplicant<ConnectionStatus>("bingosync:status");
-	const [bingoSyncBoardStateRep] = useReplicant<BoardState>("bingosync:boardState");
-	const [bingoSyncBoardStateOverrideRep] = useReplicant<BoardState>("bingosync:boardStateOverride");
-	const [bingoSyncRoomDetailsRep] = useReplicant<RoomJoinParameters>("bingosync:roomDetails");
+	const [bingoSyncStatusRep] = useReplicant("bingosync:status");
+	const [bingoSyncBoardStateRep] = useReplicant("bingosync:boardState");
+	const [bingoSyncBoardStateOverrideRep] = useReplicant("bingosync:boardStateOverride");
+	const [bingoSyncRoomDetailsRep] = useReplicant("bingosync:roomDetails");
 	const [roomCode, setRoomCode] = useState(bingoSyncRoomDetailsRep?.room ?? "");
 	const [password, setPassword] = useState(bingoSyncRoomDetailsRep?.password ?? "");
 

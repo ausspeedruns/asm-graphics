@@ -40,7 +40,7 @@ const GAME_AUDIO_CHANNELS = [
 
 export const DashboardGameAudio: React.FC = () => {
 	const [manualMode, setManualMode] = useState(false);
-	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator");
+	const [gameAudioIndicatorRep] = useReplicant("game-audio-indicator");
 
 	function updateGameAudioIndicator(index?: number) {
 		if (typeof index === "undefined") {
@@ -103,7 +103,7 @@ interface GameAudioComponentProps {
 }
 
 const GameAudioComponent = (props: GameAudioComponentProps) => {
-	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names");
+	const [gameAudioNamesRep] = useReplicant("game-audio-names");
 	const gameAudioNameRep = gameAudioNamesRep?.[props.index] ?? "";
 
 	const [gameAudioName, setGameAudioName] = useState(gameAudioNameRep);

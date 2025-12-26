@@ -51,8 +51,8 @@ function removeExtrasInName(name: string) {
 	return name.trim().replace(/[:!]/, "").toLowerCase();
 }
 
-export const Incentives: React.FC<Props> = (props: Props) => {
-	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
+export function Incentives(props: Props) {
+	const [incentivesRep] = useReplicant("incentives");
 	const [runDataActiveRep] = useReplicant<RunData>("runDataActiveRun", {
 		bundle: "nodecg-speedcontrol",
 	});
@@ -99,7 +99,7 @@ export const Incentives: React.FC<Props> = (props: Props) => {
 			)}
 		</IncentivesContainer>
 	);
-};
+}
 
 /* Incentive Item */
 
@@ -184,7 +184,7 @@ interface ItemProps {
 	incentive: Incentive;
 }
 
-const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
+function IncentiveItem(props: ItemProps) {
 	let incentiveData = <></>;
 
 	switch (props.incentive.type) {
@@ -248,4 +248,4 @@ const IncentiveItem: React.FC<ItemProps> = (props: ItemProps) => {
 			</Grid>
 		</IncentiveItemContainer>
 	);
-};
+}

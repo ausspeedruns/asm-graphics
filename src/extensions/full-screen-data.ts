@@ -1,8 +1,10 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
-import { lowerThirdPersonRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 
+const lowerthirdPersonRep = getReplicant("lowerThirdPerson");
+
 nodecg.listenFor("lowerthird:save-person", (person) => {
-	lowerThirdPersonRep.value = person;
+	lowerthirdPersonRep.value = person;
 });

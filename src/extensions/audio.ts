@@ -1,10 +1,14 @@
 import type { RunData, RunDataActiveRun } from "@asm-graphics/types/RunData.js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import { gameAudioActiveRep, gameAudioNamesRep, x32StatusRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger("Audio");
+
+const gameAudioActiveRep = getReplicant("game-audio-indicator");
+const gameAudioNamesRep = getReplicant("game-audio-names");
+const x32StatusRep = getReplicant("x32:status");
 
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");
 

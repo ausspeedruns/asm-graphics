@@ -1,7 +1,7 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
 
 import type { RunData, RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData.js";
-import { runStartTimeRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 
@@ -9,6 +9,8 @@ const log = new nodecg.Logger("Speedcontrol Converter");
 
 const SPEEDCONTROL_runDataArrayRep = nodecg.Replicant<RunDataArray>("runDataArray", "nodecg-speedcontrol");
 const SPEEDCONTROL_runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");
+
+const runStartTimeRep = getReplicant("runStartTime");
 
 function getRunAndIndex(runId: string): [number, RunData | undefined] {
 	const runDataArray = SPEEDCONTROL_runDataArrayRep.value;

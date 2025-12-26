@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Mic, MicOff, RecordVoiceOver, Edit } from "@mui/icons-material";
+import { Mic, MicOff, Edit } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 
 import { Headsets } from "../../extensions/audio-data";

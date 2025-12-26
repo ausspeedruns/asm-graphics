@@ -1,8 +1,10 @@
-import { hostReadsRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import type { HostRead } from "@asm-graphics/shared/HostRead.js";
 
 const nodecg = nodecgApiContext.get();
+
+const hostReadsRep = getReplicant("host-reads");
 
 nodecg.listenFor("host-reads:add", (data: HostRead) => {
 	const newData = [...hostReadsRep.value, data];

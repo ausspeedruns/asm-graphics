@@ -1,10 +1,13 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import { showOnScreenWarning, onScreenWarningMessage } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 
 const log = new nodecg.Logger("On-Screen Warnings");
+
+const showOnScreenWarning = getReplicant("onScreenWarning:show");
+const onScreenWarningMessage = getReplicant("onScreenWarning:message");
 
 nodecg.listenFor("onScreenWarning:setMessage", (message) => {
 	log.info("Setting on-screen warning message to:", message);

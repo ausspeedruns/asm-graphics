@@ -19,7 +19,6 @@ import Clip4 from "./media/audio/heartpiece1.mp3";
 import Clip5 from "./media/audio/itemget1.mp3";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Automations } from "@asm-graphics/types/Automations";
 
 const ClipArray = [Clip1, Clip2, Clip3, Clip4, Clip5];
 
@@ -99,7 +98,7 @@ export const Transition: React.FC = () => {
 	// const staticImageRef = useRef<HTMLImageElement>(null);
 
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [automationsRep] = useReplicant<Automations>("automations");
+	const [automationsRep] = useReplicant("automations");
 
 	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
 		src: "/bundles/asm-graphics/shared/design/asap_25.riv",

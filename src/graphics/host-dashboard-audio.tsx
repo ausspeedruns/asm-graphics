@@ -27,8 +27,8 @@ interface HostDashAudioProps {
 
 export function HostDashAudio(props: HostDashAudioProps) {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
-	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders");
+	const [commentatorsRep] = useReplicant("commentators");
+	const [busFadersRep] = useReplicant("x32:busFaders");
 	const [faderValues, setFaderValues] = useState<number[][]>([]);
 
 	const numberOfRunners = useMemo(

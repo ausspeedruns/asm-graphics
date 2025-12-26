@@ -1,9 +1,11 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
-import { prizesRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 
 const log = new nodecg.Logger("Prizes");
+
+const prizesRep = getReplicant("prizes");
 
 export interface Prize {
 	id: string;

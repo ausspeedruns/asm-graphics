@@ -224,7 +224,7 @@ export function HostDash() {
 	const { mode } = useColorScheme();
 	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
 
-	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
+	const [commentatorsRep] = useReplicant("commentators");
 	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
 
 	const [hostOpen, setHostOpen] = useState(false);

@@ -53,9 +53,9 @@ function connectionStatusStyle(status: ConnectionStatus | boolean): { text: stri
 }
 
 export const Status: React.FC = () => {
-	const [x32StatusRep] = useReplicant<ConnectionStatus>("x32:status");
-	const [obsStatusRep] = useReplicant<ConnectionStatus>("obs:status");
-	const [automationsRep, setAutomationsRep] = useReplicant<Automations>("automations");
+	const [x32StatusRep] = useReplicant("x32:status");
+	const [obsStatusRep] = useReplicant("obs:status");
+	const [automationsRep, setAutomationsRep] = useReplicant("automations");
 
 	const x32StatusInfo = connectionStatusStyle(x32StatusRep ?? "disconnected");
 	const obsStatusInfo = connectionStatusStyle(obsStatusRep ?? "disconnected");

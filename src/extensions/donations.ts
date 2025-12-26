@@ -1,9 +1,13 @@
 import type { Donation } from "@asm-graphics/types/Donations.js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import { donationsRep, manualDonationsRep, manualDonationTotalRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
+
+const donationsRep = getReplicant("donations");
+const manualDonationsRep = getReplicant("manual-donations");
+const manualDonationTotalRep = getReplicant("manual-donation-total");
 
 nodecg.listenFor("donations:toggleRead", (id) => {
 	const [donation, donationIndex] = getDonation(id);

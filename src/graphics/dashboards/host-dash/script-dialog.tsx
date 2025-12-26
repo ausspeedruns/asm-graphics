@@ -53,8 +53,8 @@ interface ScriptDialogProps extends DialogProps {
 
 export function ScriptDialog(props: ScriptDialogProps) {
 	const { mode } = useColorScheme();
-	const [hostReadsRep] = useReplicant<HostRead[]>("host-reads");
-	const [intermissionVideosRep] = useReplicant<IntermissionVideo[]>("intermission-videos");
+	const [hostReadsRep] = useReplicant("host-reads");
+	const [intermissionVideosRep] = useReplicant("intermission-videos");
 	const [tab, setTab] = useState("");
 
 	useEffect(() => {

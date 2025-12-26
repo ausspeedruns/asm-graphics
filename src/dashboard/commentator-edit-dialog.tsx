@@ -57,7 +57,7 @@ export function CouchEditDialog(props: CouchEditDialogProps) {
 	const [pronouns, setPronouns] = useState(props.person?.pronouns ?? "");
 	const [headset, setHeadset] = useState(props.person?.customData.microphone ?? "");
 	const [tag, setTag] = useState(props.person?.customData.tag ?? "");
-	const [allUsersRep] = useReplicant<User[]>("all-usernames");
+	const [allUsersRep] = useReplicant("all-usernames");
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 
 	function handleNameSelected(name: string | null) {

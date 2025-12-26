@@ -48,7 +48,7 @@ const HostDashTabList = muiStyled(TabList)({
 
 export const HostTabs = () => {
 	const [page, setPage] = useState("0");
-	const [incentivesUpdatedRep] = useReplicant<number | undefined>("incentives:updated-at", undefined);
+	const [incentivesUpdatedRep] = useReplicant("incentives:updated-at");
 	const incentiveLoadingRef = useRef<HTMLButtonElement>(null);
 
 	useListenFor("incentivesUpdated", (statusCode) => {

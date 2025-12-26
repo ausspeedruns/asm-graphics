@@ -105,7 +105,7 @@ function getEditComponent(incentive: Incentive, updateIncentive: (incentive: Inc
 }
 
 export function EditIncentiveDialog(props: DialogProps) {
-	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
+	const [incentivesRep] = useReplicant("incentives");
 	const [selectedIncentiveId, setSelectedIncentiveId] = useState(incentivesRep?.[0]?.id);
 	const [incentiveUpdated, setIncentiveUpdated] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");

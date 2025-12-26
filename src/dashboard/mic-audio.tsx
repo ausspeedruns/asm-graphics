@@ -97,9 +97,9 @@ function isNumeric(str: string) {
 }
 
 export const DashboardMicAudio: React.FC = () => {
-	const [audioGateRep, setAudioGateRep] = useReplicant<number>("x32:audio-gate");
-	const [hostLevelStreamRep, setHostLevelStreamRep] = useReplicant<number>("x32:host-level-stream");
-	const [hostLevelSpeakersRep, setHostLevelSpeakersRep] = useReplicant<number>("x32:host-level-speakers");
+	const [audioGateRep, setAudioGateRep] = useReplicant("x32:audio-gate");
+	const [hostLevelStreamRep, setHostLevelStreamRep] = useReplicant("x32:host-level-stream");
+	const [hostLevelSpeakersRep, setHostLevelSpeakersRep] = useReplicant("x32:host-level-speakers");
 
 	return (
 		<ThemeProvider theme={darkTheme}>

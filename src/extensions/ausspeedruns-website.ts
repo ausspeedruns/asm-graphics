@@ -1,10 +1,12 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import { z } from "zod";
 
-import { allAusSpeedrunsUsernamesRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 import { queryGraphQL } from "./util/graphql.js";
 
 const nodecg = nodecgApiContext.get();
+
+const allAusSpeedrunsUsernamesRep = getReplicant("all-usernames");
 
 const QUERY_USERS = `
 	query {

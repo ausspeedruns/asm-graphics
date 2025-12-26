@@ -1,7 +1,6 @@
 import type { RunData, RunDataArray } from "@asm-graphics/types/RunData.js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import _ from "underscore";
-import { run } from "node:test";
 
 const nodecg = nodecgApiContext.get();
 const logger = new nodecg.Logger("Game years");

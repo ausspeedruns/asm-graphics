@@ -72,9 +72,9 @@ function toHost(person: RunDataPlayer): RunDataPlayer {
 }
 
 export function DashboardStageView() {
-	const [commentatorsRep, setCommentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
+	const [commentatorsRep, setCommentatorsRep] = useReplicant("commentators");
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [gameAudioIndex] = useReplicant<number>("game-audio-indicator");
+	const [gameAudioIndex] = useReplicant("game-audio-indicator");
 	const [editingCommentator, setEditingCommentator] = useState<RunDataPlayer | null>(null);
 	const [runner, setRunner] = useState<RunDataPlayer | null>(null);
 	const [personEditDialogOpen, setPersonEditDialogOpen] = useState<"Commentator" | "Runner" | null>(null);

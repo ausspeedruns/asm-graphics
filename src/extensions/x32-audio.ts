@@ -1,22 +1,22 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import X32 from "./util/x32.js";
 
-import {
-	x32StatusRep,
-	x32BusFadersRep,
-	x32AudioActivityRep,
-	microphoneGateRep,
-	gameAudioActiveRep,
-	hostLevelStreamRep,
-	hostLevelSpeakersRep,
-	automationSettingsRep,
-} from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
 import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data.js";
+
+const x32StatusRep = getReplicant("x32:status");
+const x32BusFadersRep = getReplicant("x32:busFaders");
+const x32AudioActivityRep = getReplicant("audio-indicators");
+const microphoneGateRep = getReplicant("x32:audio-gate");
+const gameAudioActiveRep = getReplicant("game-audio-indicator");
+const hostLevelStreamRep = getReplicant("x32:host-level-stream");
+const hostLevelSpeakersRep = getReplicant("x32:host-level-speakers");
+const automationSettingsRep = getReplicant("automations");
 
 const nodecg = nodecgApiContext.get();
 
@@ -193,7 +193,7 @@ SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 					return;
 				}
 
-				player.customData['microphone'] = headset.name;
+				player.customData["microphone"] = headset.name;
 				x32.setChannelName(headset.micInput, player.name);
 				headsetIndex++;
 			});
@@ -258,7 +258,7 @@ nodecg.listenFor("transition:toIntermission", () => {
 
 // On transition to IRL scene
 nodecg.listenFor("transition:toIRL", () => {
-	if (!automationSettingsRep.value.audioMixing) return;
+	if (!automationSettingsRep.value?.audioMixing) return;
 
 	// Mute all other mics and game audio
 	loopAllX32((channel, mixBus) => {
@@ -341,13 +341,13 @@ nodecg.listenFor("x32:host-unmute-couch", () => {
 });
 
 nodecg.listenFor("update-commentator", (commentator) => {
-	if (!commentator.customData['microphone']) return;
+	if (!commentator.customData["microphone"]) return;
 
 	// Convert Headset name to index
-	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.customData['microphone']);
+	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.customData["microphone"]);
 	if (headsetIndex === -1) {
 		nodecg.log.warn(
-			`[X32 Audio] Could not find headset with name ${commentator.customData['microphone']} for commentator ${commentator.name}.`,
+			`[X32 Audio] Could not find headset with name ${commentator.customData["microphone"]} for commentator ${commentator.name}.`,
 		);
 		return;
 	}
@@ -356,7 +356,7 @@ nodecg.listenFor("update-commentator", (commentator) => {
 
 	if (!micInput) {
 		nodecg.log.warn(
-			`[X32 Audio] Headset with name ${commentator.customData['microphone']} for commentator ${commentator.name} does not have a valid mic input.`,
+			`[X32 Audio] Headset with name ${commentator.customData["microphone"]} for commentator ${commentator.name} does not have a valid mic input.`,
 		);
 		return;
 	}
@@ -382,8 +382,8 @@ function getHeadsetsByTarget(targets: string[]): number[] {
 		// Check if we are a commentator
 		if (currentCommentators) {
 			const commentator = currentCommentators.find((c) => c.id === target);
-			if (commentator?.customData['microphone']) {
-				const headset = Headsets.find((h) => h.name === commentator.customData['microphone']);
+			if (commentator?.customData["microphone"]) {
+				const headset = Headsets.find((h) => h.name === commentator.customData["microphone"]);
 				if (headset) {
 					mixbusTargets.push(headset.mixBus);
 					return;

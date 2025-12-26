@@ -39,7 +39,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const PrizesDashboardContainer = styled.div``;
 
 export const PrizesDashboard = () => {
-	const [prizesRep] = useReplicant<Prize[]>("prizes");
+	const [prizesRep] = useReplicant("prizes");
 
 	const [accordionExpanded, setAccordionExpanded] = useState(false);
 	const [editingId, setEditingId] = useState<string | null>(null);

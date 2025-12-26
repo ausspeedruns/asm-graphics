@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const NoGraphics = (props: Props) => {
-	const [creditsNameRep] = useReplicant<LowerThirdPerson>("lowerThirdPerson");
+	const [creditsNameRep] = useReplicant("lowerThirdPerson");
 	return (
 		<NoGraphicsContainer className={props.className} style={props.style}>
 			<Credits />

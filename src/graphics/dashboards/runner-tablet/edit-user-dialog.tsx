@@ -33,7 +33,7 @@ interface Props {
 }
 
 export const EditUserDialog = (props: Props) => {
-	const [allUsersRep] = useReplicant<User[]>("all-usernames");
+	const [allUsersRep] = useReplicant("all-usernames");
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 
 	const [id, setID] = useState("");

@@ -1,5 +1,5 @@
+import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 import { useState } from "react";
-import type { RunDataPlayer } from "../../../bundles/nodecg-speedcontrol/src/types";
 
 export function useTalkback(commentators?: RunDataPlayer[], runners?: RunDataPlayer[]) {
 	const [currentTalkbackTargets, setCurrentTalkbackTargets] = useState<string[]>([]);

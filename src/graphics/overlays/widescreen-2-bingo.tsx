@@ -134,8 +134,8 @@ const customSmallStyling = {
 } as const satisfies ISmallStyling;
 
 export const Widescreen2Bingo = (props: OverlayProps) => {
-	const [bingoSyncBoardStateRep] = useReplicant<BoardState>("bingosync:boardState");
-	const [bingoSyncBoardStateOverrideRep] = useReplicant<BoardState>("bingosync:boardStateOverride");
+	const [bingoSyncBoardStateRep] = useReplicant("bingosync:boardState");
+	const [bingoSyncBoardStateOverrideRep] = useReplicant("bingosync:boardStateOverride");
 	const teamData = getTeams(props.runData, props.timer, 2);
 
 	const unionedBoardStateCells =

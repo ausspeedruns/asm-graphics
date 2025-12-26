@@ -436,17 +436,17 @@ const ASAP2025Dot = styled.div`
 `;
 
 export function Intermission() {
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
-	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", { bundle: "asm-graphics" }); // TODO: Codify the assets
+	const [incentivesRep] = useReplicant("incentives");
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [donationRep] = useReplicant<number>("donationTotal");
-	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
-	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos");
-	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
-	const [prizesRep] = useReplicant<Prize[]>("prizes");
-	const [videosRep] = useReplicant<IntermissionVideo[]>("intermission-videos");
-	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
+	const [donationRep] = useReplicant("donationTotal");
+	const [manualDonationRep] = useReplicant("manual-donation-total");
+	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos", { bundle: "asm-graphics" }); // TODO: Codify the assets
+	const [donationMatchesRep] = useReplicant("donation-matches");
+	const [prizesRep] = useReplicant("prizes");
+	const [videosRep] = useReplicant("intermission-videos");
+	const [commentatorsRep] = useReplicant("commentators");
 	// const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
 
 	// const normalisedTime = useNormalisedTime(1000);

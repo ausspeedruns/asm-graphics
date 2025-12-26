@@ -5,13 +5,15 @@ import ffprobe from "@ffprobe-installer/ffprobe";
 import type NodeCG from "nodecg/types";
 import type { IntermissionVideo, VideoInformation } from "@asm-graphics/shared/IntermissionVideo.js";
 
-import { intermissionVideosRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 
 const intermissionVideoAssetsRep = nodecg.Replicant<NodeCG.default.AssetFile[]>("assets:intermissionVideos", {
 	persistent: false,
 });
+
+const intermissionVideosRep = getReplicant("intermission-videos");
 
 intermissionVideoAssetsRep.on("change", (newVal) => {
 	if (!newVal) {

@@ -9,7 +9,7 @@ interface ScheduleInfoProps {
 }
 
 export function ScheduleInfo(props: ScheduleInfoProps) {
-	const [runStartTimeRep] = useReplicant<number | null>("runStartTime");
+	const [runStartTimeRep] = useReplicant("runStartTime");
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [_, _1, nextRun] = useSurroundingRuns();
 

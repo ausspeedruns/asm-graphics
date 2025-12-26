@@ -15,8 +15,8 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-export const PrizesHost: React.FC<Props> = (props: Props) => {
-	const [prizesRep] = useReplicant<Prize[]>("prizes");
+export function PrizesHost(props: Props) {
+	const [prizesRep] = useReplicant("prizes");
 
 	return (
 		<UpcomingContainer style={props.style}>
@@ -26,7 +26,7 @@ export const PrizesHost: React.FC<Props> = (props: Props) => {
 			{!prizesRep || prizesRep.length === 0 ? <div>No prizes have been set up.</div> : null}
 		</UpcomingContainer>
 	);
-};
+}
 
 const SingleRunContainer = styled(Box)`
 	margin: 6px 0;
@@ -58,7 +58,7 @@ interface PrizeProps {
 	prize: Prize;
 }
 
-const Prize: React.FC<PrizeProps> = (props: PrizeProps) => {
+function Prize(props: PrizeProps) {
 	return (
 		<SingleRunContainer boxShadow={2}>
 			<PrizeContainer>
@@ -74,4 +74,4 @@ const Prize: React.FC<PrizeProps> = (props: PrizeProps) => {
 			</PrizeContainer>
 		</SingleRunContainer>
 	);
-};
+}

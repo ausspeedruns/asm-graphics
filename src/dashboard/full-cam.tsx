@@ -45,10 +45,8 @@ const Row = styled.div`
 `;
 
 export function Settings() {
-	// const [obsDoLocalRecordingsRep, setObsDoLocalRecordingsRep] = useReplicant<boolean>("obs:localRecordings");
-
 	const [creditsInfo, setCreditsInfo] = useState({ name: "", title: "" });
-	const [creditsNameRep] = useReplicant<LowerThirdPerson>("lowerThirdPerson");
+	const [creditsNameRep] = useReplicant("lowerThirdPerson");
 
 	useEffect(() => {
 		if (

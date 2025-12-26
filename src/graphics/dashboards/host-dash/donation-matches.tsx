@@ -16,8 +16,8 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-export const DonationMatches: React.FC<Props> = (props: Props) => {
-	const [donationMatchesRep] = useReplicant<IDonationMatch[]>("donation-matches");
+export function DonationMatches(props: Props) {
+	const [donationMatchesRep] = useReplicant("donation-matches");
 
 	const reversedMatches = [...(donationMatchesRep ?? [])].reverse();
 
@@ -36,7 +36,7 @@ export const DonationMatches: React.FC<Props> = (props: Props) => {
 	});
 
 	return <DonationMatchesContainer style={props.style}>{allDonationMatches}</DonationMatchesContainer>;
-};
+}
 
 const DonationMatchContainer = styled(Box)<ActiveProps>`
 	margin: 6px 0;
@@ -102,7 +102,7 @@ interface ActiveProps {
 	active?: boolean;
 }
 
-const DonationMatch: React.FC<RunProps> = (props: RunProps) => {
+function DonationMatch(props: RunProps) {
 	return (
 		<DonationMatchContainer boxShadow={2} active={props.active} style={props.style}>
 			<Row>
@@ -125,4 +125,4 @@ const DonationMatch: React.FC<RunProps> = (props: RunProps) => {
 			</Row>
 		</DonationMatchContainer>
 	);
-};
+}

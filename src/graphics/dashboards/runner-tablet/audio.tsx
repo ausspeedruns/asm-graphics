@@ -129,9 +129,9 @@ interface Props {
 
 export const RTAudio = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [gameAudioNamesRep] = useReplicant<string[]>("game-audio-names");
-	const [couchNamesRep] = useReplicant<RunDataPlayer[]>("commentators");
-	const [busFadersRep] = useReplicant<number[][]>("x32:busFaders");
+	const [gameAudioNamesRep] = useReplicant("game-audio-names");
+	const [couchNamesRep] = useReplicant("commentators");
+	const [busFadersRep] = useReplicant("x32:busFaders");
 
 	const [selectedHeadset, setSelectedHeadset] = useState<string>(Headsets[0].name);
 	const [faderValues, setFaderValues] = useState<number[][]>([]);

@@ -1,13 +1,17 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import _ from "underscore";
 
-import { automationSettingsRep, commentatorsRep, showHostRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import type NodeCG from "nodecg/types";
 
 const nodecg = nodecgApiContext.get();
 const Log = new nodecg.Logger("Commentators");
+
+const automationSettingsRep = getReplicant("automations");
+const commentatorsRep = getReplicant("commentators");
+const showHostRep = getReplicant("showHost");
 
 const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant(
 	"runDataActiveRun",

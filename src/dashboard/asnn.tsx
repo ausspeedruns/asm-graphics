@@ -119,8 +119,8 @@ interface Headline {
 }
 
 export const ASNNDash = () => {
-	const [asnnHeadline, setAsnnHeadline] = useReplicant<string>("asnn:headline");
-	const [asnnTicker, setAsnnTicker] = useReplicant<string[]>("asnn:ticker");
+	const [asnnHeadline, setAsnnHeadline] = useReplicant("asnn:headline");
+	const [asnnTicker, setAsnnTicker] = useReplicant("asnn:ticker");
 	const [headlineTextBox, setHeadlineTextBox] = useState("");
 	const [headlineItems, setHeadlineItems] = useLocalStorage<Headline[]>("asnnHeadlines", []);
 	const [tickerTextBox, setTickerTextBox] = useState("");

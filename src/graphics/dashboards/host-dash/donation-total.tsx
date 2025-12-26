@@ -18,8 +18,8 @@ const Total = styled.div`
 `;
 
 export function DonationTotal() {
-	const [donationTotalRep] = useReplicant<number>("donationTotal", { defaultValue: 100 });
-	const [manualDonationRep] = useReplicant<number>("manual-donation-total", { defaultValue: 100 });
+	const [donationTotalRep] = useReplicant("donationTotal");
+	const [manualDonationRep] = useReplicant("manual-donation-total");
 
 	return (
 		<DonationTotalContainer>

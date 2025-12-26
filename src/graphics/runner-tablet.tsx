@@ -88,8 +88,7 @@ const RunnerTablet: React.FC = () => {
 	const previousDataActive = usePrevious(runDataActiveRep);
 
 	const [tab, setTab] = useState<TabsValues>(TABS.NAMES);
-	const [host] = useReplicant<RunDataPlayer>("host");
-	// const [runnerReadyRep] = useReplicant<boolean>('runner:ready', false);
+	const [commentatorsRep] = useReplicant("commentators");
 
 	const [live, setLive] = useState(false);
 
@@ -141,6 +140,8 @@ const RunnerTablet: React.FC = () => {
 			void document.documentElement.requestFullscreen();
 		}
 	}
+
+	const host = commentatorsRep?.find((c) => c.id === "host");
 
 	return (
 		<ThemeProvider theme={RunnerTabletTheme}>

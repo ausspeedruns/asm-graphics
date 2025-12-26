@@ -79,7 +79,7 @@ export function Settings() {
 }
 
 function HostReads() {
-	const [hostReadsRep, setHostReadsRep] = useReplicant<HostRead[]>("host-reads");
+	const [hostReadsRep, setHostReadsRep] = useReplicant("host-reads");
 
 	const [newTitle, setNewTitle] = useState("");
 	const [newContent, setNewContent] = useState("");
@@ -233,7 +233,7 @@ function HostReadComponent(props: HostReadComponentProps) {
 }
 
 function IntermissionVideos() {
-	const [intermissionVideosRep, setIntermissionVideosRep] = useReplicant<IntermissionVideo[]>("intermission-videos");
+	const [intermissionVideosRep, setIntermissionVideosRep] = useReplicant("intermission-videos");
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -495,10 +495,10 @@ function EventUpload() {
 }
 
 function OBSSettings() {
-	const [obsStatusRep] = useReplicant<ConnectionStatus>("obs:status");
-	const [obsDoLocalRecordingsRep, setObsDoLocalRecordingsRep] = useReplicant<boolean>("obs:localRecordings");
-	const [obsAutoReconnectRep, setObsAutoReconnectRep] = useReplicant<boolean>("obs:autoReconnect");
-	const [obsReconnectIntervalRep, setObsReconnectIntervalRep] = useReplicant<number>("obs:reconnectInterval");
+	const [obsStatusRep] = useReplicant("obs:status");
+	const [obsDoLocalRecordingsRep, setObsDoLocalRecordingsRep] = useReplicant("obs:localRecordings");
+	const [obsAutoReconnectRep, setObsAutoReconnectRep] = useReplicant("obs:autoReconnect");
+	const [obsReconnectIntervalRep, setObsReconnectIntervalRep] = useReplicant("obs:reconnectInterval");
 
 	return (
 		<div>
@@ -559,6 +559,17 @@ function OBSSettings() {
 					label="Auto-reconnect to OBS"
 				/>
 			</FormGroup>
+		</div>
+	);
+}
+
+function X32Settings() {
+	const [x32StatusRep] = useReplicant("x32:status");
+
+	return (
+		<div>
+			<h3>X32 Settings</h3>
+			<p>NOT IMPLEMENTED</p>
 		</div>
 	);
 }

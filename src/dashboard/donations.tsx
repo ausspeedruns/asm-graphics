@@ -23,8 +23,8 @@ const DonationsList = styled.div`
 `;
 
 export const Donations: React.FC = () => {
-	const [donationTotalRep] = useReplicant<number>("donationTotal");
-	const [donations] = useReplicant<Donation[]>("donations");
+	const [donationTotalRep] = useReplicant("donationTotal");
+	const [donations] = useReplicant("donations");
 
 	return (
 		<ThemeProvider theme={darkTheme}>

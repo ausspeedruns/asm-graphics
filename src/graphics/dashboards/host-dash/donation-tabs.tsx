@@ -42,8 +42,8 @@ const HostDashTabList = muiStyled(TabList)({
 
 export const DonationTabs = () => {
 	const [page, setPage] = useState("donations");
-	const [donationsRep] = useReplicant<Donation[]>("donations");
-	const [manualDonationRep] = useReplicant<number>("manual-donation-total", { defaultValue: 100 });
+	const [donationsRep] = useReplicant("donations");
+	const [manualDonationRep] = useReplicant("manual-donation-total");
 
 	const [copyNotification, setCopyNotification] = useState(false);
 

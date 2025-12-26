@@ -26,11 +26,11 @@ import { useReplicant } from "@nodecg/react-hooks";
 export function TickerOverlay() {
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [incentivesRep] = useReplicant<Incentive[]>("incentives");
-	const [donationRep] = useReplicant<number>("donationTotal");
-	const [manualDonationRep] = useReplicant<number>("manual-donation-total");
-	const [donationMatchesRep] = useReplicant<DonationMatch[]>("donation-matches");
-	const [prizesRep] = useReplicant<Prize[]>("prizes");
+	const [incentivesRep] = useReplicant("incentives");
+	const [donationRep] = useReplicant("donationTotal");
+	const [manualDonationRep] = useReplicant("manual-donation-total");
+	const [donationMatchesRep] = useReplicant("donation-matches");
+	const [prizesRep] = useReplicant("prizes");
 
 	// const donationRep = 10000;
 

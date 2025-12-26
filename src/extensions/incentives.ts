@@ -4,10 +4,13 @@ import * as nodecgApiContext from "./nodecg-api-context.js";
 import { z } from "zod";
 import _ from "underscore";
 
-import { incentivesRep, incentivesUpdatedLastRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 import { queryGraphQL } from "./util/graphql.js";
 
 const nodecg = nodecgApiContext.get();
+
+const incentivesRep = getReplicant("incentives");
+const incentivesUpdatedLastRep = getReplicant("incentives:updated-at");
 
 const baseIncentiveSchema = z.object({
 	id: z.string(),

@@ -1,6 +1,9 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import { runnerStatusRep, techStatusRep } from "./replicants.js";
+import { getReplicant } from "./replicants.js";
+
+const runnerStatusRep = getReplicant("runner:ready");
+const techStatusRep = getReplicant("tech:ready");
 
 const nodecg = nodecgApiContext.get();
 

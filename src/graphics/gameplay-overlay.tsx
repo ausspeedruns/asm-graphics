@@ -63,17 +63,17 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [timerRep] = useReplicant<Timer>("timer", { bundle: "nodecg-speedcontrol" });
 
-	const [commentatorsRep] = useReplicant<RunDataPlayer[]>("commentators");
-	const [showHostRep] = useReplicant<boolean>("showHost");
+	const [commentatorsRep] = useReplicant("commentators");
+	const [showHostRep] = useReplicant("showHost");
 	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
 
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors");
+	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", { bundle: "asm-graphics" });
 
-	const [gameAudioIndicatorRep] = useReplicant<number>("game-audio-indicator");
-	const [microphoneAudioIndicatorRep] = useReplicant<AudioIndicator>("audio-indicators");
+	const [gameAudioIndicatorRep] = useReplicant("game-audio-indicator");
+	const [microphoneAudioIndicatorRep] = useReplicant("audio-indicators");
 
-	const [onScreenMessageShowRep] = useReplicant<boolean>("onScreenWarning:show");
-	const [onScreenMessageMessageRep] = useReplicant<string>("onScreenWarning:message");
+	const [onScreenMessageShowRep] = useReplicant("onScreenWarning:show");
+	const [onScreenMessageMessageRep] = useReplicant("onScreenWarning:message");
 
 	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 

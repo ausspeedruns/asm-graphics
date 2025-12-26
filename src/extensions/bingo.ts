@@ -1,17 +1,17 @@
 import { get as nodecgGet } from "./nodecg-api-context.js";
 import { Bingosync } from "./util/bingosync.js";
 import type { BoardCell, RoomJoinParameters } from "@asm-graphics/shared/BingoSync.js";
-import {
-	bingosyncRoomDetailsRep,
-	bingosyncStatusRep,
-	bingosyncBoardStateRep,
-	bingosyncBoardStateOverrideRep,
-} from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 import { clone } from "underscore";
 
 const nodecg = nodecgGet();
 
 const log = new nodecg.Logger("Bingosync");
+
+const bingosyncRoomDetailsRep = getReplicant("bingosync:roomDetails");
+const bingosyncStatusRep = getReplicant("bingosync:status");
+const bingosyncBoardStateRep = getReplicant("bingosync:boardState");
+const bingosyncBoardStateOverrideRep = getReplicant("bingosync:boardStateOverride");
 
 const bingosync = new Bingosync();
 

@@ -1,14 +1,6 @@
 import { EventSubscription, OBSWebSocket } from "obs-websocket-js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
-import {
-	obsCurrentSceneRep,
-	obsStreamTimecode,
-	automationSettingsRep,
-	obsDoLocalRecordingsRep,
-	obsStatusRep,
-	obsAutoReconnectRep,
-	obsReconnectIntervalRep,
-} from "./replicants.js";
+import { getReplicant } from "./replicants.js";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData.js";
 
@@ -16,6 +8,14 @@ const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("OBS-Local");
 
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");
+
+const obsStatusRep = getReplicant("obs:status");
+const obsCurrentSceneRep = getReplicant("obs:currentScene");
+const obsStreamTimecodeRep = getReplicant("obs:streamTimecode");
+const obsAutoReconnectRep = getReplicant("obs:autoReconnect");
+const obsReconnectIntervalRep = getReplicant("obs:reconnectInterval");
+const obsDoLocalRecordingsRep = getReplicant("obs:localRecordings");
+const automationsSettingsRep = getReplicant("automations");
 
 const obs = new OBSWebSocket();
 
@@ -54,7 +54,7 @@ obs.on("ConnectionClosed", async () => {
 	nodecg.log.warn("[OBS] Connection closed");
 
 	clearTimeout(streamStatusGetter);
-	obsStreamTimecode.value = undefined;
+	obsStreamTimecodeRep.value = null;
 	obsStatusRep.value = "disconnected";
 
 	if (obsAutoReconnectRep.value) {
@@ -128,7 +128,7 @@ nodecg.listenFor("transition:toIntermission", (data) => {
 	if (!data.from.startsWith("GAMEPLAY")) return;
 
 	setTimeout(() => {
-		if (!automationSettingsRep.value?.runAdvance) {
+		if (!automationsSettingsRep.value?.runAdvance) {
 			return;
 		}
 
@@ -239,10 +239,10 @@ async function updateStreamStatus() {
 	const status = await obs.call("GetStreamStatus");
 
 	if (status.outputActive) {
-		obsStreamTimecode.value = status.outputTimecode;
+		obsStreamTimecodeRep.value = status.outputTimecode;
 		console.log(status.outputTimecode);
 	} else {
-		obsStreamTimecode.value = undefined;
+		obsStreamTimecodeRep.value = null;
 	}
 }
 
