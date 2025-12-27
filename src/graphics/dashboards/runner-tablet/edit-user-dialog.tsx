@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Autocomplete, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
-import { Headsets } from "../../../extensions/audio-data";
+import { Headsets } from "../../../shared/audio-data";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They", "They/He", "They/She", "Any/All"];

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { Headsets } from "../../extensions/audio-data";
+import { Headsets } from "../../shared/audio-data";
 
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 

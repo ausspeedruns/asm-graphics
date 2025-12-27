@@ -7,7 +7,6 @@ export interface ConfigSchema {
 		customTransitionsFolder?: string;
 	};
 	twitch?: {
-		parents?: string[];
 		clientId?: string;
 	};
 	tiltify?: {

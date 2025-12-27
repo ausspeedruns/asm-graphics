@@ -1,3 +1,5 @@
+import * as nodecgApiContext from "../extensions/nodecg-api-context.js";
+
 import type NodeCG from "nodecg/types";
 import type { RunDataPlayer } from "./types/RunData.js";
 import type { Donation, DonationMatch } from "./types/Donations.js";
@@ -14,100 +16,138 @@ import type { LowerThirdPerson } from "./FullscreenGraphic.js";
 
 type Primitives = string | number | boolean | null;
 
-type ReplicantValueType = Primitives | Primitives[] | object[] | NodeCG.default.Replicant.Options<any>;
+type ReplicantValueType = Primitives | Primitives[] | object[] | NodeCG.Replicant.Options<any>;
+
+const nodecg = nodecgApiContext.get();
 
 export const replicants = {
-    // Commentators/Host
-    commentators: [] as RunDataPlayer[],
-    "headsets-used": { defaultValue: {} as Record<string, number> },
-    showHost: true as boolean,
+	// Commentators/Host
+	commentators: [] as RunDataPlayer[],
+	"headsets-used": { defaultValue: {} as Record<string, number> },
+	showHost: true as boolean,
 
-    // Donations
-    donationTotal: 0,
-    donations: [] as Donation[],
-    "manual-donations": [] as Donation[],
-    "manual-donation-total": 0,
-    "donation-matches": [] as DonationMatch[],
+	// Donations
+	"tiltify:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
+	"tiltify:connectionDetails": {
+		defaultValue: {
+			clientSecret: nodecg.bundleConfig.tiltify?.key ?? "", // Todo: Rename to clientSecret in config
+			campaignId: nodecg.bundleConfig.tiltify?.campaign ?? "",
+			clientId: nodecg.bundleConfig.tiltify?.id ?? "", // Todo: Rename to clientId in config
+		},
+	},
+	donationTotal: 0,
+	donations: [] as Donation[],
+	"manual-donations": [] as Donation[],
+	"manual-donation-total": 0,
+	"donation-matches": [] as DonationMatch[],
 
-    // Audio Shared
-    "game-audio-indicator": -1,
-    "x32:audio-gate": -10,
-    "x32:host-level-stream": 0.75,
-    "x32:host-level-speakers": 0.75,
-    "game-audio-names": [] as string[],
+	// Audio Shared
+	"game-audio-indicator": -1,
+	"x32:audio-gate": -10,
+	"x32:host-level-stream": 0.75,
+	"x32:host-level-speakers": 0.75,
+	"game-audio-names": [] as string[],
 
-    // OBS Audio
-    "obs-audio-indicator": { defaultValue: [] as OBSAudioIndicator[], persistent: false },
-    "obs:audio-gate": -10,
+	// OBS Audio
+	"obs-audio-indicator": { defaultValue: [] as OBSAudioIndicator[], persistent: false },
+	"obs:audio-gate": -10,
 
-    // X32 Audio
-    "x32:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
-    "audio-indicators": { defaultValue: {} as AudioIndicator },
-    "x32:busFaders": { defaultValue: [] as number[][], persistent: false },
+	// X32 Audio
+	"x32:connectionDetails": {
+		defaultValue: {
+			ip: nodecg.bundleConfig.x32?.ip ?? "",
+		},
+	},
+	"x32:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
+	"audio-indicators": { defaultValue: {} as AudioIndicator },
+	"x32:busFaders": { defaultValue: [] as number[][], persistent: false },
 
-    // Incentives
-    incentives: [] as Incentive[],
+	// Incentives
+	incentives: [] as Incentive[],
 
-    // GraphQL
-    "incentives:updated-at": null as number | null,
-    "all-usernames": [] as AusSpeedrunsUser[],
+	// GraphQL
+	"ausspeedruns-website:settings": {
+		defaultValue: {
+			eventSlug: nodecg.bundleConfig.graphql?.event ?? "",
+			apiKey: nodecg.bundleConfig.graphql?.apiKey ?? "",
+			url: nodecg.bundleConfig.graphql?.url ?? "",
+		},
+	},
+	"incentives:updated-at": null as number | null,
+	"all-usernames": [] as AusSpeedrunsUser[],
 
-    // OBS
-    "obs:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
-    "obs:currentScene": "Intermission",
-    "obs:streamTimecode": { defaultValue: null as string | null },
-    "obs:localRecordings": false as boolean,
-    "obs:autoReconnect": true as boolean,
-    "obs:reconnectInterval": 5000,
+	// OBS
+	"obs:connectionDetails": {
+		defaultValue: {
+			address: `${nodecg.bundleConfig.obs?.ip}:${nodecg.bundleConfig.obs?.port}`,
+			password: nodecg.bundleConfig.obs?.password ?? "",
+		},
+	},
+	"obs:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
+	"obs:currentScene": "Intermission",
+	"obs:streamTimecode": { defaultValue: null as string | null },
+	"obs:localRecordings": false as boolean,
+	"obs:autoReconnect": true as boolean,
+	"obs:reconnectInterval": 5000,
 
-    // Full Screen Info
-    lowerThirdPerson: { defaultValue: { name: "", title: "" } as LowerThirdPerson },
+	// Full Screen Info
+	lowerThirdPerson: { defaultValue: { name: "", title: "" } as LowerThirdPerson },
+	acknowledgementOfCountry: "",
 
-    // Runner Tablet
-    "runner:ready": false as boolean,
-    "tech:ready": false as boolean,
+	// Runner Tablet
+	"runner:ready": false as boolean,
+	"tech:ready": false as boolean,
 
-    // ASNN
-    "asnn:headline": "",
-    "asnn:ticker": [] as string[],
+	// ASNN
+	"asnn:headline": "",
+	"asnn:ticker": [] as string[],
 
-    // Automation Settings
-    automations: {
-        defaultValue: {
-            runAdvance: true,
-            runTransition: true,
-            audioMixing: true,
-            clearCommentators: true,
-        } as Automations,
-    },
+	// Automation Settings
+	automations: {
+		defaultValue: {
+			runAdvance: true,
+			runTransition: true,
+			audioMixing: true,
+			clearCommentators: true,
+		} as Automations,
+	},
 
-    // On Screen Warnings
-    "onScreenWarning:show": false as boolean,
-    "onScreenWarning:message": "",
+	// On Screen Warnings
+	"onScreenWarning:show": false as boolean,
+	"onScreenWarning:message": "",
 
-    // Prizes
-    prizes: [] as Prize[],
+	// Prizes
+	prizes: [] as Prize[],
 
-    // Bingosync
-    "bingosync:roomDetails": {
-        defaultValue: {
-            room: "",
-            nickname: "",
-            password: "",
-        } as RoomJoinParameters,
-    },
-    "bingosync:boardState": { defaultValue: { cells: [] } as BoardState },
-    "bingosync:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
-    "bingosync:boardStateOverride": { defaultValue: { cells: [] } as BoardState },
+	// Bingosync
+	"bingosync:roomDetails": {
+		defaultValue: {
+			room: "",
+			nickname: "",
+			password: "",
+		} as RoomJoinParameters,
+	},
+	"bingosync:boardState": { defaultValue: { cells: [] } as BoardState },
+	"bingosync:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
+	"bingosync:boardStateOverride": { defaultValue: { cells: [] } as BoardState },
 
-    // Host Reads
-    "host-reads": [] as HostRead[],
+	// Host Reads
+	"host-reads": [] as HostRead[],
 
-    // Intermission Videos
-    "intermission-videos": [] as IntermissionVideo[],
+	// Intermission Videos
+	"intermission-videos": [] as IntermissionVideo[],
 
-    // Speedcontrol Metadata
-    runStartTime: null as number | null,
+	// Speedcontrol Metadata
+	runStartTime: null as number | null,
+
+	// Twitch API
+	"twitch:settings": {
+		defaultValue: {
+			clientId: nodecg.bundleConfig.twitch?.clientId ?? "",
+		},
+	},
+
+	// ASM-Graphics settings / Misc
 } satisfies Record<string, ReplicantValueType>;
 
 type ReplicantValue<T> = T extends { defaultValue: infer D } ? D : T;

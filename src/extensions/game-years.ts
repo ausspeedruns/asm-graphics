@@ -1,6 +1,7 @@
 import type { RunData, RunDataArray } from "@asm-graphics/types/RunData.js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import _ from "underscore";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 const logger = new nodecg.Logger("Game years");
@@ -18,7 +19,7 @@ interface TwitchAPIData {
 
 const twitchApiRep = nodecg.Replicant<TwitchAPIData>("twitchAPIData", "nodecg-speedcontrol");
 const runsRep = nodecg.Replicant<RunDataArray>("runDataArray", "nodecg-speedcontrol");
-const twitchClientId = nodecg.bundleConfig.twitch?.clientId ?? "";
+const twitchSettingsRep = getReplicant("twitch:settings");
 
 function generateMultiQuery() {
 	if (!runsRep.value || !runsRep.value.length) {
@@ -74,11 +75,6 @@ function isGameResult(element: unknown): element is GameDataResult {
 }
 
 async function getGameData() {
-	if (!twitchClientId) {
-		logger.error("Twitch Client ID is not set in the config!");
-		return;
-	}
-
 	if (!twitchApiRep.value?.accessToken) {
 		logger.error("Twitch API is not authenticated!");
 		return;
@@ -138,7 +134,7 @@ async function fetchGameData(game: string) {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
-			"Client-ID": twitchClientId,
+			"Client-ID": twitchSettingsRep.value?.clientId || "",
 			Authorization: `Bearer ${twitchApiRep.value?.accessToken}`,
 		},
 		body: `fields first_release_date; search "${game}";`,

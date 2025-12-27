@@ -7,7 +7,7 @@ import Pikachu from "../../media/runner-tablet/pikachu.png";
 import Link from "../../media/runner-tablet/link.png";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 import { useReplicant } from "@nodecg/react-hooks";
-import { type Headset, Headsets } from "../../../extensions/audio-data";
+import { type Headset, Headsets } from "../../../shared/audio-data";
 
 const RTSelectionContainer = styled.div`
 	background-color: #cc7722;

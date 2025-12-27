@@ -86,27 +86,11 @@
 		},
 		"dashboardPanels": [
 			{
-				"name": "couch",
-				"title": "Couch",
-				"width": 3,
-				"headerColor": "#CC7722",
-				"file": "couch.html",
-				"workspace": "ASM Deprecated"
-			},
-			{
 				"name": "status",
 				"title": "Status",
 				"width": 2,
 				"headerColor": "#CC7722",
 				"file": "status.html"
-			},
-			{
-				"name": "gameaudioindicator",
-				"title": "Game Audio Indicator",
-				"width": 4,
-				"headerColor": "#CC7722",
-				"file": "game-audio-indicator.html",
-				"workspace": "ASM Deprecated"
 			},
 			{
 				"name": "mic-audio",
@@ -148,27 +132,11 @@
 				"workspace": "Run Modifications"
 			},
 			{
-				"name": "run-info",
-				"title": "Run Info",
-				"width": 3,
-				"headerColor": "#CC7722",
-				"file": "run-info.html",
-				"workspace": "ASM Deprecated"
-			},
-			{
 				"name": "on-screen-warnings",
 				"title": "On Screen Warnings",
 				"width": 3,
 				"headerColor": "#CC7722",
 				"file": "on-screen-warnings.html"
-			},
-			{
-				"name": "prizes",
-				"title": "Prizes",
-				"width": 3,
-				"headerColor": "#CC7722",
-				"file": "prizes.html",
-				"workspace": "ASM Misc"
 			},
 			{
 				"name": "bingo",

@@ -4,7 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Mic, MicOff, Edit } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 
-import { Headsets } from "../../extensions/audio-data";
+import { Headsets } from "../../shared/audio-data";
 
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 

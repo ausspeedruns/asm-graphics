@@ -7,8 +7,9 @@ import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunDat
 import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
-import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, OBSChannel } from "./audio-data.js";
+import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, HostReferenceChannel, OBSChannel } from "@asm-graphics/shared/audio-data.js";
 
+const x32ConnectionDetailsRep = getReplicant("x32:connectionDetails");
 const x32StatusRep = getReplicant("x32:status");
 const x32BusFadersRep = getReplicant("x32:busFaders");
 const x32AudioActivityRep = getReplicant("audio-indicators");
@@ -94,16 +95,11 @@ function fadeMute(channel: number, mixBus: number, force = false) {
 	}
 }
 
+const outputMixbuses = [0, 1, 3, 5, 7, 9, 11, 13];
 function setHostMute(active: boolean) {
-	const value = active ? hostLevelStreamRep.value : 0; // TODO: Test if this is really means the runners don't get a choice for audio levels
-
-	x32.setFaderLevel(HostHeadset.micInput, 0, value);
-	x32.setFaderLevel(HostHeadset.micInput, 1, active ? hostLevelSpeakersRep.value : 0);
-	x32.setFaderLevel(HostHeadset.micInput, 3, value);
-	x32.setFaderLevel(HostHeadset.micInput, 5, value);
-	x32.setFaderLevel(HostHeadset.micInput, 7, value);
-	x32.setFaderLevel(HostHeadset.micInput, 9, value);
-	x32.setFaderLevel(HostHeadset.micInput, 13, value);
+	for (const mixBus of outputMixbuses) {
+		x32.setFaderLevel(HostHeadset.micInput, mixBus, active ? faderValues[mixBus]?.[HostReferenceChannel] ?? 0.6 : 0);
+	}
 }
 
 let previousHostCouchVolume: number[] = [];
@@ -452,3 +448,15 @@ nodecg.listenFor("x32:talkback-stop", () => {
 	// Deactivate talkback
 	x32.enableTalkback("B", false);
 });
+
+nodecg.listenFor("x32:setConnected", (connected) => {
+	if (connected) {
+		x32.connect(x32ConnectionDetailsRep.value.ip);
+	} else {
+		x32.disconnect();
+	}
+});
+
+if (nodecg.bundleConfig.x32?.enabled) {
+	x32.connect(x32ConnectionDetailsRep.value.ip);
+}

@@ -7,7 +7,7 @@ import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunDat
 import TwitchSVG from "../../media/icons/TwitchGlitchPurple.svg";
 import { EditUserDialog } from "./edit-user-dialog";
 import { Button } from "@mui/material";
-import { Headsets } from "../../../extensions/audio-data";
+import { Headsets } from "../../../shared/audio-data";
 
 const RTNamesContainer = styled.div`
 	height: 100%;

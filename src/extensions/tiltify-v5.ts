@@ -1,16 +1,17 @@
-import * as nodecgApiContext from "../nodecg-api-context.js";
+import * as nodecgApiContext from "./nodecg-api-context.js";
 import type { Donation } from "@asm-graphics/types/Donations.js";
 import _ from "underscore";
 import z from "zod";
-import { getReplicant } from "../replicants.js";
+import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("Tiltify-V5");
-const tiltifyConfig = nodecg.bundleConfig.tiltify!; // This script only gets imported if there is a tiltify config
 
 const donationTotalRep = getReplicant("donationTotal");
 const donationsRep = getReplicant("donations");
 const donationMatchesRep = getReplicant("donation-matches");
+const tiltifyStatusRep = getReplicant("tiltify:status");
+const tiltifyConnectionDetailsRep = getReplicant("tiltify:connectionDetails");
 
 const AmountSchema = z.object({
 	currency: z.string(),
@@ -33,9 +34,11 @@ const TiltifyOAuthTokenSchema = z.object({
 
 // Get access token
 async function getAccessToken() {
+	tiltifyStatusRep.value = "connecting";
+
 	try {
 		const res = await fetch(
-			`https://v5api.tiltify.com/oauth/token?client_id=${tiltifyConfig.id}&client_secret=${tiltifyConfig.key}&grant_type=client_credentials`,
+			`https://v5api.tiltify.com/oauth/token?client_id=${tiltifyConnectionDetailsRep.value.clientId}&client_secret=${tiltifyConnectionDetailsRep.value.clientSecret}&grant_type=client_credentials`,
 			{ method: "POST" },
 		);
 		const data = await res.json();
@@ -46,6 +49,7 @@ async function getAccessToken() {
 			ncgLog.error("getAccessToken: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
+			tiltifyStatusRep.value = "error";
 			return;
 		}
 
@@ -53,6 +57,7 @@ async function getAccessToken() {
 			ncgLog.info("Got access token!");
 			accessToken = parsedData.data.access_token;
 			ncgLog.info("Token data", JSON.stringify(parsedData.data));
+			tiltifyStatusRep.value = "connected";
 		}
 	} catch (error) {
 		ncgLog.error("getAccessToken error: ", JSON.stringify(error));
@@ -118,9 +123,12 @@ const TiltifyCampaignEndpointSchema = z.object({
 async function getCampaignData() {
 	if (!accessToken) return;
 	try {
-		const res = await fetch(`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}`, {
-			headers: { Authorization: `Bearer ${accessToken}` },
-		});
+		const res = await fetch(
+			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConnectionDetailsRep.value.campaignId}`,
+			{
+				headers: { Authorization: `Bearer ${accessToken}` },
+			},
+		);
 		const data = await res.json();
 
 		const parsedData = TiltifyCampaignEndpointSchema.safeParse(data);
@@ -220,6 +228,7 @@ async function getCampaignData() {
 			ncgLog.error("getCampaignData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
+			tiltifyStatusRep.value = "error";
 			return;
 		}
 
@@ -251,7 +260,7 @@ async function getDonationsData() {
 	if (!accessToken) return;
 	try {
 		const res = await fetch(
-			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}/donations?limit=100`,
+			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConnectionDetailsRep.value.campaignId}/donations?limit=100`,
 			{ headers: { Authorization: `Bearer ${accessToken}` } },
 		);
 		const data = await res.json();
@@ -262,6 +271,7 @@ async function getDonationsData() {
 			ncgLog.error("getDonationsData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
+			tiltifyStatusRep.value = "error";
 			return;
 		}
 
@@ -319,7 +329,7 @@ async function getDonationMatchData() {
 	if (!accessToken) return;
 	try {
 		const res = await fetch(
-			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConfig.campaign}/donation_matches`,
+			`https://v5api.tiltify.com/api/public/campaigns/${tiltifyConnectionDetailsRep.value.campaignId}/donation_matches`,
 			{ headers: { Authorization: `Bearer ${accessToken}` } },
 		);
 		const data = await res.json();
@@ -330,6 +340,7 @@ async function getDonationMatchData() {
 			ncgLog.error("getDonationMatchData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
+			tiltifyStatusRep.value = "error";
 			return;
 		}
 
@@ -385,10 +396,15 @@ async function getDonationMatchData() {
 	}
 }
 
+let accessTokenInterval: NodeJS.Timeout | undefined;
+let campaignDataInterval: NodeJS.Timeout | undefined;
+
 // Initialise
-async function tiltifyInit() {
+async function connectToTiltify() {
+	tiltifyStatusRep.value = "connecting";
+
 	// Update access every hour
-	setInterval(
+	accessTokenInterval = setInterval(
 		() => {
 			void getAccessToken();
 		},
@@ -396,7 +412,7 @@ async function tiltifyInit() {
 	);
 
 	// Get data
-	setInterval(() => {
+	campaignDataInterval = setInterval(() => {
 		void getCampaignData();
 		void getDonationsData();
 		void getDonationMatchData();
@@ -405,11 +421,22 @@ async function tiltifyInit() {
 	void getAccessToken();
 }
 
-if (tiltifyConfig.enabled) {
+nodecg.listenFor("tiltify:setConnection", (data: boolean) => {
+	if (data) {
+		ncgLog.info("Tiltify connection enabled via dashboard");
+		void connectToTiltify();
+	} else {
+		ncgLog.info("Tiltify connection disabled via dashboard");
+		accessToken = "";
+		if (accessTokenInterval) clearInterval(accessTokenInterval);
+		if (campaignDataInterval) clearInterval(campaignDataInterval);
+		tiltifyStatusRep.value = "disconnected";
+	}
+});
+
+if (nodecg.bundleConfig.tiltify?.enabled) {
 	ncgLog.info("Tiltify enabled");
-	void tiltifyInit();
-} else {
-	ncgLog.info("Tiltify disabled");
+	void connectToTiltify();
 }
 
 function getCurrencySymbol(currencyCode: string) {

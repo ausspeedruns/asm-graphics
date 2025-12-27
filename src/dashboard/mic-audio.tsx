@@ -97,7 +97,6 @@ function isNumeric(str: string) {
 }
 
 export const DashboardMicAudio: React.FC = () => {
-	const [audioGateRep, setAudioGateRep] = useReplicant("x32:audio-gate");
 	const [hostLevelStreamRep, setHostLevelStreamRep] = useReplicant("x32:host-level-stream");
 	const [hostLevelSpeakersRep, setHostLevelSpeakersRep] = useReplicant("x32:host-level-speakers");
 
@@ -168,43 +167,6 @@ export const DashboardMicAudio: React.FC = () => {
 						onChange={(e) => {
 							if (isNumeric(e.target.value)) {
 								setHostLevelSpeakersRep(parseFloat(e.target.value));
-							}
-						}}
-						inputProps={{
-							step: 1,
-							min: -90,
-							max: 10,
-							type: "number",
-						}}
-					/>
-				</SliderContainer>
-				<Label>
-					<WbIncandescent /> Microphone Indicator Activation dB
-				</Label>
-				<SliderContainer>
-					<Slider
-						style={{ margin: "auto" }}
-						size="small"
-						value={audioGateRep ?? 0}
-						onChange={(_, newVal) => {
-							if (!Array.isArray(newVal)) {
-								setAudioGateRep(newVal);
-							}
-						}}
-						min={0}
-						max={1}
-						step={0.001}
-						marks={marks}
-						scale={floatToDB}
-						valueLabelDisplay="auto"
-						valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
-					/>
-					<Input
-						value={floatToDB(audioGateRep ?? 0).toFixed(1)}
-						size="small"
-						onChange={(e) => {
-							if (isNumeric(e.target.value)) {
-								setAudioGateRep(parseFloat(e.target.value));
 							}
 						}}
 						inputProps={{

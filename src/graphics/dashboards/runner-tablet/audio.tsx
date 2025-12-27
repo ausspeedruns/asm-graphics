@@ -6,7 +6,7 @@ import { AudioFader } from "./audio-fader";
 import equal from "fast-deep-equal";
 import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
 import { FitText } from "../../elements/fit-text";
-import { Headsets, HostHeadset } from "../../../extensions/audio-data";
+import { Headsets, HostHeadset } from "../../../shared/audio-data";
 
 const RTAudioContainer = styled.div`
 	display: flex;

@@ -76,28 +76,32 @@ export function ScriptDialog(props: ScriptDialogProps) {
 			<DialogTitle>Charity Scripts</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					<p>Video Ads</p>
-					<div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-						{intermissionVideosRep?.map((video) => {
-							if (!video.videoInfo) {
-								return null;
-							}
+					{intermissionVideosRep && intermissionVideosRep.length > 0 && (
+						<>
+							<p>Video Ads</p>
+							<div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+								{intermissionVideosRep?.map((video) => {
+									if (!video.videoInfo) {
+										return null;
+									}
 
-							const duration = Math.round(video.videoInfo.duration);
+									const duration = Math.round(video.videoInfo.duration);
 
-							return (
-								<Button
-									key={video.asset}
-									variant="outlined"
-									onClick={() => props.playAd(video.asset, duration)}
-									style={{ textTransform: "none" }}
-								>
-									{video.displayName} ({duration}s)
-								</Button>
-							);
-						})}
-					</div>
-					<hr />
+									return (
+										<Button
+											key={video.asset}
+											variant="outlined"
+											onClick={() => props.playAd(video.asset, duration)}
+											style={{ textTransform: "none" }}
+										>
+											{video.displayName} ({duration}s)
+										</Button>
+									);
+								})}
+							</div>
+							<hr />
+						</>
+					)}
 					<div>
 						<p>Scripts</p>
 					</div>
@@ -125,4 +129,4 @@ export function ScriptDialog(props: ScriptDialogProps) {
 			</DialogActions>
 		</Dialog>
 	);
-};
+}

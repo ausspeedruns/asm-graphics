@@ -23,24 +23,20 @@ async function init() {
 
 	// The order of these is literally just the chronological order of when they were made, a.k.a the best way to watch Star Wars
 
-	require("./audio");
+	require("./game-audio-indicators");
 
 	require("./obs-local");
 
 	require("./commentators");
 
-	if (ncgConfig?.tiltify?.enabled) {
-		require("./donations/tiltify-v5");
-	}
+	require("./tiltify-v5");
 
 	require("./incentives");
 	require("./donations");
 	require("./schedule-import");
 	require("./ausspeedruns-website");
 
-	if (ncgConfig.x32?.enabled) {
-		require("./x32-audio");
-	}
+	require("./x32-audio");
 
 	require("./runner-tablet");
 	require("./game-years");

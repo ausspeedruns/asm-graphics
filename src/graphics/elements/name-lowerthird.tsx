@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
-import { useListenFor } from "@nodecg/react-hooks";
+import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
 
 import AusSpeedrunsLogo from "../media/AusSpeedruns-Icon.svg";
@@ -107,26 +107,13 @@ const AcknowledgementText = styled.div`
 	width: 1034px;
 `;
 
-const AdelaideContent = `
-AusSpeedruns acknowledges the traditional owners of the lands on which we are gathered for this
-event, the Kaurna people, and their continued connection to Country. We pay our respects to their
-elders past and present, and extend that respect any First Nations people in attendance today.
-AusSpeedruns also acknowledges the traditional owners of the many lands, waterways and ecosystems on
-which our viewers from home are joining us.`;
-
-const MelbourneContent = `
-AusSpeedruns acknowledges the traditional owners of the lands on which we are gathered for this
-event, the Wurundjeri Woi Wurrung people of the Kulin Nation, and their continued connection to
-Country. We pay our respects to their elders past and present, and extend that respect any First
-Nations people in attendance today. AusSpeedruns also acknowledges the traditional owners of the
-many lands, waterways and ecosystems on which our viewers from home are joining us.`;
-
 interface AcknowledgementOfCountryProps {
 	className?: string;
 	style?: React.CSSProperties;
 }
 
 export const AcknowledgementOfCountry = (props: AcknowledgementOfCountryProps) => {
+	const [acknowledgementOfCountryRep] = useReplicant("acknowledgementOfCountry");
 	const LogoRef = useRef(null);
 	const TextRef = useRef(null);
 	const [tl] = useState(gsap.timeline);
@@ -153,7 +140,7 @@ export const AcknowledgementOfCountry = (props: AcknowledgementOfCountryProps) =
 				<IndigenousFlagsImage src={IndigenousFlags} />
 			</LogoContainer>
 			<TextContainer ref={TextRef}>
-				<AcknowledgementText>{MelbourneContent}</AcknowledgementText>
+				<AcknowledgementText>{acknowledgementOfCountryRep}</AcknowledgementText>
 			</TextContainer>
 		</NameLowerThirdContainer>
 	);

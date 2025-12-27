@@ -16,6 +16,7 @@ export type NodeCGMessages = {
 	"delete-commentator": string;
 	showHost: boolean;
 	// Donations
+	"tiltify:setConnection": boolean;
 	"donations:toggleRead": string;
 	"manual-donations:toggleRead": string;
 	"manual-donations:new": Donation;
@@ -48,6 +49,7 @@ export type NodeCGMessages = {
 	"scheduleImport:getGameYears": never;
 	"scheduleImport:inject-5-min-runs": never;
 	// X32 Audio
+	"x32:setConnected": boolean;
 	"x32:setFader": { mixBus: number; float: number; channel: number };
 	"x32:changeGameAudio": number;
 	"x32:mute-host": never;

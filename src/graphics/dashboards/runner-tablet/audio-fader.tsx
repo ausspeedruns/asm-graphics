@@ -1,7 +1,7 @@
 import { Button, Slider } from "@mui/material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import type { Headset } from "../../../extensions/audio-data";
+import type { Headset } from "../../../shared/audio-data";
 import { Add, Remove } from "@mui/icons-material";
 
 const AudioFaderContainer = styled.div`

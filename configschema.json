@@ -35,10 +35,6 @@
 			"type": "object",
 			"additionalProperties": false,
 			"properties": {
-				"parents": {
-					"type": "array",
-					"default": ["localhost"]
-				},
 				"clientId": {
 					"type": "string",
 					"default": ""

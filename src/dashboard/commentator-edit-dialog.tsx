@@ -11,7 +11,7 @@ import {
 	useColorScheme,
 } from "@mui/material";
 import styled, { css } from "styled-components";
-import { Headsets } from "../extensions/audio-data";
+import { Headsets } from "../shared/audio-data";
 import { useMemo, useState } from "react";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";

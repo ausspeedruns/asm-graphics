@@ -1,44 +1,38 @@
-import { createRoot } from "react-dom/client";
-import styled from "styled-components";
+import type { Prize } from "@asm-graphics/types/Prizes";
 import {
-	TextField,
-	Typography,
-	Box,
-	ThemeProvider,
-	Button,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
-	AccordionActions,
-	IconButton,
-} from "@mui/material";
-import { darkTheme } from "./theme";
-import { useReplicant } from "@nodecg/react-hooks";
-import { useState } from "react";
-import { DragHandle, Edit } from "@mui/icons-material";
-import { CSS } from "@dnd-kit/utilities";
-import {
-	closestCenter,
-	DndContext,
-	type DragEndEvent,
-	KeyboardSensor,
-	PointerSensor,
-	useSensor,
 	useSensors,
+	useSensor,
+	PointerSensor,
+	KeyboardSensor,
+	type DragEndEvent,
+	DndContext,
+	closestCenter,
 } from "@dnd-kit/core";
 import {
+	sortableKeyboardCoordinates,
+	arrayMove,
 	SortableContext,
 	verticalListSortingStrategy,
 	useSortable,
-	sortableKeyboardCoordinates,
-	arrayMove,
 } from "@dnd-kit/sortable";
-import type { Prize } from "@asm-graphics/types/Prizes";
+import { DragHandle, Edit } from "@mui/icons-material";
+import {
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
+	Typography,
+	Box,
+	TextField,
+	AccordionActions,
+	Button,
+	IconButton,
+} from "@mui/material";
+import { useReplicant } from "@nodecg/react-hooks";
+import { useState } from "react";
+import { CSS } from "@dnd-kit/utilities";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const PrizesDashboardContainer = styled.div``;
-
-export const PrizesDashboard = () => {
+export function PrizesSettings() {
 	const [prizesRep] = useReplicant("prizes");
 
 	const [accordionExpanded, setAccordionExpanded] = useState(false);
@@ -125,92 +119,79 @@ export const PrizesDashboard = () => {
 	}
 
 	return (
-		<ThemeProvider theme={darkTheme}>
-			<PrizesDashboardContainer>
-				<Accordion expanded={accordionExpanded} onChange={() => setAccordionExpanded(!accordionExpanded)}>
-					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-						{editingId ? "Edit" : "Add"} Prize
-					</AccordionSummary>
-					<AccordionDetails>
-						{editingId && (
-							<Typography
-								variant="caption"
-								color="text.secondary"
-								marginBottom={2}
-								display="inline-block"
-							>
-								Editing {editingId}
-							</Typography>
-						)}
-						<Box display="flex" gap={2} marginBottom={2}>
-							<TextField
-								label="Quantity"
-								type="number"
-								variant="outlined"
-								value={quantity}
-								onChange={(e) => setQuantity(Number(e.target.value))}
-								required
-							/>
-							<TextField
-								label="Item"
-								variant="outlined"
-								fullWidth
-								value={item}
-								onChange={(e) => setItem(e.target.value)}
-								required
-							/>
-						</Box>
-						<Box display="flex" gap={2}>
-							<TextField
-								label="Requirement"
-								variant="outlined"
-								helperText="E.g. $10"
-								value={requirement}
-								onChange={(e) => setRequirement(e.target.value)}
-								required
-							/>
-							<TextField
-								label="Requirement Subheading"
-								variant="outlined"
-								fullWidth
-								helperText='E.g. "Min Dono"'
-								value={requirementSubheading}
-								onChange={(e) => setRequirementSubheading(e.target.value)}
-							/>
-						</Box>
+		<div>
+			<h3>Prizes</h3>
+			<Accordion expanded={accordionExpanded} onChange={() => setAccordionExpanded(!accordionExpanded)}>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />}>{editingId ? "Edit" : "Add"} Prize</AccordionSummary>
+				<AccordionDetails>
+					{editingId && (
+						<Typography variant="caption" color="text.secondary" marginBottom={2} display="inline-block">
+							Editing {editingId}
+						</Typography>
+					)}
+					<Box display="flex" gap={2} marginBottom={2}>
 						<TextField
-							label="Sub Item"
+							label="Quantity"
+							type="number"
+							variant="outlined"
+							value={quantity}
+							onChange={(e) => setQuantity(Number(e.target.value))}
+							required
+						/>
+						<TextField
+							label="Item"
 							variant="outlined"
 							fullWidth
-							margin="normal"
-							helperText='E.g. "Game Code"'
-							value={subItem}
-							onChange={(e) => setSubItem(e.target.value)}
+							value={item}
+							onChange={(e) => setItem(e.target.value)}
+							required
 						/>
-					</AccordionDetails>
-					<AccordionActions>
-						<Button
+					</Box>
+					<Box display="flex" gap={2}>
+						<TextField
+							label="Requirement"
+							variant="outlined"
+							helperText="E.g. $10"
+							value={requirement}
+							onChange={(e) => setRequirement(e.target.value)}
+							required
+						/>
+						<TextField
+							label="Requirement Subheading"
+							variant="outlined"
 							fullWidth
-							color="success"
-							variant="contained"
-							onClick={editingId ? editPrize : addPrize}
-						>
-							{editingId ? "Edit" : "Add"} Prize
-						</Button>
-					</AccordionActions>
-				</Accordion>
+							helperText='E.g. "Min Dono"'
+							value={requirementSubheading}
+							onChange={(e) => setRequirementSubheading(e.target.value)}
+						/>
+					</Box>
+					<TextField
+						label="Sub Item"
+						variant="outlined"
+						fullWidth
+						margin="normal"
+						helperText='E.g. "Game Code"'
+						value={subItem}
+						onChange={(e) => setSubItem(e.target.value)}
+					/>
+				</AccordionDetails>
+				<AccordionActions>
+					<Button fullWidth color="success" variant="contained" onClick={editingId ? editPrize : addPrize}>
+						{editingId ? "Edit" : "Add"} Prize
+					</Button>
+				</AccordionActions>
+			</Accordion>
 
-				<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-					<SortableContext items={prizesRep ?? []} strategy={verticalListSortingStrategy}>
-						{prizesRep?.map((prize) => (
-							<PrizeElement key={prize.id} prize={prize} beginEdit={handleEditPrize} />
-						))}
-					</SortableContext>
-				</DndContext>
-			</PrizesDashboardContainer>
-		</ThemeProvider>
+			<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+				<SortableContext items={prizesRep ?? []} strategy={verticalListSortingStrategy}>
+					{prizesRep?.map((prize) => (
+						<PrizeElement key={prize.id} prize={prize} beginEdit={handleEditPrize} />
+					))}
+				</SortableContext>
+			</DndContext>
+		</div>
 	);
-};
+}
 
 type PrizeProps = {
 	prize: Prize;
@@ -265,5 +246,3 @@ function PrizeElement(props: PrizeProps) {
 		</Box>
 	);
 }
-
-createRoot(document.getElementById("root")!).render(<PrizesDashboard />);

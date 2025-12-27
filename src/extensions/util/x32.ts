@@ -23,8 +23,8 @@ class X32 extends EventEmitter<X32Class> {
 	private SUBSCRIPTION_INTERVAL = 8000;
 	private oscSocket;
 
-	private intervalHeartbeat;
-	private subscriptionRenewal;
+	private intervalHeartbeat?: NodeJS.Timeout;
+	private subscriptionRenewal?: NodeJS.Timeout;
 
 	private fadersFading: {
 		[k: string]: {
@@ -40,7 +40,6 @@ class X32 extends EventEmitter<X32Class> {
 		this.oscSocket = new osc.UDPPort({
 			localAddress: "0.0.0.0",
 			localPort: 11918, // Random port number (ASR 1 19 18)
-			remoteAddress: nodecg.bundleConfig.x32?.ip,
 			remotePort: 10023,
 			metadata: true,
 		});
@@ -52,12 +51,30 @@ class X32 extends EventEmitter<X32Class> {
 		this.oscSocket.on("open", this.open.bind(this));
 
 		this.oscSocket.on("close", this.close.bind(this));
+	}
 
+	connect(ip: string) {
+		if (this.connected) {
+			nodecg.log.warn("[X32] Already connected to X32.");
+			return;
+		}
+
+		this.oscSocket.options.remoteAddress = ip;
 		this.oscSocket.open();
 
 		this.intervalHeartbeat = setInterval(this.sendHeartbeat.bind(this), this.HEARTBEAT_INTERVAL);
 
 		this.subscriptionRenewal = setInterval(this.renewSubscriptions.bind(this), this.SUBSCRIPTION_INTERVAL);
+	}
+
+	disconnect() {
+		if (!this.connected) {
+			nodecg.log.warn("[X32] Not connected to X32.");
+			return;
+		}
+
+		this.oscSocket.close();
+		this.connected = false;
 	}
 
 	handleMissedHeartbeat = () => {
@@ -159,14 +176,14 @@ class X32 extends EventEmitter<X32Class> {
 		}
 	}
 
-	error = (error: any) => {
-		nodecg.log.warn("[X32] Error:", error.stack);
-	};
+	error(error: any) {
+		nodecg.log.warn("[X32] Error:", error);
+	}
 
-	close = () => {
+	close() {
 		nodecg.log.warn("[X32] Port closed.");
 		this.connected = true;
-	};
+	}
 
 	/**
 	 * Renews subscriptions with the X32 (they expire every 10s).

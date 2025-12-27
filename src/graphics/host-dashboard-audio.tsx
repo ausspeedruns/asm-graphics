@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./dashboards/runner-tablet/audio-fader";
-import { Headsets, HostHeadset } from "../extensions/audio-data";
+import { Headsets, HostHeadset } from "../shared/audio-data";
 
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 

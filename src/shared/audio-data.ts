@@ -30,3 +30,5 @@ export const Headsets = [
 ] as const satisfies Headset[];
 
 export const PreviewMixBus = 13; // Paired with 14 via Stereo link
+
+export const HostReferenceChannel = 29;
