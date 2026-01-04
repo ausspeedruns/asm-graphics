@@ -3,25 +3,8 @@ import styled from "styled-components";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
-const CouchContainer = styled.div`
-	font-family: var(--main-font);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	// min-height: 114px;
-`;
-
-const MenuBar = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	color: var(--text-light);
-	font-family: var(--main-font);
-	font-size: 25px;
-`;
-
 const PeopleContainer = styled.div`
+	font-family: var(--main-font);
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -55,34 +38,32 @@ export function Couch(props: Props) {
 	const showHost = typeof props.showHost === "boolean" ? props.showHost : true;
 
 	return (
-		<CouchContainer className={props.className} style={props.style}>
-			<MenuBar style={{ color: props.darkTitle ? "var(--text-dark)" : "var(--text-light)" }}>
-				{/* <div style={{ margin: "0 6px" }}>{label}</div> */}
-			</MenuBar>
-			<PeopleContainer style={{ justifyContent: props.align ?? "center" }}>
-				{props.commentators.map((person, i) => {
-					if (person.name === "" || person.id === "host") {
-						return <></>;
-					}
-					return (
-						<PersonCompressed
-							key={person.id}
-							commentator={person}
-							speaking={props.audio?.[person.customData.microphone ?? ""]}
-							index={i}
-						/>
-					);
-				})}
-				{showHost && props.host && props.host.name && (
+		<PeopleContainer
+			className={props.className}
+			style={{ justifyContent: props.align ?? "center", ...props.style }}
+		>
+			{props.commentators.map((person, i) => {
+				if (person.name === "" || person.id === "host") {
+					return <></>;
+				}
+				return (
 					<PersonCompressed
-						key={"Host"}
-						commentator={props.host}
-						speaking={props.audio?.["Host"]}
-						noTag={label === "Host"}
+						key={person.id}
+						commentator={person}
+						speaking={props.audio?.[person.customData.microphone ?? ""]}
+						index={i}
 					/>
-				)}
-			</PeopleContainer>
-		</CouchContainer>
+				);
+			})}
+			{showHost && props.host && props.host.name && (
+				<PersonCompressed
+					key={"Host"}
+					commentator={props.host}
+					speaking={props.audio?.["Host"]}
+					noTag={label === "Host"}
+				/>
+			)}
+		</PeopleContainer>
 	);
 }
 
@@ -182,7 +163,8 @@ export function PersonCompressed(props: PersonCompressedProps) {
 	const commentatorColour = props.commentator.customData.tag === "Host" ? "#3f7d8f" : "#cc7722";
 
 	// ASAP2025
-	const putTagOnSameRow = (!props.commentator.pronouns && props.commentator.id === "host") || !props.commentator.customData.tag;
+	const putTagOnSameRow =
+		(!props.commentator.pronouns && props.commentator.id === "host") || !props.commentator.customData.tag;
 
 	return (
 		<PersonCompressedContainer style={props.style}>

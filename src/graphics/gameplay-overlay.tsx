@@ -11,8 +11,6 @@ import type { Timer } from "@asm-graphics/types/Timer";
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 import type NodeCG from "nodecg/types";
 
-import type { AudioIndicator } from "@asm-graphics/types/Audio";
-
 import { TickerOverlay } from "./elements/ticker";
 import { Standard } from "./overlays/standard";
 import { Standard2 } from "./overlays/standard-2";

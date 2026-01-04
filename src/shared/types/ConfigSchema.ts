@@ -6,9 +6,6 @@ export interface ConfigSchema {
 		password: string;
 		customTransitionsFolder?: string;
 	};
-	twitch?: {
-		clientId?: string;
-	};
 	tiltify?: {
 		enabled: boolean;
 		key: string;

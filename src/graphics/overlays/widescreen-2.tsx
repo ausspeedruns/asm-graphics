@@ -8,7 +8,7 @@ import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
-import { PersonCompressed } from "../elements/couch";
+import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
 // import WidescreenWhole from "./backgrounds/Widescreen2p.png";
@@ -196,29 +196,12 @@ export const Widescreen2 = (props: OverlayProps) => {
 			</Topbar>
 			<CentralDivider />
 			<BottomBlock>
-				<BespokeCouch>
-					{/* <CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel> */}
-					{/* Since this is a special placement it has to be made custom here */}
-					{props.commentators.map((person, i) => {
-						if (person.name === "" || person.id === "host") return <></>;
-						return (
-							<PersonCompressed
-								key={person.name}
-								commentator={person}
-								speaking={props.microphoneAudioIndicator?.[person.customData?.microphone ?? ""]}
-								index={i}
-							/>
-						);
-					})}
-					{props.host && (
-						<PersonCompressed
-							key={"Host"}
-							commentator={props.host}
-							// speaking={props.obsAudioIndicator?.[host.microphone ?? '']}
-							speaking={false}
-						/>
-					)}
-				</BespokeCouch>
+				<Couch
+					commentators={props.commentators}
+					host={props.host}
+					audio={props.microphoneAudioIndicator}
+					showHost={props.showHost}
+				/>
 			</BottomBlock>
 
 			{/* <svg id="widescreen2Clip">

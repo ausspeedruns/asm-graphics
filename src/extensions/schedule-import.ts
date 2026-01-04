@@ -1,17 +1,21 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import { z } from "zod";
 import { parse, differenceInSeconds, startOfDay, getUnixTime } from "date-fns";
+
 import { queryGraphQL } from "./util/graphql.js";
+import { getReplicant } from "./replicants.js";
 
 import type { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData.js";
 
 const nodecg = nodecgApiContext.get();
 
+const ausspeedrunsWebsiteSettingsRep = getReplicant("ausspeedruns-website:settings");
+
 const SPEEDCONTROL_runDataArray = nodecg.Replicant<RunDataArray>("runDataArray", "nodecg-speedcontrol");
 
 const SCHEDULE_QUERY = `
-	query {
-		event(where: { shortname: "${nodecg.bundleConfig.graphql?.event}" }) {
+	query ($eventSlug: String!) {
+		event(where: { shortname: $eventSlug }) {
 			runs(orderBy: {scheduledTime: asc}) {
 				id
 				game
@@ -64,10 +68,12 @@ const scheduleSchema = z.object({
 });
 
 async function getSchedule() {
-	if (nodecg.bundleConfig.graphql === undefined) return;
+	if (!ausspeedrunsWebsiteSettingsRep.value.url) return;
 
 	try {
-		const results = await queryGraphQL(nodecg.bundleConfig.graphql.url, SCHEDULE_QUERY);
+		const results = await queryGraphQL(ausspeedrunsWebsiteSettingsRep.value.url, SCHEDULE_QUERY, {
+			eventSlug: ausspeedrunsWebsiteSettingsRep.value.eventSlug,
+		});
 
 		return scheduleSchema.parse(results).event.runs;
 	} catch (error) {
@@ -112,7 +118,7 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 			gameDisplay: run.game,
 		};
 
-		const estimateDate = parse(run.estimate, 'HH:mm:ss', new Date());
+		const estimateDate = parse(run.estimate, "HH:mm:ss", new Date());
 		return {
 			id: run.id,
 			game: run.game,
@@ -133,9 +139,10 @@ nodecg.listenFor("scheduleImport:import", () => {
 		(runs) => {
 			if (runs === undefined) return;
 			console.log(JSON.stringify(runs));
-			// console.log(convertScheduleToSpeedcontrol(runs));
+			// console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA=====================================");
+			// console.log(JSON.stringify(convertScheduleToSpeedcontrol(runs)));
 			SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
 		},
-		() => { },
+		() => {},
 	);
 });

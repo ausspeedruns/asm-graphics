@@ -1,93 +1,97 @@
 import type { RunData, RunDataArray } from "@asm-graphics/types/RunData.js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
-import _ from "underscore";
-import { getReplicant } from "./replicants.js";
+import gameYears from "./game-years-data.js";
 
 const nodecg = nodecgApiContext.get();
 const logger = new nodecg.Logger("Game years");
 
-interface TwitchAPIData {
-	state: "off" | "authenticating" | "on";
-	sync: boolean;
-	accessToken?: string;
-	refreshToken?: string;
-	channelName?: string;
-	channelID?: string;
-	broadcasterType?: string;
-	featuredChannels: string[];
-}
-
-const twitchApiRep = nodecg.Replicant<TwitchAPIData>("twitchAPIData", "nodecg-speedcontrol");
 const runsRep = nodecg.Replicant<RunDataArray>("runDataArray", "nodecg-speedcontrol");
-const twitchSettingsRep = getReplicant("twitch:settings");
 
-function generateMultiQuery() {
-	if (!runsRep.value || !runsRep.value.length) {
-		return [];
+// Levenshtein distance - measures edit distance between two strings
+export function getLevenshteinDistance(a: string, b: string): number {
+	const distanceMatrix: number[][] = [];
+
+	// Initialise the matrix
+	for (let i = 0; i <= a.length; i++) {
+		distanceMatrix[i] = [i];
 	}
 
-	const runQueries: { runId: string; query: string }[] = [];
-
-	runsRep.value.forEach((run) => {
-		if (!run.game || run.system == "IRL") {
-			return;
+	const firstRow = distanceMatrix[0];
+	if (firstRow) {
+		for (let j = 0; j <= b.length; j++) {
+			firstRow[j] = j;
 		}
-
-		runQueries.push({
-			runId: run.id,
-			query: `query games "<${run.id}> ${run.game}" { fields first_release_date; search "${run.game}"; };`,
-		});
-	});
-
-	return runQueries;
-}
-
-const runIdRegex = /<([a-zA-Z0-9]+)>/;
-
-interface GameDataResponse {
-	name: string;
-	result: GameDataResult[];
-}
-
-interface GameDataResult {
-	id: number;
-	first_release_date: number;
-}
-
-function isGameData(element: unknown): element is GameDataResponse[] {
-	return (
-		typeof element === "object" &&
-		element !== null &&
-		Array.isArray(element) &&
-		element.every(
-			(item) =>
-				typeof item === "object" &&
-				item !== null &&
-				"name" in item &&
-				"result" in item &&
-				Array.isArray(item.result),
-		)
-	);
-}
-
-function isGameResult(element: unknown): element is GameDataResult {
-	return typeof element === "object" && element !== null && "id" in element && "first_release_date" in element;
-}
-
-async function getGameData() {
-	if (!twitchApiRep.value?.accessToken) {
-		logger.error("Twitch API is not authenticated!");
-		return;
 	}
 
+	for (let i = 1; i <= a.length; i++) {
+		for (let j = 1; j <= b.length; j++) {
+			const charA = a[i - 1];
+			const charB = b[j - 1];
+
+			const indicator = charA === charB ? 0 : 1;
+
+			// Accessing with nullish coalescing to satisfy noUncheckedIndexedAccess
+			const prevRow = distanceMatrix[i - 1] ?? [];
+			const currentRow = distanceMatrix[i] ?? [];
+
+			const deletion = (prevRow[j] ?? 0) + 1;
+			const insertion = (currentRow[j - 1] ?? 0) + 1;
+			const substitution = (prevRow[j - 1] ?? 0) + indicator;
+
+			currentRow[j] = Math.min(deletion, insertion, substitution);
+		}
+	}
+
+	const lastRow = distanceMatrix[a.length] ?? [];
+	return lastRow[b.length] ?? 0;
+}
+
+// Normalized similarity score (0-1, where 1 is exact match)
+function similarity(a: string, b: string): number {
+	const maxLen = Math.max(a.length, b.length);
+	if (maxLen === 0) return 1;
+	return 1 - getLevenshteinDistance(a, b) / maxLen;
+}
+
+interface GameMatch {
+	name: string;
+	year: number;
+	score: number;
+}
+
+// Find similar game names from the database
+function findSimilarGames(gameName: string, threshold = 0.6, maxResults = 5): GameMatch[] {
+	const normalizedInput = gameName.toLowerCase();
+	const matches: GameMatch[] = [];
+
+	for (const [name, year] of Object.entries(gameYears)) {
+		const normalizedName = name.toLowerCase();
+
+		// Calculate similarity
+		const score = similarity(normalizedInput, normalizedName);
+
+		// Also check if input contains the game name or vice versa (helps with subtitle variations)
+		const containsBonus =
+			normalizedInput.includes(normalizedName) || normalizedName.includes(normalizedInput) ? 0.1 : 0;
+
+		const finalScore = Math.min(score + containsBonus, 1);
+
+		if (finalScore >= threshold) {
+			matches.push({ name, year, score: finalScore });
+		}
+	}
+
+	// Sort by score descending and return top results
+	return matches.sort((a, b) => b.score - a.score).slice(0, maxResults);
+}
+
+function getGameData() {
 	if (!runsRep.value || runsRep.value.length === 0) {
 		logger.error("No runs found in the schedule!");
 		return;
 	}
 
-	logger.info(`Getting Game Years: Estimated Time: ${(250 * runsRep.value.length) / 1000}s`);
-
-	const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+	logger.info(`Getting Game Years`);
 
 	for (const run of runsRep.value) {
 		if (!run.game || run.system == "IRL") {
@@ -95,52 +99,39 @@ async function getGameData() {
 			continue;
 		}
 
-		await processRun(run);
-		await delay(250); // Delay for 250 milliseconds (4 requests per second)
+		processRun(run);
 	}
 }
 
-async function processRun(run: RunData) {
+function processRun(run: RunData) {
 	if (!run.game) {
 		return;
 	}
 
-	logger.info(`Getting game data for run: ${run.id} - ${run.game}`);
+	const year = gameYears[run.game];
 
-	const data = await fetchGameData(run.game);
+	if (!year) {
+		// No exact match - find similar games
+		const similarGames = findSimilarGames(run.game);
 
-	const json = await data.json();
-
-	if (!json || !Array.isArray(json) || json.length === 0) {
-		logger.error(`No game data found for run: ${run.id} - ${run.game}`);
+		if (similarGames.length > 0) {
+			const suggestions = similarGames
+				.map((g) => `"${g.name}" (${g.year}) [${(g.score * 100).toFixed(0)}%]`)
+				.join(", ");
+			logger.warn(`No exact match for "${run.game}". Did you mean: ${suggestions}`);
+		} else {
+			logger.warn(`No year data found for game: ${run.game} (no similar matches found)`);
+		}
 		return;
 	}
 
-	if (!isGameResult(json[0])) {
-		logger.error(`Failed to get game data for run: ${run.id} - ${run.game}`, json);
-		return;
-	}
+	run.release = year.toString();
 
-	const year = new Date(json[0].first_release_date * 1000);
-	run.release = year.getFullYear().toString();
-
-	logger.info(`Run ID: ${run.id}, Game: ${run.game}, Year: ${year.getFullYear()}`);
+	logger.info(`Run ID: ${run.id}, Game: ${run.game}, Year: ${year}`);
 
 	nodecg.sendMessageToBundle("modifyRun", "nodecg-speedcontrol", run);
 }
 
-async function fetchGameData(game: string) {
-	return fetch("https://api.igdb.com/v4/games", {
-		method: "POST",
-		headers: {
-			Accept: "application/json",
-			"Client-ID": twitchSettingsRep.value?.clientId || "",
-			Authorization: `Bearer ${twitchApiRep.value?.accessToken}`,
-		},
-		body: `fields first_release_date; search "${game}";`,
-	});
-}
-
 nodecg.listenFor("scheduleImport:getGameYears", () => {
-	void getGameData();
+	getGameData();
 });

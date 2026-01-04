@@ -7,7 +7,7 @@ import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunDat
 import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
-import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, HostReferenceChannel, OBSChannel } from "@asm-graphics/shared/audio-data.js";
+import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, HostReferenceChannel, OBSChannel, OBSReferenceChannel } from "@asm-graphics/shared/audio-data.js";
 
 const x32ConnectionDetailsRep = getReplicant("x32:connectionDetails");
 const x32StatusRep = getReplicant("x32:status");
@@ -15,8 +15,6 @@ const x32BusFadersRep = getReplicant("x32:busFaders");
 const x32AudioActivityRep = getReplicant("audio-indicators");
 const microphoneGateRep = getReplicant("x32:audio-gate");
 const gameAudioActiveRep = getReplicant("game-audio-indicator");
-const hostLevelStreamRep = getReplicant("x32:host-level-stream");
-const hostLevelSpeakersRep = getReplicant("x32:host-level-speakers");
 const automationSettingsRep = getReplicant("automations");
 
 const nodecg = nodecgApiContext.get();
@@ -237,7 +235,7 @@ nodecg.listenFor("transition:toIntermission", () => {
 
 			// unmute OBS (music) on speakers AND STREAM
 			if (channel === OBSChannel && mixBus <= 1) {
-				fadeUnmute(channel, mixBus, 0.32);
+				fadeUnmute(channel, mixBus, faderValues[mixBus]?.[OBSReferenceChannel] ?? 0.4);
 			} else {
 				fadeMute(channel, mixBus);
 			}

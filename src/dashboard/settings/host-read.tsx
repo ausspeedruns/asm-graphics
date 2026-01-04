@@ -77,7 +77,7 @@ export function HostReads() {
 							multiline
 							minRows={3}
 							name="Content"
-							label="New Host Read Content"
+							label="New Host Read Content (Markdown supported)"
 							value={newContent}
 							onChange={(e) => setNewContent(e.target.value)}
 						/>
@@ -154,7 +154,7 @@ function HostReadComponent(props: HostReadComponentProps) {
 					variant="outlined"
 				/>
 				<SmallFontTextField
-					label="Content"
+					label="Content (Markdown supported)"
 					multiline
 					minRows={3}
 					fullWidth
@@ -163,7 +163,7 @@ function HostReadComponent(props: HostReadComponentProps) {
 					size="small"
 					variant="outlined"
 				/>
-				<div style={{ display: "flex", marginTop: 8 }}>
+				<div style={{ display: "flex", marginTop: 8, gap: 8 }}>
 					<Button variant="outlined" color="error" onClick={deleteHostRead} size="small">
 						Delete
 					</Button>

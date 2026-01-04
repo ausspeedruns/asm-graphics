@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { Grid } from "@mui/material";
-import { TwitchSettings } from "./settings/twitch";
+import { GameYearsSettings } from "./settings/schedule-import";
 import { AusSpeedrunsWebsiteSettings } from "./settings/ausspeedruns-website";
 import { PrizesSettings } from "./settings/prizes";
 import { AcknowledgementOfCountry } from "./settings/acknowledgement-of-country";
@@ -14,6 +14,7 @@ import { IntermissionVideos } from "./settings/intermission-videos";
 import { OBSSettings } from "./settings/obs";
 import { X32Settings } from "./settings/x32";
 import { TiltifySettings } from "./settings/tiltify";
+// import MultipleContainers from "./settings/dnd-test";
 
 const GridItem = styled(Grid)`
 	padding: 16px;
@@ -28,6 +29,7 @@ const GridItem = styled(Grid)`
 export function Settings() {
 	return (
 		<ThemeProvider theme={darkTheme}>
+			{/* <MultipleContainers /> */}
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
 					<HostReads />
@@ -57,7 +59,7 @@ export function Settings() {
 					<AusSpeedrunsWebsiteSettings />
 				</GridItem>
 				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<TwitchSettings />
+					<GameYearsSettings />
 				</GridItem>
 			</Grid>
 		</ThemeProvider>

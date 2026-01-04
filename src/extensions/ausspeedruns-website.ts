@@ -7,6 +7,7 @@ import { queryGraphQL } from "./util/graphql.js";
 const nodecg = nodecgApiContext.get();
 
 const allAusSpeedrunsUsernamesRep = getReplicant("all-usernames");
+const ausspeedrunsWebsiteSettingsRep = getReplicant("ausspeedruns-website:settings");
 
 const QUERY_USERS = `
 	query {
@@ -31,10 +32,10 @@ const queryUsers = z.object({
 });
 
 async function getAllUsers() {
-	if (!nodecg.bundleConfig.graphql) return;
+	if (!ausspeedrunsWebsiteSettingsRep.value.url) return;
 
 	try {
-		const results = await queryGraphQL(nodecg.bundleConfig.graphql.url, QUERY_USERS);
+		const results = await queryGraphQL(ausspeedrunsWebsiteSettingsRep.value.url, QUERY_USERS);
 
 		return queryUsers.parse(results).users;
 	} catch (error) {

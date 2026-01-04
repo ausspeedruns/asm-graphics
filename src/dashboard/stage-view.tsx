@@ -227,7 +227,6 @@ export function DashboardStageView() {
 				<TopBar>
 					<CurrentRunInfo />
 					<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-						<i>I am aware this is a bit buggy. It will be remade next event.</i>
 						{/* <Button
 							onClick={toggleTalkToAll}
 							color="primary"

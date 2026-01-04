@@ -35,6 +35,7 @@ export const replicants = {
 			clientId: nodecg.bundleConfig.tiltify?.id ?? "", // Todo: Rename to clientId in config
 		},
 	},
+	"tiltify:donation-update-interval": 10000, // TODO: Make configurable via dashboard
 	donationTotal: 0,
 	donations: [] as Donation[],
 	"manual-donations": [] as Donation[],
@@ -44,8 +45,6 @@ export const replicants = {
 	// Audio Shared
 	"game-audio-indicator": -1,
 	"x32:audio-gate": -10,
-	"x32:host-level-stream": 0.75,
-	"x32:host-level-speakers": 0.75,
 	"game-audio-names": [] as string[],
 
 	// OBS Audio
@@ -74,6 +73,7 @@ export const replicants = {
 		},
 	},
 	"incentives:updated-at": null as number | null,
+	"incentives:update-interval": 10000, // TODO: Make configurable via dashboard
 	"all-usernames": [] as AusSpeedrunsUser[],
 
 	// OBS
@@ -139,13 +139,6 @@ export const replicants = {
 
 	// Speedcontrol Metadata
 	runStartTime: null as number | null,
-
-	// Twitch API
-	"twitch:settings": {
-		defaultValue: {
-			clientId: nodecg.bundleConfig.twitch?.clientId ?? "",
-		},
-	},
 
 	// ASM-Graphics settings / Misc
 } satisfies Record<string, ReplicantValueType>;

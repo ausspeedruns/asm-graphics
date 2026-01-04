@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { PasswordField } from "../elements/password-field";
 
@@ -24,9 +24,7 @@ export function AusSpeedrunsWebsiteSettings() {
 			<PasswordField
 				label="API Key"
 				value={ausSpeedrunsWebsiteSettings.apiKey}
-				onChange={(text) =>
-					setAusSpeedrunsWebsiteSettings({ ...ausSpeedrunsWebsiteSettings, apiKey: text })
-				}
+				onChange={(text) => setAusSpeedrunsWebsiteSettings({ ...ausSpeedrunsWebsiteSettings, apiKey: text })}
 			/>
 			<TextField
 				label="URL"

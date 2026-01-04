@@ -51,6 +51,7 @@ export function X32Settings() {
 							<WbIncandescent /> Microphone Indicator Activation dB
 						</>
 					}
+					labelPlacement="start"
 				/>
 			</FormGroup>
 		</div>

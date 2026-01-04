@@ -9,10 +9,9 @@ import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
-import { PersonCompressed } from "../elements/couch";
+import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
-import { BingoBoard, cellColourMapping } from "../elements/bingo-board";
-import type { BoardState } from "@asm-graphics/shared/BingoSync";
+import { BingoBoard } from "../elements/bingo-board";
 
 import WidescreenWhole from "./backgrounds/Widescreen2p.png";
 
@@ -80,14 +79,6 @@ const BottomBlock = styled.div`
 	align-items: center;
 	justify-content: center;
 	/* background: var(--main); */
-	z-index: 2;
-`;
-
-const BespokeCouch = styled.div`
-	font-family: Noto Sans;
-	display: flex;
-	align-items: center;
-	gap: 8px;
 	z-index: 2;
 `;
 
@@ -226,29 +217,12 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 					<br />
 					must be cleared
 				</div>
-				<BespokeCouch>
-					{/* <CouchLabel>{props.commentators.length > 1 ? "Commentators" : "Commentator"}</CouchLabel> */}
-					{/* Since this is a special placement it has to be made custom here */}
-					{props.commentators.map((person, i) => {
-						if (person.name === "" || person.id === "host") return <></>;
-						return (
-							<PersonCompressed
-								key={person.name}
-								commentator={person}
-								speaking={props.microphoneAudioIndicator?.[person.customData?.microphone ?? ""]}
-								index={i}
-							/>
-						);
-					})}
-					{props.host && (
-						<PersonCompressed
-							key={"Host"}
-							commentator={props.host}
-							// speaking={props.obsAudioIndicator?.[host.microphone ?? '']}
-							speaking={false}
-						/>
-					)}
-				</BespokeCouch>
+				<Couch
+					commentators={props.commentators}
+					host={props.host}
+					audio={props.microphoneAudioIndicator}
+					showHost={props.showHost}
+				/>
 			</BottomBlock>
 
 			{/* <svg id="widescreen2Clip">

@@ -47,7 +47,6 @@ export type NodeCGMessages = {
 	// Schedule Import
 	"scheduleImport:import": never;
 	"scheduleImport:getGameYears": never;
-	"scheduleImport:inject-5-min-runs": never;
 	// X32 Audio
 	"x32:setConnected": boolean;
 	"x32:setFader": { mixBus: number; float: number; channel: number };

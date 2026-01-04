@@ -8,11 +8,6 @@ export interface ConfigSchema {
 		password: string;
 		customTransitionsFolder?: string;
 	};
-	twitch?: {
-		parents?: string[];
-		clientId?: string;
-	};
-	hostname?: string;
 	tiltify?: {
 		enabled: boolean;
 		key: string;

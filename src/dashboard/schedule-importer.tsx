@@ -5,7 +5,6 @@ import {
 	Accordion,
 	AccordionDetails,
 	AccordionSummary,
-	Button,
 	Checkbox,
 	FormControlLabel,
 	Stack,
@@ -104,46 +103,6 @@ export const DashScheduleImporter = () => {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Stack spacing={2}>
-				<Button
-					variant="contained"
-					color="secondary"
-					fullWidth
-					onClick={() => nodecg.sendMessage("scheduleImport:import")}
-				>
-					Import {nodecg.bundleConfig?.graphql?.event} schedule
-				</Button>
-				<Button
-					variant="contained"
-					color="secondary"
-					fullWidth
-					onClick={() => nodecg.sendMessage("scheduleImport:getGameYears")}
-				>
-					Set the Game Years
-				</Button>
-				<Accordion>
-					<AccordionSummary>List of Runs with No Year</AccordionSummary>
-					<AccordionDetails>
-						<ul>
-							{runsRep
-								?.filter((run) => !run.release)
-								.map((run) => {
-									const shouldNotHaveYear = run.system === "IRL";
-									return (
-										<li
-											style={{
-												fontStyle: shouldNotHaveYear ? "italic" : undefined,
-												opacity: shouldNotHaveYear ? 0.4 : undefined,
-											}}
-											key={run.id}
-										>
-											{run.game}
-										</li>
-									);
-								})}
-						</ul>
-					</AccordionDetails>
-				</Accordion>
-
 				<FormControlLabel
 					control={
 						<Checkbox checked={loadRunOnSelect} onChange={(_, checked) => setLoadRunOnSelect(checked)} />
