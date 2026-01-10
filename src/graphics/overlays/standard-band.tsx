@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
 
-import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "../gameplay-overlay";
 
-import { type IVerticalStyling, VerticalInfo } from "../elements/info-box/vertical";
-import { SponsorsBox } from "../elements/sponsors";
+import { VerticalInfo } from "../elements/info-box/vertical";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
@@ -40,36 +39,6 @@ const InfoBoxBG = styled.div`
 	padding: 10px 0;
 `;
 
-const SponsorBoxS = styled(SponsorsBox)`
-	/* width: 65%; */
-	/* height: 264px; */
-	flex-grow: 1;
-	/* margin-top: -70px; */
-`;
-
-const SponsorsSize = {
-	height: 125,
-	width: 480,
-};
-
-const VerticalInfoS = styled(VerticalInfo)`
-	height: 280px;
-	z-index: 1;
-`;
-
-const customVerticalStyle: IVerticalStyling = {
-	timerFontSize: 90,
-	gameInfoFontSize: 20,
-	gameTitleFontSize: 40,
-	gameStackHeight: 200,
-	timerStackHeight: 140,
-	categoryFontSize: 38,
-	mainStyle: {
-		// marginTop: 40,
-	},
-	dividerMargin: 8,
-};
-
 export function StandardBand(props: OverlayProps) {
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
@@ -91,9 +60,7 @@ export function StandardBand(props: OverlayProps) {
 						audio={props.microphoneAudioIndicator}
 						showHost={props.showHost}
 					/>
-					<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
-
-					{/* <SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} /> */}
+					<VerticalInfo timer={props.timer} runData={props.runData} />
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>

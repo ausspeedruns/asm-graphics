@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
-import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "../gameplay-overlay";
 
-import { WideInfo, type IWideStyling } from "../elements/info-box/wide";
+import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 
 // import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
@@ -30,12 +30,6 @@ const Sidebar = styled.div`
 	z-index: -1;
 `;
 
-const customWideStyle: IWideStyling = {
-	mainStyle: {
-		height: 174,
-	},
-};
-
 export const ThreeDS = (props: OverlayProps) => {
 	return (
 		<ThreeDSContainer>
@@ -53,7 +47,7 @@ export const ThreeDS = (props: OverlayProps) => {
 						background: "var(--dh-orange-to-red)",
 					}}
 				/>
-				<WideInfo timer={props.timer} runData={props.runData} style={customWideStyle} />
+				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
 			<Sidebar>
 				<Facecam

@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 
-import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "../gameplay-overlay";
 
-import { SmallInfo, type ISmallStyling } from "../elements/info-box/small";
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
@@ -10,7 +9,7 @@ import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
-import { type IVerticalStyling, VerticalTimerBottomInfo } from "../elements/info-box/vertical-timer-bottom";
+import { VerticalTimerBottomInfo } from "../elements/info-box/vertical-timer-bottom";
 
 const StandardWidescreenContainer = styled.div`
 	height: 1016px;
@@ -34,6 +33,7 @@ const LeftBox = styled.div`
 	// background: var(--main);
 	position: relative;
 	box-sizing: border-box;
+	background: var(--main);
 `;
 
 const RightBox = styled.div`
@@ -46,6 +46,7 @@ const RightBox = styled.div`
 	position: relative;
 	z-index: 2;
 	box-sizing: border-box;
+	background: var(--main);
 `;
 
 const SponsorSize = {
@@ -71,48 +72,6 @@ const WholeGraphicClip = styled.div`
 	// background: var(--main);
 	z-index: 1;
 `;
-
-const customSmallStyling: ISmallStyling = {
-	categoryWidth: 320,
-	timerStackHeight: 100,
-	lowerStackHeight: 100,
-	// gameNameBottomMargin: -40,
-	mainStyle: {
-		height: "100%",
-		width: "100%",
-		zIndex: 2,
-		padding: 0,
-	},
-	lowerStackStyle: {
-		justifyContent: "space-between",
-	},
-	timerStyle: {
-		flexGrow: 1,
-	},
-	gameNameStyle: {
-		lineHeight: "42px",
-	},
-	categoryStyle: {
-		width: 350,
-	},
-	gameTitleFontSize: 60,
-	gameTitleWidth: 740,
-	timerSize: 90,
-};
-
-const customVerticalStyle: IVerticalStyling = {
-	timerSize: 90,
-	gameInfoSize: 20,
-	gameTitleSize: 50,
-	maxTextWidth: 700,
-	gameStackHeight: 200,
-	timerStackHeight: 300,
-	categorySize: 38,
-	mainStyle: {
-		// marginTop: 40,
-		zIndex: 5,
-	},
-};
 
 export const StandardWidescreen = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
@@ -187,8 +146,7 @@ export const StandardWidescreen = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 407, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place ?? -1} />
 
 				<RightBox>
-					{/* <SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} /> */}
-					<VerticalTimerBottomInfo timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+					<VerticalTimerBottomInfo timer={props.timer} runData={props.runData} />
 				</RightBox>
 			</Topbar>
 			<CentralDivider />

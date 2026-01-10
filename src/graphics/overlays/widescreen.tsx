@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "../gameplay-overlay";
 
 import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";

@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
-import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "../gameplay-overlay";
 
-import { type IVerticalStyling, VerticalInfo } from "../elements/info-box/vertical";
+import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
@@ -60,19 +60,6 @@ const SponsorsSize = {
 	width: 480,
 };
 
-const VerticalInfoS = styled(VerticalInfo)`
-	height: 348px;
-`;
-
-const customVerticalStyle: IVerticalStyling = {
-	timerFontSize: 75,
-	gameInfoFontSize: 20,
-	gameTitleFontSize: 40,
-	gameStackHeight: 100,
-	timerStackHeight: 200,
-	categoryFontSize: 38,
-};
-
 export const StandardVertical = (props: OverlayProps) => {
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
@@ -101,7 +88,7 @@ export const StandardVertical = (props: OverlayProps) => {
 				</InfoBoxBG>
 			</Sidebar>
 			<RightSide>
-				<VerticalInfoS timer={props.timer} runData={props.runData} style={customVerticalStyle} />
+				<VerticalInfo timer={props.timer} runData={props.runData} />
 				<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
 			</RightSide>
 		</StandardContainer>

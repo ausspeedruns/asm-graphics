@@ -8,7 +8,6 @@ import _ from "underscore";
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
 import type { RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphics/types/RunData";
 import type { Timer } from "@asm-graphics/types/Timer";
-import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 import type NodeCG from "nodecg/types";
 
 import { TickerOverlay } from "./elements/ticker";
@@ -31,6 +30,7 @@ import { StandardBand } from "./overlays/standard-band";
 import { Widescreen2Bingo } from "./overlays/widescreen-2-bingo";
 import { GBC2 } from "./overlays/gbc-2";
 import { TopBarOnly } from "./overlays/top-bar-only";
+import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
 // import { useNormalisedTime } from "../hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
@@ -54,6 +54,19 @@ const SpacedLinks = styled(Link)`
 	text-decoration: none;
 	display: inline-block;
 `;
+
+export interface OverlayProps {
+	runData: RunDataActiveRun | undefined;
+	timer: Timer | undefined;
+	commentators: RunDataPlayer[];
+	host?: RunDataPlayer;
+	preview?: boolean;
+	sponsors: NodeCG.AssetFile[];
+	gameAudioIndicator: number;
+	microphoneAudioIndicator?: AudioIndicator;
+	onScreenWarning?: { message: string; show: boolean };
+	showHost?: boolean;
+}
 
 interface GameplayOverlayProps {
 	preview?: boolean;

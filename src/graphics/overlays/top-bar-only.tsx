@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { WideInfo } from "../elements/info-box/wide";
-import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "../gameplay-overlay";
 import { Facecam } from "../elements/facecam";
 
 const TopBarOnlyContainer = styled.div`

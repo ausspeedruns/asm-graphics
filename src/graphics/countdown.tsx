@@ -92,7 +92,7 @@ export function Countdown() {
 		>
 			<div style={{ width: 1920, height: 1080, position: "absolute" }}></div>
 
-			<Timer timer={timerData} fontSize={250} style={{ zIndex: 100 }} />
+			<Timer timer={timerData} style={{ zIndex: 100 }} />
 		</div>
 	);
 }

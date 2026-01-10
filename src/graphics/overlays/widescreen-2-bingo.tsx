@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 
-import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
+import type { OverlayProps } from "../gameplay-overlay";
 
-import { SmallInfo, type ISmallStyling } from "../elements/info-box/small";
+import { SmallInfo } from "../elements/info-box/small";
 
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
@@ -93,37 +93,6 @@ const BingoBoardStyled = styled(BingoBoard)`
 	z-index: 2;
 `;
 
-const customSmallStyling = {
-	categoryWidth: 590,
-	timerStackHeight: 100,
-	gameInfoFontSize: 60,
-	// gameNameBottomMargin: -40,
-	mainStyle: {
-		height: "100%",
-		width: "100%",
-		zIndex: 2,
-		padding: 0,
-	},
-	lowerStackStyle: {
-		justifyContent: "space-between",
-	},
-	timerStyle: {
-		flexGrow: 1,
-	},
-	gameNameStyle: {
-		lineHeight: "42px",
-		fontSize: 30,
-	},
-	categoryStyle: {
-		marginTop: 15,
-	},
-	gameStackHeight: 148,
-	estimateFontSize: 70,
-	estimateStyle: {
-		lineHeight: "29px",
-	},
-} as const satisfies ISmallStyling;
-
 export const Widescreen2Bingo = (props: OverlayProps) => {
 	const [bingoSyncBoardStateRep] = useReplicant("bingosync:boardState");
 	const [bingoSyncBoardStateOverrideRep] = useReplicant("bingosync:boardStateOverride");
@@ -144,7 +113,7 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
 				<AudioIndicator
