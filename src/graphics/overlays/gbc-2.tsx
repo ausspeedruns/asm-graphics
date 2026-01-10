@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, type ISmallStyling } from "../elements/info-box/small";
+import { SmallInfo } from "../elements/info-box/small";
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
@@ -31,7 +31,7 @@ const LeftBox = styled.div`
 	width: 666px;
 	height: 100%;
 	display: flex;
-	// background: var(--main);
+	background: var(--main);
 	position: relative;
 	box-sizing: border-box;
 `;
@@ -42,7 +42,7 @@ const RightBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	/* background: var(--main); */
+	background: var(--main);
 	position: relative;
 	z-index: 2;
 	box-sizing: border-box;
@@ -68,6 +68,7 @@ const FillerBox = styled.div`
 	width: 157px;
 	position: absolute;
 	bottom: 0px;
+	background: var(--main);
 `;
 
 const WholeGraphicClip = styled.div`
@@ -78,31 +79,6 @@ const WholeGraphicClip = styled.div`
 	// background: var(--main);
 	z-index: 1;
 `;
-
-const customSmallStyling: ISmallStyling = {
-	categoryWidth: 260,
-	timerStackHeight: 100,
-	lowerStackHeight: 100,
-	// gameNameBottomMargin: -40,
-	mainStyle: {
-		height: "100%",
-		width: "100%",
-		zIndex: 2,
-		padding: 0,
-	},
-	lowerStackStyle: {
-		justifyContent: "space-between",
-	},
-	timerStyle: {
-		flexGrow: 1,
-	},
-	gameNameStyle: {
-		lineHeight: "42px",
-	},
-	categoryStyle: {
-		width: 284,
-	},
-};
 
 export function GBC2(props: OverlayProps) {
 	const teamData = getTeams(props.runData, props.timer, 2);
@@ -117,7 +93,7 @@ export function GBC2(props: OverlayProps) {
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
 				<AudioIndicator

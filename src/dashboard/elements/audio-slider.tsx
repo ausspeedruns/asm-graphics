@@ -1,11 +1,12 @@
 import { Slider, Input } from "@mui/material";
 import styled from "styled-components";
+import NumberField from "./number-field";
 
 const SliderContainer = styled.div`
-	display: grid;
-	grid-template-columns: 3fr 1fr;
+	display: flex;
+	align-items: center;
 	gap: 16px;
-	margin-bottom: 48px;
+	flex: 1;
 `;
 
 const marks = [
@@ -61,9 +62,18 @@ function floatToDB(f: number): number {
 	}
 }
 
-function isNumeric(str: string) {
-	if (typeof str != "string") return false; // We only process strings!
-	return !isNaN(parseFloat(str)); // ...and ensure strings of whitespace fail
+function dbToFloat(dB: number): number {
+	if (dB >= -10) {
+		return (dB + 30) / 40;
+	} else if (dB >= -30) {
+		return (dB + 50) / 80;
+	} else if (dB >= -60) {
+		return (dB + 70) / 160;
+	} else if (dB >= -90) {
+		return (dB + 90) / 480;
+	} else {
+		return 0;
+	}
 }
 
 interface AudioSliderProps {
@@ -91,20 +101,18 @@ export function AudioSlider(props: AudioSliderProps) {
 				valueLabelDisplay="auto"
 				valueLabelFormat={(value) => `${value.toFixed(0)} dB`}
 			/>
-			<Input
-				value={floatToDB(props.value).toFixed(1)}
+			<NumberField
 				size="small"
-				onChange={(e) => {
-					if (isNumeric(e.target.value)) {
-						props.onChange(parseFloat(e.target.value));
+				value={floatToDB(props.value)}
+				format={{ maximumFractionDigits: 1 }}
+				onValueChange={(newValue) => {
+					if (newValue !== null) {
+						props.onChange(dbToFloat(newValue));
 					}
 				}}
-				inputProps={{
-					step: 1,
-					min: -90,
-					max: 10,
-					type: "number",
-				}}
+				min={-90}
+				max={10}
+				sx={{ width: "110px" }}
 			/>
 		</SliderContainer>
 	);

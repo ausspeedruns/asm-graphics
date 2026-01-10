@@ -15,7 +15,7 @@ import { EditRunnerDialog } from "./stage-view/edit-person-dialog";
 import { ScheduleInfo } from "./stage-view/schedule-info";
 import { CurrentRunInfo } from "./stage-view/current-run-info";
 import { Person } from "./stage-view/person";
-import { DroppableZone } from "./stage-view/droppable-zone";
+// import { DroppableZone } from "./stage-view/droppable-zone";
 import { useTalkback } from "./stage-view/use-talkback";
 
 const DashboardStageViewContainer = styled.div``;
@@ -238,95 +238,6 @@ export function DashboardStageView() {
 					<ScheduleInfo />
 				</TopBar>
 				<StageContainer>
-					<DndContext onDragEnd={handleCrossDragEnd} sensors={sensors}>
-						<RowHeading>
-							Commentators
-							{/* <Button
-								startIcon={<RecordVoiceOver />}
-								onClick={toggleTalkbackCommentators}
-								color="primary"
-								variant={
-									isTalkingToAllCommentators &&
-									currentTalkbackTargets.length === allCommentatorIds.length
-										? "contained"
-										: "outlined"
-								}
-							>
-								Talk to Commentators
-							</Button> */}
-						</RowHeading>
-						<StageRow>
-							<DroppableZone id="zone:commentators">
-								<SortableContext items={commentatorAndHostIds} strategy={horizontalListSortingStrategy}>
-									{commentatorsRep
-										?.filter((c) => c.id !== "host")
-										?.map((c) => (
-											<Person
-												key={c.id}
-												person={c}
-												handleEditPerson={handleEditCommentator}
-												currentTalkbackTargets={currentTalkbackTargets}
-												updateTalkbackTargets={setCurrentTalkbackTargets}
-											/>
-										))}
-								</SortableContext>
-							</DroppableZone>
-							<Button color="inherit" onClick={addCommentator}>
-								<Add />
-							</Button>
-							<DroppableZone id="zone:host" isHost isEmpty={!host}>
-								{host && (
-									<Person
-										person={host}
-										handleEditPerson={handleEditCommentator}
-										currentTalkbackTargets={currentTalkbackTargets}
-										updateTalkbackTargets={setCurrentTalkbackTargets}
-									/>
-								)}
-							</DroppableZone>
-						</StageRow>
-						<hr style={{ width: "50%", opacity: 0.5 }} />
-						<RowHeading>
-							Runners{" "}
-							{/* <Button
-								startIcon={<RecordVoiceOver />}
-								onClick={toggleTalkbackRunners}
-								color="primary"
-								variant={
-									isTalkingToAllRunners && currentTalkbackTargets.length === allRunnerIds.length
-										? "contained"
-										: "outlined"
-								}
-							>
-								Talk to Runners
-							</Button> */}
-						</RowHeading>
-						<DroppableZone id="zone:runners">
-							<StageRow>
-								<SortableContext
-									items={
-										runDataActiveRep?.teams.flatMap((team) => team.players.map((c) => c.id)) ?? []
-									}
-									strategy={horizontalListSortingStrategy}
-								>
-									{runDataActiveRep?.teams.flatMap((team, i) =>
-										team.players.map((c, j) => (
-											<Person
-												key={c.id}
-												person={c}
-												isRunner
-												handleEditPerson={handleEditRunner}
-												currentTalkbackTargets={currentTalkbackTargets}
-												updateTalkbackTargets={setCurrentTalkbackTargets}
-												tempIndex={i + j}
-												audioIndex={gameAudioIndex}
-											/>
-										)),
-									)}
-								</SortableContext>
-							</StageRow>
-						</DroppableZone>
-					</DndContext>
 				</StageContainer>
 				<div
 					style={{

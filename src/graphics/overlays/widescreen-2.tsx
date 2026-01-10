@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, type ISmallStyling } from "../elements/info-box/small-asap25";
+import { SmallInfo } from "../elements/info-box/small";
 
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
@@ -11,7 +11,8 @@ import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
-// import WidescreenWhole from "./backgrounds/Widescreen2p.png";
+import WidescreenWhole from "./backgrounds/Widescreen2p.png";
+import { CloudScrolling } from "./aso2026/clouds";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -86,65 +87,31 @@ const BottomBlock = styled.div`
 	z-index: 2;
 `;
 
-const BespokeCouch = styled.div`
-	font-family: Noto Sans;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	z-index: 2;
-`;
-
-const CouchLabel = styled.span`
-	color: var(--text-light);
-	font-size: 30px;
-	margin-right: 8px;
-	padding: 0px 10px;
-	border-radius: 8px;
-	background: var(--asm24-main-transparent);
-	backdrop-filter: blur(4px);
-`;
-
-const customSmallStyling: ISmallStyling = {
-	gameTitleFontSize: 60,
-	gameTitleWidth: 640,
-	categoryWidth: 262,
-	timerStackHeight: 160,
-	mainStyle: {
-		width: 666,
-		height: "100%",
-		// background: 'var(--main)',
-		padding: 0,
-		zIndex: 2,
-	},
-	gameNameStyle: {
-		lineHeight: "50px",
-	},
-	lowerStackHeight: 120,
-	lowerStackStyle: {
-		justifyContent: "space-between",
-	},
-	timerStyle: {
-		flexGrow: 1,
-	},
-	categoryStyle: {
-		width: 284,
-	},
-};
-
 export const Widescreen2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
 	return (
 		<Widescreen2Container>
 			<WholeGraphicClip>
-				{/* <img
-					src={WidescreenWhole}
-					style={{ position: "absolute", height: "100%", width: "100%" }}
-				/> */}
+				{/* ASO2026 Sky */}
+				<div
+					style={{
+						position: "absolute",
+						width: "100%",
+						height: 350,
+						background: "linear-gradient(to bottom, #0060c0, #00ced2)",
+					}}
+				/>
+				{/* ASO2026 Clouds */}
+				<CloudScrolling style={{ top: 280, height: 80, position: "absolute" }} />
+				<img src={WidescreenWhole} style={{ position: "absolute", height: "100%", width: "100%" }} />
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+					<SmallInfo timer={props.timer} runData={props.runData}
+					// ASO2026
+					style={{paddingBottom: 50}}
+					/>
 				</LeftBox>
 
 				<AudioIndicator

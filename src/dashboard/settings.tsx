@@ -14,7 +14,7 @@ import { IntermissionVideos } from "./settings/intermission-videos";
 import { OBSSettings } from "./settings/obs";
 import { X32Settings } from "./settings/x32";
 import { TiltifySettings } from "./settings/tiltify";
-// import MultipleContainers from "./settings/dnd-test";
+import MultipleContainers from "./settings/dnd-test";
 
 const GridItem = styled(Grid)`
 	padding: 16px;
@@ -29,7 +29,7 @@ const GridItem = styled(Grid)`
 export function Settings() {
 	return (
 		<ThemeProvider theme={darkTheme}>
-			{/* <MultipleContainers /> */}
+			<MultipleContainers />
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
 					<HostReads />

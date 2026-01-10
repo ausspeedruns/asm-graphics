@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { Button, Checkbox, FormControl, FormControlLabel, InputAdornment, OutlinedInput, Stack } from "@mui/material";
 
 import type { Goal } from "@asm-graphics/types/Incentives";
+import NumberField from "../../../elements/number-field";
 
 const StackStyled = styled(Stack)`
 	font-size: 2rem;
@@ -79,11 +80,10 @@ export function GoalEdit({ incentive, updateIncentive }: GoalProps) {
 				}}
 			>
 				<FormControl fullWidth>
-					<OutlinedInput
-						type="number"
+					<NumberField
 						value={add}
-						onChange={(e) => setAdd(parseFloat(e.target.value))}
 						startAdornment={<InputAdornment position="start">$</InputAdornment>}
+						onValueChange={(value) => setAdd(value ?? 0)}
 					/>
 				</FormControl>
 				<Button

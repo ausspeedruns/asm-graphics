@@ -2,8 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-// import { SmallInfo, type ISmallStyling } from "../elements/info-box/small";
-import { SmallInfo, type ISmallStyling } from "../elements/info-box/small-asap25";
+import { SmallInfo } from "../elements/info-box/small";
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
@@ -61,9 +60,6 @@ const CentralDivider = styled.div`
 	top: 296px;
 	left: 959px;
 	background: var(--sec);
-
-	// ASAP2025
-	background: #fff;
 `;
 
 const WholeGraphicClip = styled.div`
@@ -75,35 +71,6 @@ const WholeGraphicClip = styled.div`
 	z-index: 1;
 `;
 
-const customSmallStyling = {
-	categoryWidth: 590,
-	timerStackHeight: 100,
-	gameInfoFontSize: 60,
-	// gameNameBottomMargin: -40,
-	mainStyle: {
-		height: "100%",
-		width: "100%",
-		zIndex: 2,
-		padding: 0,
-	},
-	lowerStackStyle: {
-		justifyContent: "space-between",
-	},
-	timerStyle: {
-		flexGrow: 1,
-	},
-	gameNameStyle: {
-		lineHeight: "42px",
-		fontSize: 30,
-		marginTop: -13,
-	},
-	gameStackHeight: 148,
-	estimateFontSize: 70,
-	estimateStyle: {
-		lineHeight: "29px",
-	},
-} as const satisfies ISmallStyling;
-
 export const Standard2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
@@ -114,7 +81,7 @@ export const Standard2 = (props: OverlayProps) => {
 			</WholeGraphicClip>
 			<Topbar>
 				<LeftBox>
-					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
 				<AudioIndicator
@@ -173,13 +140,6 @@ export const Standard2 = (props: OverlayProps) => {
 						/>
 						<SponsorsBox
 							sponsors={props.sponsors}
-							style={{
-								width: "60%",
-								background: "#000",
-								borderRadius: 35,
-								boxShadow: "inset 9px 7px 4px rgba(221, 221, 221, 0.25), inset 0px -4px 4px #fff",
-								marginBottom: 24,
-							}}
 							sponsorStyle={SponsorSize}
 						/>
 					</div>

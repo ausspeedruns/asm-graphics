@@ -1,4 +1,4 @@
-import { Button, FormControlLabel, FormGroup, TextField } from "@mui/material";
+import { Button, FormGroup, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { ConnectionTag } from "../elements/connection-tag";
 import { WbIncandescent } from "@mui/icons-material";
@@ -44,15 +44,12 @@ export function X32Settings() {
 					value={x32ConnectionDetailsRep?.ip ?? ""}
 					onChange={(e) => setX32ConnectionDetailsRep({ ...x32ConnectionDetailsRep, ip: e.target.value })}
 				/>
-				<FormControlLabel
-					control={<AudioSlider value={audioGateRep ?? 0} onChange={setAudioGateRep} />}
-					label={
-						<>
-							<WbIncandescent /> Microphone Indicator Activation dB
-						</>
-					}
-					labelPlacement="start"
-				/>
+				<div style={{ display: "flex", alignItems: "center", gap: "16px", marginTop: "16px", textAlign: "center" }}>
+					<div style={{ display: "flex", alignItems: "center", gap: "4px", maxWidth: "200px" }}>
+						<WbIncandescent /> Microphone Indicator Activation dB
+					</div>
+					<AudioSlider value={audioGateRep ?? 0} onChange={setAudioGateRep} />
+				</div>
 			</FormGroup>
 		</div>
 	);

@@ -25,7 +25,7 @@ const Widescreen3Container = styled.div`
 
 const Screen = styled.div`
 	width: 903px;
-	height: 507px;
+	height: 508px;
 	border: 1px solid var(--sec);
 	box-sizing: border-box;
 `;
@@ -70,27 +70,45 @@ const NPIcon = styled.img`
 const InfoBox = styled.div`
 	background: var(--main);
 	/* background-image: url('../shared/design/contour-maps/widescreen-3-bottom.svg'); */
-	width: 901px;
+	width: 923px;
 	height: 182px;
+	padding: 0 20px;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	align-items: center;
+	justify-items: center;
+	border-right: 1px solid var(--main);
+
+	font-size: 22px;
+
+	& #gameTitle {
+		font-size: 250%;
+	}
+
+	& #timer {
+		font-size: 400%;
+	}
+
+	& #category {
+		max-width: 90%;
+		font-size: 120%;
+	}
+`;
+
+const InfoBoxColumn = styled.div`
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	border-right: 1px solid var(--main);
+	align-items: center;
+	gap: 10px;
 `;
 
-const InfoBoxRow = styled.div`
-	display: flex;
+const GameInfoBox = styled.div`
 	width: 100%;
-	justify-content: center;
-	align-items: center;
-`;
-const InfoBoxCell = styled.div`
 	display: flex;
-	/* flex-grow: 1; */
-	width: 45%;
-	justify-content: center;
+	justify-content: space-evenly;
 	align-items: center;
-	z-index: 2;
 `;
 
 const WideAudioIndicator = styled(AudioIndicator)`
@@ -100,6 +118,14 @@ const WideAudioIndicator = styled(AudioIndicator)`
 	& > div {
 		width: 50px;
 	}
+`;
+
+const LeftBG = styled.div`
+	position: absolute;
+	left: 0;
+	height: 1016px;
+	width: 57px;
+	background: var(--main);
 `;
 
 const RightBG = styled.div`
@@ -118,6 +144,7 @@ export const Widescreen3 = (props: OverlayProps) => {
 			<WideAudioIndicator active={props.gameAudioIndicator === 0} side="top" style={{ left: 961 }} />
 			<WideAudioIndicator active={props.gameAudioIndicator === 1} side="top" style={{ left: 1262 }} />
 			<WideAudioIndicator active={props.gameAudioIndicator === 2} side="top" style={{ left: 1563 }} />
+			<LeftBG />
 			<RightBG />
 			<TopBar>
 				<Screen />
@@ -157,34 +184,18 @@ export const Widescreen3 = (props: OverlayProps) => {
 						place={teamData[2]?.place}
 					/>
 					<InfoBox>
-						<InfoBoxRow style={{ height: "23%" }}>
-							<InfoBoxCell>
-								<RunInfo.GameTitle
-									style={{ fontSize: 30 }}
-									maxWidth={440}
-									game={props.runData?.game || ""}
-								/>
-							</InfoBoxCell>
-							<InfoBoxCell>
-								<RunInfo.Category
-									style={{ fontSize: 30 }}
-									maxWidth={440}
-									category={props.runData?.category || ""}
-								/>
-							</InfoBoxCell>
-						</InfoBoxRow>
-						<InfoBoxRow style={{ height: "43%" }}>
-							<InfoBoxCell>
-								<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
-									<RunInfo.System style={{ fontSize: 34 }} system={props.runData?.system || ""} />
-									<RunInfo.Year style={{ fontSize: 34 }} year={props.runData?.release || ""} />
-									<RunInfo.Estimate fontSize={34} estimate={props.runData?.estimate || ""} />
-								</div>
-							</InfoBoxCell>
-							<InfoBoxCell>
-								<Timer fontSize={60} timer={props.timer} />
-							</InfoBoxCell>
-						</InfoBoxRow>
+						<InfoBoxColumn id="gameInfo">
+							<RunInfo.GameTitle game={props.runData?.game ?? ""} />
+							<GameInfoBox>
+								<RunInfo.System system={props.runData?.system ?? ""} />
+								<RunInfo.Year year={props.runData?.release ?? ""} />
+								<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
+							</GameInfoBox>
+						</InfoBoxColumn>
+						<InfoBoxColumn id="runInfo">
+							<RunInfo.Category category={props.runData?.category ?? ""} />
+							<Timer timer={props.timer} />
+						</InfoBoxColumn>
 					</InfoBox>
 				</Screen>
 			</BottomBar>

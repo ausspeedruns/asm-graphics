@@ -14,7 +14,6 @@ const UpcomingRunsContainer = styled.div`
 	width: 100%;
 	height: 100%;
 	display: flex;
-	padding: 16px;
 	box-sizing: border-box;
 	transform: translate(-100%, 0);
 `;
@@ -27,12 +26,10 @@ const RunsPage = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 16px;
-	margin-left: -16px;
-	margin-top: -16px;
+	gap: 4px;
 `;
 
-const RUNS_LIMIT = 1;
+const RUNS_LIMIT = 2;
 const PRIZE_SPEED = 2;
 const PRIZE_DURATION = 10;
 const PRIZE_PAGE_STAGGER = 0.05;
@@ -77,25 +74,27 @@ export function UpcomingRuns(props: UpcomingRunsProps) {
 	);
 }
 
+const BORDER_RADIUS = 4;
+
 const UpcomingRunContainer = styled.div`
 	font-family: var(--secondary-font);
-	border-radius: 12px 8px 8px 12px;
+	border-radius: ${BORDER_RADIUS + 4}px ${BORDER_RADIUS}px ${BORDER_RADIUS}px ${BORDER_RADIUS + 4}px; // +4 because if it is the same as the MetaDataContainer it gets aliasing artifacts
 	background: white;
 	display: flex;
-	width: calc(100% - 48px);
-	height: 130px;
+	width: 90%;
+	flex-grow: 1;
+	font-size: 26px;
 `;
 
 const MetaDataContainer = styled.div`
-	padding: 16px;
+	padding: 8px;
 	background: var(--asm-orange);
-	border-radius: 8px 0 0 8px;
+	border-radius: ${BORDER_RADIUS}px 0 0 ${BORDER_RADIUS}px;
 	color: var(--text-light);
 
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	gap: 16px;
+	justify-content: space-evenly;
 `;
 
 const RequirementsContainer = styled.div`
@@ -107,29 +106,29 @@ const RequirementsContainer = styled.div`
 
 const Requirement = styled.span`
 	font-weight: bold;
-	font-size: 30px;
+	font-size: 80%;
 	text-align: center;
 `;
 
 const RequirementSubheading = styled(FitText)`
-	font-size: 110%;
+	font-size: 100%;
 	max-width: 150px;
 	font-family: var(--main-font);
 `;
 
 const Quantity = styled.span`
 	font-weight: bold;
-	font-size: 50px;
+	font-size: 120%;
 `;
 
 const ItemContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-evenly;
 	align-items: center;
 	flex-grow: 1;
 	color: var(--text-dark);
-	font-size: 45px;
+	font-size: 100%;
 `;
 
 const Item = styled(FitTextElements)`
@@ -190,7 +189,7 @@ export const Run = (props: RunProps) => {
 					)} */}
 					<RequirementSubheading
 						text={props.run.teams.map((team) => team.players.map((player) => player.name)).join(", ")}
-					></RequirementSubheading>
+					/>
 				</RequirementsContainer>
 				{/* <Quantity>
 					{props.run.quantity}
@@ -203,7 +202,6 @@ export const Run = (props: RunProps) => {
 					{props.prize.item} <SubItem>{props.prize.subItem}</SubItem>
 				</Item> */}
 				<Item text={<>{props.run.game}</>} />
-				<br />
 				<SubItem text={props.run.category} />
 			</ItemContainer>
 		</UpcomingRunContainer>

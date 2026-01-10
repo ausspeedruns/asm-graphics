@@ -96,4 +96,6 @@ export type NodeCGMessages = {
 	// Speedcontrol Converter
 	"speedcontrol:editRunner": { runId: string; runner: RunDataPlayer };
 	"speedcontrol:reorderRunners": { runId: string; newOrder: RunDataPlayer[] };
+	// AusSpeedruns Website
+	"ausspeedruns-website:recollectUserData": never;
 };

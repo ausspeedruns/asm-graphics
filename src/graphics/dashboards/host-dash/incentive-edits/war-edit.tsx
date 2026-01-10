@@ -13,6 +13,7 @@ import { styled } from "styled-components";
 import _ from "underscore";
 
 import type { War } from "@asm-graphics/types/Incentives";
+import NumberField from "../../../elements/number-field";
 
 const StackStyled = styled(Stack)`
 	font-size: 2rem;
@@ -161,14 +162,13 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 									key={`input-${i}`}
 								/>
 								<FormControl fullWidth>
-									<OutlinedInput
-										type="number"
+									<NumberField
 										value={increments[i]}
-										onChange={(e) => {
-											handleIncrementChange(parseFloat(e.target.value), i);
+										onValueChange={(value) => {
+											handleIncrementChange(value ?? 0, i);
 										}}
 										key={`input-amount-${i}`}
-										startAdornment={<InputAdornment position="start">$</InputAdornment>}
+										startAdornment={<InputAdornment position="start">$</InputAdornment>}	
 									/>
 								</FormControl>
 								<Button

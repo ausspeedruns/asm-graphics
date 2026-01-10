@@ -10,19 +10,15 @@ import {
 	type DragOverEvent,
 	type DragStartEvent,
 	DragOverlay,
-	useDroppable,
 } from "@dnd-kit/core";
 import {
 	arrayMove,
-	SortableContext,
 	sortableKeyboardCoordinates,
-	horizontalListSortingStrategy,
-	useSortable,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
+import { Container } from "./container";
+import { SquareItem } from "./sortable-item";
 
-// Styled Components for Dark Mode
 const PageWrapper = styled.div`
   background-color: #121212;
   color: #ffffff;
@@ -32,7 +28,7 @@ const PageWrapper = styled.div`
 `;
 
 const Section = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: 40px;
 `;
 
 const SectionTitle = styled.h2`
@@ -49,112 +45,14 @@ const Row = styled.div`
   flex-wrap: wrap;
 `;
 
-const ContainerBox = styled.div`
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 16px;
-  min-width: 300px;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`;
-
-const ContainerTitle = styled.h3`
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-`;
-
-const ItemList = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SquareItem = styled.div<{ isDragging?: boolean }>`
-  width: 80px;
-  height: 80px;
-  background-color: #2c2c2c;
-  border: 1px solid #444;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: grab;
-  user-select: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  opacity: ${(props) => (props.isDragging ? 0.4 : 1)};
-  box-shadow: ${(props) => (props.isDragging ? "0 8px 20px rgba(0,0,0,0.6)" : "0 2px 4px rgba(0,0,0,0.2)")};
-  
-  &:hover {
-    border-color: #666;
-    background-color: #333;
-  }
-
-  &:active {
-    cursor: grabbing;
-  }
-`;
-
-// Sortable Item Component
-interface SortableItemProps {
-	id: string;
+interface ItemsState {
+  [key: string]: string[];
 }
 
-const SortableItem: React.FC<SortableItemProps> = ({ id }) => {
-	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
-
-	const style = {
-		transform: CSS.Transform.toString(transform),
-		transition,
-	};
-
-	return (
-		<SquareItem ref={setNodeRef} style={style} isDragging={isDragging} {...attributes} {...listeners}>
-			{id}
-		</SquareItem>
-	);
-};
-
-// Droppable Container Component
-interface ContainerProps {
-	id: string;
-	title: string;
-	items: string[];
-}
-
-const Container: React.FC<ContainerProps> = ({ id, title, items }) => {
-	const { setNodeRef } = useDroppable({ id });
-
-	return (
-		<ContainerBox ref={setNodeRef}>
-			<ContainerTitle>{title}</ContainerTitle>
-			<SortableContext items={items} strategy={horizontalListSortingStrategy}>
-				<ItemList style={{ minHeight: "80px" }}>
-					{items.map((itemId) => (
-						<SortableItem key={itemId} id={itemId} />
-					))}
-				</ItemList>
-			</SortableContext>
-		</ContainerBox>
-	);
-};
-
-type ItemsState = Record<string, string[]>;
-
-// Main Component
 export default function MultipleContainers() {
 	const [items, setItems] = useState<ItemsState>({
 		comm1: ["C1-1", "C1-2", "C1-3"],
-		host: ["C2-1", "C2-2"],
+		comm2: ["C2-1", "C2sdsad-2"],
 		runners: ["R1", "R2", "R3", "R4"],
 	});
 
@@ -257,13 +155,15 @@ export default function MultipleContainers() {
 				onDragEnd={handleDragEnd}
 			>
 				<Section>
+					<SectionTitle>Commentators</SectionTitle>
 					<Row>
 						<Container id="comm1" title="Container 1" items={items["comm1"] ?? []} />
-						<Container id="host" title="Host" items={items["host"] ?? []} />
+						<Container id="comm2" title="Container 2" items={items["comm2"] ?? []} />
 					</Row>
 				</Section>
 
 				<Section>
+					<SectionTitle>Runners</SectionTitle>
 					<Row>
 						<Container id="runners" title="Runners List" items={items["runners"] ?? []} />
 					</Row>
@@ -276,3 +176,4 @@ export default function MultipleContainers() {
 		</PageWrapper>
 	);
 }
+

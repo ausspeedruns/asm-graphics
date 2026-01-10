@@ -1,10 +1,21 @@
-import { Button, TextField, InputAdornment, FormGroup, FormControlLabel, Checkbox, Tooltip, Box, Typography } from "@mui/material";
+import {
+	Button,
+	TextField,
+	InputAdornment,
+	FormGroup,
+	FormControlLabel,
+	Checkbox,
+	Tooltip,
+	Box,
+	Typography,
+} from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { ConnectionTag } from "../elements/connection-tag";
 import { PasswordField } from "../elements/password-field";
 import { generateOBSScenes } from "./obs-scene-generator";
 import type { RunDataArray } from "@asm-graphics/shared/types/RunData";
 import { useMemo, useState } from "react";
+import NumberField from "../elements/number-field";
 
 export function OBSSettings() {
 	const [obsStatusRep] = useReplicant("obs:status");
@@ -129,16 +140,23 @@ export function OBSSettings() {
 					}
 					label="Auto-reconnect to OBS"
 				/>
-				<TextField
+				<NumberField
 					label="Reconnect Interval (ms)"
-					slotProps={{ input: { endAdornment: <InputAdornment position="end">ms</InputAdornment> } }}
-					type="number"
-					fullWidth
 					value={obsReconnectIntervalRep}
-					onChange={(e) => setObsReconnectIntervalRep(Number(e.target.value))}
+					onValueChange={(value) => setObsReconnectIntervalRep(value ?? 5000)}
 				/>
 			</FormGroup>
-			<Typography variant="overline" sx={{ display: "block", mt: 3, mb: 0.5, fontWeight: "bold", borderTop: "1px solid rgba(255,255,255,0.1)", pt: 2 }}>
+			<Typography
+				variant="overline"
+				sx={{
+					display: "block",
+					mt: 3,
+					mb: 0.5,
+					fontWeight: "bold",
+					borderTop: "1px solid rgba(255,255,255,0.1)",
+					pt: 2,
+				}}
+			>
 				Scene Generator
 			</Typography>
 			<Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
@@ -150,28 +168,32 @@ export function OBSSettings() {
 					size="small"
 				/>
 				<Box sx={{ display: "flex", gap: 1 }}>
-					<TextField
+					<NumberField
 						label="Gameplay Captures"
-						type="number"
 						value={gameplayCaptures}
-						onChange={(e) => setGameplayCaptures(Number(e.target.value))}
-						fullWidth
+						onValueChange={(value) => setGameplayCaptures(value ?? 2)}
 						size="small"
+						fullWidth
+						min={0}
 					/>
-					<TextField
+					<NumberField
 						label="Camera Captures"
-						type="number"
 						value={cameraCaptures}
-						onChange={(e) => setCameraCaptures(Number(e.target.value))}
-						fullWidth
+						onValueChange={(value) => setCameraCaptures(value ?? 2)}
 						size="small"
+						fullWidth
+						min={0}
 					/>
 				</Box>
 				<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
 					<FormControlLabel
 						disabled
 						control={
-							<Checkbox size="small" checked={makeASNNScenes} onChange={(e) => setMakeASNNScenes(e.target.checked)} />
+							<Checkbox
+								size="small"
+								checked={makeASNNScenes}
+								onChange={(e) => setMakeASNNScenes(e.target.checked)}
+							/>
 						}
 						label={<Typography variant="body2">Generate ASNN Scenes</Typography>}
 					/>
@@ -194,25 +216,20 @@ export function OBSSettings() {
 							</Box>
 						}
 					>
-						<Typography 
-							variant="caption" 
-							sx={{ 
-								cursor: "help", 
-								color: "primary.main", 
+						<Typography
+							variant="caption"
+							sx={{
+								cursor: "help",
+								color: "primary.main",
 								borderBottom: "1px dashed",
-								pb: 0.2
+								pb: 0.2,
 							}}
 						>
 							View Layouts ({allLayouts.length})
 						</Typography>
 					</Tooltip>
 				</Box>
-				<Button 
-					variant="outlined" 
-					onClick={handleGenerateOBSSceneFile}
-					fullWidth
-					size="small"
-				>
+				<Button variant="outlined" onClick={handleGenerateOBSSceneFile} fullWidth size="small">
 					Generate OBS Scene File
 				</Button>
 			</Box>

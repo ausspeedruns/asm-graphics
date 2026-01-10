@@ -31,6 +31,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import NumberField from "../elements/number-field";
 
 export function PrizesSettings() {
 	const [prizesRep] = useReplicant("prizes");
@@ -130,13 +131,12 @@ export function PrizesSettings() {
 						</Typography>
 					)}
 					<Box display="flex" gap={2} marginBottom={2}>
-						<TextField
+						<NumberField
 							label="Quantity"
-							type="number"
-							variant="outlined"
 							value={quantity}
-							onChange={(e) => setQuantity(Number(e.target.value))}
+							onValueChange={(value) => setQuantity(value ?? 1)}
 							required
+							min={1}
 						/>
 						<TextField
 							label="Item"

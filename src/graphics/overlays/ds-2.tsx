@@ -28,16 +28,17 @@ const Middle = styled.div`
 `;
 
 const InfoBox = styled.div`
+	background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	height: 664px;
+	padding: 16px;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`
 	width: 100%;
 	/* height: 264px; */
-	flex-grow: 1;
 `;
 
 const SponsorsSize = {
@@ -72,8 +73,8 @@ export const DS2 = (props: OverlayProps) => {
 					}}
 				/>
 				<InfoBox>
-					<VerticalInfo timer={props.timer} runData={props.runData} style={{ mainStyle: { zIndex: 2 } }} />
 					<Couch commentators={props.commentators} style={{ zIndex: 2 }} />
+					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<SponsorBoxS sponsorStyle={SponsorsSize} sponsors={props.sponsors} style={{ zIndex: 2 }} />
 				</InfoBox>
 			</Middle>

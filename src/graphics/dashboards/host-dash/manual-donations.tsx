@@ -6,6 +6,7 @@ import { Box, Button, Grid, InputAdornment, TextField, Tooltip } from "@mui/mate
 import { Check, Delete, Undo } from "@mui/icons-material";
 
 import type { Donation } from "@asm-graphics/types/Donations";
+import NumberField from "../../elements/number-field";
 
 const DonationsContainer = styled.div`
 	height: calc(100% - 56px);
@@ -48,7 +49,7 @@ export const ManualDonations: React.FC = () => {
 	const [donations] = useReplicant("manual-donations");
 	const [author, setAuthor] = useState("");
 	const [message, setMessage] = useState("");
-	const [amount, setAmount] = useState("");
+	const [amount, setAmount] = useState(0);
 
 	const allDonations =
 		donations
@@ -58,14 +59,14 @@ export const ManualDonations: React.FC = () => {
 			.reverse() ?? [];
 
 	function newDonation() {
-		if (isNaN(parseFloat(amount))) {
+		if (isNaN(amount)) {
 			console.error("Amount was NaN", author, message, amount);
 			return;
 		}
 
 		console.log("New Manual Donation", author, message, amount);
 		const donation = {
-			amount: parseFloat(amount),
+			amount: amount,
 			currencySymbol: "$",
 			name: author,
 			read: false,
@@ -76,12 +77,12 @@ export const ManualDonations: React.FC = () => {
 
 		void nodecg.sendMessage("manual-donations:new", donation);
 
-		setAmount("");
+		setAmount(0);
 		setAuthor("");
 		setMessage("");
 	}
 
-	const canAddNewDonation = author.trim() !== "" && !isNaN(parseFloat(amount)) && parseFloat(amount) > 0;
+	const canAddNewDonation = author.trim() !== "" && !isNaN(amount) && amount > 0;
 
 	return (
 		<DonationsContainer>
@@ -94,18 +95,13 @@ export const ManualDonations: React.FC = () => {
 						value={author}
 						onChange={(e) => setAuthor(e.target.value)}
 					/>
-					<TextField
+					<NumberField
 						margin="dense"
 						label="Amount"
-						type="number"
 						fullWidth
 						value={amount}
-						slotProps={{
-							input: {
-								startAdornment: <InputAdornment position="start">$</InputAdornment>,
-							},
-						}}
-						onChange={(e) => setAmount(e.target.value)}
+						startAdornment={<InputAdornment position="start">$</InputAdornment>}
+						onValueChange={(value) => setAmount(value ?? 0)}
 					/>
 				</FormTopRow>
 				<TextField

@@ -9,6 +9,7 @@ import { Couch } from "../elements/couch";
 
 import WidescreenTop from "./backgrounds/WidescreenTop.png";
 import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
+import { CloudScrolling } from "./aso2026/clouds";
 
 const WidescreenContainer = styled.div`
 	height: 1016px;
@@ -34,9 +35,6 @@ const Sidebar = styled.div`
 	border-right: 1px solid var(--accent);
 	/* z-index: -1; */
 	overflow: hidden;
-
-	// ASAP2025
-	border-right: 1px solid #fff;
 `;
 
 const SidebarBG = styled.div`
@@ -64,12 +62,6 @@ const SponsorBoxS = styled(SponsorsBox)`
 	justify-content: center;
 	align-items: center;
 	z-index: 2;
-
-	background: #000;
-	border-radius: 35px;
-	box-shadow:
-		inset 9px 7px 4px rgba(221, 221, 221, 0.25),
-		inset 0px -4px 4px #fff;
 `;
 
 const SponsorSize = {
@@ -92,6 +84,17 @@ export const Widescreen = (props: OverlayProps) => {
 				}}
 			/> */}
 			<TopBar>
+				{/* ASO2026 Sky */}
+				<div
+					style={{
+						position: "absolute",
+						width: "100%",
+						height: "100%",
+						background: "linear-gradient(to bottom, #005fbf, #00b3c9)",
+					}}
+				/>
+				{/* ASO2026 Clouds */}
+				<CloudScrolling style={{ bottom: -20, height: 80, position: "absolute" }} />
 				<img
 					src={WidescreenTop}
 					style={{

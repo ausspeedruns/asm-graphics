@@ -54,17 +54,23 @@ if (nodecg.bundleConfig.graphql?.url) {
 	}, 5000);
 }
 
-nodecg.listenFor("refreshIncentives", () => {
+nodecg.listenFor("refreshIncentives", (_, cb) => {
 	getIncentives().then(
 		(success) => {
 			if (success) {
-				nodecg.sendMessage("incentivesUpdated", 200);
+				if (cb && !cb.handled) {
+					cb(null, 200);
+				}
 			} else {
-				nodecg.sendMessage("incentivesUpdated", 418);
+				if (cb && !cb.handled) {
+					cb(new Error("Failed to refresh incentives"), 418);
+				}
 			}
 		},
 		() => {
-			nodecg.sendMessage("incentivesUpdated", 500);
+			if (cb && !cb.handled) {
+				cb(new Error("Failed to refresh incentives"), 500);
+			}
 		},
 	);
 });

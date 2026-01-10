@@ -25,13 +25,11 @@ const Middle = styled.div`
 	/* border-right: 1px solid var(--pax-gold);
 	border-left: 1px solid var(--pax-gold); */
 	overflow: hidden;
-	margin-top: 576px;
+	// margin-top: 576px;
 `;
 
 const InfoBoxBG = styled.div`
-	background-image: url("../shared/design/contour-maps/standard.svg");
-	background-size: cover;
-	background-position: center;
+	background-color: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -55,7 +53,7 @@ export const ThreeDS2 = (props: OverlayProps) => {
 	return (
 		<ThreeDS2Container>
 			<Middle>
-				<div style={{ position: "absolute", height: 133, width: "100%", bottom: 0 }}></div>
+				<div style={{ position: "absolute", height: 133, width: "100%", bottom: 0 }} />
 				<Facecam height={307} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 
 				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />

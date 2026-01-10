@@ -84,9 +84,6 @@ const TickerItemContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	flex-grow: 1;
-
-	// ASAP2025
-	margin-top: -10px;
 `;
 
 const VerticalStack = styled.div`

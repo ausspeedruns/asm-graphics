@@ -18,23 +18,11 @@ const SponsorImage = styled.img`
 	width: 100%;
 `;
 
-const ASAP25SponsorGlow = styled.img`
-	position: absolute;
-	filter: blur(10px);
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-	z-index: 2;
-	top: 0;
-	left: 0;
-`;
-
 interface Props {
 	sponsors?: NodeCG.AssetFile[];
 	start?: number;
 	style?: React.CSSProperties;
 	className?: string;
-	noAsap25Glow?: boolean;
 }
 
 const AD_LENGTH = 5;
@@ -43,7 +31,6 @@ export function Sponsors(props: Props) {
 	const [imgIndex, setImgIndex] = useState(props.start ?? 0);
 	const imageContainerRef = useRef<HTMLDivElement>(null);
 	const imageRef = useRef<HTMLImageElement>(null);
-	const asap25GlowRef = useRef<HTMLImageElement>(null);
 
 	useEffect(() => {
 		// Change this to a tl loop
@@ -58,10 +45,6 @@ export function Sponsors(props: Props) {
 				if (props.sponsors) {
 					if (imageRef.current && props.sponsors) {
 						imageRef.current.src = props.sponsors[imgIndex]?.url ?? "";
-					}
-
-					if (asap25GlowRef.current) {
-						asap25GlowRef.current.src = props.sponsors[imgIndex]?.url ?? "";
 					}
 				}
 			});
@@ -81,9 +64,6 @@ export function Sponsors(props: Props) {
 	return (
 		<SponsorsContainer ref={imageContainerRef} className={props.className} style={props.style}>
 			<SponsorImage ref={imageRef} src={props.sponsors[props.start ?? 0]?.url} />
-			{!props.noAsap25Glow && (
-				<ASAP25SponsorGlow ref={asap25GlowRef} src={props.sponsors[props.start ?? 0]?.url} />
-			)}
 		</SponsorsContainer>
 	);
 }
@@ -100,7 +80,6 @@ interface FullBoxProps {
 	style?: React.CSSProperties;
 	className?: string;
 	sponsorStyle?: React.CSSProperties;
-	noAsap25Glow?: boolean;
 }
 
 export function SponsorsBox(props: FullBoxProps) {
@@ -109,7 +88,7 @@ export function SponsorsBox(props: FullBoxProps) {
 	return (
 		<SponsorsBoxContainer className={props.className} style={props.style}>
 			<div ref={sponsorMainRef} style={props.sponsorStyle}>
-				<Sponsors sponsors={props.sponsors} noAsap25Glow={props.noAsap25Glow} />
+				<Sponsors sponsors={props.sponsors} />
 			</div>
 		</SponsorsBoxContainer>
 	);

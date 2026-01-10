@@ -22,7 +22,6 @@ import { GBA } from "./overlays/gba";
 import { GBA2 } from "./overlays/gba-2";
 import { GBC } from "./overlays/gbc";
 import { DS2 } from "./overlays/ds-2";
-import { WHG } from "./overlays/whg11-8";
 import { ThreeDS } from "./overlays/3ds";
 import { ThreeDS2 } from "./overlays/3ds-2";
 import { NoGraphics } from "./overlays/no-graphics";
@@ -43,6 +42,9 @@ const GameplayContainer = styled.div`
 	width: 1920px;
 	border-right: 5px solid black;
 	border-bottom: 5px solid black;
+
+	font-family: var(--main-font);
+	color: var(--text-light);
 `;
 
 const SpacedLinks = styled(Link)`
@@ -158,10 +160,6 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 		{
 			component: <GBC2 {...overlayArgs} />,
 			name: "GBC-2",
-		},
-		{
-			component: <WHG {...overlayArgs} />,
-			name: "WHG",
 		},
 		{
 			component: <ThreeDS {...overlayArgs} />,

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { VerticalInfo, type IVerticalStyling } from "../elements/info-box/vertical";
+import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
@@ -28,12 +28,6 @@ const SponsorsBoxS = styled(SponsorsBox)`
 	width: 60%;
 	height: 200px;
 	z-index: 2;
-
-	background-image: url(${StandardSponsorBG});
-	background-size: cover;
-	background-position: center;
-
-	transform: rotate(-6deg) translateY(-5px);
 `;
 
 const SponsorsStyled = {
@@ -48,27 +42,7 @@ const InfoBoxBG = styled.div`
 	justify-content: space-around;
 	align-items: center;
 	height: 664px;
-
-	& > div {
-		z-index: 1;
-	}
 `;
-
-const customVerticalStyle: IVerticalStyling = {
-	maxTextWidth: 360,
-	gameTitleFontSize: 20,
-	timerFontSize: 60,
-	estimateFontSize: 64,
-	categoryFontSize: 40,
-	gameInfoFontSize: 48,
-	mainStyle: {
-		marginBottom: 70,
-	},
-	gameTitleStyle: {
-		maxWidth: "80%",
-		minHeight: 40,
-	},
-};
 
 export const GBA = (props: OverlayProps) => {
 	return (
@@ -81,16 +55,15 @@ export const GBA = (props: OverlayProps) => {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 				<InfoBoxBG>
-					<img src={GBABG} style={{ position: "absolute", height: "100%", width: "100%" }} />
+					{/* <img src={GBABG} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
 					<VerticalInfo
 						hideDividers
 						timer={props.timer}
 						runData={props.runData}
-						style={customVerticalStyle}
 					/>
 
-					<SponsorsBoxS sponsors={props.sponsors} sponsorStyle={SponsorsStyled} noAsap25Glow />
+					<SponsorsBoxS sponsors={props.sponsors} sponsorStyle={SponsorsStyled} />
 				</InfoBoxBG>
 			</Sidebar>
 		</GBAContainer>

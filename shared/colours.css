@@ -1,18 +1,19 @@
 body {
 	margin: 0;
-	--main: var(--asm-orange);
+	--main: #05093f;
 	--primary: var(--main);
 	--nameplate: #202020;
 	--nameplate-lighter: #292929;
-	--sec: var(--asm-blue);
+	--sec: #1c6eaa;
 	--accent: var(--asm-blue);
 
 	--text-light: white;
 	--text-dark: #202020;
 
-	--main-font: var(--asm-font);
-	--secondary-font: var(--asm-secondary-font);
+	--main-font: "Poppins";
+	--secondary-font: "Poppins";
 	--mono-font: var(--asm-font);
+	--game-font: "Knewave";
 
 	--asm-orange: #cc7722;
 	--asm-blue: #437c90;
@@ -35,12 +36,4 @@ body {
 		#f89d65 72.2%,
 		#ffba47 87%
 	);
-
-	--pax24-main: #222721;
-	--pax24-main-light: #444d42;
-
-	--acmi-main: #000000;
-	--acmi-main-light: #1f1f1f;
-	--acmi-secondary: #ffffff;
-	--acmi-secondary-font: "Nova Square";
 }

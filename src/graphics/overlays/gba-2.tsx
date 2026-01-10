@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, type ISmallStyling } from "../elements/info-box/small-asap25";
+import { SmallInfo } from "../elements/info-box/small";
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
@@ -32,6 +32,7 @@ const LeftBox = styled.div`
 	height: 100%;
 	display: flex;
 	position: relative;
+	background: var(--main);
 `;
 
 const RightBox = styled.div`
@@ -41,6 +42,16 @@ const RightBox = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	position: relative;
+	background: var(--main);
+`;
+
+const BottomBox = styled.div`
+	width: 1920px;
+	height: 100px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: var(--main);
 `;
 
 const SponsorSize = {
@@ -54,50 +65,19 @@ const CentralDivider = styled.div`
 	position: absolute;
 	top: 341px;
 	left: 959px;
-	background: white;
+	background: var(--sec);
 `;
-
-const customSmallStyling: ISmallStyling = {
-	categoryWidth: 590,
-	timerStackHeight: 100,
-	gameInfoFontSize: 60,
-	// gameNameBottomMargin: -40,
-	mainStyle: {
-		height: "100%",
-		width: "100%",
-		zIndex: 2,
-		padding: 0,
-	},
-	lowerStackStyle: {
-		justifyContent: "space-between",
-	},
-	timerStyle: {
-		flexGrow: 1,
-	},
-	gameNameStyle: {
-		lineHeight: "42px",
-		fontSize: 30,
-	},
-	categoryStyle: {
-		marginTop: 15,
-	},
-	gameStackHeight: 148,
-	estimateFontSize: 70,
-	estimateStyle: {
-		lineHeight: "29px",
-	},
-};
 
 export const GBA2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
 	return (
 		<Standard2Container>
-			<img src={GBA2p} style={{ position: "absolute", height: "100%", width: "100%" }} />
+			{/* <img src={GBA2p} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 
 			<Topbar>
 				<LeftBox>
-					<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyling} />
+					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
 				<AudioIndicator
@@ -150,18 +130,13 @@ export const GBA2 = (props: OverlayProps) => {
 						/>
 						<SponsorsBox
 							sponsors={props.sponsors}
-							style={{
-								flexGrow: 1,
-								background: "#000",
-								borderRadius: 35,
-								boxShadow: "inset 9px 7px 4px rgba(221, 221, 221, 0.25), inset 0px -4px 4px #fff",
-							}}
 							sponsorStyle={SponsorSize}
 						/>
 					</div>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />
+			<BottomBox />
 		</Standard2Container>
 	);
 };

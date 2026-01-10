@@ -2,12 +2,8 @@ import { EventSubscription, OBSWebSocket } from "obs-websocket-js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import { getReplicant } from "./replicants.js";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData.js";
-
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("OBS-Local");
-
-const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>("runDataActiveRun", "nodecg-speedcontrol");
 
 const obsStatusRep = getReplicant("obs:status");
 const obsCurrentSceneRep = getReplicant("obs:currentScene");
@@ -133,12 +129,6 @@ nodecg.listenFor("transition:toIntermission", (data) => {
 		}
 
 		nodecg.sendMessageToBundle("changeToNextRun", "nodecg-speedcontrol");
-
-		// CUSTOM TRANSITIONS
-		// Change the transitions for when we leave a game to be the next entry transition
-		if (runDataActiveRunRep.value?.customData["exitTransition"]) {
-			setTransitionQueue = runDataActiveRunRep.value.customData["entryTransition"] ?? null;
-		}
 	}, 3000);
 });
 
@@ -146,37 +136,7 @@ nodecg.listenFor("transition:toGame", (data) => {
 	if (!data.to.startsWith("GAMEPLAY")) return;
 
 	void cycleRecording();
-
-	setTimeout(() => {
-		// CUSTOM TRANSITIONS
-		// Change the transitions for when we leave a game to be the next enter transition
-		if (runDataActiveRunRep.value?.customData["exitTransition"]) {
-			setTransitionQueue = runDataActiveRunRep.value.customData["exitTransition"] ?? null;
-		}
-	}, 1500);
 });
-
-let setTransitionQueue: string | null = null;
-
-obs.on("SceneTransitionVideoEnded", (_transitionName) => {
-	if (setTransitionQueue) {
-		void SetCurrentSceneTransition(setTransitionQueue);
-	}
-});
-
-async function SetCurrentSceneTransition(transitionName: string) {
-	// Check if it's already that transition
-	const currentTransition = (await obs.call("GetCurrentSceneTransition")).transitionName;
-
-	if (currentTransition != transitionName) {
-		ncgLog.info(`Setting Current Scene Transition to: ${setTransitionQueue}`);
-		void obs.call("SetCurrentSceneTransition", {
-			transitionName: transitionName,
-		});
-
-		setTransitionQueue = null;
-	}
-}
 
 function determineSceneType(scene: string): SceneType {
 	if (scene.startsWith("GAMEPLAY")) {

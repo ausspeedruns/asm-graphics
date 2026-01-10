@@ -26,6 +26,7 @@ interface Props {
 	className?: string;
 	allowNewlines?: boolean;
 	alignment?: "centre" | "left" | "right";
+	id?: string;
 }
 
 export const FitText = memo((props: Props) => {
@@ -69,6 +70,7 @@ export const FitText = memo((props: Props) => {
 			className={props.className}
 			style={{ display: "flex", justifyContent: justifyContent, ...props.style }}
 			ref={containerRef}
+			id={props.id}
 		>
 			<Text ref={textRef} style={{ transformOrigin: transformOrigin }}>
 				{props.allowNewlines ? renderTextWithLineBreaks(props.text ?? "") : props.text?.replaceAll("\\n", " ")}
@@ -83,6 +85,7 @@ interface ElementsProps {
 	className?: string;
 	allowNewlines?: boolean;
 	alignment?: "centre" | "left" | "right";
+	id?: string;
 }
 
 export const FitTextElements = memo((props: ElementsProps) => {
@@ -126,6 +129,7 @@ export const FitTextElements = memo((props: ElementsProps) => {
 			className={props.className}
 			style={{ display: "flex", justifyContent: justifyContent, ...props.style }}
 			ref={containerRef}
+			id={props.id}
 		>
 			<Text ref={textRef} style={{ transformOrigin: transformOrigin }}>
 				{props.text}

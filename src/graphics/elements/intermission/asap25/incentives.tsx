@@ -3,14 +3,6 @@ import type { Incentive, War } from "@asm-graphics/types/Incentives";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-const ASAP2025Dot = styled.div`
-	height: 15px;
-	width: 15px;
-	background: #000000;
-	border-radius: 50%;
-	z-index: 10;
-`;
-
 interface Props {
 	incentives?: Incentive[];
 	style?: React.CSSProperties;
@@ -49,7 +41,6 @@ function IncentiveItem(props: IncentiveItemProps) {
 			}}
 		>
 			{/* Top Row: Game and Incentive Name */}
-			<ASAP2025Dot />
 			<div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 4 }}>
 				<span style={{ textAlign: "right", fontWeight: "bold" }}>{props.incentive.game}</span>
 				<span style={{ textAlign: "right" }}>{props.incentive.incentive}</span>

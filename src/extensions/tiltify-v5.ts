@@ -25,10 +25,11 @@ const PaginationMetadataSchema = z.object({
 });
 
 let accessToken = "";
+let expiryTime = 0;
 
 const TiltifyOAuthTokenSchema = z.object({
 	access_token: z.string(),
-	expires_in: z.number(),
+	expires_in: z.number(), // seconds
 	token_type: z.string(),
 });
 
@@ -56,6 +57,7 @@ async function getAccessToken() {
 		if (parsedData.data.access_token) {
 			ncgLog.info("Got access token!");
 			accessToken = parsedData.data.access_token;
+			expiryTime = parsedData.data.expires_in;
 			ncgLog.info("Token data", JSON.stringify(parsedData.data));
 			tiltifyStatusRep.value = "connected";
 		}
@@ -396,20 +398,30 @@ async function getDonationMatchData() {
 	}
 }
 
-let accessTokenInterval: NodeJS.Timeout | undefined;
+let accessTokenTimeout: NodeJS.Timeout | undefined;
 let campaignDataInterval: NodeJS.Timeout | undefined;
+
+async function autoRefreshAccessToken() {
+	await getAccessToken();
+
+	const buffer = 60; // seconds
+	const refreshIn = (expiryTime - buffer) * 1000;
+
+	if (accessTokenTimeout) clearInterval(accessTokenTimeout);
+
+	accessTokenTimeout = setTimeout(
+		() => {
+			void autoRefreshAccessToken();
+		},
+		refreshIn,
+	);
+}
 
 // Initialise
 async function connectToTiltify() {
 	tiltifyStatusRep.value = "connecting";
 
-	// Update access every hour
-	accessTokenInterval = setInterval(
-		() => {
-			void getAccessToken();
-		},
-		30 * 60 * 1000,
-	);
+	void autoRefreshAccessToken();
 
 	// Get data
 	campaignDataInterval = setInterval(() => {
@@ -428,7 +440,7 @@ nodecg.listenFor("tiltify:setConnection", (data: boolean) => {
 	} else {
 		ncgLog.info("Tiltify connection disabled via dashboard");
 		accessToken = "";
-		if (accessTokenInterval) clearInterval(accessTokenInterval);
+		if (accessTokenTimeout) clearInterval(accessTokenTimeout);
 		if (campaignDataInterval) clearInterval(campaignDataInterval);
 		tiltifyStatusRep.value = "disconnected";
 	}

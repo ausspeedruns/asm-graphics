@@ -15,14 +15,6 @@ const TimeText = styled.div`
 	font-weight: bold;
 `;
 
-const ASAP2025Dot = styled.div`
-	height: 15px;
-	width: 15px;
-	background: #000000;
-	border-radius: 50%;
-	z-index: 10;
-`;
-
 interface Props {
 	run: RunDataActiveRun;
 	players?: ReactNode[];
@@ -37,8 +29,6 @@ export function ASAP25UpcomingRun(props: Props) {
 				{props.isNext ? "UP NEXT" : props.run?.scheduled ? format(props.run?.scheduled, "h:mm a") : "??:??"}
 			</TimeText>
 
-			{/* Dot */}
-			<ASAP2025Dot style={{ marginTop: props.isNext ? 18 : 10, marginLeft: props.isNext ? 15 : 13 }} />
 			{/* Run Info */}
 			<div style={{ marginLeft: 20, display: "flex", flexDirection: "column" }}>
 				<FitText style={{ fontWeight: 900, maxWidth: 500 }} text={props.run?.game} alignment="left" />

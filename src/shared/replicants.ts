@@ -70,6 +70,7 @@ export const replicants = {
 			eventSlug: nodecg.bundleConfig.graphql?.event ?? "",
 			apiKey: nodecg.bundleConfig.graphql?.apiKey ?? "",
 			url: nodecg.bundleConfig.graphql?.url ?? "",
+			incentiveRefreshInterval: 10000,
 		},
 	},
 	"incentives:updated-at": null as number | null,

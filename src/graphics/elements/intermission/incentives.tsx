@@ -23,10 +23,8 @@ const InterIncentivesContainer = styled.div`
 	position: relative;
 	width: 100%;
 	height: 100%;
-
 	display: flex;
 	flex-direction: column;
-	padding: 16px 0;
 	box-sizing: border-box;
 `;
 
@@ -53,46 +51,39 @@ const PipsContainer = styled.div`
 `;
 
 const Pip = styled.div<{ $active?: boolean }>`
-	height: 40px;
+	height: 5px;
 	min-width: 10px;
 	flex-grow: 1;
 	background: transparent;
-	// border-radius: 5px;
+	border-radius: 5px;
 	transition: 1s;
-	// background:rgb(177, 102, 27);
-	// box-shadow: inset 0 6px 0 0 rgb(206, 70, 12);
-
-	outline: 3px solid #fff;
-	outline-offset: 4px;
+	background: #dcb995;
 
 	${(props) =>
 		props.$active &&
 		css`
-			background: var(--text-outline);
-			box-shadow: inset 0 -6px 0 0 rgba(0, 0, 0, 0.33);
+			background: #f58d3a;
 		`}
 `;
 
 const CurrentLabels = styled.div`
 	display: flex;
-	flex-direction: column;
+	// flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 70px;
-	margin-bottom: 32px;
+	gap: 4px;
 `;
 
 const MainLabel = styled(FitText)`
 	font-size: 100%;
-	height: 40px;
 	max-width: 100%;
-	margin-bottom: -4px;
 	font-family: var(--secondary-font);
+	font-weight: bold;
 `;
 
 const Subheading = styled(FitText)`
-	font-size: 80%;
-	height: 30px;
+	font-size: 100%;
 	max-width: 100%;
 `;
 
@@ -234,7 +225,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 				}}
 			/>,
 		);
-		allLabels.push({ header: "Upcoming Run", subheading: "AusSpeedruns.com/Schedule" });
+		allLabels.push({ header: "Upcoming Runs", subheading: "AusSpeedruns.com/Schedule" });
 	}
 
 	const showContent = (element: TickerItemHandles) => {
@@ -276,7 +267,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 			<PanelContainer>{allPanels}</PanelContainer>
 			<CurrentPanel>
 				<CurrentLabels ref={labelsRef}>
-					<MainLabel text={allLabels[currentPanel]?.header} />
+					<MainLabel text={allLabels[currentPanel]?.header} />–
 					{allLabels[currentPanel]?.subheading && <Subheading text={allLabels[currentPanel].subheading} />}
 				</CurrentLabels>
 				<PipsContainer>

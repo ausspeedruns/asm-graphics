@@ -3,7 +3,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { SmallInfo, type ISmallStyling } from "../elements/info-box/small-asap25";
+import { SmallInfo, type ISmallStyling } from "../elements/info-box/small";
 
 import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";

@@ -8,8 +8,8 @@ import * as RunInfo from "../run-info";
 
 const SmallInfoContainer = styled.div`
 	box-sizing: border-box;
-	padding: 20px 0 20px 0;
-	height: 241px;
+	padding: 20px 10px;
+	height: 100%;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -17,99 +17,71 @@ const SmallInfoContainer = styled.div`
 	justify-content: space-evenly;
 	/* background: var(--main); */
 	z-index: 2;
+
+	color: var(--text-light);
+	font-family: var(--main-font);
+
+	font-size: 30px;
+
+	& #timer {
+		font-size: 200%;
+	}
+
+	& #gameTitle, & #category {
+		max-width: 90%;
+	}
+
+	& #gameTitle {
+		font-size: 200%;
+		font-weight: bold;
+	}
 `;
 
 const VerticalStack = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-evenly;
-	height: 100%;
+	justify-content: center;
+	width: 100%;
 `;
 
-const InfoSubBox = styled.div`
+const TopRow = styled(VerticalStack)`
+	justify-content: space-evenly;
+	flex: 3;
+`;
+
+const BottomRow = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
 	width: 100%;
-	height: 137px;
-	padding: 0 16px;
-	box-sizing: border-box;
+	flex: 1;
 `;
-
-export interface ISmallStyling {
-	timerStackHeight?: number;
-	timerSize?: number;
-	timerStyle?: React.CSSProperties;
-	categoryWidth?: number;
-	estimateSize?: number;
-	lowerStackHeight?: number;
-	gameTitleWidth?: number;
-	gameStackHeight?: number;
-	gameTitleSize?: number;
-	gameInfoSize?: number;
-	mainStyle?: React.CSSProperties;
-	lowerStackStyle?: React.CSSProperties;
-	gameNameStyle?: React.CSSProperties;
-	categoryStyle?: React.CSSProperties;
-	gameNameBottomMargin?: number;
-}
-
-const DefaultSmallStyling = {
-	timerStackHeight: 120,
-	timerSize: 75,
-	categoryWidth: 270,
-	estimateSize: 30,
-	gameTitleWidth: 540,
-	gameStackHeight: 80,
-	gameTitleSize: 45,
-	gameInfoSize: 25,
-	gameNameBottomMargin: -10,
-} as const satisfies ISmallStyling;
 
 interface Props {
 	className?: string;
-	style?: ISmallStyling;
+	style?: React.CSSProperties;
 	timer: ITimer | undefined;
 	runData: RunDataActiveRun | undefined;
 }
 
-export const SmallInfo: React.FC<Props> = (props: Props) => {
-	const styles = { ...DefaultSmallStyling, ...props.style };
+export function SmallInfo(props: Props) {
 	return (
-		<SmallInfoContainer className={props.className} style={styles.mainStyle}>
-			<VerticalStack style={{ height: styles.timerStackHeight, width: "100%" }}>
-				<RunInfo.GameTitle
-					maxWidth={styles.gameTitleWidth}
-					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
-					style={{
-						fontSize: styles.gameTitleSize,
-						marginBottom: styles.gameNameBottomMargin,
-						...styles.gameNameStyle,
-					}}
-				/>
-				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
-					<RunInfo.System
-						system={props.runData?.system ?? ""}
-						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
-					/>
-					<RunInfo.Year
-						year={props.runData?.release ?? ""}
-						style={{ fontSize: styles.gameInfoSize, zIndex: 2 }}
-					/>
-				</div>
-			</VerticalStack>
-			<InfoSubBox style={{ ...styles.lowerStackStyle, height: styles.lowerStackHeight }}>
-				<VerticalStack style={{ height: styles.gameStackHeight, ...styles.categoryStyle }}>
-					<RunInfo.Category maxWidth={styles.categoryWidth} category={props.runData?.category ?? ""} />
-					<RunInfo.Estimate fontSize={styles.estimateSize} estimate={props.runData?.estimate ?? ""} />
+		<SmallInfoContainer className={props.className} style={props.style}>
+			<TopRow id="topRow">
+				<RunInfo.GameTitle game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""} />
+				<RunInfo.Category category={props.runData?.category ?? ""} />
+			</TopRow>
+			<BottomRow id="bottomRow">
+				<VerticalStack id="categoryEstimateStack">
+					<RunInfo.System system={props.runData?.system ?? ""} />
+					<RunInfo.Year year={props.runData?.release ?? ""} />
 				</VerticalStack>
-				<Timer
-					fontSize={styles.timerSize}
-					timer={props.timer}
-					style={{ ...styles.timerStyle, padding: "16px 8px" }}
-				/>
-			</InfoSubBox>
+				<VerticalStack>
+					<Timer timer={props.timer} />
+					<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
+				</VerticalStack>
+			</BottomRow>
 		</SmallInfoContainer>
 	);
-};
+}

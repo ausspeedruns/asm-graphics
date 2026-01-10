@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { type ISmallStyling, SmallInfo } from "../elements/info-box/small";
+import { SmallInfo } from "../elements/info-box/small";
 import { Facecam } from "../elements/facecam";
+
+import DSBG from "./backgrounds/DS.png";
 
 const DSContainer = styled.div`
 	height: 1016px;
@@ -18,19 +20,21 @@ const Sidebar = styled.div`
 	overflow: hidden;
 `;
 
+const InfoBox = styled.div`
+	position: relative;
+	background: var(--main);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	height: 239px;
+	border-bottom: 1px solid var(--sec);
+`;
+
 const DSSecondScreen = styled.div`
 	width: 564px;
 	height: 423px;
-	border-top: 1px solid var(--sec);
 `;
-
-const customSmallStyle: ISmallStyling = {
-	mainStyle: {
-		background: "var(--main)",
-		height: 239,
-	},
-	timerSize: 65,
-};
 
 export function DS(props: OverlayProps) {
 	return (
@@ -42,7 +46,11 @@ export function DS(props: OverlayProps) {
 					pronounStartSide="right"
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
-				<SmallInfo timer={props.timer} runData={props.runData} style={customSmallStyle} />
+
+				<InfoBox>
+					<img src={DSBG} style={{ position: "absolute", width: "100%", height: "100%" }} />
+					<SmallInfo timer={props.timer} runData={props.runData} />
+				</InfoBox>
 				<DSSecondScreen />
 			</Sidebar>
 		</DSContainer>

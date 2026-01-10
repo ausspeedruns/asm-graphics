@@ -7,12 +7,31 @@ import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
 
 const VerticalInfoContainer = styled.div`
-	height: 340px;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
+	z-index: 2;
+	gap: 10px;
+
+	font-size: 28px;
+
+	& #timer {
+		font-size: 270%;
+	}
+
+	& #gameTitle, & #category {
+		max-width: 90%;
+	}
+
+	& #gameTitle {
+		font-size: 150%;
+	}
+
+	& #category {
+		font-weight: 600;
+	}
 `;
 
 const VerticalStack = styled.div`
@@ -21,98 +40,50 @@ const VerticalStack = styled.div`
 	align-items: center;
 	justify-content: space-evenly;
 	height: 100%;
+	width: 100%;
 `;
 
-interface DividerProps {
-	margin: number;
-}
+const HorizontalStack = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 100%;
+`;
 
-const Divider = styled.div<DividerProps>`
+const Divider = styled.div`
 	min-height: 1px;
 	height: 1px;
 	width: 80%;
 	background-color: white;
-	margin: ${({ margin }) => `${margin}px 0`};
+	margin: 20px 0;
 `;
-
-export interface IVerticalStyling {
-	timerStackHeight?: number;
-	timerFontSize?: number;
-	timerStyle?: React.CSSProperties;
-	estimateFontSize?: number;
-	maxTextWidth?: number;
-	gameStackHeight?: number;
-	gameTitleFontSize?: number;
-	gameInfoFontSize?: number;
-	mainStyle?: React.CSSProperties;
-	categoryFontSize?: number;
-	dividerMargin?: number;
-	gameTitleStyle?: React.CSSProperties;
-	estimateStyle?: React.CSSProperties;
-}
-
-const DefaultVerticalStyling = {
-	timerStackHeight: 180,
-	timerFontSize: 110,
-	timerStyle: { marginBottom: -5 },
-	estimateFontSize: 30,
-	maxTextWidth: 500,
-	gameStackHeight: 100,
-	gameTitleFontSize: 37,
-	gameInfoFontSize: 25,
-	categoryFontSize: 34,
-	dividerMargin: 20,
-} as const satisfies IVerticalStyling;
 
 interface Props {
 	className?: string;
-	style?: IVerticalStyling;
+	style?: React.CSSProperties;
 	timer: ITimer | undefined;
 	runData: RunDataActiveRun | undefined;
 	hideDividers?: boolean;
 }
 
 export function VerticalInfo(props: Props) {
-	const styles = { ...DefaultVerticalStyling, ...props.style };
-
 	return (
-		<VerticalInfoContainer className={props.className} style={styles.mainStyle}>
-			<VerticalStack style={{ height: styles.timerStackHeight }}>
-				<Timer fontSize={styles.timerFontSize} timer={props.timer} style={styles.timerStyle} />
-				<RunInfo.Estimate
-					fontSize={styles.estimateFontSize}
-					estimate={props.runData?.estimate ?? ""}
-					style={styles.estimateStyle}
-				/>
+		<VerticalInfoContainer className={props.className} style={props.style}>
+			<VerticalStack id="timerStack">
+				<Timer timer={props.timer} />
+				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 			</VerticalStack>
-			{!props.hideDividers && <Divider margin={styles.dividerMargin} />}
-			<VerticalStack style={{ height: styles.gameStackHeight, marginTop: 0, width: "100%" }}>
-				<RunInfo.GameTitle
-					maxWidth={styles.maxTextWidth}
-					game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""}
-					style={{
-						fontSize: styles.gameTitleFontSize,
-						lineHeight: `${styles.gameTitleFontSize}px`,
-						...styles.gameTitleStyle,
-					}}
-				/>
-				<div style={{ width: "100%", display: "flex", justifyContent: "space-evenly" }}>
-					<RunInfo.System
-						system={props.runData?.system ?? ""}
-						style={{ fontSize: styles.gameInfoFontSize, zIndex: 2 }}
-					/>
-					<RunInfo.Year
-						year={props.runData?.release ?? ""}
-						style={{ fontSize: styles.gameInfoFontSize, zIndex: 2 }}
-					/>
-				</div>
+			{!props.hideDividers && <Divider className="divider" />}
+			<VerticalStack id="gameInfo">
+				<RunInfo.GameTitle game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""} />
+				<HorizontalStack id="subInfoStack">
+					<RunInfo.System system={props.runData?.system ?? ""} />
+					<RunInfo.Year year={props.runData?.release ?? ""} />
+				</HorizontalStack>
 			</VerticalStack>
-			{!props.hideDividers && <Divider margin={styles.dividerMargin} />}
-			<RunInfo.Category
-				maxWidth={styles.maxTextWidth!}
-				category={props.runData?.category ?? ""}
-				fontSize={styles.categoryFontSize}
-			/>
+			{!props.hideDividers && <Divider className="divider" />}
+			<RunInfo.Category category={props.runData?.category ?? ""} />
 		</VerticalInfoContainer>
 	);
 }

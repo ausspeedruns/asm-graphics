@@ -30,12 +30,6 @@ const NameplateContainer = styled.div<NameplateStyleProps>`
 	justify-content: space-between;
 	align-items: stretch;
 	background: var(--nameplate);
-
-	// ASAP2025
-	font-family: Poppins;
-	font-weight: 900;
-	text-transform: uppercase;
-	background: #121212;
 `;
 
 const Names = styled.div<NameplateStyleProps>`
@@ -79,9 +73,6 @@ const PronounBox = styled.div<NameplateStyleProps>`
 	width: ${({ vertical }) => (vertical ? "100%" : "")};
 	box-sizing: border-box;
 	font-family: var(--main-font);
-
-	// ASAP2025
-	font-family: Public Sans;
 `;
 
 const TwitchLogoImg = styled.img`

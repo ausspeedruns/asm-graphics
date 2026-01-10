@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 
-import { VerticalInfo, type IVerticalStyling } from "../elements/info-box/vertical";
+import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
@@ -29,8 +29,9 @@ const RightSidebar = styled.div`
 	right: 0;
 	height: 1016px;
 	width: 211px;
-	border-left: 1px solid var(--pax-gold);
+	border-left: 1px solid var(--accent);
 	overflow: hidden;
+	background: var(--main);
 `;
 
 const SponsorBoxStyle = styled(SponsorsBox)`
@@ -48,15 +49,9 @@ const InfoBoxBG = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	height: 664px;
+	padding: 16px;
+	background: var(--main);
 `;
-
-const customVerticalStyling: IVerticalStyling = {
-	maxTextWidth: 540,
-	mainStyle: {
-		zIndex: 4,
-		marginTop: 50,
-	},
-};
 
 export function GBC(props: OverlayProps) {
 	return (
@@ -71,7 +66,7 @@ export function GBC(props: OverlayProps) {
 						audio={props.microphoneAudioIndicator}
 						darkTitle
 					/>
-					<VerticalInfo timer={props.timer} runData={props.runData} style={customVerticalStyling} />
+					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>

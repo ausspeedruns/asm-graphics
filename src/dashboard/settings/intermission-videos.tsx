@@ -34,6 +34,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
+import NumberField from "../elements/number-field";
 
 export function IntermissionVideos() {
 	const [intermissionVideosRep, setIntermissionVideosRep] = useReplicant("intermission-videos");
@@ -113,8 +114,8 @@ function IntermissionVideoComponent(props: IntermissionVideoProps) {
 		setVolumeInput(newValue);
 	}
 
-	function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-		setVolumeInput(event.target.value === "" ? 0 : Number(event.target.value));
+	function handleInputChange(value: number | null) {
+		setVolumeInput(value ?? 0);
 	}
 
 	function handleBlur() {
@@ -180,20 +181,14 @@ function IntermissionVideoComponent(props: IntermissionVideoProps) {
 								aria-labelledby="input-slider"
 								size="small"
 							/>
-							<Input
+							<NumberField
 								value={volumeInput}
 								size="small"
-								onChange={handleInputChange}
+								onValueChange={handleInputChange}
 								onBlur={handleBlur}
-								inputProps={{
-									step: 1,
-									min: 0,
-									max: 100,
-									type: "number",
-									"aria-labelledby": "input-slider",
-									style: { textAlign: "center" },
-								}}
-								sx={{ width: "50px" }}
+								min={0}
+								max={100}
+								sx={{ width: "90px" }}
 							/>
 						</div>
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>

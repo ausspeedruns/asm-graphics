@@ -2,38 +2,19 @@ import styled from "styled-components";
 
 import type { Timer as TimerType } from "@asm-graphics/types/Timer";
 
-const TimerContainer = styled.div<FontProps>`
+const TimerContainer = styled.div`
 	display: flex;
 	align-items: flex-end;
 	font-family: Seamless;
-	font-size: ${(props) => props.fontSize}px;
 	color: var(--text-light);
 	text-align: center;
 	letter-spacing: 2px;
 	justify-content: center;
-
-	// ASAP2025
-	background: #121212;
-	padding: 25px;
-	border: 2px solid #6A6A6A;
-	border-radius: 11px;
-	color: #ffc94b;
-
-	& > span {
-		filter: drop-shadow(0px 0px 15.7px #ff4f23);
-	}
 `;
 
-const MilliText = styled.span<FontProps>`
-	min-width: 42px;
-	font-size: ${(props) => props.fontSize / 2}px;
-	letter-spacing: -1px;
-	margin-left: -9px;
-`;
-
-const DecimalGap = styled.div`
-	display: inline-block;
-	width: 4px;
+const MilliText = styled.span`
+	font-size: 50%;
+	margin-left: -3%;
 `;
 
 interface FontProps {
@@ -42,11 +23,8 @@ interface FontProps {
 
 interface Props {
 	timer?: TimerType;
-	fontSize?: number;
 	style?: React.CSSProperties;
 }
-
-const DEFAULT_FONT_SIZE = 80;
 
 export function Timer(props: Props) {
 	let millis = 0;
@@ -65,12 +43,9 @@ export function Timer(props: Props) {
 	}
 
 	return (
-		<TimerContainer fontSize={props.fontSize ?? DEFAULT_FONT_SIZE} style={props.style}>
+		<TimerContainer style={props.style} id="timer">
 			<span>{compressedTime}</span>
-			<MilliText fontSize={props.fontSize ?? DEFAULT_FONT_SIZE}>
-				.<DecimalGap />
-				{millis}
-			</MilliText>
+			<MilliText>.{millis}</MilliText>
 		</TimerContainer>
 	);
 }

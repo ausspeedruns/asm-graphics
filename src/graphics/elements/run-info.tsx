@@ -7,62 +7,32 @@ interface FontProps {
 	fontSize: number;
 }
 
-const BaseStyle = styled.div`
-	font-family: var(--main-font);
-	color: var(--text-light);
-
-	// ASAP2025
-	font-family: Reenie Beanie;
-`;
-
 /*			CATEGORY			*/
-const CategoryContainer = styled(BaseStyle)`
+const CategoryContainer = styled(FitText)`
 	font-weight: bold;
-	font-size: 42px;
 	text-transform: uppercase;
-
-	// ASAP2025
-	color: #E97100;
-	font-family: Permanent Marker;
-	font-weight: normal;
 `;
 
 interface CategoryProps {
 	category: string;
-	maxWidth: number;
 	style?: CSSProperties;
-	fontSize?: number;
 }
 
 export function Category(props: CategoryProps) {
-	return (
-		<CategoryContainer style={props.style}>
-			<FitText
-				allowNewlines
-				style={{ maxWidth: props.maxWidth, lineHeight: "37px", fontSize: props.fontSize }}
-				text={props.category}
-			/>
-		</CategoryContainer>
-	);
+	return <CategoryContainer allowNewlines style={props.style} id="category" text={props.category} />;
 }
 
 /*			ESTIMATE			*/
-const EstimateContainer = styled(BaseStyle)`
-	// ASAP2025
-	color: #E97100;
-	-webkit-text-stroke: 2px #E97100;
+const EstimateContainer = styled.div``;
 
-`;
-
-const EstText = styled.span<FontProps>`
-	font-size: ${({ fontSize }) => fontSize * 0.5}px;
+const EstText = styled.span`
+	font-size: 50%;
 `;
 
 const EstTime = styled.span``;
 
 interface EstimateProps {
 	estimate: string;
-	fontSize?: number;
 	style?: CSSProperties;
 }
 
@@ -74,62 +44,31 @@ export function Estimate(props: EstimateProps) {
 	}
 
 	return (
-		<EstimateContainer style={props.style}>
-			<EstText fontSize={props.fontSize ?? 34}>{formattedEstimate && "EST "}</EstText>
-			<EstTime style={{ fontSize: props.fontSize ?? 34 }}>{formattedEstimate}</EstTime>
+		<EstimateContainer style={props.style} id="estimate">
+			<EstText>{formattedEstimate && "EST "}</EstText>
+			<EstTime>{formattedEstimate}</EstTime>
 		</EstimateContainer>
 	);
 }
 
 /*			GAME TITLE			*/
-const GameContainer = styled(BaseStyle)`
-	font-family: var(--secondary-font);
-	font-size: 50px;
-	font-weight: 1000;
-	
-	// ASAP2025
-	background: #000000;
-	padding: 10px 20px;
-	border-radius: 11px;
-	color: #FFC94B;
-	font-family: Digital Numbers;
-	font-size: 20px;
-	font-weight: normal;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	
-	& > div {
-		filter: drop-shadow(0px 0px 15.7px #FF4F23);
-	}
+const GameContainer = styled(FitText)`
+	font-family: var(--game-font);
+	line-height: 1; // Changes based on font, keep tight
 `;
 
 interface GameProps {
 	game: string;
-	maxWidth: number;
 	style?: CSSProperties;
 }
 
 export function GameTitle(props: GameProps) {
-	return (
-		<GameContainer style={props.style}>
-			<FitText allowNewlines style={{ maxWidth: props.maxWidth, lineHeight: 1.2 }} text={props.game} />
-		</GameContainer>
-	);
+	return <GameContainer allowNewlines style={props.style} id="gameTitle" text={props.game} />;
 }
 
 /*			SYSTEM			*/
-const SystemContainer = styled(FitTextElements)`
-	font-size: 35px;
-	font-family: var(--main-font);
-	color: var(--text-light);
-	max-width: 75%;
-
-	// ASAP2025
-	font-family: Reenie Beanie;
-	color: #009AA2;
-	-webkit-text-stroke: 3px #009AA2;
-	max-width: 100%;
+const SystemContainer = styled(FitText)`
+	max-width: 90%;
 `;
 
 interface SystemProps {
@@ -138,17 +77,11 @@ interface SystemProps {
 }
 
 export function System(props: SystemProps) {
-	return <SystemContainer style={props.style} text={props.system} />;
+	return <SystemContainer style={props.style} text={props.system} id="system" />;
 }
 
 /*			YEAR			*/
-const YearContainer = styled(BaseStyle)`
-	font-size: 34px;
-
-	// ASAP2025
-	color: #009AA2;
-	-webkit-text-stroke: 3px #009AA2;
-`;
+const YearContainer = styled.div``;
 
 interface YearProps {
 	year: string;
@@ -156,9 +89,9 @@ interface YearProps {
 }
 
 export function Year(props: YearProps) {
-	// if (!props.year) {
-	// 	return <></>;
-	// }
-
-	return <YearContainer style={props.style}>{props.year ? props.year : 9999}</YearContainer>;
+	return (
+		<YearContainer style={props.style} id="year">
+			{props.year ? props.year : "????"}
+		</YearContainer>
+	);
 }

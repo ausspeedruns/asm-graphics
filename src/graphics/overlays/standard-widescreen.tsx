@@ -95,7 +95,7 @@ const customSmallStyling: ISmallStyling = {
 	categoryStyle: {
 		width: 350,
 	},
-	gameTitleSize: 60,
+	gameTitleFontSize: 60,
 	gameTitleWidth: 740,
 	timerSize: 90,
 };

@@ -50,3 +50,17 @@ getAllUsers().then(
 	},
 	() => {},
 );
+
+nodecg.listenFor("ausspeedruns-website:recollectUserData", async (_, cb) => {
+	try {
+		const allUsers = await getAllUsers();
+		allAusSpeedrunsUsernamesRep.value = allUsers ?? [];
+		if (cb && !cb.handled) {
+			cb(null, 200);
+		}
+	} catch (error) {
+		if (cb && !cb.handled) {
+			cb(error, 500);
+		}
+	}
+});
