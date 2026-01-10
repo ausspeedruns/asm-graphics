@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
 import { useRive } from "@rive-app/react-canvas";

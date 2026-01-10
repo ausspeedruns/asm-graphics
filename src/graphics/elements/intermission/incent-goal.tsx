@@ -1,5 +1,5 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import type { Goal } from "@asm-graphics/types/Incentives";
 import type { TickerItemHandles } from "./incentives";

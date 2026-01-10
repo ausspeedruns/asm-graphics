@@ -1,5 +1,6 @@
 import { memo, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 

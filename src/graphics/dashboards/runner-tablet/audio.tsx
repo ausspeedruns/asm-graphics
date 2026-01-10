@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";
 import equal from "fast-deep-equal";

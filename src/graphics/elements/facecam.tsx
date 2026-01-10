@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
 import type { RunDataTeam } from "@asm-graphics/types/RunData";

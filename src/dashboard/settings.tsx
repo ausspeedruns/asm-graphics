@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import { ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";

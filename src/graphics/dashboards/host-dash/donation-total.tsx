@@ -1,5 +1,5 @@
 import { useReplicant } from "@nodecg/react-hooks";
-import { styled } from "styled-components";
+import styled from "@emotion/styled";
 
 const DonationTotalContainer = styled.div`
 	container-type: size;

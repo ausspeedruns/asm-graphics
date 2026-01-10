@@ -10,11 +10,11 @@ import {
 	ToggleButtonGroup,
 	useColorScheme,
 } from "@mui/material";
-import styled, { css } from "styled-components";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 import { Headsets } from "../shared/audio-data";
 import { useMemo, useState } from "react";
 import { useReplicant } from "@nodecg/react-hooks";
-import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import { Delete } from "@mui/icons-material";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 

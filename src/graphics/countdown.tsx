@@ -1,7 +1,7 @@
 import { useListenFor } from "@nodecg/react-hooks";
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-// import styled from "styled-components";
+// import styled from "@emotion/styled";
 import { Timer } from "./elements/timer";
 import type { Timer as TimerType } from "@asm-graphics/types/Timer";
 

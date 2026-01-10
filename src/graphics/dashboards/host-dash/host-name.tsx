@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import { TextField, Button, Autocomplete } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";

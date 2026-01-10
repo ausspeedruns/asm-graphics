@@ -1,7 +1,7 @@
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import { format } from "date-fns";
 import type { ReactNode } from "react";
-import { styled } from "styled-components";
+import styled from "@emotion/styled";
 import { RunnerNames } from "../runner-names";
 import { FitText } from "../../../elements/fit-text";
 

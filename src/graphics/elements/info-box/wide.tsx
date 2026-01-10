@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Timer as ITimer } from "@asm-graphics/types/Timer";

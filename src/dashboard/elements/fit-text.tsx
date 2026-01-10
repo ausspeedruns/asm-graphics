@@ -3,7 +3,7 @@
 
 import { useRef, useEffect, memo } from "react";
 
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const Text = styled.div`
 	white-space: nowrap;

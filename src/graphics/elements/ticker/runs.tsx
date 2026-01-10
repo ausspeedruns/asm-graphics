@@ -1,5 +1,5 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { clone } from "underscore";
 
 import { TickerTitle } from "./title";

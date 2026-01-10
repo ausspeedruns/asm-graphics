@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import gsap from "gsap";
 
 import { VolumeUp } from "@mui/icons-material";

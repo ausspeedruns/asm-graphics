@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import gsap, { Power2 } from "gsap";
 
 import AusSpeedrunsLogo from "../../media/AusSpeedruns-Logo.svg";

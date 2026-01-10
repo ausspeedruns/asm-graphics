@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useImperativeHandle, Fragment } from "react";
-import styled, { keyframes } from "styled-components";
+import { useState, useEffect, useRef, useImperativeHandle, Fragment } from "react";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { createRoot } from "react-dom/client";
 import { clone } from "underscore";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";

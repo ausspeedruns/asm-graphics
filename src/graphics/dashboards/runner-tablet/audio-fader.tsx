@@ -1,6 +1,6 @@
 import { Button, Slider } from "@mui/material";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import type { Headset } from "../../../shared/audio-data";
 import { Add, Remove } from "@mui/icons-material";
 

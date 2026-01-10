@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled, { keyframes } from "styled-components";
+import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { format } from "date-fns";
 import gsap from "gsap";

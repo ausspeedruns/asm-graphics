@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { format } from "date-fns";
 
 import { FitText } from "../fit-text";

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import type { OverlayProps } from "@asm-graphics/types/OverlayProps";
 

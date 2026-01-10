@@ -1,5 +1,5 @@
 import type { BoardCell, CellColour } from "@asm-graphics/shared/BingoSync.js";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const Cell = styled.div`
 	font-family: var(--main-font);

@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, memo } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import gsap from "gsap";
 import { format } from "date-fns";
 

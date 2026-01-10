@@ -1,5 +1,5 @@
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import type { TickerItemHandles } from "../ticker";
 

@@ -1,6 +1,6 @@
 import { cloneElement, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { createTheme } from "@mui/material/styles";
 import { Button, ThemeProvider, useColorScheme } from "@mui/material";
 import { Description, Edit, Tune, ResetTv, DarkMode, LightMode } from "@mui/icons-material";

@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { FormControlLabel, Switch, ThemeProvider } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 

@@ -4,7 +4,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Tab from "@mui/material/Tab";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { Incentives } from "./incentives";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { IconButton } from "@mui/material";

@@ -9,7 +9,7 @@ import {
 	Stack,
 	TextField,
 } from "@mui/material";
-import { styled } from "styled-components";
+import styled from "@emotion/styled";
 import _ from "underscore";
 
 import type { War } from "@asm-graphics/types/Incentives";

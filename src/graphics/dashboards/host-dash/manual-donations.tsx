@@ -1,5 +1,6 @@
 import { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { useReplicant } from "@nodecg/react-hooks";
 import _, { uniqueId } from "underscore";
 import { Box, Button, Grid, InputAdornment, TextField, Tooltip } from "@mui/material";

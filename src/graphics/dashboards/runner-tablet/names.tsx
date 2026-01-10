@@ -1,5 +1,6 @@
 import { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react"
 import { useReplicant } from "@nodecg/react-hooks";
 
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";

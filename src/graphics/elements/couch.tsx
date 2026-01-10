@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";

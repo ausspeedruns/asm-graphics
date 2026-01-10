@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import gsap from "gsap";
 
 import type NodeCG from "nodecg/types";

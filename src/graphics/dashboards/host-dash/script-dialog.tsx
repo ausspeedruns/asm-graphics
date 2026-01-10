@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Markdown from "react-markdown";
 
 import RemarkGithubAlerts from "remark-github-alerts";

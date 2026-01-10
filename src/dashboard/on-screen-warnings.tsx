@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import { Button, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";

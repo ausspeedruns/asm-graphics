@@ -1,5 +1,5 @@
 import { type Ref, useImperativeHandle, useRef } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import type { DonationMatch } from "@asm-graphics/types/Donations";
 import type { TickerItemHandles } from "../ticker";

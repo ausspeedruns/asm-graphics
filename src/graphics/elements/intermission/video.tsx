@@ -1,5 +1,5 @@
 import { useImperativeHandle, useRef, useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import gsap from "gsap";
 
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";

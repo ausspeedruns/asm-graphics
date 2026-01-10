@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { styled } from "styled-components";
+import styled from "@emotion/styled";
 import { Button, Checkbox, FormControl, FormControlLabel, InputAdornment, OutlinedInput, Stack } from "@mui/material";
 
 import type { Goal } from "@asm-graphics/types/Incentives";

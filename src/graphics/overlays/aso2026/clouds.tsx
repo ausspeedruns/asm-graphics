@@ -1,7 +1,7 @@
 // ASO2026
 
 import { useRef, useEffect, useState, useCallback } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Clouds1 from "./clouds-1.png";
 // import Clouds2 from "./clouds-2.png";
 

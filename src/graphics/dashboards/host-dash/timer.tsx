@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 
 import type { Timer as ITimer } from "@asm-graphics/types/Timer";

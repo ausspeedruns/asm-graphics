@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import type { Incentive, War } from "@asm-graphics/types/Incentives";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
