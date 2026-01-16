@@ -19,7 +19,7 @@ const StandardContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 578px;
+	width: 580px;
 	border-right: 1px solid var(--asm-orange);
 	overflow: hidden;
 `;
@@ -82,7 +82,6 @@ export const StandardVertical = (props: OverlayProps) => {
 					<Couch
 						style={{ zIndex: 3, paddingTop: 32, transform: "scale(1.2)" }}
 						commentators={props.commentators}
-						host={props.host}
 						audio={props.microphoneAudioIndicator}
 					/>
 				</InfoBoxBG>

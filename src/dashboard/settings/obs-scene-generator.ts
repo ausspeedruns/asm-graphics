@@ -8,6 +8,7 @@ import type {
 	textSourceSchema,
 	obsSceneFileSchema,
 	sourceItems,
+	colourSourceSchema,
 } from "./obs-scene-generator/obs-schemas";
 import {
 	baseOBSScenesFile,
@@ -17,7 +18,13 @@ import {
 	generateColourSource,
 	generateOBSScene,
 	generateTextLabelSource,
+	type SourceInput,
 } from "./obs-scene-generator/generate-sources";
+import { GameplayLocations } from "./obs-gameplay-scene-data";
+
+function generateReferenceColourSource(name: string): z.infer<typeof colourSourceSchema> {
+	return generateColourSource(name, "#00ff00ff");
+}
 
 function generateTransitionBrowserSource(urlBase: string): z.infer<typeof browserSourceSchema> {
 	return generateBrowserSource("Transition Overlay", `${urlBase}/bundles/asm-graphics/graphics/transition.html`, {
@@ -43,6 +50,7 @@ const x32AudioSource: z.infer<typeof audioCaptureSourceSchema> = {
 	settings: {
 		device_id: "X32 USB Audio",
 	},
+	mixers: 3,
 };
 
 function generateVideoCaptureSource(name: string): z.infer<typeof videoCaptureSourceSchema> {
@@ -55,6 +63,8 @@ function generateVideoCaptureSource(name: string): z.infer<typeof videoCaptureSo
 			video_device_id: "",
 			last_video_device_id: "",
 		},
+		volume: 0,
+		muted: true,
 	};
 }
 
@@ -109,12 +119,26 @@ function generateMultiviewerScene(
 	const sourceHeight = 1080 / rows;
 
 	const videoSceneItems = videoSources.map((source, index) => {
-		const sceneItem = convertSourceToSceneItem(source, {
-			x: (index % columns) * sourceWidth,
-			y: Math.floor(index / columns) * sourceHeight,
-			scaleX: sourceWidth / 1920,
-			scaleY: sourceHeight / 1080,
-		});
+		const sceneItem = convertSourceToSceneItem(
+			source,
+			{
+				x: (index % columns) * sourceWidth,
+				y: Math.floor(index / columns) * sourceHeight,
+				scaleX: sourceWidth / 1920,
+				scaleY: sourceHeight / 1080,
+			},
+			{
+				bounds_type: 2,
+				bounds: {
+					x: sourceWidth,
+					y: sourceHeight,
+				},
+				bounds_rel: {
+					x: 1920 / 1080,
+					y: 1080 / 1080,
+				},
+			},
+		);
 
 		return sceneItem;
 	});
@@ -137,9 +161,11 @@ function generateMultiviewerScene(
 	return [generateOBSScene("Multiviewer", [], [...videoSceneItems, ...labelSceneItems]), labelSources];
 }
 
-function convertGameplayLayoutNameToGraphicURLName(layoutName: string): string {
-	if (layoutName.toLowerCase() === "fullcam") {
-		return "None";
+const FullCamNames = ["fullcam", "full cam", "full-cam", "full", "fullscreen", "full screen"];
+
+function convertGameplayLayoutNameToGraphicURLName(layoutName: string): string | undefined {
+	if (FullCamNames.includes(layoutName.toLowerCase())) {
+		return undefined;
 	}
 
 	return layoutName
@@ -155,8 +181,19 @@ export function generateOBSScenes(options: {
 	numberOfGameplayCaptures: number; // Normally 2 (Up to 2 runners)
 	numberOfCameraCaptures: number; // Normally 2 (Runner and Crowd cam)
 }) {
+	const convertedLayoutNames = Array.from(
+		new Set(
+			options.gameplayLayouts
+				.map((layoutName) => convertGameplayLayoutNameToGraphicURLName(layoutName))
+				.filter((name) => !!name),
+		),
+	) as string[];
+
 	// Make all sources
 	const transitionBrowserSource = generateTransitionBrowserSource(options.urlBase);
+
+	const fullcamBrowserSource = generateGameplayBrowserSource("None", options.urlBase);
+	fullcamBrowserSource.name = "Fullcam Overlay";
 
 	const gameplaySources = [];
 	for (let i = 0; i < options.numberOfGameplayCaptures; i++) {
@@ -169,11 +206,8 @@ export function generateOBSScenes(options: {
 	}
 
 	const allGameplayBrowserSources: Record<string, z.infer<typeof browserSourceSchema>> = {};
-	for (const layoutName of options.gameplayLayouts) {
-		allGameplayBrowserSources[layoutName] = generateGameplayBrowserSource(
-			convertGameplayLayoutNameToGraphicURLName(layoutName),
-			options.urlBase,
-		);
+	for (const layoutName of convertedLayoutNames) {
+		allGameplayBrowserSources[layoutName] = generateGameplayBrowserSource(layoutName, options.urlBase);
 	}
 
 	const intermissionBrowserSource = generateBrowserSource(
@@ -187,6 +221,7 @@ export function generateOBSScenes(options: {
 		...gameplaySources,
 		...cameraSources,
 		...Object.values(allGameplayBrowserSources),
+		fullcamBrowserSource,
 		intermissionBrowserSource,
 		x32AudioSource,
 	];
@@ -194,23 +229,71 @@ export function generateOBSScenes(options: {
 	// Make all scenes
 	const audioScene = generateOBSScene("X32 Audio Capture", [x32AudioSource]);
 
-	const gameplayCaptureScenes = gameplaySources.map((source) =>
-		generateOBSScene(source.name, [source]),
-	);
+	const gameplayCaptureScenes = gameplaySources.map((source) => generateOBSScene(source.name, [source]));
 
 	const facecamScene = generateOBSScene("Facecam Capture", [cameraSources[0]]);
 	const crowdcamScene = generateOBSScene("Crowdcam Capture", [cameraSources[1] ?? cameraSources[0]]);
 
-	const gameplayScenes = options.gameplayLayouts.map((layoutName) => {
+	console.log(convertedLayoutNames);
+	const gameplayScenes = convertedLayoutNames.map((layoutName) => {
 		const gameplayBrowserSource = allGameplayBrowserSources[layoutName];
 
 		if (!gameplayBrowserSource) {
 			throw new Error(`No gameplay browser source found for layout: ${layoutName}`);
 		}
 
+		// Generate reference colour sources for game crop feature
+		const colourReferenceSources: z.infer<typeof sourceSchema>[] = [];
+		const colourReferenceSceneItems: SourceInput[] = [];
+		const videoLocations = GameplayLocations[layoutName.replaceAll(" ", "-") as keyof typeof GameplayLocations];
+		if (videoLocations) {
+			for (let i = 0; i < videoLocations.length; i++) {
+				const location = videoLocations[i];
+				if (!location) continue;
+
+				const colourSource = generateReferenceColourSource(
+					`REFERENCE - ${layoutName}${videoLocations.length > 1 ? ` - Screen ${i + 1}` : ""}`,
+				);
+
+				colourReferenceSources.push(colourSource);
+
+				const scaleX = location.width / 1920;
+				const scaleY = location.height / 1080;
+
+				colourReferenceSceneItems.push({
+					source: colourSource,
+					overrides: {
+						locked: true,
+						pos: {
+							x: location.x,
+							y: location.y,
+						},
+						pos_rel: {
+							x: (2 * location.x - 1920) / 1080,
+							y: (2 * location.y - 1080) / 1080,
+						},
+						scale: {
+							x: scaleX,
+							y: scaleY,
+						},
+						scale_rel: {
+							x: scaleX,
+							y: scaleY,
+						},
+						visible: false,
+					},
+				});
+			}
+		} else {
+			console.warn(`No gameplay locations found for layout: ${layoutName}`);
+		}
+
+		obsRawSources.push(...colourReferenceSources);
+
 		return generateOBSScene(`GAMEPLAY ${layoutName}`, [
 			audioScene,
 			facecamScene,
+			...colourReferenceSceneItems,
 			...gameplayCaptureScenes,
 			{ source: gameplayBrowserSource, overrides: { locked: true } },
 			{ source: transitionBrowserSource, overrides: { locked: true } },
@@ -226,6 +309,14 @@ export function generateOBSScenes(options: {
 		{ source: transitionBrowserSource, overrides: { locked: true } },
 	]);
 
+	const fullcamScene = generateOBSScene("Fullcam", [
+		audioScene,
+		facecamScene,
+		crowdcamScene,
+		{ source: fullcamBrowserSource, overrides: { locked: true } },
+		{ source: transitionBrowserSource, overrides: { locked: true } },
+	]);
+
 	const divider1Scene = generateOBSScene("==============");
 	const divider2Scene = generateOBSScene("==============="); // Extra '=' to avoid ID conflicts
 
@@ -235,6 +326,7 @@ export function generateOBSScenes(options: {
 		...gameplayScenes,
 		divider1Scene,
 		intermissionScene,
+		fullcamScene,
 		// ASNN scenes would go here
 		divider2Scene,
 		...gameplayCaptureScenes,

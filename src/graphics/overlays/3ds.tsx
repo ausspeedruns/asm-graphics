@@ -13,7 +13,7 @@ const ThreeDSContainer = styled.div`
 `;
 
 const TopBar = styled.div`
-	height: 175px;
+	height: 176px;
 	width: 100%;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-color: var(--main);
@@ -23,9 +23,9 @@ const TopBar = styled.div`
 
 const Sidebar = styled.div`
 	position: absolute;
-	top: 175px;
-	height: 841px;
-	width: 517px;
+	top: 176px;
+	height: 840px;
+	width: 520px;
 	border-right: 1px solid var(--sec);
 	z-index: -1;
 `;
@@ -53,7 +53,7 @@ export const ThreeDS = (props: OverlayProps) => {
 				<Facecam
 					// style={{ borderBottom: '1px solid #FFC629' }}
 					maxNameWidth={270}
-					height={452}
+					height={451}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
 					audioIndicator={props.microphoneAudioIndicator}

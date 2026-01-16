@@ -1,0 +1,47 @@
+.container {
+	display: flex;
+	gap: 8px;
+	padding: 8px;
+}
+
+@keyframes error-flashing {
+	0% {
+		background-color: rgb(255, 48, 48);
+	}
+
+	100% {
+		background-color: rgb(131, 0, 0);
+	}
+}
+
+.statusIndicator {
+	flex: 1;
+	height: 24px;
+	border-radius: 6px;
+	background-color: gray;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&[data-status="disconnected"] {
+		background-color: gray;
+	}
+
+	&[data-status="connecting"] {
+		background-color: blue;
+	}
+
+	&[data-status="connected"] {
+		background-color: green;
+	}
+
+	&[data-status="warning"] {
+		background-color: yellow;
+	}
+
+	&[data-status="error"] {
+		background-color: red;
+		animation: error-flashing 0.5s infinite linear alternate;
+	}
+}

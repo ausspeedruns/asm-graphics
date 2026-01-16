@@ -21,7 +21,7 @@ nodecg.listenFor("changeGameAudio", (data) => {
 		return;
 	}
 
-	if (x32StatusRep.value == "connected") {
+	if (x32StatusRep.value.status == "connected") {
 		nodecg.sendMessage("x32:changeGameAudio", data.index);
 	}
 });

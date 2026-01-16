@@ -15,7 +15,7 @@ const DSContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 565px;
+	width: 564px;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
 `;
@@ -27,7 +27,7 @@ const InfoBox = styled.div`
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	height: 239px;
+	height: 240px;
 	border-bottom: 1px solid var(--sec);
 `;
 

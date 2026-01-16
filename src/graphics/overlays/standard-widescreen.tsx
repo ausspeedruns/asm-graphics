@@ -20,14 +20,14 @@ const StandardWidescreenContainer = styled.div`
 const Topbar = styled.div`
 	display: flex;
 	position: absolute;
-	height: 407px;
+	height: 400px;
 	width: 1920px;
 	/* border-bottom: 1px solid var(--sec); */
 	overflow: hidden;
 `;
 
 const LeftBox = styled.div`
-	width: 542px;
+	width: 524px;
 	height: 100%;
 	display: flex;
 	// background: var(--main);
@@ -37,7 +37,7 @@ const LeftBox = styled.div`
 `;
 
 const RightBox = styled.div`
-	width: 791px;
+	width: 796px;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -56,11 +56,11 @@ const SponsorSize = {
 };
 
 const CentralDivider = styled.div`
-	height: 609px;
-	width: 2px;
+	height: 618px;
+	width: 1px;
 	position: absolute;
 	bottom: 0;
-	left: 834px;
+	left: 823px;
 	background: var(--sec);
 `;
 
@@ -101,7 +101,6 @@ export const StandardWidescreen = (props: OverlayProps) => {
 						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} />
 						<Couch
 							commentators={props.commentators}
-							host={props.host}
 							style={{ width: "100%", zIndex: 3, marginBottom: 16 }}
 							audio={props.microphoneAudioIndicator}
 							align="center"
@@ -131,7 +130,7 @@ export const StandardWidescreen = (props: OverlayProps) => {
 				/>
 
 				<Facecam
-					width={586}
+					width={598}
 					maxNameWidth={190}
 					style={{
 						borderRight: "1px solid var(--accent)",

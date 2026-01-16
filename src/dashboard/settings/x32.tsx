@@ -20,8 +20,8 @@ export function X32Settings() {
 					variant="contained"
 					color="success"
 					fullWidth
-					disabled={x32StatusRep === "connected"}
-					loading={x32StatusRep === "connecting"}
+					disabled={x32StatusRep?.status === "connected"}
+					loading={x32StatusRep?.status === "connecting"}
 					onClick={() => void nodecg.sendMessage("x32:setConnected", true)}
 				>
 					Connect
@@ -30,7 +30,7 @@ export function X32Settings() {
 					variant="contained"
 					color="error"
 					fullWidth
-					disabled={x32StatusRep === "disconnected"}
+					disabled={x32StatusRep?.status === "disconnected"}
 					onClick={() => void nodecg.sendMessage("x32:setConnected", false)}
 				>
 					Disconnect

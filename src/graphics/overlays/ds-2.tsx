@@ -22,8 +22,8 @@ const Middle = styled.div`
 	position: relative;
 	height: 1016px;
 	width: 564px;
-	border-right: 1px solid var(--pax-gold);
-	border-left: 1px solid var(--pax-gold);
+	border-right: 1px solid var(--sec);
+	border-left: 1px solid var(--sec);
 	overflow: hidden;
 `;
 

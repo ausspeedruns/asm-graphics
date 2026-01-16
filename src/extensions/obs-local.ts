@@ -1,9 +1,10 @@
 import { EventSubscription, OBSWebSocket } from "obs-websocket-js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import { getReplicant } from "./replicants.js";
+import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 
 const nodecg = nodecgApiContext.get();
-const ncgLog = new nodecg.Logger("OBS-Local");
+const log = new nodecg.Logger("OBS-Local");
 
 const obsStatusRep = getReplicant("obs:status");
 const obsCurrentSceneRep = getReplicant("obs:currentScene");
@@ -47,11 +48,11 @@ obs.on("Identified", async () => {
 });
 
 obs.on("ConnectionClosed", async () => {
-	nodecg.log.warn("[OBS] Connection closed");
+	log.warn("Connection closed");
 
 	clearTimeout(streamStatusGetter);
 	obsStreamTimecodeRep.value = null;
-	obsStatusRep.value = "disconnected";
+	updateOBSStatus("disconnected", "Connection closed");
 
 	if (obsAutoReconnectRep.value) {
 		reconnectTimeout = setTimeout(() => {
@@ -67,7 +68,7 @@ obsAutoReconnectRep.on("change", (newVal) => {
 });
 
 obsReconnectIntervalRep.on("change", () => {
-	if (obsStatusRep.value === "connected" || obsStatusRep.value === "connecting") {
+	if (obsStatusRep.value.status === "connected" || obsStatusRep.value.status === "connecting") {
 		return;
 	}
 
@@ -80,8 +81,8 @@ obsReconnectIntervalRep.on("change", () => {
 });
 
 obs.on("ConnectionError", (err) => {
-	nodecg.log.warn("[OBS] Connection error:", err);
-	obsStatusRep.value = "error";
+	log.warn("Connection error:", err);
+	updateOBSStatus("error", "Connection error. Check console for details.");
 });
 
 obs.on("SceneTransitionStarted", async (transitionName) => {
@@ -110,13 +111,13 @@ obs.on("SceneTransitionStarted", async (transitionName) => {
 		// Future ;)
 		case "Unknown":
 		default:
-			ncgLog.info("Unknown transition");
+			log.info("Unknown transition");
 			transitionFromIntermission(toScene, currentScene);
 			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: currentScene });
 			break;
 	}
 
-	ncgLog.info(`[OBS Local] Program Scene changed from ${currentScene} to ${toScene}`);
+	log.info(`[OBS Local] Program Scene changed from ${currentScene} to ${toScene}`);
 });
 
 // AUTOMATICALLY ADVANCE RUN WHEN TRANSITIONING FROM GAME TO INTERMISSION
@@ -218,7 +219,7 @@ async function cycleRecording() {
 async function connectOBS() {
 	const ncgOBSConfig = nodecg.bundleConfig.obs;
 
-	obsStatusRep.value = "connecting";
+	updateOBSStatus("connecting", "Connecting to OBS...");
 
 	try {
 		const { obsWebSocketVersion, negotiatedRpcVersion } = await obs.connect(
@@ -230,14 +231,11 @@ async function connectOBS() {
 			},
 		);
 
-		nodecg.log.info(
-			`[OBS] Connection successful | Version ${obsWebSocketVersion} (using RPC ${negotiatedRpcVersion})`,
-		);
-		obsStatusRep.value = "connected";
+		log.info(`Connection successful | Version ${obsWebSocketVersion} (using RPC ${negotiatedRpcVersion})`);
+		updateOBSStatus("connected", "Connection successful");
 	} catch (err) {
-		// nodecg.log.warn('[OBS] Connection error');
-		nodecg.log.warn("[OBS] Connection error:", err);
-		obsStatusRep.value = "disconnected";
+		log.warn("Connection error:", err);
+		updateOBSStatus("error", "Connection error. Check console for details.");
 	}
 }
 
@@ -254,8 +252,41 @@ nodecg.listenFor("obs:setConnected", (connected) => {
 });
 
 if (nodecg.bundleConfig.obs?.enabled) {
-	nodecg.log.info("[OBS-Local] OBS Local extension is enabled.");
+	log.info("[OBS-Local] OBS Local extension is enabled.");
 	void connectOBS();
 } else {
-	nodecg.log.info("[OBS-Local] OBS Local extension is disabled; not connecting.");
+	log.info("[OBS-Local] OBS Local extension is disabled; not connecting.");
 }
+
+function updateOBSStatus(status: ConnectionStatus["status"], message: string) {
+	obsStatusRep.value = {
+		status,
+		timestamp: Date.now(),
+		message,
+	};
+}
+
+nodecg.listenFor("obs:getVideoFeed", async (data, cb) => {
+	if (obsStatusRep.value.status !== "connected") {
+		const errorMsg = "OBS is not connected.";
+		log.warn(errorMsg);
+		if (!cb?.handled) {
+			cb?.(new Error(errorMsg));
+		}
+		return;
+	}
+
+	// Here you would add the logic to handle the video feed retrieval.
+	// For example, you might interact with OBS WebSocket API to get the feed.
+
+	const imageData = await obs.call("GetSourceScreenshot", {
+		sourceName: data.feedName,
+		imageFormat: "png",
+		imageWidth: 1920,
+		imageHeight: 1080,
+	});
+
+	if (!cb?.handled) {
+		cb?.(null, imageData);
+	}
+});

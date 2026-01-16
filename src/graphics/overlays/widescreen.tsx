@@ -31,7 +31,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	bottom: 0;
 	height: 810px;
-	width: 479px;
+	width: 481px;
 	border-right: 1px solid var(--accent);
 	/* z-index: -1; */
 	overflow: hidden;
@@ -127,7 +127,6 @@ export const Widescreen = (props: OverlayProps) => {
 					<Couch
 						style={{ zIndex: 2, marginTop: 8 }}
 						commentators={props.commentators}
-						host={props.host}
 						audio={props.microphoneAudioIndicator}
 						darkTitle
 					/>

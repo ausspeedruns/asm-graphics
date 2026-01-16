@@ -6,7 +6,6 @@ import type { Donation, DonationMatch } from "./types/Donations.js";
 import type { Incentive } from "./types/Incentives.js";
 import type { AudioIndicator, OBSAudioIndicator } from "./types/Audio.js";
 import type { User as AusSpeedrunsUser } from "./types/AusSpeedrunsWebsite.js";
-import type { ConnectionStatus } from "./types/Connections.js";
 import type { Automations } from "./types/Automations.js";
 import type { Prize } from "./types/Prizes.js";
 import type { BoardState, RoomJoinParameters } from "./BingoSync.js";
@@ -20,6 +19,18 @@ type ReplicantValueType = Primitives | Primitives[] | object[] | NodeCG.Replican
 
 const nodecg = nodecgApiContext.get();
 
+export interface ConnectionStatus {
+	status: "disconnected" | "connected" | "warning" | "error" | "connecting";
+	timestamp: number;
+	message: string;
+}
+
+const defaultStatus: ConnectionStatus = {
+	status: "disconnected",
+	timestamp: 0,
+	message: "",
+};
+
 export const replicants = {
 	// Commentators/Host
 	commentators: [] as RunDataPlayer[],
@@ -27,7 +38,7 @@ export const replicants = {
 	showHost: true as boolean,
 
 	// Donations
-	"tiltify:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
+	"tiltify:status": { defaultValue: { ...defaultStatus }, persistent: false },
 	"tiltify:connectionDetails": {
 		defaultValue: {
 			clientSecret: nodecg.bundleConfig.tiltify?.key ?? "", // Todo: Rename to clientSecret in config
@@ -57,7 +68,7 @@ export const replicants = {
 			ip: nodecg.bundleConfig.x32?.ip ?? "",
 		},
 	},
-	"x32:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
+	"x32:status": { defaultValue: { ...defaultStatus }, persistent: false },
 	"audio-indicators": { defaultValue: {} as AudioIndicator },
 	"x32:busFaders": { defaultValue: [] as number[][], persistent: false },
 
@@ -84,7 +95,7 @@ export const replicants = {
 			password: nodecg.bundleConfig.obs?.password ?? "",
 		},
 	},
-	"obs:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
+	"obs:status": { defaultValue: { ...defaultStatus }, persistent: false },
 	"obs:currentScene": "Intermission",
 	"obs:streamTimecode": { defaultValue: null as string | null },
 	"obs:localRecordings": false as boolean,
@@ -129,7 +140,7 @@ export const replicants = {
 		} as RoomJoinParameters,
 	},
 	"bingosync:boardState": { defaultValue: { cells: [] } as BoardState },
-	"bingosync:status": { defaultValue: "disconnected" as ConnectionStatus, persistent: false },
+	"bingosync:status": { defaultValue: { ...defaultStatus }, persistent: false },
 	"bingosync:boardStateOverride": { defaultValue: { cells: [] } as BoardState },
 
 	// Host Reads

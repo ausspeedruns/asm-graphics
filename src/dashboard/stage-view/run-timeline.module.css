@@ -1,0 +1,46 @@
+.container {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0 40px;
+
+	&>span {
+		white-space: nowrap;
+	}
+}
+
+.progressBar {
+	height: 16px;
+
+	&:global(.Mui-disabled) {
+		color: #03a9f4;
+	}
+
+	& > :global(.MuiSlider-mark) {
+		height: 16px;
+		background-color: rgb(255, 255, 255);
+	}
+}
+
+@keyframes rotate-swing {
+	0% {
+		transform: rotate(-30deg);
+	}
+
+	100% {
+		transform: rotate(5deg);
+	}
+}
+
+.runnerThumb {
+	position: absolute;
+
+	& svg {
+		animation: rotate-swing 5s infinite alternate ease-in-out;
+		position: relative;
+		top: -10px;
+		left: -15px;
+		color: #fff;
+	}
+}

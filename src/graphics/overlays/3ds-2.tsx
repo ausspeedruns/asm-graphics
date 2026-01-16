@@ -2,13 +2,12 @@ import styled from "@emotion/styled";
 
 import type { OverlayProps } from "../gameplay-overlay";
 
-import { VerticalInfo } from "../elements/info-box/vertical";
-import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
-import { Couch } from "../elements/couch";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
+import * as RunInfo from "../elements/run-info";
+import { Timer } from "../elements/timer";
 
 const ThreeDS2Container = styled.div`
 	height: 1016px;
@@ -20,32 +19,66 @@ const ThreeDS2Container = styled.div`
 
 const Middle = styled.div`
 	position: relative;
-	height: 440px;
-	width: 752px;
+	height: 100%;
+	width: 744px;
 	/* border-right: 1px solid var(--pax-gold);
 	border-left: 1px solid var(--pax-gold); */
 	overflow: hidden;
 	// margin-top: 576px;
-`;
-
-const InfoBoxBG = styled.div`
-	background-color: var(--main);
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	height: 664px;
+	justify-content: flex-end;
+	align-items: center;
 `;
 
-const SponsorBoxS = styled(SponsorsBox)`
+const InfoBox = styled.div`
+	background-color: var(--main);
+	display: flex;
+	justify-content: space-between;
+	height: 133px;
 	width: 100%;
-	/* height: 264px; */
+
+	font-size: 22px;
+
+	& #gameTitle {
+		font-size: 180%;
+	}
+
+	& #timer {
+		font-size: 220%;
+	}
+
+	& #category {
+		max-width: 60%;
+		font-size: 80%;
+	}
+`;
+
+const InfoBoxColumn = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+`;
+
+const GameInfoBox = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+
+	& > div {
+		flex-shrink: 0;
+	}
+`;
+
+const CentralDivider = styled.div`
+	background-color: var(--sec);
+	width: 2px;
 	flex-grow: 1;
 `;
-
-const SponsorsSize = {
-	height: 130,
-	width: 430,
-};
 
 export const ThreeDS2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
@@ -53,8 +86,18 @@ export const ThreeDS2 = (props: OverlayProps) => {
 	return (
 		<ThreeDS2Container>
 			<Middle>
-				<div style={{ position: "absolute", height: 133, width: "100%", bottom: 0 }} />
-				<Facecam height={307} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
+				<CentralDivider />
+				<Facecam
+					height={307}
+					teams={props.runData?.teams}
+					audioIndicator={props.microphoneAudioIndicator}
+					style={{
+						borderTop: "1px solid var(--sec)",
+						borderRight: "1px solid var(--sec)",
+						borderLeft: "1px solid var(--sec)",
+						boxSizing: "border-box",
+					}}
+				/>
 
 				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
 				<RaceFinish style={{ top: 276, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
@@ -74,11 +117,22 @@ export const ThreeDS2 = (props: OverlayProps) => {
 						zIndex: 2,
 					}}
 				/>
-				<InfoBoxBG>
-					<VerticalInfo timer={props.timer} runData={props.runData} />
-					<Couch commentators={props.commentators} />
-					<SponsorBoxS sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
-				</InfoBoxBG>
+				<InfoBox>
+					<InfoBoxColumn id="gameInfo">
+						<RunInfo.GameTitle game={props.runData?.game ?? ""} />
+						<GameInfoBox>
+							<RunInfo.System system={props.runData?.system ?? ""} />
+							<RunInfo.Year year={props.runData?.release ?? ""} />
+						</GameInfoBox>
+					</InfoBoxColumn>
+					<InfoBoxColumn id="runInfo">
+						<Timer timer={props.timer} />
+						<GameInfoBox>
+							<RunInfo.Category category={props.runData?.category ?? ""} />
+							<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
+						</GameInfoBox>
+					</InfoBoxColumn>
+				</InfoBox>
 			</Middle>
 		</ThreeDS2Container>
 	);

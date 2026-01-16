@@ -20,7 +20,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: 578px;
-	border-right: 1px solid var(--pax-gold);
+	border-right: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
@@ -60,12 +60,7 @@ export function GBC(props: OverlayProps) {
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 				<InfoBoxBG>
 					{/* <img src={GBCLeft} style={{ position: "absolute" }} /> */}
-					<Couch
-						commentators={props.commentators}
-						host={props.host}
-						audio={props.microphoneAudioIndicator}
-						darkTitle
-					/>
+					<Couch commentators={props.commentators} audio={props.microphoneAudioIndicator} darkTitle />
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
 				</InfoBoxBG>

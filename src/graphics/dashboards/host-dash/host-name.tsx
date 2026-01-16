@@ -4,8 +4,8 @@ import styled from "@emotion/styled";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect } from "react";
-import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import { HOST_TAG } from "@asm-graphics/shared/constants";
 
 const HostNameContainer = styled.div`
 	display: flex;
@@ -20,7 +20,7 @@ interface Props {
 	vertical?: boolean;
 	className?: string;
 	style?: React.CSSProperties;
-	updateCb?: (comm: RunDataPlayer) => void;
+	updateCb?: (comm: { id: string; name: string; pronouns?: string }) => void;
 }
 
 export function HostName(props: Props) {
@@ -29,11 +29,13 @@ export function HostName(props: Props) {
 	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
 	const [hostName, setHostName] = useState("");
 	const [hostPronouns, setHostPronouns] = useState("");
+	const [hostId, setHostId] = useState("");
 
 	useEffect(() => {
-		const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
+		const host = (commentatorsRep ?? []).find((comm) => comm.customData["tag"] === HOST_TAG);
 		setHostName(host?.name ?? "");
 		setHostPronouns(host?.pronouns ?? "");
+		setHostId(host?.id ?? "");
 	}, [commentatorsRep]);
 
 	function handleNameSelected(name: string | null) {
@@ -47,6 +49,21 @@ export function HostName(props: Props) {
 			setHostName(foundUser.username);
 			setHostPronouns(foundUser.pronouns ?? "");
 		}
+	}
+
+	function handleSubmit() {
+		void nodecg.sendMessage("update-commentator", {
+			id: hostId,
+			name: hostName,
+			pronouns: hostPronouns,
+			tag: HOST_TAG,
+		});
+
+		props.updateCb?.({
+			id: hostId,
+			name: hostName,
+			pronouns: hostPronouns,
+		});
 	}
 
 	return (
@@ -82,36 +99,7 @@ export function HostName(props: Props) {
 					sx={{ minWidth: "30%" }}
 				/>
 			</div>
-			<Button
-				variant="contained"
-				onClick={() => {
-					void nodecg.sendMessage("update-commentator", {
-						id: "host",
-						name: hostName,
-						pronouns: hostPronouns,
-						teamID: "",
-						social: {
-							twitch: "",
-						},
-						customData: {
-							microphone: "Host",
-							tag: "Host",
-						},
-					});
-					props.updateCb?.({
-						id: "host",
-						name: hostName,
-						pronouns: hostPronouns,
-						teamID: "",
-						social: {
-							twitch: "",
-						},
-						customData: {
-							microphone: "Host",
-						},
-					});
-				}}
-			>
+			<Button variant="contained" onClick={handleSubmit}>
 				Update
 			</Button>
 		</HostNameContainer>

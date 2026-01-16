@@ -1,22 +1,24 @@
-import type { ConnectionStatus } from "@asm-graphics/types/Connections";
+import type { ConnectionStatus } from "@asm-graphics/shared/replicants";
 import { CircularProgress } from "@mui/material";
 
 export function ConnectionTag(props: { status?: ConnectionStatus }) {
 	const { status } = props;
 
+	const state = status?.status;
+
 	let color = "#888";
 	let text = "Disconnected";
 
-	if (status === "connected") {
+	if (state === "connected") {
 		color = "#4caf50";
 		text = "Connected";
-	} else if (status === "connecting") {
+	} else if (state === "connecting") {
 		color = "#ff9800";
 		text = "Connecting...";
-	} else if (status === "error") {
+	} else if (state === "error") {
 		color = "#f44336";
 		text = "Error";
-	} else if (status === "warning") {
+	} else if (state === "warning") {
 		color = "#ff9800";
 		text = "Warning";
 	}
@@ -33,7 +35,7 @@ export function ConnectionTag(props: { status?: ConnectionStatus }) {
 				fontSize: "0.8em",
 			}}
 		>
-			{status === "connecting" && (
+			{state === "connecting" && (
 				<CircularProgress size={12} style={{ color: "#fff", marginRight: 4 }} />
 			)}
 			{text}

@@ -19,22 +19,23 @@ const Widescreen2BingoContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
 	position: relative;
+	display: flex;
+	flex-direction: column;
 `;
 
 const WholeGraphicClip = styled.div`
 	position: absolute;
 	width: 1920px;
 	height: 1016px;
-	// clip-path: path("M 1920 0 H 1254 V 341 H 1921 Z M 666 0 H 0 V 341 H 666 M 1920 882 H 0 V 1016 H 1920 Z");
+	clip-path: path("M 1920 0 H 1254 V 341 H 1920 Z M 666 0 H 0 V 341 H 666 V 0 M 1920 763 H 0 V 1016 H 1920 Z");
 	// background: var(--main);
 	z-index: 1;
 `;
 
 const Topbar = styled.div`
 	display: flex;
-	position: absolute;
 	height: 341px;
-	width: 1920px;
+	width: 100%;
 	overflow: hidden;
 	border-bottom: 1px solid var(--sec);
 `;
@@ -43,20 +44,19 @@ const LeftBox = styled.div`
 	width: 666px;
 	height: 100%;
 	display: flex;
-	// background: var(--main);
+	background: var(--main);
 	position: relative;
 `;
 
 const RightBox = styled.div`
 	width: 666px;
 	height: 100%;
-	/* background: var(--main); */
+	background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	/* background: var(--main); */
 	z-index: 2;
 `;
 
@@ -66,10 +66,8 @@ const SponsorSize = {
 };
 
 const BottomBlock = styled.div`
-	position: absolute;
-	bottom: 0px;
 	height: 253px;
-	width: 1920px;
+	width: 100%;
 	/* border-bottom: 1px solid var(--asm-orange); */
 	// border-top: 1px solid var(--sec);
 	box-sizing: border-box;
@@ -82,14 +80,16 @@ const BottomBlock = styled.div`
 	z-index: 2;
 `;
 
+const MiddleSection = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
+`;
+
 const BingoBoardStyled = styled(BingoBoard)`
-	position: absolute;
-	top: 341px;
-	left: 749px;
-	width: 422px;
-	max-width: 422px;
-	height: 422px;
-	max-height: 422px;
+	width: 421px;
+	height: 419px;
 	z-index: 2;
 `;
 
@@ -156,39 +156,15 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 				/>
 
 				<RightBox>
-					<SponsorsBox
-						style={{
-							width: "85%",
-							height: "80%",
-							zIndex: 2,
-							background: "#000",
-							borderRadius: 35,
-							boxShadow: "inset 9px 7px 4px rgba(221, 221, 221, 0.25), inset 0px -4px 4px #fff",
-						}}
-						sponsors={props.sponsors}
-						sponsorStyle={SponsorSize}
-					/>
+					<SponsorsBox sponsors={props.sponsors} sponsorStyle={SponsorSize} />
 				</RightBox>
 			</Topbar>
-			<BingoBoardStyled board={unionedBoardStateCells} />
+			<MiddleSection>
+				<BingoBoardStyled board={unionedBoardStateCells} />
+			</MiddleSection>
 			<BottomBlock>
-				<div
-					style={{
-						fontFamily: "Permanent Marker",
-						color: "#009AA2",
-						fontSize: 50,
-						textAlign: "center",
-						lineHeight: 0.8,
-						marginBottom: 16,
-					}}
-				>
-					Whole Bingo Board
-					<br />
-					must be cleared
-				</div>
 				<Couch
 					commentators={props.commentators}
-					host={props.host}
 					audio={props.microphoneAudioIndicator}
 					showHost={props.showHost}
 				/>

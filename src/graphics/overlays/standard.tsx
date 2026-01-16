@@ -17,7 +17,7 @@ const StandardContainer = styled.div`
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: 565px;
+	width: 564px;
 	border-right: 1px solid var(--accent);
 	overflow: hidden;
 `;
@@ -65,7 +65,6 @@ export const Standard = (props: OverlayProps) => {
 
 					<Couch
 						commentators={props.commentators}
-						host={props.host}
 						audio={props.microphoneAudioIndicator}
 						showHost={props.showHost}
 					/>

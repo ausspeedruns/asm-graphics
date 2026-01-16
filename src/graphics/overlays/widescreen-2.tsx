@@ -23,7 +23,7 @@ const WholeGraphicClip = styled.div`
 	position: absolute;
 	width: 1920px;
 	height: 1016px;
-	clip-path: path("M 1920 0 H 1254 V 341 H 1921 Z M 666 0 H 0 V 341 H 666 M 1920 882 H 0 V 1016 H 1920 Z");
+	clip-path: path("M 1920 0 H 1254 V 341 H 1920 Z M 666 0 H 0 V 341 H 666 V 0 M 1920 882 H 0 V 1016 H 1920 Z");
 	// background: var(--main);
 	z-index: 1;
 `;
@@ -165,7 +165,6 @@ export const Widescreen2 = (props: OverlayProps) => {
 			<BottomBlock>
 				<Couch
 					commentators={props.commentators}
-					host={props.host}
 					audio={props.microphoneAudioIndicator}
 					showHost={props.showHost}
 				/>

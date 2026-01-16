@@ -34,8 +34,8 @@ export const baseSceneItem: z.infer<typeof sceneItemSchema> = {
 		y: 0.0,
 	},
 	pos_rel: {
-		x: -1.7777777910232544,
-		y: -1.0,
+		x: -1920 / 1080,
+		y: -1,
 	},
 	scale: {
 		x: 1.0,
@@ -123,6 +123,10 @@ export function convertSourceToSceneItem(
 		pos: {
 			x: transformOptions?.x ?? 0,
 			y: transformOptions?.y ?? 0,
+		},
+		pos_rel: {
+			x: (2 * (transformOptions?.x ?? 0) - 1920) / 1080,
+			y: (2 * (transformOptions?.y ?? 0) - 1080) / 1080,
 		},
 		scale: {
 			x: transformOptions?.scaleX ?? 1.0,

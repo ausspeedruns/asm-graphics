@@ -6,6 +6,8 @@ import { getReplicant } from "./replicants.js";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import type NodeCG from "nodecg/types";
 
+import { HOST_TAG } from "@asm-graphics/shared/constants.js";
+
 const nodecg = nodecgApiContext.get();
 const Log = new nodecg.Logger("Commentators");
 
@@ -18,6 +20,24 @@ const SPEEDCONTROL_runDataActiveRep = nodecg.Replicant(
 	"nodecg-speedcontrol",
 ) as unknown as NodeCG.default.ServerReplicantWithSchemaDefault<RunDataActiveRun>;
 
+function generateBasicCommentator(
+	name: string,
+	options?: { tag?: string; twitch?: string; microphone?: string },
+): RunDataPlayer {
+	return {
+		name,
+		id: crypto.randomUUID(),
+		teamID: "commentators",
+		social: {
+			twitch: options?.twitch ?? "",
+		},
+		customData: {
+			tag: options?.tag ?? "",
+			microphone: options?.microphone ?? "",
+		},
+	};
+}
+
 nodecg.listenFor("update-commentator", (commentator) => {
 	Log.info(`Updating commentator ${commentator.id} ${commentator.name}`);
 
@@ -27,22 +47,65 @@ nodecg.listenFor("update-commentator", (commentator) => {
 			// Couldn't find commentator but has an id
 
 			// Maybe they are a runner?
-			const updatedRunner = updateRunnerInformation(commentator);
+			const updatedRunner = updateRunnerInformation({
+				id: commentator.id,
+				name: commentator.name,
+				pronouns: commentator.pronouns,
+				twitch: commentator.twitch,
+				microphone: commentator.microphone,
+			});
 			if (updatedRunner) {
 				Log.info(`Updated runner information for commentator ${commentator.id} ${commentator.name}`);
 				return;
 			}
 
 			// Just add them as new commentator
-			commentatorsRep.value.push(commentator);
+			commentatorsRep.value.push(
+				generateBasicCommentator(commentator.name, {
+					tag: commentator.tag,
+					twitch: commentator.twitch,
+					microphone: commentator.microphone,
+				}),
+			);
 			Log.warn(`Commentator had an ID but could not find the ID in the replicant. ${commentator.id}`);
 		} else {
 			// Edit existing commentator
-			updateExistingCommentator(commentator, commentatorIndex);
+			const existingCommentator = commentatorsRep.value[commentatorIndex];
+
+			if (!existingCommentator) {
+				Log.error(
+					`Could not find existing commentator to update despite having index. ${commentator.id} ${commentator.name}`,
+				);
+				return;
+			}
+
+			Log.info(JSON.stringify(existingCommentator));
+
+			commentatorsRep.value[commentatorIndex] = {
+				...existingCommentator,
+				name: commentator.name,
+				pronouns: commentator.pronouns,
+				social: {
+					...existingCommentator.social,
+					twitch: commentator.twitch ?? existingCommentator.social.twitch,
+				},
+				customData: {
+					...existingCommentator.customData,
+					tag: commentator.tag ?? existingCommentator.customData["tag"] ?? "",
+					microphone: commentator.microphone ?? existingCommentator.customData["microphone"] ?? "",
+				},
+			};
 		}
 	} else {
 		// New commentator
-		commentatorsRep.value.push({ ...commentator, id: crypto.randomUUID() });
+		commentatorsRep.value.push({
+			...generateBasicCommentator(commentator.name, {
+				tag: commentator.tag,
+				twitch: commentator.twitch,
+				microphone: commentator.microphone,
+			}),
+			id: crypto.randomUUID(),
+		});
 	}
 });
 
@@ -62,13 +125,13 @@ nodecg.listenFor("showHost", (showHost: boolean) => {
 	showHostRep.value = showHost;
 });
 
-function updateExistingCommentator(commentator: RunDataPlayer, index: number) {
-	const commentatorsMutable = [...commentatorsRep.value];
-	commentatorsMutable[index] = commentator;
-	commentatorsRep.value = commentatorsMutable;
-}
-
-function updateRunnerInformation(runner: RunDataPlayer): boolean {
+function updateRunnerInformation(runner: {
+	id: string;
+	name: string;
+	pronouns?: string;
+	twitch?: string;
+	microphone?: string;
+}): boolean {
 	let teamIndex = -1;
 	let playerIndex = -1;
 	let foundPlayer = false;
@@ -123,13 +186,13 @@ function updateRunnerInformation(runner: RunDataPlayer): boolean {
 		...originalRunner,
 		customData: {
 			...originalRunner.customData,
-			microphone: runner.customData["microphone"] ?? "",
+			microphone: runner.microphone ?? "",
 		},
 		name: runner.name,
 		pronouns: runner.pronouns,
 		social: {
 			...originalRunner.social,
-			twitch: runner.social.twitch,
+			twitch: runner.twitch,
 		},
 	};
 
@@ -142,5 +205,55 @@ nodecg.listenFor("transition:toIntermission", () => {
 
 	const mutableCommentators = [...commentatorsRep.value];
 
-	commentatorsRep.value = mutableCommentators.filter((commentator) => commentator.id === "host");
+	commentatorsRep.value = mutableCommentators.filter((commentator) => commentator.customData["tag"] === HOST_TAG);
+});
+
+nodecg.listenFor("commentators:reorder", (newOrder: string[]) => {
+	Log.info("Reordering commentators");
+
+	const currentCommentators = [...commentatorsRep.value];
+	const reorderedCommentators: RunDataPlayer[] = [];
+
+	newOrder.forEach((id) => {
+		const foundCommentator = currentCommentators.find((comm) => comm.id === id);
+		if (foundCommentator) {
+			reorderedCommentators.push(foundCommentator);
+		} else {
+			Log.warn(`Could not find commentator with ID ${id} during reorder`);
+		}
+	});
+
+	commentatorsRep.value = reorderedCommentators;
+});
+
+nodecg.listenFor("commentators:runnerToCommentator", (data) => {
+	Log.info(`Moving runner ${data.runnerId} to commentator at index ${data.positionIndex}`);
+
+	const runDataActive = SPEEDCONTROL_runDataActiveRep.value;
+	if (!runDataActive) {
+		Log.error("No active run found in Speedcontrol");
+		return;
+	}
+
+	let foundRunner: RunDataPlayer | undefined = undefined;
+	for (const team of runDataActive.teams) {
+		const playerIndex = team.players.findIndex((player) => player.id === data.runnerId);
+		if (playerIndex !== -1) {
+			foundRunner = team.players[playerIndex];
+			team.players.splice(playerIndex, 1);
+			break;
+		}
+	}
+
+	if (!foundRunner) {
+		Log.error(`Could not find runner with ID ${data.runnerId} to move to commentator`);
+		return;
+	}
+
+	// Add to commentators Replicant at specified index
+	const mutableCommentators = [...commentatorsRep.value];
+	mutableCommentators.splice(data.positionIndex, 0, foundRunner);
+	commentatorsRep.value = mutableCommentators;
+
+	Log.info(`Moved runner ${foundRunner.name} (${foundRunner.id}) to commentators at index ${data.positionIndex}`);
 });

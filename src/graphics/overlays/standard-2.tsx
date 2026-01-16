@@ -20,7 +20,7 @@ const Standard2Container = styled.div`
 const Topbar = styled.div`
 	display: flex;
 	position: absolute;
-	height: 295px;
+	height: 297px;
 	width: 1920px;
 	/* border-bottom: 1px solid var(--sec); */
 	overflow: hidden;
@@ -66,7 +66,7 @@ const WholeGraphicClip = styled.div`
 	position: absolute;
 	width: 1920px;
 	height: 1016px;
-	clip-path: path("M 0 0 H 666 V 295 H 0 Z M 1920 0 H 1254 V 295 H 1921 Z ");
+	clip-path: path("M 0 0 H 666 V 297 H 0 Z M 1920 0 H 1254 V 297 H 1921 Z ");
 	// background: var(--main);
 	z-index: 1;
 `;
@@ -133,7 +133,6 @@ export const Standard2 = (props: OverlayProps) => {
 					>
 						<Couch
 							commentators={props.commentators}
-							host={props.host}
 							style={{ width: "30%", zIndex: 3, marginLeft: 12 }}
 							audio={props.microphoneAudioIndicator}
 							align="center"

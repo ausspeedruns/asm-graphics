@@ -26,7 +26,6 @@ import styled from "@emotion/styled";
 const PageWrapper = styled.div`
   background-color: #121212;
   color: #ffffff;
-  min-height: 100vh;
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 `;

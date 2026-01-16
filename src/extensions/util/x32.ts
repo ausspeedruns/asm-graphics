@@ -1,13 +1,10 @@
 import osc from "osc";
 import EventEmitter from "node:events";
 
-import * as nodecgApiContext from "../nodecg-api-context.js";
-import type { ConnectionStatus } from "@asm-graphics/types/Connections.js";
-
-const nodecg = nodecgApiContext.get();
+import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 
 interface X32Class {
-	status: [status: ConnectionStatus];
+	status: [status: ConnectionStatus['status'], message: string];
 	faders: [faders: number[], mixBus: number];
 	mainFaders: [mainFaders: number[]];
 	meters: [meters: number[]];
@@ -55,7 +52,6 @@ class X32 extends EventEmitter<X32Class> {
 
 	connect(ip: string) {
 		if (this.connected) {
-			nodecg.log.warn("[X32] Already connected to X32.");
 			return;
 		}
 
@@ -69,7 +65,6 @@ class X32 extends EventEmitter<X32Class> {
 
 	disconnect() {
 		if (!this.connected) {
-			nodecg.log.warn("[X32] Not connected to X32.");
 			return;
 		}
 
@@ -78,13 +73,13 @@ class X32 extends EventEmitter<X32Class> {
 	}
 
 	handleMissedHeartbeat = () => {
-		this.emit("status", "warning");
+		this.emit("status", "warning", "Missed heartbeat");
 		this.heartbeatAttempts++;
 
 		clearInterval(this.intervalHeartbeat);
 
 		if (this.heartbeatAttempts > this.MAX_HEARTBEAT_ATTEMPTS) {
-			this.emit("status", "disconnected");
+			this.emit("status", "disconnected", "Maximum heartbeat attempts reached. Connection lost.");
 		}
 
 		this.heartbeatTimeout = setTimeout(this.handleMissedHeartbeat.bind(this), this.HEARTBEAT_TIMEOUT);
@@ -107,7 +102,7 @@ class X32 extends EventEmitter<X32Class> {
 
 		if (str.startsWith("/info")) {
 			// Heartbeat
-			this.emit("status", "connected");
+			this.emit("status", "connected", "Heartbeat received");
 
 			clearTimeout(this.heartbeatTimeout);
 			this.heartbeatAttempts = 0;
@@ -142,7 +137,7 @@ class X32 extends EventEmitter<X32Class> {
 		} else if (/\/bus(\d{2})Faders/.test(str)) {
 			const bus = parseInt(str.match(/\/bus(\d{2})Faders/)?.[1] ?? "-1");
 			if (bus === -1) {
-				nodecg.log.error(`[X32] Unknown bus: ${str}`);
+				this.emit("status", "error", `[X32] Unknown bus: ${str}`);
 				return;
 			}
 
@@ -172,16 +167,15 @@ class X32 extends EventEmitter<X32Class> {
 
 			this.emit("mainFaders", faders);
 		} else {
-			nodecg.log.debug(`[X32] Unknown command: ${str}`);
+			this.emit("status", "warning", `[X32] Unknown command: ${str}`);
 		}
 	}
 
 	error(error: any) {
-		nodecg.log.warn("[X32] Error:", error);
+		this.emit("status", "error", `X32 OSC Error: ${error.message}`);
 	}
 
 	close() {
-		nodecg.log.warn("[X32] Port closed.");
 		this.connected = true;
 	}
 
@@ -252,7 +246,6 @@ class X32 extends EventEmitter<X32Class> {
 	};
 
 	open = () => {
-		nodecg.log.info("[X32] Port open, can now communicate with a Behringer X32.");
 		this.connected = true;
 		this.renewSubscriptions();
 	};
@@ -397,8 +390,6 @@ class X32 extends EventEmitter<X32Class> {
 			clearInterval(this.fadersIntervals[name]);
 			delete this.fadersFading[name];
 		}
-
-		nodecg.log.debug(`[X32] Attempting to fade ${name} ` + `(${startValue} => ${endValue}) for ${milliseconds}ms`);
 
 		let currentValue = startValue;
 		const increase = startValue < endValue; // Determine whether the value should be increased or decreased.

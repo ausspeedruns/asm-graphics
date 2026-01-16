@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import { HOST_TAG } from "@asm-graphics/shared/constants";
 
 const PeopleContainer = styled.div`
 	font-family: var(--main-font);
@@ -14,7 +15,6 @@ const PeopleContainer = styled.div`
 
 interface Props {
 	commentators: RunDataPlayer[];
-	host?: RunDataPlayer;
 	audio?: AudioIndicator;
 	style?: React.CSSProperties;
 	className?: string;
@@ -24,16 +24,7 @@ interface Props {
 }
 
 export function Couch(props: Props) {
-	if (props.commentators.length === 0 && !props.host) return <></>;
-
-	let label = "";
-	if (props.commentators.length > 1) {
-		label = "Commentators";
-	} else if (props.commentators.length == 1) {
-		label = "Commentator";
-	} else if (props.host && props.host.name) {
-		label = "Host";
-	}
+	if (props.commentators.length === 0) return <></>;
 
 	const showHost = typeof props.showHost === "boolean" ? props.showHost : true;
 
@@ -43,7 +34,7 @@ export function Couch(props: Props) {
 			style={{ justifyContent: props.align ?? "center", ...props.style }}
 		>
 			{props.commentators.map((person, i) => {
-				if (person.name === "" || person.id === "host") {
+				if (person.name === "" || (!showHost && person.customData.tag === HOST_TAG)) {
 					return <></>;
 				}
 				return (
@@ -55,14 +46,6 @@ export function Couch(props: Props) {
 					/>
 				);
 			})}
-			{showHost && props.host && props.host.name && (
-				<PersonCompressed
-					key={"Host"}
-					commentator={props.host}
-					speaking={props.audio?.["Host"]}
-					noTag={label === "Host"}
-				/>
-			)}
 		</PeopleContainer>
 	);
 }

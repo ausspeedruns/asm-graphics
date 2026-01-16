@@ -23,7 +23,7 @@ interface EditRunnerDialogProps {
 	onClose: () => void;
 }
 
-export function EditRunnerDialog(props: EditRunnerDialogProps) {
+export function EditPersonDialog(props: EditRunnerDialogProps) {
 	if (!props.runner) {
 		return null;
 	}

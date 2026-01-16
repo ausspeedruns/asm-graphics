@@ -6,7 +6,10 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 
 import { Headsets } from "../../shared/audio-data";
 
-import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
+import { useReplicant } from "@nodecg/react-hooks";
+import type { DraggableAttributes } from "@dnd-kit/core";
+import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
 const MegaContainer = styled.div`
 	height: 100%;
@@ -15,20 +18,21 @@ const MegaContainer = styled.div`
 	gap: 16px;
 `;
 
-const PersonContainer = styled.div`
+const PersonContainer = styled.div<{ isDragging?: boolean }>`
 	position: relative;
 	background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
 	min-width: 170px;
 	border-radius: 10px;
 	border: 1px solid rgba(255, 255, 255, 1);
 	padding: 8px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 	backdrop-filter: blur(6px);
 	transition: transform 160ms ease, box-shadow 160ms ease;
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 	height: 100%;
+	opacity: ${(props) => (props.isDragging ? 0.8 : 1)};
+	box-shadow: ${(props) => (props.isDragging ? "0 12px 32px rgba(0, 0, 0, 0.7)" : "0 4px 12px rgba(0, 0, 0, 0.5)")};
 
 	@keyframes flash {
 		0% {
@@ -129,91 +133,120 @@ function getHeadsetData(microphone: string | undefined) {
 	return Headsets.find((h) => h.name === microphone) ?? undefined;
 }
 
-type PersonBase<T> = {
-	person: T;
-	handleEditPerson?: (data: T) => void;
-	currentTalkbackTargets: string[];
-	updateTalkbackTargets?: (targets: string[]) => void;
-};
+function usePersonData(id: string): RunDataPlayer | undefined {
+	const [commentators] = useReplicant("commentators");
+	const [runDataActive] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 
-type PersonProps =
-	| (PersonBase<RunDataPlayer> & { isRunner: true; tempIndex: number; audioIndex?: number })
-	| (PersonBase<RunDataPlayer> & { isRunner?: false });
+	if (commentators) {
+		const person = commentators.find((c: RunDataPlayer) => c.id === id);
+		if (person) return person;
+	}
 
-export function Person(props: PersonProps) {
-	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-		id: props.person.id,
-		data: {
-			type: props.isRunner ? "runner" : props.person.id === "host" ? "host" : "commentator",
-			person: props.person,
-		},
-	});
-
-	function editCommentator() {
-		if (props.isRunner) {
-			props.handleEditPerson?.(props.person);
-		} else {
-			props.handleEditPerson?.(props.person);
+	if (runDataActive) {
+		for (const team of runDataActive.teams) {
+			const player = team.players.find((p) => p.id === id);
+			if (player) return player;
 		}
 	}
 
+	return undefined;
+}
+
+export function SortablePerson(props: PersonProps) {
+	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: props.id });
+
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+	};
+
+	return (
+		<Person
+			ref={setNodeRef}
+			style={style}
+			isDragging={isDragging}
+			dragAttributes={attributes}
+			dragListeners={listeners}
+			{...props}
+		/>
+	);
+}
+
+interface PersonProps {
+	id: string;
+	handleEditPerson?: (data: RunDataPlayer) => void;
+	currentTalkbackTargets?: string[];
+	updateTalkbackTargets?: (targets: string[]) => void;
+	isInRunnerSection?: boolean;
+	style?: React.CSSProperties;
+	ref?: React.Ref<HTMLDivElement>;
+	isDragging?: boolean;
+	dragAttributes?: DraggableAttributes;
+	dragListeners?: SyntheticListenerMap;
+}
+
+export function Person(props: PersonProps) {
+	const personData = usePersonData(props.id);
+	if (!personData) return null;
+
+	function editCommentator() {
+		if (!personData) return;
+		props.handleEditPerson?.(personData);
+	}
+
 	function toggleTalkback() {
-		if (props.currentTalkbackTargets.includes(props.person.id)) {
+		if (!props.currentTalkbackTargets) return;
+
+		if (props.currentTalkbackTargets.includes(props.id)) {
 			// Remove from talkback
-			props.updateTalkbackTargets?.(props.currentTalkbackTargets.filter((id) => id !== props.person.id));
+			props.updateTalkbackTargets?.(props.currentTalkbackTargets.filter((id) => id !== props.id));
 		} else {
 			// Add to talkback
-			props.updateTalkbackTargets?.([...props.currentTalkbackTargets, props.person.id]);
+			props.updateTalkbackTargets?.([...props.currentTalkbackTargets, props.id]);
 		}
 	}
 
 	function moveGameAudio() {
-		if (!props.isRunner) return;
-		void nodecg.sendMessage("changeGameAudio", { manual: true, index: props.tempIndex });
+		// void nodecg.sendMessage("changeGameAudio", { manual: true });
 	}
 
-	const talkbackEnabled = props.currentTalkbackTargets.includes(props.person.id);
+	// const talkbackEnabled = props.currentTalkbackTargets.includes(props.person.id);
 
-	const style: React.CSSProperties = {
-		transform: CSS.Translate.toString(transform),
-		transition,
-		zIndex: isDragging ? 20 : undefined,
-		outline: talkbackEnabled ? "2px solid yellow" : undefined,
-		animation: talkbackEnabled ? "flash 250ms step-start infinite" : undefined,
-	};
-
-	const rawMicrophone = props.person.customData.microphone;
+	const rawMicrophone = personData.customData.microphone;
 	const headset = getHeadsetData(rawMicrophone);
 
-	const isOnRunnersAudio = props.isRunner && props.audioIndex === props.tempIndex;
-
 	return (
-		<MegaContainer>
-			<PersonContainer ref={setNodeRef} style={style} {...listeners} {...attributes}>
-				<NameBlock>
-					<NameText>{props.person.name}</NameText>
-					<PronounsText>{props.person.pronouns}</PronounsText>
-				</NameBlock>
-				{!props.isRunner && props.person.customData.tag && <TagBadge>{props.person.customData.tag}</TagBadge>}
+		<PersonContainer
+			style={props.style}
+			ref={props.ref}
+			isDragging={props.isDragging}
+			{...props.dragAttributes}
+			{...props.dragListeners}
+		>
+			<NameBlock>
+				<NameText>{personData.name}</NameText>
+				<PronounsText>{personData.pronouns}</PronounsText>
+			</NameBlock>
+			{personData.customData.tag && <TagBadge>{personData.customData.tag}</TagBadge>}
 
-				<MicRow>
-					<MicIcon bg={headset?.colour} fg={headset?.textColour}>
-						{rawMicrophone ? <Mic /> : <MicOff />}
-					</MicIcon>
-					<MicLabel>
-						{rawMicrophone ?? "No Mic"}
-						{headset && (
-							<>
-								<br />
-								<span style={{ fontStyle: "italic" }}>Ch {headset.micInput}</span>
-							</>
-						)}
-					</MicLabel>
-					{rawMicrophone && !headset && <div style={{ fontSize: 12, opacity: 0.85 }}>?</div>}
-				</MicRow>
+			<MicRow>
+				<MicIcon bg={headset?.colour} fg={headset?.textColour}>
+					{rawMicrophone ? <Mic /> : <MicOff />}
+				</MicIcon>
+				<MicLabel>
+					{rawMicrophone ?? "No Mic"}
+					{headset && (
+						<>
+							<br />
+							<span style={{ fontStyle: "italic" }}>Ch {headset.micInput}</span>
+						</>
+					)}
+				</MicLabel>
+				{rawMicrophone && !headset && <div style={{ fontSize: 12, opacity: 0.85 }}>?</div>}
+			</MicRow>
 
-				<ActionsRow>
-					{/* <Tooltip placement="top" title={talkbackEnabled ? "Disable Talkback" : "Enable Talkback"}>
+			<ActionsRow>
+				{/* <Tooltip placement="top" title={talkbackEnabled ? "Disable Talkback" : "Enable Talkback"}>
 						<IconButton
 							color={talkbackEnabled ? "primary" : "inherit"}
 							onClick={toggleTalkback}
@@ -222,43 +255,24 @@ export function Person(props: PersonProps) {
 							<RecordVoiceOver />
 						</IconButton>
 					</Tooltip> */}
-					<Tooltip
-						placement="top"
-						title={
-							props.isRunner ? (
-								<>
-									Editing Runners not supported
-									<br /> Please use the Run Editor Panel
-								</>
-							) : (
-								"Edit"
-							)
-						}
-					>
-						<span>
-							<IconButton
-								size="small"
-								color="inherit"
-								onClick={editCommentator}
-								disabled={props.isRunner}
-							>
-								<Edit fontSize="small" />
-							</IconButton>
-						</span>
-					</Tooltip>
-				</ActionsRow>
-			</PersonContainer>
-			{props.isRunner && (
-				<>
-					<Button
-						onClick={moveGameAudio}
-						disabled={isOnRunnersAudio}
-						variant={isOnRunnersAudio ? "contained" : "outlined"}
-					>
-						{isOnRunnersAudio ? "Active" : "Move"} Game Audio
-					</Button>
-				</>
+				<Tooltip placement="top" title="Edit">
+					<span>
+						<IconButton size="small" color="inherit" onClick={editCommentator}>
+							<Edit fontSize="small" />
+						</IconButton>
+					</span>
+				</Tooltip>
+			</ActionsRow>
+			{props.isInRunnerSection && (
+				<Button
+					onClick={moveGameAudio}
+					// disabled={isOnRunnersAudio}
+					// variant={isOnRunnersAudio ? "contained" : "outlined"}
+				>
+					{/* {isOnRunnersAudio ? "Active" : "Move"} Game Audio */}
+					Game Audio Thing
+				</Button>
 			)}
-		</MegaContainer>
+		</PersonContainer>
 	);
 }

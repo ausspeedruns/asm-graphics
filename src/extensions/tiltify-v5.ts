@@ -3,6 +3,7 @@ import type { Donation } from "@asm-graphics/types/Donations.js";
 import _ from "underscore";
 import z from "zod";
 import { getReplicant } from "./replicants.js";
+import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("Tiltify-V5");
@@ -27,6 +28,13 @@ const PaginationMetadataSchema = z.object({
 let accessToken = "";
 let expiryTime = 0;
 
+const status = {
+	accessCode: false,
+	campaignData: false,
+	donationsData: false,
+	donationMatchesData: false,
+};
+
 const TiltifyOAuthTokenSchema = z.object({
 	access_token: z.string(),
 	expires_in: z.number(), // seconds
@@ -35,7 +43,7 @@ const TiltifyOAuthTokenSchema = z.object({
 
 // Get access token
 async function getAccessToken() {
-	tiltifyStatusRep.value = "connecting";
+	updateTiltifyStatus("connecting", "Getting Tiltify access token...");
 
 	try {
 		const res = await fetch(
@@ -50,7 +58,9 @@ async function getAccessToken() {
 			ncgLog.error("getAccessToken: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
-			tiltifyStatusRep.value = "error";
+			status.accessCode = false;
+			
+			updateTiltifyStatus("error", "Get Access Token: Failed to parse data. Check console for details.");
 			return;
 		}
 
@@ -59,7 +69,7 @@ async function getAccessToken() {
 			accessToken = parsedData.data.access_token;
 			expiryTime = parsedData.data.expires_in;
 			ncgLog.info("Token data", JSON.stringify(parsedData.data));
-			tiltifyStatusRep.value = "connected";
+			status.accessCode = true;
 		}
 	} catch (error) {
 		ncgLog.error("getAccessToken error: ", JSON.stringify(error));
@@ -230,14 +240,18 @@ async function getCampaignData() {
 			ncgLog.error("getCampaignData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
-			tiltifyStatusRep.value = "error";
+			updateTiltifyStatus("error", "Get Campaign Data: Failed to parse data. Check console for details.");
 			return;
 		}
 
-		if (parsedData.data.data.amount_raised)
+		if (parsedData.data.data.amount_raised) {
 			donationTotalRep.value = parseFloat(parsedData.data.data.amount_raised.value);
+		}
+
+		status.campaignData = true;
 	} catch (error) {
 		ncgLog.error("getCampaignData error: ", JSON.stringify(error));
+		status.campaignData = false;
 	}
 }
 
@@ -273,7 +287,7 @@ async function getDonationsData() {
 			ncgLog.error("getDonationsData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
-			tiltifyStatusRep.value = "error";
+			updateTiltifyStatus("error", "Get Donations Data: Failed to parse data. Check console for details.");
 			return;
 		}
 
@@ -301,8 +315,10 @@ async function getDonationsData() {
 
 			donationsRep.value = mutableDonations.concat(parsedDonos);
 		}
+		status.donationsData = true;
 	} catch (error) {
 		ncgLog.error("getDonationsData error: ", JSON.stringify(error));
+		status.donationsData = false;
 	}
 }
 
@@ -342,7 +358,7 @@ async function getDonationMatchData() {
 			ncgLog.error("getDonationMatchData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
-			tiltifyStatusRep.value = "error";
+			updateTiltifyStatus("error", "Get Donation Match Data: Failed to parse data. Check console for details.");
 			return;
 		}
 
@@ -393,8 +409,10 @@ async function getDonationMatchData() {
 			read: false, // Will always be false
 			desc: "", // Will always be empty,
 		}));
+		status.donationMatchesData = true;
 	} catch (error) {
 		ncgLog.error("getDonationMatchData error: ", JSON.stringify(error));
+		status.donationMatchesData = false;
 	}
 }
 
@@ -405,44 +423,53 @@ async function autoRefreshAccessToken() {
 	await getAccessToken();
 
 	const buffer = 60; // seconds
-	const refreshIn = (expiryTime - buffer) * 1000;
+	const refreshIn = Math.max((expiryTime - buffer) * 1000, 30 * 1000); // Use the expiry time, a minimum of 30 seconds
 
 	if (accessTokenTimeout) clearInterval(accessTokenTimeout);
 
-	accessTokenTimeout = setTimeout(
-		() => {
-			void autoRefreshAccessToken();
-		},
-		refreshIn,
-	);
+	accessTokenTimeout = setTimeout(() => {
+		void autoRefreshAccessToken();
+	}, refreshIn);
 }
 
 // Initialise
 async function connectToTiltify() {
-	tiltifyStatusRep.value = "connecting";
+	updateTiltifyStatus("connecting", "Connecting to Tiltify...");
 
-	void autoRefreshAccessToken();
+	await autoRefreshAccessToken();
 
 	// Get data
 	campaignDataInterval = setInterval(() => {
 		void getCampaignData();
 		void getDonationsData();
 		void getDonationMatchData();
-	}, 5000);
 
-	void getAccessToken();
+		if (Object.values(status).every((statusValue) => statusValue)) {
+			updateTiltifyStatus("connected", "Connected to Tiltify");
+		} else {
+			const errorMessage = "";
+
+			for (const [key, value] of Object.entries(status)) {
+				if (!value) {
+					errorMessage.concat(`Failed to get ${camelCaseSplit(key)} data.\n`);
+				}
+			}
+
+			updateTiltifyStatus("warning", errorMessage.trim());
+		}
+	}, 5000);
 }
 
 nodecg.listenFor("tiltify:setConnection", (data: boolean) => {
 	if (data) {
-		ncgLog.info("Tiltify connection enabled via dashboard");
+		ncgLog.info("Tiltify connection requested via dashboard");
 		void connectToTiltify();
 	} else {
-		ncgLog.info("Tiltify connection disabled via dashboard");
+		ncgLog.info("Tiltify disconnected via dashboard");
 		accessToken = "";
 		if (accessTokenTimeout) clearInterval(accessTokenTimeout);
 		if (campaignDataInterval) clearInterval(campaignDataInterval);
-		tiltifyStatusRep.value = "disconnected";
+		updateTiltifyStatus("disconnected", "Disconnected via dashboard");
 	}
 });
 
@@ -467,4 +494,17 @@ function getCurrencySymbol(currencyCode: string) {
 		default:
 			return currencyCode;
 	}
+}
+
+function camelCaseSplit(str: string) {
+	const split = str.replace(/([a-z])([A-Z])/g, "$1 $2");
+	return split.charAt(0).toUpperCase() + split.slice(1);
+}
+
+function updateTiltifyStatus(status: ConnectionStatus['status'], message = "") {
+	tiltifyStatusRep.value = {
+		status,
+		timestamp: Date.now(),
+		message,
+	};
 }

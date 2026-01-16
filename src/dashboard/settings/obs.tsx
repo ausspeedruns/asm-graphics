@@ -77,8 +77,8 @@ export function OBSSettings() {
 					variant="contained"
 					color="success"
 					fullWidth
-					disabled={obsStatusRep === "connected"}
-					loading={obsStatusRep === "connecting"}
+					disabled={obsStatusRep?.status === "connected"}
+					loading={obsStatusRep?.status === "connecting"}
 					onClick={() => void nodecg.sendMessage("obs:setConnected", true)}
 				>
 					Connect
@@ -87,7 +87,7 @@ export function OBSSettings() {
 					variant="contained"
 					color="error"
 					fullWidth
-					disabled={obsStatusRep === "disconnected"}
+					disabled={obsStatusRep?.status === "disconnected"}
 					onClick={() => void nodecg.sendMessage("obs:setConnected", false)}
 				>
 					Disconnect

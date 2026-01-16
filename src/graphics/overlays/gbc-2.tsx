@@ -55,7 +55,7 @@ const SponsorSize = {
 };
 
 const CentralDivider = styled.div`
-	height: 720px;
+	height: 721px;
 	width: 2px;
 	position: absolute;
 	bottom: 0px;
@@ -65,7 +65,7 @@ const CentralDivider = styled.div`
 
 const FillerBox = styled.div`
 	height: 721px;
-	width: 157px;
+	width: 158px;
 	position: absolute;
 	bottom: 0px;
 	background: var(--main);
@@ -144,7 +144,6 @@ export function GBC2(props: OverlayProps) {
 					>
 						<Couch
 							commentators={props.commentators}
-							host={props.host}
 							style={{ width: "30%", zIndex: 3, marginLeft: 12 }}
 							audio={props.microphoneAudioIndicator}
 							align="left"

@@ -3,6 +3,7 @@ import { Bingosync } from "./util/bingosync.js";
 import type { BoardCell, RoomJoinParameters } from "@asm-graphics/shared/BingoSync.js";
 import { getReplicant } from "./replicants.js";
 import { clone } from "underscore";
+import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 
 const nodecg = nodecgGet();
 
@@ -23,7 +24,7 @@ nodecg.listenFor("bingosync:joinRoom", async (params) => {
 // Leave rooms
 nodecg.listenFor("bingosync:leaveRoom", () => {
 	log.info("Leaving Bingosync room");
-	bingosyncStatusRep.value = "disconnected";
+	updateBingosyncStatus("disconnected", "Left room");
 	bingosyncBoardStateRep.value = { cells: [] };
 	bingosyncBoardStateOverrideRep.value = { cells: [] };
 	bingosync.disconnect();
@@ -79,15 +80,15 @@ nodecg.listenFor("bingosync:overrideCell", (cellData) => {
 
 async function joinRoomHandler(roomDetails: RoomJoinParameters) {
 	bingosyncRoomDetailsRep.value = roomDetails;
-	bingosyncStatusRep.value = "disconnected";
+	updateBingosyncStatus("connecting", `Joining room: ${roomDetails.room}...`);
 	log.info(`Joining Bingosync room: ${roomDetails.room} as ${roomDetails.nickname}`);
 
 	await bingosync.joinRoom(roomDetails).catch((error) => {
-		bingosyncStatusRep.value = "error";
+		updateBingosyncStatus("error", `Failed to join room: ${roomDetails.room}`);
 		log.error("Failed to join Bingosync room:", error);
 	});
 
-	bingosyncStatusRep.value = "connected";
+	updateBingosyncStatus("connected", `Successfully joined room: ${roomDetails.room}`);
 	log.info(`Successfully joined Bingosync room: ${roomDetails.room} as ${roomDetails.nickname}`);
 }
 
@@ -96,4 +97,12 @@ if (bingosyncBoardStateRep.value.cells.length > 0) {
 		"Bingosync board state already exists which means we might be recovering from a crash, automatically joining again.",
 	);
 	void joinRoomHandler(bingosyncRoomDetailsRep.value);
+}
+
+function updateBingosyncStatus(status: ConnectionStatus['status'], message: string) {
+	bingosyncStatusRep.value = {
+		status,
+		timestamp: Date.now(),
+		message,
+	};
 }

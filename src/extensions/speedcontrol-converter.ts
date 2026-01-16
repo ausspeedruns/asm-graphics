@@ -1,6 +1,6 @@
 import * as nodecgApiContext from "./nodecg-api-context.js";
 
-import type { RunData, RunDataActiveRun, RunDataArray } from "@asm-graphics/types/RunData.js";
+import type { RunData, RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import { getReplicant } from "./replicants.js";
 
 const nodecg = nodecgApiContext.get();
@@ -97,18 +97,19 @@ nodecg.listenFor("speedcontrol:reorderRunners", (data) => {
 
 	// Validate that all players in newOrder exist in the run
 	const allPlayerIds = run.teams.flatMap((team) => team.players.map((player) => player.id));
-	for (const player of data.newOrder) {
-		if (!allPlayerIds.includes(player.id)) {
-			log.error(`Player ID ${player.id} in newOrder does not exist in run ID ${data.runId}`);
+	for (const playerId of data.newOrder) {
+		if (!allPlayerIds.includes(playerId)) {
+			log.error(`Player ID ${playerId} in newOrder does not exist in run ID ${data.runId}`);
 			return;
 		}
 	}
 
 	// Reorder players according to newOrder
 	const newTeams: typeof run.teams = [];
-	for (const player of data.newOrder) {
-		const [teamIndex, playerIndex] = getRunnerTeamIndexAndPlayerIndex(run, player.id);
-		if (teamIndex === -1 || playerIndex === -1) {
+	for (const playerId of data.newOrder) {
+		const [teamIndex, playerIndex] = getRunnerTeamIndexAndPlayerIndex(run, playerId);
+		const player = run.teams[teamIndex]?.players[playerIndex];
+		if (teamIndex === -1 || playerIndex === -1 || !player) {
 			return;
 		}
 
@@ -147,6 +148,63 @@ nodecg.listenFor("speedcontrol:reorderRunners", (data) => {
 	if (SPEEDCONTROL_runDataActiveRunRep.value?.id === run.id) {
 		SPEEDCONTROL_runDataActiveRunRep.value = JSON.parse(JSON.stringify(run));
 	}
+});
+
+nodecg.listenFor("speedcontrol:commentatorToRunner", (data) => {
+	const commentatorsRep = getReplicant("commentators");
+	const commentators = commentatorsRep.value;
+	if (!commentators) {
+		log.error("No commentators Replicant found");
+		return;
+	}
+
+	const commentatorIndex = commentators.findIndex((comm) => comm.id === data.commentatorId);
+	if (commentatorIndex === -1) {
+		log.error(`No commentator found with ID ${data.commentatorId}`);
+		return;
+	}
+
+	const commentator = commentators[commentatorIndex];
+
+	if (!commentator) {
+		log.error(`No commentator found at index ${commentatorIndex} for ID ${data.commentatorId}`);
+		return;
+	}
+
+	const runDataActive = SPEEDCONTROL_runDataActiveRunRep.value;
+	if (!runDataActive) {
+		log.error("No active run found in Speedcontrol");
+		return;
+	}
+
+	// Remove commentator from commentators Replicant
+	commentatorsRep.value = commentators.filter((comm) => comm.id !== data.commentatorId);
+
+	/** Get the team information */ 
+
+	// Ensure the team exists, creating empty teams as needed
+	while (runDataActive.teams.length <= data.teamIndex) {
+		runDataActive.teams.push({
+			id: `team${runDataActive.teams.length + 1}`,
+			players: [],
+		});
+	}
+
+	const team = runDataActive.teams[data.teamIndex];
+	if (!team) {
+		log.error(`No team found at index ${data.teamIndex} for run ${runDataActive.id}`);
+		return;
+	}
+
+	// Insert the new runner at the specified positionIndex
+	team.players.splice(data.positionIndex, 0, commentator);
+
+	// Update the runDataActiveRun Replicant to trigger updates
+	SPEEDCONTROL_runDataActiveRunRep.value = JSON.parse(JSON.stringify(runDataActive));
+
+	log.info(
+		`Moved commentator ${commentator.name} (${commentator.id}) to runner at teamIndex ${data.teamIndex}, positionIndex ${data.positionIndex} in run ${runDataActive.id}`,
+	);
 });
 
 nodecg.listenFor("timerStart", "nodecg-speedcontrol", () => {

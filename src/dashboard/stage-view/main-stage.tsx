@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	DndContext,
 	closestCenter,
@@ -10,33 +10,30 @@ import {
 	type DragOverEvent,
 	type DragStartEvent,
 	DragOverlay,
+	useDroppable,
 } from "@dnd-kit/core";
 import {
 	arrayMove,
+	SortableContext,
 	sortableKeyboardCoordinates,
+	horizontalListSortingStrategy,
+	useSortable,
 } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
-import { Container } from "./container";
-import { SquareItem } from "./sortable-item";
+import { useReplicant } from "@nodecg/react-hooks";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
+import CircularProgress from "@mui/material/CircularProgress";
+import { SortablePerson, Person } from "./person";
 
+// Styled Components for Dark Mode
 const PageWrapper = styled.div`
-  background-color: #121212;
-  color: #ffffff;
-  min-height: 100vh;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 800px;
+  width: 100%;
 `;
 
 const Section = styled.div`
-  margin-bottom: 40px;
-`;
-
-const SectionTitle = styled.h2`
-  border-bottom: 1px solid #333;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  font-weight: 500;
-  color: #e0e0e0;
+  margin-bottom: 16px;
 `;
 
 const Row = styled.div`
@@ -45,18 +42,154 @@ const Row = styled.div`
   flex-wrap: wrap;
 `;
 
-interface ItemsState {
-  [key: string]: string[];
+const ContainerBox = styled.div`
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 300px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const ContainerTitle = styled.h3`
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+`;
+
+const ItemList = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SquareItem = styled.div<{ isDragging?: boolean }>`
+  width: 170px;
+  height: 200px;
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  opacity: ${(props) => (props.isDragging ? 0.4 : 1)};
+  box-shadow: ${(props) => (props.isDragging ? "0 8px 20px rgba(0,0,0,0.6)" : "0 2px 4px rgba(0,0,0,0.2)")};
+  
+  &:hover {
+    border-color: #666;
+    background-color: #333;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+`;
+
+// Droppable Container Component
+interface ContainerProps {
+	id: string;
+	title: string;
+	items: string[];
+	isRunnerSection?: boolean;
 }
 
-export default function MultipleContainers() {
+function Container({ id, title, items, isRunnerSection }: ContainerProps) {
+	const { setNodeRef } = useDroppable({ id });
+
+	return (
+		<ContainerBox ref={setNodeRef}>
+			<ContainerTitle>{title}</ContainerTitle>
+			<SortableContext items={items} strategy={horizontalListSortingStrategy}>
+				<ItemList style={{ minHeight: "120px" }}>
+					{items.map((itemId) => (
+						// <SortableItem key={item.id} person={item} />
+						<SortablePerson key={itemId} id={itemId} isInRunnerSection={isRunnerSection} />
+					))}
+				</ItemList>
+			</SortableContext>
+		</ContainerBox>
+	);
+}
+
+type ItemsState = Record<string, string[]>;
+
+// Main Component
+export function MultipleContainers() {
+	const [commentators] = useReplicant("commentators");
+	const [runDataActive] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const [initialised, setInitialised] = useState(false);
+
 	const [items, setItems] = useState<ItemsState>({
-		comm1: ["C1-1", "C1-2", "C1-3"],
-		comm2: ["C2-1", "C2sdsad-2"],
-		runners: ["R1", "R2", "R3", "R4"],
+		commentators: [],
+		host: [],
+		runners: [],
 	});
 
 	const [activeId, setActiveId] = useState<string | null>(null);
+
+	// ===== STUBS: Called when drag operations complete and systems need updating =====
+
+	const onRunnerMovedToCommentators = (runnerId: string, newIndex: number) => {
+		// TODO: Update systems when a runner is moved into the commentators box
+		console.log(`Runner ${runnerId} moved to commentators at index ${newIndex}`);
+		void nodecg.sendMessage("commentators:runnerToCommentator", {
+			runnerId: runnerId,
+			positionIndex: newIndex,
+		});
+	};
+
+	const onCommentatorMovedToRunners = (commentatorId: string, newIndex: number) => {
+		// TODO: Update systems when a commentator is moved into the runners box
+		console.log(`Commentator ${commentatorId} moved to runners at index ${newIndex}`);
+		void nodecg.sendMessage("speedcontrol:commentatorToRunner", {
+			commentatorId: commentatorId,
+			teamIndex: 0, // For simplicity, always add to team 0 (for now)
+			positionIndex: newIndex,
+		});
+	};
+
+	const onCommentatorsReordered = (newOrder: string[]) => {
+		// TODO: Update systems when commentators are reordered
+		console.log("Commentators reordered:", newOrder);
+		nodecg.sendMessage("commentators:reorder", newOrder);
+	};
+
+	const onRunnersReordered = (newOrder: string[]) => {
+		// TODO: Update systems when runners are reordered
+		console.log("Runners reordered:", newOrder);
+
+		if (!runDataActive) return;
+
+		nodecg.sendMessage("speedcontrol:reorderRunners", {
+			runId: runDataActive.id,
+			newOrder: newOrder,
+		});
+	};
+
+	// ================================================================================
+
+	useEffect(() => {
+		if (initialised || !runDataActive || !commentators) return;
+
+		const newItems: ItemsState = {
+			commentators: commentators.map((c) => c.id),
+			runners: runDataActive.teams.flatMap((team) => team.players.map((p) => p.id)),
+		};
+		setItems(newItems);
+		setInitialised(true);
+	}, [commentators, runDataActive, initialised]);
 
 	const sensors = useSensors(
 		useSensor(PointerSensor, {
@@ -123,11 +256,28 @@ export default function MultipleContainers() {
 		const activeContainer = findContainer(active.id as string);
 		const overContainer = findContainer(over?.id as string);
 
-		if (!activeContainer || !overContainer || activeContainer !== overContainer) {
+		if (!activeContainer || !overContainer) {
 			setActiveId(null);
 			return;
 		}
 
+		console.log(`Drag ended. Active: ${active.id} in ${activeContainer}, Over: ${over?.id} in ${overContainer}`);
+
+		// Cross-container move completed
+		if (activeContainer !== overContainer) {
+			const newIndex = items[overContainer]?.indexOf(active.id as string) ?? -1;
+
+			if (activeContainer === "runners" && overContainer === "commentators") {
+				onRunnerMovedToCommentators(active.id as string, newIndex);
+			} else if (activeContainer === "commentators" && overContainer === "runners") {
+				onCommentatorMovedToRunners(active.id as string, newIndex);
+			}
+
+			setActiveId(null);
+			return;
+		}
+
+		// Same container reorder
 		const activeIndex = items[activeContainer]?.indexOf(active.id as string) ?? -1;
 		const overIndex = items[overContainer]?.indexOf(over?.id as string) ?? -1;
 
@@ -135,15 +285,30 @@ export default function MultipleContainers() {
 			setItems((prev) => {
 				const containerItems = prev[overContainer];
 				if (!containerItems) return prev;
+				const newOrder = arrayMove(containerItems, activeIndex, overIndex);
+
+				// Call the appropriate reorder stub
+				if (overContainer === "commentators") {
+					onCommentatorsReordered(newOrder);
+				} else if (overContainer === "runners") {
+					onRunnersReordered(newOrder);
+				}
+
 				return {
 					...prev,
-					[overContainer]: arrayMove(containerItems, activeIndex, overIndex),
+					[overContainer]: newOrder,
 				};
 			});
 		}
 
 		setActiveId(null);
 	};
+
+	if (!initialised) {
+		<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
+			<CircularProgress />
+		</div>;
+	}
 
 	return (
 		<PageWrapper>
@@ -155,25 +320,21 @@ export default function MultipleContainers() {
 				onDragEnd={handleDragEnd}
 			>
 				<Section>
-					<SectionTitle>Commentators</SectionTitle>
 					<Row>
-						<Container id="comm1" title="Container 1" items={items["comm1"] ?? []} />
-						<Container id="comm2" title="Container 2" items={items["comm2"] ?? []} />
+						<Container id="commentators" title="Commentators" items={items["commentators"] ?? []} />
 					</Row>
 				</Section>
 
 				<Section>
-					<SectionTitle>Runners</SectionTitle>
 					<Row>
-						<Container id="runners" title="Runners List" items={items["runners"] ?? []} />
+						<Container id="runners" title="Runners" items={items["runners"] ?? []} isRunnerSection />
 					</Row>
 				</Section>
 
 				<DragOverlay>
-					{activeId ? <SquareItem style={{ opacity: 1, cursor: "grabbing" }}>{activeId}</SquareItem> : null}
+					{activeId ? <Person style={{ opacity: 1, cursor: "grabbing" }} id={activeId} /> : null}
 				</DragOverlay>
 			</DndContext>
 		</PageWrapper>
 	);
 }
-

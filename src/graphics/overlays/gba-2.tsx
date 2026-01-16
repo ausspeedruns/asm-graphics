@@ -21,7 +21,7 @@ const Standard2Container = styled.div`
 const Topbar = styled.div`
 	display: flex;
 	position: absolute;
-	height: 341px;
+	height: 377px;
 	width: 1920px;
 	border-bottom: 1px solid white;
 	overflow: hidden;
@@ -45,25 +45,16 @@ const RightBox = styled.div`
 	background: var(--main);
 `;
 
-const BottomBox = styled.div`
-	width: 1920px;
-	height: 100px;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	background: var(--main);
-`;
-
 const SponsorSize = {
 	height: 230,
 	width: 400,
 };
 
 const CentralDivider = styled.div`
-	height: 590px;
+	height: 639px;
 	width: 2px;
 	position: absolute;
-	top: 341px;
+	top: 377px;
 	left: 959px;
 	background: var(--sec);
 `;
@@ -124,7 +115,6 @@ export const GBA2 = (props: OverlayProps) => {
 					>
 						<Couch
 							commentators={props.commentators}
-							host={props.host}
 							style={{ width: "30%", zIndex: 3 }}
 							audio={props.microphoneAudioIndicator}
 						/>
@@ -136,7 +126,6 @@ export const GBA2 = (props: OverlayProps) => {
 				</RightBox>
 			</Topbar>
 			<CentralDivider />
-			<BottomBox />
 		</Standard2Container>
 	);
 };

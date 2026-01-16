@@ -6,15 +6,25 @@ import type { HostRead } from "@asm-graphics/shared/HostRead.js";
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.js";
 import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic.js";
 import type { RunDataPlayer } from "./RunData.js";
+import type { CropSettings } from "../obs-types.js";
 
 export type NodeCGMessages = {
 	// Audio
 	changeGameAudio: { manual: boolean; index: number };
 	changeGameAudioName: { name: string; index: number };
 	// Commentators / Host
-	"update-commentator": RunDataPlayer;
+	"update-commentator": {
+		id?: string;
+		name: string;
+		pronouns?: string;
+		twitch?: string;
+		tag?: string;
+		microphone?: string;
+	};
 	"delete-commentator": string;
 	showHost: boolean;
+	"commentators:reorder": string[];
+	"commentators:runnerToCommentator": { runnerId: string; positionIndex: number };
 	// Donations
 	"tiltify:setConnection": boolean;
 	"donations:toggleRead": string;
@@ -95,7 +105,11 @@ export type NodeCGMessages = {
 	"intermission-videos:refreshInfo": string;
 	// Speedcontrol Converter
 	"speedcontrol:editRunner": { runId: string; runner: RunDataPlayer };
-	"speedcontrol:reorderRunners": { runId: string; newOrder: RunDataPlayer[] };
+	"speedcontrol:reorderRunners": { runId: string; newOrder: string[] };
+	"speedcontrol:commentatorToRunner": { commentatorId: string; teamIndex: number; positionIndex: number };
 	// AusSpeedruns Website
 	"ausspeedruns-website:recollectUserData": never;
+	// OBS Game Crop
+	"obs:getVideoFeed": { feedName: string };
+	"obs:setCropSettings": { feedName: string; cropSettings: CropSettings };
 };
