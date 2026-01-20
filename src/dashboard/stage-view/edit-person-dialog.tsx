@@ -16,25 +16,27 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Headsets } from "../../shared/audio-data";
 
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import { usePersonData } from "./use-person-data";
 
 interface EditRunnerDialogProps {
-	runner?: RunDataPlayer;
 	open: boolean;
 	onClose: () => void;
+	personId: string | null;
 }
 
 export function EditPersonDialog(props: EditRunnerDialogProps) {
-	if (!props.runner) {
+	if (!props.personId) {
 		return null;
 	}
 
-	const [runnerData, setRunnerData] = useState<RunDataPlayer>({
-		...props.runner,
-	});
+	const person = usePersonData(props.personId);
+
+	const [originalPerson] = useState<RunDataPlayer | undefined>(person);
+	const [mutablePersonData, setMutablePersonData] = useState<RunDataPlayer>(JSON.parse(JSON.stringify(person ?? {})));
 
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const { name, value } = event.target;
-		setRunnerData((prev) => ({
+		setMutablePersonData((prev) => ({
 			...prev,
 			[name]: value,
 		}));
@@ -42,7 +44,7 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 
 	function handleSocialChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const { name, value } = event.target;
-		setRunnerData((prev) => ({
+		setMutablePersonData((prev) => ({
 			...prev,
 			social: {
 				...prev.social,
@@ -51,42 +53,51 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 		}));
 	}
 
-	function handleMicrophoneChange(microphone: string | undefined) {
-		setRunnerData((prev) => ({
+	function handleCustomDataChange(key: string, value: string | undefined) {
+		setMutablePersonData((prev) => ({
 			...prev,
 			customData: {
 				...prev.customData,
-				microphone: microphone ?? "",
+				[key]: value ?? "",
 			},
 		}));
 	}
 
 	function handlePronounChange(pronouns: string) {
-		setRunnerData((prev) => ({
+		setMutablePersonData((prev) => ({
 			...prev,
 			pronouns: pronouns,
 		}));
 	}
 
-	const handleClose = () => {
+	function handleClose() {
 		props.onClose();
-	};
+	}
 
-	const handleSave = () => {
-		console.log("Saving runner data:", runnerData);
+	function handleSave() {
+		console.log("Saving person data:", mutablePersonData);
+		nodecg.sendMessage("update-commentator", {
+			id: mutablePersonData.id,
+			name: mutablePersonData.name,
+			pronouns: mutablePersonData.pronouns,
+			twitch: mutablePersonData.social?.twitch,
+			tag: mutablePersonData.customData?.tag,
+			microphone: mutablePersonData.customData?.microphone,
+		});
 		props.onClose();
-	};
+	}
 
 	const hasUpdatedValues =
-		runnerData.name !== props.runner.name ||
-		runnerData.pronouns !== props.runner.pronouns ||
-		runnerData.social?.twitch !== props.runner.social?.twitch ||
-		runnerData.customData?.microphone !== props.runner.customData?.microphone;
+		mutablePersonData.name !== originalPerson?.name ||
+		mutablePersonData.pronouns !== originalPerson?.pronouns ||
+		mutablePersonData.social?.twitch !== originalPerson?.social?.twitch ||
+		mutablePersonData.customData?.microphone !== originalPerson?.customData?.microphone ||
+		mutablePersonData.customData?.tag !== originalPerson?.customData?.tag;
 
 	return (
 		<Dialog open={props.open} onClose={handleClose} fullWidth maxWidth="md" style={{ colorScheme: "dark" }}>
 			<DialogTitle>
-				Edit Runner
+				Edit Person
 				<IconButton
 					aria-label="close"
 					onClick={handleClose}
@@ -103,7 +114,13 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 			<DialogContent>
 				<div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 					<div style={{ display: "flex", gap: 16 }}>
-						<TextField fullWidth label="Name" name="name" value={runnerData.name} onChange={handleChange} />
+						<TextField
+							fullWidth
+							label="Name"
+							name="name"
+							value={mutablePersonData.name}
+							onChange={handleChange}
+						/>
 						<Autocomplete
 							freeSolo
 							options={["He/Him", "She/Her", "They/Them"]}
@@ -111,24 +128,31 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 							onInputChange={(_, newInputValue) => {
 								handlePronounChange(newInputValue);
 							}}
-							inputValue={runnerData.pronouns}
+							inputValue={mutablePersonData.pronouns}
 							sx={{ minWidth: "30%" }}
 						/>
 					</div>
-					<div>
+					<div style={{ display: "flex", gap: 16 }}>
 						<TextField
 							fullWidth
 							label="Twitch"
 							name="twitch"
-							value={runnerData.social?.twitch || ""}
+							value={mutablePersonData.social?.twitch ?? ""}
 							onChange={handleSocialChange}
+						/>
+						<TextField
+							fullWidth
+							label="Tag"
+							name="tag"
+							value={mutablePersonData.customData["tag"] ?? ""}
+							onChange={(event) => handleCustomDataChange("tag", event.target.value)}
 						/>
 					</div>
 					<div>
 						<span style={{ display: "block" }}>Headset</span>
 						<ToggleButtonGroup
-							value={props.runner.customData?.microphone}
-							onChange={(_, headset) => handleMicrophoneChange(headset)}
+							value={mutablePersonData.customData?.microphone}
+							onChange={(_, headset) => handleCustomDataChange("microphone", headset)}
 							exclusive
 							style={{ flexWrap: "wrap" }}
 						>

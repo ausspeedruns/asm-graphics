@@ -83,6 +83,8 @@ const CentralDivider = styled.div`
 export const ThreeDS2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
+	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
+
 	return (
 		<ThreeDS2Container>
 			<Middle>
@@ -103,12 +105,12 @@ export const ThreeDS2 = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 276, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
 				<AudioIndicator
-					active={props.gameAudioIndicator === 0}
+					active={props.gameAudioIndicator === allRunnerIds[0]}
 					side="top"
 					style={{ position: "absolute", top: 270, left: 678 }}
 				/>
 				<AudioIndicator
-					active={props.gameAudioIndicator === 1}
+					active={props.gameAudioIndicator === allRunnerIds[1]}
 					side="top"
 					style={{
 						position: "absolute",

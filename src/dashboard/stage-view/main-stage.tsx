@@ -28,73 +28,75 @@ import { SortablePerson, Person } from "./person";
 
 // Styled Components for Dark Mode
 const PageWrapper = styled.div`
-  min-width: 800px;
-  width: 100%;
+	min-width: 800px;
+	width: 100%;
 `;
 
 const Section = styled.div`
-  margin-bottom: 16px;
+	margin-bottom: 16px;
 `;
 
 const Row = styled.div`
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
 `;
 
 const ContainerBox = styled.div`
-  background-color: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 16px;
-  min-width: 300px;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+	background-color: rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	padding: 16px;
+	min-width: 300px;
+	min-height: 120px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	position: relative;
 `;
 
 const ContainerTitle = styled.h3`
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+	position: absolute;
+	top: 8px;
+	left: 16px;
+	font-size: 0.9rem;
+	color: #ffffff;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 `;
 
 const ItemList = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	flex-direction: row;
+	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
 `;
 
 const SquareItem = styled.div<{ isDragging?: boolean }>`
-  width: 170px;
-  height: 200px;
-  background-color: #2c2c2c;
-  border: 1px solid #444;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: grab;
-  user-select: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  opacity: ${(props) => (props.isDragging ? 0.4 : 1)};
-  box-shadow: ${(props) => (props.isDragging ? "0 8px 20px rgba(0,0,0,0.6)" : "0 2px 4px rgba(0,0,0,0.2)")};
-  
-  &:hover {
-    border-color: #666;
-    background-color: #333;
-  }
+	width: 170px;
+	height: 200px;
+	background-color: #2c2c2c;
+	border: 1px solid #444;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: grab;
+	user-select: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	opacity: ${(props) => (props.isDragging ? 0.4 : 1)};
+	box-shadow: ${(props) => (props.isDragging ? "0 8px 20px rgba(0,0,0,0.6)" : "0 2px 4px rgba(0,0,0,0.2)")};
+	
+	&:hover {
+		border-color: #666;
+		background-color: #333;
+	}
 
-  &:active {
-    cursor: grabbing;
-  }
+	&:active {
+		cursor: grabbing;
+	}
 `;
 
 // Droppable Container Component
@@ -103,9 +105,10 @@ interface ContainerProps {
 	title: string;
 	items: string[];
 	isRunnerSection?: boolean;
+	openPersonEditDialog?: (personId: string) => void;
 }
 
-function Container({ id, title, items, isRunnerSection }: ContainerProps) {
+function Container({ id, title, items, isRunnerSection, openPersonEditDialog }: ContainerProps) {
 	const { setNodeRef } = useDroppable({ id });
 
 	return (
@@ -115,7 +118,12 @@ function Container({ id, title, items, isRunnerSection }: ContainerProps) {
 				<ItemList style={{ minHeight: "120px" }}>
 					{items.map((itemId) => (
 						// <SortableItem key={item.id} person={item} />
-						<SortablePerson key={itemId} id={itemId} isInRunnerSection={isRunnerSection} />
+						<SortablePerson
+							key={itemId}
+							id={itemId}
+							isInRunnerSection={isRunnerSection}
+							handleEditPerson={openPersonEditDialog}
+						/>
 					))}
 				</ItemList>
 			</SortableContext>
@@ -125,8 +133,12 @@ function Container({ id, title, items, isRunnerSection }: ContainerProps) {
 
 type ItemsState = Record<string, string[]>;
 
+interface MainStageProps {
+	openPersonEditDialog: (personId: string) => void;
+}
+
 // Main Component
-export function MultipleContainers() {
+export function MultipleContainers(props: MainStageProps) {
 	const [commentators] = useReplicant("commentators");
 	const [runDataActive] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [initialised, setInitialised] = useState(false);
@@ -263,20 +275,6 @@ export function MultipleContainers() {
 
 		console.log(`Drag ended. Active: ${active.id} in ${activeContainer}, Over: ${over?.id} in ${overContainer}`);
 
-		// Cross-container move completed
-		if (activeContainer !== overContainer) {
-			const newIndex = items[overContainer]?.indexOf(active.id as string) ?? -1;
-
-			if (activeContainer === "runners" && overContainer === "commentators") {
-				onRunnerMovedToCommentators(active.id as string, newIndex);
-			} else if (activeContainer === "commentators" && overContainer === "runners") {
-				onCommentatorMovedToRunners(active.id as string, newIndex);
-			}
-
-			setActiveId(null);
-			return;
-		}
-
 		// Same container reorder
 		const activeIndex = items[activeContainer]?.indexOf(active.id as string) ?? -1;
 		const overIndex = items[overContainer]?.indexOf(over?.id as string) ?? -1;
@@ -321,13 +319,24 @@ export function MultipleContainers() {
 			>
 				<Section>
 					<Row>
-						<Container id="commentators" title="Commentators" items={items["commentators"] ?? []} />
+						<Container
+							id="commentators"
+							title="Commentators"
+							items={items["commentators"] ?? []}
+							openPersonEditDialog={props.openPersonEditDialog}
+						/>
 					</Row>
 				</Section>
 
 				<Section>
 					<Row>
-						<Container id="runners" title="Runners" items={items["runners"] ?? []} isRunnerSection />
+						<Container
+							id="runners"
+							title="Runners"
+							items={items["runners"] ?? []}
+							isRunnerSection
+							openPersonEditDialog={props.openPersonEditDialog}
+						/>
 					</Row>
 				</Section>
 

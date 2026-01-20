@@ -10,8 +10,7 @@ import type { CropSettings } from "../obs-types.js";
 
 export type NodeCGMessages = {
 	// Audio
-	changeGameAudio: { manual: boolean; index: number };
-	changeGameAudioName: { name: string; index: number };
+	changeGameAudio: { manual: boolean; id: string };
 	// Commentators / Host
 	"update-commentator": {
 		id?: string;

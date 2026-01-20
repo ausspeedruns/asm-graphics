@@ -63,7 +63,7 @@ export interface OverlayProps {
 	host?: RunDataPlayer;
 	preview?: boolean;
 	sponsors: NodeCG.AssetFile[];
-	gameAudioIndicator: number;
+	gameAudioIndicator: string;
 	microphoneAudioIndicator?: AudioIndicator;
 	onScreenWarning?: { message: string; show: boolean };
 	showHost?: boolean;
@@ -117,7 +117,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 		sponsors: sponsorsRep ?? [],
 		microphoneAudioIndicator: mutableMicAudioIndicator,
 		host: host,
-		gameAudioIndicator: gameAudioIndicatorRep ?? -1,
+		gameAudioIndicator: gameAudioIndicatorRep ?? "",
 		onScreenWarning: {
 			message: onScreenMessageMessageRep ?? "",
 			show: onScreenMessageShowRep ?? false,

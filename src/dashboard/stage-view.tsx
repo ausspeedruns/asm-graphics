@@ -10,7 +10,7 @@ import type { RunDataActiveRun, RunDataPlayer } from "../../bundles/nodecg-speed
 import { darkTheme } from "./theme";
 import { EditPersonDialog } from "./stage-view/edit-person-dialog";
 import { ScheduleInfo } from "./stage-view/schedule-info";
-import { CurrentRunInfo } from "./stage-view/current-run-info";
+import { RunInfo } from "./stage-view/run-info";
 import { Person } from "./stage-view/person";
 // import { DroppableZone } from "./stage-view/droppable-zone";
 import { useTalkback } from "./stage-view/use-talkback";
@@ -20,6 +20,7 @@ import { UpcomingRun } from "./stage-view/upcoming-run";
 import { TimeHeader } from "./stage-view/time-header";
 import { StatusLights } from "./stage-view/status-lights";
 import { CropGameDialog } from "./stage-view/crop-game";
+import type { RunDataArray } from "@asm-graphics/types/RunData";
 
 const DashboardStageViewContainer = styled.div``;
 
@@ -75,13 +76,14 @@ function toHost(person: RunDataPlayer): RunDataPlayer {
 	};
 }
 
+const DISPLAY_NEXT_RUNS = 3;
+
 export function DashboardStageView() {
 	const [commentatorsRep, setCommentatorsRep] = useReplicant("commentators");
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [gameAudioIndex] = useReplicant("game-audio-indicator");
-	const [editingCommentator, setEditingCommentator] = useState<RunDataPlayer | null>(null);
-	const [runner, setRunner] = useState<RunDataPlayer | null>(null);
-	const [personEditDialogOpen, setPersonEditDialogOpen] = useState<"Commentator" | "Runner" | null>(null);
+	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
+	const [personId, setPersonId] = useState<string | null>(null);
+	const [personEditDialogOpen, setPersonEditDialogOpen] = useState(false);
 	const [gameCropDialogOpen, setGameCropDialogOpen] = useState(false);
 
 	const allRunners = runDataActiveRep?.teams.flatMap((team) => team.players);
@@ -101,9 +103,14 @@ export function DashboardStageView() {
 	} = useTalkback(commentatorsRep, allRunners);
 
 	function handleClosePersonEditDialog() {
-		setPersonEditDialogOpen(null);
-		setEditingCommentator(null);
+		setPersonEditDialogOpen(false);
 	}
+
+	const currentRunIndex = runDataArrayRep?.findIndex((run) => run.id === runDataActiveRep?.id) ?? -1;
+
+	const nextRuns = runDataArrayRep
+		?.filter((run) => run.id !== runDataActiveRep?.id)
+		.slice(currentRunIndex + 1, currentRunIndex + 1 + DISPLAY_NEXT_RUNS);
 
 	return (
 		<StyledEngineProvider injectFirst>
@@ -114,7 +121,7 @@ export function DashboardStageView() {
 				<DashboardStageViewContainer>
 					<TimeHeader />
 					<StatusLights />
-					<CurrentRunInfo />
+					<RunInfo run={runDataActiveRep} />
 					<TopBar>
 						{/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}> */}
 						{/* <Button
@@ -128,8 +135,17 @@ export function DashboardStageView() {
 						{/* <ScheduleInfo /> */}
 					</TopBar>
 					<StageContainer>
-						<MultipleContainers />
+						<MultipleContainers
+							openPersonEditDialog={(personId) => {
+								console.log("Opening edit dialog for person:", personId);
+								setPersonId(personId);
+								setPersonEditDialogOpen(true);
+							}}
+						/>
 					</StageContainer>
+					<div style={{ display: "flex", justifyContent: "center" }}>
+						<Button variant="contained" onClick={() => setGameCropDialogOpen(true)}>Open Game Crop</Button>
+					</div>
 					<div
 						style={{
 							display: "flex",
@@ -148,17 +164,23 @@ export function DashboardStageView() {
 						<RunTimeline />
 					</BottomBar>
 					<UpcomingRun />
-					<Button onClick={() => setGameCropDialogOpen(true)}>Open Game Crop</Button>
+					<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+						<div>Next Runs</div>
+						<div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+							{nextRuns?.map((run) => (
+								<RunInfo key={run.id} run={run} />
+							))}
+						</div>
+					</div>
 				</DashboardStageViewContainer>
 				<EditPersonDialog
-					key={runner?.id ?? "new-runner"}
-					open={personEditDialogOpen === "Runner"}
+					key={personId ?? "new-person"}
+					personId={personId}
+					open={personEditDialogOpen}
 					onClose={handleClosePersonEditDialog}
-					runner={runner ?? undefined}
 				/>
 				<CropGameDialog
 					open={gameCropDialogOpen}
-					videoSourceName="TestImage1"
 					onClose={() => setGameCropDialogOpen(false)}
 					onCrop={() => {}}
 				/>

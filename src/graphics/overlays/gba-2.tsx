@@ -61,6 +61,7 @@ const CentralDivider = styled.div`
 
 export const GBA2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
+	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
 	return (
 		<Standard2Container>
@@ -72,12 +73,12 @@ export const GBA2 = (props: OverlayProps) => {
 				</LeftBox>
 
 				<AudioIndicator
-					active={props.gameAudioIndicator === 0}
+					active={props.gameAudioIndicator === allRunnerIds[0]}
 					side="left"
 					style={{ position: "absolute", top: 300, left: 625 }}
 				/>
 				<AudioIndicator
-					active={props.gameAudioIndicator === 1}
+					active={props.gameAudioIndicator === allRunnerIds[1]}
 					side="right"
 					style={{
 						position: "absolute",
@@ -99,7 +100,7 @@ export const GBA2 = (props: OverlayProps) => {
 				/>
 
 				<RaceFinish style={{ top: 220, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
-				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[0]?.time} place={teamData[0]?.place} />
+				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
 				<RightBox>
 					<div

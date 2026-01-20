@@ -114,13 +114,15 @@ export const Widescreen2 = (props: OverlayProps) => {
 					/>
 				</LeftBox>
 
+
+					{/* TODO: Figure out a better way to link Audio Indicator to person. */}
 				<AudioIndicator
-					active={props.gameAudioIndicator === 0}
+					active={props.gameAudioIndicator === props.runData?.teams[0]?.players[0]?.id}
 					side="left"
 					style={{ position: "absolute", top: 300, left: 624, zIndex: 2 }}
 				/>
 				<AudioIndicator
-					active={props.gameAudioIndicator === 1}
+					active={props.gameAudioIndicator === props.runData?.teams[1]?.players[0]?.id}
 					side="right"
 					style={{
 						position: "absolute",

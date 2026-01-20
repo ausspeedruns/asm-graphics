@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Mic, MicOff, Edit } from "@mui/icons-material";
+import { Mic, MicOff, Edit, RecordVoiceOver } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 
 import { Headsets } from "../../shared/audio-data";
@@ -10,6 +10,7 @@ import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunDat
 import { useReplicant } from "@nodecg/react-hooks";
 import type { DraggableAttributes } from "@dnd-kit/core";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { usePersonData } from "./use-person-data";
 
 const MegaContainer = styled.div`
 	height: 100%;
@@ -19,6 +20,7 @@ const MegaContainer = styled.div`
 `;
 
 const PersonContainer = styled.div<{ isDragging?: boolean }>`
+	box-sizing: border-box;
 	position: relative;
 	background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
 	min-width: 170px;
@@ -133,25 +135,6 @@ function getHeadsetData(microphone: string | undefined) {
 	return Headsets.find((h) => h.name === microphone) ?? undefined;
 }
 
-function usePersonData(id: string): RunDataPlayer | undefined {
-	const [commentators] = useReplicant("commentators");
-	const [runDataActive] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-
-	if (commentators) {
-		const person = commentators.find((c: RunDataPlayer) => c.id === id);
-		if (person) return person;
-	}
-
-	if (runDataActive) {
-		for (const team of runDataActive.teams) {
-			const player = team.players.find((p) => p.id === id);
-			if (player) return player;
-		}
-	}
-
-	return undefined;
-}
-
 export function SortablePerson(props: PersonProps) {
 	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: props.id });
 
@@ -174,7 +157,7 @@ export function SortablePerson(props: PersonProps) {
 
 interface PersonProps {
 	id: string;
-	handleEditPerson?: (data: RunDataPlayer) => void;
+	handleEditPerson?: (personId: string) => void;
 	currentTalkbackTargets?: string[];
 	updateTalkbackTargets?: (targets: string[]) => void;
 	isInRunnerSection?: boolean;
@@ -187,11 +170,13 @@ interface PersonProps {
 
 export function Person(props: PersonProps) {
 	const personData = usePersonData(props.id);
+	const [gameAudioRep] = useReplicant("game-audio-indicator");
+
 	if (!personData) return null;
 
 	function editCommentator() {
 		if (!personData) return;
-		props.handleEditPerson?.(personData);
+		props.handleEditPerson?.(props.id);
 	}
 
 	function toggleTalkback() {
@@ -207,13 +192,20 @@ export function Person(props: PersonProps) {
 	}
 
 	function moveGameAudio() {
-		// void nodecg.sendMessage("changeGameAudio", { manual: true });
+		if (gameAudioRep === props.id) {
+			void nodecg.sendMessage("changeGameAudio", { manual: true, id: "" });
+			return;
+		}
+
+		void nodecg.sendMessage("changeGameAudio", { manual: true, id: props.id });
 	}
 
-	// const talkbackEnabled = props.currentTalkbackTargets.includes(props.person.id);
+	const talkbackEnabled = props.currentTalkbackTargets?.includes(props.id) ?? false;
 
 	const rawMicrophone = personData.customData.microphone;
 	const headset = getHeadsetData(rawMicrophone);
+
+	const isOnRunnersAudio = gameAudioRep === props.id;
 
 	return (
 		<PersonContainer
@@ -246,15 +238,11 @@ export function Person(props: PersonProps) {
 			</MicRow>
 
 			<ActionsRow>
-				{/* <Tooltip placement="top" title={talkbackEnabled ? "Disable Talkback" : "Enable Talkback"}>
-						<IconButton
-							color={talkbackEnabled ? "primary" : "inherit"}
-							onClick={toggleTalkback}
-							size="small"
-						>
-							<RecordVoiceOver />
-						</IconButton>
-					</Tooltip> */}
+				<Tooltip placement="top" title={talkbackEnabled ? "Disable Talkback" : "Enable Talkback"}>
+					<IconButton color={talkbackEnabled ? "primary" : "inherit"} onClick={toggleTalkback} size="small">
+						<RecordVoiceOver />
+					</IconButton>
+				</Tooltip>
 				<Tooltip placement="top" title="Edit">
 					<span>
 						<IconButton size="small" color="inherit" onClick={editCommentator}>
@@ -264,13 +252,8 @@ export function Person(props: PersonProps) {
 				</Tooltip>
 			</ActionsRow>
 			{props.isInRunnerSection && (
-				<Button
-					onClick={moveGameAudio}
-					// disabled={isOnRunnersAudio}
-					// variant={isOnRunnersAudio ? "contained" : "outlined"}
-				>
-					{/* {isOnRunnersAudio ? "Active" : "Move"} Game Audio */}
-					Game Audio Thing
+				<Button onClick={moveGameAudio}>
+					{gameAudioRep === "" ? "Set" : isOnRunnersAudio ? "Clear" : "Transfer"} Game Audio Icon
 				</Button>
 			)}
 		</PersonContainer>

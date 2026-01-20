@@ -139,11 +139,25 @@ const RightBG = styled.div`
 export const Widescreen3 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 3);
 
+	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
+
 	return (
 		<Widescreen3Container>
-			<WideAudioIndicator active={props.gameAudioIndicator === 0} side="top" style={{ left: 961 }} />
-			<WideAudioIndicator active={props.gameAudioIndicator === 1} side="top" style={{ left: 1262 }} />
-			<WideAudioIndicator active={props.gameAudioIndicator === 2} side="top" style={{ left: 1563 }} />
+			<WideAudioIndicator
+				active={props.gameAudioIndicator === allRunnerIds[0]}
+				side="top"
+				style={{ left: 961 }}
+			/>
+			<WideAudioIndicator
+				active={props.gameAudioIndicator === allRunnerIds[1]}
+				side="top"
+				style={{ left: 1262 }}
+			/>
+			<WideAudioIndicator
+				active={props.gameAudioIndicator === allRunnerIds[2]}
+				side="top"
+				style={{ left: 1563 }}
+			/>
 			<LeftBG />
 			<RightBG />
 			<TopBar>

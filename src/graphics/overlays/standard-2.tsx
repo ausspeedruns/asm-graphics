@@ -73,6 +73,7 @@ const WholeGraphicClip = styled.div`
 
 export const Standard2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
+	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
 	return (
 		<Standard2Container>
@@ -85,7 +86,7 @@ export const Standard2 = (props: OverlayProps) => {
 				</LeftBox>
 
 				<AudioIndicator
-					active={props.gameAudioIndicator === 0}
+					active={props.gameAudioIndicator === allRunnerIds[0]}
 					side="left"
 					style={{
 						position: "absolute",
@@ -95,7 +96,7 @@ export const Standard2 = (props: OverlayProps) => {
 					}}
 				/>
 				<AudioIndicator
-					active={props.gameAudioIndicator === 1}
+					active={props.gameAudioIndicator === allRunnerIds[1]}
 					side="right"
 					style={{
 						position: "absolute",

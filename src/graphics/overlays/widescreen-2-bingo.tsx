@@ -106,6 +106,8 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 			return overriddenCell ?? cell;
 		}) ?? [];
 
+	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
+
 	return (
 		<Widescreen2BingoContainer>
 			<WholeGraphicClip>
@@ -117,12 +119,12 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 				</LeftBox>
 
 				<AudioIndicator
-					active={props.gameAudioIndicator === 0}
+					active={props.gameAudioIndicator === allRunnerIds[0]}
 					side="left"
 					style={{ position: "absolute", top: 300, left: 624, zIndex: 2 }}
 				/>
 				<AudioIndicator
-					active={props.gameAudioIndicator === 1}
+					active={props.gameAudioIndicator === allRunnerIds[1]}
 					side="right"
 					style={{
 						position: "absolute",

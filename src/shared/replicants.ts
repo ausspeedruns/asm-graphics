@@ -54,13 +54,8 @@ export const replicants = {
 	"donation-matches": [] as DonationMatch[],
 
 	// Audio Shared
-	"game-audio-indicator": -1,
+	"game-audio-indicator": "",
 	"x32:audio-gate": -10,
-	"game-audio-names": [] as string[],
-
-	// OBS Audio
-	"obs-audio-indicator": { defaultValue: [] as OBSAudioIndicator[], persistent: false },
-	"obs:audio-gate": -10,
 
 	// X32 Audio
 	"x32:connectionDetails": {

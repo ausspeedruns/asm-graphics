@@ -38,6 +38,31 @@ export function RunTimeline() {
 
 	const progress = ((timerRep?.milliseconds ?? 0) / ((currentRun?.estimateS ?? 1) * 1000)) * 100;
 
+	const infoTicks = [];
+	const prepareTime = timeToProgress(30 * 60, currentRun?.estimateS ?? 1); // 30 minute warning
+	const readyTime = timeToProgress(5 * 60, currentRun?.estimateS ?? 1); // 5 minute warning
+
+	if (prepareTime > 0) {
+		infoTicks.push({
+			value: prepareTime,
+			label: "Prepare for next run",
+		});
+	}
+
+	if (prepareTime <= 0 && readyTime > 0) {
+		infoTicks.push({
+			value: readyTime,
+			label: "Prepare and get ready!",
+		});
+	}
+
+	if (readyTime > 0) {
+		infoTicks.push({
+			value: readyTime,
+			label: "Get ready!",
+		});
+	}
+
 	return (
 		<div className={styles.container}>
 			<span>{startTime}</span>
@@ -49,16 +74,7 @@ export function RunTimeline() {
 				className={styles.progressBar}
 				disabled
 				slots={{ thumb: RunnerSliderThumb }}
-				marks={[
-					{
-						value: timeToProgress(30 * 60, currentRun?.estimateS ?? 1), // 30 minute warning
-						label: "Prepare for next run",
-					},
-					{
-						value: timeToProgress(5 * 60, currentRun?.estimateS ?? 1), // 5 minute warning
-						label: "Get ready!",
-					},
-				]}
+				marks={infoTicks}
 			/>
 			<span>{estimatedEndTime}</span>
 		</div>

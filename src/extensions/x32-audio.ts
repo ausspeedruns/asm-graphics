@@ -22,7 +22,7 @@ const x32StatusRep = getReplicant("x32:status");
 const x32BusFadersRep = getReplicant("x32:busFaders");
 const x32AudioActivityRep = getReplicant("audio-indicators");
 const microphoneGateRep = getReplicant("x32:audio-gate");
-const gameAudioActiveRep = getReplicant("game-audio-indicator");
+// const gameAudioActiveRep = getReplicant("game-audio-indicator"); TODO: Automate this
 const automationSettingsRep = getReplicant("automations");
 
 const nodecg = nodecgApiContext.get();
@@ -363,7 +363,7 @@ nodecg.listenFor("x32:changeGameAudio", (channelIndex) => {
 		// Assume that the audio level the previous game was at will also be ok
 		x32.fade(gameChannelIndex, 0, 0, highestFaderVal, 1500);
 		x32.fade(gameChannelIndex, 1, 0, highestSpeakerFaderVal, 1500);
-		gameAudioActiveRep.value = channelIndex;
+		// gameAudioActiveRep.value = channelIndex;
 	}, 1500);
 });
 

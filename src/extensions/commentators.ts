@@ -9,7 +9,7 @@ import type NodeCG from "nodecg/types";
 import { HOST_TAG } from "@asm-graphics/shared/constants.js";
 
 const nodecg = nodecgApiContext.get();
-const Log = new nodecg.Logger("Commentators");
+const log = new nodecg.Logger("Commentators");
 
 const automationSettingsRep = getReplicant("automations");
 const commentatorsRep = getReplicant("commentators");
@@ -39,7 +39,7 @@ function generateBasicCommentator(
 }
 
 nodecg.listenFor("update-commentator", (commentator) => {
-	Log.info(`Updating commentator ${commentator.id} ${commentator.name}`);
+	log.info(`Updating commentator ${commentator.id} ${commentator.name}`);
 
 	if (commentator.id) {
 		const commentatorIndex = commentatorsRep.value.findIndex((comm) => comm.id === commentator.id);
@@ -55,7 +55,7 @@ nodecg.listenFor("update-commentator", (commentator) => {
 				microphone: commentator.microphone,
 			});
 			if (updatedRunner) {
-				Log.info(`Updated runner information for commentator ${commentator.id} ${commentator.name}`);
+				log.info(`Updated runner information for commentator ${commentator.id} ${commentator.name}`);
 				return;
 			}
 
@@ -67,19 +67,17 @@ nodecg.listenFor("update-commentator", (commentator) => {
 					microphone: commentator.microphone,
 				}),
 			);
-			Log.warn(`Commentator had an ID but could not find the ID in the replicant. ${commentator.id}`);
+			log.warn(`Commentator had an ID but could not find the ID in the replicant. ${commentator.id}`);
 		} else {
 			// Edit existing commentator
 			const existingCommentator = commentatorsRep.value[commentatorIndex];
 
 			if (!existingCommentator) {
-				Log.error(
+				log.error(
 					`Could not find existing commentator to update despite having index. ${commentator.id} ${commentator.name}`,
 				);
 				return;
 			}
-
-			Log.info(JSON.stringify(existingCommentator));
 
 			commentatorsRep.value[commentatorIndex] = {
 				...existingCommentator,
@@ -110,10 +108,10 @@ nodecg.listenFor("update-commentator", (commentator) => {
 });
 
 nodecg.listenFor("delete-commentator", (id) => {
-	Log.info(`Deleting ${id}`);
+	log.info(`Deleting ${id}`);
 
 	if (!commentatorsRep.value.find((commentator) => commentator.id === id)) {
-		Log.error(`Tried to delete commentator but could not find them in replicant. ${id}`);
+		log.error(`Tried to delete commentator but could not find them in replicant. ${id}`);
 		return;
 	}
 
@@ -121,7 +119,7 @@ nodecg.listenFor("delete-commentator", (id) => {
 });
 
 nodecg.listenFor("showHost", (showHost: boolean) => {
-	Log.info(`Setting showHost to ${showHost}`);
+	log.info(`Setting showHost to ${showHost}`);
 	showHostRep.value = showHost;
 });
 
@@ -153,21 +151,21 @@ function updateRunnerInformation(runner: {
 	}
 
 	if (!foundPlayer) {
-		Log.error(`Could not find runner to update. Runner: ${runner.id} ${runner.name}`);
+		log.error(`Could not find runner to update. Runner: ${runner.id} ${runner.name}`);
 		return false;
 	}
 
 	const team = SPEEDCONTROL_runDataActiveRep.value?.teams[teamIndex];
 
 	if (!team) {
-		Log.error(
+		log.error(
 			`Found runner and team index but team was undefined. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex}`,
 		);
 		return false;
 	}
 
 	if (!team.players[playerIndex]) {
-		Log.error(
+		log.error(
 			`Found runner and team index but runner was undefined. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex} | Player Index: ${playerIndex}`,
 		);
 		return false;
@@ -176,7 +174,7 @@ function updateRunnerInformation(runner: {
 	const originalRunner = _.clone(team.players[playerIndex]);
 
 	if (!originalRunner) {
-		Log.error(
+		log.error(
 			`Could not clone original runner. Runner: ${runner.id} ${runner.name} | Team Index: ${teamIndex} | Player Index: ${playerIndex}`,
 		);
 		return false;
@@ -209,7 +207,7 @@ nodecg.listenFor("transition:toIntermission", () => {
 });
 
 nodecg.listenFor("commentators:reorder", (newOrder: string[]) => {
-	Log.info("Reordering commentators");
+	log.info("Reordering commentators");
 
 	const currentCommentators = [...commentatorsRep.value];
 	const reorderedCommentators: RunDataPlayer[] = [];
@@ -219,7 +217,7 @@ nodecg.listenFor("commentators:reorder", (newOrder: string[]) => {
 		if (foundCommentator) {
 			reorderedCommentators.push(foundCommentator);
 		} else {
-			Log.warn(`Could not find commentator with ID ${id} during reorder`);
+			log.warn(`Could not find commentator with ID ${id} during reorder`);
 		}
 	});
 
@@ -227,11 +225,11 @@ nodecg.listenFor("commentators:reorder", (newOrder: string[]) => {
 });
 
 nodecg.listenFor("commentators:runnerToCommentator", (data) => {
-	Log.info(`Moving runner ${data.runnerId} to commentator at index ${data.positionIndex}`);
+	log.info(`Moving runner ${data.runnerId} to commentator at index ${data.positionIndex}`);
 
 	const runDataActive = SPEEDCONTROL_runDataActiveRep.value;
 	if (!runDataActive) {
-		Log.error("No active run found in Speedcontrol");
+		log.error("No active run found in Speedcontrol");
 		return;
 	}
 
@@ -246,7 +244,7 @@ nodecg.listenFor("commentators:runnerToCommentator", (data) => {
 	}
 
 	if (!foundRunner) {
-		Log.error(`Could not find runner with ID ${data.runnerId} to move to commentator`);
+		log.error(`Could not find runner with ID ${data.runnerId} to move to commentator`);
 		return;
 	}
 
@@ -255,5 +253,5 @@ nodecg.listenFor("commentators:runnerToCommentator", (data) => {
 	mutableCommentators.splice(data.positionIndex, 0, foundRunner);
 	commentatorsRep.value = mutableCommentators;
 
-	Log.info(`Moved runner ${foundRunner.name} (${foundRunner.id}) to commentators at index ${data.positionIndex}`);
+	log.info(`Moved runner ${foundRunner.name} (${foundRunner.id}) to commentators at index ${data.positionIndex}`);
 });
