@@ -106,9 +106,19 @@ interface ContainerProps {
 	items: string[];
 	isRunnerSection?: boolean;
 	openPersonEditDialog?: (personId: string) => void;
+	setTalkbackIds?: (ids: string[]) => void;
+	currentTalkbackTargets?: string[];
 }
 
-function Container({ id, title, items, isRunnerSection, openPersonEditDialog }: ContainerProps) {
+function Container({
+	id,
+	title,
+	items,
+	isRunnerSection,
+	openPersonEditDialog,
+	setTalkbackIds,
+	currentTalkbackTargets,
+}: ContainerProps) {
 	const { setNodeRef } = useDroppable({ id });
 
 	return (
@@ -123,6 +133,8 @@ function Container({ id, title, items, isRunnerSection, openPersonEditDialog }: 
 							id={itemId}
 							isInRunnerSection={isRunnerSection}
 							handleEditPerson={openPersonEditDialog}
+							updateTalkbackTargets={setTalkbackIds}
+							currentTalkbackTargets={currentTalkbackTargets}
 						/>
 					))}
 				</ItemList>
@@ -135,10 +147,12 @@ type ItemsState = Record<string, string[]>;
 
 interface MainStageProps {
 	openPersonEditDialog: (personId: string) => void;
+	currentTalkbackIds?: string[]; // TODO: Convert this stuff to a context provider
+	setTalkbackIds?: (ids: string[]) => void;
 }
 
 // Main Component
-export function MultipleContainers(props: MainStageProps) {
+export function MainStage(props: MainStageProps) {
 	const [commentators] = useReplicant("commentators");
 	const [runDataActive] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [initialised, setInitialised] = useState(false);
@@ -324,6 +338,8 @@ export function MultipleContainers(props: MainStageProps) {
 							title="Commentators"
 							items={items["commentators"] ?? []}
 							openPersonEditDialog={props.openPersonEditDialog}
+							setTalkbackIds={props.setTalkbackIds}
+							currentTalkbackTargets={props.currentTalkbackIds}
 						/>
 					</Row>
 				</Section>
@@ -336,6 +352,8 @@ export function MultipleContainers(props: MainStageProps) {
 							items={items["runners"] ?? []}
 							isRunnerSection
 							openPersonEditDialog={props.openPersonEditDialog}
+							setTalkbackIds={props.setTalkbackIds}
+							currentTalkbackTargets={props.currentTalkbackIds}
 						/>
 					</Row>
 				</Section>

@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Button, StyledEngineProvider, ThemeProvider } from "@mui/material";
-import { ArrowDownward } from "@mui/icons-material";
+import { ArrowDownward, Campaign } from "@mui/icons-material";
 
 import type { RunDataActiveRun, RunDataPlayer } from "../../bundles/nodecg-speedcontrol/src/types";
 
@@ -14,7 +14,7 @@ import { RunInfo } from "./stage-view/run-info";
 import { Person } from "./stage-view/person";
 // import { DroppableZone } from "./stage-view/droppable-zone";
 import { useTalkback } from "./stage-view/use-talkback";
-import { MultipleContainers } from "./stage-view/main-stage";
+import { MainStage } from "./stage-view/main-stage";
 import { RunTimeline } from "./stage-view/run-timeline";
 import { UpcomingRun } from "./stage-view/upcoming-run";
 import { TimeHeader } from "./stage-view/time-header";
@@ -135,27 +135,35 @@ export function DashboardStageView() {
 						{/* <ScheduleInfo /> */}
 					</TopBar>
 					<StageContainer>
-						<MultipleContainers
+						<MainStage
 							openPersonEditDialog={(personId) => {
 								console.log("Opening edit dialog for person:", personId);
 								setPersonId(personId);
 								setPersonEditDialogOpen(true);
 							}}
+							currentTalkbackIds={currentTalkbackTargets}
+							setTalkbackIds={setCurrentTalkbackTargets}
 						/>
 					</StageContainer>
 					<div style={{ display: "flex", justifyContent: "center" }}>
-						<Button variant="contained" onClick={() => setGameCropDialogOpen(true)}>Open Game Crop</Button>
-					</div>
-					<div
-						style={{
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-							opacity: 0.7,
-							margin: 40,
-						}}
-					>
-						Crowd <ArrowDownward />
+						<Button variant="contained" onClick={() => setGameCropDialogOpen(true)}>
+							Open Game Crop
+						</Button>
+						<Button
+							style={{ marginLeft: 20 }}
+							onClick={toggleTalkToAll}
+							color="primary"
+							variant={
+								currentTalkbackTargets.length === allIds.length || currentTalkbackTargets.length !== 0
+									? "contained"
+									: "outlined"
+							}
+							startIcon={<Campaign />}
+						>
+							{currentTalkbackTargets.length === allIds.length || currentTalkbackTargets.length !== 0
+								? "Clear Talkback"
+								: "Talk to All"}
+						</Button>
 					</div>
 					<BottomBar>
 						{/* <Button color="error" onClick={forceStopTalkback}>

@@ -33,9 +33,7 @@ export function RunInfo(props: RunInfoProps) {
 		const extractedLayout = layoutMatch?.[1]?.trim() || null;
 
 		// Remove the LAYOUT: line from special requirements
-		const cleanedRequirements = rawRequirements
-			.replace(/LAYOUT:\s*[^\n]*/gi, "")
-			.trim();
+		const cleanedRequirements = rawRequirements.replace(/LAYOUT:\s*[^\n]*/gi, "").trim();
 
 		return {
 			layout: extractedLayout,
@@ -76,12 +74,21 @@ export function RunInfo(props: RunInfoProps) {
 
 				<div className={styles.infoItem}>
 					<ConsoleIcon height={14} />
-					<span className={styles.label}>Tech</span>
-					<span className={styles.value}>{run?.customData["techPlatform"] || "—"}</span>
-					<span className={styles.divider} />
-					<span className={styles.label}>Display</span>
-					<span className={styles.value}>{run?.system || "—"}</span>
-					<Tooltip title="Tech Platform is the hardware or emulator used for tech setup. Display Platform is what is shown to the audience.">
+					{run?.customData["techPlatform"] === run?.system ? (
+						<>
+							<span className={styles.label}>Tech &amp; Display</span>
+							<span className={styles.value}>{run?.system || "—"}</span>
+						</>
+					) : (
+						<>
+							<span className={styles.label}>Tech</span>
+							<span className={styles.value}>{run?.customData["techPlatform"] || "—"}</span>
+							<span className={styles.divider} />
+							<span className={styles.label}>Display</span>
+							<span className={styles.value}>{run?.system || "—"}</span>
+						</>
+					)}
+					<Tooltip title="Tech Platform is the hardware or emulator used for tech setup. Display Platform is what is shown to the audience (Normally the original release platform of the game version).">
 						<InfoOutlinedIcon style={{ fontSize: 14, cursor: "pointer", opacity: 0.4 }} />
 					</Tooltip>
 				</div>
