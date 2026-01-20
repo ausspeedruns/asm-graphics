@@ -1,9 +1,13 @@
 .container {
 	width: 100%;
+	padding: 0 40px;
+}
+
+.timeline {
+	width: 100%;
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	padding: 0 40px;
 
 	&>span {
 		white-space: nowrap;
@@ -17,7 +21,7 @@
 		color: #03a9f4;
 	}
 
-	& > :global(.MuiSlider-mark) {
+	&> :global(.MuiSlider-mark) {
 		height: 16px;
 		background-color: rgb(255, 255, 255);
 	}
@@ -43,4 +47,11 @@
 		left: -15px;
 		color: #fff;
 	}
+}
+
+.infoRow {
+	display: flex;
+	justify-content: center;
+	font-size: 0.875rem;
+	color: rgba(255, 255, 255, 0.75);
 }

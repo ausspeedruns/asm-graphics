@@ -147,7 +147,7 @@ export const replicants = {
 	"intermission-videos": [] as IntermissionVideo[],
 
 	// Speedcontrol Metadata
-	runStartTime: null as number | null,
+	runStartTime: [null, null] as [number | null, number | null],
 
 	// ASM-Graphics settings / Misc
 } satisfies Record<string, ReplicantValueType>;

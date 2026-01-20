@@ -180,7 +180,7 @@ nodecg.listenFor("speedcontrol:commentatorToRunner", (data) => {
 	// Remove commentator from commentators Replicant
 	commentatorsRep.value = commentators.filter((comm) => comm.id !== data.commentatorId);
 
-	/** Get the team information */ 
+	/** Get the team information */
 
 	// Ensure the team exists, creating empty teams as needed
 	while (runDataActive.teams.length <= data.teamIndex) {
@@ -209,10 +209,10 @@ nodecg.listenFor("speedcontrol:commentatorToRunner", (data) => {
 
 nodecg.listenFor("timerStart", "nodecg-speedcontrol", () => {
 	log.info(`Run started, setting runStartTime to ${Date.now()}`);
-	runStartTimeRep.value = Date.now();
+	runStartTimeRep.value = [Date.now(), null];
 });
 
 nodecg.listenFor("changeToNextRun", "nodecg-speedcontrol", () => {
-	log.info("Changing to next run, resetting runStartTime to null");
-	runStartTimeRep.value = null;
+	log.info("Changing to next run, setting endTime for the current run");
+	runStartTimeRep.value = [runStartTimeRep.value[0], Date.now()];
 });

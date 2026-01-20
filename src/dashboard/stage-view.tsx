@@ -9,9 +9,7 @@ import type { RunDataActiveRun, RunDataPlayer } from "../../bundles/nodecg-speed
 
 import { darkTheme } from "./theme";
 import { EditPersonDialog } from "./stage-view/edit-person-dialog";
-import { ScheduleInfo } from "./stage-view/schedule-info";
 import { RunInfo } from "./stage-view/run-info";
-import { Person } from "./stage-view/person";
 // import { DroppableZone } from "./stage-view/droppable-zone";
 import { useTalkback } from "./stage-view/use-talkback";
 import { MainStage } from "./stage-view/main-stage";
