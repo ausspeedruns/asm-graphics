@@ -22,9 +22,6 @@ export function GameYearsSettings() {
 				>
 					Import {ausSpeedrunsWebsiteSettings?.eventSlug} schedule
 				</Button>
-				<Button color="secondary" fullWidth onClick={() => nodecg.sendMessage("scheduleImport:getGameYears")}>
-					Set the Game Years
-				</Button>
 			</div>
 			<Accordion>
 				<AccordionSummary>List of Runs with No Year ({runsWithoutYear.length})</AccordionSummary>

@@ -49,7 +49,7 @@ export function RunInfo(props: RunInfoProps) {
 					<CategoryIcon style={{ fontSize: 14 }} />
 					{run?.category}
 					<span className={styles.divider} />
-					<StopwatchIcon height={14} />
+					<StopwatchIcon height={14} width={14} />
 					{run?.estimate}
 					<span className={styles.divider} />
 					<CalendarMonthIcon style={{ fontSize: 14 }} />
@@ -59,7 +59,7 @@ export function RunInfo(props: RunInfoProps) {
 
 			<div className={styles.infoGrid}>
 				<div className={styles.infoItem}>
-					<RunnerIcon height={16} />
+					<RunnerIcon height={16} width={16} />
 					<span className={styles.label}>Runners</span>
 					<span className={styles.value}>{runners || "—"}</span>
 				</div>
@@ -73,7 +73,7 @@ export function RunInfo(props: RunInfoProps) {
 				</div>
 
 				<div className={styles.infoItem}>
-					<ConsoleIcon height={14} />
+					<ConsoleIcon height={14} width={14} />
 					{run?.customData["techPlatform"] === run?.system ? (
 						<>
 							<span className={styles.label}>Tech &amp; Display</span>

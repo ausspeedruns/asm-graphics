@@ -22,6 +22,10 @@ import { useReplicant } from "@nodecg/react-hooks";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import type { HostRead } from "@asm-graphics/shared/HostRead";
+import { Incentives, TwitchRevenue, Prizes } from "./default-host-reads";
+
+const DEFAULT_HOST_READS = [Prizes, TwitchRevenue, Incentives];
+const DEFAULT_HOST_READS_IDS = DEFAULT_HOST_READS.map((read) => read.title.toLowerCase().replace(/\s+/g, "-"));
 
 export function HostReads() {
 	const [hostReadsRep, setHostReadsRep] = useReplicant("host-reads");
@@ -59,9 +63,26 @@ export function HostReads() {
 		}
 	}
 
+	function addDeafaultHostReads() {
+		DEFAULT_HOST_READS.forEach(async (read) => {
+			await nodecg.sendMessage("host-reads:add", {
+				id: read.title.toLowerCase().replace(/\s+/g, "-"),
+				title: read.title,
+				content: read.content,
+			});
+		});
+	}
+
+	const hostReadHasAtLeastOneDefault = hostReadsRep?.some((read) => DEFAULT_HOST_READS_IDS.includes(read.id));
+
 	return (
 		<div>
 			<h3>Host Reads</h3>
+			{!hostReadHasAtLeastOneDefault && (
+				<Button fullWidth onClick={addDeafaultHostReads}>
+					Add Defaults
+				</Button>
+			)}
 			<Accordion expanded={accordionExpanded} onChange={() => setAccordionExpanded(!accordionExpanded)}>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>Add Host Read</AccordionSummary>
 				<AccordionDetails>

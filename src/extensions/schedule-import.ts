@@ -134,15 +134,14 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 	});
 }
 
-nodecg.listenFor("scheduleImport:import", () => {
-	getSchedule().then(
-		(runs) => {
-			if (runs === undefined) return;
-			console.log(JSON.stringify(runs));
-			// console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA=====================================");
-			// console.log(JSON.stringify(convertScheduleToSpeedcontrol(runs)));
-			SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
-		},
-		() => {},
-	);
+nodecg.listenFor("scheduleImport:import", async () => {
+	const runs = await getSchedule();
+	if (runs === undefined) return;
+	console.log(JSON.stringify(runs));
+	// console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA=====================================");
+	// console.log(JSON.stringify(convertScheduleToSpeedcontrol(runs)));
+	SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
+
+	// TODO: Just bring this function in here lol
+	void nodecg.sendMessage("scheduleImport:getGameYears");
 });

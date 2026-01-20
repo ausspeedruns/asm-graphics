@@ -198,6 +198,7 @@ export function generateBrowserSource(
 	name: string,
 	url: string,
 	settings: { width: number; height: number; fps: number },
+	overrides?: Partial<z.infer<typeof browserSourceSchema>>,
 ): z.infer<typeof browserSourceSchema> {
 	return {
 		...baseSource,
@@ -213,6 +214,7 @@ export function generateBrowserSource(
 			fps_custom: settings.fps !== 30, // 30 is the default FPS
 			shutdown: true,
 		},
+		...overrides,
 	};
 }
 

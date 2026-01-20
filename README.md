@@ -15,7 +15,7 @@
 
 ## Before using
 
-This is only intended to be used as an _education tool_. Please learn from the code to be able to create your own layouts. **Do not download and use as is!**
+This is only intended to be used as an *education tool*. Please learn from the code to be able to create your own layouts. **Do not download and use as is!**
 
 ## Table of Contents
 
@@ -43,17 +43,18 @@ This is only intended to be used as an _education tool_. Please learn from the c
     - Standard 2p / 4:3
     - Standard Portrait / 3:4
     - Nintendo GameBoy & GameBoy Color
+    - Nintendo GameBoy & GameBoy Color 2p
     - Nintendo GameBoy Advance
     - Nintendo GameBoy Advance 2p
     - Nintendo DS
     - Nintendo DS 2p
     - Nintendo 3DS
-    - 11:8 (World's Hardest Game)
+    - Nintendo 3DS 2p
+    - 1:1
 - Race and Co-op
 - Couch and Host names
 - Audio indicators
 - Intermission screen
-- Online functionality with OBS support
 - Custom host dashboard
 - Automatic incentive data
 - Custom nodecg-speedcontrol schedule import
@@ -62,27 +63,21 @@ This is only intended to be used as an _education tool_. Please learn from the c
 
 ## Requirements
 
-- [NodeCG](https://www.nodecg.dev/): 1.9.0
-- [nodecg-speedcontrol](https://github.com/speedcontrol): 2.4.0
+- [NodeCG](https://www.nodecg.dev/): 2.6.4
+- [nodecg-speedcontrol](https://github.com/speedcontrol): 2.6.0
 
 To use the OBS audio indicators you must have [OBS-WebSocket](https://github.com/obsproject/obs-websocket) version 5.0.0. This plugin comes by default in OBS v28.
 
 ## Installation
 
-Currently no automated builds are active. You must install and build this manually.
-
-1. Install [NodeCG](https://www.nodecg.dev/docs/installing)
-2. Install [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol#installation)
-3. Starting from the _root_ NodeCG folder
-
-```bash
-cd bundles
-git clone https://github.com/ausspeedruns/asm-graphics.git
-cd asm-graphics
-npm i
-npm run build
-npm run start
-```
+1. Clone this repository
+2. Run `cd bundles`
+3. Clone the [nodecg-speedcontrol](https://github.com/speedcontrol) repository
+4. Run `pnpm install`
+5. Run `pnpm run build`
+6. Go back up to the asm-graphics folder `cd ../..`
+7. Run `pnpm run build`
+8. Run `pnpm start`
 
 ## Usage
 
@@ -90,47 +85,59 @@ npm run start
 
 The config schema is used to define URLs, API keys and to enable/disable certain features.
 
-If you have [nodecg-cli](https://github.com/nodecg/nodecg-cli) installed just run the `nodecg defaultconfig` command to generate the config file to then edit, else create a config file in `nodecg/cfg/asm-graphics.json`.
+If you have [nodecg-cli](https://github.com/nodecg/nodecg-cli) installed just run the `nodecg defaultconfig` command to generate the config file to then edit, else create a config file in `cfg/asm-graphics.json`.
 
-- `obs`
-    - Enables the use of OBS-WebSocket in the bundle, currently used for audio indicators but previously used to remotely change scenes during online events.
-    - `enabled`: Boolean
-    - `port`: Number
-    - `ip`: String
-    - `password`: String
-- `twitch`
-    - `parents`: String[]
-        - [Twitch embed parameter](https://dev.twitch.tv/docs/embed/everything#embed-parameters)
-- `twitter`
-    - Get tweets about the event to display on stream. _Will work for ~30 mins and then break._
-    - `enabled`: Boolean
-    - `key`: String
-        - Twitter API key
-    - `secret`: String
-        - Twitter API secret key
-    - `bearer`: String
-        - Twitter API bearer key
-    - `rules`: Object[]
-        - Twitter API rules on what to search for
-        - _Currently unused_
-- `hostname`: String
-    - Used when hosting NodeCG on an external server with a domain name
-    - Only used to configure a URL for online mode
-- `tilitfy`
-    - `enabled`: Boolean
-    - `key`: String
-        - Tiltify API key
-    - `campaign`: String
-        - Tiltify campaign ID
-- `graphql`
-    - Used for getting incentives and runner information from the [ausspeedruns.com](https://ausspeedruns.com/) website
-    - `url`: String
-        - URL for GraphQL server
-    - `event`: String
-        - Event's short name to filter results from the graphql server
+| Name | Type | Example | Description |
+| :--- | :--- | :--- | :--- |
+| **obs** | Object |    | OBS-WebSocket configuration |
+| ├─ enabled | Boolean  | true | Enables OBS-WebSocket support |
+| ├─ port | Number  | 4455 | Port for OBS-WebSocket connection |
+| ├─ ip | String |  localhost | IP address for OBS-WebSocket connection |
+| └─ password | String  | mypassword | Password for OBS-WebSocket connection |
+| **tiltify** | Object  |  | Tiltify configuration |
+| ├─ enabled | Boolean  | true | Enables Tiltify integration |
+| ├─ key | String  | myapikey | Tiltify API key |
+| └─ campaign | String  | 123456 | Tiltify campaign ID |
+| **graphql** | Object  |  | Used for getting incentives and runner information from the [ausspeedruns.com](https://ausspeedruns.com/) website |
+| ├─ url | String  | https://ausspeedruns.com/graphql | URL for GraphQL server |
+| └─ event | String  | ASM2025 | | Event's short name to filter results from the graphql server |
+| **x32** | Object  || Behringer X32 configuration |
+| ├─ enabled | Boolean  | true | Enables X32 integration |
+| └─ ip | String | 192.168.1.100 | | X32 IP Address (Use X32 Edit to find) |
+
+### Setup
+
+1. Go to Settings
+2. Scroll down to "Schedule Importer"
+3. Press the "Import <EVENT> Schedule" button
+4. Check for any games without a year and set them accordingly (also add them to the list if missing)
+5. In the "Host Reads" panel, press "Add Defaults" (if applicable)
+6. Upload sponsor logos in Assets > Sponsors
+7. Upload intermission videos in Assets > Intermission Videos
+8. In Settings, adjust the settings of the Intermission Videos as needed
+
+### OBS Setup
+
+1. Go to Settings
+2. In the OBS panel, set the number of gameplay and camera captures and generate the scene file
+3. In OBS import the scene file
+4. In the "Gameplay Capture" and "Camera Capture" sources, set the video capture devices accordingly
+5. In the "Intermission" scene, open the Filters of the "Intermission Browser Source" and set the Audio Monitor filter output
+6. In the "Intermission" scene, open the Filters of the "Transition Browser Source" and set the Audio Monitor filter output
+
+### Doing a Run
+
+This is purely about the dashboard usage
+
+1. Make sure all the couch commentators and runners are in the correct order in the "Stage View" panel
+2. Click "Open Game Crop" and assign the relevant game capture sources to the section and crop the gameplay accordingly
 
 ## Events used in
 
+- ASO2026
+- ASAP2025
+- ASM2025
+- ASAP2024
 - ASM2024
 - ASDH2024
 - ASGX2024
@@ -152,6 +159,7 @@ asm-graphics is provided under the Mozilla Public License v2.0, which is availab
 ## Authors
 
 - Lead developer and designer [Ewan "Clubwho" Lyon](https://github.com/EwanLyon)
+- Graphics Designer [Synrey](https://bsky.app/profile/kaeruscene.bsky.social)
 - Tester [nei\_](https://github.com/neiunderscore)
 
 ## Contributing

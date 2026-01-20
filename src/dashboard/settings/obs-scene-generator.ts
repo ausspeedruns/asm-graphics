@@ -248,6 +248,38 @@ export function generateOBSScenes(options: {
 		"Intermission Browser Source",
 		`${options.urlBase}/bundles/asm-graphics/graphics/intermission.html`,
 		{ width: 1920, height: 1080, fps: 60 },
+		{
+			filters: [
+				{
+					prev_ver: 536870916,
+					name: "Audio Monitor",
+					uuid: "681bef8e-88dd-425f-b2fc-66cbddc41029",
+					id: "audio_monitor",
+					versioned_id: "audio_monitor",
+					settings: {
+						device: "",
+						deviceName: "",
+						custom_color: false,
+					},
+					mixers: 255,
+					sync: 0,
+					flags: 0,
+					volume: 1.0,
+					balance: 0.5,
+					enabled: true,
+					muted: false,
+					"push-to-mute": false,
+					"push-to-mute-delay": 0,
+					"push-to-talk": false,
+					"push-to-talk-delay": 0,
+					hotkeys: {},
+					deinterlace_mode: 0,
+					deinterlace_field_order: 0,
+					monitoring_type: 0,
+					private_settings: {},
+				},
+			],
+		},
 	);
 
 	const obsRawSources: z.infer<typeof sourceSchema>[] = [
