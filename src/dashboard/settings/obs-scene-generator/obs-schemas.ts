@@ -107,6 +107,7 @@ export const sourceSchema = z.object({
 	private_settings: z
 		.record(z.string(), z.unknown())
 		.meta({ description: "Private settings (unknown structure TODO)" }),
+	filters: z.optional(z.array(z.unknown())).meta({ description: "Filters applied to the source (TODO)" }),
 });
 
 export const sceneSourceSchema = z.object({

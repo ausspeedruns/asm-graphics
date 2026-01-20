@@ -83,93 +83,74 @@ const NameWithRoles = styled.div`
 const collator = new Intl.Collator();
 
 const TECH = [
-	"Pato",
 	"nei",
+	"AtomicCaleb",
 	"vichisuki",
-	"morganmustdie",
-	"BalakehB",
-	"Dillon",
-	"Dezinator94",
-	"Benjlin",
-	"Techless",
-	"CurtMantis",
+	"Alecat",
+	"Kenorah",
+	"tahis9",
+	"Arahpthos",
 ].sort((a, b) => collator.compare(a, b));
 
 const FRONT_DESK = [
-	"srd_27",
-	"JTMagicman",
+	"Awrie",
 	"Geolubread",
-	"TasmaniaJones",
 	"aggymon",
-	"Galasrinie",
-	"Yuki_Layla",
-	"Synrey",
-	"Chokocchi",
-	"BalakehB",
+	"Nicosar",
+	"Sten",
+	"Baphy",
+	"AtomicCaleb",
+	"GLPhoenix",
 ].sort((a, b) => collator.compare(a, b));
 
 const STAGE_HAND = [
 	"Kenorah",
-	"Dezinator94",
+	"tahis9",
+	"Fuddlebob",
+	"wooper",
 	"Chokocchi",
-	"Techless",
-	"Synrey",
-	"Pato",
-	"Vot",
-	"Yuki_Layla",
 	"Kuiperbole",
+	"Awrie",
+	"aggymon",
 ].sort((a, b) => collator.compare(a, b));
 
 const HOST = [
-	"Ghoul02",
-	"jksessions",
-	"IcyKairi",
+	"aggymon",
+	"Arahpthos",
+	"Chuckstah",
+	"Awrie",
+	"GLPhoenix",
 	"Geolubread",
-	"TasmaniaJones",
-	"JTMagicman",
-	"Sten",
-	"BlazenBezza",
+	"Nicosar",
 	"Kenorah",
-	"Chokocchi",
-	"Grimmo",
-	"Dactyly",
 ].sort((a, b) => collator.compare(a, b));
 
 const RUNNERS = [
-	"werster",
-	"AeonFrodo",
-	"JRP",
-	"GameNerd607",
-	"vichisuki",
+	"Nicosar",
+	"Mastodon",
+	"Falco_GX",
+	"Feetballer",
+	"Spike_SSBU",
 	"Logaaaaan64",
-	"Relentent",
-	"BlaDe",
-	"Raikou",
-	"jymmyboi",
-	"morganmustdie",
-	"Yuki_Layla",
-	"Zonda",
-	"Arianafan420",
-	"Barhunga",
-	"TySoN78",
-	"Rippy",
-	"BlazenBezza",
+	"Logaaaaan65",
+	"Logaaaaan66",
+	"mobius",
+	"KassXCII",
+	"Saucy",
+	"macko209",
 	"Kenorah",
-	"rippersteveM5",
-	"ekimekim",
-	"JTMagicman",
-	"retronika",
-	"syo",
-	"Arahpthos",
-	"Baphy",
-	"BryanBrews2000",
+	"urbani",
+	"aggymon",
+	"vichisuki",
 	"Ninten",
-	"ins0mnia",
-	"ribbongraph",
-	"Noops",
-	"FoksMachine",
-	"BalakehB",
-	"Eisog",
+	"Paulmall",
+	"hyphenHoik",
+	"Baphy",
+	"MikamiHero",
+	"Alecat",
+	"247Yugioh",
+	"Geolubread",
+	"Danicker",
 ].sort((a, b) => collator.compare(a, b));
 
 export function Credits() {
@@ -193,12 +174,12 @@ export function Credits() {
 				<Title>
 					Australian Speedruns
 					<br />
-					At PAX 2024
+					Open 2026
 				</Title>
 				<Title>AusSpeedruns Committee</Title>
 				<NameContainer>
 					<NameWithRoles>
-						ASAP Coordinator<Name>Astrious</Name>
+						ASO Coordinator<Name>werster</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						AusSpeedruns Director<Name>Sten</Name>
@@ -207,7 +188,7 @@ export function Credits() {
 						ASM Coordinator<Name>Noops</Name>
 					</NameWithRoles>
 					<NameWithRoles>
-						Operations Manager<Name>werster</Name>
+						ASAP Coordinator<Name>Astrious</Name>
 					</NameWithRoles>
 					<NameWithRoles>
 						Hardware Manager<Name>neɪ</Name>
@@ -227,9 +208,9 @@ export function Credits() {
 					<NameWithRoles>
 						Creative Manager<Name>Synrey</Name>
 					</NameWithRoles>
-					<NameWithRoles>
+					{/* <NameWithRoles>
 						Event Consultant<Name>Upjohn</Name>
-					</NameWithRoles>
+					</NameWithRoles> */}
 				</NameContainer>
 				<Title>Tech</Title>
 				<NameContainer>
@@ -264,7 +245,7 @@ export function Credits() {
 				<Title>Special Thanks</Title>
 				<NameContainer>
 					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
-					<NameWithRoles>PAX Australia</NameWithRoles>
+					{/* <NameWithRoles>PAX Australia</NameWithRoles> */}
 					<NameWithRoles style={{ marginTop: 15 }}>
 						AusSpeedruns LED logo<Name>Alecat</Name>
 					</NameWithRoles>
@@ -276,7 +257,7 @@ export function Credits() {
 					<NameWithRoles style={{ marginTop: 15 }}>
 						Timer Font: Seamless<Name>Michiel de Boer</Name>
 					</NameWithRoles>
-					<NameWithRoles>All enforcers</NameWithRoles>
+					{/* <NameWithRoles>All enforcers</NameWithRoles> */}
 					<NameWithRoles>All commentators</NameWithRoles>
 					<NameWithRoles>All donators</NameWithRoles>
 					<NameWithRoles>{"and especially you <3"}</NameWithRoles>

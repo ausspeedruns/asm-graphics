@@ -83,11 +83,11 @@ const UpcomingRunContainer = styled.div`
 	display: flex;
 	width: 90%;
 	flex-grow: 1;
-	font-size: 26px;
+	font-size: 22px;
 `;
 
 const MetaDataContainer = styled.div`
-	padding: 8px;
+	padding: 4px;
 	background: var(--asm-orange);
 	border-radius: ${BORDER_RADIUS}px 0 0 ${BORDER_RADIUS}px;
 	color: var(--text-light);

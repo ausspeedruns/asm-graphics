@@ -97,10 +97,12 @@ export const replicants = {
 	},
 	"obs:status": { defaultValue: { ...defaultStatus }, persistent: false },
 	"obs:currentScene": "Intermission",
+	"obs:previewScene": null as string | null,
 	"obs:streamTimecode": { defaultValue: null as string | null },
 	"obs:localRecordings": false as boolean,
 	"obs:autoReconnect": true as boolean,
 	"obs:reconnectInterval": 5000,
+	"obs:gameplayCaptureScenes": [] as string[],
 
 	// Full Screen Info
 	lowerThirdPerson: { defaultValue: { name: "", title: "" } as LowerThirdPerson },

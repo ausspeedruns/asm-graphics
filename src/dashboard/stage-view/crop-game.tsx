@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
 	Box,
 	Button,
+	ButtonGroup,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -12,16 +13,19 @@ import {
 } from "@mui/material";
 import z from "zod";
 import type { CropSettings } from "@asm-graphics/shared/obs-types";
+import { useReplicant } from "@nodecg/react-hooks";
+import { GameplayLocations } from "@asm-graphics/shared/obs-gameplay-scene-data";
+import NumberField from "../elements/number-field";
 
 const BASE_WIDTH = 1920;
 const BASE_HEIGHT = 1080;
+
 const ImageReturnZod = z.object({
 	imageData: z.string(),
 });
 
 interface CropGameDialogProps {
 	open: boolean;
-	videoSourceName?: string;
 	onClose: () => void;
 	onCrop: (settings: CropSettings) => void;
 }
@@ -41,12 +45,19 @@ type DragHandle =
 export function CropGameDialog(props: CropGameDialogProps) {
 	const [image, setImage] = useState<string | null>(null);
 	const [loadingImage, setLoadingImage] = useState(false);
+	const [currentSceneRep] = useReplicant("obs:currentScene");
+	const [previewSceneRep] = useReplicant("obs:previewScene");
+	const [gameplayCaptureScenesRep] = useReplicant("obs:gameplayCaptureScenes");
 	const [cropSettings, setCropSettings] = useState<CropSettings>({
 		left: 0,
 		top: 0,
 		right: 0,
 		bottom: 0,
 	});
+	const [selectedVideoSource, setSelectedVideoSource] = useState<string | null>(null);
+	const [selectedSection, setSelectedSection] = useState(0);
+	const [sections, setSections] = useState<{ width: number; height: number; x: number; y: number }[]>([]);
+	const [isTargetingPreview, setIsTargetingPreview] = useState(true);
 
 	const previewRef = useRef<HTMLDivElement>(null);
 	const dragRef = useRef<{ handle: DragHandle; startX: number; startY: number; startCrop: CropSettings } | null>(
@@ -57,13 +68,37 @@ export function CropGameDialog(props: CropGameDialogProps) {
 		if (!props.open) return;
 
 		getSourceImage();
-	}, [props.videoSourceName, props.open]);
+	}, [selectedVideoSource, props.open]);
+
+	useEffect(() => {
+		if (currentSceneRep === "Intermission") {
+			setIsTargetingPreview(true);
+		}
+
+		// Get the game bounds from the data
+		let sceneName: string | undefined;
+		if (isTargetingPreview && previewSceneRep?.startsWith("GAMEPLAY")) {
+			sceneName = previewSceneRep.slice("GAMEPLAY".length).trim();
+		} else if (!isTargetingPreview && currentSceneRep?.startsWith("GAMEPLAY")) {
+			sceneName = currentSceneRep.slice("GAMEPLAY".length).trim();
+		}
+
+		if (!sceneName || !GameplayLocations[sceneName as keyof typeof GameplayLocations]) {
+			console.log("You're on your own!");
+			return;
+		}
+
+		const gameplayLocations = GameplayLocations[sceneName as keyof typeof GameplayLocations];
+
+		setSections(gameplayLocations);
+		setSelectedSection(0);
+	}, [previewSceneRep, currentSceneRep, isTargetingPreview]);
 
 	function getSourceImage() {
-		if (!props.videoSourceName) return;
+		if (!selectedVideoSource) return;
 
 		setLoadingImage(true);
-		nodecg.sendMessage("obs:getVideoFeed", { feedName: props.videoSourceName }, (err, imageData) => {
+		nodecg.sendMessage("obs:getSourceScreenshot", { sourceName: selectedVideoSource }, (err, imageData) => {
 			if (err) {
 				console.error("Error fetching video feed:", err);
 				return;
@@ -93,12 +128,10 @@ export function CropGameDialog(props: CropGameDialogProps) {
 
 	const percentCrop = cropToPercent(cropSettings);
 
-	function handleInputChange(field: keyof CropSettings) {
-		return (event: React.ChangeEvent<HTMLInputElement>) => {
-			const maxValue = field === "left" || field === "right" ? BASE_WIDTH : BASE_HEIGHT;
-			const value = Math.max(0, Math.min(maxValue, Number(event.target.value) || 0));
-			setCropSettings((prev) => ({ ...prev, [field]: value }));
-		};
+	function handleInputChange(inputValue: number | null, field: keyof CropSettings) {
+		const maxValue = field === "left" || field === "right" ? BASE_WIDTH : BASE_HEIGHT;
+		const value = Math.max(0, Math.min(maxValue, Number(inputValue) || 0));
+		setCropSettings((prev) => ({ ...prev, [field]: value }));
 	}
 
 	function handleMouseDown(handle: DragHandle) {
@@ -184,7 +217,15 @@ export function CropGameDialog(props: CropGameDialogProps) {
 	}, [handleMouseMove]);
 
 	function handleCrop() {
-		props.onCrop(cropSettings);
+		if (!selectedVideoSource) return;
+
+		nodecg.sendMessage("obs:setCropSettings", {
+			sourceName: selectedVideoSource,
+			cropSettings,
+			sectionIndex: selectedSection,
+			isPreview: isTargetingPreview,
+		});
+		props.onClose();
 	}
 
 	const handleStyles = {
@@ -207,6 +248,77 @@ export function CropGameDialog(props: CropGameDialogProps) {
 			<DialogTitle>Crop Game Feed</DialogTitle>
 			<DialogContent>
 				<Stack spacing={3} sx={{ mt: 1 }}>
+					{/* Scene Target Toggle */}
+					{currentSceneRep !== "Intermission" ? (
+						<Stack direction="row" alignItems="center" spacing={2}>
+							<Typography variant="subtitle2">Target Scene:</Typography>
+							<Button
+								variant={isTargetingPreview ? "contained" : "outlined"}
+								onClick={() => {
+									setIsTargetingPreview(true);
+								}}
+							>
+								Preview Scene ({previewSceneRep ?? "N/A Not in Studio Mode"})
+							</Button>
+							<Button
+								variant={isTargetingPreview ? "outlined" : "contained"}
+								onClick={() => {
+									setIsTargetingPreview(false);
+								}}
+							>
+								Current Scene ({currentSceneRep})
+							</Button>
+						</Stack>
+					) : (
+						<Stack direction="row" alignItems="center" spacing={2}>
+							<Typography variant="subtitle2">Target Scene:</Typography>
+							<Button variant="contained">
+								Preview Scene ({previewSceneRep ?? "N/A Not in Studio Mode"})
+							</Button>
+						</Stack>
+					)}
+					<Stack direction="row" alignItems="center" spacing={2}>
+						<Typography variant="subtitle2">Video Source:</Typography>
+						{gameplayCaptureScenesRep && gameplayCaptureScenesRep.length > 0 ? (
+							<ButtonGroup>
+								{gameplayCaptureScenesRep.map((sceneName) => (
+									<Button
+										key={sceneName}
+										variant={selectedVideoSource === sceneName ? "contained" : "outlined"}
+										onClick={() => setSelectedVideoSource(sceneName)}
+									>
+										{sceneName}
+									</Button>
+								))}
+							</ButtonGroup>
+						) : (
+							<Typography variant="body2" color="text.secondary">
+								No gameplay capture scenes found.
+							</Typography>
+						)}
+					</Stack>
+					{sections.length > 1 && (
+						<Stack direction="row" spacing={2} alignItems="center">
+							<Typography variant="subtitle2">Select Section:</Typography>
+							<ButtonGroup>
+								{sections.map((section, index) => (
+									<Button
+										key={index}
+										variant={selectedSection === index ? "contained" : "outlined"}
+										onClick={() => setSelectedSection(index)}
+									>
+										Section {index + 1}
+										<GameplayAreaIcon
+											boxes={sections}
+											selectedIndex={index}
+											height={30}
+											style={{ marginLeft: 8 }}
+										/>
+									</Button>
+								))}
+							</ButtonGroup>
+						</Stack>
+					)}
 					{/* Main Preview Area */}
 					<Box
 						ref={previewRef}
@@ -418,41 +530,45 @@ export function CropGameDialog(props: CropGameDialogProps) {
 					{/* Pixel Input Controls */}
 					<Typography variant="subtitle2">Crop Values (pixels)</Typography>
 					<Stack direction="row" spacing={2}>
-						<TextField
+						<NumberField
 							label="Left"
-							type="number"
-							size="small"
 							value={cropSettings.left}
-							onChange={handleInputChange("left")}
-							inputProps={{ min: 0, max: BASE_WIDTH }}
-							sx={{ flex: 1 }}
+							onValueChange={(inputValue) => {
+								handleInputChange(inputValue, "left");
+							}}
+							size="small"
+							min={0}
+							max={BASE_WIDTH}
 						/>
-						<TextField
+						<NumberField
 							label="Top"
-							type="number"
-							size="small"
 							value={cropSettings.top}
-							onChange={handleInputChange("top")}
-							inputProps={{ min: 0, max: BASE_HEIGHT }}
-							sx={{ flex: 1 }}
+							onValueChange={(inputValue) => {
+								handleInputChange(inputValue, "top");
+							}}
+							size="small"
+							min={0}
+							max={BASE_HEIGHT}
 						/>
-						<TextField
+						<NumberField
 							label="Right"
-							type="number"
-							size="small"
 							value={cropSettings.right}
-							onChange={handleInputChange("right")}
-							inputProps={{ min: 0, max: BASE_WIDTH }}
-							sx={{ flex: 1 }}
-						/>
-						<TextField
-							label="Bottom"
-							type="number"
+							onValueChange={(inputValue) => {
+								handleInputChange(inputValue, "right");
+							}}
+							min={0}
+							max={BASE_WIDTH}
 							size="small"
+						/>
+						<NumberField
+							label="Bottom"
 							value={cropSettings.bottom}
-							onChange={handleInputChange("bottom")}
-							inputProps={{ min: 0, max: BASE_HEIGHT }}
-							sx={{ flex: 1 }}
+							onValueChange={(inputValue) => {
+								handleInputChange(inputValue, "bottom");
+							}}
+							min={0}
+							max={BASE_HEIGHT}
+							size="small"
 						/>
 					</Stack>
 
@@ -472,7 +588,9 @@ export function CropGameDialog(props: CropGameDialogProps) {
 					<Button onClick={() => setCropSettings({ left: 0, top: 0, right: 0, bottom: 0 })}>Reset</Button>
 					<Button onClick={props.onClose}>Cancel</Button>
 				</div>
-				<Button onClick={getSourceImage} loading={loadingImage}>Refresh</Button>
+				<Button onClick={getSourceImage} loading={loadingImage}>
+					Refresh
+				</Button>
 				<Button variant="contained" color="primary" onClick={handleCrop}>
 					Apply Crop
 				</Button>
@@ -595,5 +713,54 @@ function EdgePreview({ label, value, axis, side, crop }: EdgePreviewProps) {
 				{getSourceInfo()}
 			</Typography>
 		</Stack>
+	);
+}
+
+interface BBox {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+}
+
+interface GameplayAreaIconProps {
+	boxes: BBox[];
+	selectedIndex?: number;
+	height?: number;
+	style?: React.CSSProperties;
+}
+
+function GameplayAreaIcon({ boxes, selectedIndex, height = 40, style }: GameplayAreaIconProps) {
+	const width = (height * 16) / 9;
+
+	return (
+		<svg
+			width={width}
+			height={height}
+			viewBox="0 0 1920 1080"
+			style={{
+				backgroundColor: "#00000034",
+				border: "1px solid #ffffffb9",
+				display: "inline-block",
+				verticalAlign: "middle",
+				...style,
+			}}
+		>
+			{boxes.map((box, index) => (
+				<rect
+					key={index}
+					x={box.x}
+					y={box.y}
+					width={box.width}
+					height={box.height}
+					fill={index === selectedIndex ? "#aaaaaabb" : "#ffffff80"}
+					fillOpacity={index === selectedIndex ? 0.8 : 0.3}
+					stroke={index === selectedIndex ? "#ffffffeb" : "#ffffff85"}
+					strokeWidth={1}
+					/* Keeps stroke visible even when scaled down */
+					vectorEffect="non-scaling-stroke"
+				/>
+			))}
+		</svg>
 	);
 }

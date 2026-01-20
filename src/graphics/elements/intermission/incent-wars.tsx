@@ -168,7 +168,7 @@ const TextDiv = styled.div`
 	align-items: center;
 	top: 0;
 	left: 0;
-	color: var(--text-light);
+	color: var(--text-dark);
 	font-size: 28px;
 	width: 100%;
 `;
@@ -186,7 +186,6 @@ const ProgressContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-end;
-	/* border: 1px solid var(--tgx-green); */
 	border-radius: 8px;
 	gap: 8px;
 `;
@@ -252,7 +251,7 @@ const WarChoice = (props: WarChoiceProps) => {
 			if (percentage > 65) {
 				tl.fromTo(
 					totalRef.current,
-					{ marginBottom: 0, color: "#ffffff" },
+					{ marginBottom: 0, color: "#000" },
 					{ marginBottom: -46, color: computedTimeColour, duration: 2, ease: "power4.out" },
 					`stagger+=${props.index / 2 + 0.75}`,
 				);

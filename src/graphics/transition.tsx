@@ -71,22 +71,22 @@ const TAGLINES = [
 	["Spedrn"],
 	["I hope we're on time"],
 	["What a great run!"],
-	["Daily reminder", "Speedrun is one word"],
-	["Backwards Long Jumps are real!", "Try it!"],
+	// ["Daily reminder", "Speedrun is one word"],
+	// ["Backwards Long Jumps are real!", "Try it!"],
 	["Now watch tech do the swap over speedrun!"],
-	["ausrunsGGshake", "ausrunsGGshake"],
+	// ["ausrunsGGshake", "ausrunsGGshake"],
 	["Has someone checked in on tech yet?"],
 	["crowd jumpscare"],
 	["Is Tasmania still attached to the logo?"],
 	["ACE still trying to be discovered in AusSpeedruns graphics"],
-	["It would suck if we were behind schedule", "Which we aren't... right?"],
-	["GAME NAME", "By RUNNER NAME"],
-	["By RUNNER NAME", "GAME NAME ...wait hang on"],
+	// ["It would suck if we were behind schedule", "Which we aren't... right?"],
+	// ["GAME NAME", "By RUNNER NAME"],
+	// ["By RUNNER NAME", "GAME NAME ...wait hang on"],
 ];
 
 const GAME_TEXTRUN = "Game";
 const CATEGORY_TEXTRUN = "Category";
-const RUNNER_TEXTRUN = "Runner";
+const RUNNER_TEXTRUN = "Runners";
 
 export const Transition: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null);
@@ -101,7 +101,7 @@ export const Transition: React.FC = () => {
 	const [automationsRep] = useReplicant("automations");
 
 	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
-		src: "/bundles/asm-graphics/shared/design/asap_25.riv",
+		src: "/bundles/asm-graphics/shared/design/transition.riv",
 		autoplay: false,
 	});
 
@@ -131,10 +131,10 @@ export const Transition: React.FC = () => {
 	}, [normalRive]);
 
 	function runTransition(transition: "toIntermission" | "toGame" | "basic", specialText: string[] = []) {
-		if (!automationsRep?.runTransition) {
-			console.log("Not running transition");
-			return;
-		}
+		// if (!automationsRep?.runTransition) {
+		// 	console.log("Not running transition");
+		// 	return;
+		// }
 
 		console.log("Running");
 
@@ -173,14 +173,14 @@ export const Transition: React.FC = () => {
 
 		switch (transition) {
 			case "basic":
-				normalRive.setTextRunValue(GAME_TEXTRUN, "ASAP 2025");
-				normalRive.setTextRunValue(CATEGORY_TEXTRUN, "AusSpeedruns presents");
-				normalRive.setTextRunValue(RUNNER_TEXTRUN, "");
+				normalRive.setTextRunValue(GAME_TEXTRUN, "AusSpeedruns Open 2026");
+				normalRive.setTextRunValue(CATEGORY_TEXTRUN, "");
+				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[0] ?? "");
 				break;
 			case "toIntermission":
-				normalRive.setTextRunValue(GAME_TEXTRUN, "ASAP 2025");
+				normalRive.setTextRunValue(GAME_TEXTRUN, "AusSpeedruns Open 2026");
 				normalRive.setTextRunValue(CATEGORY_TEXTRUN, specialText[0] ?? "");
-				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[1] ?? "");
+				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[0] ?? "");
 				break;
 			case "toGame":
 			default:
@@ -190,7 +190,7 @@ export const Transition: React.FC = () => {
 				break;
 		}
 
-		normalRive.play("Transition");
+		normalRive.play("ASO 26");
 	}
 
 	const changeBGColor = (col: string) => {

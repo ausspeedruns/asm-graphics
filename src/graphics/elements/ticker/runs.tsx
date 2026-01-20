@@ -25,9 +25,10 @@ interface Props {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-const numOfUpcomingRuns = 3;
+const numOfUpcomingRuns = 2;
 
-export const TickerRuns = (props: Props) => {
+// TODO: Show as many runs as fit in the space instead of a fixed number
+export function TickerRuns(props: Props) {
 	const containerRef = useRef(null);
 	const currentRunIndex = props.runArray.findIndex((run) => run.id === props.currentRun?.id);
 	const upcomingRuns = clone(props.runArray)
@@ -93,22 +94,20 @@ const VerticalStack = styled.div`
 	align-items: center;
 	margin: 0 12px;
 	height: 100%;
-	margin-top: -4px;
 `;
 
 const Title = styled.span`
 	font-size: 28px;
 	white-space: nowrap;
-	margin-top: 8px;
 	font-weight: 1000;
 	font-family: var(--secondary-font);
-	margin-bottom: -8px;
+	height: 60%;
 `;
 
 const Subtitle = styled.span`
 	font-size: 17px;
 	white-space: nowrap;
-	/* margin-top: -8px; */
+	height: 40%;
 	/* font-family: var(--secondary-font); */
 `;
 

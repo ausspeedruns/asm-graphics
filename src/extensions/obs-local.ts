@@ -2,35 +2,40 @@ import { EventSubscription, OBSWebSocket } from "obs-websocket-js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import { getReplicant } from "./replicants.js";
 import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
+import { GameplayLocations } from "@asm-graphics/shared/obs-gameplay-scene-data.js";
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger("OBS-Local");
 
 const obsStatusRep = getReplicant("obs:status");
 const obsCurrentSceneRep = getReplicant("obs:currentScene");
+const obsPreviewSceneRep = getReplicant("obs:previewScene");
 const obsStreamTimecodeRep = getReplicant("obs:streamTimecode");
 const obsAutoReconnectRep = getReplicant("obs:autoReconnect");
 const obsReconnectIntervalRep = getReplicant("obs:reconnectInterval");
 const obsDoLocalRecordingsRep = getReplicant("obs:localRecordings");
+const obsGameCaptureScenesRep = getReplicant("obs:gameplayCaptureScenes");
 const automationsSettingsRep = getReplicant("automations");
 
 const obs = new OBSWebSocket();
 
 type SceneType = "Gameplay" | "Intermission" | "IRL" | "ASNN" | "Unknown";
 
-let previewScene: string;
-let programScene: string;
-
 let streamStatusGetter: string | number | NodeJS.Timeout | undefined;
 let reconnectTimeout: string | number | NodeJS.Timeout | undefined;
 
 obs.on("CurrentPreviewSceneChanged", ({ sceneName }) => {
-	previewScene = sceneName;
+	obsPreviewSceneRep.value = sceneName;
 });
 
 obs.on("CurrentProgramSceneChanged", ({ sceneName }) => {
-	programScene = sceneName;
-	obsCurrentSceneRep.value = programScene;
+	obsCurrentSceneRep.value = sceneName;
+});
+
+obs.on("SceneListChanged", async (data) => {
+	obsGameCaptureScenesRep.value = data.scenes
+		.map((scene) => scene["sceneName"] as string)
+		.filter((name) => name.startsWith("Gameplay Capture")); // TODO: Unhardcode
 });
 
 obs.on("Identified", async () => {
@@ -40,11 +45,18 @@ obs.on("Identified", async () => {
 		await obs.call("SetStudioModeEnabled", { studioModeEnabled: true });
 	}
 
-	previewScene = (await obs.call("GetCurrentPreviewScene")).currentPreviewSceneName;
-	programScene = (await obs.call("GetCurrentProgramScene")).currentProgramSceneName;
-	obsCurrentSceneRep.value = programScene;
+	const allScenes = await obs.call("GetSceneList");
+	obsGameCaptureScenesRep.value = allScenes.scenes
+		.map((scene) => scene["sceneName"] as string)
+		.filter((name) => name.startsWith("Gameplay Capture")); // TODO: Unhardcode
+
+	obsCurrentSceneRep.value = allScenes.currentProgramSceneName;
+	obsPreviewSceneRep.value = allScenes.currentPreviewSceneName;
 
 	streamStatusGetter = setTimeout(updateStreamStatus, 10);
+
+	const a = await obs.call("GetSceneItemList", { sceneName: "GAMEPLAY Standard-2" });
+	console.log(JSON.stringify(a, null, 2));
 });
 
 obs.on("ConnectionClosed", async () => {
@@ -91,11 +103,16 @@ obs.on("SceneTransitionStarted", async (transitionName) => {
 		return;
 	}
 
-	// Get the scene we are going from and to
-	const currentScene = programScene;
-	const toScene = previewScene;
+	if (!obsCurrentSceneRep.value) {
+		log.warn("Program scene is not available during transition.");
+		return;
+	}
 
-	const currentSceneType = determineSceneType(currentScene);
+	// Get the scene we are going from and to
+	const currentScene = obsCurrentSceneRep.value;
+	const toScene = obsPreviewSceneRep.value ?? "";
+
+	const currentSceneType = currentScene ? determineSceneType(currentScene) : "Unknown";
 
 	switch (currentSceneType) {
 		case "Gameplay":
@@ -266,7 +283,7 @@ function updateOBSStatus(status: ConnectionStatus["status"], message: string) {
 	};
 }
 
-nodecg.listenFor("obs:getVideoFeed", async (data, cb) => {
+nodecg.listenFor("obs:getSourceScreenshot", async (data, cb) => {
 	if (obsStatusRep.value.status !== "connected") {
 		const errorMsg = "OBS is not connected.";
 		log.warn(errorMsg);
@@ -280,7 +297,7 @@ nodecg.listenFor("obs:getVideoFeed", async (data, cb) => {
 	// For example, you might interact with OBS WebSocket API to get the feed.
 
 	const imageData = await obs.call("GetSourceScreenshot", {
-		sourceName: data.feedName,
+		sourceName: data.sourceName,
 		imageFormat: "png",
 		imageWidth: 1920,
 		imageHeight: 1080,
@@ -288,5 +305,150 @@ nodecg.listenFor("obs:getVideoFeed", async (data, cb) => {
 
 	if (!cb?.handled) {
 		cb?.(null, imageData);
+	}
+});
+
+nodecg.listenFor("obs:getCurrentScenes", async (_data, cb) => {
+	if (obsStatusRep.value.status !== "connected") {
+		const errorMsg = "OBS is not connected.";
+		log.warn(errorMsg);
+		if (!cb?.handled) {
+			cb?.(new Error(errorMsg));
+		}
+		return;
+	}
+
+	if (obsCurrentSceneRep.value === null) {
+		const errorMsg = "Program scene is not available.";
+		log.warn(errorMsg);
+		if (!cb?.handled) {
+			cb?.(new Error(errorMsg));
+		}
+
+		return;
+	}
+
+	if (!cb?.handled) {
+		cb?.(null, { previewScene: obsPreviewSceneRep.value, programScene: obsCurrentSceneRep.value });
+	}
+});
+
+nodecg.listenFor("obs:setCropSettings", async (data, cb) => {
+	if (obsStatusRep.value.status !== "connected") {
+		const errorMsg = "OBS is not connected.";
+		log.warn(errorMsg);
+		if (!cb?.handled) {
+			cb?.(new Error(errorMsg));
+		}
+		return;
+	}
+
+	// Get the bounding box for the selected section
+	const selectedScene = data.isPreview ? obsPreviewSceneRep.value : obsCurrentSceneRep.value;
+
+	if (!selectedScene) {
+		const errorMsg = "No scene is currently selected.";
+		log.warn(errorMsg);
+		if (!cb?.handled) {
+			cb?.(new Error(errorMsg));
+		}
+
+		return;
+	}
+
+	let overlayName = "";
+	if (selectedScene?.startsWith("GAMEPLAY")) {
+		overlayName = selectedScene.slice("GAMEPLAY".length).trim();
+	}
+
+	if (!overlayName) {
+		const errorMsg = "No valid gameplay overlay found in the current scene.";
+		log.warn(errorMsg);
+		if (!cb?.handled) {
+			cb?.(new Error(errorMsg));
+		}
+
+		return;
+	}
+
+	const gameplayLocations = GameplayLocations[overlayName as keyof typeof GameplayLocations];
+	if (!gameplayLocations) {
+		const errorMsg = `No gameplay locations found for overlay: ${overlayName}`;
+		log.warn(errorMsg);
+		if (!cb?.handled) {
+			cb?.(new Error(errorMsg));
+		}
+
+		return;
+	}
+
+	const sectionData = gameplayLocations[data.sectionIndex];
+	if (!sectionData) {
+		const errorMsg = `No section data found for index: ${data.sectionIndex}`;
+		log.warn(errorMsg);
+		if (!cb?.handled) {
+			cb?.(new Error(errorMsg));
+		}
+
+		return;
+	}
+
+	// Calculate new position, scale and crop
+	const crop = data.cropSettings;
+	const newXPosition = sectionData.x;
+	const newYPosition = sectionData.y;
+	const newXScale = sectionData.width / (1920 - (crop.left + crop.right));
+	const newYScale = sectionData.height / (1080 - (crop.top + crop.bottom));
+
+	log.info(`Setting crop for source ${data.sourceName} in scene ${selectedScene}:`);
+	log.info(` New Position: (${newXPosition}, ${newYPosition})`);
+	log.info(` New Scale: (${newXScale}, ${newYScale})`);
+	log.info(` Crop: Left ${crop.left}, Top ${crop.top}, Right ${crop.right}, Bottom ${crop.bottom}`);
+
+	try {
+		// Get the scene item ID for the game capture source
+		const sceneId = await obs.call("GetSceneItemId", {
+			sceneName: selectedScene,
+			sourceName: data.sourceName,
+		});
+
+		// TESTING
+		const preTransform = await obs.call("GetSceneItemTransform", {
+			sceneName: selectedScene,
+			sceneItemId: sceneId.sceneItemId,
+		});
+		log.info("Current Transform:", JSON.stringify(preTransform.sceneItemTransform, null, 2));
+
+		// Set the new transform settings
+		await obs.call("SetSceneItemTransform", {
+			sceneName: selectedScene,
+			sceneItemId: sceneId.sceneItemId,
+			sceneItemTransform: {
+				positionX: newXPosition,
+				positionY: newYPosition,
+				scaleX: newXScale,
+				scaleY: newYScale,
+				cropLeft: crop.left,
+				cropTop: crop.top,
+				cropRight: crop.right,
+				cropBottom: crop.bottom,
+			},
+		});
+
+		// TESTING
+		const postTransform = await obs.call("GetSceneItemTransform", {
+			sceneName: selectedScene,
+			sceneItemId: sceneId.sceneItemId,
+		});
+		log.info("Updated Transform:", JSON.stringify(postTransform.sceneItemTransform, null, 2));
+
+		if (!cb?.handled) {
+			cb?.(null, {});
+		}
+	} catch (err) {
+		log.error("Error setting crop settings:", err);
+		if (!cb?.handled) {
+			cb?.(err);
+		}
 	}
 });

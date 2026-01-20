@@ -31,6 +31,7 @@ import { Widescreen2Bingo } from "./overlays/widescreen-2-bingo";
 import { GBC2 } from "./overlays/gbc-2";
 import { TopBarOnly } from "./overlays/top-bar-only";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
+import { OneByOne } from "./overlays/1x1";
 
 // import { useNormalisedTime } from "../hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
@@ -201,6 +202,10 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 		{
 			component: <TopBarOnly {...overlayArgs} />,
 			name: "Top-Bar-Only",
+		},
+		{
+			component: <OneByOne {...overlayArgs} />,
+			name: "1x1",
 		},
 		{
 			component: <NoGraphics />,

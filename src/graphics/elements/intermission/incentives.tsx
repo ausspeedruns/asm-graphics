@@ -100,7 +100,7 @@ interface IncentivesProps {
 	upcomingRuns?: RunData[];
 }
 
-const MAX_INCENTIVES: number = 5;
+const MAX_INCENTIVES: number = -1;
 const TEST_RANGE: number[] = [];
 
 export const InterIncentives = (props: IncentivesProps) => {
@@ -125,42 +125,46 @@ export const InterIncentives = (props: IncentivesProps) => {
 			});
 	}
 
-	allPanels = incentives.map((incentive, i) => {
-		switch (incentive.type) {
-			case "Goal":
-				return (
-					<GoalBar
-						key={incentive.index}
-						goal={incentive}
-						ref={(el) => {
-							if (el) {
-								incentivesRef.current[i] = el;
-							}
-						}}
-					/>
-				);
+	allPanels.push(
+		...incentives.map((incentive, i) => {
+			switch (incentive.type) {
+				case "Goal":
+					return (
+						<GoalBar
+							key={incentive.index}
+							goal={incentive}
+							ref={(el) => {
+								if (el) {
+									incentivesRef.current[i] = el;
+								}
+							}}
+						/>
+					);
 
-			case "War":
-				return (
-					<WarGame
-						key={incentive.index}
-						war={incentive}
-						ref={(el) => {
-							if (el) {
-								incentivesRef.current[i] = el;
-							}
-						}}
-					/>
-				);
+				case "War":
+					return (
+						<WarGame
+							key={incentive.index}
+							war={incentive}
+							ref={(el) => {
+								if (el) {
+									incentivesRef.current[i] = el;
+								}
+							}}
+						/>
+					);
 
-			default:
-				return <></>;
-		}
-	});
+				default:
+					return <></>;
+			}
+		}),
+	);
 
-	allLabels = incentives.map((incentive) => {
-		return { header: incentive.game, subheading: incentive.incentive };
-	});
+	allLabels.push(
+		...incentives.map((incentive) => {
+			return { header: incentive.game, subheading: incentive.incentive };
+		}),
+	);
 
 	// if (typeof props.asmm !== "undefined" || props.asmm == 0) {
 	// 	allPanels.push(
@@ -189,12 +193,14 @@ export const InterIncentives = (props: IncentivesProps) => {
 		allLabels.push({ header: "Prizes" });
 	}
 
-	// Socials
+	// Socials TODO: Redo
 	// allPanels.push(
 	// 	<Socials
 	// 		key="ASMSocials"
 	// 		ref={(el) => {
-	// 			el ? (incentivesRef.current[15] = el) : undefined;
+	// 			if (el) {
+	// 				incentivesRef.current[15] = el;
+	// 			}
 	// 		}}
 	// 	/>,
 	// );

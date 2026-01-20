@@ -7,7 +7,15 @@ import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunDat
 import type NodeCG from "nodecg/types";
 import _ from "underscore";
 
-import { GameInputChannels, HandheldMicChannel, Headsets, HostHeadset, HostReferenceChannel, OBSChannel, OBSReferenceChannel } from "@asm-graphics/shared/audio-data.js";
+import {
+	GameInputChannels,
+	HandheldMicChannel,
+	Headsets,
+	HostHeadset,
+	HostReferenceChannel,
+	OBSChannel,
+	OBSReferenceChannel,
+} from "@asm-graphics/shared/audio-data.js";
 
 const x32ConnectionDetailsRep = getReplicant("x32:connectionDetails");
 const x32StatusRep = getReplicant("x32:status");
@@ -96,7 +104,11 @@ function fadeMute(channel: number, mixBus: number, force = false) {
 const outputMixbuses = [0, 1, 3, 5, 7, 9, 11, 13];
 function setHostMute(active: boolean) {
 	for (const mixBus of outputMixbuses) {
-		x32.setFaderLevel(HostHeadset.micInput, mixBus, active ? faderValues[mixBus]?.[HostReferenceChannel] ?? 0.6 : 0);
+		x32.setFaderLevel(
+			HostHeadset.micInput,
+			mixBus,
+			active ? (faderValues[mixBus]?.[HostReferenceChannel] ?? 0.6) : 0,
+		);
 	}
 }
 
@@ -138,11 +150,12 @@ function setHostCouchActive(active: boolean) {
 //#region X32 Events
 
 x32.on("status", (status, message) => {
+	console.log(`[X32 Audio] Status changed: ${status} - ${message}`);
 	x32StatusRep.value = {
 		status,
 		timestamp: Date.now(),
-		message
-	}
+		message,
+	};
 });
 
 x32.on("faders", (faders, bus) => {
@@ -174,6 +187,11 @@ x32.on("meters", (meters) => {
 //#region Replicant changes
 
 SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
+
 	if (!newVal || !oldVal) return;
 
 	if (newVal.id !== oldVal.id) {
@@ -203,6 +221,13 @@ SPEEDCONTROL_runDataActiveRep.on("change", (newVal, oldVal) => {
 
 // On transition to game view
 nodecg.listenFor("transition:toGame", (_data) => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
+
+	if (!automationSettingsRep.value.audioMixing) return;
+
 	// Lerp stream and speakers mix to previewMix values
 	const previewMixFaders = faderValues[13];
 
@@ -228,6 +253,11 @@ nodecg.listenFor("transition:toGame", (_data) => {
 
 // On transition to intermission
 nodecg.listenFor("transition:toIntermission", () => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
+
 	if (!automationSettingsRep.value.audioMixing) return;
 
 	// Mute all inputs but host mic on main LR
@@ -256,6 +286,11 @@ nodecg.listenFor("transition:toIntermission", () => {
 
 // On transition to IRL scene
 nodecg.listenFor("transition:toIRL", () => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
+
 	if (!automationSettingsRep.value?.audioMixing) return;
 
 	// Mute all other mics and game audio
@@ -270,11 +305,21 @@ nodecg.listenFor("transition:toIRL", () => {
 });
 
 nodecg.listenFor("x32:setFader", (data) => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
+
 	x32.setFaderLevel(data.channel, data.mixBus, data.float);
 });
 
 // Indexed to game number
 nodecg.listenFor("x32:changeGameAudio", (channelIndex) => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
+
 	// Find playerID game index
 	if (channelIndex < 0) {
 		nodecg.log.error(
@@ -323,29 +368,50 @@ nodecg.listenFor("x32:changeGameAudio", (channelIndex) => {
 });
 
 nodecg.listenFor("x32:mute-host", () => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
 	setHostMute(false);
 });
 
 nodecg.listenFor("x32:unmute-host", () => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
 	setHostMute(true);
 });
 
 nodecg.listenFor("x32:host-mute-couch", () => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
 	setHostCouchActive(false);
 });
 
 nodecg.listenFor("x32:host-unmute-couch", () => {
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
 	setHostCouchActive(true);
 });
 
 nodecg.listenFor("update-commentator", (commentator) => {
-	if (!commentator.customData["microphone"]) return;
+	if (x32StatusRep.value.status === "disconnected") {
+		nodecg.log.warn("[X32 Audio] Tried to transition to game audio but X32 is not connected.");
+		return;
+	}
+
+	if (!commentator.microphone) return;
 
 	// Convert Headset name to index
-	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.customData["microphone"]);
+	const headsetIndex = Headsets.findIndex((headset) => headset.name === commentator.microphone);
 	if (headsetIndex === -1) {
 		nodecg.log.warn(
-			`[X32 Audio] Could not find headset with name ${commentator.customData["microphone"]} for commentator ${commentator.name}.`,
+			`[X32 Audio] Could not find headset with name ${commentator.microphone} for commentator ${commentator.name}.`,
 		);
 		return;
 	}
@@ -354,7 +420,7 @@ nodecg.listenFor("update-commentator", (commentator) => {
 
 	if (!micInput) {
 		nodecg.log.warn(
-			`[X32 Audio] Headset with name ${commentator.customData["microphone"]} for commentator ${commentator.name} does not have a valid mic input.`,
+			`[X32 Audio] Headset with name ${commentator.microphone} for commentator ${commentator.name} does not have a valid mic input.`,
 		);
 		return;
 	}

@@ -19,6 +19,7 @@ const GoalBarContainer = styled.div`
 	/* transform: translate(-100%, 0); */
 	padding: 16px;
 	box-sizing: border-box;
+	color: var(--text-dark);
 `;
 
 const GoalDiv = styled.div`
@@ -75,7 +76,7 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
 	width: 100%;
-	border: 2px solid #fff;
+	border: 2px solid #f1d5ab;
 	/* background: var(--main); */
 	background: transparent;
 	position: relative;
@@ -90,7 +91,7 @@ const ProgressContainer = styled.div`
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: #fff;
+	background: #f1d5ab;
 	/* border-right: 5px solid var(--sec); */
 	display: flex;
 	justify-content: flex-end;
@@ -143,7 +144,7 @@ export const GoalBar = (props: GoalProps) => {
 	if (props.goal.total / props.goal.goal < 0.5) {
 		textOutside = {
 			marginRight: -80,
-			color: "var(--text-light)",
+			color: "var(--text-dark)",
 		};
 	}
 

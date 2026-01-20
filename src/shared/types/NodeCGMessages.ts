@@ -110,6 +110,12 @@ export type NodeCGMessages = {
 	// AusSpeedruns Website
 	"ausspeedruns-website:recollectUserData": never;
 	// OBS Game Crop
-	"obs:getVideoFeed": { feedName: string };
-	"obs:setCropSettings": { feedName: string; cropSettings: CropSettings };
+	"obs:getSourceScreenshot": { sourceName: string }; // Returns (imageData: string)
+	"obs:setCropSettings": {
+		sourceName: string;
+		cropSettings: CropSettings;
+		sectionIndex: number;
+		isPreview: boolean;
+	};
+	"obs:getCurrentScenes": never; // Returns (previewScene: string | null; programScene: string)
 };

@@ -35,34 +35,34 @@ export function TickerOverlay() {
 
 	// const donationRep = 10000;
 
-	// const testDonationMatches: DonationMatch[] = [
-	// 	{
-	// 		id: "1",
-	// 		name: "Test Match 1",
-	// 		amount: 500,
-	// 		pledge: 500 * 2,
-	// 		endsAt: Date.now() + 1000 * 60 * 60 * 2,
-	// 		completedAt: 0,
-	// 		active: true,
-	// 		updated: Date.now(),
-	// 		read: false,
-	// 		time: Date.now(),
-	// 		currencySymbol: "$",
-	// 	},
-	// 	{
-	// 		id: "2",
-	// 		name: "Test Match 2",
-	// 		amount: 1000,
-	// 		pledge: 1000 * 2,
-	// 		endsAt: Date.now() + 1000 * 60 * 60 * 2,
-	// 		completedAt: 0,
-	// 		active: true,
-	// 		updated: Date.now(),
-	// 		read: false,
-	// 		time: Date.now(),
-	// 		currencySymbol: "$",
-	// 	},
-	// ];
+	const testDonationMatches: DonationMatch[] = [
+		{
+			id: "1",
+			name: "Test Match 1",
+			amount: 500,
+			pledge: 500 * 2,
+			endsAt: Date.now() + 1000 * 60 * 60 * 2,
+			completedAt: 0,
+			active: true,
+			updated: Date.now(),
+			read: false,
+			time: Date.now(),
+			currencySymbol: "$",
+		},
+		{
+			id: "2",
+			name: "Test Match 2",
+			amount: 1000,
+			pledge: 1000 * 2,
+			endsAt: Date.now() + 1000 * 60 * 60 * 2,
+			completedAt: 0,
+			active: true,
+			updated: Date.now(),
+			read: false,
+			time: Date.now(),
+			currencySymbol: "$",
+		},
+	];
 
 	return (
 		<TickerMemo
@@ -191,7 +191,7 @@ export interface TickerProps {
 
 type Segments = "cta" | "milestone" | "prizes" | "incentives" | "nextruns" | "asmm" | "donationMatches";
 
-const Ticker = (props: TickerProps) => {
+function Ticker(props: TickerProps) {
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const timelineRef = useRef<gsap.core.Timeline | null>(null);
 	const [segmentIndex, setSegmentIndex] = useState(0);

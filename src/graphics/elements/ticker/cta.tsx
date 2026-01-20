@@ -35,7 +35,6 @@ const EmphasisFont = styled.span`
 	/* font-family: var(--main-font); */
 	font-family: var(--secondary-font);
 	font-weight: bold;
-	margin-bottom: -5px;
 `;
 
 interface CTAProps {

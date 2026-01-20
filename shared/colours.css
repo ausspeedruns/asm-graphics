@@ -5,8 +5,7 @@ body {
 	--nameplate: #202020;
 	--nameplate-lighter: #292929;
 	--sec: #1c6eaa;
-	--accent: var(--asm-blue);
-
+	--accent: var(--sec);
 	--text-light: white;
 	--text-dark: #202020;
 

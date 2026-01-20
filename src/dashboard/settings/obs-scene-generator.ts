@@ -20,7 +20,7 @@ import {
 	generateTextLabelSource,
 	type SourceInput,
 } from "./obs-scene-generator/generate-sources";
-import { GameplayLocations } from "./obs-gameplay-scene-data";
+import { GameplayLocations } from "../../shared/obs-gameplay-scene-data";
 
 function generateReferenceColourSource(name: string): z.infer<typeof colourSourceSchema> {
 	return generateColourSource(name, "#00ff00ff");
@@ -35,11 +35,45 @@ function generateTransitionBrowserSource(urlBase: string): z.infer<typeof browse
 }
 
 function generateGameplayBrowserSource(layoutName: string, urlBase: string): z.infer<typeof browserSourceSchema> {
-	return generateBrowserSource(
+	const browserSource = generateBrowserSource(
 		`GAMEPLAY - ${layoutName}`,
 		`${urlBase}/bundles/asm-graphics/graphics/gameplay-overlay.html#/${layoutName}`,
 		{ width: 1920, height: 1080, fps: 60 },
 	);
+
+	// Add the audio monitor filter
+	browserSource.filters = [
+		{
+			prev_ver: 536870916,
+			name: "Audio Monitor",
+			uuid: "1eea1f8c-515c-47c4-ace0-72208f3e7c94",
+			id: "audio_monitor",
+			versioned_id: "audio_monitor",
+			settings: {
+				device: "",
+				deviceName: "",
+				custom_color: false,
+			},
+			mixers: 255,
+			sync: 0,
+			flags: 0,
+			volume: 1.0,
+			balance: 0.5,
+			enabled: true,
+			muted: false,
+			"push-to-mute": false,
+			"push-to-mute-delay": 0,
+			"push-to-talk": false,
+			"push-to-talk-delay": 0,
+			hotkeys: {},
+			deinterlace_mode: 0,
+			deinterlace_field_order: 0,
+			monitoring_type: 0,
+			private_settings: {},
+		},
+	];
+
+	return browserSource;
 }
 
 const x32AudioSource: z.infer<typeof audioCaptureSourceSchema> = {

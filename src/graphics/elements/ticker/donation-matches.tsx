@@ -45,7 +45,7 @@ const GoalElement = styled.div`
 const Name = styled(FitText)`
 	font-size: 20px;
 	max-width: 200px;
-	/* font-weight: bold; */
+	font-weight: bold;
 	font-family: var(--main-font);
 `;
 

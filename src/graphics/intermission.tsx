@@ -40,8 +40,6 @@ import { useNormalisedTime } from "@asm-graphics/shared/hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 import type { Prize } from "@asm-graphics/types/Prizes";
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-import { ASAP25UpcomingRun } from "./elements/intermission/asap25/upcoming-run";
-import { Incentives } from "./elements/intermission/asap25/incentives";
 
 const IntermissionContainer = styled.div`
 	position: relative;
@@ -661,7 +659,7 @@ export function IntermissionElement(props: IntermissionProps) {
 						<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
 						<Category text={props.activeRun?.category} />
 					</div>
-					<div style={{ display: "flex", width: "100%", justifyContent: "space-between", paddingRight: 32 }}>
+					<div style={{ display: "flex", width: "100%", justifyContent: "space-around", paddingRight: 32 }}>
 						<PlayerInfo>
 							<RunnerIcon />
 							{playerNames}
@@ -676,21 +674,6 @@ export function IntermissionElement(props: IntermissionProps) {
 						</ConsoleInfo>
 					</div>
 				</RunContainer>
-
-				<div
-					style={{
-						position: "absolute",
-						top: 450,
-						left: 62,
-						display: "flex",
-						flexDirection: "column",
-						gap: 16,
-					}}
-				>
-					{/* <ASAP25UpcomingRun run={nextRuns[0]} players={playerNames} isNext />
-					{nextRuns[1] && <ASAP25UpcomingRun run={nextRuns[1]} players={playerNames} />}
-					{nextRuns[2] && <ASAP25UpcomingRun run={nextRuns[2]} players={playerNames} />} */}
-				</div>
 
 				{props.host && (
 					<div style={{ position: "absolute", top: 978, left: 620, display: "flex" }}>

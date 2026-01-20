@@ -131,13 +131,16 @@ const TGX_MILESTONES: Milestone[] = [
 // @ts-ignore
 const DH_MILESTONES: Milestone[] = [{ event: "ASDH2024", total: 10000 }].sort((a, b) => a.total - b.total);
 
+// @ts-ignore
+const ASO_MILESTONES: Milestone[] = [].sort((a, b) => a.total - b.total);
+
 interface Props {
 	currentTotal: number;
 	ref?: React.Ref<TickerItemHandles>;
 }
 
 // Milestones to use for the events
-const MILESTONES = combineMilestones(PAX_MILESTONES);
+const MILESTONES = combineMilestones(NUMBER_MILESTONES);
 
 function combineMilestones(milestones: Milestone[]): Milestone[] {
 	// If the first array is empty, just return the second array.

@@ -86,20 +86,6 @@
 		},
 		"dashboardPanels": [
 			{
-				"name": "status",
-				"title": "Status",
-				"width": 2,
-				"headerColor": "#CC7722",
-				"file": "status.html"
-			},
-			{
-				"name": "mic-audio",
-				"title": "Microphone Audio",
-				"width": 3,
-				"headerColor": "#CC7722",
-				"file": "mic-audio.html"
-			},
-			{
 				"name": "donations",
 				"title": "Donations",
 				"width": 3,
@@ -122,14 +108,6 @@
 				"headerColor": "#CC7722",
 				"file": "asnn.html",
 				"workspace": "ASM Misc"
-			},
-			{
-				"name": "schedule-importer",
-				"title": "ASM Schedule Import",
-				"width": 2,
-				"headerColor": "#CC7722",
-				"file": "schedule-importer.html",
-				"workspace": "Run Modifications"
 			},
 			{
 				"name": "on-screen-warnings",
