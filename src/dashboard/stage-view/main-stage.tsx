@@ -25,6 +25,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SortablePerson, Person } from "./person";
+import { Button } from "@mui/material";
 
 // Styled Components for Dark Mode
 const PageWrapper = styled.div`
@@ -137,6 +138,7 @@ function Container({
 							currentTalkbackTargets={currentTalkbackTargets}
 						/>
 					))}
+					<Button>+</Button>
 				</ItemList>
 			</SortableContext>
 		</ContainerBox>

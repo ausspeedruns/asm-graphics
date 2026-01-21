@@ -15,12 +15,15 @@ import Tooltip from "@mui/material/Tooltip";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { formatDate } from "date-fns";
 import type { RunData } from "@asm-graphics/types/RunData";
+import { IconButton } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 
 const MAX_NOTES_LENGTH = 60;
 
 interface RunInfoProps {
 	style?: React.CSSProperties;
 	run?: RunData;
+	openEditDialog?: (run: RunData) => void;
 }
 
 export function RunInfo(props: RunInfoProps) {
@@ -43,6 +46,11 @@ export function RunInfo(props: RunInfoProps) {
 
 	return (
 		<div className={styles.container} style={props.style}>
+			{props.openEditDialog && run && (
+				<IconButton size="small" className={styles.editButton} onClick={() => props.openEditDialog?.(run)}>
+					<Edit fontSize="inherit" />
+				</IconButton>
+			)}
 			<div className={styles.header}>
 				<div className={styles.game}>{run?.game ?? "No Run Selected"}</div>
 				<div className={styles.category}>

@@ -18,7 +18,8 @@ import { UpcomingRun } from "./stage-view/upcoming-run";
 import { TimeHeader } from "./stage-view/time-header";
 import { StatusLights } from "./stage-view/status-lights";
 import { CropGameDialog } from "./stage-view/crop-game";
-import type { RunDataArray } from "@asm-graphics/types/RunData";
+import type { RunData, RunDataArray } from "@asm-graphics/types/RunData";
+import { EditRunDialog } from "./stage-view/edit-run";
 
 const DashboardStageViewContainer = styled.div``;
 
@@ -83,6 +84,8 @@ export function DashboardStageView() {
 	const [personId, setPersonId] = useState<string | null>(null);
 	const [personEditDialogOpen, setPersonEditDialogOpen] = useState(false);
 	const [gameCropDialogOpen, setGameCropDialogOpen] = useState(false);
+	const [editRunDialogOpen, setEditRunDialogOpen] = useState(false);
+	const [mutableRunData, setMutableRunData] = useState<RunData | null>(null);
 
 	const allRunners = runDataActiveRep?.teams.flatMap((team) => team.players);
 	const {
@@ -119,7 +122,13 @@ export function DashboardStageView() {
 				<DashboardStageViewContainer>
 					<TimeHeader />
 					<StatusLights />
-					<RunInfo run={runDataActiveRep} />
+					<RunInfo
+						run={runDataActiveRep}
+						openEditDialog={(run) => {
+							setMutableRunData(run);
+							setEditRunDialogOpen(true);
+						}}
+					/>
 					<TopBar>
 						{/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}> */}
 						{/* <Button
@@ -174,7 +183,14 @@ export function DashboardStageView() {
 						<div>Next Runs</div>
 						<div style={{ display: "flex", gap: 8, marginTop: 8 }}>
 							{nextRuns?.map((run) => (
-								<RunInfo key={run.id} run={run} />
+								<RunInfo
+									key={run.id}
+									run={run}
+									openEditDialog={(run) => {
+										setMutableRunData(run);
+										setEditRunDialogOpen(true);
+									}}
+								/>
 							))}
 						</div>
 					</div>
@@ -189,6 +205,11 @@ export function DashboardStageView() {
 					open={gameCropDialogOpen}
 					onClose={() => setGameCropDialogOpen(false)}
 					onCrop={() => {}}
+				/>
+				<EditRunDialog
+					open={editRunDialogOpen}
+					onClose={() => setEditRunDialogOpen(false)}
+					run={mutableRunData}
 				/>
 			</ThemeProvider>
 		</StyledEngineProvider>
