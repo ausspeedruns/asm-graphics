@@ -202,7 +202,7 @@ export function Person(props: PersonProps) {
 
 	const talkbackEnabled = props.currentTalkbackTargets?.includes(props.id) ?? false;
 
-	const rawMicrophone = personData.customData.microphone;
+	const rawMicrophone = personData.customData['microphone'];
 	const headset = getHeadsetData(rawMicrophone);
 
 	const isOnRunnersAudio = gameAudioRep === props.id;
@@ -219,7 +219,7 @@ export function Person(props: PersonProps) {
 				<NameText>{personData.name}</NameText>
 				<PronounsText>{personData.pronouns}</PronounsText>
 			</NameBlock>
-			{personData.customData.tag && <TagBadge>{personData.customData.tag}</TagBadge>}
+			{personData.customData['tag'] && <TagBadge>{personData.customData['tag']}</TagBadge>}
 
 			<MicRow>
 				<MicIcon bg={headset?.colour} fg={headset?.textColour}>
