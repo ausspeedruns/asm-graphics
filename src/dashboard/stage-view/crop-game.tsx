@@ -84,7 +84,7 @@ export function CropGameDialog(props: CropGameDialogProps) {
 		}
 
 		if (!sceneName || !GameplayLocations[sceneName as keyof typeof GameplayLocations]) {
-			console.log("You're on your own!");
+			console.log("No gameplay locations found for scene:", sceneName);
 			return;
 		}
 
@@ -489,43 +489,6 @@ export function CropGameDialog(props: CropGameDialogProps) {
 							</Typography>
 						)}
 					</Box>
-
-					{/* Edge Preview Windows */}
-					<Typography variant="subtitle2">Edge Previews (for pixel-perfect alignment)</Typography>
-					<Stack direction="row" spacing={2} justifyContent="space-between">
-						{/* Left Edge Preview */}
-						<EdgePreview
-							label="Left Edge"
-							value={cropSettings.left}
-							axis="vertical"
-							side="left"
-							crop={cropSettings}
-						/>
-						{/* Top Edge Preview */}
-						<EdgePreview
-							label="Top Edge"
-							value={cropSettings.top}
-							axis="horizontal"
-							side="top"
-							crop={cropSettings}
-						/>
-						{/* Right Edge Preview */}
-						<EdgePreview
-							label="Right Edge"
-							value={cropSettings.right}
-							axis="vertical"
-							side="right"
-							crop={cropSettings}
-						/>
-						{/* Bottom Edge Preview */}
-						<EdgePreview
-							label="Bottom Edge"
-							value={cropSettings.bottom}
-							axis="horizontal"
-							side="bottom"
-							crop={cropSettings}
-						/>
-					</Stack>
 
 					{/* Pixel Input Controls */}
 					<Typography variant="subtitle2">Crop Values (pixels)</Typography>

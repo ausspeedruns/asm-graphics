@@ -9,6 +9,7 @@ ignoredBuiltDependencies:
 
 onlyBuiltDependencies:
   - '@ffprobe-installer/darwin-arm64'
+  - '@ffprobe-installer/linux-x64'
   - '@parcel/watcher'
   - '@serialport/bindings-cpp'
   - '@vaadin/vaadin-usage-statistics'

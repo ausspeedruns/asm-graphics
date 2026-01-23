@@ -111,7 +111,7 @@ export function DashboardStageView() {
 
 	const nextRuns = runDataArrayRep
 		?.filter((run) => run.id !== runDataActiveRep?.id)
-		.slice(currentRunIndex + 1, currentRunIndex + 1 + DISPLAY_NEXT_RUNS);
+		.slice(currentRunIndex, currentRunIndex + DISPLAY_NEXT_RUNS);
 
 	return (
 		<StyledEngineProvider injectFirst>

@@ -97,7 +97,7 @@ const TiltifyCampaignSchema = z.object({
 	name: z.string(),
 	original_goal: AmountSchema,
 	published_at: z.string(),
-	retired_at: z.string().optional(),
+	retired_at: z.string().nullable(),
 	slug: z.string(),
 	status: z.string(),
 	supporting_type: z.string(),
@@ -473,7 +473,7 @@ nodecg.listenFor("tiltify:setConnection", (data: boolean) => {
 	}
 });
 
-if (nodecg.bundleConfig.tiltify?.enabled) {
+if (nodecg.bundleConfig.tiltify?.autoConnect) {
 	ncgLog.info("Tiltify enabled");
 	void connectToTiltify();
 }

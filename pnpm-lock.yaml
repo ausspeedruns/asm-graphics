@@ -9282,7 +9282,7 @@ snapshots:
 
   '@types/needle@3.3.0':
     dependencies:
-      '@types/node': 18.19.130
+      '@types/node': 25.0.9
 
   '@types/node@18.19.130':
     dependencies:
@@ -11778,7 +11778,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 18.19.130
+      '@types/node': 25.0.9
       merge-stream: 2.0.0
       supports-color: 8.1.1
 

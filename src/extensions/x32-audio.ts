@@ -150,7 +150,6 @@ function setHostCouchActive(active: boolean) {
 //#region X32 Events
 
 x32.on("status", (status, message) => {
-	console.log(`[X32 Audio] Status changed: ${status} - ${message}`);
 	x32StatusRep.value = {
 		status,
 		timestamp: Date.now(),

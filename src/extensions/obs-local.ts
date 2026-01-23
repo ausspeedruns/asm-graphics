@@ -8,6 +8,7 @@ const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger("OBS-Local");
 
 const obsStatusRep = getReplicant("obs:status");
+const obsConnectionDetailsRep = getReplicant("obs:connectionDetails");
 const obsCurrentSceneRep = getReplicant("obs:currentScene");
 const obsPreviewSceneRep = getReplicant("obs:previewScene");
 const obsStreamTimecodeRep = getReplicant("obs:streamTimecode");
@@ -21,7 +22,7 @@ const obs = new OBSWebSocket();
 
 type SceneType = "Gameplay" | "Intermission" | "IRL" | "ASNN" | "Unknown";
 
-let streamStatusGetter: string | number | NodeJS.Timeout | undefined;
+// let streamStatusGetter: string | number | NodeJS.Timeout | undefined;
 let reconnectTimeout: string | number | NodeJS.Timeout | undefined;
 
 obs.on("CurrentPreviewSceneChanged", ({ sceneName }) => {
@@ -53,18 +54,20 @@ obs.on("Identified", async () => {
 	obsCurrentSceneRep.value = allScenes.currentProgramSceneName;
 	obsPreviewSceneRep.value = allScenes.currentPreviewSceneName;
 
-	streamStatusGetter = setTimeout(updateStreamStatus, 10);
-
-	const a = await obs.call("GetSceneItemList", { sceneName: "GAMEPLAY Standard-2" });
-	console.log(JSON.stringify(a, null, 2));
+	// streamStatusGetter = setTimeout(updateStreamStatus, 10);
 });
 
-obs.on("ConnectionClosed", async () => {
-	log.warn("Connection closed");
+obs.on("ConnectionClosed", async (error) => {
+	if (error) {
+		log.error("Connection closed due to error:", JSON.stringify(error));
+		updateOBSStatus("error", "Connection closed due to error. Check console for details.");
+	} else {	
+		log.warn("Connection closed");
+		updateOBSStatus("disconnected", "Connection closed");
+	}
 
-	clearTimeout(streamStatusGetter);
+	// clearTimeout(streamStatusGetter);
 	obsStreamTimecodeRep.value = null;
-	updateOBSStatus("disconnected", "Connection closed");
 
 	if (obsAutoReconnectRep.value) {
 		reconnectTimeout = setTimeout(() => {
@@ -128,7 +131,7 @@ obs.on("SceneTransitionStarted", async (transitionName) => {
 		// Future ;)
 		case "Unknown":
 		default:
-			log.info("Unknown transition");
+			log.info("Unknown transition", currentScene, toScene);
 			transitionFromIntermission(toScene, currentScene);
 			nodecg.sendMessage("transition:UNKNOWN", { to: toScene, from: currentScene });
 			break;
@@ -159,7 +162,7 @@ nodecg.listenFor("transition:toGame", (data) => {
 function determineSceneType(scene: string): SceneType {
 	if (scene.startsWith("GAMEPLAY")) {
 		return "Gameplay";
-	} else if (scene.startsWith("INTERMISSION")) {
+	} else if (scene.startsWith("Intermission")) {
 		return "Intermission";
 	} else if (scene.startsWith("IRL")) {
 		return "IRL";
@@ -218,7 +221,7 @@ async function updateStreamStatus() {
 
 	if (status.outputActive) {
 		obsStreamTimecodeRep.value = status.outputTimecode;
-		console.log(status.outputTimecode);
+		// console.log(status.outputTimecode);
 	} else {
 		obsStreamTimecodeRep.value = null;
 	}
@@ -234,17 +237,19 @@ async function cycleRecording() {
 	await obs.call("StartRecord");
 }
 async function connectOBS() {
-	const ncgOBSConfig = nodecg.bundleConfig.obs;
+	if (!nodecg.bundleConfig.obs) {
+		log.error("OBS configuration is missing.");
+		return;
+	}
 
 	updateOBSStatus("connecting", "Connecting to OBS...");
 
 	try {
 		const { obsWebSocketVersion, negotiatedRpcVersion } = await obs.connect(
-			`ws://${ncgOBSConfig.ip}:${ncgOBSConfig.port}`,
-			ncgOBSConfig.password,
+			`ws://${obsConnectionDetailsRep.value.address}`,
+			obsConnectionDetailsRep.value.password,
 			{
-				eventSubscriptions: EventSubscription.All | EventSubscription.InputVolumeMeters,
-				rpcVersion: 1,
+				eventSubscriptions: EventSubscription.All
 			},
 		);
 
@@ -264,12 +269,13 @@ nodecg.listenFor("obs:setConnected", (connected) => {
 	if (connected) {
 		void connectOBS();
 	} else {
+		console.log("Disconnecting OBS as per request.");
 		disconnectOBS();
 	}
 });
 
-if (nodecg.bundleConfig.obs?.enabled) {
-	log.info("[OBS-Local] OBS Local extension is enabled.");
+if (nodecg.bundleConfig.obs?.autoConnect) {
+	log.info("[OBS-Local] OBS will auto connect.");
 	void connectOBS();
 } else {
 	log.info("[OBS-Local] OBS Local extension is disabled; not connecting.");
