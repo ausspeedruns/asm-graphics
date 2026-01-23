@@ -1,24 +1,24 @@
 export interface ConfigSchema {
-	obs: {
-		enabled: boolean;
-		port: number;
-		ip: string;
-		password: string;
+	obs?: {
+		autoConnect?: boolean;
+		port?: number;
+		ip?: string;
+		password?: string;
 		customTransitionsFolder?: string;
 	};
 	tiltify?: {
-		enabled: boolean;
-		key: string;
-		campaign: string;
-		id: string;
+		autoConnect?: boolean;
+		key?: string;
+		campaign?: string;
+		id?: string;
 	};
 	graphql?: {
-		url: string;
-		event: string;
+		url?: string;
+		event?: string;
 		apiKey?: string;
 	};
 	x32?: {
-		enabled: boolean;
-		ip: string;
+		autoConnect?: boolean;
+		ip?: string;
 	};
 }

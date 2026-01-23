@@ -76,11 +76,11 @@ nodecg.listenFor("refreshIncentives", (_, cb) => {
 });
 
 async function getIncentives() {
-	if (!nodecg.bundleConfig.graphql) return;
+	if (!nodecg.bundleConfig.graphql?.url) return;
 
 	try {
 		const results = await queryGraphQL(
-			nodecg.bundleConfig.graphql!.url,
+			nodecg.bundleConfig.graphql.url,
 			`
 				query {
 					incentives(where: { event: { shortname: { equals: "${nodecg.bundleConfig.graphql.event}" } } }) {
@@ -148,7 +148,7 @@ function capitalizeFirstLetter(string: string) {
 }
 
 nodecg.listenFor("updateIncentive", async (data, callback) => {
-	if (!nodecg.bundleConfig.graphql || !nodecg.bundleConfig.graphql.apiKey) return;
+	if (!nodecg.bundleConfig.graphql?.apiKey || !nodecg.bundleConfig.graphql?.url) return;
 
 	let incentive;
 	if (data.type === "Goal") {
@@ -163,7 +163,7 @@ nodecg.listenFor("updateIncentive", async (data, callback) => {
 	}
 
 	await queryGraphQL(
-		nodecg.bundleConfig.graphql!.url,
+		nodecg.bundleConfig.graphql.url,
 		`
 			mutation UpdateIncentive($incentiveId: String!, $active: Boolean!, $data: JSON!, $apiKey: String!) {
 				updateIncentiveNodeCG(incentiveId: $incentiveId, active: $active, data: $data, apiKey: $apiKey) {

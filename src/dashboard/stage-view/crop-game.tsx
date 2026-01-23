@@ -219,7 +219,7 @@ export function CropGameDialog(props: CropGameDialogProps) {
 	function handleCrop() {
 		if (!selectedVideoSource) return;
 
-		nodecg.sendMessage("obs:setCropSettings", {
+		void nodecg.sendMessage("obs:setCropSettings", {
 			sourceName: selectedVideoSource,
 			cropSettings,
 			sectionIndex: selectedSection,

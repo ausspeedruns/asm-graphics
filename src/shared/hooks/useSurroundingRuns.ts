@@ -1,7 +1,7 @@
 import { useReplicant } from "@nodecg/react-hooks";
-import type { RunData, RunDataActiveRunSurrounding, RunDataArray } from "@asm-graphics/types/RunData.js";
+import type { RunData, RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray } from "@asm-graphics/types/RunData.js";
 
-function useSurroundingRuns(): readonly [RunData | undefined, RunData | undefined, RunData | undefined] {
+function useSurroundingRuns(): readonly [RunDataActiveRun, RunDataActiveRun, RunDataActiveRun] {
 	const [runDataActiveRunSurroundingRep] = useReplicant<RunDataActiveRunSurrounding>("runDataActiveRunSurrounding", {
 		bundle: "nodecg-speedcontrol",
 	});

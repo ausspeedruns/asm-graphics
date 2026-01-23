@@ -106,6 +106,7 @@ export type NodeCGMessages = {
 	"speedcontrol:editRunner": { runId: string; runner: RunDataPlayer };
 	"speedcontrol:reorderRunners": { runId: string; newOrder: string[] };
 	"speedcontrol:commentatorToRunner": { commentatorId: string; teamIndex: number; positionIndex: number };
+	"speedcontrol:newRunner": { runId: string; runner: RunDataPlayer; };
 	// AusSpeedruns Website
 	"ausspeedruns-website:recollectUserData": never;
 	// OBS Game Crop

@@ -74,13 +74,8 @@ export const EditUserDialog = (props: Props) => {
 			id: id,
 			name: username,
 			pronouns: pronouns,
-			customData: {
-				microphone: microphone,
-			},
-			teamID: props.commentator?.teamID ?? "",
-			social: {
-				twitch: twitch,
-			},
+			microphone: microphone,
+			twitch: twitch,
 		});
 
 		props.onClose();

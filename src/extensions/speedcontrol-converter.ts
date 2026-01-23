@@ -99,7 +99,8 @@ nodecg.listenFor("speedcontrol:reorderRunners", (data) => {
 	const allPlayerIds = run.teams.flatMap((team) => team.players.map((player) => player.id));
 	for (const playerId of data.newOrder) {
 		if (!allPlayerIds.includes(playerId)) {
-			log.error(`Player ID ${playerId} in newOrder does not exist in run ID ${data.runId}`);
+			log.error(`Player ID ${playerId} in newOrder does not exist in run ID ${data.runId}. Gonna see if they were a commentator.`);
+			void nodecg.sendMessage("speedcontrol:commentatorToRunner", { commentatorId: playerId, teamIndex: 0, positionIndex: 0 });
 			return;
 		}
 	}
@@ -164,12 +165,14 @@ nodecg.listenFor("speedcontrol:commentatorToRunner", (data) => {
 		return;
 	}
 
-	const commentator = commentators[commentatorIndex];
+	const commentatorRaw = commentators[commentatorIndex];
 
-	if (!commentator) {
+	if (!commentatorRaw) {
 		log.error(`No commentator found at index ${commentatorIndex} for ID ${data.commentatorId}`);
 		return;
 	}
+
+	const commentator = JSON.parse(JSON.stringify(commentatorRaw));
 
 	const runDataActive = SPEEDCONTROL_runDataActiveRunRep.value;
 	if (!runDataActive) {
@@ -205,6 +208,46 @@ nodecg.listenFor("speedcontrol:commentatorToRunner", (data) => {
 	log.info(
 		`Moved commentator ${commentator.name} (${commentator.id}) to runner at teamIndex ${data.teamIndex}, positionIndex ${data.positionIndex} in run ${runDataActive.id}`,
 	);
+});
+
+nodecg.listenFor("speedcontrol:newRunner", (data) => {
+	const runDataArray = SPEEDCONTROL_runDataArrayRep.value;
+	if (!runDataArray) {
+		log.error("No runDataArray Replicant found");
+		return;
+	}
+
+	const runId = data.runId || SPEEDCONTROL_runDataActiveRunRep.value?.id;
+	if (!runId) {
+		log.error("No runId provided and no active run found");
+		return;
+	}
+
+	// Find the run object
+	const [runIndex, run] = getRunAndIndex(runId);
+	if (runIndex === -1 || !run) {
+		return;
+	}
+
+	data.runner.id = crypto.randomUUID();
+
+	// Append the new runner to a new team at the end of the teams array
+	const newTeamId = `team${run.teams.length + 1}`;
+	const newTeam = {
+		id: newTeamId,
+		players: [data.runner],
+	};
+	run.teams.push(newTeam);
+
+	runDataArray[runIndex] = run;
+	SPEEDCONTROL_runDataArrayRep.value = runDataArray;
+
+	// If the edited run is the active run, re-set the active run Replicant to trigger updates
+	if (SPEEDCONTROL_runDataActiveRunRep.value?.id === run.id) {
+		SPEEDCONTROL_runDataActiveRunRep.value = JSON.parse(JSON.stringify(run));
+	}
+
+	log.info(`Added new runner ${data.runner.name} (${data.runner.id}) to run ${runId} in new team ${newTeamId}`);
 });
 
 nodecg.listenFor("timerStart", "nodecg-speedcontrol", () => {

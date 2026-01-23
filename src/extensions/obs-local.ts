@@ -257,7 +257,7 @@ async function connectOBS() {
 }
 
 function disconnectOBS() {
-	obs.disconnect();
+	void obs.disconnect();
 }
 
 nodecg.listenFor("obs:setConnected", (connected) => {

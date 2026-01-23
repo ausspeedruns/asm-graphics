@@ -169,17 +169,7 @@
 				"height": 1080
 			},
 			{
-				"file": "stream.html",
-				"width": 1920,
-				"height": 1080
-			},
-			{
 				"file": "host-dashboard.html",
-				"width": 0,
-				"height": 0
-			},
-			{
-				"file": "intermission-muted.html",
 				"width": 0,
 				"height": 0
 			},

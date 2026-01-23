@@ -143,5 +143,5 @@ nodecg.listenFor("scheduleImport:import", async () => {
 	SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
 
 	// TODO: Just bring this function in here lol
-	void nodecg.sendMessage("scheduleImport:getGameYears");
+	nodecg.sendMessage("scheduleImport:getGameYears");
 });

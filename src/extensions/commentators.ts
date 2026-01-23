@@ -212,12 +212,13 @@ nodecg.listenFor("commentators:reorder", (newOrder: string[]) => {
 	const currentCommentators = [...commentatorsRep.value];
 	const reorderedCommentators: RunDataPlayer[] = [];
 
-	newOrder.forEach((id) => {
+	newOrder.forEach((id, i) => {
 		const foundCommentator = currentCommentators.find((comm) => comm.id === id);
 		if (foundCommentator) {
 			reorderedCommentators.push(foundCommentator);
 		} else {
-			log.warn(`Could not find commentator with ID ${id} during reorder`);
+			log.warn(`Could not find commentator with ID ${id} during reorder. Checking to see if they were a runner!`);
+			void nodecg.sendMessage("commentators:runnerToCommentator", { runnerId: id, positionIndex: i });
 		}
 	});
 
@@ -233,20 +234,22 @@ nodecg.listenFor("commentators:runnerToCommentator", (data) => {
 		return;
 	}
 
-	let foundRunner: RunDataPlayer | undefined = undefined;
+	let foundRunnerRaw: RunDataPlayer | undefined = undefined;
 	for (const team of runDataActive.teams) {
 		const playerIndex = team.players.findIndex((player) => player.id === data.runnerId);
 		if (playerIndex !== -1) {
-			foundRunner = team.players[playerIndex];
+			foundRunnerRaw = team.players[playerIndex];
 			team.players.splice(playerIndex, 1);
 			break;
 		}
 	}
 
-	if (!foundRunner) {
+	if (!foundRunnerRaw) {
 		log.error(`Could not find runner with ID ${data.runnerId} to move to commentator`);
 		return;
 	}
+
+	const foundRunner = JSON.parse(JSON.stringify(foundRunnerRaw));
 
 	// Add to commentators Replicant at specified index
 	const mutableCommentators = [...commentatorsRep.value];

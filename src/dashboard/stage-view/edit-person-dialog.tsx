@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
 	Dialog,
 	DialogTitle,
@@ -17,6 +17,26 @@ import { Headsets } from "../../shared/audio-data";
 
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 import { usePersonData } from "./use-person-data";
+import { useReplicant } from "@nodecg/react-hooks";
+
+const defaultPersonData: RunDataPlayer = {
+	id: "",
+	name: "",
+	pronouns: "",
+	teamID: "",
+	social: {
+		twitch: "",
+	},
+	customData: {
+		microphone: "",
+		tag: "",
+	},
+};
+
+export const NEW_COMMENTATOR_ID = "new-commentator";
+export const NEW_RUNNER_ID = "new-runner";
+
+const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They", "They/He", "They/She", "Any/All"];
 
 interface EditRunnerDialogProps {
 	open: boolean;
@@ -29,7 +49,15 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 		return null;
 	}
 
-	const person = usePersonData(props.personId);
+	const [allUsersRep] = useReplicant("all-usernames");
+	const allUsernames = useMemo(() => (allUsersRep ?? []).map((user) => user.username), [allUsersRep]);
+
+	const person =
+		props.personId === NEW_COMMENTATOR_ID || props.personId === NEW_RUNNER_ID
+			? defaultPersonData
+			: usePersonData(props.personId);
+
+	console.log("Editing person:", person, props.personId);
 
 	const [originalPerson] = useState<RunDataPlayer | undefined>(person);
 	const [mutablePersonData, setMutablePersonData] = useState<RunDataPlayer>(JSON.parse(JSON.stringify(person ?? {})));
@@ -70,22 +98,55 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 		}));
 	}
 
+	function handleNameChange(username: string) {
+		// Find the user in allUsersRep
+		const selectedUser = allUsersRep?.find((user) => user.username === username);
+		
+		if (selectedUser) {
+			// Auto-fill the details from the selected user
+			setMutablePersonData((prev) => ({
+				...prev,
+				name: selectedUser.username,
+				pronouns: selectedUser.pronouns || prev.pronouns,
+				social: {
+					...prev.social,
+					twitch: selectedUser.twitch || prev.social?.twitch || "",
+				},
+			}));
+		} else {
+			// Just update the name if no user found (custom input)
+			setMutablePersonData((prev) => ({
+				...prev,
+				name: username,
+			}));
+		}
+	}
+
 	function handleClose() {
 		props.onClose();
 	}
 
 	function handleSave() {
 		console.log("Saving person data:", mutablePersonData);
-		nodecg.sendMessage("update-commentator", {
-			id: mutablePersonData.id,
-			name: mutablePersonData.name,
-			pronouns: mutablePersonData.pronouns,
-			twitch: mutablePersonData.social?.twitch,
-			tag: mutablePersonData.customData?.tag,
-			microphone: mutablePersonData.customData?.microphone,
-		});
+		if (props.personId === NEW_RUNNER_ID) {
+			void nodecg.sendMessage("speedcontrol:newRunner", {
+				runId: "", // Empty string indicates active run
+				runner: mutablePersonData,
+			});
+		} else {
+			void nodecg.sendMessage("update-commentator", {
+				id: mutablePersonData.id,
+				name: mutablePersonData.name,
+				pronouns: mutablePersonData.pronouns,
+				twitch: mutablePersonData.social?.twitch,
+				tag: mutablePersonData.customData?.tag,
+				microphone: mutablePersonData.customData?.microphone,
+			});
+		}
 		props.onClose();
 	}
+
+	console.log(mutablePersonData, originalPerson);
 
 	const hasUpdatedValues =
 		mutablePersonData.name !== originalPerson?.name ||
@@ -114,16 +175,19 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 			<DialogContent>
 				<div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 					<div style={{ display: "flex", gap: 16 }}>
-						<TextField
+						<Autocomplete
+							freeSolo
 							fullWidth
-							label="Name"
-							name="name"
-							value={mutablePersonData.name}
-							onChange={handleChange}
+							options={allUsernames}
+							renderInput={(params) => <TextField {...params} label="Name" />}
+							onInputChange={(_, newInputValue) => {
+								handleNameChange(newInputValue);
+							}}
+							inputValue={mutablePersonData.name}
 						/>
 						<Autocomplete
 							freeSolo
-							options={["He/Him", "She/Her", "They/Them"]}
+							options={PRONOUN_OPTIONS}
 							renderInput={(params) => <TextField {...params} label="Pronouns" />}
 							onInputChange={(_, newInputValue) => {
 								handlePronounChange(newInputValue);

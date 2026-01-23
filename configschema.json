@@ -10,7 +10,7 @@
 			"type": "object",
 			"additionalProperties": false,
 			"properties": {
-				"enabled": {
+				"autoConnect": {
 					"type": "boolean",
 					"default": false
 				},
@@ -28,24 +28,13 @@
 				"customTransitionsFolder": {
 					"type": "string"
 				}
-			},
-			"required": ["enabled"]
-		},
-		"twitch": {
-			"type": "object",
-			"additionalProperties": false,
-			"properties": {
-				"clientId": {
-					"type": "string",
-					"default": ""
-				}
 			}
 		},
 		"tiltify": {
 			"type": "object",
 			"description": "Reads incentive data off the website",
 			"properties": {
-				"enabled": {
+				"autoConnect": {
 					"type": "boolean",
 					"default": false
 				},
@@ -61,8 +50,7 @@
 					"type": "string",
 					"default": ""
 				}
-			},
-			"required": ["enabled", "key", "campaign", "id"]
+			}
 		},
 		"graphql": {
 			"type": "object",
@@ -80,14 +68,13 @@
 					"type": "string",
 					"default": ""
 				}
-			},
-			"required": ["url"]
+			}
 		},
 		"x32": {
 			"type": "object",
 			"description": "Controls the Behringer X32 and gets audio information",
 			"properties": {
-				"enabled": {
+				"autoConnect": {
 					"type": "boolean",
 					"default": false
 				},
@@ -95,9 +82,7 @@
 					"type": "string",
 					"default": ""
 				}
-			},
-			"required": ["enabled", "ip"]
+			}
 		}
-	},
-	"required": ["obs", "tiltify"]
+	}
 }

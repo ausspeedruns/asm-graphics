@@ -525,6 +525,6 @@ nodecg.listenFor("x32:setConnected", (connected) => {
 	}
 });
 
-if (nodecg.bundleConfig.x32?.enabled) {
+if (nodecg.bundleConfig.x32?.autoConnect) {
 	x32.connect(x32ConnectionDetailsRep.value.ip);
 }

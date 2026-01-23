@@ -1,17 +1,20 @@
 packages:
-    - bundles/**
+  - bundles/**
 
 ignoredBuiltDependencies:
-    - "@serialport/bindings-cpp"
-    - "@vaadin/vaadin-usage-statistics"
-    - esbuild
-    - iframe-resizer
+  - '@serialport/bindings-cpp'
+  - '@vaadin/vaadin-usage-statistics'
+  - esbuild
+  - iframe-resizer
 
 onlyBuiltDependencies:
-    - "@serialport/bindings-cpp"
-    - "@vaadin/vaadin-usage-statistics"
-    - better-sqlite3
-    - esbuild
-    - iframe-resizer
-    - unrs-resolver
-    - vuex-module-decorators
+  - '@ffprobe-installer/darwin-arm64'
+  - '@parcel/watcher'
+  - '@serialport/bindings-cpp'
+  - '@vaadin/vaadin-usage-statistics'
+  - better-sqlite3
+  - esbuild
+  - iframe-resizer
+  - msgpackr-extract
+  - unrs-resolver
+  - vuex-module-decorators

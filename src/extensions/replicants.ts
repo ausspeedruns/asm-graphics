@@ -9,7 +9,7 @@ nodecg.log.info("Setting up replicants");
 
 // Auto make replicants
 for (const [replicantName, defaultValue] of Object.entries(replicants)) {
-	if (typeof defaultValue === "object") {
+	if (typeof defaultValue === "object" && !Array.isArray(defaultValue)) {
 		nodecg.Replicant(replicantName, { ...defaultValue });
 	} else {
 		nodecg.Replicant(replicantName, { defaultValue });

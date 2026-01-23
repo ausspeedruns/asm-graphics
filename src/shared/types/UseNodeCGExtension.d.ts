@@ -19,13 +19,13 @@ declare module "@nodecg/react-hooks" {
 		replicantName: E,
 	): readonly [
 		ReplicantType<E> | undefined,
-		(newValue: ReplicantType<E> | ((oldValue?: ReplicantType<E> | undefined) => void)) => void,
+		(newValue: ReplicantType<E> | ((oldValue: ReplicantType<E> | undefined) => void)) => void,
 	];
 
 	function useReplicant<V, T = V>(
 		replicantName: string,
 		{ bundle }: { bundle?: string },
-	): readonly [T | undefined, (newValue: T | ((oldValue?: T | undefined) => void)) => void];
+	): readonly [T | undefined, (newValue: T | ((oldValue: T | undefined) => void)) => void];
 }
 
 // const useListenFor: <T>(messageName: string, handler: (message: T) => void, { bundle }?: UseListenForOptions) => void;

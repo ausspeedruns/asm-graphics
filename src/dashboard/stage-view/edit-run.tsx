@@ -157,7 +157,7 @@ export function EditRunDialog(props: EditRunDialogProps) {
 		if (!mutableRunData) return;
 
 		console.log("Saving run data:", mutableRunData);
-		nodecg.sendMessageToBundle("modifyRun", "nodecg-speedcontrol", { runData: mutableRunData });
+		void nodecg.sendMessageToBundle("modifyRun", "nodecg-speedcontrol", { runData: mutableRunData });
 		props.onClose();
 	}
 

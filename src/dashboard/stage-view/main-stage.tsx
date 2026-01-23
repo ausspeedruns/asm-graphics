@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
 	DndContext,
 	closestCenter,
@@ -26,13 +26,13 @@ import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunDat
 import CircularProgress from "@mui/material/CircularProgress";
 import { SortablePerson, Person } from "./person";
 import { Button } from "@mui/material";
+import { PersonDataContext } from "./use-person-data";
 
 // Styled Components for Dark Mode
 const PageWrapper = styled.div`
 	min-width: 800px;
 	width: 100%;
 `;
-
 const Section = styled.div`
 	margin-bottom: 16px;
 `;
@@ -109,6 +109,7 @@ interface ContainerProps {
 	openPersonEditDialog?: (personId: string) => void;
 	setTalkbackIds?: (ids: string[]) => void;
 	currentTalkbackTargets?: string[];
+	newPerson?: () => void;
 }
 
 function Container({
@@ -119,6 +120,7 @@ function Container({
 	openPersonEditDialog,
 	setTalkbackIds,
 	currentTalkbackTargets,
+	newPerson,
 }: ContainerProps) {
 	const { setNodeRef } = useDroppable({ id });
 
@@ -138,7 +140,7 @@ function Container({
 							currentTalkbackTargets={currentTalkbackTargets}
 						/>
 					))}
-					<Button>+</Button>
+					<Button onClick={newPerson}>+</Button>
 				</ItemList>
 			</SortableContext>
 		</ContainerBox>
@@ -151,12 +153,13 @@ interface MainStageProps {
 	openPersonEditDialog: (personId: string) => void;
 	currentTalkbackIds?: string[]; // TODO: Convert this stuff to a context provider
 	setTalkbackIds?: (ids: string[]) => void;
+	createNewPerson?: (isRunner: boolean) => void;
 }
 
 // Main Component
 export function MainStage(props: MainStageProps) {
-	const [commentators] = useReplicant("commentators");
-	const [runDataActive] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
+	const personDataContext = useContext(PersonDataContext);
+	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [initialised, setInitialised] = useState(false);
 
 	const [items, setItems] = useState<ItemsState>({
@@ -191,17 +194,17 @@ export function MainStage(props: MainStageProps) {
 	const onCommentatorsReordered = (newOrder: string[]) => {
 		// TODO: Update systems when commentators are reordered
 		console.log("Commentators reordered:", newOrder);
-		nodecg.sendMessage("commentators:reorder", newOrder);
+		void nodecg.sendMessage("commentators:reorder", newOrder);
 	};
 
 	const onRunnersReordered = (newOrder: string[]) => {
 		// TODO: Update systems when runners are reordered
 		console.log("Runners reordered:", newOrder);
 
-		if (!runDataActive) return;
+		if (!runDataActiveRep) return;
 
-		nodecg.sendMessage("speedcontrol:reorderRunners", {
-			runId: runDataActive.id,
+		void nodecg.sendMessage("speedcontrol:reorderRunners", {
+			runId: runDataActiveRep.id,
 			newOrder: newOrder,
 		});
 	};
@@ -209,15 +212,15 @@ export function MainStage(props: MainStageProps) {
 	// ================================================================================
 
 	useEffect(() => {
-		if (initialised || !runDataActive || !commentators) return;
-
+		if (!personDataContext) return;
+		
 		const newItems: ItemsState = {
-			commentators: commentators.map((c) => c.id),
-			runners: runDataActive.teams.flatMap((team) => team.players.map((p) => p.id)),
+			commentators: personDataContext.commentators.map((c) => c.id),
+			runners: personDataContext.runners.map((p) => p.id),
 		};
 		setItems(newItems);
-		setInitialised(true);
-	}, [commentators, runDataActive, initialised]);
+		// setInitialised(true);
+	}, [personDataContext?.commentators, personDataContext?.runners]);
 
 	const sensors = useSensors(
 		useSensor(PointerSensor, {
@@ -342,6 +345,7 @@ export function MainStage(props: MainStageProps) {
 							openPersonEditDialog={props.openPersonEditDialog}
 							setTalkbackIds={props.setTalkbackIds}
 							currentTalkbackTargets={props.currentTalkbackIds}
+							newPerson={() => props.createNewPerson?.(false)}
 						/>
 					</Row>
 				</Section>
@@ -356,6 +360,7 @@ export function MainStage(props: MainStageProps) {
 							openPersonEditDialog={props.openPersonEditDialog}
 							setTalkbackIds={props.setTalkbackIds}
 							currentTalkbackTargets={props.currentTalkbackIds}
+							newPerson={() => props.createNewPerson?.(true)}
 						/>
 					</Row>
 				</Section>

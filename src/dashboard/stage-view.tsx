@@ -3,23 +3,24 @@ import { createRoot } from "react-dom/client";
 import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Button, StyledEngineProvider, ThemeProvider } from "@mui/material";
-import { ArrowDownward, Campaign } from "@mui/icons-material";
+import { Campaign } from "@mui/icons-material";
+
+import styles from "./stage-view.module.css";
 
 import type { RunDataActiveRun, RunDataPlayer } from "../../bundles/nodecg-speedcontrol/src/types";
 
 import { darkTheme } from "./theme";
-import { EditPersonDialog } from "./stage-view/edit-person-dialog";
+import { EditPersonDialog, NEW_COMMENTATOR_ID, NEW_RUNNER_ID } from "./stage-view/edit-person-dialog";
 import { RunInfo } from "./stage-view/run-info";
-// import { DroppableZone } from "./stage-view/droppable-zone";
 import { useTalkback } from "./stage-view/use-talkback";
 import { MainStage } from "./stage-view/main-stage";
 import { RunTimeline } from "./stage-view/run-timeline";
-import { UpcomingRun } from "./stage-view/upcoming-run";
 import { TimeHeader } from "./stage-view/time-header";
 import { StatusLights } from "./stage-view/status-lights";
 import { CropGameDialog } from "./stage-view/crop-game";
 import type { RunData, RunDataArray } from "@asm-graphics/types/RunData";
 import { EditRunDialog } from "./stage-view/edit-run";
+import { PersonDataContext, usePersonDataProvider } from "./stage-view/use-person-data";
 
 const DashboardStageViewContainer = styled.div``;
 
@@ -78,7 +79,7 @@ function toHost(person: RunDataPlayer): RunDataPlayer {
 const DISPLAY_NEXT_RUNS = 3;
 
 export function DashboardStageView() {
-	const [commentatorsRep, setCommentatorsRep] = useReplicant("commentators");
+	const personDataContext = usePersonDataProvider();
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [personId, setPersonId] = useState<string | null>(null);
@@ -87,7 +88,6 @@ export function DashboardStageView() {
 	const [editRunDialogOpen, setEditRunDialogOpen] = useState(false);
 	const [mutableRunData, setMutableRunData] = useState<RunData | null>(null);
 
-	const allRunners = runDataActiveRep?.teams.flatMap((team) => team.players);
 	const {
 		currentTalkbackTargets,
 		setCurrentTalkbackTargets,
@@ -101,7 +101,7 @@ export function DashboardStageView() {
 		toggleTalkbackRunners,
 		toggleTalkToAll,
 		forceStopTalkback,
-	} = useTalkback(commentatorsRep, allRunners);
+	} = useTalkback(personDataContext.commentators, personDataContext.runners);
 
 	function handleClosePersonEditDialog() {
 		setPersonEditDialogOpen(false);
@@ -119,8 +119,9 @@ export function DashboardStageView() {
 				<style>{`body { margin: 0; }`}</style>
 			</head>
 			<ThemeProvider theme={darkTheme}>
-				<DashboardStageViewContainer>
-					<TimeHeader />
+				<PersonDataContext.Provider value={personDataContext}>
+					<DashboardStageViewContainer>
+						<TimeHeader />
 					<StatusLights />
 					<RunInfo
 						run={runDataActiveRep}
@@ -129,18 +130,6 @@ export function DashboardStageView() {
 							setEditRunDialogOpen(true);
 						}}
 					/>
-					<TopBar>
-						{/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}> */}
-						{/* <Button
-							onClick={toggleTalkToAll}
-							color="primary"
-							variant={currentTalkbackTargets.length === allIds.length ? "contained" : "outlined"}
-						>
-							Talk to All
-						</Button> */}
-						{/* </div> */}
-						{/* <ScheduleInfo /> */}
-					</TopBar>
 					<StageContainer>
 						<MainStage
 							openPersonEditDialog={(personId) => {
@@ -150,6 +139,10 @@ export function DashboardStageView() {
 							}}
 							currentTalkbackIds={currentTalkbackTargets}
 							setTalkbackIds={setCurrentTalkbackTargets}
+							createNewPerson={(isRunner) => {
+								setPersonId(isRunner ? NEW_RUNNER_ID : NEW_COMMENTATOR_ID);
+								setPersonEditDialogOpen(true);
+							}}
 						/>
 					</StageContainer>
 					<div style={{ display: "flex", justifyContent: "center" }}>
@@ -172,16 +165,10 @@ export function DashboardStageView() {
 								: "Talk to All"}
 						</Button>
 					</div>
-					<BottomBar>
-						{/* <Button color="error" onClick={forceStopTalkback}>
-						Force Stop Talkback
-					</Button> */}
-						<RunTimeline />
-					</BottomBar>
-					<UpcomingRun />
+					<RunTimeline />
 					<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
 						<div>Next Runs</div>
-						<div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+						<div className={styles.nextRuns}>
 							{nextRuns?.map((run) => (
 								<RunInfo
 									key={run.id}
@@ -196,7 +183,7 @@ export function DashboardStageView() {
 					</div>
 				</DashboardStageViewContainer>
 				<EditPersonDialog
-					key={personId ?? "new-person"}
+					key={personId}
 					personId={personId}
 					open={personEditDialogOpen}
 					onClose={handleClosePersonEditDialog}
@@ -211,6 +198,7 @@ export function DashboardStageView() {
 					onClose={() => setEditRunDialogOpen(false)}
 					run={mutableRunData}
 				/>
+				</PersonDataContext.Provider>
 			</ThemeProvider>
 		</StyledEngineProvider>
 	);

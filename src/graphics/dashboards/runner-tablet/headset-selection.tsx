@@ -100,11 +100,12 @@ export const RTSelection = (props: Props) => {
 				if (!runner) return;
 
 				void nodecg.sendMessage("update-commentator", {
-					...runner,
-					customData: {
-						...runner.customData,
-						microphone: headset,
-					},
+					id: runner.id,
+					name: runner.name,
+					pronouns: runner.pronouns,
+					microphone: headset,
+					twitch: runner.social?.twitch,
+					tag: runner.customData?.tag,
 				});
 			});
 

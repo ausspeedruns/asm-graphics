@@ -95,7 +95,7 @@ export const replicants = {
 	"obs:previewScene": null as string | null,
 	"obs:streamTimecode": { defaultValue: null as string | null },
 	"obs:localRecordings": false as boolean,
-	"obs:autoReconnect": true as boolean,
+	"obs:autoReconnect": false as boolean,
 	"obs:reconnectInterval": 5000,
 	"obs:gameplayCaptureScenes": [] as string[],
 
