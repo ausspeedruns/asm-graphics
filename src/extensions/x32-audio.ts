@@ -267,7 +267,7 @@ nodecg.listenFor("transition:toIntermission", () => {
 			// TODO: Cleanup
 			if (channel === HostHeadset.micInput && mixBus <= 1) return;
 
-			// unmute OBS (music) on speakers AND STREAM
+			// Unmute OBS (music) on speakers AND STREAM
 			if (channel === OBSChannel && mixBus <= 1) {
 				fadeUnmute(channel, mixBus, faderValues[mixBus]?.[OBSReferenceChannel] ?? 0.4);
 			} else {

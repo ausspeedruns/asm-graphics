@@ -6,7 +6,12 @@ import { AudioFader } from "./audio-fader";
 import equal from "fast-deep-equal";
 import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
 import { FitText } from "../../elements/fit-text";
-import { Headsets, HostHeadset } from "../../../shared/audio-data";
+import { Headsets, HostHeadset, HostReferenceChannel } from "../../../shared/audio-data";
+
+const gameAudio = [
+	{ name: "Game 1", channel: 9},
+	{ name: "Game 2", channel: 11 },
+];
 
 const RTAudioContainer = styled.div`
 	display: flex;
@@ -129,7 +134,6 @@ interface Props {
 
 export const RTAudio = (props: Props) => {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [gameAudioNamesRep] = useReplicant("game-audio-names");
 	const [couchNamesRep] = useReplicant("commentators");
 	const [busFadersRep] = useReplicant("x32:busFaders");
 
@@ -201,9 +205,9 @@ export const RTAudio = (props: Props) => {
 
 	const editingText = `Editing ${headsetUser === selectedHeadsetObj?.name ? selectedHeadset : (headsetUser ?? selectedHeadset)}`;
 
-	const gameAudio = gameAudioNamesRep
-		?.map((gameAudio, index) => ({ name: gameAudio, index }))
-		.filter((gameAudio) => !!gameAudio.name);
+	// const gameAudio = gameAudioNamesRep
+	// 	?.map((gameAudio, index) => ({ name: gameAudio, index }))
+	// 	.filter((gameAudio) => !!gameAudio.name);
 
 	return (
 		<RTAudioContainer className={props.className} style={props.style}>
@@ -244,9 +248,9 @@ export const RTAudio = (props: Props) => {
 								key={i}
 								label={`Game ${i + 1}`}
 								mixBus={mixBus}
-								channel={9 + gameAudioName.index * 2}
-								value={faderValues[mixBus]?.[9 + gameAudioName.index + gameAudioName.index * 2]}
-								onChange={(float) => handleFaderChange(float, mixBus, 9 + gameAudioName.index * 2)}
+								channel={gameAudioName.channel}
+								value={faderValues[mixBus]?.[gameAudioName.channel]}
+								onChange={(float) => handleFaderChange(float, mixBus, gameAudioName.channel)}
 								colour={"#000"}
 							/>
 						);
@@ -254,9 +258,13 @@ export const RTAudio = (props: Props) => {
 					<CategoryName>Host</CategoryName>
 					<AudioFader
 						mixBus={mixBus}
-						channel={HostHeadset.micInput}
-						value={faderValues[mixBus]?.[HostHeadset.micInput]}
-						onChange={(float) => handleFaderChange(float, mixBus, HostHeadset.micInput)}
+						channel={HostReferenceChannel}
+						value={faderValues[mixBus]?.[HostReferenceChannel]}
+						onChange={(float) => {
+							// Change both Host Headset and Reference Channel
+							handleFaderChange(float, mixBus, HostHeadset.micInput)
+							handleFaderChange(float, mixBus, HostReferenceChannel)
+						}}
 						colour={"#000"}
 					/>
 					<CategoryName>Commentary</CategoryName>
