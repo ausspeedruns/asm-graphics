@@ -415,7 +415,7 @@ export function Intermission() {
 
 	const currentDonationMultiplier = (donationMatchesRep?.filter((match) => match.active).length ?? 0) + 1;
 
-	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
+	const host = (commentatorsRep ?? []).find((comm) => comm.customData['tag'] === "Host");
 
 	return (
 		<>

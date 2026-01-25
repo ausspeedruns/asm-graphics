@@ -1,9 +1,9 @@
 body {
 	--orange: #cc7722;
 	--teal: #3f7d8f;
-	--background-color: var(--orange);
+	/* --background-color: var(--orange); */
 	--text-color: light-dark(#000000, #ffffff);
-	--top-bar-background: light-dark(var(--teal), #0c1017);
+	--top-bar-background: var(--orange);
 	--mosaic-background: light-dark(#e9e9e9, #05070a);
 	--panel-background: light-dark(#ffffff, #05070a);
 	--inset-background: light-dark(#eeeeee, #2f2f2f);

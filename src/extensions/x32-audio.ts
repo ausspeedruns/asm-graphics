@@ -265,6 +265,7 @@ nodecg.listenFor("transition:toIntermission", () => {
 			// Don't even attempt to mute the channels since sometimes it gets lost
 			// TODO: Cleanup
 			if (channel === HostHeadset.micInput && mixBus <= 1) return;
+			if ([OBSReferenceChannel, HostReferenceChannel].includes(channel)) return;
 
 			// Unmute OBS (music) on speakers AND STREAM
 			if (channel === OBSChannel && mixBus <= 1) {

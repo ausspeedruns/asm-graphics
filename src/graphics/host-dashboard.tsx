@@ -225,7 +225,7 @@ export function HostDash() {
 	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
 
 	const [commentatorsRep] = useReplicant("commentators");
-	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
+	const host = (commentatorsRep ?? []).find((comm) => comm.customData['tag'] === "Host");
 
 	const [hostOpen, setHostOpen] = useState(false);
 	const [scriptsOpen, setScriptsOpen] = useState(false);

@@ -25,7 +25,7 @@ interface Props {
 	className?: string;
 }
 
-const AD_LENGTH = 5;
+const AD_LENGTH = 60;
 
 export function Sponsors(props: Props) {
 	const [imgIndex, setImgIndex] = useState(props.start ?? 0);
