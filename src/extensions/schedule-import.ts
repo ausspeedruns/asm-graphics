@@ -6,6 +6,7 @@ import { queryGraphQL } from "./util/graphql.js";
 import { getReplicant } from "./replicants.js";
 
 import type { RunDataArray, RunDataPlayer, RunDataTeam } from "@asm-graphics/types/RunData.js";
+import { getGameData } from "./game-years.js";
 
 const nodecg = nodecgApiContext.get();
 
@@ -68,7 +69,10 @@ const scheduleSchema = z.object({
 });
 
 async function getSchedule() {
-	if (!ausspeedrunsWebsiteSettingsRep.value.url) return;
+	if (!ausspeedrunsWebsiteSettingsRep.value.url) {
+		nodecg.log.error("[GraphQL Schedule Import]: No URL provided");
+		return [];
+	}
 
 	try {
 		const results = await queryGraphQL(ausspeedrunsWebsiteSettingsRep.value.url, SCHEDULE_QUERY, {
@@ -136,12 +140,15 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 
 nodecg.listenFor("scheduleImport:import", async () => {
 	const runs = await getSchedule();
-	if (runs === undefined) return;
+	
+	if (runs.length === 0) {
+		nodecg.log.error("[GraphQL Schedule Import]: Failed to get schedule");
+		return;
+	}
+
 	console.log(JSON.stringify(runs));
-	// console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA=====================================");
-	// console.log(JSON.stringify(convertScheduleToSpeedcontrol(runs)));
+	
 	SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
 
-	// TODO: Just bring this function in here lol
-	nodecg.sendMessage("scheduleImport:getGameYears");
+	getGameData();
 });

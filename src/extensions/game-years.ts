@@ -7,6 +7,24 @@ const logger = new nodecg.Logger("Game years");
 
 const runsRep = nodecg.Replicant<RunDataArray>("runDataArray", "nodecg-speedcontrol");
 
+export function getGameData() {
+	if (!runsRep.value || runsRep.value.length === 0) {
+		logger.error("No runs found in the schedule!");
+		return;
+	}
+
+	logger.info(`Getting Game Years`);
+
+	for (const run of runsRep.value) {
+		if (!run.game || run.system == "IRL") {
+			logger.info(`Skipping run: ${run.id} - ${run.game}`);
+			continue;
+		}
+
+		processRun(run);
+	}
+}
+
 // Levenshtein distance - measures edit distance between two strings
 export function getLevenshteinDistance(a: string, b: string): number {
 	const distanceMatrix: number[][] = [];
@@ -85,24 +103,6 @@ function findSimilarGames(gameName: string, threshold = 0.6, maxResults = 5): Ga
 	return matches.sort((a, b) => b.score - a.score).slice(0, maxResults);
 }
 
-function getGameData() {
-	if (!runsRep.value || runsRep.value.length === 0) {
-		logger.error("No runs found in the schedule!");
-		return;
-	}
-
-	logger.info(`Getting Game Years`);
-
-	for (const run of runsRep.value) {
-		if (!run.game || run.system == "IRL") {
-			logger.info(`Skipping run: ${run.id} - ${run.game}`);
-			continue;
-		}
-
-		processRun(run);
-	}
-}
-
 function processRun(run: RunData) {
 	if (!run.game) {
 		return;
@@ -131,7 +131,3 @@ function processRun(run: RunData) {
 
 	nodecg.sendMessageToBundle("modifyRun", "nodecg-speedcontrol", run);
 }
-
-nodecg.listenFor("scheduleImport:getGameYears", () => {
-	getGameData();
-});
