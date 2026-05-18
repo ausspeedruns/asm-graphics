@@ -76,7 +76,8 @@
 		"vite": "npm:rolldown-vite@latest",
 		"vite-plugin-html": "^3.2.2",
 		"vite-plugin-nodecg": "link:..\\vite-plugin-nodecg",
-		"vite-plugin-svgr": "^4.5.0"
+		"vite-plugin-svgr": "^4.5.0",
+		"zx": "^8.8.5"
 	},
 	"packageManager": "pnpm@10.26.1",
 	"nodecg": {

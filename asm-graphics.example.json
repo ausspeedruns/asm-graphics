@@ -1,0 +1,24 @@
+{
+	"$schema": "../configschema.json",
+	"obs": {
+		"autoConnect": false,
+		"port": 4444,
+		"ip": "localhost",
+		"password": ""
+	},
+	"tiltify": {
+		"autoConnect": true,
+		"key": "<API-KEY-HERE>",
+		"id": "<ID-HERE>",
+		"campaign": "<CAMPAIGN-HERE>"
+	},
+	"graphql": {
+		"url": "https://keystone.ausspeedruns.com/api/graphql",
+		"event": "<EVENT-HERE>",
+		"apiKey": "<API-KEY-HERE>"
+	},
+	"x32": {
+		"autoConnect": false,
+		"ip": "192.168.1.1"
+	}
+}
