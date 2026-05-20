@@ -56,7 +56,7 @@ export const GBA = (props: OverlayProps) => {
 				/>
 				<InfoBoxBG>
 					{/* <img src={GBABG} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
-					<Couch commentators={props.commentators} host={props.host} audio={props.microphoneAudioIndicator} />
+					<Couch commentators={props.commentators} audio={props.microphoneAudioIndicator} />
 					<VerticalInfo
 						hideDividers
 						timer={props.timer}

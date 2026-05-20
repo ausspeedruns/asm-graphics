@@ -16,10 +16,10 @@ import {
 	OutlinedInput,
 } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import type { ConnectionStatus } from "@asm-graphics/shared/Connections";
 import { darkTheme } from "./theme";
 import type { BoardCell, BoardState, RoomJoinParameters, CellColour } from "@asm-graphics/shared/BingoSync";
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import type { ConnectionStatus } from "@asm-graphics/shared/replicants";
 
 const CellColours = [
 	"blank",
@@ -47,7 +47,13 @@ const StatusBox = styled.div`
 `;
 
 function connectionStatusStyle(status: ConnectionStatus | boolean): { text: string; colour: string } {
-	switch (status) {
+	if (typeof status === "boolean") {
+		return status
+			? { text: "READY", colour: "#4CAF50" }
+			: { text: "NOT READY", colour: "#D32F2F" };
+	}
+
+	switch (status.status) {
 		case "disconnected":
 			return { text: "Disconnected", colour: "#757575" };
 		case "connected":
@@ -56,12 +62,8 @@ function connectionStatusStyle(status: ConnectionStatus | boolean): { text: stri
 			return { text: "Error", colour: "#D32F2F" };
 		case "warning":
 			return { text: "Missed Heartbeat", colour: "#FF9800" };
-		case true:
-			return { text: "READY", colour: "#4CAF50" };
-		case false:
-			return { text: "NOT READY", colour: "#D32F2F" };
 		default:
-			return { text: status, colour: "#ff008c" };
+			return { text: status.status, colour: "#ff008c" };
 	}
 }
 
@@ -75,7 +77,7 @@ export function BingoDashboard() {
 
 	const [selectedCell, setSelectedCell] = useState<BoardCell | undefined>(undefined);
 
-	const bingoStatusInfo = connectionStatusStyle(bingoSyncStatusRep ?? "disconnected");
+	const bingoStatusInfo = connectionStatusStyle(bingoSyncStatusRep ?? false);
 
 	useEffect(() => {
 		if (bingoSyncRoomDetailsRep) {
@@ -126,7 +128,7 @@ export function BingoDashboard() {
 						color="success"
 						onClick={handleJoinRoom}
 						fullWidth
-						disabled={bingoSyncStatusRep === "connected"}
+						disabled={bingoSyncStatusRep?.status === "connected"}
 					>
 						Join Room
 					</Button>
@@ -135,7 +137,7 @@ export function BingoDashboard() {
 						color="error"
 						onClick={handleLeaveRoom}
 						fullWidth
-						disabled={bingoSyncStatusRep === "disconnected"}
+						disabled={bingoSyncStatusRep?.status === "disconnected"}
 					>
 						Leave Room
 					</Button>

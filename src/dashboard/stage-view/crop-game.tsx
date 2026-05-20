@@ -301,7 +301,7 @@ export function CropGameDialog(props: CropGameDialogProps) {
 						<Stack direction="row" spacing={2} alignItems="center">
 							<Typography variant="subtitle2">Select Section:</Typography>
 							<ButtonGroup>
-								{sections.map((section, index) => (
+								{sections.map((_, index) => (
 									<Button
 										key={index}
 										variant={selectedSection === index ? "contained" : "outlined"}
@@ -570,7 +570,7 @@ interface EdgePreviewProps {
 	crop: CropSettings;
 }
 
-function EdgePreview({ label, value, axis, side, crop }: EdgePreviewProps) {
+function EdgePreview({ label, value, axis, side }: EdgePreviewProps) {
 	const previewSize = 80;
 	const zoomFactor = 2;
 

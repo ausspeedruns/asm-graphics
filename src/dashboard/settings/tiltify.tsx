@@ -25,8 +25,8 @@ export function TiltifySettings() {
 						variant="contained"
 						color="success"
 						fullWidth
-						disabled={tiltifyConnectedRep === "connected"}
-						loading={tiltifyConnectedRep === "connecting"}
+						disabled={tiltifyConnectedRep?.status === "connected"}
+						loading={tiltifyConnectedRep?.status === "connecting"}
 						onClick={() => void nodecg.sendMessage("tiltify:setConnection", true)}
 					>
 						Connect
@@ -35,7 +35,7 @@ export function TiltifySettings() {
 						variant="contained"
 						color="error"
 						fullWidth
-						disabled={tiltifyConnectedRep === "disconnected"}
+						disabled={tiltifyConnectedRep?.status === "disconnected"}
 						onClick={() => void nodecg.sendMessage("tiltify:setConnection", false)}
 					>
 						Disconnect
