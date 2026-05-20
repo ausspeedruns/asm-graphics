@@ -1,6 +1,31 @@
 {
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"options": {
+		"typeAware": true,
+		"typeCheck": true,
+	},
+	"categories": {
+		"correctness": "allow",
+		"suspicious": "allow",
+		"pedantic": "allow",
+		"perf": "allow",
+		"style": "allow",
+		"restriction": "allow",
+		"nursery": "allow",
+	},
 	"rules": {
-		"no-unused-vars": "off"
+		"sort-imports": "off",
+		"func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+		"typescript/explicit-function-return-type": "off",
+		"typescript/explicit-module-boundary-types": "off",
+		"typescript/prefer-readonly-parameter-types": "off", // It makes sense but I think it's broken right now
+		"sort-keys": "off",
+		"sort-vars": "off",
+		"oxc/no-rest-spread-properties": "off",
+		"oxc/no-optional-chaining": "off",
+		"unicorn/no-null": "off",
+	},
+	"globals": {
+		"document": "readonly"
 	}
 }
