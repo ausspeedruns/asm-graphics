@@ -193,31 +193,44 @@ const ELEMENTS = {
 };
 
 const initialLayout: MosaicNode<ViewId> = {
+	type: "split",
 	direction: "row",
-	first: {
-		direction: "row",
-		first: {
-			direction: "column",
-			first: "Timer",
-			second: "Host Tabs",
+	children: [
+		{
+			type: "split",
+			direction: "row",
+			children: [
+				{
+					type: "split",
+					direction: "column",
+					children: ["Timer", "Host Tabs"],
+					splitPercentages: [50, 50],
+				},
+				{
+					type: "split",
+					direction: "column",
+					children: [
+						{
+							type: "split",
+							direction: "column",
+							children: ["Mute", "Donation Total"],
+							splitPercentages: [50, 50],
+						},
+						"Donation Tabs",
+					],
+					splitPercentages: [20, 80],
+				},
+			],
+			splitPercentages: [50, 50],
 		},
-		second: {
+		{
+			type: "split",
 			direction: "column",
-			first: {
-				direction: "column",
-				first: "Mute",
-				second: "Donation Total",
-			},
-			second: "Donation Tabs",
-			splitPercentage: 20,
+			children: ["Donation Matches", "Next Runs"],
+			splitPercentages: [50, 50],
 		},
-	},
-	second: {
-		direction: "column",
-		first: "Donation Matches",
-		second: "Next Runs",
-	},
-	splitPercentage: (2 / 3) * 100,
+	],
+	splitPercentages: [(2 / 3) * 100, (1 / 3) * 100],
 };
 
 export function HostDash() {
@@ -225,7 +238,7 @@ export function HostDash() {
 	const [mosaicValue, setMosaicValue] = useState<MosaicNode<ViewId> | null>(initialLayout);
 
 	const [commentatorsRep] = useReplicant("commentators");
-	const host = (commentatorsRep ?? []).find((comm) => comm.customData['tag'] === "Host");
+	const host = (commentatorsRep ?? []).find((comm) => comm.customData["tag"] === "Host");
 
 	const [hostOpen, setHostOpen] = useState(false);
 	const [scriptsOpen, setScriptsOpen] = useState(false);
