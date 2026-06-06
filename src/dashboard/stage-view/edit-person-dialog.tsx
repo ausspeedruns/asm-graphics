@@ -101,7 +101,7 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 	function handleNameChange(username: string) {
 		// Find the user in allUsersRep
 		const selectedUser = allUsersRep?.find((user) => user.username === username);
-		
+
 		if (selectedUser) {
 			// Auto-fill the details from the selected user
 			setMutablePersonData((prev) => ({
@@ -139,8 +139,8 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 				name: mutablePersonData.name,
 				pronouns: mutablePersonData.pronouns,
 				twitch: mutablePersonData.social?.twitch,
-				tag: mutablePersonData.customData?.tag,
-				microphone: mutablePersonData.customData?.microphone,
+				tag: mutablePersonData.customData?.["tag"],
+				microphone: mutablePersonData.customData?.["microphone"],
 			});
 		}
 		props.onClose();
@@ -152,8 +152,8 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 		mutablePersonData.name !== originalPerson?.name ||
 		mutablePersonData.pronouns !== originalPerson?.pronouns ||
 		mutablePersonData.social?.twitch !== originalPerson?.social?.twitch ||
-		mutablePersonData.customData?.microphone !== originalPerson?.customData?.microphone ||
-		mutablePersonData.customData?.tag !== originalPerson?.customData?.tag;
+		mutablePersonData.customData?.["microphone"] !== originalPerson?.customData?.["microphone"] ||
+		mutablePersonData.customData?.["tag"] !== originalPerson?.customData?.["tag"];
 
 	return (
 		<Dialog open={props.open} onClose={handleClose} fullWidth maxWidth="md" style={{ colorScheme: "dark" }}>
@@ -208,14 +208,14 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 							fullWidth
 							label="Tag"
 							name="tag"
-							value={mutablePersonData.customData["tag"] ?? ""}
+							value={mutablePersonData.customData?.["tag"] ?? ""}
 							onChange={(event) => handleCustomDataChange("tag", event.target.value)}
 						/>
 					</div>
 					<div>
 						<span style={{ display: "block" }}>Headset</span>
 						<ToggleButtonGroup
-							value={mutablePersonData.customData?.microphone}
+							value={mutablePersonData.customData?.["microphone"]}
 							onChange={(_, headset) => handleCustomDataChange("microphone", headset)}
 							exclusive
 							style={{ flexWrap: "wrap" }}

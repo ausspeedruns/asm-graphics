@@ -1,33 +1,18 @@
 {
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "lib": [
-            "ESNext"
-        ],
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
-        /* Output & Structure */
-        "outDir": "extension",
-        /* Extension Specific Strictness */
-        "noImplicitOverride": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "paths": {
-            "@asm-graphics/*": [
-                "./src/extensions/*"
-            ],
-            "@asm-graphics/types/*": [
-                "./src/shared/types/*"
-            ],
-            "@asm-graphics/shared/*": [
-                "./src/shared/*"
-            ]
-        },
-        "types": [
-            "node"
-        ]
-    },
-    "include": [
-        "./src/extensions/**/*.ts",
-        "./src/shared/**/*"
-    ]
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"lib": ["ESNext"],
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		/* Output & Structure */
+		"outDir": "extension",
+		/* Extension Specific Strictness */
+		"paths": {
+			"@asm-graphics/*": ["./src/extensions/*"],
+			"@asm-graphics/types/*": ["./src/shared/types/*"],
+			"@asm-graphics/shared/*": ["./src/shared/*"]
+		},
+		"types": ["node"]
+	},
+	"include": ["./src/extensions/**/*.ts", "./src/shared/**/*"]
 }

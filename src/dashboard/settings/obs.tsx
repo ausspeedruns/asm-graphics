@@ -30,7 +30,7 @@ export function OBSSettings() {
 	const allLayouts = useMemo(() => {
 		const layoutsSet = new Set<string>();
 		runsRep?.forEach((run) => {
-			const layoutMatch = /LAYOUT:\s*(.*)/.exec(run.customData?.specialRequirements ?? "");
+			const layoutMatch = /LAYOUT:\s*(.*)/.exec(run.customData?.["specialRequirements"] ?? "");
 			if (layoutMatch) {
 				const layoutName = layoutMatch[1]?.trim();
 				if (layoutName) {

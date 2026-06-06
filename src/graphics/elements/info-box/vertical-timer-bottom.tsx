@@ -4,7 +4,7 @@ import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
-import * as RunInfo from "../run-info";	
+import * as RunInfo from "../run-info";
 
 const VerticalInfoContainer = styled.div`
 	width: 100%;
@@ -20,7 +20,8 @@ const VerticalInfoContainer = styled.div`
 		font-size: 300%;
 	}
 
-	& #gameTitle, & #category {
+	& #gameTitle,
+	& #category {
 		max-width: 90%;
 	}
 
@@ -70,7 +71,7 @@ export function VerticalTimerBottomInfo(props: Props) {
 	return (
 		<VerticalInfoContainer className={props.className} style={props.style}>
 			<VerticalStack id="gameInfo">
-				<RunInfo.GameTitle game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={props.runData?.customData?.["gameDisplay"] ?? props.runData?.game ?? ""} />
 				<HorizontalStack id="subInfoStack">
 					<RunInfo.System system={props.runData?.system ?? ""} />
 					<RunInfo.Year year={props.runData?.release ?? ""} />

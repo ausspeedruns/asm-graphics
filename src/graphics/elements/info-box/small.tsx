@@ -27,7 +27,8 @@ const SmallInfoContainer = styled.div`
 		font-size: 200%;
 	}
 
-	& #gameTitle, & #category {
+	& #gameTitle,
+	& #category {
 		max-width: 90%;
 	}
 
@@ -69,7 +70,7 @@ export function SmallInfo(props: Props) {
 	return (
 		<SmallInfoContainer className={props.className} style={props.style}>
 			<TopRow id="topRow">
-				<RunInfo.GameTitle game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={props.runData?.customData["gameDisplay"] ?? props.runData?.game ?? ""} />
 				<RunInfo.Category category={props.runData?.category ?? ""} />
 			</TopRow>
 			<BottomRow id="bottomRow">

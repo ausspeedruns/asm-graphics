@@ -78,7 +78,7 @@ export const RTSelection = (props: Props) => {
 					},
 					teamID: player.teamID,
 					customData: {
-						microphone: player.customData.microphone ?? "",
+						microphone: player.customData["microphone"] ?? "",
 					},
 				};
 			}),
@@ -105,7 +105,7 @@ export const RTSelection = (props: Props) => {
 					pronouns: runner.pronouns,
 					microphone: headset,
 					twitch: runner.social?.twitch,
-					tag: runner.customData?.tag,
+					tag: runner.customData?.["tag"],
 				});
 			});
 

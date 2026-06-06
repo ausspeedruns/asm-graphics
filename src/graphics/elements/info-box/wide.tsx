@@ -21,7 +21,8 @@ const WideInfoContainer = styled.div`
 
 	font-size: 34px;
 
-	& #subInfoStack, & #category {
+	& #subInfoStack,
+	& #category {
 		font-weight: 600;
 	}
 
@@ -69,7 +70,7 @@ export function WideInfo(props: Props) {
 	return (
 		<WideInfoContainer className={props.className} style={props.style}>
 			<GameInfo id="gameInfo">
-				<RunInfo.GameTitle game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={props.runData?.customData["gameDisplay"] ?? props.runData?.game ?? ""} />
 				<HorizontalStack id="subInfoStack">
 					<RunInfo.System system={props.runData?.system ?? ""} />
 					<RunInfo.Year year={props.runData?.release ?? ""} />

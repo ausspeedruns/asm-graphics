@@ -252,7 +252,7 @@ const DonationContainer = styled.div`
 	justify-content: center;
 	width: 100%;
 	pointer-events: none;
-	color: #F28F2B;
+	color: #f28f2b;
 	gap: 32px;
 
 	& > * {
@@ -415,7 +415,7 @@ export function Intermission() {
 
 	const currentDonationMultiplier = (donationMatchesRep?.filter((match) => match.active).length ?? 0) + 1;
 
-	const host = (commentatorsRep ?? []).find((comm) => comm.customData['tag'] === "Host");
+	const host = (commentatorsRep ?? []).find((comm) => comm.customData["tag"] === "Host");
 
 	return (
 		<>
@@ -572,7 +572,7 @@ export function IntermissionElement(props: IntermissionProps) {
 		}
 	}
 
-	const gameName = props.activeRun?.customData.gameDisplay ?? props.activeRun?.game ?? "";
+	const gameName = props.activeRun?.customData["gameDisplay"] ?? props.activeRun?.game ?? "";
 
 	const estimate =
 		props.activeRun?.estimate?.startsWith("0") && !props.activeRun?.estimate?.startsWith("0:")

@@ -70,7 +70,7 @@ function toHost(person: RunDataPlayer): RunDataPlayer {
 			twitch: person.social?.twitch,
 		},
 		customData: {
-			microphone: person.customData?.microphone ?? "",
+			microphone: person.customData?.["microphone"] ?? "",
 			tag: "Host",
 		},
 	};
@@ -122,82 +122,83 @@ export function DashboardStageView() {
 				<PersonDataContext.Provider value={personDataContext}>
 					<DashboardStageViewContainer>
 						<TimeHeader />
-					<StatusLights />
-					<RunInfo
-						run={runDataActiveRep}
-						openEditDialog={(run) => {
-							setMutableRunData(run);
-							setEditRunDialogOpen(true);
-						}}
-					/>
-					<StageContainer>
-						<MainStage
-							openPersonEditDialog={(personId) => {
-								console.log("Opening edit dialog for person:", personId);
-								setPersonId(personId);
-								setPersonEditDialogOpen(true);
-							}}
-							currentTalkbackIds={currentTalkbackTargets}
-							setTalkbackIds={setCurrentTalkbackTargets}
-							createNewPerson={(isRunner) => {
-								setPersonId(isRunner ? NEW_RUNNER_ID : NEW_COMMENTATOR_ID);
-								setPersonEditDialogOpen(true);
+						<StatusLights />
+						<RunInfo
+							run={runDataActiveRep}
+							openEditDialog={(run) => {
+								setMutableRunData(run);
+								setEditRunDialogOpen(true);
 							}}
 						/>
-					</StageContainer>
-					<div style={{ display: "flex", justifyContent: "center" }}>
-						<Button variant="contained" onClick={() => setGameCropDialogOpen(true)}>
-							Open Game Crop
-						</Button>
-						<Button
-							style={{ marginLeft: 20 }}
-							onClick={toggleTalkToAll}
-							color="primary"
-							variant={
-								currentTalkbackTargets.length === allIds.length || currentTalkbackTargets.length !== 0
-									? "contained"
-									: "outlined"
-							}
-							startIcon={<Campaign />}
-						>
-							{currentTalkbackTargets.length === allIds.length || currentTalkbackTargets.length !== 0
-								? "Clear Talkback"
-								: "Talk to All"}
-						</Button>
-					</div>
-					<RunTimeline />
-					<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-						<div>Next Runs</div>
-						<div className={styles.nextRuns}>
-							{nextRuns?.map((run) => (
-								<RunInfo
-									key={run.id}
-									run={run}
-									openEditDialog={(run) => {
-										setMutableRunData(run);
-										setEditRunDialogOpen(true);
-									}}
-								/>
-							))}
+						<StageContainer>
+							<MainStage
+								openPersonEditDialog={(personId) => {
+									console.log("Opening edit dialog for person:", personId);
+									setPersonId(personId);
+									setPersonEditDialogOpen(true);
+								}}
+								currentTalkbackIds={currentTalkbackTargets}
+								setTalkbackIds={setCurrentTalkbackTargets}
+								createNewPerson={(isRunner) => {
+									setPersonId(isRunner ? NEW_RUNNER_ID : NEW_COMMENTATOR_ID);
+									setPersonEditDialogOpen(true);
+								}}
+							/>
+						</StageContainer>
+						<div style={{ display: "flex", justifyContent: "center" }}>
+							<Button variant="contained" onClick={() => setGameCropDialogOpen(true)}>
+								Open Game Crop
+							</Button>
+							<Button
+								style={{ marginLeft: 20 }}
+								onClick={toggleTalkToAll}
+								color="primary"
+								variant={
+									currentTalkbackTargets.length === allIds.length ||
+									currentTalkbackTargets.length !== 0
+										? "contained"
+										: "outlined"
+								}
+								startIcon={<Campaign />}
+							>
+								{currentTalkbackTargets.length === allIds.length || currentTalkbackTargets.length !== 0
+									? "Clear Talkback"
+									: "Talk to All"}
+							</Button>
 						</div>
-					</div>
-				</DashboardStageViewContainer>
-				<EditPersonDialog
-					key={personId}
-					personId={personId}
-					open={personEditDialogOpen}
-					onClose={handleClosePersonEditDialog}
-				/>
-				<CropGameDialog
-					open={gameCropDialogOpen}
-					onClose={() => setGameCropDialogOpen(false)}
-					onCrop={() => {}}
-				/>
-				<EditRunDialog
-					open={editRunDialogOpen}
-					onClose={() => setEditRunDialogOpen(false)}
-					run={mutableRunData}
-				/>
+						<RunTimeline />
+						<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+							<div>Next Runs</div>
+							<div className={styles.nextRuns}>
+								{nextRuns?.map((run) => (
+									<RunInfo
+										key={run.id}
+										run={run}
+										openEditDialog={(run) => {
+											setMutableRunData(run);
+											setEditRunDialogOpen(true);
+										}}
+									/>
+								))}
+							</div>
+						</div>
+					</DashboardStageViewContainer>
+					<EditPersonDialog
+						key={personId}
+						personId={personId}
+						open={personEditDialogOpen}
+						onClose={handleClosePersonEditDialog}
+					/>
+					<CropGameDialog
+						open={gameCropDialogOpen}
+						onClose={() => setGameCropDialogOpen(false)}
+						onCrop={() => {}}
+					/>
+					<EditRunDialog
+						open={editRunDialogOpen}
+						onClose={() => setEditRunDialogOpen(false)}
+						run={mutableRunData}
+					/>
 				</PersonDataContext.Provider>
 			</ThemeProvider>
 		</StyledEngineProvider>

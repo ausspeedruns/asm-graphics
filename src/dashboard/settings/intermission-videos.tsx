@@ -52,8 +52,8 @@ export function IntermissionVideos() {
 		if (active.id !== over?.id) {
 			if (!intermissionVideosRep) return;
 
-			const oldIndex = intermissionVideosRep.findIndex((video) => video.asset === active.data.current?.asset);
-			const newIndex = intermissionVideosRep.findIndex((video) => video.asset === over?.data.current?.asset);
+			const oldIndex = intermissionVideosRep.findIndex((video) => video.asset === active.data.current?.["asset"]);
+			const newIndex = intermissionVideosRep.findIndex((video) => video.asset === over?.data.current?.["asset"]);
 
 			const newOrder = arrayMove(intermissionVideosRep, oldIndex, newIndex);
 

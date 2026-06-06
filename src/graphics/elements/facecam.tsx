@@ -97,7 +97,7 @@ export const Facecam = (props: FacecamProps) => {
 						}}
 						key={team.id}
 						speaking={team.players.some(
-							(player) => props.audioIndicator?.[player.customData.microphone ?? ""],
+							(player) => props.audioIndicator?.[player.customData["microphone"] ?? ""],
 						)}
 					/>,
 				);
@@ -105,7 +105,7 @@ export const Facecam = (props: FacecamProps) => {
 				// Versus does not have a team name, display each name
 
 				team.players.forEach((player) => {
-					const correctMic = player.customData.microphone;
+					const correctMic = player.customData["microphone"];
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {
@@ -151,7 +151,7 @@ export const Facecam = (props: FacecamProps) => {
 						fontSize: 25,
 					}}
 					key={team.relayPlayerID}
-					speaking={props.audioIndicator?.[team.players[0]?.customData.microphone ?? ""]}
+					speaking={props.audioIndicator?.[team.players[0]?.customData["microphone"] ?? ""]}
 				/>,
 			);
 			allRunnerNames.push(<RunnerNameDivider key={team.relayPlayerID + "-divider"} />);
@@ -164,11 +164,7 @@ export const Facecam = (props: FacecamProps) => {
 				}
 
 				let height = NAMEPLATE_HEIGHT;
-				if (
-					props.verticalCoop &&
-					team.players.length > 1 &&
-					team.players.some((player) => player.pronouns)
-				) {
+				if (props.verticalCoop && team.players.length > 1 && team.players.some((player) => player.pronouns)) {
 					height = NAMEPLATE_HEIGHT_VERTICAL;
 				}
 
@@ -179,7 +175,7 @@ export const Facecam = (props: FacecamProps) => {
 						maxWidth={props.maxNameWidth}
 						key={player.id}
 						player={player}
-						speaking={props.audioIndicator?.[player.customData.microphone ?? ""]}
+						speaking={props.audioIndicator?.[player.customData["microphone"] ?? ""]}
 						vertical={team.players.length > 1 ? props.verticalCoop : false}
 						style={{ height: height }}
 					/>,

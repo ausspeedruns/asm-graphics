@@ -23,7 +23,7 @@ function collectLayouts(runDataArray: RunDataArray): TreeViewBaseItem[] {
 		const gameName = run.game ?? `??? - ${run.id}`;
 
 		if (Object.hasOwn(run.customData, "specialRequirements")) {
-			const match = layoutsRegex.exec(run.customData.specialRequirements ?? "");
+			const match = layoutsRegex.exec(run.customData?.["specialRequirements"] ?? "");
 
 			if (match) {
 				const layoutName = match[1]?.trim();

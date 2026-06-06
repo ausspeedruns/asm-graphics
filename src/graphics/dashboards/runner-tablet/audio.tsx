@@ -9,7 +9,7 @@ import { FitText } from "../../elements/fit-text";
 import { Headsets, HostHeadset, HostReferenceChannel } from "../../../shared/audio-data";
 
 const gameAudio = [
-	{ name: "Game 1", channel: 9},
+	{ name: "Game 1", channel: 9 },
 	{ name: "Game 2", channel: 11 },
 ];
 
@@ -78,8 +78,14 @@ const HeadsetName = styled.button<{ selected?: boolean; headset?: (typeof Headse
 	animation: ${({ selected }) => (selected ? "pulse 0.5s infinite alternate" : "none")};
 
 	@keyframes pulse {
-		0% { background-color: var(--pulse-colour); border-right: 20px solid var(--pulse-colour); }
-		100% { background-color: var(--headset-colour); border-right: 20px solid var(--headset-colour); }
+		0% {
+			background-color: var(--pulse-colour);
+			border-right: 20px solid var(--pulse-colour);
+		}
+		100% {
+			background-color: var(--headset-colour);
+			border-right: 20px solid var(--headset-colour);
+		}
 	}
 `;
 
@@ -145,12 +151,12 @@ export const RTAudio = (props: Props) => {
 		const map = new Map();
 		runDataActiveRep?.teams.map((team) => {
 			team.players.map((player) => {
-				if ("microphone" in player.customData) map.set(player.customData.microphone, player.name);
+				if ("microphone" in player.customData) map.set(player.customData["microphone"], player.name);
 			});
 		});
 
 		couchNamesRep?.map((couch) => {
-			if (couch.customData?.microphone) map.set(couch.customData.microphone, couch.name);
+			if (couch.customData?.["microphone"]) map.set(couch.customData["microphone"], couch.name);
 		});
 
 		return map;
@@ -262,8 +268,8 @@ export const RTAudio = (props: Props) => {
 						value={faderValues[mixBus]?.[HostReferenceChannel]}
 						onChange={(float) => {
 							// Change both Host Headset and Reference Channel
-							handleFaderChange(float, mixBus, HostHeadset.micInput)
-							handleFaderChange(float, mixBus, HostReferenceChannel)
+							handleFaderChange(float, mixBus, HostHeadset.micInput);
+							handleFaderChange(float, mixBus, HostReferenceChannel);
 						}}
 						colour={"#000"}
 					/>

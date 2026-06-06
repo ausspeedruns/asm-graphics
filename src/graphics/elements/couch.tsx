@@ -34,14 +34,14 @@ export function Couch(props: Props) {
 			style={{ justifyContent: props.align ?? "center", ...props.style }}
 		>
 			{props.commentators.map((person, i) => {
-				if (person.name === "" || (!showHost && person.customData.tag === HOST_TAG)) {
+				if (person.name === "" || (!showHost && person.customData["tag"] === HOST_TAG)) {
 					return <></>;
 				}
 				return (
 					<PersonCompressed
 						key={person.id}
 						commentator={person}
-						speaking={props.audio?.[person.customData.microphone ?? ""]}
+						speaking={props.audio?.[person.customData["microphone"] ?? ""]}
 						index={i}
 					/>
 				);
@@ -141,7 +141,7 @@ export function PersonCompressed(props: PersonCompressedProps) {
 				</Row>
 				<Row>
 					{props.commentator.pronouns && <Pronouns>{props.commentator.pronouns}</Pronouns>}
-					{props.commentator.customData.tag && <Role>{props.commentator.customData.tag}</Role>}
+					{props.commentator.customData["tag"] && <Role>{props.commentator.customData["tag"]}</Role>}
 				</Row>
 			</NameContainer>
 		</PersonCompressedContainer>

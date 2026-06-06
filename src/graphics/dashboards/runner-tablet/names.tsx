@@ -132,7 +132,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 					teamID: player.teamID,
 					isRunner: true,
 					customData: {
-						microphone: player.customData.microphone ?? "",
+						'microphone': player.customData['microphone'] ?? "",
 					},
 				};
 			}),
@@ -176,7 +176,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				name: runner?.name ?? "Unknown Runner",
 				pronouns: runner?.pronouns,
 				customData: {
-					microphone: runner?.customData.microphone ?? "",
+					'microphone': runner?.customData['microphone'] ?? "",
 				},
 				teamID: runner?.teamID ?? "",
 				social: {
@@ -244,7 +244,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 				{commentators.map((commentator) => {
 					return (
 						<NameRow key={commentator.id}>
-							{commentator.customData.microphone && <CommentatorHeadset headset={commentator.customData.microphone} />}
+							{commentator.customData['microphone'] && <CommentatorHeadset headset={commentator.customData['microphone']} />}
 							{commentator.name}
 							{commentator.pronouns && <RunnerPronouns>[{commentator.pronouns}]</RunnerPronouns>}
 							{commentator.social.twitch && (
@@ -256,7 +256,7 @@ export const RTNames: React.FC<Props> = (props: Props) => {
 							<EditButton variant="outlined" onClick={() => openEditUserDialog(commentator.id)}>
 								Edit
 							</EditButton>
-							{!commentator.customData.microphone && <AnnoyingSetHeadsetNotification />}
+							{!commentator.customData['microphone'] && <AnnoyingSetHeadsetNotification />}
 						</NameRow>
 					);
 				})}

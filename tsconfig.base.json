@@ -11,8 +11,13 @@
 		"verbatimModuleSyntax": true,
 		"useDefineForClassFields": true,
 		"noImplicitReturns": true,
+		"noImplicitOverride": true,
 		"noFallthroughCasesInSwitch": true,
+		"noPropertyAccessFromIndexSignature": true,
 		"noUnusedParameters": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"useUnknownInCatchVariables": true,
 		"rootDir": "src/"
 	}
 }

@@ -21,7 +21,8 @@ const VerticalInfoContainer = styled.div`
 		font-size: 270%;
 	}
 
-	& #gameTitle, & #category {
+	& #gameTitle,
+	& #category {
 		max-width: 90%;
 	}
 
@@ -76,7 +77,7 @@ export function VerticalInfo(props: Props) {
 			</VerticalStack>
 			{!props.hideDividers && <Divider className="divider" />}
 			<VerticalStack id="gameInfo">
-				<RunInfo.GameTitle game={props.runData?.customData.gameDisplay ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={props.runData?.customData["gameDisplay"] ?? props.runData?.game ?? ""} />
 				<HorizontalStack id="subInfoStack">
 					<RunInfo.System system={props.runData?.system ?? ""} />
 					<RunInfo.Year year={props.runData?.release ?? ""} />
