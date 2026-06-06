@@ -55,7 +55,8 @@
 		"remark-github-alerts": "^0.1.1",
 		"underscore": "^1.13.8",
 		"ws": "^8.21.0",
-		"zod": "^4.4.3"
+		"zod": "^4.4.3",
+		"zustand": "^5.0.14"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.29.7",
@@ -196,6 +197,11 @@
 			},
 			{
 				"file": "asnn-background.html",
+				"width": 1920,
+				"height": 1080
+			},
+			{
+				"file": "custom-overlay.html",
 				"width": 1920,
 				"height": 1080
 			}

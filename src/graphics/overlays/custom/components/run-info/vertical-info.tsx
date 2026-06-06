@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
-import { Timer } from "../timer";
-import * as RunInfo from "../run-info";
+import { Timer } from "../../../../elements/timer";
+import * as RunInfo from "../../../../elements/run-info";
+import { useOverlayStore } from "../../../../stores/overlay-store";
 
 const VerticalInfoContainer = styled.div`
 	width: 100%;
@@ -63,28 +63,34 @@ const Divider = styled.div`
 interface Props {
 	className?: string;
 	style?: React.CSSProperties;
-	timer: ITimer | undefined;
-	runData: RunDataActiveRun | undefined;
 	hideDividers?: boolean;
 }
 
 export function VerticalInfo(props: Props) {
+	const timerMilliseconds = useOverlayStore((state) => state.timer?.milliseconds);
+	const customGameName = useOverlayStore((state) => state.runData?.customData["gameDisplay"]);
+	const gameName = useOverlayStore((state) => state.runData?.game);
+	const estimate = useOverlayStore((state) => state.runData?.estimate);
+	const system = useOverlayStore((state) => state.runData?.system);
+	const releaseYear = useOverlayStore((state) => state.runData?.release);
+	const category = useOverlayStore((state) => state.runData?.category);
+
 	return (
 		<VerticalInfoContainer className={props.className} style={props.style}>
 			<VerticalStack id="timerStack">
-				<Timer milliseconds={props.timer?.milliseconds} />
-				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
+				<Timer milliseconds={timerMilliseconds} />
+				<RunInfo.Estimate estimate={estimate ?? ""} />
 			</VerticalStack>
 			{!props.hideDividers && <Divider className="divider" />}
 			<VerticalStack id="gameInfo">
-				<RunInfo.GameTitle game={props.runData?.customData["gameDisplay"] ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={customGameName ?? gameName ?? ""} />
 				<HorizontalStack id="subInfoStack">
-					<RunInfo.System system={props.runData?.system ?? ""} />
-					<RunInfo.Year year={props.runData?.release ?? ""} />
+					<RunInfo.System system={system ?? ""} />
+					<RunInfo.Year year={releaseYear ?? ""} />
 				</HorizontalStack>
 			</VerticalStack>
 			{!props.hideDividers && <Divider className="divider" />}
-			<RunInfo.Category category={props.runData?.category ?? ""} />
+			<RunInfo.Category category={category ?? ""} />
 		</VerticalInfoContainer>
 	);
 }
