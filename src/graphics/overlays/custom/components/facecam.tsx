@@ -1,9 +1,12 @@
 import type { ReactNode } from "react";
 import styled from "@emotion/styled";
+import { useNode } from "@craftjs/core";
 
 import { Nameplate } from "../../../elements/nameplate";
 
 import { useOverlayStore } from "../../../stores/overlay-store";
+import NumberField from "../../../elements/number-field";
+import { Box, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 
 const nodecgConfig = nodecg.bundleConfig;
 
@@ -26,7 +29,7 @@ interface FacecamProps {
 	width?: number;
 	maxNameWidth?: number;
 	dontAlternatePronouns?: boolean;
-	pronounStartSide?: "left" | "right";
+	pronounsStartSide?: "left" | "right";
 	icons?: React.ReactNode[];
 	className?: string;
 	style?: React.CSSProperties;
@@ -44,6 +47,10 @@ const RunnerNameDivider = styled.div`
 `;
 
 export const Facecam = (props: FacecamProps) => {
+	const {
+		connectors: { connect, drag },
+	} = useNode();
+
 	const teams = useOverlayStore((state) => state.runData?.teams);
 	const audioIndicator = useOverlayStore((state) => state.microphoneAudioIndicator);
 
@@ -69,7 +76,7 @@ export const Facecam = (props: FacecamProps) => {
 		);
 	} else if (teams.length > 1) {
 		// Versus
-		let alternatingPronounSides = props.pronounStartSide === "left";
+		let alternatingPronounSides = props.pronounsStartSide === "left";
 		teams.forEach((team, i) => {
 			let id: string;
 			if (team.name) {
@@ -105,7 +112,7 @@ export const Facecam = (props: FacecamProps) => {
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {
-						alternatingPronounSides = props.pronounStartSide === "left";
+						alternatingPronounSides = props.pronounsStartSide === "left";
 					}
 					allRunnerNames.push(
 						<Nameplate
@@ -128,7 +135,7 @@ export const Facecam = (props: FacecamProps) => {
 
 		void allRunnerNames.pop();
 	} else {
-		let alternatingPronounSides = props.pronounStartSide === "right";
+		let alternatingPronounSides = props.pronounsStartSide === "right";
 		const team = teams[0];
 
 		if (!team) {
@@ -156,7 +163,7 @@ export const Facecam = (props: FacecamProps) => {
 			team.players.forEach((player, i) => {
 				alternatingPronounSides = !alternatingPronounSides;
 				if (props.dontAlternatePronouns) {
-					alternatingPronounSides = props.pronounStartSide === "right";
+					alternatingPronounSides = props.pronounsStartSide === "right";
 				}
 
 				let height = NAMEPLATE_HEIGHT;
@@ -194,8 +201,60 @@ export const Facecam = (props: FacecamProps) => {
 				props.style,
 			)}
 			className={props.className}
+			ref={(ref) => {
+				if (ref) {
+					connect(drag(ref));
+				}
+			}}
 		>
 			<RunnerArea>{allRunnerNames}</RunnerArea>
 		</FacecamContainer>
 	);
+};
+
+function FacecamSettings() {
+	const {
+		actions: { setProp },
+		height,
+		pronounsStartSide,
+	} = useNode((node) => ({
+		height: node.data.props["height"],
+		pronounsStartSide: node.data.props["pronounsStartSide"],
+	}));
+
+	return (
+		<div>
+			<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+				<Typography variant="caption">Height</Typography>
+				<NumberField value={height} onValueChange={(value) => setProp((props) => (props.height = value))} />
+			</Box>
+			<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: 1 }}>
+				<Typography variant="caption">Pronouns Start Side</Typography>
+				<ToggleButtonGroup
+					value={pronounsStartSide ?? "right"}
+					exclusive
+					onChange={(_e, value: "left" | "right" | null) => {
+						if (!value) {
+							return;
+						}
+						setProp((props: FacecamProps) => (props.pronounsStartSide = value));
+					}}
+				>
+					<ToggleButton value="left">Left</ToggleButton>
+					<ToggleButton value="right">Right</ToggleButton>
+				</ToggleButtonGroup>
+			</Box>
+		</div>
+	);
+}
+
+Facecam.craft = {
+	displayName: "Facecam",
+	props: {
+		height: 200,
+		pronounsStartSide: "right",
+	},
+	related: {
+		settings: FacecamSettings,
+	},
 };

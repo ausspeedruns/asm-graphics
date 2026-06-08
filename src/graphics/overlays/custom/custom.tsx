@@ -2,8 +2,8 @@ import { Couch } from "./components/couch";
 import { Facecam } from "./components/facecam";
 import { Container } from "./components/container";
 import { Game } from "./components/game";
-import { SponsorsBox } from "./components/sponsors";
-import { RunInfo } from "./components/run-info/run-info";
+import { Sponsors } from "./components/sponsors";
+import { RunInfo } from "./components/run-info";
 import { Root } from "./components/root";
 
 interface TreeNode {
@@ -41,7 +41,7 @@ function getElementByName(name: string) {
 		case "game":
 			return Game;
 		case "sponsors":
-			return SponsorsBox;
+			return Sponsors;
 		case "run-info":
 			return RunInfo;
 		case "root":

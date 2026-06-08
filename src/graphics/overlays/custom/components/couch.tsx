@@ -1,9 +1,17 @@
 import styled from "@emotion/styled";
 
-import type { AudioIndicator } from "@asm-graphics/types/Audio";
+import { useNode } from "@craftjs/core";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 import { HOST_TAG } from "@asm-graphics/shared/constants";
 import { useOverlayStore } from "../../../stores/overlay-store";
+import { Box, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import {
+	AlignHorizontalCenter,
+	AlignHorizontalLeft,
+	AlignHorizontalRight,
+	TableRows,
+	ViewColumn,
+} from "@mui/icons-material";
 
 const PeopleContainer = styled.div`
 	font-family: var(--main-font);
@@ -20,18 +28,17 @@ interface Props {
 	darkTitle?: boolean;
 	align?: "left" | "center" | "right";
 	direction?: "horizontal" | "vertical";
-	showHost?: boolean;
 }
 
 export function Couch(props: Props) {
+	const {
+		connectors: { connect, drag },
+	} = useNode();
 	const commentators = useOverlayStore((state) => state.commentators);
 	const audio = useOverlayStore((state) => state.microphoneAudioIndicator);
-
-	console.log("Couch commentators:", commentators);
+	const showHost = useOverlayStore((state) => state.showHost);
 
 	if (commentators.length === 0) return <></>;
-
-	const showHost = typeof props.showHost === "boolean" ? props.showHost : true;
 
 	return (
 		<PeopleContainer
@@ -41,11 +48,17 @@ export function Couch(props: Props) {
 				flexDirection: props.direction === "horizontal" ? "row" : "column",
 				...props.style,
 			}}
+			ref={(ref) => {
+				if (ref) {
+					connect(drag(ref));
+				}
+			}}
 		>
 			{commentators.map((person, i) => {
 				if (person.name === "" || (!showHost && person.customData["tag"] === HOST_TAG)) {
 					return <></>;
 				}
+
 				return (
 					<PersonCompressed
 						key={person.id}
@@ -58,6 +71,85 @@ export function Couch(props: Props) {
 		</PeopleContainer>
 	);
 }
+
+function CouchSettings() {
+	const {
+		actions: { setProp },
+		align,
+		direction,
+	} = useNode((node) => ({
+		align: node.data.props["align"],
+		direction: node.data.props["direction"],
+	}));
+
+	return (
+		<>
+			<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+				<Typography variant="caption">
+					Alignment
+				</Typography>
+				<ToggleButtonGroup
+					value={align}
+					onChange={(_e, value: Props["align"] | null) => {
+						if (!value) {
+							return;
+						}
+
+						setProp((props: Props) => (props.align = value));
+					}}
+					exclusive
+					size="small"
+				>
+					<ToggleButton value="left">
+						<AlignHorizontalLeft fontSize="small" />
+					</ToggleButton>
+					<ToggleButton value="center">
+						<AlignHorizontalCenter fontSize="small" />
+					</ToggleButton>
+					<ToggleButton value="right">
+						<AlignHorizontalRight fontSize="small" />
+					</ToggleButton>
+				</ToggleButtonGroup>
+			</Box>
+
+			<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+				<Typography variant="caption">
+					Direction
+				</Typography>
+				<ToggleButtonGroup
+					value={direction}
+					onChange={(_e, value: Props["direction"] | null) => {
+						if (!value) {
+							return;
+						}
+
+						setProp((props: Props) => (props.direction = value));
+					}}
+					exclusive
+					size="small"
+				>
+					<ToggleButton value="horizontal">
+						<ViewColumn fontSize="small" />
+					</ToggleButton>
+					<ToggleButton value="vertical">
+						<TableRows fontSize="small" />
+					</ToggleButton>
+				</ToggleButtonGroup>
+			</Box>
+		</>
+	);
+}
+
+Couch.craft = {
+	displayName: "Couch",
+	props: {
+		direction: "vertical",
+		align: "center",
+	},
+	related: {
+		settings: CouchSettings,
+	},
+};
 
 const PersonCompressedContainer = styled.div`
 	display: flex;

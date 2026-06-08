@@ -9,6 +9,7 @@ interface FontProps {
 
 /*			CATEGORY			*/
 const CategoryContainer = styled(FitText)`
+	font-family: var(--category-font);
 	font-weight: bold;
 	text-transform: uppercase;
 `;
@@ -23,7 +24,9 @@ export function Category(props: CategoryProps) {
 }
 
 /*			ESTIMATE			*/
-const EstimateContainer = styled.div``;
+const EstimateContainer = styled.div`
+	font-family: var(--metadata-font);
+`;
 
 const EstText = styled.span`
 	font-size: 50%;
@@ -68,6 +71,7 @@ export function GameTitle(props: GameProps) {
 
 /*			SYSTEM			*/
 const SystemContainer = styled(FitText)`
+	font-family: var(--metadata-font);
 	max-width: 90%;
 `;
 
@@ -81,7 +85,9 @@ export function System(props: SystemProps) {
 }
 
 /*			YEAR			*/
-const YearContainer = styled.div``;
+const YearContainer = styled.div`
+	font-family: var(--metadata-font);
+`;
 
 interface YearProps {
 	year: string;

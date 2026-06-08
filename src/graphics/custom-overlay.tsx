@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import { RenderNode } from "./overlays/custom/custom";
-import { useOverlayStore } from "./stores/overlay-store";
 
 const testTree = {
 	name: "Standard",

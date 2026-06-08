@@ -10,6 +10,8 @@ interface State {
 	commentators: RunDataPlayer[];
 	host: RunDataPlayer | undefined;
 	sponsors: NodeCG.AssetFile[];
+	fonts: NodeCG.AssetFile[];
+	backgrounds: NodeCG.AssetFile[];
 	gameAudioIndicator: string;
 	microphoneAudioIndicator: AudioIndicator | undefined;
 	onScreenWarning: { message: string; show: boolean };
@@ -28,6 +30,8 @@ export const useOverlayStore = create<State>()(() => ({
 	commentators: [],
 	host: undefined,
 	sponsors: [],
+	fonts: [],
+	backgrounds: [],
 	gameAudioIndicator: "",
 	microphoneAudioIndicator: undefined,
 	onScreenWarning: { message: "", show: false },
@@ -52,6 +56,14 @@ nodecg.Replicant("host").on("change", (newVal) => {
 
 nodecg.Replicant("assets:sponsors", "asm-graphics").on("change", (newVal) => {
 	useOverlayStore.setState({ sponsors: newVal as NodeCG.AssetFile[] });
+});
+
+nodecg.Replicant("assets:fonts", "asm-graphics").on("change", (newVal) => {
+	useOverlayStore.setState({ fonts: newVal as NodeCG.AssetFile[] });
+});
+
+nodecg.Replicant("assets:backgrounds", "asm-graphics").on("change", (newVal) => {
+	useOverlayStore.setState({ backgrounds: newVal as NodeCG.AssetFile[] });
 });
 
 nodecg.Replicant("game-audio-indicator").on("change", (newVal) => {
