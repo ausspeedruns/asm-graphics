@@ -10,6 +10,7 @@ import {
 	ToggleButton,
 	DialogActions,
 	Button,
+	Stack,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -18,6 +19,7 @@ import { Headsets } from "../../shared/audio-data";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 import { usePersonData } from "./use-person-data";
 import { useReplicant } from "@nodecg/react-hooks";
+import { Delete } from "@mui/icons-material";
 
 const defaultPersonData: RunDataPlayer = {
 	id: "",
@@ -99,6 +101,7 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 	}
 
 	function handleNameChange(username: string) {
+		console.log("Name changed to:", username);
 		// Find the user in allUsersRep
 		const selectedUser = allUsersRep?.find((user) => user.username === username);
 
@@ -146,6 +149,16 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 		props.onClose();
 	}
 
+	function handleDelete() {
+		if (props.personId === NEW_RUNNER_ID) {
+			// Just close the dialog without saving since it's a new runner
+			props.onClose();
+		} else {
+			void nodecg.sendMessage("delete-commentator", props.personId ?? "");
+			props.onClose();
+		}
+	}
+
 	console.log(mutablePersonData, originalPerson);
 
 	const hasUpdatedValues =
@@ -180,8 +193,13 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 							fullWidth
 							options={allUsernames}
 							renderInput={(params) => <TextField {...params} label="Name" />}
-							onInputChange={(_, newInputValue) => {
-								handleNameChange(newInputValue);
+							onChange={(_, value) => {
+								handleNameChange(value ?? "");
+							}}
+							onInputChange={(_, newInputValue, reason) => {
+								if (reason === "input") {
+									handleNameChange(newInputValue);
+								}
 							}}
 							inputValue={mutablePersonData.name}
 						/>
@@ -189,8 +207,13 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 							freeSolo
 							options={PRONOUN_OPTIONS}
 							renderInput={(params) => <TextField {...params} label="Pronouns" />}
-							onInputChange={(_, newInputValue) => {
-								handlePronounChange(newInputValue);
+							onChange={(_, value) => {
+								handlePronounChange(value ?? "");
+							}}
+							onInputChange={(_, newInputValue, reason) => {
+								if (reason === "input") {
+									handlePronounChange(newInputValue);
+								}
 							}}
 							inputValue={mutablePersonData.pronouns}
 							sx={{ minWidth: "30%" }}
@@ -232,10 +255,17 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 				</div>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Cancel</Button>
-				<Button onClick={handleSave} disabled={!hasUpdatedValues} variant="contained" color="success">
-					Save
-				</Button>
+				<Stack direction="row" spacing={1} sx={{ marginRight: "auto" }}>
+					<Button onClick={handleDelete} color="error" variant="contained" startIcon={<Delete />}>
+						Delete
+					</Button>
+				</Stack>
+				<Stack direction="row" spacing={1}>
+					<Button onClick={handleClose}>Cancel</Button>
+					<Button onClick={handleSave} disabled={!hasUpdatedValues} variant="contained" color="success">
+						Save
+					</Button>
+				</Stack>
 			</DialogActions>
 		</Dialog>
 	);

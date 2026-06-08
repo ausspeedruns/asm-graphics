@@ -10,6 +10,10 @@ function GenerateTooltipText(status?: ConnectionStatus) {
 	}
 
 	if (!status.message) {
+		if (status.status === "disconnected") {
+			return "Disconnected";
+		}
+
 		return "No additional information.";
 	}
 
@@ -34,7 +38,11 @@ export function StatusLights() {
 			<StatusLight label="OBS" tooltipText={GenerateTooltipText(obsStatusRep)} status={obsStatusRep?.status} />
 			{/* <StatusLight label="Livestream" tooltipText="Connected to the server" status="connected" /> */}
 			<StatusLight label="X32" tooltipText={GenerateTooltipText(x32StatusRep)} status={x32StatusRep?.status} />
-			<StatusLight label="Tiltify" tooltipText={GenerateTooltipText(tiltifyStatusRep)} status={tiltifyStatusRep?.status} />
+			<StatusLight
+				label="Tiltify"
+				tooltipText={GenerateTooltipText(tiltifyStatusRep)}
+				status={tiltifyStatusRep?.status}
+			/>
 		</div>
 	);
 }
@@ -42,7 +50,7 @@ export function StatusLights() {
 interface StatusLightProps {
 	label: string;
 	tooltipText: React.ReactNode;
-	status?: ConnectionStatus['status'];
+	status?: ConnectionStatus["status"];
 }
 
 function StatusLight(props: StatusLightProps) {

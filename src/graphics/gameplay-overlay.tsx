@@ -10,7 +10,7 @@ import type { RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphic
 import type { Timer } from "@asm-graphics/types/Timer";
 import type NodeCG from "nodecg/types";
 
-import { TickerOverlay } from "./elements/ticker";
+// import { TickerOverlay } from "./elements/ticker";
 import { Standard } from "./overlays/standard";
 import { Standard2 } from "./overlays/standard-2";
 import { Widescreen } from "./overlays/widescreen";
@@ -261,7 +261,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 			// }
 			>
 				<Routes>{RouteData}</Routes>
-				<TickerOverlay />
+				{/* <TickerOverlay /> */}
 			</GameplayContainer>
 
 			{DevLinks}
