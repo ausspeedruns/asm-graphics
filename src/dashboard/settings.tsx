@@ -14,7 +14,22 @@ import { IntermissionVideos } from "./settings/intermission-videos";
 import { OBSSettings } from "./settings/obs";
 import { X32Settings } from "./settings/x32";
 import { TiltifySettings } from "./settings/tiltify";
+import { TickerSettings } from "./settings/ticker";
 // import MultipleContainers from "./settings/dnd-test";
+
+const settingsPanels = [
+	HostReads,
+	IntermissionVideos,
+	EventUpload,
+	OBSSettings,
+	X32Settings,
+	TiltifySettings,
+	PrizesSettings,
+	AcknowledgementOfCountry,
+	AusSpeedrunsWebsiteSettings,
+	GameYearsSettings,
+	TickerSettings,
+];
 
 const GridItem = styled(Grid)`
 	padding: 16px;
@@ -30,36 +45,11 @@ export function Settings() {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<HostReads />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<IntermissionVideos />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<EventUpload />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<OBSSettings />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<X32Settings />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<TiltifySettings />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<PrizesSettings />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<AcknowledgementOfCountry />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<AusSpeedrunsWebsiteSettings />
-				</GridItem>
-				<GridItem size={{ xs: 2, sm: 4, md: 4 }}>
-					<GameYearsSettings />
-				</GridItem>
+				{settingsPanels.map((Panel, index) => (
+					<GridItem key={index} size={{ xs: 2, sm: 4, md: 4 }}>
+						<Panel />
+					</GridItem>
+				))}
 			</Grid>
 		</ThemeProvider>
 	);

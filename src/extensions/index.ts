@@ -35,4 +35,5 @@ async function init() {
 	require("./intermission-videos");
 	require("./full-screen-data");
 	require("./speedcontrol-converter");
+	require("./ticker");
 }

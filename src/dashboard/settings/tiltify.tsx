@@ -8,12 +8,6 @@ export function TiltifySettings() {
 	const [tiltifyConnectedRep] = useReplicant("tiltify:status");
 	const [tiltifyConnectionDetailsRep, setTiltifyConnectionDetailsRep] = useReplicant("tiltify:connectionDetails");
 
-	const [showPassword, setShowPassword] = useState(false);
-
-	function connectTiltify() {
-		void nodecg.sendMessage("tiltify:setConnection", true);
-	}
-
 	return (
 		<div>
 			<h3>

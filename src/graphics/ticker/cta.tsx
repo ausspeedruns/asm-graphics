@@ -1,7 +1,7 @@
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
 import styled from "@emotion/styled";
 
-import type { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../elements/ticker";
 
 const TickerCTAContainer = styled.div`
 	position: absolute;

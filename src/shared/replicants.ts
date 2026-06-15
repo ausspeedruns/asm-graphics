@@ -12,6 +12,7 @@ import type { BoardState, RoomJoinParameters } from "./BingoSync.js";
 import type { HostRead } from "./HostRead.js";
 import type { IntermissionVideo } from "./IntermissionVideo.js";
 import type { LowerThirdPerson } from "./FullscreenGraphic.js";
+import { DEFAULT_TICKER_ORDER, type TickerSegment } from "./types/Ticker.js";
 
 type Primitives = string | number | boolean | null;
 
@@ -149,7 +150,8 @@ export const replicants = {
 	// Speedcontrol Metadata
 	runStartTime: [null, null] as [number | null, number | null],
 
-	// ASM-Graphics settings / Misc
+	// Ticker
+	"ticker:order": DEFAULT_TICKER_ORDER,
 } satisfies Record<string, ReplicantValueType>;
 
 type ReplicantValue<T> = T extends { defaultValue: infer D } ? D : T;

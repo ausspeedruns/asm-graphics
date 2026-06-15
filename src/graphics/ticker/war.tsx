@@ -2,9 +2,9 @@ import { useImperativeHandle, useRef, useState } from "react";
 import styled from "@emotion/styled";
 
 import type { War } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../elements/ticker";
 
-import { FitText } from "../fit-text";
+import { FitText } from "../elements/fit-text";
 
 const Goal = styled.div`
 	display: flex;

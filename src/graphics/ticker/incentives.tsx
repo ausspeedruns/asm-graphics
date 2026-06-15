@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { TickerTitle } from "./title";
 
 import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../elements/ticker";
 import { GoalBar } from "./goal";
 import { WarGame } from "./war";
 

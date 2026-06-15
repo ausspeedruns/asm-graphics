@@ -1,7 +1,7 @@
 import { useImperativeHandle, useRef } from "react";
 import styled from "@emotion/styled";
 
-import type { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../elements/ticker";
 
 import { TickerItem } from "./item";
 import { TickerTitle } from "./title";

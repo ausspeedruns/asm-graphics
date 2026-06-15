@@ -7,6 +7,7 @@ import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.j
 import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic.js";
 import type { RunDataPlayer } from "./RunData.js";
 import type { CropSettings } from "../obs-types.js";
+import type { TickerSegment } from "./Ticker.js";
 
 export type NodeCGMessages = {
 	// Audio
@@ -118,4 +119,8 @@ export type NodeCGMessages = {
 		isPreview: boolean;
 	};
 	"obs:getCurrentScenes": never; // Returns (previewScene: string | null; programScene: string)
+
+	// Ticker
+	"ticker:set-order": { id: TickerSegment; enabled: boolean; }[];
+	"ticker:hold-segment": { segment: TickerSegment; hold: boolean; segmentInternalId: string };
 };

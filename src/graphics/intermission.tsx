@@ -17,7 +17,7 @@ import type { Incentive } from "@asm-graphics/types/Incentives";
 import { InterIncentivesMemo } from "./elements/intermission/incentives";
 // import { InterNextRunItem, EndRunItem } from "./elements/intermission/next-run-item";
 import { FitText } from "./elements/fit-text";
-import { LerpNum } from "./elements/ticker/lerp-num";
+import { LerpNum } from "./ticker/lerp-num";
 
 // Assets
 // import Mic from "@mui/icons-material/Mic";
