@@ -108,25 +108,22 @@ export const EditUserDialog = (props: Props) => {
 						handleNameSelected(newVal);
 					}}
 					inputValue={username}
-					onInputChange={(_, newVal) => setUsername(newVal)}
+					onInputChange={(_, newVal, reason) => {
+						if (reason === "input") {
+							setUsername(newVal);
+						}
+					}}
 					blurOnSelect={true}
-					renderInput={(params) => (
-						<TextField
-							{...params}
-							label="Name"
-							InputProps={{ ...params.InputProps, style: { fontSize: "2rem" } }}
-						/>
-					)}
+					renderInput={(params) => <TextField {...params} label="Name" sx={{ fontSize: "2rem" }} />}
 				/>
 				<TextField
 					fullWidth
-					style={{ fontSize: "2rem !important" }}
+					sx={{ fontSize: "2rem" }}
 					value={twitch}
 					onChange={(e) => {
 						setTwitch(e.target.value);
 					}}
 					label="Runner Twitch"
-					InputProps={{ style: { fontSize: "2rem" } }}
 				/>
 				<div style={{ display: "flex" }}>
 					<div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
@@ -136,19 +133,13 @@ export const EditUserDialog = (props: Props) => {
 						<button onClick={() => setPronouns("")}>None</button>
 					</div>
 					<Autocomplete
-						style={{ flexGrow: 1, fontSize: "2rem" }}
+						sx={{ flexGrow: 1, fontSize: "2rem" }}
 						freeSolo
 						options={PRONOUN_OPTIONS}
 						inputValue={pronouns}
 						onInputChange={(_, newVal) => setPronouns(newVal)}
 						blurOnSelect={true}
-						renderInput={(params) => (
-							<TextField
-								{...params}
-								label="Pronouns"
-								InputProps={{ ...params.InputProps, style: { fontSize: "2rem" } }}
-							/>
-						)}
+						renderInput={(params) => <TextField {...params} label="Pronouns" sx={{ fontSize: "2rem" }} />}
 					/>
 				</div>
 				<div>
