@@ -1,6 +1,30 @@
-import { text } from "node:stream/consumers";
-import { size } from "underscore";
 import { z } from "zod";
+
+// #region Enums
+
+/**
+ * Used with scene items to indicate the type of bounds to use for scene items.
+ * Mostly determines how the image will be scaled within those bounds, or
+ * whether to use bounds at all.
+ * 
+ * @see https://github.com/obsproject/obs-studio/blob/master/libobs/obs.h#L153
+ */
+const obs_bounds_type = {
+	/** No bounds */
+	OBS_BOUNDS_NONE: 0,
+	/** Stretch (ignores base scale) */
+	OBS_BOUNDS_STRETCH: 1,
+	/** Scales to inner rectangle */
+	OBS_BOUNDS_SCALE_INNER: 2,
+	/** Scales to outer rectangle */
+	OBS_BOUNDS_SCALE_OUTER: 3,
+	/** Scales to the width */
+	OBS_BOUNDS_SCALE_TO_WIDTH: 4,
+	/** Scales to the height */
+	OBS_BOUNDS_SCALE_TO_HEIGHT: 5,
+	/** No scaling, maximum size only */
+	OBS_BOUNDS_MAX_ONLY: 6,
+} as const;
 
 // #region Scene Item Schema
 
@@ -17,14 +41,14 @@ export const sceneItemSchema = z.object({
 		})
 		.meta({ description: "Scale reference of the item" }),
 	align: z.int().meta({ description: "Alignment of the item (unknown use TODO)" }),
-	bounds_type: z.int().meta({ description: "Bounds type of the item (unknown use TODO)" }),
+	bounds_type: z.enum(obs_bounds_type).meta({ description: "Bounds type of the item" }),
 	bounds_align: z.int().meta({ description: "Bounds alignment of the item (unknown use TODO)" }),
 	bounds_crop: z.boolean().meta({ description: "Whether bounds cropping is enabled" }),
 	crop_left: z.number().nonnegative().meta({ description: "Left crop in pixels" }),
 	crop_top: z.number().nonnegative().meta({ description: "Top crop in pixels" }),
 	crop_right: z.number().nonnegative().meta({ description: "Right crop in pixels" }),
 	crop_bottom: z.number().nonnegative().meta({ description: "Bottom crop in pixels" }),
-	id: z.int().nonnegative().meta({ description: "Item ID TODO" }),
+	id: z.int().nonnegative().meta({ description: "Item Id" }),
 	group_item_backup: z.boolean().meta({ description: "TODO" }),
 	pos: z
 		.object({
@@ -211,7 +235,7 @@ export const colourSourceSchema = z.object({
 	id: z.literal("color_source").meta({ description: "Source type ID" }),
 	versioned_id: z
 		.literal("color_source_v3")
-		.meta({ description: "Versioned source type ID (unsure of difference TODO)" }),
+		.meta({ description: "Internal version of the color source" }),
 	settings: z.object({
 		color: z.number().positive().optional().meta({ description: "Colour (ABGR integer)" }),
 		width: z.int().positive().optional().meta({ description: "Width in pixels" }),
@@ -224,7 +248,7 @@ export const imageSourceSchema = z.object({
 	id: z.literal("image_source").meta({ description: "Source type ID" }),
 	versioned_id: z
 		.literal("image_source")
-		.meta({ description: "Versioned source type ID (unsure of difference TODO)" }),
+		.meta({ description: "Internal version of the image source" }),
 	settings: z.object({
 		file: z.string().meta({ description: "File path of the image source" }),
 	}),
