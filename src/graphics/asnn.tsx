@@ -7,7 +7,6 @@ import { format } from "date-fns";
 import gsap from "gsap";
 
 import ASNNBug from "./media/asnn.webm";
-import { TickerOverlay } from "./elements/ticker";
 import { FitText } from "./elements/fit-text";
 
 const TestContainer = styled.div``;
@@ -231,7 +230,6 @@ export const ASNN = () => {
 						<TimeBug>{currentTime}</TimeBug>
 					</LowerThird>
 				</Content>
-				<TickerOverlay />
 			</ASNNContainer>
 			<div>
 				<button onClick={() => changeBGColor("#000")}>Black</button>
