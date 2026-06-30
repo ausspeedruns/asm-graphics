@@ -36,4 +36,5 @@ async function init() {
 	require("./full-screen-data");
 	require("./speedcontrol-converter");
 	require("./ticker");
+	require("./credits");
 }

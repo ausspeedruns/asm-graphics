@@ -291,7 +291,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 				<button onClick={() => changeBGColor("#0f0")}>Green</button>
 				<button onClick={() => changeBGColor("#00f")}>Blue</button>
 				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
-				<button onClick={() => nodecg.sendMessage("start-credits")}>Credits</button>
+				<button onClick={() => nodecg.sendMessage("credits:start")}>Credits</button>
 			</div>
 		</>
 	);

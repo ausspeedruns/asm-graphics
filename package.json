@@ -152,6 +152,14 @@
 				"fullbleed": true,
 				"headerColor": "#CC7722",
 				"file": "settings.html"
+			},
+			{
+				"name": "credits-editor",
+				"title": "Credits Editor",
+				"headerColor": "#CC7722",
+				"file": "credits-editor.html",
+				"dialog": true,
+				"width": 6
 			}
 		],
 		"graphics": [
@@ -271,6 +279,18 @@
 					"otf",
 					"woff",
 					"woff2"
+				]
+			},
+			{
+				"name": "logo",
+				"title": "Logo",
+				"allowedTypes": [
+					"png",
+					"svg",
+					"jpg",
+					"jpeg",
+					"gif",
+					"webp"
 				]
 			}
 		],

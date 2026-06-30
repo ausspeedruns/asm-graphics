@@ -13,6 +13,7 @@ import type { HostRead } from "./HostRead.js";
 import type { IntermissionVideo } from "./IntermissionVideo.js";
 import type { LowerThirdPerson } from "./FullscreenGraphic.js";
 import { DEFAULT_TICKER_ORDER, type TickerSegment } from "./types/Ticker.js";
+import type { Credits } from "./credits.js";
 
 type Primitives = string | number | boolean | null;
 
@@ -152,6 +153,9 @@ export const replicants = {
 
 	// Ticker
 	"ticker:order": DEFAULT_TICKER_ORDER,
+
+	// Credits
+	"credits": { defaultValue: { logo: "", eventName: "", sections: [] } as Credits },
 } satisfies Record<string, ReplicantValueType>;
 
 type ReplicantValue<T> = T extends { defaultValue: infer D } ? D : T;

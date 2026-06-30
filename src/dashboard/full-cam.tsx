@@ -2,41 +2,9 @@ import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "@emotion/styled";
 
-import {
-	Button,
-	Checkbox,
-	CircularProgress,
-	FormControlLabel,
-	IconButton,
-	Input,
-	Slider,
-	TextField,
-	ThemeProvider,
-} from "@mui/material";
+import { Button, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import type { HostRead } from "@asm-graphics/shared/HostRead";
-import {
-	closestCenter,
-	DndContext,
-	type DragEndEvent,
-	KeyboardSensor,
-	PointerSensor,
-	useSensor,
-	useSensors,
-} from "@dnd-kit/core";
-import {
-	arrayMove,
-	SortableContext,
-	sortableKeyboardCoordinates,
-	useSortable,
-	verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { DragHandle, Refresh, VolumeUp } from "@mui/icons-material";
-import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic";
 
 const Row = styled.div`
 	display: flex;
@@ -44,7 +12,7 @@ const Row = styled.div`
 	margin: 8px 0;
 `;
 
-export function Settings() {
+function FullCam() {
 	const [creditsInfo, setCreditsInfo] = useState({ name: "", title: "" });
 	const [creditsNameRep] = useReplicant("lowerThirdPerson");
 
@@ -131,11 +99,14 @@ export function Settings() {
 			</Row>
 			<hr style={{ margin: "24px 0" }} />
 			<h3 style={{ margin: "0", textAlign: "center" }}>Credits</h3>
-			<Button color="success" variant="contained" fullWidth onClick={() => nodecg.sendMessage("start-credits")}>
+			<Button color="success" variant="contained" fullWidth onClick={() => nodecg.sendMessage("credits:start")}>
 				Roll Credits
+			</Button>
+			<Button fullWidth onClick={() => nodecg.getDialog("credits-editor")?.open()}>
+				Edit Credits
 			</Button>
 		</ThemeProvider>
 	);
 }
 
-createRoot(document.getElementById("root")!).render(<Settings />);
+createRoot(document.getElementById("root")!).render(<FullCam />);

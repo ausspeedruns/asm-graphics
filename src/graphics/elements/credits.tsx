@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import gsap from "gsap";
 import { useListenFor } from "@nodecg/react-hooks";
 
 import EventLogo from "../overlays/backgrounds/logo.png";
+import { useReplicant } from "@nodecg/react-hooks";
 
 const CreditsContainer = styled.div`
 	position: relative;
@@ -21,9 +22,6 @@ const CreditsContainer = styled.div`
 const AllCredits = styled.div`
 	display: flex;
 	flex-direction: column;
-	/* bottom: -8800px; */
-	/* position: absolute;
-	top: 0; */
 	width: 0px;
 	align-items: center;
 	justify-content: center;
@@ -80,188 +78,51 @@ const NameWithRoles = styled.div`
 	}
 `;
 
-const collator = new Intl.Collator();
-
-const TECH = [
-	"nei",
-	"AtomicCaleb",
-	"vichisuki",
-	"Alecat",
-	"Kenorah",
-	"tahis9",
-	"Arahpthos",
-].sort((a, b) => collator.compare(a, b));
-
-const FRONT_DESK = [
-	"Awrie",
-	"Geolubread",
-	"aggymon",
-	"Nicosar",
-	"Sten",
-	"Baphy",
-	"AtomicCaleb",
-	"GLPhoenix",
-].sort((a, b) => collator.compare(a, b));
-
-const STAGE_HAND = [
-	"Kenorah",
-	"tahis9",
-	"Fuddlebob",
-	"wooper",
-	"Chokocchi",
-	"Kuiperbole",
-	"Awrie",
-	"aggymon",
-].sort((a, b) => collator.compare(a, b));
-
-const HOST = [
-	"aggymon",
-	"Arahpthos",
-	"Chuckstah",
-	"Awrie",
-	"GLPhoenix",
-	"Geolubread",
-	"Nicosar",
-	"Kenorah",
-].sort((a, b) => collator.compare(a, b));
-
-const RUNNERS = [
-	"Nicosar",
-	"Mastodon",
-	"Falco_GX",
-	"Feetballer",
-	"Spike_SSBU",
-	"Logaaaaan64",
-	"Logaaaaan65",
-	"Logaaaaan66",
-	"mobius",
-	"KassXCII",
-	"Saucy",
-	"macko209",
-	"Kenorah",
-	"urbani",
-	"aggymon",
-	"vichisuki",
-	"Ninten",
-	"Paulmall",
-	"hyphenHoik",
-	"Baphy",
-	"MikamiHero",
-	"Alecat",
-	"247Yugioh",
-	"Geolubread",
-	"Danicker",
-].sort((a, b) => collator.compare(a, b));
+const PIXELS_PER_SECOND = 200;
 
 export function Credits() {
+	const [creditsRep] = useReplicant("credits");
 	const creditsBGRef = useRef<HTMLDivElement>(null);
 	const allCreditsRef = useRef<HTMLDivElement>(null);
+	const [totalHeight, setTotalHeight] = useState(0);
 
-	useListenFor("start-credits", () => {
+	useLayoutEffect(() => {
+		if (!allCreditsRef.current) return;
+		const height = allCreditsRef.current.offsetHeight;
+		setTotalHeight(height);
+	}, [creditsRep]);
+
+	useListenFor("credits:start", () => {
 		const tl = gsap.timeline();
 		// Start credits
 		tl.to(allCreditsRef.current, { width: 500, duration: 2 });
-		tl.to(allCreditsRef.current, { marginTop: -8500, duration: 120, ease: "none" }, "+=1");
+		const duration = totalHeight / PIXELS_PER_SECOND;
+		tl.to(allCreditsRef.current, { marginTop: -totalHeight + 850, duration, ease: "none" }, "+=1");
 		tl.to(allCreditsRef.current, { width: 0, duration: 2 });
 	});
+
+	if (!creditsRep) return null;
 
 	return (
 		<CreditsContainer ref={creditsBGRef}>
 			<AllCredits ref={allCreditsRef}>
 				<EventImg>
-					<img style={{ width: "90%", height: "auto" }} src={EventLogo} />
+					<img style={{ width: "90%", height: "auto" }} src={creditsRep.logo} />
 				</EventImg>
-				<Title>
-					Australian Speedruns
-					<br />
-					Open 2026
-				</Title>
-				<Title>AusSpeedruns Committee</Title>
-				<NameContainer>
-					<NameWithRoles>
-						ASO Coordinator<Name>werster</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						AusSpeedruns Director<Name>Sten</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						ASM Coordinator<Name>Noops</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						ASAP Coordinator<Name>Astrious</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Hardware Manager<Name>neɪ</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Software Manager<Name>Clubwho</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Runner Manager<Name>JTMagicman</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Marketing Manager<Name>Kuiperbole</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Sponsorship Manager<Name>Kenorah</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Creative Manager<Name>Synrey</Name>
-					</NameWithRoles>
-					{/* <NameWithRoles>
-						Event Consultant<Name>Upjohn</Name>
-					</NameWithRoles> */}
-				</NameContainer>
-				<Title>Tech</Title>
-				<NameContainer>
-					{TECH.map((name) => (
-						<Name key={name}>{name}</Name>
-					))}
-				</NameContainer>
-				<Title>Stage Hand</Title>
-				<NameContainer>
-					{STAGE_HAND.map((name) => (
-						<Name key={name}>{name}</Name>
-					))}
-				</NameContainer>
-				<Title>Front Desk</Title>
-				<NameContainer>
-					{FRONT_DESK.map((name) => (
-						<Name key={name}>{name}</Name>
-					))}
-				</NameContainer>
-				<Title>Hosts</Title>
-				<NameContainer>
-					{HOST.map((name) => (
-						<Name key={name}>{name}</Name>
-					))}
-				</NameContainer>
-				<Title>Runners</Title>
-				<NameContainer>
-					{RUNNERS.map((name) => (
-						<Name key={name}>{name}</Name>
-					))}
-				</NameContainer>
-				<Title>Special Thanks</Title>
-				<NameContainer>
-					<NameWithRoles>Cure Cancer Australia</NameWithRoles>
-					{/* <NameWithRoles>PAX Australia</NameWithRoles> */}
-					<NameWithRoles style={{ marginTop: 15 }}>
-						AusSpeedruns LED logo<Name>Alecat</Name>
-					</NameWithRoles>
-					<NameWithRoles>
-						Developers of<Name>OBS</Name>
-						<Name>NodeCG</Name>
-						<Name>nodecg-speedcontrol</Name>
-					</NameWithRoles>
-					<NameWithRoles style={{ marginTop: 15 }}>
-						Timer Font: Seamless<Name>Michiel de Boer</Name>
-					</NameWithRoles>
-					{/* <NameWithRoles>All enforcers</NameWithRoles> */}
-					<NameWithRoles>All commentators</NameWithRoles>
-					<NameWithRoles>All donators</NameWithRoles>
-					<NameWithRoles>{"and especially you <3"}</NameWithRoles>
-				</NameContainer>
+				<Title>{creditsRep.eventName}</Title>
+				{creditsRep.sections.map((section, index) => (
+					<>
+						<Title key={index}>{section.title}</Title>
+						<NameContainer>
+							{section.names.map((name, nameIndex) => (
+								<NameWithRoles key={nameIndex}>
+									{name.role}
+									<span>{name.name}</span>
+								</NameWithRoles>
+							))}
+						</NameContainer>
+					</>
+				))}
 			</AllCredits>
 		</CreditsContainer>
 	);
