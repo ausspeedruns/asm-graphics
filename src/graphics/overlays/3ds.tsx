@@ -4,6 +4,7 @@ import type { OverlayProps } from "../gameplay-overlay";
 
 import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
+import { ASM26Felt } from "../elements/asm26/asm26-felt";
 
 // import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
 
@@ -12,11 +13,11 @@ const ThreeDSContainer = styled.div`
 	width: 1920px;
 `;
 
-const TopBar = styled.div`
+const TopBar = styled(ASM26Felt)`
 	height: 176px;
 	width: 100%;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-	background-color: var(--main);
+	// background-color: var(--main);
 	position: relative;
 	/* border-bottom: 1px solid var(--sec); */
 `;
@@ -33,7 +34,7 @@ const Sidebar = styled.div`
 export const ThreeDS = (props: OverlayProps) => {
 	return (
 		<ThreeDSContainer>
-			<TopBar>
+			<TopBar particlesId="topBar">
 				{/* <img
 					src={WidescreenTop}
 					style={{ opacity: 0.8, position: "absolute", height: 175, width: 1295.35, right: -100 }}

@@ -10,6 +10,7 @@ import { Couch } from "../elements/couch";
 import GBABG from "./backgrounds/GBA.png";
 
 import StandardSponsorBG from "./backgrounds/StandardSponsorBG.png";
+import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
 
 const GBAContainer = styled.div`
 	height: 1016px;
@@ -34,9 +35,9 @@ const SponsorsStyled = {
 	width: 340,
 };
 
-const InfoBoxBG = styled.div`
+const InfoBoxBG = styled(ASM26Bricks)`
 	position: relative;
-	background: var(--main);
+	// background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -54,7 +55,7 @@ export const GBA = (props: OverlayProps) => {
 					pronounStartSide="right"
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
-				<InfoBoxBG>
+				<InfoBoxBG particlesId="infoBox">
 					{/* <img src={GBABG} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 					<Couch commentators={props.commentators} audio={props.microphoneAudioIndicator} />
 					<VerticalInfo

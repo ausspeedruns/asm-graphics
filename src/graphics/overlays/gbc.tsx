@@ -6,6 +6,7 @@ import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
+import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
 
 // import GBCLeft from "../media/asap24/GBC_01.png";
 // import GBCRight from "../media/asap24/GBC_02.png";
@@ -24,14 +25,18 @@ const Sidebar = styled.div`
 	overflow: hidden;
 `;
 
-const RightSidebar = styled.div`
+const RightSidebar = styled(ASM26Bricks)`
 	position: absolute;
 	right: 0;
 	height: 1016px;
 	width: 211px;
 	border-left: 1px solid var(--accent);
 	overflow: hidden;
-	background: var(--main);
+	// background: var(--main);
+
+	&::before {
+		background-size: 200%;
+	}
 `;
 
 const SponsorBoxStyle = styled(SponsorsBox)`
@@ -44,13 +49,13 @@ const SponsorsSize = {
 	width: 430,
 };
 
-const InfoBoxBG = styled.div`
+const InfoBoxBG = styled(ASM26Bricks)`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	height: 664px;
 	padding: 16px;
-	background: var(--main);
+	// background: var(--main);
 `;
 
 export function GBC(props: OverlayProps) {
@@ -58,14 +63,14 @@ export function GBC(props: OverlayProps) {
 		<GBCContainer>
 			<Sidebar>
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
-				<InfoBoxBG>
+				<InfoBoxBG particlesId="infoBox">
 					{/* <img src={GBCLeft} style={{ position: "absolute" }} /> */}
 					<Couch commentators={props.commentators} audio={props.microphoneAudioIndicator} darkTitle />
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<SponsorBoxStyle sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
 				</InfoBoxBG>
 			</Sidebar>
-			<RightSidebar>{/* <img src={GBCRight} style={{ position: "absolute" }} /> */}</RightSidebar>
+			<RightSidebar particlesId="rightSidebar">{/* <img src={GBCRight} style={{ position: "absolute" }} /> */}</RightSidebar>
 		</GBCContainer>
 	);
 }

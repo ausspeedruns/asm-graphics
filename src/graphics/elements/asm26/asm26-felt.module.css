@@ -1,0 +1,68 @@
+.container {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+
+	background: #ffffff;
+}
+
+/* Repeating image at 60% opacity */
+.container::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+
+	background-image: url("../../media/asm26/asm26-sweater.png");
+	background-repeat: repeat;
+	background-size: auto;
+	opacity: 0.6;
+}
+
+/* Top red layer on multiply */
+.container::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+
+	background: #cc3622;
+	mix-blend-mode: multiply;
+	pointer-events: none;
+}
+
+.stitching {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+
+	margin: 12px;
+
+	--height: 3px;
+	--width: 23px;
+	--dash-percentage: 50%;
+	--gradient-settings: var(--sec) var(--dash-percentage), transparent calc(100% - var(--dash-percentage));
+
+	background-image:
+		linear-gradient(to right, var(--gradient-settings)),
+		linear-gradient(to right, var(--gradient-settings)),
+		linear-gradient(to bottom, var(--gradient-settings)),
+		linear-gradient(to bottom, var(--gradient-settings));
+	background-position:
+		left top,
+		left bottom,
+		left top,
+		right top;
+	background-repeat:
+		repeat-x,
+		repeat-x,
+		repeat-y,
+		repeat-y;
+	background-size:
+		var(--width) var(--height),
+		var(--width) var(--height),
+		var(--height) var(--width),
+		var(--height) var(--width);
+		
+	filter: drop-shadow(3px 0px 0px rgba(0, 0, 0, 0.75));
+}

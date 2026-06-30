@@ -15,6 +15,9 @@ import GameplayTL from "../media/icons/Widescreen-3-TL.svg";
 import GameplayTR from "../media/icons/Widescreen-3-TR.svg";
 import { RaceFinish } from "../elements/race-finish";
 
+import ASM26FeltBg from "../media/asm26/asm26-sweater.png";
+import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
+
 const Widescreen3Container = styled.div`
 	height: 1016px;
 	width: 1920px;
@@ -28,6 +31,7 @@ const Screen = styled.div`
 	height: 508px;
 	border: 1px solid var(--sec);
 	box-sizing: border-box;
+	position: relative;
 `;
 
 const TopBar = styled.div`
@@ -68,16 +72,16 @@ const NPIcon = styled.img`
 `;
 
 const InfoBox = styled.div`
-	background: var(--main);
+	// background: var(--main);
 	/* background-image: url('../shared/design/contour-maps/widescreen-3-bottom.svg'); */
-	width: 923px;
-	height: 182px;
+	width: 902px;
+	height: 181px;
 	padding: 0 20px;
 	display: grid;
 	grid-template-columns: 50% 50%;
 	align-items: center;
 	justify-items: center;
-	border-right: 1px solid var(--main);
+	// border-right: 1px solid var(--main);
 
 	font-size: 22px;
 
@@ -92,6 +96,39 @@ const InfoBox = styled.div`
 	& #category {
 		max-width: 90%;
 		font-size: 120%;
+	}
+
+	position: relative;
+	background: #ffffff;
+	box-sizing: border-box;
+
+	/* Repeating image at 60% opacity */
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+
+		background-image: url(${ASM26FeltBg});
+		background-repeat: repeat;
+		background-size: 2000px;
+		opacity: 0.6;
+	}
+
+	/* Top red layer on multiply */
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+
+		background: #cc3622;
+		mix-blend-mode: multiply;
+		pointer-events: none;
+	}
+
+	& > * {
+		z-index: 2;
 	}
 `;
 
@@ -125,7 +162,49 @@ const LeftBG = styled.div`
 	left: 0;
 	height: 1016px;
 	width: 57px;
-	background: var(--main);
+	// background: var(--main);
+	isolation: isolate;
+	overflow: hidden;
+
+	background: #ffffff;
+
+	/* Repeating image at 60% opacity */
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+
+		background-image: url(${ASM26FeltBg});
+		background-repeat: repeat;
+		background-size: 2000px;
+		opacity: 0.6;
+	}
+
+	/* Top red layer on multiply */
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+
+		background: #cc3622;
+		mix-blend-mode: multiply;
+		pointer-events: none;
+	}
+
+	& span {
+		z-index: 2;
+		position: relative;
+
+		color: #ffa23e;
+		font-family: var(--game-font);
+		writing-mode: vertical-rl;
+		text-orientation: mixed;
+		font-size: 49px;
+		filter: drop-shadow(4px 0px 0px #000000);
+		letter-spacing: 38%;
+	}
 `;
 
 const RightBG = styled.div`
@@ -133,7 +212,86 @@ const RightBG = styled.div`
 	right: 0;
 	height: 1016px;
 	width: 57px;
-	background: var(--main);
+
+	background: #ffffff;
+
+	/* Repeating image at 60% opacity */
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+
+		background-image: url(${ASM26FeltBg});
+		background-repeat: repeat;
+		background-size: 2000px;
+		opacity: 0.6;
+	}
+
+	/* Top red layer on multiply */
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+
+		background: #cc3622;
+		mix-blend-mode: multiply;
+		pointer-events: none;
+	}
+
+	& span {
+		z-index: 2;
+		position: relative;
+
+		color: var(--sec);
+		font-family: var(--game-font);
+		writing-mode: vertical-rl;
+		text-orientation: mixed;
+		font-size: 49px;
+		filter: drop-shadow(4px 0px 0px #000000);
+		letter-spacing: 38%;
+	}
+`;
+
+const FacecamBorderLeft = styled(ASM26Bricks)`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 170px;
+	height: 285px;
+
+	&::before {
+		background-size: 350%;
+	}
+`;
+
+const FacecamBorderRight = styled(ASM26Bricks)`
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 170px;
+	height: 285px;
+
+	&::before {
+		background-size: 350%;
+	}
+`;
+
+const FacecamBorderTrim = styled(ASM26Bricks)`
+	position: absolute;
+	width: 44px;
+	height: 100%;
+
+	background: #FF6A59;
+
+	z-index: 3;
+
+	&::before {
+		background-size: 2000%;
+		mix-blend-mode: multiply;
+		opacity: 1;
+	}
 `;
 
 export const Widescreen3 = (props: OverlayProps) => {
@@ -158,8 +316,12 @@ export const Widescreen3 = (props: OverlayProps) => {
 				side="top"
 				style={{ left: 1563 }}
 			/>
-			<LeftBG />
-			<RightBG />
+			<LeftBG>
+				<span>*********************</span>
+			</LeftBG>
+			<RightBG>
+				<span>*********************</span>
+			</RightBG>
 			<TopBar>
 				<Screen />
 				<Screen />
@@ -181,6 +343,13 @@ export const Widescreen3 = (props: OverlayProps) => {
 						style={{ borderRight: "1px solid var(--sec)" }}
 						audioIndicator={props.microphoneAudioIndicator}
 					/>
+
+					<FacecamBorderLeft particlesId="facecamBorderLeft">
+						<FacecamBorderTrim style={{ right: 0 }} particlesId="facecamBorderTrimLeft" />
+					</FacecamBorderLeft>
+					<FacecamBorderRight particlesId="facecamBorderRight">
+						<FacecamBorderTrim style={{ left: 0 }} particlesId="facecamBorderTrimRight" />
+					</FacecamBorderRight>
 
 					<RaceFinish
 						style={{ top: 758, left: 1046, zIndex: 3 }}
@@ -208,7 +377,7 @@ export const Widescreen3 = (props: OverlayProps) => {
 						</InfoBoxColumn>
 						<InfoBoxColumn id="runInfo">
 							<RunInfo.Category category={props.runData?.category ?? ""} />
-							<Timer timer={props.timer} />
+							<Timer milliseconds={props.timer?.milliseconds} />
 						</InfoBoxColumn>
 					</InfoBox>
 				</Screen>

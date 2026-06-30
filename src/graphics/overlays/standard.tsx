@@ -8,6 +8,8 @@ import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
 import StandardBG from "./backgrounds/Standard.png";
+import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
+import AdWreath from "../media/asm26/ad-wreath.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -22,8 +24,8 @@ const Sidebar = styled.div`
 	overflow: hidden;
 `;
 
-const InfoBoxBG = styled.div`
-	background: var(--main);
+const InfoBoxBG = styled(ASM26Bricks)`
+	// background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -36,9 +38,29 @@ const InfoBoxBG = styled.div`
 	padding: 10px 0;
 `;
 
+const ASM26WreathContainer = styled.div`
+	position: relative;
+	background: #369cdb;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	padding: 30px 60px;
+`;
+
+const ASM26Wreath = styled.img`
+	position: absolute;
+	top: -50px;
+	left: -50px;
+	width: calc(100% + 100px);
+	height: calc(100% + 100px);
+	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+`;
+
 const SponsorBoxS = styled(SponsorsBox)`
-	width: 65%;
-	min-height: 245px;
+	width: 230px;
+	height: 100px;
+	margin-left: -20px;
 `;
 
 const SponsorsSize = {
@@ -60,8 +82,8 @@ export const Standard = (props: OverlayProps) => {
 					audioIndicator={props.microphoneAudioIndicator}
 					verticalCoop
 				/>
-				<InfoBoxBG>
-					<img src={StandardBG} style={{ position: "absolute", width: "100%", height: "100%" }} />
+				<InfoBoxBG particlesId="infoBox">
+					{/* <img src={StandardBG} style={{ position: "absolute", width: "100%", height: "100%" }} /> */}
 
 					<Couch
 						commentators={props.commentators}
@@ -71,9 +93,12 @@ export const Standard = (props: OverlayProps) => {
 
 					<VerticalInfo timer={props.timer} runData={props.runData} hideDividers />
 
-					<div style={{ flexGrow: 1 }} />
-					
-					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
+					{/* <div style={{ flexGrow: 1 }} /> */}
+
+					<ASM26WreathContainer>
+						<ASM26Wreath src={AdWreath} />
+						<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
+					</ASM26WreathContainer>
 				</InfoBoxBG>
 			</Sidebar>
 		</StandardContainer>

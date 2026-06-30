@@ -32,11 +32,14 @@ import { GBC2 } from "./overlays/gbc-2";
 import { TopBarOnly } from "./overlays/top-bar-only";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 import { OneByOne } from "./overlays/1x1";
+import { TimeStyleProvider } from "./elements/time-style-context";
+import { useTimeStyleContext } from "./elements/use-time-style-context";
+import { ParticlesProvider } from "@tsparticles/react";
+import type { Engine } from "@tsparticles/engine";
+import { loadFull } from "tsparticles";
 
 // import { useNormalisedTime } from "../hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
-
-const GameplayOverlayCont = styled.div``;
 
 const GameplayContainer = styled.div`
 	height: 1080px;
@@ -74,6 +77,8 @@ interface GameplayOverlayProps {
 }
 
 function GameplayOverlay(props: GameplayOverlayProps) {
+	const { clearManualNormalizedTime, normalizedTime, setManualNormalizedTime } = useTimeStyleContext();
+
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [timerRep] = useReplicant<Timer>("timer", { bundle: "nodecg-speedcontrol" });
 
@@ -247,7 +252,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	}
 
 	return (
-		<GameplayOverlayCont>
+		<>
 			<GameplayContainer
 			// style={
 			// 	{
@@ -265,15 +270,15 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 			</GameplayContainer>
 
 			{DevLinks}
-			{/* <input
+			<input
 				style={{ display: "block", width: "100%" }}
 				type="range"
 				min="0"
 				max="1"
 				step="0.01"
-				value={normalisedTime}
-				// onChange={(e) => setNormalisedTime(parseFloat(e.target.value))}
-			/> */}
+				value={normalizedTime}
+				onChange={(e) => setManualNormalizedTime(parseFloat(e.target.value))}
+			/>
 			<div>
 				{/* <button onClick={() => setNormalisedTime(0)}>Midday</button>
 				<button onClick={() => setNormalisedTime((sunsetStart + sunsetEnd) / 2)}>Sunset</button>
@@ -288,12 +293,20 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
 				<button onClick={() => nodecg.sendMessage("start-credits")}>Credits</button>
 			</div>
-		</GameplayOverlayCont>
+		</>
 	);
 }
 
+const init = async (engine: Engine): Promise<void> => {
+	await loadFull(engine);
+};
+
 createRoot(document.getElementById("root")!).render(
 	<HashRouter>
-		<GameplayOverlay />
+		<ParticlesProvider init={init}>
+			<TimeStyleProvider>
+				<GameplayOverlay />
+			</TimeStyleProvider>
+		</ParticlesProvider>
 	</HashRouter>,
 );

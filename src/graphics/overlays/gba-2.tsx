@@ -11,6 +11,7 @@ import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
 import GBA2p from "./backgrounds/GBA2p.png";
+import { ASM26Felt } from "../elements/asm26/asm26-felt";
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -27,22 +28,23 @@ const Topbar = styled.div`
 	overflow: hidden;
 `;
 
-const LeftBox = styled.div`
+const LeftBox = styled(ASM26Felt)`
 	width: 666px;
 	height: 100%;
 	display: flex;
 	position: relative;
-	background: var(--main);
+	// background: var(--main);
 `;
 
-const RightBox = styled.div`
+const RightBox = styled(ASM26Felt)`
 	width: 666px;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	position: relative;
-	background: var(--main);
+	// background: var(--main);
+	box-sizing: border-box;
 `;
 
 const SponsorSize = {
@@ -59,6 +61,16 @@ const CentralDivider = styled.div`
 	background: var(--sec);
 `;
 
+const RightBoxTrim = styled.span`
+	font-family: var(--game-font);
+	font-size: 50px;
+	z-index: 2;
+	text-align: center;
+	width: 100%;
+
+	filter: drop-shadow(3px 0px 0px black);
+`;
+
 export const GBA2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
@@ -68,22 +80,22 @@ export const GBA2 = (props: OverlayProps) => {
 			{/* <img src={GBA2p} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 
 			<Topbar>
-				<LeftBox>
+				<LeftBox particlesId="leftBox">
 					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[0]}
-					side="left"
-					style={{ position: "absolute", top: 300, left: 625 }}
+					side="right"
+					style={{ position: "absolute", top: 295, left: 666 }}
 				/>
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[1]}
-					side="right"
+					side="left"
 					style={{
 						position: "absolute",
-						top: 300,
-						right: 625,
+						top: 295,
+						right: 666,
 						zIndex: 2,
 					}}
 				/>
@@ -92,25 +104,27 @@ export const GBA2 = (props: OverlayProps) => {
 					width={586}
 					maxNameWidth={190}
 					style={{
-						borderRight: "1px solid var(--asm-orange)",
-						borderLeft: "1px solid var(--asm-orange)",
+						borderRight: "1px solid var(--sec)",
+						borderLeft: "1px solid var(--sec)",
 					}}
 					teams={props.runData?.teams}
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<RaceFinish style={{ top: 220, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
-				<RaceFinish style={{ top: 220, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
+				<RaceFinish style={{ top: 301, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
+				<RaceFinish style={{ top: 301, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
-				<RightBox>
+				<RightBox particlesId="rightBox">
+					<RightBoxTrim style={{ color: "var(--sec)", marginTop: 16 }}>+++++++++++++++++++</RightBoxTrim>
 					<div
 						style={{
 							display: "flex",
 							width: "100%",
 							flexGrow: 1,
 							alignItems: "center",
-							gap: 16,
-							padding: 16,
+							justifyContent: "center",
+							gap: 8,
+							padding: "0 16px",
 							boxSizing: "border-box",
 						}}
 					>
@@ -119,11 +133,9 @@ export const GBA2 = (props: OverlayProps) => {
 							style={{ width: "30%", zIndex: 3 }}
 							audio={props.microphoneAudioIndicator}
 						/>
-						<SponsorsBox
-							sponsors={props.sponsors}
-							sponsorStyle={SponsorSize}
-						/>
+						<SponsorsBox sponsors={props.sponsors} sponsorStyle={SponsorSize} style={{ zIndex: 5 }} />
 					</div>
+					<RightBoxTrim style={{ color: "var(--accent)", marginBottom: 16 }}>+++++++++++++++++++</RightBoxTrim>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />

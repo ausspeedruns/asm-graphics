@@ -83,7 +83,7 @@ export function VerticalTimerBottomInfo(props: Props) {
 				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 			</VerticalStack>
 			{!props.hideDividers && <Divider className="divider" />}
-			<Timer timer={props.timer} />
+			<Timer milliseconds={props.timer?.milliseconds ?? 0} />
 		</VerticalInfoContainer>
 	);
 }

@@ -5,7 +5,7 @@ import { format } from "date-fns";
 const CurrentTimeArea = styled.div`
 	height: 100%;
 	width: fit-content;
-	background: var(--sec);
+	background: var(--time-colour);
 	color: var(--text-light);
 	font-weight: bold;
 	/* border-left: 6px solid var(--accent); */

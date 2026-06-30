@@ -79,7 +79,7 @@ export function SmallInfo(props: Props) {
 					<RunInfo.Year year={props.runData?.release ?? ""} />
 				</VerticalStack>
 				<VerticalStack>
-					<Timer timer={props.timer} />
+					<Timer milliseconds={props.timer?.milliseconds ?? 0} />
 					<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 				</VerticalStack>
 			</BottomRow>

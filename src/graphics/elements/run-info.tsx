@@ -58,6 +58,7 @@ export function Estimate(props: EstimateProps) {
 const GameContainer = styled(FitText)`
 	font-family: var(--game-font);
 	line-height: 1; // Changes based on font, keep tight
+	color: #DDFFD9;
 `;
 
 interface GameProps {

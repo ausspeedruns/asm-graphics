@@ -13,6 +13,8 @@ import { getTeams } from "../elements/team-data";
 
 import WidescreenWhole from "./backgrounds/Widescreen2p.png";
 import { CloudScrolling } from "./aso2026/clouds";
+import { ASM26Felt } from "../elements/asm26/asm26-felt";
+import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
@@ -37,7 +39,7 @@ const Topbar = styled.div`
 	border-bottom: 1px solid var(--sec);
 `;
 
-const LeftBox = styled.div`
+const LeftBox = styled(ASM26Felt)`
 	width: 666px;
 	height: 100%;
 	display: flex;
@@ -45,7 +47,7 @@ const LeftBox = styled.div`
 	position: relative;
 `;
 
-const RightBox = styled.div`
+const RightBox = styled(ASM26Felt)`
 	width: 666px;
 	height: 100%;
 	/* background: var(--main); */
@@ -70,7 +72,7 @@ const CentralDivider = styled.div`
 	background: var(--sec);
 `;
 
-const BottomBlock = styled.div`
+const BottomBlock = styled(ASM26Bricks)`
 	position: absolute;
 	top: 881px;
 	height: 135px;
@@ -85,6 +87,10 @@ const BottomBlock = styled.div`
 	justify-content: center;
 	/* background: var(--main); */
 	z-index: 2;
+
+	&::before {
+		background-size: 42%;
+	}
 `;
 
 export const Widescreen2 = (props: OverlayProps) => {
@@ -93,41 +99,31 @@ export const Widescreen2 = (props: OverlayProps) => {
 	return (
 		<Widescreen2Container>
 			<WholeGraphicClip>
-				{/* ASO2026 Sky */}
-				<div
-					style={{
-						position: "absolute",
-						width: "100%",
-						height: 350,
-						background: "linear-gradient(to bottom, #0060c0, #00ced2)",
-					}}
-				/>
-				{/* ASO2026 Clouds */}
-				<CloudScrolling style={{ top: 280, height: 80, position: "absolute" }} />
-				<img src={WidescreenWhole} style={{ position: "absolute", height: "100%", width: "100%" }} />
+				{/* <img src={WidescreenWhole} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 			</WholeGraphicClip>
 			<Topbar>
-				<LeftBox>
-					<SmallInfo timer={props.timer} runData={props.runData}
-					// ASO2026
-					style={{paddingBottom: 50}}
+				<LeftBox particlesId="leftBox">
+					<SmallInfo
+						timer={props.timer}
+						runData={props.runData}
+						// ASO2026
+						style={{ paddingBottom: 50 }}
 					/>
 				</LeftBox>
 
-
-					{/* TODO: Figure out a better way to link Audio Indicator to person. */}
+				{/* TODO: Figure out a better way to link Audio Indicator to person. */}
 				<AudioIndicator
 					active={props.gameAudioIndicator === props.runData?.teams[0]?.players[0]?.id}
-					side="left"
-					style={{ position: "absolute", top: 300, left: 624, zIndex: 2 }}
+					side="right"
+					style={{ position: "absolute", top: 259, left: 665, zIndex: 2 }}
 				/>
 				<AudioIndicator
 					active={props.gameAudioIndicator === props.runData?.teams[1]?.players[0]?.id}
-					side="right"
+					side="left"
 					style={{
 						position: "absolute",
-						top: 300,
-						right: 624,
+						top: 259,
+						right: 665,
 						zIndex: 2,
 					}}
 				/>
@@ -155,7 +151,7 @@ export const Widescreen2 = (props: OverlayProps) => {
 					place={teamData[1]?.place ?? -1}
 				/>
 
-				<RightBox>
+				<RightBox particlesId="rightBox">
 					<SponsorsBox
 						style={{ flexGrow: 1, zIndex: 2 }}
 						sponsors={props.sponsors}
@@ -164,7 +160,7 @@ export const Widescreen2 = (props: OverlayProps) => {
 				</RightBox>
 			</Topbar>
 			<CentralDivider />
-			<BottomBlock>
+			<BottomBlock particlesId="bottomBlock">
 				<Couch
 					commentators={props.commentators}
 					audio={props.microphoneAudioIndicator}

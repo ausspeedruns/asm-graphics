@@ -8,6 +8,7 @@ import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
 import * as RunInfo from "../elements/run-info";
 import { Timer } from "../elements/timer";
+import { ASM26Felt } from "../elements/asm26/asm26-felt";
 
 const ThreeDS2Container = styled.div`
 	height: 1016px;
@@ -31,12 +32,14 @@ const Middle = styled.div`
 	align-items: center;
 `;
 
-const InfoBox = styled.div`
-	background-color: var(--main);
+const InfoBox = styled(ASM26Felt)`
+	// background-color: var(--main);
 	display: flex;
 	justify-content: space-between;
 	height: 133px;
 	width: 100%;
+	padding: 16px;
+	box-sizing: border-box;
 
 	font-size: 22px;
 
@@ -51,6 +54,10 @@ const InfoBox = styled.div`
 	& #category {
 		max-width: 60%;
 		font-size: 80%;
+	}
+
+	& > div {
+		z-index: 5;
 	}
 `;
 
@@ -101,25 +108,25 @@ export const ThreeDS2 = (props: OverlayProps) => {
 					}}
 				/>
 
-				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
-				<RaceFinish style={{ top: 276, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
+				<RaceFinish style={{ top: 801, left: 16 }} time={teamData[0]?.time} place={teamData[0]?.place} />
+				<RaceFinish style={{ top: 801, right: 16 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[0]}
 					side="top"
-					style={{ position: "absolute", top: 270, left: 678 }}
+					style={{ position: "absolute", top: 801, left: 0 }}
 				/>
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[1]}
 					side="top"
 					style={{
 						position: "absolute",
-						top: 270,
-						right: 678,
+						top: 801,
+						right: 0,
 						zIndex: 2,
 					}}
 				/>
-				<InfoBox>
+				<InfoBox particlesId="infoBox">
 					<InfoBoxColumn id="gameInfo">
 						<RunInfo.GameTitle game={props.runData?.game ?? ""} />
 						<GameInfoBox>
@@ -128,7 +135,7 @@ export const ThreeDS2 = (props: OverlayProps) => {
 						</GameInfoBox>
 					</InfoBoxColumn>
 					<InfoBoxColumn id="runInfo">
-						<Timer timer={props.timer} />
+						<Timer milliseconds={props.timer?.milliseconds} />
 						<GameInfoBox>
 							<RunInfo.Category category={props.runData?.category ?? ""} />
 							<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />

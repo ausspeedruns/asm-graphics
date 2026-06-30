@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type React from "react";
 import styled from "@emotion/styled";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
@@ -6,7 +6,8 @@ import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
-import type React from "react";
+
+import ASM26Timer from "../../overlays/asm26/Timer.svg";
 
 const WideInfoContainer = styled.div`
 	position: absolute;
@@ -81,7 +82,13 @@ export function WideInfo(props: Props) {
 				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 			</MiddleGameInfo>
 			<VerticalStack id="timerStack">
-				<Timer timer={props.timer} />
+				<HorizontalStack>
+					<img
+						src={ASM26Timer}
+						style={{ height: "60%", width: "auto", marginRight: 32, filter: "drop-shadow(4px 0 0 black)" }}
+					/>
+					<Timer milliseconds={props.timer?.milliseconds ?? 0} />
+				</HorizontalStack>
 			</VerticalStack>
 		</WideInfoContainer>
 	);

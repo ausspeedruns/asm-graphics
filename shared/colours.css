@@ -4,15 +4,15 @@ body {
 	--primary: var(--main);
 	--nameplate: #202020;
 	--nameplate-lighter: #292929;
-	--sec: #1c6eaa;
-	--accent: var(--sec);
+	--sec: #419ADF;
+	--accent: #FFA23E;
 	--text-light: white;
 	--text-dark: #202020;
 
 	--main-font: "Poppins";
 	--secondary-font: "Poppins";
 	--mono-font: var(--asm-font);
-	--game-font: "Knewave";
+	--game-font: "Bitcount";
 
 	--asm-orange: #cc7722;
 	--asm-blue: #437c90;

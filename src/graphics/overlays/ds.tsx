@@ -6,6 +6,7 @@ import { SmallInfo } from "../elements/info-box/small";
 import { Facecam } from "../elements/facecam";
 
 import DSBG from "./backgrounds/DS.png";
+import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
 
 const DSContainer = styled.div`
 	height: 1016px;
@@ -20,9 +21,9 @@ const Sidebar = styled.div`
 	overflow: hidden;
 `;
 
-const InfoBox = styled.div`
+const InfoBox = styled(ASM26Bricks)`
 	position: relative;
-	background: var(--main);
+	// background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -47,8 +48,8 @@ export function DS(props: OverlayProps) {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<InfoBox>
-					<img src={DSBG} style={{ position: "absolute", width: "100%", height: "100%" }} />
+				<InfoBox particlesId="infoBox">
+					{/* <img src={DSBG} style={{ position: "absolute", width: "100%", height: "100%" }} /> */}
 					<SmallInfo timer={props.timer} runData={props.runData} />
 				</InfoBox>
 				<DSSecondScreen />

@@ -4,6 +4,7 @@ packages:
 allowBuilds:
   '@parcel/watcher': true
   '@serialport/bindings-cpp': true
+  '@tsparticles/engine': true
   '@vaadin/vaadin-usage-statistics': true
   better-sqlite3: true
   core-js-pure: true

@@ -11,6 +11,7 @@ import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
 import Standard2p from "./backgrounds/Standard2p.png";
+import { ASM26Felt } from "../elements/asm26/asm26-felt";
 
 const Standard2Container = styled.div`
 	height: 1016px;
@@ -26,7 +27,7 @@ const Topbar = styled.div`
 	overflow: hidden;
 `;
 
-const LeftBox = styled.div`
+const LeftBox = styled(ASM26Felt)`
 	width: 666px;
 	height: 100%;
 	display: flex;
@@ -35,7 +36,7 @@ const LeftBox = styled.div`
 	box-sizing: border-box;
 `;
 
-const RightBox = styled.div`
+const RightBox = styled(ASM26Felt)`
 	width: 666px;
 	height: 100%;
 	display: flex;
@@ -78,10 +79,10 @@ export const Standard2 = (props: OverlayProps) => {
 	return (
 		<Standard2Container>
 			<WholeGraphicClip>
-				<img style={{ position: "absolute", width: "100%" }} src={Standard2p} />
+				{/* <img style={{ position: "absolute", width: "100%" }} src={Standard2p} /> */}
 			</WholeGraphicClip>
 			<Topbar>
-				<LeftBox>
+				<LeftBox particlesId="leftBox">
 					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
@@ -90,8 +91,8 @@ export const Standard2 = (props: OverlayProps) => {
 					side="left"
 					style={{
 						position: "absolute",
-						top: 255,
-						left: 625,
+						top: 215,
+						left: 666,
 						zIndex: 2,
 					}}
 				/>
@@ -100,8 +101,8 @@ export const Standard2 = (props: OverlayProps) => {
 					side="right"
 					style={{
 						position: "absolute",
-						top: 255,
-						right: 625,
+						top: 215,
+						right: 666,
 						zIndex: 2,
 					}}
 				/>
@@ -110,18 +111,18 @@ export const Standard2 = (props: OverlayProps) => {
 					width={586}
 					maxNameWidth={190}
 					style={{
-						borderRight: "1px solid var(--accent)",
-						borderLeft: "1px solid var(--accent)",
+						borderRight: "1px solid var(--sec)",
+						borderLeft: "1px solid var(--sec)",
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams}
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<RaceFinish style={{ top: 219, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
-				<RaceFinish style={{ top: 219, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
+				<RaceFinish style={{ top: 221, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
+				<RaceFinish style={{ top: 221, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
-				<RightBox>
+				<RightBox particlesId="rightBox">
 					<div
 						style={{
 							display: "flex",

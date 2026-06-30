@@ -9,6 +9,7 @@ import { Couch } from "../elements/couch";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
+import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
 
 const DS2Container = styled.div`
 	height: 1016px;
@@ -27,8 +28,8 @@ const Middle = styled.div`
 	overflow: hidden;
 `;
 
-const InfoBox = styled.div`
-	background: var(--main);
+const InfoBox = styled(ASM26Bricks)`
+	// background: var(--main);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -74,7 +75,7 @@ export const DS2 = (props: OverlayProps) => {
 						zIndex: 2,
 					}}
 				/>
-				<InfoBox>
+				<InfoBox particlesId="infoBox">
 					<Couch commentators={props.commentators} style={{ zIndex: 2 }} />
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<SponsorBoxS sponsorStyle={SponsorsSize} sponsors={props.sponsors} style={{ zIndex: 2 }} />
