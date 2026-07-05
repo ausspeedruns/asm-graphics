@@ -1,8 +1,8 @@
 import { useImperativeHandle, useRef } from "react";
 import styled from "@emotion/styled";
 
-import type { TickerItemHandles } from "./incentives";
-import { FitText, FitTextElements } from "../fit-text";
+import type { TickerItemHandles } from "../incentives";
+import { FitText, FitTextElements } from "../../elements/fit-text";
 import type { RunData } from "@asm-graphics/types/RunData";
 
 import { format } from "date-fns";
@@ -43,14 +43,14 @@ export function UpcomingRuns(props: UpcomingRunsProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const runsRefs = useRef<TickerItemHandles[]>([]);
 
-	const upcomingRunElements: RunData[] = props.upcomingRuns.slice(0, RUNS_LIMIT);
+	const upcomingRunElements = props.upcomingRuns.slice(0, RUNS_LIMIT);
 
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("runsStart");
 			tl.set(containerRef.current, { xPercent: 100 });
-			runsRefs.current.reverse().forEach((prizeRef) => {
-				tl.add(prizeRef.animation(tl));
+			runsRefs.current.reverse().forEach((runRef) => {
+				tl.add(runRef.animation(tl));
 			});
 			return tl;
 		},
@@ -81,7 +81,7 @@ const UpcomingRunContainer = styled.div`
 	border-radius: ${BORDER_RADIUS + 4}px ${BORDER_RADIUS}px ${BORDER_RADIUS}px ${BORDER_RADIUS + 4}px; // +4 because if it is the same as the MetaDataContainer it gets aliasing artifacts
 	background: white;
 	display: flex;
-	width: 90%;
+	width: 100%;
 	flex-grow: 1;
 	font-size: 22px;
 `;

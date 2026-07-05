@@ -1,0 +1,30 @@
+.host {
+	display: flex;
+	gap: 8px;
+	z-index: 2;
+
+	.icon {
+		height: 75px;
+	}
+
+	.name {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+		font-size: 28px;
+		font-family: var(--secondary-font);
+		font-weight: bold;
+		line-height: 1;
+
+		div {
+			max-width: 386px;
+		}
+	}
+
+	.pronouns {
+		font-size: 80%;
+		font-weight: 400;
+		text-transform: uppercase;
+	}
+}

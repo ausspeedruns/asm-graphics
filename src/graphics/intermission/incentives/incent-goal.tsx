@@ -2,9 +2,9 @@ import { useImperativeHandle, useRef } from "react";
 import styled from "@emotion/styled";
 
 import type { Goal } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "./incentives";
+import type { TickerItemHandles } from "../incentives";
 
-import { FitText } from "../fit-text";
+import { FitText } from "../../elements/fit-text";
 
 const GoalBarContainer = styled.div`
 	position: absolute;
@@ -17,7 +17,6 @@ const GoalBarContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	/* transform: translate(-100%, 0); */
-	padding: 16px;
 	box-sizing: border-box;
 	color: var(--text-dark);
 `;
@@ -29,25 +28,6 @@ const GoalDiv = styled.div`
 	/* margin-left: 10px; */
 	font-weight: bold;
 	font-size: 37px;
-`;
-
-const IncentiveContainer = styled.div`
-	// position: absolute;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	/* margin-top: -10px; */
-	margin-bottom: 5px;
-	font-size: 30px;
-	width: 100%;
-	height: 100px;
-`;
-
-const Game = styled(FitText)`
-	/* display: inline-block; */
-	max-width: 100%;
-	margin-bottom: -5px;
 `;
 
 const IncentiveName = styled(FitText)`
@@ -162,10 +142,6 @@ export const GoalBar = (props: GoalProps) => {
 					</ProgressBarContainer>
 				</ProgressContainer>
 			</BottomBar>
-			{/* <IncentiveContainer>
-				<Game text={props.goal.game} />
-				<IncentiveName text={props.goal.incentive} />
-			</IncentiveContainer> */}
 		</GoalBarContainer>
 	);
 };

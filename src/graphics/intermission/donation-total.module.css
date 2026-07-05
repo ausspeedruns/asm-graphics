@@ -1,0 +1,79 @@
+.donationTotal {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	gap: 32px;
+
+	.total {
+		position: relative;
+		font-size: 180px;
+		font-family: var(--game-font);
+		font-weight: 900;
+		text-box-trim: trim-both;
+		text-box-edge: ex alphabetic;
+		line-height: 1;
+		transform: translateY(0.25cap);
+		margin-bottom: -0.25cap;
+
+		.dollarSign {
+			font-size: 80%;
+		}
+	}
+
+	.link {
+		font-size: 40px;
+		text-transform: uppercase;
+	}
+
+	.matchMultiplier {
+		position: absolute;
+		right: -45px;
+		top: -30px;
+		transform: rotate(15deg);
+
+		background: #DDFFD9;
+		padding: 8px;
+		border-radius: 8px;
+
+		font-family: var(--main-font);
+		font-size: 30px;
+		font-weight: 600;
+		text-align: center;
+		line-height: 0.8;
+
+		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+
+		.number {
+			background: var(--goc-gradient);
+			background-clip: text;
+			-webkit-background-clip: text;
+			color: transparent;
+
+			animation: gradientAnimation 5s ease infinite;
+			background-size: 400% 400%;
+
+			font-weight: 900;
+		}
+
+		.text {
+			font-size: 75%;
+		}
+	}
+}
+
+@keyframes gradientAnimation {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}

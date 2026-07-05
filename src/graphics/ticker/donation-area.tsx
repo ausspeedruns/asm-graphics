@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useTickerStore } from "../stores/ticker-store";
 import { LerpNum } from "./lerp-num";
 
-import GoCLogo from "../media/Sponsors/GoCWhite.svg";
+import GoCLogo from "../media/game-on-cancer/word-mark.svg";
 
 const TickerDonationTotalContainer = styled.div`
 	height: 100%;
@@ -24,6 +24,7 @@ const CharityLogo = styled.img`
 	height: 45px;
 	width: auto;
 	margin-left: 10px;
+	color: var(--text-light);
 `;
 
 export function TickerDonationTotal() {

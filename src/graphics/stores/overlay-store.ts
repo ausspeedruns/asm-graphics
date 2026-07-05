@@ -1,8 +1,9 @@
+import { create } from "zustand";
+
+import type NodeCG from "nodecg/types";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 import type { Timer } from "@asm-graphics/types/Timer";
-import type NodeCG from "nodecg/types";
-import { create } from "zustand";
 
 interface State {
 	runData: RunDataActiveRun | undefined;

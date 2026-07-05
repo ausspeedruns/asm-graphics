@@ -4,18 +4,15 @@ import { css } from "@emotion/react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-import type NodeCG from "nodecg/types";
-import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { Prize } from "@asm-graphics/types/Prizes";
+import { FitText } from "../elements/fit-text";
 
-import { WarGame } from "./incent-wars";
-import { GoalBar } from "./incent-goal";
-import { FitText } from "../fit-text";
-import { Prizes } from "./incent-prizes";
-import { Socials } from "./incent-socials";
-import { Photos } from "./incent-photos";
-import { UpcomingRuns } from "./incent-upcoming-runs";
-import type { RunData } from "@asm-graphics/types/RunData";
+import { WarGame } from "./incentives/incent-wars";
+import { GoalBar } from "./incentives/incent-goal";
+import { Prizes } from "./incentives/incent-prizes";
+import { Socials } from "./incentives/incent-socials";
+import { Photos } from "./incentives/incent-photos";
+import { UpcomingRuns } from "./incentives/incent-upcoming-runs";
+import { useIntermissionStore } from "../stores/intermission-store";
 
 gsap.registerPlugin(useGSAP);
 
@@ -27,6 +24,9 @@ const InterIncentivesContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
+	gap: 12px;
+
+	padding: 10px;
 `;
 
 const PanelContainer = styled.div`
@@ -34,12 +34,6 @@ const PanelContainer = styled.div`
 	box-sizing: border-box;
 	position: relative;
 	flex-grow: 1;
-`;
-
-const CurrentPanel = styled.div`
-	/* height: 126px; */
-	width: 100%;
-	box-sizing: border-box;
 `;
 
 const PipsContainer = styled.div`
@@ -58,22 +52,27 @@ const Pip = styled.div<{ $active?: boolean }>`
 	background: transparent;
 	border-radius: 5px;
 	transition: 1s;
-	background: #dcb995;
+	background: #ddffd9;
 
 	${(props) =>
 		props.$active &&
 		css`
-			background: #f58d3a;
+			background: #cc3622;
 		`}
 `;
 
 const CurrentLabels = styled.div`
 	display: flex;
-	// flex-direction: column;
-	justify-content: center;
+	flex-direction: column;
+	justify-content: space-between;
 	align-items: center;
-	height: 70px;
+	height: 40px;
+	font-size: 25px;
 	gap: 4px;
+
+	& * {
+		text-box: trim-both cap alphabetic;
+	}
 `;
 
 const MainLabel = styled(FitText)`
@@ -92,41 +91,37 @@ export interface TickerItemHandles {
 	animation(timeline: gsap.core.Timeline): gsap.core.Timeline;
 }
 
-interface IncentivesProps {
-	incentives?: Incentive[];
-	asmm?: number;
-	prizes?: Prize[];
-	photos?: NodeCG.AssetFile[];
-	upcomingRuns?: RunData[];
-}
+const MAX_INCENTIVES: number = 10; // Type is there because we sometimes set it to a number and then it would get upset at us since we test for -1 when it can't possibly be that.
+const TEST_RANGE: number[] = [0];
 
-const MAX_INCENTIVES: number = -1;
-const TEST_RANGE: number[] = [];
+export function IntermissionIncentives() {
+	const incentives = useIntermissionStore((state) => state.incentives);
+	const prizes = useIntermissionStore((state) => state.prizes);
+	const allRuns = useIntermissionStore((state) => state.runArray);
+	const currentRunId = useIntermissionStore((state) => state.activeRun?.id);
+	const upcomingRuns = allRuns.slice(allRuns.findIndex((run) => run.id === currentRunId) + 1);
+	const photos = useIntermissionStore((state) => state.photos);
 
-export const InterIncentives = (props: IncentivesProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const labelsRef = useRef<HTMLDivElement>(null);
 	const incentivesRef = useRef<TickerItemHandles[]>([]);
 	const [currentPanel, setCurrentPanel] = useState(0);
 
-	let allPanels: ReactNode[] = [];
-	let allLabels: { header: string; subheading?: string }[] = [];
+	const allPanels: ReactNode[] = [];
+	const allLabels: { header: string; subheading?: string }[] = [];
 
-	let incentives: typeof props.incentives = [];
-	if (props.incentives) {
-		incentives = props.incentives
-			.filter((incentive) => incentive.active)
-			.filter((_, i) => {
-				if (TEST_RANGE.length === 0) {
-					return MAX_INCENTIVES === -1 || i < MAX_INCENTIVES;
-				} else {
-					return TEST_RANGE.includes(i);
-				}
-			});
-	}
+	const incentivesToShow = incentives
+		.filter((incentive) => incentive.active)
+		.filter((_, i) => {
+			if (TEST_RANGE.length === 0) {
+				return MAX_INCENTIVES === -1 || i < MAX_INCENTIVES;
+			} else {
+				return TEST_RANGE.includes(i);
+			}
+		});
 
 	allPanels.push(
-		...incentives.map((incentive, i) => {
+		...incentivesToShow.map((incentive, i) => {
 			switch (incentive.type) {
 				case "Goal":
 					return (
@@ -166,18 +161,8 @@ export const InterIncentives = (props: IncentivesProps) => {
 		}),
 	);
 
-	// if (typeof props.asmm !== "undefined" || props.asmm == 0) {
-	// 	allPanels.push(
-	// 		<InterIncentASMM
-	// 			key={"InterIncentASMM"}
-	// 			ref={(el) => (el ? (incentivesRef.current[allPanels.length] = el) : undefined)}
-	// 			totalKM={props.asmm}
-	// 		/>,
-	// 	);
-	// }
-
 	// Prizes
-	if (props.prizes && props.prizes.length > 0) {
+	if (prizes.length > 0) {
 		allPanels.push(
 			<Prizes
 				key="ASMPrizes"
@@ -186,7 +171,7 @@ export const InterIncentives = (props: IncentivesProps) => {
 						incentivesRef.current[10] = el;
 					}
 				}}
-				prizes={props.prizes}
+				prizes={prizes}
 			/>,
 		);
 
@@ -207,23 +192,23 @@ export const InterIncentives = (props: IncentivesProps) => {
 	// allLabels.push({ header: "Our Socials", subheading: "Follow us to stay up to date!" });
 
 	// Event Photos
-	// if (props.photos && props.photos.length > 5) {
-	// 	allPanels.push(
-	// 		<Photos
-	// 			key="ASMPhotos"
-	// 			ref={(el) => {
-	// 				el ? (incentivesRef.current[20] = el) : undefined;
-	// 			}}
-	// 		/>,
-	// 	);
-	// 	allLabels.push({ header: "ASM 2025 Photos" });
-	// }
+	if (photos && photos.length > 5) {
+		allPanels.push(
+			<Photos
+				key="ASMPhotos"
+				ref={(el) => {
+					el ? (incentivesRef.current[20] = el) : undefined;
+				}}
+			/>,
+		);
+		allLabels.push({ header: "ASM 2025 Photos" });
+	}
 
 	// Upcoming Runs
-	if (props.upcomingRuns && props.upcomingRuns.length > 0) {
+	if (upcomingRuns && upcomingRuns.length > 0) {
 		allPanels.push(
 			<UpcomingRuns
-				upcomingRuns={props.upcomingRuns}
+				upcomingRuns={upcomingRuns}
 				key="ASMRuns"
 				ref={(el) => {
 					if (el) {
@@ -272,19 +257,15 @@ export const InterIncentives = (props: IncentivesProps) => {
 	return (
 		<InterIncentivesContainer ref={containerRef}>
 			<PanelContainer>{allPanels}</PanelContainer>
-			<CurrentPanel>
-				<CurrentLabels ref={labelsRef}>
-					<MainLabel text={allLabels[currentPanel]?.header} />–
-					{allLabels[currentPanel]?.subheading && <Subheading text={allLabels[currentPanel].subheading} />}
-				</CurrentLabels>
-				<PipsContainer>
-					{allPanels.map((_, i) => {
-						return <Pip key={i} $active={i == currentPanel} />;
-					})}
-				</PipsContainer>
-			</CurrentPanel>
+			<CurrentLabels ref={labelsRef}>
+				<MainLabel text={allLabels[currentPanel]?.header} />
+				{allLabels[currentPanel]?.subheading && <Subheading text={allLabels[currentPanel].subheading} />}
+			</CurrentLabels>
+			<PipsContainer>
+				{allPanels.map((_, i) => {
+					return <Pip key={i} $active={i == currentPanel} />;
+				})}
+			</PipsContainer>
 		</InterIncentivesContainer>
 	);
-};
-
-export const InterIncentivesMemo = memo(InterIncentives);
+}

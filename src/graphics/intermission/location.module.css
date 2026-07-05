@@ -1,0 +1,21 @@
+.locationInfo {
+	z-index: 2;
+	
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 12px;
+	
+	font-size: 200%;
+	text-transform: uppercase;
+
+	&>* {
+		text-box: trim-both cap alphabetic;
+	}
+
+
+	.timeContainer {
+		font-size: 150%;
+		font-family: var(--mono-font);
+	}
+}

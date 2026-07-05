@@ -1,8 +1,8 @@
 import { Fragment, type Ref, useImperativeHandle, useRef } from "react";
 import styled from "@emotion/styled";
 
-import type { TickerItemHandles } from "./incentives";
-import { FitText } from "../fit-text";
+import type { TickerItemHandles } from "../incentives";
+import { FitText } from "../../elements/fit-text";
 
 import type { Prize } from "@asm-graphics/types/Prizes";
 

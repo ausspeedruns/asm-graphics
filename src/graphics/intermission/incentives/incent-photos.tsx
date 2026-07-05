@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 
 import type NodeCG from "nodecg/types";
 
-import type { TickerItemHandles } from "./incentives";
+import type { TickerItemHandles } from "../incentives";
+
 
 const PhotosContainer = styled.div`
 	position: absolute;

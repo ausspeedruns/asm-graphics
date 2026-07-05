@@ -1,437 +1,44 @@
 import { useState, useEffect, useRef, useImperativeHandle, Fragment } from "react";
-import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
 import { createRoot } from "react-dom/client";
-import { clone } from "underscore";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
-import { format } from "date-fns";
 import _ from "underscore";
-// import { useRive } from "@rive-app/react-canvas";
+import styles from "./intermission.module.css";
+import clsx from "clsx";
 
-import type NodeCG from "nodecg/types";
-import type { RunDataArray, RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
-import type { Incentive } from "@asm-graphics/types/Incentives";
-
-// import { InterCTA } from "./elements/intermission/cta";
-import { InterIncentivesMemo } from "./elements/intermission/incentives";
-// import { InterNextRunItem, EndRunItem } from "./elements/intermission/next-run-item";
-import { FitText } from "./elements/fit-text";
-import { LerpNum } from "./ticker/lerp-num";
+import { IntermissionIncentives } from "./intermission/incentives";
 
 // Assets
-// import Mic from "@mui/icons-material/Mic";
-// import MusicIconImg from "./media/icons/MusicIcon.svg";
-// import { Sponsors } from "./elements/sponsors";
-import { IntermissionVideoComponent, type IntermissionAdsRef } from "./elements/intermission/video";
-import GoCLogo from "./media/Sponsors/GoCCCBlack.svg";
-import ASLogo from "./media/AusSpeedruns-LogoBlack.svg";
-import ASO2026EventLogo from "./overlays/backgrounds/EventLogo.svg";
+import { IntermissionVideoComponent, type IntermissionAdsRef } from "./intermission/video";
+import GoCLogo from "./media/game-on-cancer/full-logo.svg?react";
 
-import StopwatchIcon from "./media/icons/stopwatch.svg?react";
-import RunnerIcon from "./media/icons/runner.svg?react";
-import ConsoleIcon from "./media/icons/console.svg?react";
-
-import IntermissionBG from "./overlays/backgrounds/Intermission.png";
+// import IntermissionBG from "./overlays/backgrounds/Intermission.png";
 
 // import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
-import type { DonationMatch } from "@asm-graphics/types/Donations";
-import { useNormalisedTime } from "@asm-graphics/shared/hooks/useCurrentTime";
-// import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
-import type { Prize } from "@asm-graphics/types/Prizes";
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
+import { ASM26Felt } from "./elements/asm26/asm26-felt";
+import { TimeStyleProvider } from "./elements/time-style-context";
+import { useIntermissionStore } from "./stores/intermission-store";
+import { IntermissionCurrentRun } from "./intermission/current-run";
+import { IntermissionDonationTotal } from "./intermission/donation-total";
+import { BackgroundMusic } from "./intermission/background-music";
+import { IntermissionHost } from "./intermission/host";
+import { Location } from "./intermission/location";
+import { Sponsors } from "./elements/sponsors";
 
-const IntermissionContainer = styled.div`
-	position: relative;
-	width: 1920px;
-	height: 1080px;
-	overflow: hidden;
-	font-family: var(--main-font);
-	display: flex;
-	color: var(--text-dark);
-	// clip-path: path('M 0 0 H 1920 V 1080 H 0 V 958 H 960 V 120 H 0');
-`;
+const cameraLeft = 64;
+const cameraTop = 80;
+const cameraWidth = 1000;
+const cameraHeight = 820;
 
-const LeftColumn = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	position: absolute;
-	left: 0px;
-	height: 1080px;
-	width: 1125px;
-`;
+const asm26IncentivesContainerWidth = 780;
+const asm26IncentivesContainerHeight = 235;
+const asm26OutlineWidth = 8;
 
-const RightColumn = styled.div`
-	display: flex;
-	position: absolute;
-	right: 0px;
-	height: 1080px;
-	width: 850px;
-	flex-direction: column;
-	align-items: center;
-	padding-left: 50px;
-	box-sizing: border-box;
-	padding-top: 32px;
-	justify-content: space-evenly;
-	padding-bottom: 150px;
-`;
-
-const HostName = styled.div`
-	font-size: 28px;
-	color: var(--text-dark);
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	font-family: var(--secondary-font);
-	font-weight: bold;
-	justify-content: center;
-	line-height: 1;
-
-	// position: absolute;
-	// left: 565px;
-	// top: 15px;
-`;
-
-const HostPronoun = styled.span`
-	font-size: 80%;
-	font-weight: 400;
-	text-transform: uppercase;
-	font-family: var(--main-font);
-`;
-
-const MUSIC_WIDTH = 350;
-
-const Music = styled.div`
-	max-width: ${MUSIC_WIDTH}px;
-	text-align: center;
-	display: flex;
-	align-items: center;
-	font-family: var(--main-font);
-	flex-shrink: 1;
-
-	// position: absolute;
-	left: 111px;
-	top: 70px;
-`;
-
-const MusicLabel = styled.div`
-	width: 100%;
-	/* height: 100%; */
-	color: var(--text-dark);
-	font-size: 28px;
-	white-space: nowrap;
-	/* margin: 0 16px; */
-	position: relative;
-`;
-
-const StaticMusicText = styled.span`
-	position: absolute;
-	width: ${MUSIC_WIDTH}px;
-	text-align: right;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-`;
-
-const MusicIcon = styled.img`
-	height: 40px;
-	width: auto;
-
-	// position: absolute;
-	bottom: 34px;
-	left: 490px;
-`;
-
-const MusicMarquee = styled.div`
-	/* width: ${MUSIC_WIDTH}px; */
-	width: 100%;
-	margin: 0 auto;
-	overflow: hidden;
-	box-sizing: border-box;
-	color: var(--text-dark);
-`;
-
-const MarqueeKeyframes = keyframes`
-	0% { transform: translate(0, 0); }
-	100% { transform: translate(-100%, 0); }
-`;
-
-const MarqueeText = styled.span`
-	display: inline-block;
-	width: max-content;
-
-	padding-left: 100%;
-	/* show the marquee just outside the paragraph */
-	will-change: transform;
-	animation: ${MarqueeKeyframes} linear infinite;
-`;
-
-const RunContainer = styled.div`
-	width: 100%;
-	height: 215px;
-	font-size: 30px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding-bottom: 16px;
-	color: #1c6eaa;
-`;
-
-const Title = styled.div`
-	font-size: 50px;
-	font-weight: 300;
-	text-align: center;
-`;
-
-const GameName = styled(FitText)<{ containsNewLine?: boolean }>`
-	/* font-weight: bold; */
-	max-width: 80%;
-	padding: 0 10%;
-	font-size: ${({ containsNewLine }) => (containsNewLine ? "50px" : "80px")};
-	line-height: ${({ containsNewLine }) => (containsNewLine ? "50px" : "80px")};
-	margin: ${({ containsNewLine }) => (containsNewLine ? "5px" : "20px")} 0px;
-	font-family: var(--game-font);
-	text-transform: uppercase;
-`;
-
-const Category = styled(FitText)`
-	font-size: 120%;
-	max-width: 80%;
-	padding: 0 10%;
-	font-weight: bold;
-`;
-
-const PlayerInfo = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	max-width: 50%;
-`;
-
-const TimeInfo = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	max-width: 100%;
-`;
-
-const ConsoleInfo = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	max-width: 100%;
-`;
-
-const TimeContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 30px;
-	gap: 8px;
-	/* min-width: 730px; */
-`;
-
-const CurrentTime = styled.span`
-	// font-weight: bold;
-	font-family: var(--mono-font);
-	// margin-right: 16px;
-`;
-
-const CurrentDate = styled.span`
-	/* font-size: 32px; */
-`;
-
-const DonationContainer = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	pointer-events: none;
-	color: #f28f2b;
-	gap: 32px;
-
-	& > * {
-		z-index: 10;
-	}
-`;
-
-const DonationAmount = styled.div`
-	font-size: 180px;
-	font-family: var(--game-font);
-	font-weight: 900;
-	// letter-spacing: 8px;
-`;
-
-const DonationSymbol = styled.span`
-	font-size: 80%;
-	font-weight: 400;
-	margin-right: 16px;
-`;
-
-const DonationInfo = styled.div`
-	font-size: 40px;
-	margin-top: -10px;
-	text-transform: uppercase;
-`;
-
-const DonationSite = styled.div`
-	color: black;
-`;
-
-const CureCancerLogo = styled.img`
-	object-fit: contain;
-	height: 70px;
-`;
-
-const MetaInformationContainer = styled.div`
-	/* position: absolute; */
-	/* bottom: 32px; */
-	/* display: flex;
-	align-items: center;
-	justify-content: space-around; */
-	/* gap: 16px; */
-	/* width: 100%; */
-`;
-
-const IncentivesContainer = styled.div`
-	width: 800px;
-	height: 220px;
-	display: flex;
-	justify-content: center;
-	font-size: 30px;
-`;
-
-const LogoContainer = styled.div`
-	background: #030c3856;
-	padding: 24px;
-	border-radius: 16px;
-	backdrop-filter: blur(4px);
-
-	img {
-		height: 100%;
-		width: 100%;
-		object-fit: contain;
-	}
-`;
-
-const CameraContainer = styled.div`
-	position: absolute;
-	top: 80px;
-	width: 980px;
-	height: 985px;
-	left: 57px;
-`;
-
-const CameraChin = styled.div`
-	position: absolute;
-	bottom: 18px;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	justify-content: center;
-	align-items: flex-end;
-	color: #000;
-	font-size: 30px;
-	// gap: 16px;
-	z-index: 5;
-	line-height: 1.1;
-	text-transform: uppercase;
-
-	// background: linear-gradient(0deg, #0000009b, transparent);
-`;
-
-const GradientTextWhiteBackground = styled.div`
-	background: white;
-	padding: 2px 4px;
-	border-radius: 8px;
-	display: inline-block;
-`;
-
-const GradientAnimation = keyframes`
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-`;
-
-const GradientText = styled.div`
-	background: var(--goc-gradient);
-	background-clip: text;
-	-webkit-background-clip: text;
-	color: transparent;
-
-	// display: flex;
-	// flex-direction: column;
-	// justify-content: center;
-	// align-items: center;
-
-	animation: ${GradientAnimation} 5s ease infinite;
-	background-size: 400% 400%;
-`;
-
-const MultiplierText = styled.div`
-	font-weight: 900;
-`;
-
-const LocationTag = styled.div``;
-
-export function Intermission() {
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", { bundle: "asm-graphics" }); // TODO: Codify the assets
-	const [incentivesRep] = useReplicant("incentives");
-	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
-	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
-	const [donationRep] = useReplicant("donationTotal");
-	const [manualDonationRep] = useReplicant("manual-donation-total");
-	const [photosRep] = useReplicant<NodeCG.AssetFile[]>("assets:eventPhotos", { bundle: "asm-graphics" }); // TODO: Codify the assets
-	const [donationMatchesRep] = useReplicant("donation-matches");
-	const [prizesRep] = useReplicant("prizes");
-	const [videosRep] = useReplicant("intermission-videos");
-	const [commentatorsRep] = useReplicant("commentators");
-	// const donationRep = 10000; // For testing purposes, replace with the actual donationRep when available
-
-	// const normalisedTime = useNormalisedTime(1000);
-	// const [normalisedTime, setNormalisedTime] = useState(0);
-
-	const intermissionRef = useRef<IntermissionRef>(null);
-
-	useListenFor("intermission-videos:play", (newVal) => {
-		if (!intermissionRef.current) return;
-
-		const foundVideo = videosRep?.find((video) => video.asset === newVal);
-		if (foundVideo) {
-			intermissionRef.current.showVideo(foundVideo);
-		}
-	});
-
-	const currentDonationMultiplier = (donationMatchesRep?.filter((match) => match.active).length ?? 0) + 1;
-
-	const host = (commentatorsRep ?? []).find((comm) => comm.customData["tag"] === "Host");
-
+function IntermissionPage() {
 	return (
-		<>
-			<IntermissionElement
-				ref={intermissionRef}
-				activeRun={runDataActiveRep}
-				runArray={runDataArrayRep ?? []}
-				donation={(donationRep ?? 0) + (manualDonationRep ?? 0)}
-				host={host}
-				sponsors={sponsorsRep}
-				incentives={incentivesRep?.filter((incentive) => incentive.active)}
-				photos={photosRep}
-				donationMatchMultiplier={currentDonationMultiplier}
-				// normalisedTime={normalisedTime}
-				prizes={prizesRep}
-			/>
+		<TimeStyleProvider>
+			<Intermission />
 			<input
 				type="range"
 				min="0"
@@ -447,299 +54,138 @@ export function Intermission() {
 				<button onClick={() => setNormalisedTime(0.5)}>Night</button>
 				<button onClick={() => setNormalisedTime((sunriseStart + sunriseEnd) / 2)}>Sunrise</button> */}
 			</div>
-		</>
+		</TimeStyleProvider>
 	);
 }
 
-export interface IntermissionRef {
-	showVideo: (video: IntermissionVideo) => void;
-}
+export function Intermission() {
+	const [backgroundMusicVolume, setBackgroundMusicVolume] = useState(1);
 
-interface IntermissionProps {
-	activeRun: RunDataActiveRun;
-	runArray: RunDataArray;
-	host?: RunDataPlayer;
-	donation: number;
-	muted?: boolean;
-	sponsors?: NodeCG.AssetFile[];
-	incentives?: Incentive[];
-	normalisedTime?: number;
-	photos?: NodeCG.AssetFile[];
-	donationMatchMultiplier?: number;
-	prizes?: Prize[];
-	videos?: IntermissionVideo[];
-	ref?: React.Ref<IntermissionRef>;
-}
-
-export function IntermissionElement(props: IntermissionProps) {
-	const [currentTime, setCurrentTime] = useState(format(new Date(), "h:mm a EEE"));
-	// const [currentDate, setCurrentDate] = useState(format(new Date(), "EEEE – d LLLL yyyy"));
-	const [currentSong, setCurrentSong] = useState("");
-	const [showMarquee, setShowMarquee] = useState(false);
-	const songEl = useRef<HTMLSpanElement>(null);
-	const audioRef = useRef<HTMLAudioElement>(null);
+	const sponsors = useIntermissionStore((state) => state.sponsors);
+	const videos = useIntermissionStore((state) => state.videos);
 	const adsRef = useRef<IntermissionAdsRef>(null);
 	const incentivesRef = useRef<HTMLDivElement>(null);
 
-	async function getCurrentSong() {
-		const song = await fetch("https://rainwave.cc/api4/info_all?sid=2", { method: "GET" });
-		const songJson = await song.json();
-		setCurrentSong(
-			`${songJson.all_stations_info[2].title} – ${songJson.all_stations_info[2].artists} – ${songJson.all_stations_info[2].album}`,
+	function showVideo(video: IntermissionVideo) {
+		if (!video.videoInfo) return;
+
+		const tl = gsap.timeline();
+
+		tl.set({ value: 1 }, { value: 1, onUpdate: setBackgroundMusicVolume, onUpdateParams: ["value"] });
+
+		tl.fromTo(
+			{ value: 1 },
+			{ value: 0 },
+			{
+				duration: 5,
+				onUpdate: setBackgroundMusicVolume,
+				onUpdateParams: ["value"],
+			},
+		);
+
+		tl.call(() => adsRef.current?.showVideo(video));
+
+		tl.to(
+			{ value: 0 },
+			{
+				value: 1,
+				duration: 5,
+				onUpdate: setBackgroundMusicVolume,
+				onUpdateParams: ["value"],
+			},
+			`+=${video.videoInfo.duration + 10}`,
 		);
 	}
 
-	useEffect(() => {
-		void getCurrentSong();
-		setTimes();
+	useListenFor("intermission-videos:play", (newVal) => {
+		const foundVideo = videos?.find((video) => video.asset === newVal);
+		if (!foundVideo) return;
 
-		const interval = setInterval(setTimes, 1000);
-
-		const songInterval = setInterval(() => {
-			void getCurrentSong();
-		}, 3000);
-
-		function setTimes() {
-			const now = new Date();
-			setCurrentTime(format(now, "h:mm a EEE"));
-			// setCurrentDate(format(now, "EEEE – d LLLL yyyy"));
-		}
-
-		return () => {
-			clearInterval(interval);
-			clearInterval(songInterval);
-		};
-	}, []);
-
-	useEffect(() => {
-		if (!songEl.current) return;
-		setShowMarquee(songEl.current.offsetWidth < songEl.current.scrollWidth);
-	}, [currentSong, songEl]);
-
-	useImperativeHandle(props.ref, () => ({
-		showVideo(video) {
-			if (!audioRef.current || !video.videoInfo) return;
-
-			const tl = gsap.timeline();
-
-			tl.set(audioRef.current, { x: 1 });
-			tl.to(audioRef.current, {
-				x: 0,
-				duration: 5,
-				onUpdate: () => {
-					if (!audioRef.current) return;
-					const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
-					audioRef.current.volume = parseFloat(dummyElPos.toString());
-				},
-			});
-			// tl.to(incentivesRef.current, { opacity: 0, duration: 3 });
-			tl.call(() => adsRef.current?.showVideo(video));
-			// tl.to(incentivesRef.current, { opacity: 1, duration: 3 }, `+=${adDuration + 3}`);
-			tl.to(
-				audioRef.current,
-				{
-					x: 1,
-					duration: 5,
-					onUpdate: () => {
-						if (!audioRef.current) return;
-						const dummyElPos = gsap.getProperty(audioRef.current, "x") ?? 0;
-						audioRef.current.volume = parseFloat(dummyElPos.toString());
-					},
-				},
-				`+=${video.videoInfo.duration} + 10`,
-			);
-		},
-	}));
-
-	let playerNames: React.ReactNode[] = [];
-	if (props.activeRun?.teams.length === 0) {
-		playerNames = [];
-	} else {
-		if (props.activeRun) {
-			playerNames = props.activeRun.teams.map((team, index) => {
-				const players = team.players.map((player) => player.name).join(", ");
-				return (
-					<Fragment key={index}>
-						<FitText text={players} />
-						{props.activeRun && index !== props.activeRun.teams.length - 1 && (
-							<span style={{ fontSize: "60%" }}> vs </span>
-						)}
-					</Fragment>
-				);
-			});
-		} else {
-			playerNames = [];
-		}
-	}
-
-	const gameName = props.activeRun?.customData["gameDisplay"] ?? props.activeRun?.game ?? "";
-
-	const estimate =
-		props.activeRun?.estimate?.startsWith("0") && !props.activeRun?.estimate?.startsWith("0:")
-			? props.activeRun?.estimate?.substring(1)
-			: props.activeRun?.estimate;
-
-	const allFutureRuns = props.runArray.slice(props.runArray.findIndex((run) => run.id === props.activeRun?.id) + 1);
+		showVideo(foundVideo);
+	});
 
 	return (
-		<IntermissionContainer>
-			{/* <LogoContainer style={{ position: "absolute", top: 0, left: 0, borderRadius: "0 0 16px 0", height: 120 }}>
-				<img src={ASLogo} />
-			</LogoContainer> */}
-			<img src={IntermissionBG} style={{ position: "absolute", top: 0, left: 0 }} />
-			<LeftColumn>
-				<CameraContainer>
-					<IntermissionVideoComponent ref={adsRef} videos={props.videos} />
-					{/* <CameraBorder /> */}
-					{/* <CameraShadow /> */}
-					<img src={ASO2026EventLogo} style={{ position: "absolute", bottom: 30, left: 0 }} />
-					<CameraChin>
-						<LocationTag>
-							<b>Sydney</b>
-						</LocationTag>
-						<LocationTag>Australia</LocationTag>
-						<TimeContainer>
-							<CurrentTime>{currentTime}</CurrentTime>
-							{/* <CurrentDate>{currentDate}</CurrentDate> */}
-						</TimeContainer>
-					</CameraChin>
-				</CameraContainer>
-			</LeftColumn>
-			<RightColumn>
-				<DonationContainer>
+		<div className={styles.intermission}>
+			<svg className={styles.cameraCutout} viewBox="0 0 1920 1080">
+				<clipPath id="cameraCutoutPath">
+					<path
+						d={`M 0 0 H 1920 V 1080 H 0 Z M ${cameraLeft} ${cameraTop} V ${cameraTop + cameraHeight} H ${cameraLeft + cameraWidth} V ${cameraTop} H ${cameraLeft} Z`}
+						fillRule="evenodd"
+					/>
+				</clipPath>
+			</svg>
+			<div className={clsx(styles.asm26WholeStitching, styles.asm26Stitching)} />
+			{/* <img src={IntermissionBG} style={{ position: "absolute", top: 0, left: 0 }} /> */}
+			<div className={styles.main}>
+				<ASM26Felt
+					className={styles.asm26FeltCutout}
+					particlesId="intermission"
+					style={{ position: "absolute", width: "100%", height: "100%", left: 0, top: 0 }}
+				/>
+				<div className={styles.leftColumn}>
+					<div className={clsx(styles.asm26CameraBorder, styles.asm26Stitching)}>
+						<IntermissionVideoComponent ref={adsRef} videos={videos} />
+					</div>
+					<div className={styles.cameraShadow} />
+				</div>
+				<div className={styles.rightColumn}>
+					<span className={clsx(styles.asm26Border, styles.arrows, styles.orange)}>{"<><><><><><><><"}</span>
+					<IntermissionDonationTotal />
+					<span className={clsx(styles.asm26Border, styles.arrows, styles.blue)}>{"<><><><><><><><"}</span>
+					<span className={clsx(styles.asm26Border, styles.plusses, styles.blue)}>+++++++++++++++++++++</span>
+					<IntermissionCurrentRun />
+					<span className={clsx(styles.asm26Border, styles.plusses, styles.orange)}>
+						+++++++++++++++++++++
+					</span>
 					<div
-						style={{
-							display: "flex",
-							alignItems: "center",
-							gap: 16,
-							height: 129,
-							marginBottom: 31,
-							paddingTop: 25,
-						}}
+						className={styles.incentivesContainer}
+						style={{ width: asm26IncentivesContainerWidth, height: asm26IncentivesContainerHeight }}
+						ref={incentivesRef}
 					>
-						<DonationAmount
+						<svg
+							viewBox={`0 0 ${asm26IncentivesContainerWidth + 1 * asm26OutlineWidth} ${asm26IncentivesContainerHeight + 1 * asm26OutlineWidth}`}
 							style={{
-								fontSize: (props.donationMatchMultiplier ?? 1) > 1 ? 170 : undefined,
-								marginTop: (props.donationMatchMultiplier ?? 1) > 1 ? -50 : undefined,
+								width: asm26IncentivesContainerWidth + asm26OutlineWidth,
+								height: asm26IncentivesContainerHeight + asm26OutlineWidth,
+								top: -asm26OutlineWidth / 2,
+								left: -asm26OutlineWidth / 2,
+								position: "absolute",
+								zIndex: 100,
+								pointerEvents: "none",
 							}}
 						>
-							<DonationSymbol>$</DonationSymbol>
-							<LerpNum value={props.donation} />
-						</DonationAmount>
+							<rect
+								x={asm26OutlineWidth / 2}
+								y={asm26OutlineWidth / 2}
+								width={asm26IncentivesContainerWidth}
+								height={asm26IncentivesContainerHeight}
+								rx="20"
+								ry="20"
+								fill="none"
+								stroke="#cc3622"
+								strokeWidth={asm26OutlineWidth}
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeDasharray="30 20"
+							/>
+						</svg>
+						<IntermissionIncentives />
 					</div>
-					<DonationInfo>
-						<DonationSite>AusSpeedruns.com/Donate</DonationSite>
-					</DonationInfo>
-					{/* {props.donationMatchMultiplier && props.donationMatchMultiplier > 1 && ( */}
-					{props.donationMatchMultiplier && props.donationMatchMultiplier > 1 && (
-						<span style={{ marginTop: 5, fontSize: 30, color: "black", fontWeight: "600" }}>
-							Donations are worth{" "}
-							<GradientTextWhiteBackground>
-								<GradientText>
-									<MultiplierText>{props.donationMatchMultiplier}×</MultiplierText>
-								</GradientText>
-							</GradientTextWhiteBackground>{" "}
-							right now!
-						</span>
-					)}
-				</DonationContainer>
-
-				<RunContainer>
-					<div
-						style={{
-							// height: 406,
-							display: "flex",
-							flexDirection: "column",
-							alignContent: "center",
-							justifyContent: "space-between",
-							boxSizing: "border-box",
-							maxWidth: "95%",
-						}}
-					>
-						<GameName containsNewLine={gameName.includes("\\n")} allowNewlines text={gameName} />
-						<Category text={props.activeRun?.category} />
-					</div>
-					<div style={{ display: "flex", width: "100%", justifyContent: "space-around", paddingRight: 32 }}>
-						<PlayerInfo>
-							<RunnerIcon />
-							{playerNames}
-						</PlayerInfo>
-						<TimeInfo>
-							<StopwatchIcon />
-							<FitText text={estimate ?? "0"} />
-						</TimeInfo>
-						<ConsoleInfo>
-							<ConsoleIcon />
-							<FitText text={props.activeRun?.system} style={{ maxWidth: "80%" }} />
-						</ConsoleInfo>
-					</div>
-				</RunContainer>
-
-				{props.host && (
-					<div style={{ position: "absolute", top: 978, left: 620, display: "flex" }}>
-						{/* <Mic style={{ height: 40, width: "auto" }} /> */}
-						<HostName>
-							{/* <Mic style={{ height: "2.5rem", width: "2.5rem" }} /> */}
-							<FitText text={props.host.name} alignment="left" style={{ maxWidth: 386 }} />
-							{props.host.pronouns && <HostPronoun>{props.host.pronouns}</HostPronoun>}
-						</HostName>
-					</div>
-				)}
-				<div
-					style={{
-						position: "absolute",
-						top: 985,
-						left: 190,
-						color: "black",
-						display: "flex",
-						alignItems: "center",
-					}}
-				>
-					{/* <MusicIcon src={MusicIconImg} /> */}
-					<Music>
-						<audio
-							style={{ transform: "translate(100px, 0px)" }}
-							id="intermission-music"
-							autoPlay
-							preload="auto"
-							muted={props.muted}
-							ref={audioRef}
-						>
-							<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
-						</audio>
-						<div style={{ display: "flex", alignItems: "flex-end", gap: 8, width: "100%" }}>
-							<MusicLabel>
-								<MusicMarquee style={{ opacity: showMarquee ? 1 : 0 }}>
-									<MarqueeText style={{ animationDuration: `${currentSong.length * 0.35}s` }}>
-										{currentSong}
-									</MarqueeText>
-								</MusicMarquee>
-								<StaticMusicText ref={songEl} style={{ opacity: showMarquee ? 0 : 1 }}>
-									{currentSong}
-								</StaticMusicText>
-							</MusicLabel>
-						</div>
-					</Music>
 				</div>
-				<IncentivesContainer ref={incentivesRef}>
-					{props.incentives && (
-						<InterIncentivesMemo
-							incentives={props.incentives}
-							prizes={props.prizes}
-							// photos={props.photos}
-							upcomingRuns={allFutureRuns}
-						/>
-					)}
-				</IncentivesContainer>
-
-				<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "72%" }}>
-					<CureCancerLogo src={GoCLogo} />
-					<img src={ASLogo} style={{ height: 50 }} />
-				</div>
-			</RightColumn>
-			{/* <IntermissionAds ref={adsRef} /> */}
-		</IntermissionContainer>
+			</div>
+			<div className={styles.footer}>
+				<ASM26Felt
+					particlesId="intermission"
+					style={{ position: "absolute", width: "100%", height: "100%", left: 0, top: 0 }}
+				/>
+				<Location />
+				{/* <BackgroundMusic volume={backgroundMusicVolume} /> */}
+				<IntermissionHost />
+				<Sponsors sponsors={sponsors} style={{ maxHeight: 70, maxWidth: "300px" }} />
+				<GoCLogo />
+			</div>
+		</div>
 	);
 }
 
-createRoot(document.getElementById("root")!).render(<Intermission />);
+createRoot(document.getElementById("root")!).render(<IntermissionPage />);

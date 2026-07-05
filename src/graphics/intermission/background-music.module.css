@@ -1,0 +1,59 @@
+.music {
+	max-width: 350px;
+	display: flex;
+	align-items: center;
+	flex-shrink: 1;
+	z-index: 20;
+
+	svg {
+		height: 75px;
+		z-index: 2;
+	}
+
+	.songName {
+		width: 100%;
+		min-width: 0;
+		font-size: 28px;
+		white-space: nowrap;
+		position: relative;
+
+		.marqueeContainer {
+			width: 100%;
+			margin: 0 auto;
+			overflow: hidden;
+			box-sizing: border-box;
+
+			.marquee {
+				display: inline-block;
+				width: max-content;
+				padding-left: 100%;
+				will-change: transform;
+				animation: marqueeAnimation 10s linear infinite;
+			}
+		}
+
+		.static {
+			position: absolute;
+			width: 350px;
+			text-align: right;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.hide {
+			opacity: 0;
+		}
+	}
+}
+
+@keyframes marqueeAnimation {
+	0% {
+		transform: translate(0, 0);
+	}
+
+	100% {
+		transform: translate(-100%, 0);
+	}
+}

@@ -1,0 +1,68 @@
+.currentRun {
+	width: 100%;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+
+	font-size: 30px;
+
+	.nameContainer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		box-sizing: border-box;
+	}
+
+	.name {
+		max-width: 80%;
+		font-size: 80px;
+		line-height: 80px;
+		font-family: var(--game-font);
+		text-transform: uppercase;
+
+		&.containsNewLine {
+			font-size: 50px;
+			line-height: 50px;
+			margin: 5px 0px;
+		}
+	}
+
+	.category {
+		max-width: 80%;
+		font-size: 120%;
+		font-weight: bold;
+	}
+
+	.runInfo {
+		display: flex;
+		width: 100%;
+		justify-content: space-around;
+		font-size: 80%;
+
+		&>div {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+
+			&>svg {
+				height: 1.75rem;
+				width: 2rem;
+			}
+		}
+	}
+
+	.estimate {
+		max-width: 100%;
+	}
+
+	.console {
+		max-width: 80%;
+	}
+
+	.runners {
+		max-width: 50%;
+	}
+}

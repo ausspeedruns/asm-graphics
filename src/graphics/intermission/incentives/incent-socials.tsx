@@ -1,7 +1,7 @@
 import { useImperativeHandle, useRef } from "react";
 import styled from "@emotion/styled";
 
-import type { TickerItemHandles } from "./incentives";
+import type { TickerItemHandles } from "../incentives";
 
 import WebsiteIcon from "../../media/icons/website.svg";
 import YouTubeIcon from "../../media/icons/youtube.svg";
@@ -77,9 +77,6 @@ export function Socials(props: SocialsProps) {
 					<SocialBar>
 						<SocialIcon src={WebsiteIcon} />
 						AusSpeedruns.com
-					</SocialBar>
-					<SocialBar>
-						<SocialIcon src={TwitterIcon} /> @AusSpeedruns
 					</SocialBar>
 				</div>
 			</Stagger>

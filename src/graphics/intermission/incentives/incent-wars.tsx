@@ -2,8 +2,8 @@ import { useImperativeHandle, useRef, useState } from "react";
 import styled from "@emotion/styled";
 
 import type { War } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "./incentives";
-import { FitText } from "../fit-text";
+import type { TickerItemHandles } from "../incentives";
+import { FitText } from "../../elements/fit-text";
 
 const WarChoiceContainer = styled.div`
 	position: absolute;
@@ -18,7 +18,6 @@ const WarChoiceContainer = styled.div`
 	/* transform: translate(-100%, 0); */
 	/* padding: 0 50px; */
 	box-sizing: border-box;
-	padding: 16px;
 `;
 
 const AllOptionContainer = styled.div`
