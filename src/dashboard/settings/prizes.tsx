@@ -26,6 +26,7 @@ import {
 	AccordionActions,
 	Button,
 	IconButton,
+	Stack,
 } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useState } from "react";
@@ -126,11 +127,15 @@ export function PrizesSettings() {
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>{editingId ? "Edit" : "Add"} Prize</AccordionSummary>
 				<AccordionDetails>
 					{editingId && (
-						<Typography variant="caption" color="text.secondary" marginBottom={2} display="inline-block">
+						<Typography
+							variant="caption"
+							color="textSecondary"
+							sx={{ marginBottom: 2, display: "inline-block" }}
+						>
 							Editing {editingId}
 						</Typography>
 					)}
-					<Box display="flex" gap={2} marginBottom={2}>
+					<Stack spacing={2} sx={{ marginBottom: 2 }}>
 						<NumberField
 							label="Quantity"
 							value={quantity}
@@ -146,8 +151,8 @@ export function PrizesSettings() {
 							onChange={(e) => setItem(e.target.value)}
 							required
 						/>
-					</Box>
-					<Box display="flex" gap={2}>
+					</Stack>
+					<Stack spacing={2}>
 						<TextField
 							label="Requirement"
 							variant="outlined"
@@ -164,7 +169,7 @@ export function PrizesSettings() {
 							value={requirementSubheading}
 							onChange={(e) => setRequirementSubheading(e.target.value)}
 						/>
-					</Box>
+					</Stack>
 					<TextField
 						label="Sub Item"
 						variant="outlined"
@@ -207,27 +212,25 @@ function PrizeElement(props: PrizeProps) {
 	};
 
 	return (
-		<Box
-			display="flex"
-			flexDirection="column"
-			padding={2}
-			margin={2}
-			gap={1}
+		<Stack
+			spacing={1}
 			style={style}
 			sx={{
 				backgroundColor: "#4b5f7e",
 				borderRadius: 2,
+				padding: 2,
+				margin: 2,
 			}}
 			ref={setNodeRef}
 		>
 			<Typography variant="caption" color="text.secondary">
 				{props.prize.id}
 			</Typography>
-			<Box display="flex" flexDirection="row" alignItems="center" gap={2}>
+			<Stack direction="row" spacing={2} sx={{alignItems: "center"}}>
 				<IconButton {...listeners} {...attributes}>
 					<DragHandle />
 				</IconButton>
-				<Typography variant="h6" fontWeight="bold">
+				<Typography variant="h6" sx={{ fontWeight: "bold" }}>
 					{props.prize.quantity && `${props.prize.quantity}x`} {props.prize.item}
 				</Typography>
 				{props.prize.subItem && (
@@ -242,7 +245,7 @@ function PrizeElement(props: PrizeProps) {
 				<IconButton onClick={() => props.beginEdit?.(props.prize)}>
 					<Edit />
 				</IconButton>
-			</Box>
-		</Box>
+			</Stack>
+		</Stack>
 	);
 }

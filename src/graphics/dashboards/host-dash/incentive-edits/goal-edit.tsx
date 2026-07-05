@@ -54,7 +54,7 @@ export function GoalEdit({ incentive, updateIncentive }: GoalProps) {
 	const hasEdited = total !== incentive.total || active !== incentive.active;
 
 	return (
-		<StackStyled gap="medium" alignItems="center">
+		<StackStyled spacing="medium" sx={{ alignItems: "center" }}>
 			<FormControlLabel
 				control={<Checkbox defaultChecked onChange={(_, checked) => setActive(checked)} checked={active} />}
 				label="Active"

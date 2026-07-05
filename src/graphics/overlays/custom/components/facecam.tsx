@@ -226,7 +226,10 @@ function FacecamSettings() {
 		<div>
 			<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 				<Typography variant="caption">Height</Typography>
-				<NumberField value={height} onValueChange={(value) => setProp((props) => (props.height = value))} />
+				<NumberField
+					value={height}
+					onValueChange={(value) => setProp((props: FacecamProps) => (props.height = value ?? undefined))}
+				/>
 			</Box>
 			<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: 1 }}>
 				<Typography variant="caption">Pronouns Start Side</Typography>

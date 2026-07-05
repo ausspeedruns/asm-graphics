@@ -96,7 +96,10 @@ function GameSettings() {
 				<NumberField
 					size="small"
 					value={aspectRatioWidth}
-					onValueChange={(value) => setProp((props) => (props.aspectRatioWidth = value))}
+					onValueChange={(value) => {
+						if (!value) return;
+						setProp((props: GameProps) => (props.aspectRatioWidth = value));
+					}}
 				/>
 			</Box>
 			<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -105,7 +108,10 @@ function GameSettings() {
 				<NumberField
 					size="small"
 					value={aspectRatioHeight}
-					onValueChange={(value) => setProp((props) => (props.aspectRatioHeight = value))}
+					onValueChange={(value) => {
+						if (!value) return;
+						setProp((props: GameProps) => (props.aspectRatioHeight = value));
+					}}
 				/>
 			</Box>
 		</div>

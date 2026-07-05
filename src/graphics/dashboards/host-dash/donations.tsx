@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
-import { Box, Button, Grid, Tooltip } from "@mui/material";
+import { Button, Grid, Paper, Stack, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
 import { List, type RowComponentProps } from "react-window";
 
@@ -84,7 +84,7 @@ const NewFlash = keyframes`
 const MARGIN = 6;
 const PADDING = 8;
 
-const DonationContainer = styled(Box)`
+const DonationContainer = styled(Paper)`
 	display: flex;
 	justify-content: space-between;
 	font-size: 13px;
@@ -152,13 +152,13 @@ function DonationEl(props: DonationProps) {
 
 	return (
 		<DonationContainer
-			boxShadow={2}
+			elevation={2}
 			style={{
 				...props.style,
 				paddingTop: MARGIN,
 			}}
 		>
-			<Grid direction="column" container style={{ paddingRight: 4, flexWrap: "nowrap" }}>
+			<Stack style={{ paddingRight: 4, flexWrap: "nowrap" }}>
 				<div>
 					<Amount>
 						${props.donation.amount.toLocaleString()}
@@ -170,7 +170,7 @@ function DonationEl(props: DonationProps) {
 				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
 					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
-			</Grid>
+			</Stack>
 
 			{props.donation.read ? (
 				<DisabledCover />

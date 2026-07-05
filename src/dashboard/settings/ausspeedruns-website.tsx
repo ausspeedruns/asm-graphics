@@ -91,7 +91,7 @@ export function AusSpeedrunsWebsiteSettings() {
 				fullWidth
 			/>
 
-			<Stack direction="row" spacing={2} alignItems="center" marginY={2}>
+			<Stack direction="row" spacing={2} sx={{ marginY: 2, alignItems: "center" }}>
 				<Button fullWidth onClick={recollectUserData} disabled={gettingUsers} loading={gettingUsers}>
 					Recollect user data
 				</Button>

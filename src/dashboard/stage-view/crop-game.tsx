@@ -250,7 +250,7 @@ export function CropGameDialog(props: CropGameDialogProps) {
 				<Stack spacing={3} sx={{ mt: 1 }}>
 					{/* Scene Target Toggle */}
 					{currentSceneRep !== "Intermission" ? (
-						<Stack direction="row" alignItems="center" spacing={2}>
+						<Stack direction="row" sx={{ alignItems: "center" }} spacing={2}>
 							<Typography variant="subtitle2">Target Scene:</Typography>
 							<Button
 								variant={isTargetingPreview ? "contained" : "outlined"}
@@ -270,14 +270,14 @@ export function CropGameDialog(props: CropGameDialogProps) {
 							</Button>
 						</Stack>
 					) : (
-						<Stack direction="row" alignItems="center" spacing={2}>
+						<Stack direction="row" sx={{ alignItems: "center" }} spacing={2}>
 							<Typography variant="subtitle2">Target Scene:</Typography>
 							<Button variant="contained">
 								Preview Scene ({previewSceneRep ?? "N/A Not in Studio Mode"})
 							</Button>
 						</Stack>
 					)}
-					<Stack direction="row" alignItems="center" spacing={2}>
+					<Stack direction="row" sx={{ alignItems: "center" }} spacing={2}>
 						<Typography variant="subtitle2">Video Source:</Typography>
 						{gameplayCaptureScenesRep && gameplayCaptureScenesRep.length > 0 ? (
 							<ButtonGroup>
@@ -298,7 +298,7 @@ export function CropGameDialog(props: CropGameDialogProps) {
 						)}
 					</Stack>
 					{sections.length > 1 && (
-						<Stack direction="row" spacing={2} alignItems="center">
+						<Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
 							<Typography variant="subtitle2">Select Section:</Typography>
 							<ButtonGroup>
 								{sections.map((_, index) => (
@@ -603,7 +603,7 @@ function EdgePreview({ label, value, axis, side }: EdgePreviewProps) {
 	};
 
 	return (
-		<Stack spacing={0.5} alignItems="center" sx={{ flex: 1 }}>
+		<Stack spacing={0.5} sx={{ alignItems: "center", flex: 1 }}>
 			<Typography variant="caption" color="text.secondary">
 				{label}
 			</Typography>

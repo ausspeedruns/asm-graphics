@@ -3,7 +3,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 
 import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
-import { Button, Box, Tooltip } from "@mui/material";
+import { Button, Tooltip, Paper } from "@mui/material";
 import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from "@mui/icons-material";
 import type { RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData";
 
@@ -14,7 +14,7 @@ const TimerContainer = styled.div`
 		sans-serif;
 `;
 
-const CurrentTime = styled(Box)`
+const CurrentTime = styled(Paper)`
 	width: 100%;
 	background: #eee;
 	padding: 8px 0;
@@ -76,7 +76,7 @@ export function Timer() {
 					background: timerRep?.state === "finished" ? "#388E3C" : "",
 					color: fontColor,
 				}}
-				boxShadow={1}
+				elevation={1}
 			>
 				<div>{timerRep?.time}</div>
 			</CurrentTime>

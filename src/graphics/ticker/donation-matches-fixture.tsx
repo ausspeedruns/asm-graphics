@@ -1,7 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useTickerStore } from "../stores/ticker-store";
-import { useShallow } from "zustand/react/shallow";
 
 const DonationMatchContainer = styled.div`
 	background: white;

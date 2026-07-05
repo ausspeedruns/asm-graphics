@@ -111,7 +111,11 @@ function ContainerSettings() {
 				<NumberField
 					size="small"
 					value={flexGrow}
-					onValueChange={(value) => setProp((props) => (props.style = { ...props.style, flexGrow: value }))}
+					onValueChange={(value) =>
+						setProp(
+							(props: ContainerProps) => (props.style = { ...props.style, flexGrow: value ?? undefined }),
+						)
+					}
 				/>
 			</Box>
 			<FormControl fullWidth>
@@ -122,7 +126,10 @@ function ContainerSettings() {
 					value={justifyContent}
 					label="Justify Content"
 					onChange={(event) =>
-						setProp((props) => (props.style = { ...props.style, justifyContent: event.target.value }))
+						setProp(
+							(props: ContainerProps) =>
+								(props.style = { ...props.style, justifyContent: event.target.value }),
+						)
 					}
 				>
 					<MenuItem value="flex-start">Flex Start</MenuItem>
@@ -141,7 +148,10 @@ function ContainerSettings() {
 					value={alignItems}
 					label="Align Items"
 					onChange={(event) =>
-						setProp((props) => (props.style = { ...props.style, alignItems: event.target.value }))
+						setProp(
+							(props: ContainerProps) =>
+								(props.style = { ...props.style, alignItems: event.target.value }),
+						)
 					}
 				>
 					<MenuItem value="stretch">Stretch</MenuItem>
@@ -156,7 +166,12 @@ function ContainerSettings() {
 				<NumberField
 					size="small"
 					value={paddingTop}
-					onValueChange={(value) => setProp((props) => (props.style = { ...props.style, paddingTop: value }))}
+					onValueChange={(value) =>
+						setProp(
+							(props: ContainerProps) =>
+								(props.style = { ...props.style, paddingTop: value ?? undefined }),
+						)
+					}
 				/>
 			</Box>
 			<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -166,7 +181,10 @@ function ContainerSettings() {
 					size="small"
 					value={paddingRight}
 					onValueChange={(value) =>
-						setProp((props) => (props.style = { ...props.style, paddingRight: value }))
+						setProp(
+							(props: ContainerProps) =>
+								(props.style = { ...props.style, paddingRight: value ?? undefined }),
+						)
 					}
 				/>
 			</Box>
@@ -177,7 +195,10 @@ function ContainerSettings() {
 					size="small"
 					value={paddingBottom}
 					onValueChange={(value) =>
-						setProp((props) => (props.style = { ...props.style, paddingBottom: value }))
+						setProp(
+							(props: ContainerProps) =>
+								(props.style = { ...props.style, paddingBottom: value ?? undefined }),
+						)
 					}
 				/>
 			</Box>
@@ -188,7 +209,10 @@ function ContainerSettings() {
 					size="small"
 					value={paddingLeft}
 					onValueChange={(value) =>
-						setProp((props) => (props.style = { ...props.style, paddingLeft: value }))
+						setProp(
+							(props: ContainerProps) =>
+								(props.style = { ...props.style, paddingLeft: value ?? undefined }),
+						)
 					}
 				/>
 			</Box>
@@ -200,7 +224,10 @@ function ContainerSettings() {
 					value={backgroundImage}
 					label="Backgrounds"
 					onChange={(event) =>
-						setProp((props) => (props.style = { ...props.style, backgroundImage: event.target.value }))
+						setProp(
+							(props: ContainerProps) =>
+								(props.style = { ...props.style, backgroundImage: event.target.value }),
+						)
 					}
 				>
 					{backgrounds.map((background) => (

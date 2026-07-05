@@ -6,7 +6,7 @@ import _ from "underscore";
 import type { Donation } from "@asm-graphics/types/Donations";
 
 import { darkTheme } from "./theme";
-import { Box, Grid, ThemeProvider } from "@mui/material";
+import { Paper, Stack, ThemeProvider } from "@mui/material";
 
 const DonationTotal = styled.div`
 	width: 100%;
@@ -46,7 +46,7 @@ interface DonationProps {
 	donation: Donation;
 }
 
-const DonationContainer = styled(Box)`
+const DonationContainer = styled(Paper)`
 	margin: 6px 0;
 	display: flex;
 	justify-content: space-between;
@@ -72,12 +72,12 @@ const DateText = styled.span`
 	color: #aaa;
 `;
 
-const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
+function DonationEl(props: DonationProps) {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	return (
-		<DonationContainer boxShadow={2}>
-			<Grid direction="column" container>
+		<DonationContainer elevation={2}>
+			<Stack>
 				<div>
 					<Amount>
 						{props.donation.currencySymbol}
@@ -89,9 +89,9 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
 					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
-			</Grid>
+			</Stack>
 		</DonationContainer>
 	);
-};
+}
 
 createRoot(document.getElementById("root")!).render(<Donations />);

@@ -125,7 +125,7 @@ export function StyleSettings() {
 							<Typography variant="subtitle1" component="h3" sx={{ mb: 1 }}>
 								Loaded Backgrounds
 							</Typography>
-							<Stack direction="row" useFlexGap flexWrap="wrap" gap={1}>
+							<Stack direction="row" useFlexGap sx={{ flexWrap: "wrap" }} spacing={1}>
 								{backgroundFiles.map((file) => (
 									<Chip key={file.url} label={file.name} variant="outlined" size="small" />
 								))}

@@ -10,14 +10,14 @@ import {
 	Stack,
 	ThemeProvider,
 } from "@mui/material";
-import { RichTreeView, type TreeViewBaseItem } from "@mui/x-tree-view";
+import { RichTreeView, type TreeViewValidItem } from "@mui/x-tree-view";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { RunDataArray } from "@asm-graphics/types/RunData";
 
 const layoutsRegex = /LAYOUT:\s*(.*)/;
 const unknownLayoutLabel = "Unknown Layout";
-function collectLayouts(runDataArray: RunDataArray): TreeViewBaseItem[] {
+function collectLayouts(runDataArray: RunDataArray): TreeViewValidItem<{}>[] {
 	const layouts: Record<string, { label: string; runId: string }[]> = {};
 	runDataArray.forEach((run) => {
 		const gameName = run.game ?? `??? - ${run.id}`;

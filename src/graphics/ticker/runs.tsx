@@ -4,7 +4,7 @@ import { clone } from "underscore";
 
 import { TickerTitle } from "./title";
 
-import type { TickerItemHandles } from "../elements/ticker";
+import type { TickerItemHandles } from "../ticker";
 import type { RunDataArray, RunDataActiveRun, RunData } from "@asm-graphics/types/RunData";
 
 const TickerRunsContainer = styled.div`

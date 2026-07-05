@@ -116,7 +116,7 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 	const highestNumber = incentiveOptions.reduce((highest, opt) => (highest < opt.total ? opt.total : highest), -1);
 
 	return (
-		<StackStyled gap="medium" alignItems="center">
+		<StackStyled spacing="medium" sx={{ alignItems: "center" }}>
 			<div>
 				{incentiveOptions.length > 0 ? (
 					<h1>

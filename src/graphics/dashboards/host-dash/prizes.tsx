@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { Box } from "@mui/material";
+import { Paper } from "@mui/material";
 import type { Prize } from "@asm-graphics/types/Prizes";
 import { useReplicant } from "@nodecg/react-hooks";
 
@@ -28,7 +28,7 @@ export function PrizesHost(props: Props) {
 	);
 }
 
-const SingleRunContainer = styled(Box)`
+const SingleRunContainer = styled(Paper)`
 	margin: 6px 0;
 	display: flex;
 	flex-direction: column;
@@ -60,7 +60,7 @@ interface PrizeProps {
 
 function Prize(props: PrizeProps) {
 	return (
-		<SingleRunContainer boxShadow={2}>
+		<SingleRunContainer elevation={2}>
 			<PrizeContainer>
 				<Item>
 					{props.prize.quantity && `${props.prize.quantity}x - `} {props.prize.item} - {props.prize.subItem}

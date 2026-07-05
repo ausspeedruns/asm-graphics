@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { useReplicant } from "@nodecg/react-hooks";
 import _, { uniqueId } from "underscore";
-import { Box, Button, Grid, InputAdornment, TextField, Tooltip } from "@mui/material";
+import { Button, InputAdornment, Paper, Stack, TextField, Tooltip } from "@mui/material";
 import { Check, Delete, Undo } from "@mui/icons-material";
 
 import type { Donation } from "@asm-graphics/types/Donations";
@@ -126,9 +126,9 @@ export const ManualDonations: React.FC = () => {
 					</Button>
 				</div>
 			</DonationForm>
-			<Grid container direction="column" style={{ padding: 8, wordBreak: "break-word" }}>
+			<Stack style={{ padding: 8, wordBreak: "break-word" }}>
 				{allDonations}
-			</Grid>
+			</Stack>
 		</DonationsContainer>
 	);
 };
@@ -144,7 +144,7 @@ const NewFlash = keyframes`
 	to { background-color: var(--inset-background); }
 `;
 
-const DonationContainer = styled(Box)`
+const DonationContainer = styled(Paper)`
 	margin: 6px 0;
 	display: flex;
 	font-size: 13px;
@@ -193,13 +193,13 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	};
 
 	return (
-		<DonationContainer boxShadow={2}>
+		<DonationContainer elevation={2}>
 			<Tooltip title="Delete" placement="top">
 				<Button color="error" variant="contained" onClick={deleteDono} style={{ flexGrow: 0, marginRight: 8 }}>
 					<Delete />
 				</Button>
 			</Tooltip>
-			<Grid direction="column" container style={{ flexGrow: 1, gap: 4 }}>
+			<Stack style={{ flexGrow: 1, gap: 4 }}>
 				<div>
 					<Amount>${props.donation.amount.toLocaleString()}</Amount>
 					<Name>{props.donation.name}</Name>
@@ -208,7 +208,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
 					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
-			</Grid>
+			</Stack>
 
 			{props.donation.read && <DisabledCover />}
 

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 
-import { Box, Grid } from "@mui/material";
+import { Grid, Paper, Stack } from "@mui/material";
 
 import type { Incentive } from "@asm-graphics/types/Incentives";
 import type { RunData } from "@asm-graphics/types/RunData";
@@ -103,7 +103,7 @@ export function Incentives(props: Props) {
 
 /* Incentive Item */
 
-const IncentiveItemContainer = styled(Box)`
+const IncentiveItemContainer = styled(Paper)`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -138,7 +138,7 @@ const WarContainer = styled.div`
 	justify-content: center;
 `;
 
-const WarItem = styled(Box)`
+const WarItem = styled(Paper)`
 	background: var(--inset-background);
 	/* font-weight: bold; */
 	padding: 2%;
@@ -149,7 +149,7 @@ const WarItem = styled(Box)`
 	}
 `;
 
-const WarNoOptions = styled(Box)`
+const WarNoOptions = styled(Paper)`
 	width: 100%;
 	text-align: center;
 	font-weight: bold;
@@ -157,7 +157,7 @@ const WarNoOptions = styled(Box)`
 	font-size: 1.3rem;
 `;
 
-const GoalContainer = styled(Box)`
+const GoalContainer = styled(Paper)`
 	display: flex;
 	flex-grow: 1;
 	justify-content: space-evenly;
@@ -192,7 +192,7 @@ function IncentiveItem(props: ItemProps) {
 			const amountLeft = props.incentive.goal - props.incentive.total;
 
 			incentiveData = (
-				<GoalContainer boxShadow={1}>
+				<GoalContainer elevation={1}>
 					<span>${(amountLeft % 1 === 0 ? amountLeft : amountLeft.toFixed(2)).toLocaleString()} Left</span>
 					<span>{Math.floor((props.incentive.total / props.incentive.goal) * 100)}%</span>
 					<span>
@@ -209,7 +209,7 @@ function IncentiveItem(props: ItemProps) {
 		}
 
 		case "War": {
-			let warData: React.ReactNode = <WarNoOptions boxShadow={1}>No names submitted</WarNoOptions>;
+			let warData: React.ReactNode = <WarNoOptions elevation={1}>No names submitted</WarNoOptions>;
 
 			if (props.incentive.options.length !== 0) {
 				const mutableWarData = props.incentive.options.map((a) => ({ ...a }));
@@ -217,7 +217,7 @@ function IncentiveItem(props: ItemProps) {
 				warData = mutableWarData
 					.map((option) => {
 						return (
-							<WarItem boxShadow={1} key={option.name}>
+							<WarItem elevation={1} key={option.name}>
 								{option.name}: ${option.total.toLocaleString()}
 							</WarItem>
 						);
@@ -234,13 +234,13 @@ function IncentiveItem(props: ItemProps) {
 	}
 
 	return (
-		<IncentiveItemContainer boxShadow={2}>
-			<Grid container direction="column">
+		<IncentiveItemContainer elevation={2}>
+			<Stack>
 				<GameTitle>
 					{props.incentive.game} - <i>{props.incentive.incentive}</i>
 				</GameTitle>
 				<Notes>{props.incentive.notes}</Notes>
-			</Grid>
+			</Stack>
 
 			<Grid container>
 				{incentiveData}

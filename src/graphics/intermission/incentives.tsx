@@ -1,4 +1,4 @@
-import { memo, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import gsap from "gsap";
@@ -9,7 +9,6 @@ import { FitText } from "../elements/fit-text";
 import { WarGame } from "./incentives/incent-wars";
 import { GoalBar } from "./incentives/incent-goal";
 import { Prizes } from "./incentives/incent-prizes";
-import { Socials } from "./incentives/incent-socials";
 import { Photos } from "./incentives/incent-photos";
 import { UpcomingRuns } from "./incentives/incent-upcoming-runs";
 import { useIntermissionStore } from "../stores/intermission-store";
@@ -68,7 +67,7 @@ const CurrentLabels = styled.div`
 	align-items: center;
 	height: 40px;
 	font-size: 25px;
-	gap: 4px;
+	gap: 8px;
 
 	& * {
 		text-box: trim-both cap alphabetic;
@@ -92,7 +91,7 @@ export interface TickerItemHandles {
 }
 
 const MAX_INCENTIVES: number = 10; // Type is there because we sometimes set it to a number and then it would get upset at us since we test for -1 when it can't possibly be that.
-const TEST_RANGE: number[] = [0];
+const TEST_RANGE: number[] = [];
 
 export function IntermissionIncentives() {
 	const incentives = useIntermissionStore((state) => state.incentives);
@@ -104,7 +103,9 @@ export function IntermissionIncentives() {
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const labelsRef = useRef<HTMLDivElement>(null);
-	const incentivesRef = useRef<TickerItemHandles[]>([]);
+	const incentivesRef = useRef<Array<TickerItemHandles | null>>([]);
+	const timelineRef = useRef<gsap.core.Timeline | null>(null);
+	const startupTimeoutRef = useRef<number | null>(null);
 	const [currentPanel, setCurrentPanel] = useState(0);
 
 	const allPanels: ReactNode[] = [];
@@ -129,9 +130,7 @@ export function IntermissionIncentives() {
 							key={incentive.index}
 							goal={incentive}
 							ref={(el) => {
-								if (el) {
-									incentivesRef.current[i] = el;
-								}
+								incentivesRef.current[i] = el;
 							}}
 						/>
 					);
@@ -142,9 +141,7 @@ export function IntermissionIncentives() {
 							key={incentive.index}
 							war={incentive}
 							ref={(el) => {
-								if (el) {
-									incentivesRef.current[i] = el;
-								}
+								incentivesRef.current[i] = el;
 							}}
 						/>
 					);
@@ -156,7 +153,7 @@ export function IntermissionIncentives() {
 	);
 
 	allLabels.push(
-		...incentives.map((incentive) => {
+		...incentivesToShow.map((incentive) => {
 			return { header: incentive.game, subheading: incentive.incentive };
 		}),
 	);
@@ -167,9 +164,7 @@ export function IntermissionIncentives() {
 			<Prizes
 				key="ASMPrizes"
 				ref={(el) => {
-					if (el) {
-						incentivesRef.current[10] = el;
-					}
+					incentivesRef.current[10] = el;
 				}}
 				prizes={prizes}
 			/>,
@@ -197,7 +192,7 @@ export function IntermissionIncentives() {
 			<Photos
 				key="ASMPhotos"
 				ref={(el) => {
-					el ? (incentivesRef.current[20] = el) : undefined;
+					incentivesRef.current[20] = el;
 				}}
 			/>,
 		);
@@ -211,9 +206,7 @@ export function IntermissionIncentives() {
 				upcomingRuns={upcomingRuns}
 				key="ASMRuns"
 				ref={(el) => {
-					if (el) {
-						incentivesRef.current[25] = el;
-					}
+					incentivesRef.current[25] = el;
 				}}
 			/>,
 		);
@@ -226,10 +219,33 @@ export function IntermissionIncentives() {
 		return tl;
 	};
 
-	const runLoop = useCallback(() => {
-		const localTl = gsap.timeline({ onComplete: runLoop });
+	const stopLoop = useCallback(() => {
+		if (startupTimeoutRef.current !== null) {
+			window.clearTimeout(startupTimeoutRef.current);
+			startupTimeoutRef.current = null;
+		}
 
-		const usablePanels = incentivesRef.current.filter((item) => item !== undefined);
+		timelineRef.current?.kill();
+		timelineRef.current = null;
+	}, []);
+
+	const runLoop = useCallback(() => {
+		stopLoop();
+
+		const usablePanels = incentivesRef.current.filter((item): item is TickerItemHandles => item !== null);
+
+		if (usablePanels.length === 0 || !labelsRef.current) {
+			return;
+		}
+
+		const localTl = gsap.timeline({
+			onComplete: () => {
+				timelineRef.current = null;
+				runLoop();
+			},
+		});
+		timelineRef.current = localTl;
+
 		usablePanels.forEach((incentiveEl, i) => {
 			localTl.add(showContent(incentiveEl));
 
@@ -241,8 +257,7 @@ export function IntermissionIncentives() {
 			localTl.to(labelsRef.current, { xPercent: 0, duration: 1 });
 		});
 
-		localTl.play();
-	}, []);
+	}, [stopLoop]);
 
 	useGSAP(() => {
 		gsap.fromTo(containerRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.6 });
@@ -250,9 +265,18 @@ export function IntermissionIncentives() {
 
 	useEffect(() => {
 		gsap.defaults({ ease: "power2.inOut" });
-		const timer = setTimeout(runLoop, 500);
-		return () => clearTimeout(timer);
-	}, [runLoop]);
+		setCurrentPanel((panel) => {
+			if (allLabels.length === 0) {
+				return 0;
+			}
+
+			return panel % allLabels.length;
+		});
+
+		startupTimeoutRef.current = window.setTimeout(runLoop, 500);
+
+		return stopLoop;
+	}, [allLabels.length, runLoop, stopLoop]);
 
 	return (
 		<InterIncentivesContainer ref={containerRef}>

@@ -28,7 +28,7 @@ const SponsorImage = styled.img`
 	width: 100%;
 `;
 
-interface FullBoxProps {
+interface SponsorsProps {
 	style?: React.CSSProperties;
 	className?: string;
 	height?: number;
@@ -44,7 +44,7 @@ function getNextSponsorIndex(currentIndex: number, sponsorCount: number) {
 	return currentIndex + 1 >= sponsorCount ? 0 : currentIndex + 1;
 }
 
-export function Sponsors(props: FullBoxProps) {
+export function Sponsors(props: SponsorsProps) {
 	const devMode = useEditorDevStore((state) => state.devMode);
 	const {
 		connectors: { connect, drag },
@@ -150,16 +150,27 @@ function SponsorsSettings() {
 		<div>
 			<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 				<Typography variant="caption">Height</Typography>
-				<NumberField value={height} onValueChange={(value) => setProp((props) => (props.height = value))} />
+				<NumberField
+					value={height}
+					onValueChange={(value) => {
+						if (!value) return;
+						setProp((props: SponsorsProps) => (props.height = value));
+					}}
+				/>
 			</Box>
 			<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 				<Typography variant="caption">Width</Typography>
-				<NumberField value={width} onValueChange={(value) => setProp((props) => (props.width = value))} />
+				<NumberField
+					value={width}
+					onValueChange={(value) => {
+						if (!value) return;
+						setProp((props: SponsorsProps) => (props.width = value));
+					}}
+				/>
 			</Box>
 		</div>
 	);
 }
-
 
 Sponsors.craft = {
 	displayName: "Sponsors",
@@ -169,5 +180,5 @@ Sponsors.craft = {
 	},
 	related: {
 		settings: SponsorsSettings,
-	}
+	},
 };

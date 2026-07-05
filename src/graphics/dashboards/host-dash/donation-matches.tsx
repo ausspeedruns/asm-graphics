@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
-import { Box } from "@mui/material";
+import { Paper } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 
 import type { DonationMatch as IDonationMatch } from "@asm-graphics/types/Donations";
@@ -38,7 +38,7 @@ export function DonationMatches(props: Props) {
 	return <DonationMatchesContainer style={props.style}>{allDonationMatches}</DonationMatchesContainer>;
 }
 
-const DonationMatchContainer = styled(Box)<ActiveProps>`
+const DonationMatchContainer = styled(Paper)<ActiveProps>`
 	margin: 6px 0;
 	display: flex;
 	flex-direction: column;
@@ -104,7 +104,7 @@ interface ActiveProps {
 
 function DonationMatch(props: RunProps) {
 	return (
-		<DonationMatchContainer boxShadow={2} active={props.active} style={props.style}>
+		<DonationMatchContainer elevation={2} active={props.active} style={props.style}>
 			<Row>
 				<Name>{props.donationMatch.name}</Name>
 				<EndTime>Ends in {formatDistanceToNow(props.donationMatch.endsAt)}</EndTime>

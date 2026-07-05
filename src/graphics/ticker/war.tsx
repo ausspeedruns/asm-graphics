@@ -2,7 +2,7 @@ import { useImperativeHandle, useRef, useState } from "react";
 import styled from "@emotion/styled";
 
 import type { War } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "../elements/ticker";
+import type { TickerItemHandles } from "../ticker";
 
 import { FitText } from "../elements/fit-text";
 
@@ -189,7 +189,7 @@ interface WarChoiceProps {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-const WarChoice = (props: WarChoiceProps) => {
+function WarChoice(props: WarChoiceProps) {
 	const percentage = (props.option.total / props.highest) * 100;
 	const progressBarRef = useRef(null);
 
@@ -227,7 +227,7 @@ const WarChoice = (props: WarChoiceProps) => {
 			</TextDiv>
 		</ProgressContainer>
 	);
-};
+}
 
 const NoChoicesContainer = styled.div`
 	flex-grow: 1;
@@ -257,9 +257,9 @@ interface MoreChoicesProps {
 	more: number;
 }
 
-const MoreChoices = (props: MoreChoicesProps) => {
+function MoreChoices(props: MoreChoicesProps) {
 	return <MoreChoicesContainer>{props.more} more options</MoreChoicesContainer>;
-};
+}
 
 function isColor(strColor: string) {
 	const s = new Option().style;

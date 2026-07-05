@@ -2,7 +2,7 @@ import { useImperativeHandle, useRef } from "react";
 import styled from "@emotion/styled";
 
 import type { Goal } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "../elements/ticker";
+import type { TickerItemHandles } from "../ticker";
 
 import { FitText } from "../elements/fit-text";
 

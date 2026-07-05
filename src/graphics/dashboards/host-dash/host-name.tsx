@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect } from "react";
-import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 import { HOST_TAG } from "@asm-graphics/shared/constants";
 
 const HostNameContainer = styled.div`
@@ -84,9 +83,7 @@ export function HostName(props: Props) {
 					}}
 					inputValue={hostName}
 					onInputChange={(_, newVal) => setHostName(newVal)}
-					renderInput={(params) => (
-						<TextField {...params} label="Name" InputProps={{ ...params.InputProps }} />
-					)}
+					renderInput={(params) => <TextField {...params} label="Name" {...params} />}
 				/>
 				<Autocomplete
 					freeSolo

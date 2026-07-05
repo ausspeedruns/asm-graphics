@@ -18,7 +18,7 @@ const GoalBarContainer = styled.div`
 	justify-content: center;
 	/* transform: translate(-100%, 0); */
 	box-sizing: border-box;
-	color: var(--text-dark);
+	color: var(--text-light);
 `;
 
 const GoalDiv = styled.div`
@@ -124,7 +124,7 @@ export const GoalBar = (props: GoalProps) => {
 	if (props.goal.total / props.goal.goal < 0.5) {
 		textOutside = {
 			marginRight: -80,
-			color: "var(--text-dark)",
+			color: "var(--text-light)",
 		};
 	}
 

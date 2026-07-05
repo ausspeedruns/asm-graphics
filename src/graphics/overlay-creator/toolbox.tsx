@@ -37,7 +37,7 @@ export function Toolbox() {
 				<ToolboxItem
 					label="Container"
 					create={
-						<Element canvas is={Container} direction="vertical" style={{ minHeight: 120, padding: 8 }} />
+						<Element canvas is={Container} style={{ minHeight: 120, padding: 8 }} />
 					}
 				/>
 				<ToolboxItem label="Run Info" create={<RunInfo type="vertical" />} />
@@ -51,7 +51,7 @@ export function Toolbox() {
 							canvas
 							is={Root}
 						>
-							<Element canvas is={Container} direction="vertical" style={{ minHeight: 120, padding: 8 }} />
+							<Element canvas is={Container} style={{ minHeight: 120, padding: 8 }} />
 						</Element>
 					}
 				/>

@@ -4,7 +4,7 @@ import { clone } from "underscore";
 
 import type { RunDataArray, RunData } from "@asm-graphics/types/RunData";
 
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 
 const UpcomingContainer = styled.div`
 	display: flex;
@@ -24,7 +24,7 @@ interface Props {
 	style?: React.CSSProperties;
 }
 
-export const Upcoming: React.FC<Props> = (props: Props) => {
+export function Upcoming(props: Props) {
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", {
 		bundle: "nodecg-speedcontrol",
 	});
@@ -49,9 +49,9 @@ export const Upcoming: React.FC<Props> = (props: Props) => {
 			{allRuns}
 		</UpcomingContainer>
 	);
-};
+}
 
-const SingleRunContainer = styled(Box)<ActiveProps>`
+const SingleRunContainer = styled(Paper)<ActiveProps>`
 	margin: 6px 0;
 	display: flex;
 	flex-direction: column;
@@ -93,7 +93,7 @@ interface ActiveProps {
 	active?: string;
 }
 
-const SingleRun: React.FC<RunProps> = (props: RunProps) => {
+function SingleRun(props: RunProps) {
 	if (!props.run) {
 		return <></>;
 	}
@@ -110,7 +110,7 @@ const SingleRun: React.FC<RunProps> = (props: RunProps) => {
 	}
 
 	return (
-		<SingleRunContainer boxShadow={2} active={props.active ? "true" : "false"} style={props.style}>
+		<SingleRunContainer elevation={2} active={props.active ? "true" : "false"} style={props.style}>
 			<RunDataContainer>
 				<Game>{props.run.game?.replaceAll("\\n", " ")}</Game>
 				<Category>{props.run.category?.replaceAll("\\n", " ")}</Category>
@@ -123,4 +123,4 @@ const SingleRun: React.FC<RunProps> = (props: RunProps) => {
 			</RunDataContainer>
 		</SingleRunContainer>
 	);
-};
+}
