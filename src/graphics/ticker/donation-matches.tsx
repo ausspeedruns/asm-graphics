@@ -9,10 +9,7 @@ import { FitText } from "../elements/fit-text";
 import { formatDistanceToNow } from "date-fns";
 
 const TickerGoalsContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 64px;
+	height: 100%;
 	width: 100%;
 	display: flex;
 	align-items: center;

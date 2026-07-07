@@ -15,6 +15,7 @@ import { OBSSettings } from "./settings/obs";
 import { X32Settings } from "./settings/x32";
 import { TiltifySettings } from "./settings/tiltify";
 import { TickerSettings } from "./settings/ticker";
+import { ShortBlockShowcase } from "./settings/short-block-showcase";
 // import MultipleContainers from "./settings/dnd-test";
 
 const settingsPanels = [
@@ -29,6 +30,7 @@ const settingsPanels = [
 	AusSpeedrunsWebsiteSettings,
 	GameYearsSettings,
 	TickerSettings,
+	ShortBlockShowcase,
 ];
 
 const GridItem = styled(Grid)`

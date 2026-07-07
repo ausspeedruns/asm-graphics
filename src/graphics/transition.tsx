@@ -3,7 +3,15 @@ import { createRoot } from "react-dom/client";
 import styled from "@emotion/styled";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
-import { useRive } from "@rive-app/react-canvas";
+import {
+	Fit,
+	Layout,
+	useRive,
+	useViewModel,
+	useViewModelInstance,
+	useViewModelInstanceNumber,
+	useViewModelInstanceTrigger,
+} from "@rive-app/react-webgl2";
 
 // import ASMLogo from './media/ASM2022 Logo.svg';
 // import BGIMG from './media/pixel/Transition/BG.png';
@@ -84,9 +92,9 @@ const TAGLINES = [
 	// ["By RUNNER NAME", "GAME NAME ...wait hang on"],
 ];
 
-const GAME_TEXTRUN = "Game";
-const CATEGORY_TEXTRUN = "Category";
-const RUNNER_TEXTRUN = "Runners";
+const GAME_TEXTRUN = "game";
+const CATEGORY_TEXTRUN = "category";
+const RUNNER_TEXTRUN = "runners";
 
 export const Transition: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null);
@@ -103,6 +111,7 @@ export const Transition: React.FC = () => {
 	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
 		src: "/bundles/asm-graphics/shared/design/transition.riv",
 		autoplay: false,
+		autoBind: true,
 	});
 
 	useListenFor("transition:UNKNOWN", () => {
@@ -173,12 +182,12 @@ export const Transition: React.FC = () => {
 
 		switch (transition) {
 			case "basic":
-				normalRive.setTextRunValue(GAME_TEXTRUN, "AusSpeedruns Open 2026");
+				normalRive.setTextRunValue(GAME_TEXTRUN, "ASM2026");
 				normalRive.setTextRunValue(CATEGORY_TEXTRUN, "");
 				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[0] ?? "");
 				break;
 			case "toIntermission":
-				normalRive.setTextRunValue(GAME_TEXTRUN, "AusSpeedruns Open 2026");
+				normalRive.setTextRunValue(GAME_TEXTRUN, "ASM2026");
 				normalRive.setTextRunValue(CATEGORY_TEXTRUN, specialText[0] ?? "");
 				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[0] ?? "");
 				break;
@@ -190,7 +199,7 @@ export const Transition: React.FC = () => {
 				break;
 		}
 
-		normalRive.play("ASO 26");
+		normalRive.play();
 	}
 
 	const changeBGColor = (col: string) => {
@@ -227,7 +236,7 @@ export const Transition: React.FC = () => {
 				</div> */}
 			</TransitionDiv>
 
-			<audio ref={audioRef} />
+			{/* <audio ref={audioRef} /> */}
 			<button style={{ float: "right" }} onClick={() => runTransition("basic")}>
 				Run blank transition
 			</button>
@@ -247,6 +256,15 @@ export const Transition: React.FC = () => {
 				<button onClick={() => changeBGColor("#0f0")}>Green</button>
 				<button onClick={() => changeBGColor("#00f")}>Blue</button>
 				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
+				<button
+					onClick={() => {
+						if (setHealth) {
+							setHealth(0);
+						}
+					}}
+				>
+					Game Over
+				</button>
 			</div>
 		</TransitionContainer>
 	);

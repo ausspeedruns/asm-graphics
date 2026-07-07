@@ -1,0 +1,52 @@
+.container {
+	min-height: 100vh;
+	width: 100%;
+	max-width: 1120px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 24px;
+	box-sizing: border-box;
+	color: #111827;
+
+	h1,
+	h2,
+	h3 {
+		width: fit-content;
+		margin: 0;
+	}
+
+	p {
+		margin: 0;
+	}
+}
+
+.hero {
+	padding: 4px 0;
+}
+
+.hero h1 {
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.panel {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 16px;
+	border: 1px solid rgba(15, 23, 42, 0.12);
+	border-radius: 12px;
+	background: #f8f6f1;
+}
+
+@media (max-width: 800px) {
+	.container {
+		padding: 16px;
+	}
+
+	.panel {
+		padding: 14px;
+	}
+}

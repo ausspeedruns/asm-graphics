@@ -39,11 +39,12 @@
 		"@mui/material": "^9.2.0",
 		"@mui/x-tree-view": "^9.8.0",
 		"@nodecg/react-hooks": "^1.0.3",
-		"@rive-app/react-canvas": "^4.29.4",
+		"@rive-app/react-webgl2": "^4.29.4",
 		"@tsparticles/engine": "^4.3.1",
 		"@tsparticles/react": "^4.3.1",
 		"@tsparticles/slim": "^4.3.1",
 		"@uidotdev/usehooks": "^2.4.1",
+		"adm-zip": "^0.5.18",
 		"clsx": "^2.1.1",
 		"date-fns": "^4.4.0",
 		"fast-deep-equal": "^3.1.3",
@@ -67,6 +68,7 @@
 	"devDependencies": {
 		"@babel/core": "^8.0.1",
 		"@rolldown/plugin-babel": "^0.2.3",
+		"@types/adm-zip": "^0.5.8",
 		"@types/node": "^26.1.0",
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
@@ -221,6 +223,11 @@
 			},
 			{
 				"file": "overlay-editor.html",
+				"width": 0,
+				"height": 0
+			},
+			{
+				"file": "ticker-testing.html",
 				"width": 0,
 				"height": 0
 			}

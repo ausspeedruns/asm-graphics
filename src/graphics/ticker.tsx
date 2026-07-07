@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import gsap from "gsap";
 import { useShallow } from "zustand/react/shallow";
 
-import { TickerRuns } from "./ticker/runs";
+import { TickerRuns } from "./ticker/runs/runs";
 import { TickerCTA } from "./ticker/cta";
 import { TickerMilestones } from "./ticker/milestones";
 import { TickerPrizes } from "./ticker/prizes";

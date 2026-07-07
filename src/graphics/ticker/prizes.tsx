@@ -8,14 +8,12 @@ import { TickerTitle } from "./title";
 import type { Prize } from "@asm-graphics/types/Prizes";
 
 const TickerPrizesContainer = styled.div`
-	position: absolute;
 	top: 0;
 	left: 0;
-	height: 64px;
+	height: 100%;
 	width: 100%;
 	display: flex;
 	align-items: center;
-	transform: translate(0px, -64px);
 	z-index: 2;
 `;
 

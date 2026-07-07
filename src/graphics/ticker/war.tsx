@@ -6,6 +6,16 @@ import type { TickerItemHandles } from "../ticker";
 
 import { FitText } from "../elements/fit-text";
 
+const WarChoiceContainer = styled.div`
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-family: var(--main-font);
+	color: var(--text-light);
+`;
+
 const Goal = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -65,16 +75,6 @@ const CurrentAmount = styled.span`
 	margin-left: 5px;
 `;
 
-const WarChoiceContainer = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	transform: translate(0, -64px);
-`;
-
 const AllOptionContainer = styled.div`
 	display: flex;
 	align-items: center;
@@ -88,7 +88,7 @@ interface GoalProps {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-export const WarGame = (props: GoalProps) => {
+export function WarGame(props: GoalProps) {
 	const containerRef = useRef(null);
 	const optionRefs = useRef<TickerItemHandles[]>([]);
 	const [animLabel] = useState(props.war.index.toString() + "a");
@@ -161,7 +161,7 @@ export const WarGame = (props: GoalProps) => {
 			<AllOptionContainer>{allOptions.length > 0 ? allOptions : <NoChoicesMade />}</AllOptionContainer>
 		</WarChoiceContainer>
 	);
-};
+}
 
 const OptionName = styled(FitText)`
 	max-width: 60%;
@@ -239,9 +239,9 @@ const NoChoicesContainer = styled.div`
 	font-style: italic;
 `;
 
-const NoChoicesMade: React.FC = () => {
+function NoChoicesMade() {
 	return <NoChoicesContainer>No names submitted</NoChoicesContainer>;
-};
+}
 
 const MoreChoicesContainer = styled.div`
 	text-transform: uppercase;

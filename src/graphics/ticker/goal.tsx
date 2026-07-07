@@ -6,6 +6,16 @@ import type { TickerItemHandles } from "../ticker";
 
 import { FitText } from "../elements/fit-text";
 
+const GoalBarContainer = styled.div`
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-family: var(--main-font);
+	color: var(--text-light);
+`;
+
 const GoalElement = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -66,19 +76,8 @@ const CurrentAmount = styled.span`
 	font-family: var(--secondary-font);
 `;
 
-const GoalBarContainer = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	transform: translate(0, -64px);
-`;
-
 interface GoalProps {
 	goal: Goal;
-	index?: number;
 	ref: React.Ref<TickerItemHandles>;
 }
 

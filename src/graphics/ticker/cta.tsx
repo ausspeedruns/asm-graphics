@@ -4,10 +4,8 @@ import styled from "@emotion/styled";
 import type { TickerItemHandles } from "../ticker";
 
 const TickerCTAContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 64px;
+	position: relative;
+	height: 100%;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -16,14 +14,13 @@ const TickerCTAContainer = styled.div`
 	text-transform: uppercase;
 	color: var(--text-light);
 	font-size: 27px;
-	transform: translate(0px, -64px);
 	z-index: 2;
 	font-family: var(--main-font);
 `;
 
 const CTALine = styled.div`
 	position: absolute;
-	height: 64px;
+	height: 100%;
 	width: 100%;
 	display: flex;
 	align-items: center;

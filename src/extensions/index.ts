@@ -37,4 +37,5 @@ async function init() {
 	require("./speedcontrol-converter");
 	require("./ticker");
 	require("./credits");
+	require("./asm26-bonus-runs");
 }

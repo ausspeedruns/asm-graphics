@@ -145,4 +145,7 @@ export type NodeCGMessages = {
 	// Ticker
 	"ticker:set-order": { id: TickerSegment; enabled: boolean; }[];
 	"ticker:hold-segment": { segment: TickerSegment; hold: boolean; segmentInternalId: string };
+
+	// ASM26
+	"asm26:bonusRuns-inject": never;
 };

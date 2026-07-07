@@ -6,10 +6,7 @@ import type { TickerItemHandles } from "../ticker";
 import { TickerTitle } from "./title";
 
 const TickerMilestonesContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 64px;
+	height: 100%;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -140,7 +137,7 @@ interface Props {
 }
 
 // Milestones to use for the events
-const MILESTONES = combineMilestones(NUMBER_MILESTONES);
+const MILESTONES = combineMilestones(ASM_MILESTONES);
 
 function combineMilestones(milestones: Milestone[]): Milestone[] {
 	// If the first array is empty, just return the second array.
