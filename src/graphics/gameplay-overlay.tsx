@@ -37,6 +37,7 @@ import { useTimeStyleContext } from "./elements/use-time-style-context";
 import { ParticlesProvider } from "@tsparticles/react";
 import type { Engine } from "@tsparticles/engine";
 import { loadFull } from "tsparticles";
+import { Widescreen4 } from "./overlays/widescreen-4";
 
 // import { useNormalisedTime } from "../hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
@@ -155,6 +156,10 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 		{
 			component: <Widescreen3 {...overlayArgs} />,
 			name: "Widescreen-3",
+		},
+		{
+			component: <Widescreen4 {...overlayArgs} />,
+			name: "Widescreen-4",
 		},
 		{
 			component: <DS {...overlayArgs} />,

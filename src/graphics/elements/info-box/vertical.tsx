@@ -56,7 +56,7 @@ const Divider = styled.div`
 	min-height: 1px;
 	height: 1px;
 	width: 80%;
-	background-color: white;
+	background-color: var(--text-light);
 	margin: 20px 0;
 `;
 

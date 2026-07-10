@@ -19,7 +19,7 @@ const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
 	width: ${SIDEBAR_WIDTH}px;
-	border-right: 1px solid var(--accent);
+	border-right: 1px solid var(--sec);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;

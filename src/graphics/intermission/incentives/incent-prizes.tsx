@@ -6,16 +6,15 @@ import { FitText } from "../../elements/fit-text";
 
 import type { Prize } from "@asm-graphics/types/Prizes";
 
+import ASM26Background from "../../media/asm26/ASM26_Carousel.png";
+import ASM26Bow from "../../media/asm26/Carosuel_Bow_Blue.png";
+
 const PrizesContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
 	width: 100%;
 	height: 100%;
 	display: flex;
 	padding: 16px;
 	box-sizing: border-box;
-	transform: translate(-100%, 0);
 `;
 
 const PrizesPage = styled.div`
@@ -91,16 +90,21 @@ Prizes.displayName = "Prizes";
 
 const UpcomingRunContainer = styled.div`
 	font-family: var(--secondary-font);
-	border-radius: 20px 16px 16px 20px;
-	background: white;
+	// border-radius: 20px 16px 16px 20px;
+	// background: white;
 	display: flex;
-	width: calc(100% - 48px);
+	width: calc(1484px / 2);
+	height: calc(223px / 2);
+	background-image: url(${ASM26Background});
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 	/* height: 80px; */
 `;
 
 const MetaDataContainer = styled.div`
 	padding: 16px;
-	background: var(--sec);
+	// background: var(--sec);
 	border-radius: 16px 0 0 16px;
 	color: var(--text-light);
 
@@ -138,7 +142,7 @@ const ItemContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	flex-grow: 1;
-	color: var(--text-dark);
+	color: var(--text-light);
 	font-size: 45px;
 `;
 
@@ -210,7 +214,7 @@ const Prize = (props: PrizeProps) => {
 					<span style={{ fontSize: "75%" }}>x</span>
 				</Quantity>
 			</MetaDataContainer>
-
+			<img src={ASM26Bow} style={{ height: "100%" }} />
 			<ItemContainer>
 				{/* <Item>
 					{props.prize.item} <SubItem>{props.prize.subItem}</SubItem>

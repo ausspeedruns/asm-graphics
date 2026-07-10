@@ -7,6 +7,9 @@ import type { RunData } from "@asm-graphics/types/RunData";
 
 import { format } from "date-fns";
 
+import ASM26Background from "../../media/asm26/ASM26_Carousel.png";
+import ASM26Bow from "../../media/asm26/Carosuel_Bow_Blue.png";
+
 const UpcomingRunsContainer = styled.div`
 	position: absolute;
 	top: 0;
@@ -15,7 +18,6 @@ const UpcomingRunsContainer = styled.div`
 	height: 100%;
 	display: flex;
 	box-sizing: border-box;
-	transform: translate(-100%, 0);
 `;
 
 const RunsPage = styled.div`
@@ -30,9 +32,9 @@ const RunsPage = styled.div`
 `;
 
 const RUNS_LIMIT = 2;
-const PRIZE_SPEED = 2;
-const PRIZE_DURATION = 10;
-const PRIZE_PAGE_STAGGER = 0.05;
+const RUNS_SPEED = 2;
+const RUNS_DURATION = 10;
+const RUNS_PAGE_STAGGER = 0.05;
 
 interface UpcomingRunsProps {
 	upcomingRuns: RunData[];
@@ -79,16 +81,22 @@ const BORDER_RADIUS = 4;
 const UpcomingRunContainer = styled.div`
 	font-family: var(--secondary-font);
 	border-radius: ${BORDER_RADIUS + 4}px ${BORDER_RADIUS}px ${BORDER_RADIUS}px ${BORDER_RADIUS + 4}px; // +4 because if it is the same as the MetaDataContainer it gets aliasing artifacts
-	background: white;
+	// background: white;
+	width: calc(1484px / 2);
+	height: calc(223px / 2);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(${ASM26Background});
 	display: flex;
-	width: 100%;
-	flex-grow: 1;
+	// width: 100%;
+	// flex-grow: 1;
 	font-size: 22px;
 `;
 
 const MetaDataContainer = styled.div`
 	padding: 4px;
-	background: var(--asm-orange);
+	// background: var(--asm-orange);
 	border-radius: ${BORDER_RADIUS}px 0 0 ${BORDER_RADIUS}px;
 	color: var(--text-light);
 
@@ -116,18 +124,13 @@ const RequirementSubheading = styled(FitText)`
 	font-family: var(--main-font);
 `;
 
-const Quantity = styled.span`
-	font-weight: bold;
-	font-size: 120%;
-`;
-
 const ItemContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
 	flex-grow: 1;
-	color: var(--text-dark);
+	color: var(--text-light);
 	font-size: 100%;
 `;
 
@@ -152,28 +155,28 @@ interface RunProps {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-const RUN_STAGGER_INVERSE = 1 / PRIZE_PAGE_STAGGER;
+const RUN_STAGGER_INVERSE = 1 / RUNS_PAGE_STAGGER;
 
 export const Run = (props: RunProps) => {
 	const containerRef = useRef(null);
 
-	const pageTimeOffset = Math.floor(props.index / RUNS_LIMIT) * (PRIZE_DURATION + 1.5);
+	const pageTimeOffset = Math.floor(props.index / RUNS_LIMIT) * (RUNS_DURATION + 1.5);
 
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.fromTo(
 				containerRef.current,
 				{ xPercent: -110 },
-				{ xPercent: 0, duration: PRIZE_SPEED, ease: "power3.out" },
+				{ xPercent: 0, duration: RUNS_SPEED, ease: "power3.out" },
 				`upcomingRuns+=${props.index / RUN_STAGGER_INVERSE + pageTimeOffset}`,
 			);
 
-			// console.log(`${props.prize.item} | upcomingRuns+=${props.index / PRIZE_STAGGER_INVERSE + pageTimeOffset}`, props.index, PRIZE_STAGGER_INVERSE, pageTimeOffset)
+			// console.log(`${props.run.game} | upcomingRuns+=${props.index / RUN_STAGGER_INVERSE + pageTimeOffset}`, props.index, RUN_STAGGER_INVERSE, pageTimeOffset)
 
 			tl.to(
 				containerRef.current,
-				{ xPercent: 110, duration: PRIZE_SPEED, ease: "power3.in" },
-				`upcomingRuns+=${props.index / RUN_STAGGER_INVERSE + PRIZE_DURATION + pageTimeOffset}`,
+				{ xPercent: 110, duration: RUNS_SPEED, ease: "power3.in" },
+				`upcomingRuns+=${props.index / RUN_STAGGER_INVERSE + RUNS_DURATION + pageTimeOffset}`,
 			);
 			return tl;
 		},
@@ -184,23 +187,13 @@ export const Run = (props: RunProps) => {
 			<MetaDataContainer>
 				<RequirementsContainer>
 					<Requirement>{props.run.scheduled ? format(props.run.scheduled, "h:mm a") : "Soon"}</Requirement>
-					{/* {props.run.requirementSubheading && (
-						<RequirementSubheading>{props.run.requirementSubheading}</RequirementSubheading>
-					)} */}
 					<RequirementSubheading
 						text={props.run.teams.map((team) => team.players.map((player) => player.name)).join(", ")}
 					/>
 				</RequirementsContainer>
-				{/* <Quantity>
-					{props.run.quantity}
-					<span style={{ fontSize: "75%" }}>x</span>
-				</Quantity> */}
 			</MetaDataContainer>
-
+			<img src={ASM26Bow} style={{ height: "100%" }} />
 			<ItemContainer>
-				{/* <Item>
-					{props.prize.item} <SubItem>{props.prize.subItem}</SubItem>
-				</Item> */}
 				<Item text={<>{props.run.game}</>} />
 				<SubItem text={props.run.category} />
 			</ItemContainer>

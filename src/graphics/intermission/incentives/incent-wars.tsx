@@ -18,6 +18,7 @@ const WarChoiceContainer = styled.div`
 	/* transform: translate(-100%, 0); */
 	/* padding: 0 50px; */
 	box-sizing: border-box;
+	color: var(--text-light);
 `;
 
 const AllOptionContainer = styled.div`
@@ -167,7 +168,7 @@ const TextDiv = styled.div`
 	align-items: center;
 	top: 0;
 	left: 0;
-	color: var(--text-dark);
+	color: var(--text-light);
 	font-size: 28px;
 	width: 100%;
 `;
@@ -192,7 +193,7 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 0%;
 	width: 100%;
-	background: white;
+	background: var(--text-light);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -228,11 +229,6 @@ const WarChoice = (props: WarChoiceProps) => {
 
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
-			let computedTimeColour = "#000";
-			if (progressBarRef.current) {
-				computedTimeColour = getComputedStyle(progressBarRef.current).getPropertyValue("--text-dark");
-			}
-
 			// Start
 			tl.fromTo(
 				containerRef.current,
@@ -250,8 +246,8 @@ const WarChoice = (props: WarChoiceProps) => {
 			if (percentage > 65) {
 				tl.fromTo(
 					totalRef.current,
-					{ marginBottom: 0, color: "#000" },
-					{ marginBottom: -46, color: computedTimeColour, duration: 2, ease: "power4.out" },
+					{ marginBottom: 0, color: "var(--text-light)" },
+					{ marginBottom: -46, color: "var(--text-dark)", duration: 2, ease: "power4.out" },
 					`stagger+=${props.index / 2 + 0.75}`,
 				);
 			}

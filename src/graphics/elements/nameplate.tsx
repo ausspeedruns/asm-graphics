@@ -2,8 +2,7 @@ import { useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import gsap from "gsap";
 
-// @ts-ignore
-import TwitchLogo from "../media/icons/TwitchWhite.svg";
+import TwitchLogo from "../media/icons/Twitch.svg?react";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 import { FitText } from "./fit-text";
@@ -58,6 +57,7 @@ const TwitchDiv = styled.div`
 	position: absolute;
 	display: flex;
 	align-items: center;
+	gap: 12px;
 `;
 
 const PronounBox = styled.div<NameplateStyleProps>`
@@ -75,13 +75,12 @@ const PronounBox = styled.div<NameplateStyleProps>`
 	font-family: var(--main-font);
 `;
 
-const TwitchLogoImg = styled.img`
+const TwitchLogoImg = styled(TwitchLogo)`
 	height: 30px;
 	width: auto;
-	margin-right: 13px;
 `;
 
-interface Props {
+interface NameplateProps {
 	player: RunDataPlayer;
 	nameplateLeft?: boolean;
 	maxWidth?: number;
@@ -93,12 +92,12 @@ interface Props {
 	speakingValue?: number;
 }
 
-type NameplateStyleProps = Pick<Props, "nameplateLeft" | "speaking" | "vertical">;
+type NameplateStyleProps = Pick<NameplateProps, "nameplateLeft" | "speaking" | "vertical">;
 
 // How many seconds it takes to fade between twitch and normal name
 const NAME_LOOP_DURATION = 90;
 
-export const Nameplate = (props: Props) => {
+export function Nameplate(props: NameplateProps) {
 	const normalNameEl = useRef<HTMLDivElement>(null);
 	const twitchNameEl = useRef<HTMLDivElement>(null);
 
@@ -137,7 +136,7 @@ export const Nameplate = (props: Props) => {
 					<NormalName style={{ maxWidth: maxWidth }} text={props.player.name} />
 				</div>
 				<TwitchDiv ref={twitchNameEl} style={{ opacity: sameNameAndTwitch ? 1 : 0, zIndex: 2 }}>
-					<TwitchLogoImg src={TwitchLogo} />
+					<TwitchLogoImg />
 
 					<div>
 						<NormalName style={{ maxWidth: maxWidth - 45 }} text={props.player.social.twitch ?? ""} />
@@ -154,4 +153,4 @@ export const Nameplate = (props: Props) => {
 			)}
 		</NameplateContainer>
 	);
-};
+}

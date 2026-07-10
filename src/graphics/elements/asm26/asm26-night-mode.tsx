@@ -4,12 +4,12 @@ import styles from "./asm26-night-mode.module.css";
 import { Colour } from "../../colour";
 import { calculateTimeBasedColour } from "../time-style-context";
 import Particles from "@tsparticles/react";
-import { MoveDirection, type ISourceOptions } from "@tsparticles/engine";
+import { type ISourceOptions } from "@tsparticles/engine";
 
 const dayColour = new Colour("#00052800");
 const nightColour = new Colour("#00052882");
 
-const fireParticles: ISourceOptions = {
+export const fireParticles: ISourceOptions = {
 	fpsLimit: 30,
 	fullScreen: {
 		enable: false,

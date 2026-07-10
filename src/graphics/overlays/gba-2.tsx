@@ -135,7 +135,7 @@ export const GBA2 = (props: OverlayProps) => {
 						/>
 						<SponsorsBox sponsors={props.sponsors} sponsorStyle={SponsorSize} style={{ zIndex: 5 }} />
 					</div>
-					<RightBoxTrim style={{ color: "var(--accent)", marginBottom: 16 }}>+++++++++++++++++++</RightBoxTrim>
+					<RightBoxTrim style={{ color: "var(--sec)", marginBottom: 16 }}>+++++++++++++++++++</RightBoxTrim>
 				</RightBox>
 			</Topbar>
 			<CentralDivider />

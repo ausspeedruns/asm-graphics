@@ -134,8 +134,8 @@ export const StandardWidescreen = (props: OverlayProps) => {
 					width={598}
 					maxNameWidth={190}
 					style={{
-						borderRight: "1px solid var(--accent)",
-						borderLeft: "1px solid var(--accent)",
+						borderRight: "1px solid var(--sec)",
+						borderLeft: "1px solid var(--sec)",
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams}

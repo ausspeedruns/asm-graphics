@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 import { HOST_TAG } from "@asm-graphics/shared/constants";
+import { FitText } from "./fit-text";
+
+import CommentatorsNormalBG from "../media/asm26/CommentatorsNormal.png";
+import CommentatorsHostBG from "../media/asm26/CommentatorsHost.png";
 
 const PeopleContainer = styled.div`
 	font-family: var(--main-font);
@@ -50,56 +54,38 @@ export function Couch(props: Props) {
 	);
 }
 
-const PersonCompressedContainer = styled.div`
+interface SpeakingProps {
+	speaking?: boolean;
+	isHost?: boolean;
+}
+
+const PersonCompressedContainer = styled.div<SpeakingProps>`
+	background-image: url(${({ isHost }) => (isHost ? CommentatorsHostBG : CommentatorsNormalBG)});
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 80px;
+	width: 210px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	gap: 4px;
 	color: var(--text-light);
-	font-size: 17px;
+	font-size: 19px;
 	box-sizing: border-box;
 	position: relative;
+	box-sizing: border-box;
+	padding: 20px;
+	filter: ${({ speaking }) => (speaking ? "drop-shadow(0px 0px 10px #ff9c6e)" : "none")};
 `;
 
-const NameContainer = styled.div`
-	background: #013853f1;
-	padding: 6px 6px;
-	margin-bottom: 6px;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	border-radius: 8px;
-`;
-
-interface SpeakingProps {
-	speaking?: boolean;
-}
-
-const SpeakingColour = styled.div<SpeakingProps>`
-	position: absolute;
-	top: 0;
-	left: 0;
-	/* border-radius: 8px; */
-	width: 100%;
-	height: 100%;
-	opacity: ${({ speaking }) => (speaking ? 1 : 0)};
-	// background-color: #ffffff53;
-	transition-duration: 0.2s;
-	transition-delay: ${({ speaking }) => (speaking ? undefined : "0.5s")};
-
-	outline: 4px solid white;
-`;
-
-// const Tag = styled.span`
-// 	font-weight: bold;
-// 	margin-right: 4px;
-// 	font-family: var(--secondary-font);
-// `;
-
-const Name = styled.span`
+const Name = styled(FitText)`
 	font-family: var(--secondary-font);
 	font-weight: bold;
 	z-index: 2;
 	width: 100%;
+	max-width: 100%;
+	text-box: trim-both ex text;
 `;
 
 const Pronouns = styled.div`
@@ -107,6 +93,7 @@ const Pronouns = styled.div`
 	text-transform: uppercase;
 	font-family: var(--main-font);
 	z-index: 2;
+	text-box: trim-both ex text;
 `;
 
 const Role = styled.div`
@@ -115,12 +102,14 @@ const Role = styled.div`
 	border-radius: 15px;
 	min-width: 20px;
 	text-align: center;
+	text-box: trim-both ex text;
 `;
 
 const Row = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: flex-start;
+	gap: 4px;
 `;
 
 interface PersonCompressedProps {
@@ -132,18 +121,23 @@ interface PersonCompressedProps {
 }
 
 export function PersonCompressed(props: PersonCompressedProps) {
+	let isHost = false;
+	let displayTag = props.commentator.customData["tag"];
+	if (displayTag === HOST_TAG) {
+		displayTag = "";
+		isHost = true;
+	}
+
 	return (
-		<PersonCompressedContainer style={props.style}>
-			<NameContainer>
-				<SpeakingColour speaking={props.speaking} />
-				<Row>
-					<Name>{props.commentator.name}</Name>
-				</Row>
-				<Row>
-					{props.commentator.pronouns && <Pronouns>{props.commentator.pronouns}</Pronouns>}
-					{props.commentator.customData["tag"] && <Role>{props.commentator.customData["tag"]}</Role>}
-				</Row>
-			</NameContainer>
+		<PersonCompressedContainer isHost={isHost} speaking={props.speaking} style={props.style}>
+			{/* <SpeakingColour speaking={props.speaking} /> */}
+			<Row>
+				<Name text={props.commentator.name} alignment="left" />
+			</Row>
+			<Row>
+				{props.commentator.pronouns && <Pronouns>{props.commentator.pronouns}</Pronouns>}
+				{displayTag && <Role>{displayTag}</Role>}
+			</Row>
 		</PersonCompressedContainer>
 	);
 }

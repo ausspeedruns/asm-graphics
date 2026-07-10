@@ -56,7 +56,7 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 100%;
 	width: 100%;
-	border: 2px solid #f1d5ab;
+	border: 2px solid var(--text-light);
 	/* background: var(--main); */
 	background: transparent;
 	position: relative;
@@ -71,7 +71,7 @@ const ProgressContainer = styled.div`
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: #f1d5ab;
+	background: var(--text-light);
 	/* border-right: 5px solid var(--sec); */
 	display: flex;
 	justify-content: flex-end;

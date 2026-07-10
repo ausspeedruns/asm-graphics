@@ -25,6 +25,10 @@ import { BackgroundMusic } from "./intermission/background-music";
 import { IntermissionHost } from "./intermission/host";
 import { Location } from "./intermission/location";
 import { Sponsors } from "./elements/sponsors";
+import { ASM26NightMode, fireParticles } from "./elements/asm26/asm26-night-mode";
+import { loadFull } from "tsparticles";
+import type { Engine } from "@tsparticles/engine";
+import { ParticlesProvider } from "@tsparticles/react";
 
 const cameraLeft = 64;
 const cameraTop = 80;
@@ -35,26 +39,32 @@ const asm26IncentivesContainerWidth = 780;
 const asm26IncentivesContainerHeight = 235;
 const asm26OutlineWidth = 8;
 
+const init = async (engine: Engine): Promise<void> => {
+	await loadFull(engine);
+};
+
 function IntermissionPage() {
 	return (
-		<TimeStyleProvider>
-			<Intermission />
-			<input
-				type="range"
-				min="0"
-				max="1"
-				step="0.001"
-				// value={normalisedTime}
-				style={{ width: "100%" }}
-				// onChange={(e) => setNormalisedTime(parseFloat(e.target.value))}
-			/>
-			<div>
-				{/* <button onClick={() => setNormalisedTime(0)}>Midday</button>
+		<ParticlesProvider init={init}>
+			<TimeStyleProvider>
+				<Intermission />
+				<input
+					type="range"
+					min="0"
+					max="1"
+					step="0.001"
+					// value={normalisedTime}
+					style={{ width: "100%" }}
+					// onChange={(e) => setNormalisedTime(parseFloat(e.target.value))}
+				/>
+				<div>
+					{/* <button onClick={() => setNormalisedTime(0)}>Midday</button>
 				<button onClick={() => setNormalisedTime((sunsetStart + sunsetEnd) / 2)}>Sunset</button>
 				<button onClick={() => setNormalisedTime(0.5)}>Night</button>
 				<button onClick={() => setNormalisedTime((sunriseStart + sunriseEnd) / 2)}>Sunrise</button> */}
-			</div>
-		</TimeStyleProvider>
+				</div>
+			</TimeStyleProvider>
+		</ParticlesProvider>
 	);
 }
 
@@ -115,12 +125,24 @@ export function Intermission() {
 				</clipPath>
 			</svg>
 			<div className={clsx(styles.asm26WholeStitching, styles.asm26Stitching)} />
+			<ASM26NightMode
+				particlesId="intermission"
+				style={{
+					position: "absolute",
+					width: "100%",
+					height: "100%",
+					left: 0,
+					top: 0,
+					clipPath: "url(#cameraCutoutPath)",
+				}}
+			/>
 			{/* <img src={IntermissionBG} style={{ position: "absolute", top: 0, left: 0 }} /> */}
 			<div className={styles.main}>
 				<ASM26Felt
 					className={styles.asm26FeltCutout}
-					particlesId="intermission"
+					particlesId="red"
 					style={{ position: "absolute", width: "100%", height: "100%", left: 0, top: 0 }}
+					disableNightMode
 				/>
 				<div className={styles.leftColumn}>
 					<div className={clsx(styles.asm26CameraBorder, styles.asm26Stitching)}>
@@ -175,13 +197,14 @@ export function Intermission() {
 			</div>
 			<div className={styles.footer}>
 				<ASM26Felt
-					particlesId="intermission"
+					particlesId="blue"
 					style={{ position: "absolute", width: "100%", height: "100%", left: 0, top: 0 }}
+					disableNightMode
 				/>
 				<Location />
 				{/* <BackgroundMusic volume={backgroundMusicVolume} /> */}
 				<IntermissionHost />
-				<Sponsors sponsors={sponsors} style={{ maxHeight: 70, maxWidth: "300px" }} />
+				<Sponsors sponsors={sponsors} style={{ maxHeight: 70, maxWidth: "300px", zIndex: 10 }} />
 				<GoCLogo />
 			</div>
 		</div>

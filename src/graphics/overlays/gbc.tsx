@@ -30,7 +30,7 @@ const RightSidebar = styled(ASM26Bricks)`
 	right: 0;
 	height: 1016px;
 	width: 211px;
-	border-left: 1px solid var(--accent);
+	border-left: 1px solid var(--sec);
 	overflow: hidden;
 	// background: var(--main);
 

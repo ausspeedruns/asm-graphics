@@ -113,6 +113,8 @@ export function DashboardStageView() {
 		?.filter((run) => run.id !== runDataActiveRep?.id)
 		.slice(currentRunIndex, currentRunIndex + DISPLAY_NEXT_RUNS);
 
+	const doesHostExist = personDataContext.commentators.some((commentator) => commentator.customData?.["tag"] === "Host");
+
 	return (
 		<StyledEngineProvider injectFirst>
 			<head>
@@ -188,6 +190,7 @@ export function DashboardStageView() {
 						personId={personId}
 						open={personEditDialogOpen}
 						onClose={handleClosePersonEditDialog}
+						hostExists={doesHostExist}
 					/>
 					<CropGameDialog
 						open={gameCropDialogOpen}

@@ -11,6 +11,7 @@ import {
 	DialogActions,
 	Button,
 	Stack,
+	Tooltip,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -44,6 +45,7 @@ interface EditRunnerDialogProps {
 	open: boolean;
 	onClose: () => void;
 	personId: string | null;
+	hostExists?: boolean;
 }
 
 export function EditPersonDialog(props: EditRunnerDialogProps) {
@@ -234,6 +236,18 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 							value={mutablePersonData.customData?.["tag"] ?? ""}
 							onChange={(event) => handleCustomDataChange("tag", event.target.value)}
 						/>
+						<Tooltip title={props.hostExists ? "A host already exists. Remove the Host tag and try again." : ""}>
+							<span>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={() => handleCustomDataChange("tag", "Host")}
+									disabled={props.hostExists}
+								>
+									Set Host
+								</Button>
+							</span>
+						</Tooltip>
 					</div>
 					<div>
 						<span style={{ display: "block" }}>Headset</span>

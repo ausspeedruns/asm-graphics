@@ -6,8 +6,8 @@ import { useIntermissionStore } from "../stores/intermission-store";
 
 export function IntermissionDonationTotal() {
 	const donationTotal = useIntermissionStore((state) => state.donationTotal);
-	// const donationMatchMultiplier = useIntermissionStore((state) => state.donationMatchMultiplier);
-	const donationMatchMultiplier = 2;
+	const donationMatchMultiplier = useIntermissionStore((state) => state.donationMatchMultiplier);
+	// const donationMatchMultiplier = 2;
 
 	return (
 		<div className={styles.donationTotal}>
