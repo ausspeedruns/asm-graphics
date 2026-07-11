@@ -1,4 +1,5 @@
 import type { RunDataArray } from "@asm-graphics/types/RunData";
+import { CopyAll } from "@mui/icons-material";
 import { Button, Accordion, AccordionSummary, AccordionDetails, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 
@@ -63,6 +64,9 @@ export function GameYearsSettings() {
 					</ul>
 				</AccordionDetails>
 			</Accordion>
+			<Button onClick={() => navigator.clipboard.writeText(JSON.stringify(runsRep))} startIcon={<CopyAll />}>
+				Copy Current RunsData
+			</Button>
 		</div>
 	);
 }

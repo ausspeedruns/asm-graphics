@@ -140,14 +140,14 @@ function convertScheduleToSpeedcontrol(runs: z.TypeOf<typeof scheduleSchema>["ev
 
 nodecg.listenFor("scheduleImport:import", async () => {
 	const runs = await getSchedule();
-	
+
 	if (runs.length === 0) {
 		nodecg.log.error("[GraphQL Schedule Import]: Failed to get schedule");
 		return;
 	}
 
 	console.log(JSON.stringify(runs));
-	
+
 	SPEEDCONTROL_runDataArray.value = convertScheduleToSpeedcontrol(runs);
 
 	getGameData();

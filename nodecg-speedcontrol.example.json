@@ -22,6 +22,10 @@
 			{
 				"name": "Special Requirements",
 				"key": "specialRequirements"
+			},
+			{
+				"name": "Submission",
+				"key": "submission"
 			}
 		],
 		"player": [
