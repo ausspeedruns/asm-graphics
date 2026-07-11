@@ -2,6 +2,7 @@ packages:
   - bundles/**
 
 allowBuilds:
+  '@ffprobe-installer/darwin-arm64': true
   '@parcel/watcher': true
   '@serialport/bindings-cpp': true
   '@tsparticles/engine': true

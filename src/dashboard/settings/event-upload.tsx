@@ -1,25 +1,55 @@
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
+import { useState } from "react";
 
 export function EventUpload() {
+	const [status, setStatus] = useState<{ severity: "success" | "error"; message: string } | null>(null);
+	const [isUploading, setIsUploading] = useState(false);
+
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		const form = e.currentTarget;
+		const fileInput = form.elements.namedItem("eventZip") as HTMLInputElement;
+		const file = fileInput.files?.[0];
+		if (!file) {
+			return;
+		}
+
+		setIsUploading(true);
+		setStatus(null);
+
+		try {
+			const response = await fetch(`/bundles/${nodecg.bundleName}/event-upload`, {
+				method: "POST",
+				headers: {
+					"content-type": "application/zip",
+					"x-file-name": encodeURIComponent(file.name),
+				},
+				body: file,
+			});
+
+			if (!response.ok) {
+				throw new Error((await response.text()) || "Upload failed");
+			}
+
+			setStatus({ severity: "success", message: `Uploaded ${file.name} successfully.` });
+			fileInput.value = "";
+		} catch (error) {
+			setStatus({
+				severity: "error",
+				message: error instanceof Error ? error.message : "Upload failed.",
+			});
+		} finally {
+			setIsUploading(false);
+		}
+	}
+
 	return (
 		<div>
-			<h3>Event Upload (NOT IMPLEMENTED)</h3>
+			<h3>Event Upload</h3>
 			<p>
 				Upload a ZIP file containing all event assets and configuration. The event will be set up automatically.
 			</p>
-			<form
-				onSubmit={async (e) => {
-					e.preventDefault();
-					const form = e.target as HTMLFormElement;
-					const fileInput = form.elements.namedItem("eventZip") as HTMLInputElement;
-					if (!fileInput.files?.[0]) return;
-					const file = fileInput.files[0];
-					const data = new FormData();
-					data.append("eventZip", file);
-					// await nodecg.sendMessage("event:upload", data);
-					fileInput.value = "";
-				}}
-			>
+			<form onSubmit={handleSubmit}>
 				<label
 					htmlFor="eventZip"
 					style={{
@@ -65,9 +95,10 @@ export function EventUpload() {
 					<span style={{ fontWeight: 500 }}>Click or drag ZIP file here to upload</span>
 					<span style={{ fontSize: 12, opacity: 0.7, marginTop: 4 }}>.zip only</span>
 				</label>
-				<Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
-					Upload Event ZIP
+				<Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }} disabled={isUploading}>
+					{isUploading ? "Uploading Event ZIP..." : "Upload Event ZIP"}
 				</Button>
+				{status ? <Alert severity={status.severity} sx={{ marginTop: 2 }}>{status.message}</Alert> : null}
 			</form>
 		</div>
 	);

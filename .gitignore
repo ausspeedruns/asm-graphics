@@ -29,3 +29,6 @@ speedcontrol-config.json
 /assets
 /db
 /logs
+
+# AusSpeedruns
+event-data
