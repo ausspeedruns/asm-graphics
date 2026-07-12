@@ -8,6 +8,7 @@ import { TickerTitle } from "./title";
 import type { Prize } from "@asm-graphics/types/Prizes";
 
 const TickerPrizesContainer = styled.div`
+	position: absolute;
 	top: 0;
 	left: 0;
 	height: 100%;
@@ -15,15 +16,13 @@ const TickerPrizesContainer = styled.div`
 	display: flex;
 	align-items: center;
 	z-index: 2;
+	transform: translate(0, -64px);
 `;
 
 const PrizesScroller = styled.div`
 	width: fit-content;
 	display: flex;
 	align-items: center;
-	/* justify-content: space-around; */
-	position: absolute;
-	top: -32px;
 `;
 
 interface Props {
@@ -40,10 +39,9 @@ export function TickerPrizes(props: Props) {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(prizesRef.current, { right: "" });
-			tl.to(containerRef.current, { y: 0, duration: 1 });
+			tl.fromTo(containerRef.current, { y: -64 }, { y: 0, duration: 1 });
 
-			tl.to(prizesRef.current, { right: 0, ease: "slow(0.999, 0.05, false)", duration: 10 }, "+=5");
+			tl.fromTo(prizesRef.current, { right: "-100%" }, { right: 0, ease: "slow(0.999, 0.05, false)", duration: 10 }, "+=5");
 
 			// End
 			tl.to(containerRef.current, { y: 64, duration: 1 }, "+=10");

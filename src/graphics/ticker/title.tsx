@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 
 const TickerTitleContainer = styled.div`
-	height: 59px;
-	width: fit-content;
+	height: 100%;
 	font-family: var(--secondary-font);
 	font-size: 20px;
 	color: var(--text-light);
@@ -13,8 +12,7 @@ const TickerTitleContainer = styled.div`
 	white-space: nowrap;
 	padding: 0 10px;
 	text-align: center;
-	padding-bottom: 2px;
-	padding-top: 3px;
+	line-height: 1;
 `;
 
 interface Props {

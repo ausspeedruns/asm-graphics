@@ -7,12 +7,13 @@ const TickerItemContainer = styled.div`
 	color: var(--text-light);
 	display: flex;
 	align-items: center;
+	line-height: 1;
 `;
 
 const VerticalStack = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
+	justify-content: center;
 	margin: 0 12px;
 	height: 100%;
 `;
@@ -32,7 +33,7 @@ const Subtitle = styled.span`
 const BorderItem = styled.div`
 	height: 55px;
 	width: 2px;
-	background: var(--accent);
+	background: var(--sec);
 `;
 
 interface Props {

@@ -71,6 +71,7 @@ const CurrentLabels = styled.div`
 
 	& * {
 		text-box: trim-both cap alphabetic;
+		line-height: 0.75;
 	}
 `;
 
@@ -91,7 +92,7 @@ export interface TickerItemHandles {
 }
 
 const MAX_INCENTIVES: number = 10; // Type is there because we sometimes set it to a number and then it would get upset at us since we test for -1 when it can't possibly be that.
-const TEST_RANGE: number[] = [1];
+const TEST_RANGE: number[] = [];
 
 export function IntermissionIncentives() {
 	const incentives = useIntermissionStore((state) => state.incentives);
@@ -253,7 +254,7 @@ export function IntermissionIncentives() {
 			localTl.add(() => {
 				setCurrentPanel((i + 1) % usablePanels.length);
 			});
-			localTl.set(labelsRef.current, { xPercent: -100 });
+			localTl.set(labelsRef.current, { xPercent: -110 });
 			localTl.to(labelsRef.current, { xPercent: 0, duration: 1 });
 		});
 

@@ -31,7 +31,8 @@ const RunsPage = styled.div`
 	gap: 4px;
 `;
 
-const RUNS_LIMIT = 2;
+const RUNS_LIMIT = 3;
+const RUNS_PER_PAGE = 1;
 const RUNS_SPEED = 2;
 const RUNS_DURATION = 10;
 const RUNS_PAGE_STAGGER = 0.05;
@@ -45,12 +46,15 @@ export function UpcomingRuns(props: UpcomingRunsProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const runsRefs = useRef<TickerItemHandles[]>([]);
 
-	const upcomingRunElements = props.upcomingRuns.slice(0, RUNS_LIMIT);
+	const groupedRuns: RunData[][] = [];
+	for (let i = 0; i < RUNS_LIMIT; i += RUNS_PER_PAGE) {
+		groupedRuns.push(props.upcomingRuns.slice(i, i + RUNS_PER_PAGE));
+	}
 
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("runsStart");
-			tl.set(containerRef.current, { xPercent: 100 });
+			tl.fromTo(containerRef.current, { xPercent: -110 }, { xPercent: 0 });
 			runsRefs.current.reverse().forEach((runRef) => {
 				tl.add(runRef.animation(tl));
 			});
@@ -60,18 +64,20 @@ export function UpcomingRuns(props: UpcomingRunsProps) {
 
 	return (
 		<UpcomingRunsContainer ref={containerRef}>
-			<RunsPage>
-				{upcomingRunElements.map((run, i) => (
-					<Run
-						run={run}
-						index={i}
-						key={i}
-						ref={(el) => {
-							runsRefs.current[i] = el!;
-						}}
-					/>
-				))}
-			</RunsPage>
+			{groupedRuns.map((runs, i) => (
+				<RunsPage key={i}>
+					{runs.map((run, j) => (
+						<Run
+							run={run}
+							index={i * RUNS_PER_PAGE + j}
+							key={run.id}
+							ref={(el) => {
+								runsRefs.current[i * RUNS_PER_PAGE + j] = el!;
+							}}
+						/>
+					))}
+				</RunsPage>
+			))}
 		</UpcomingRunsContainer>
 	);
 }
@@ -92,6 +98,7 @@ const UpcomingRunContainer = styled.div`
 	// width: 100%;
 	// flex-grow: 1;
 	font-size: 22px;
+	line-height: 1;
 `;
 
 const MetaDataContainer = styled.div`
@@ -105,41 +112,41 @@ const MetaDataContainer = styled.div`
 	justify-content: space-evenly;
 `;
 
-const RequirementsContainer = styled.div`
+const LeftSideContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	width: 150px;
 `;
 
-const Requirement = styled.span`
+const Time = styled.span`
 	font-weight: bold;
-	font-size: 80%;
+	font-size: 100%;
 	text-align: center;
 `;
 
-const RequirementSubheading = styled(FitText)`
+const RunnerNames = styled(FitText)`
 	font-size: 100%;
 	max-width: 150px;
 	font-family: var(--main-font);
 `;
 
-const ItemContainer = styled.div`
+const RunInfoContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
 	flex-grow: 1;
 	color: var(--text-light);
-	font-size: 100%;
+	font-size: 150%;
 `;
 
-const Item = styled(FitTextElements)`
+const GameName = styled(FitTextElements)`
 	font-weight: bold;
 	max-width: 450px;
 `;
 
-const SubItem = styled(FitTextElements)`
+const Category = styled(FitTextElements)`
 	font-family: var(--main-font);
 	font-weight: normal;
 	max-width: 450px;
@@ -157,10 +164,10 @@ interface RunProps {
 
 const RUN_STAGGER_INVERSE = 1 / RUNS_PAGE_STAGGER;
 
-export const Run = (props: RunProps) => {
+export function Run(props: RunProps) {
 	const containerRef = useRef(null);
 
-	const pageTimeOffset = Math.floor(props.index / RUNS_LIMIT) * (RUNS_DURATION + 1.5);
+	const pageTimeOffset = Math.floor(props.index / RUNS_PER_PAGE) * (RUNS_DURATION + 1.5);
 
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
@@ -185,18 +192,18 @@ export const Run = (props: RunProps) => {
 	return (
 		<UpcomingRunContainer ref={containerRef} style={props.style}>
 			<MetaDataContainer>
-				<RequirementsContainer>
-					<Requirement>{props.run.scheduled ? format(props.run.scheduled, "h:mm a") : "Soon"}</Requirement>
-					<RequirementSubheading
+				<LeftSideContainer>
+					<Time>{props.run.scheduled ? format(props.run.scheduled, "h:mm a") : "Soon"}</Time>
+					<RunnerNames
 						text={props.run.teams.map((team) => team.players.map((player) => player.name)).join(", ")}
 					/>
-				</RequirementsContainer>
+				</LeftSideContainer>
 			</MetaDataContainer>
 			<img src={ASM26Bow} style={{ height: "100%" }} />
-			<ItemContainer>
-				<Item text={<>{props.run.game}</>} />
-				<SubItem text={props.run.category} />
-			</ItemContainer>
+			<RunInfoContainer>
+				<GameName text={<>{props.run.game}</>} />
+				<Category text={props.run.category} />
+			</RunInfoContainer>
 		</UpcomingRunContainer>
 	);
-};
+}

@@ -10,12 +10,13 @@ const TickerItemContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	flex-grow: 1;
+	line-height: 1;
 `;
 
 const VerticalStack = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	margin: 0 12px;
 	height: 100%;
@@ -26,13 +27,14 @@ const Title = styled.span`
 	white-space: nowrap;
 	font-weight: 1000;
 	font-family: var(--secondary-font);
-	height: 60%;
+	/* height: 60%; */
+	/* margin-bottom: -8px; */
 `;
 
 const Subtitle = styled.span`
 	font-size: 17px;
 	white-space: nowrap;
-	height: 40%;
+	/* height: 40%; */
 	/* font-family: var(--secondary-font); */
 `;
 

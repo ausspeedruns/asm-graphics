@@ -51,15 +51,15 @@ const ProgressContainer = styled.div`
 	flex-grow: 1;
 	height: 54px;
 	margin: 0 16px 0 5px;
-	border: 1px solid var(--accent);
+	border: 1px solid var(--text-light);
 	position: relative;
 	overflow: hidden;
 `;
 
 const ProgressBarContainer = styled.div`
 	height: 100%;
-	background: var(--accent);
-	border-right: 5px solid var(--accent);
+	background: var(--sec);
+	border-right: 5px solid var(--sec);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;

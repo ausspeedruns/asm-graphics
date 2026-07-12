@@ -10,6 +10,9 @@ import ASM26Background from "../../media/asm26/ASM26_Carousel.png";
 import ASM26Bow from "../../media/asm26/Carosuel_Bow_Blue.png";
 
 const PrizesContainer = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -52,19 +55,13 @@ export function Prizes(props: PrizesProps) {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("prizesStart");
-			tl.set(containerRef.current, { xPercent: 100 });
+			tl.fromTo(containerRef.current, { xPercent: -110 }, { xPercent: 0 });
 			prizesRefs.current.reverse().forEach((prizeRef) => {
 				tl.add(prizeRef.animation(tl));
 			});
 			return tl;
 		},
 	}));
-
-	// for (let i = 0; i < groupedPrizes.length; i++) {
-	// 	for (let j = 0; j < groupedPrizes[i].length; j++) {
-	// 		console.log(`Prize: ${groupedPrizes[i][j].item} | Index ${i * PRIZE_PAGE_LENGTH + j}`)
-	// 	}
-	// }
 
 	return (
 		<PrizesContainer ref={containerRef}>
@@ -118,17 +115,17 @@ const RequirementsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	font-size: 30px;
 `;
 
 const Requirement = styled.span`
 	font-weight: bold;
-	font-size: 20px;
 	text-align: center;
 	max-width: 500px;
 `;
 
 const RequirementSubheading = styled.span`
-	font-size: 40%;
+	font-size: 70%;
 	text-align: center;
 `;
 
@@ -202,7 +199,7 @@ const Prize = (props: PrizeProps) => {
 		<UpcomingRunContainer ref={containerRef}>
 			<MetaDataContainer>
 				<RequirementsContainer>
-					<Requirement style={{ fontSize: props.prize.requirement.includes("\n") ? "20px" : "30px" }}>
+					<Requirement style={{ fontSize: props.prize.requirement.includes("\n") ? "70%" : undefined }}>
 						{renderTextWithLineBreaks(props.prize.requirement)}
 					</Requirement>
 					{props.prize.requirementSubheading && (

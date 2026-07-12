@@ -7,6 +7,9 @@ import type { TickerItemHandles } from "../ticker";
 import { FitText } from "../elements/fit-text";
 
 const WarChoiceContainer = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -62,8 +65,8 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	width: 0px;
-	background: var(--main);
-	border-right: 5px solid var(--accent);
+	background: var(--sec);
+	border-right: 5px solid var(--sec);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -96,7 +99,7 @@ export function WarGame(props: GoalProps) {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.to(containerRef.current, { y: 0, duration: 1 }, "-=0.5");
+			tl.fromTo(containerRef.current, { y: -64 }, { y: 0, duration: 1 }, "-=0.5");
 
 			for (let i = 0; i < Math.min(props.war.options.length, MAX_ALLOWED - 1); i++) {
 				const optionRef = optionRefs.current[props.war.options.length - 1 - i];

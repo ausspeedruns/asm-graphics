@@ -4,13 +4,13 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 12px;
 	
 	font-size: 200%;
 	text-transform: uppercase;
 
 	&>* {
 		text-box: trim-both cap alphabetic;
+		line-height: 1;
 	}
 
 

@@ -89,6 +89,24 @@ const LeftBlock = styled.div`
 const dayColour = new Colour("#419ADF");
 const nightColour = new Colour("#CC3622");
 
+const testDonationMatch = 
+		{
+			desc: "Description of the donation match",
+			id: "donation-match-1",
+			read: false,
+			time: Date.now(),
+			name: "John AusSpeedruns",
+			amount: 100,
+			currencySymbol: "$",
+			currencyCode: "USD",
+
+			pledge: 200,
+			endsAt: Date.now() + 1000000,
+			completedAt: 0,
+			active: true,
+			updated: Date.now(),
+		}
+
 export interface TickerItemHandles {
 	animation(tl: gsap.core.Timeline): gsap.core.Timeline;
 }
@@ -198,12 +216,12 @@ export function Ticker() {
 					/>
 					{/* <ContentAreaBackgroundTint /> */}
 
-					{/* <TickerRuns ref={runsRef} currentRun={runDataActive} runArray={runDataArray} /> */}
-					{/* <TickerCTA ref={ctaRef} currentTotal={donationAmount} /> */}
-					{/* <TickerMilestones currentTotal={donationAmount} ref={milestoneRef} /> */}
+					<TickerRuns ref={runsRef} currentRun={runDataActive} runArray={runDataArray} />
+					<TickerCTA ref={ctaRef} currentTotal={donationAmount} />
+					<TickerMilestones currentTotal={donationAmount} ref={milestoneRef} />
 					<TickerIncentives incentives={incentives ?? []} ref={incentivesRef} />
-					{/* <TickerPrizes ref={prizesRef} prizes={prizes} /> */}
-					{/* <TickerDonationMatches donationMatches={donationMatches} ref={donationMatchesRef} /> */}
+					<TickerPrizes ref={prizesRef} prizes={prizes} />
+					<TickerDonationMatches donationMatches={[testDonationMatch]} ref={donationMatchesRef} />
 				</ContentArea>
 				<CurrentTime />
 				<DonationMatchesFixture />

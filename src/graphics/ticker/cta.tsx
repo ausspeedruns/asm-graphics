@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import type { TickerItemHandles } from "../ticker";
 
 const TickerCTAContainer = styled.div`
-	position: relative;
+	position: absolute;
 	height: 100%;
 	width: 100%;
 	display: flex;

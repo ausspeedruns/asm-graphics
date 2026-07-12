@@ -26,7 +26,7 @@ interface Props {
 	ref: React.Ref<TickerItemHandles>;
 }
 
-const numOfUpcomingRuns = 2;
+const numOfUpcomingRuns = 3;
 
 // TODO: Show as many runs as fit in the space instead of a fixed number
 export function TickerRuns(props: Props) {
@@ -71,5 +71,5 @@ export function TickerRuns(props: Props) {
 const BorderItem = styled.div`
 	height: 55px;
 	width: 2px;
-	background: var(--accent);
+	background: var(--sec);
 `;

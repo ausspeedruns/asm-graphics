@@ -7,6 +7,9 @@ import type { TickerItemHandles } from "../ticker";
 import { FitText } from "../elements/fit-text";
 
 const GoalBarContainer = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -90,12 +93,11 @@ export function GoalBar(props: GoalProps) {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.set(progressBarRef.current, { width: 0 }, "goalStart");
-			tl.set(containerRef.current, { y: -64 }, "-=0.5");
-			tl.to(containerRef.current, { y: 0, duration: 1 }, "-=0.5");
+			tl.fromTo(containerRef.current, { y: -64 }, { y: 0, duration: 1 }, "-=0.5");
 
-			tl.to(
+			tl.fromTo(
 				progressBarRef.current,
+				{ width: 0 },
 				{ width: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) },
 				"+=0.1",
 			);

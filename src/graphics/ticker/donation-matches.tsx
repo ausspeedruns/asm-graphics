@@ -63,6 +63,7 @@ const IncentiveContainer = styled(GoalElement)`
 	display: flex;
 	align-items: center;
 	margin: 0 4px 0 8px;
+	line-height: 1;
 `;
 
 // Determines full size

@@ -100,7 +100,7 @@ export const GoalBar = (props: GoalProps) => {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.fromTo(containerRef.current, { xPercent: -100 }, { xPercent: 0, duration: 1 }, "-=0.5");
+			tl.fromTo(containerRef.current, { xPercent: -110 }, { xPercent: 0, duration: 1 }, "-=0.5");
 			tl.addLabel("startBarFilling", "+=0.1");
 
 			const percentage = (props.goal.total / props.goal.goal) * 100;
