@@ -61,6 +61,7 @@ const ASM26WreathContainer = styled.div`
 	align-items: center;
 	border-radius: 10px;
 	padding: 30px 60px;
+	margin: 20px;
 `;
 
 const ASM26Wreath = styled.img`
@@ -135,7 +136,7 @@ export const Widescreen = (props: OverlayProps) => {
 						}}
 					/> */}
 					<Couch
-						style={{ zIndex: 2, marginTop: 8 }}
+						style={{ zIndex: 2 }}
 						commentators={props.commentators}
 						audio={props.microphoneAudioIndicator}
 						darkTitle

@@ -11,7 +11,7 @@
 		position: relative;
 		font-size: 180px;
 		font-family: var(--game-font);
-		font-weight: 900;
+		/* font-weight: 900; */
 		text-box-trim: trim-both;
 		text-box-edge: ex alphabetic;
 		line-height: 1;

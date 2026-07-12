@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "@emotion/styled";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
@@ -7,10 +7,6 @@ import {
 	Fit,
 	Layout,
 	useRive,
-	useViewModel,
-	useViewModelInstance,
-	useViewModelInstanceNumber,
-	useViewModelInstanceTrigger,
 } from "@rive-app/react-webgl2";
 
 // import ASMLogo from './media/ASM2022 Logo.svg';
@@ -92,9 +88,9 @@ const TAGLINES = [
 	// ["By RUNNER NAME", "GAME NAME ...wait hang on"],
 ];
 
-const GAME_TEXTRUN = "game";
-const CATEGORY_TEXTRUN = "category";
-const RUNNER_TEXTRUN = "runners";
+const GAME_TEXTRUN = "GameTest";
+const CATEGORY_TEXTRUN = "CategoryTest";
+const RUNNER_TEXTRUN = "RunnersTest";
 
 export const Transition: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null);
@@ -109,11 +105,11 @@ export const Transition: React.FC = () => {
 	const [automationsRep] = useReplicant("automations");
 
 	const { rive: normalRive, RiveComponent: NormalTransitions } = useRive({
-		src: "/bundles/asm-graphics/shared/design/transition.riv",
-		autoplay: false,
+		src: "/bundles/asm-graphics/shared/design/transition.riv?v=4",
+		artboard: "Slide 16:9 - 1",
 		autoBind: true,
+		// autoplay: false,
 	});
-
 	useListenFor("transition:UNKNOWN", () => {
 		console.log("Transitioning");
 		runTransition("basic");
@@ -135,9 +131,16 @@ export const Transition: React.FC = () => {
 		// runTransition("toIntermission");
 	});
 
-	useEffect(() => {
-		normalRive?.stopRendering();
-	}, [normalRive]);
+	function setRiveString(name: string, value: string) {
+		console.log("Setting Rive string property", name, value);
+		const property = normalRive?.viewModelInstance?.string(name);
+		if (!property) {
+			console.error(`Rive string property not found: ${name}`, normalRive?.viewModelInstance);
+			return;
+		}
+		console.log("Setting Rive string property", name, value, property);
+		property.value = value;
+	}
 
 	function runTransition(transition: "toIntermission" | "toGame" | "basic", specialText: string[] = []) {
 		// if (!automationsRep?.runTransition) {
@@ -145,12 +148,13 @@ export const Transition: React.FC = () => {
 		// 	return;
 		// }
 
-		console.log("Running");
-
 		if (!normalRive) {
 			console.error("Rive instance not available");
 			return;
 		}
+
+		console.log(normalRive.viewModelInstance?.viewModelName, normalRive.viewModelInstance?.runtimeInstance);
+		console.log("Running");
 
 		// gameRef.current!.innerText = specialText[0] ?? "";
 		// bylineRef.current!.innerText = specialText[2] ?? "";
@@ -177,25 +181,26 @@ export const Transition: React.FC = () => {
 
 		// tl.to([textContainerRef.current, staticImageRef.current], { opacity: 0, duration: 1 }, "+=1");
 
-		normalRive.startRendering();
 		normalRive.reset();
 
+		setRiveString("game", "ASM2026");
+		console.log(transition)
 		switch (transition) {
 			case "basic":
-				normalRive.setTextRunValue(GAME_TEXTRUN, "ASM2026");
-				normalRive.setTextRunValue(CATEGORY_TEXTRUN, "");
-				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[0] ?? "");
+				setRiveString("game", "ASM2026");
+				setRiveString("category", "");
+				setRiveString("runners", specialText[0] ?? "");
 				break;
 			case "toIntermission":
-				normalRive.setTextRunValue(GAME_TEXTRUN, "ASM2026");
-				normalRive.setTextRunValue(CATEGORY_TEXTRUN, specialText[0] ?? "");
-				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[0] ?? "");
+				setRiveString("game", "ASM2026");
+				setRiveString("category", specialText[0] ?? "");
+				setRiveString("runners", specialText[0] ?? "");
 				break;
 			case "toGame":
 			default:
-				normalRive.setTextRunValue(GAME_TEXTRUN, specialText[0] ?? "");
-				normalRive.setTextRunValue(CATEGORY_TEXTRUN, specialText[1] ?? "");
-				normalRive.setTextRunValue(RUNNER_TEXTRUN, specialText[2] ?? "");
+				setRiveString("game", specialText[0] ?? "");
+				setRiveString("category", specialText[1] ?? "");
+				setRiveString("runners", specialText[2] ?? "");
 				break;
 		}
 
@@ -256,15 +261,6 @@ export const Transition: React.FC = () => {
 				<button onClick={() => changeBGColor("#0f0")}>Green</button>
 				<button onClick={() => changeBGColor("#00f")}>Blue</button>
 				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
-				<button
-					onClick={() => {
-						if (setHealth) {
-							setHealth(0);
-						}
-					}}
-				>
-					Game Over
-				</button>
 			</div>
 		</TransitionContainer>
 	);

@@ -35,4 +35,6 @@ body {
 		#f89d65 72.2%,
 		#ffba47 87%
 	);
+
+	font-variation-settings: "CRSV" 0, "ELSH" 60, "ELXP" 55, "slnt" 0, "wght" 400;
 }

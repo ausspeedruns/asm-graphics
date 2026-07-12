@@ -45,7 +45,7 @@ export function Couch(props: Props) {
 					<PersonCompressed
 						key={person.id}
 						commentator={person}
-						speaking={props.audio?.[person.customData["microphone"] ?? ""]}
+						speaking={props.audio?.[(person.customData["microphone"] as string | undefined) ?? ""]}
 						index={i}
 					/>
 				);
@@ -76,6 +76,7 @@ const PersonCompressedContainer = styled.div<SpeakingProps>`
 	position: relative;
 	box-sizing: border-box;
 	padding: 20px;
+	margin: -10px;
 	filter: ${({ speaking }) => (speaking ? "drop-shadow(0px 0px 10px #ff9c6e)" : "none")};
 `;
 
@@ -122,7 +123,7 @@ interface PersonCompressedProps {
 
 export function PersonCompressed(props: PersonCompressedProps) {
 	let isHost = false;
-	let displayTag = props.commentator.customData["tag"];
+	let displayTag = props.commentator.customData["tag"] as string | undefined;
 	if (displayTag === HOST_TAG) {
 		displayTag = "";
 		isHost = true;

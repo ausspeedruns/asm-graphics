@@ -146,7 +146,7 @@ export function Intermission() {
 				/>
 				<div className={styles.leftColumn}>
 					<div className={clsx(styles.asm26CameraBorder, styles.asm26Stitching)}>
-						<IntermissionVideoComponent ref={adsRef} videos={videos} />
+						{/* <IntermissionVideoComponent ref={adsRef} videos={videos} /> */}
 					</div>
 					<div className={styles.cameraShadow} />
 				</div>
