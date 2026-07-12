@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { useRef, useEffect, useState, memo } from "react";
+import { useRef, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import gsap from "gsap";
 import { useShallow } from "zustand/react/shallow";
@@ -30,6 +30,7 @@ const TickerContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	overflow: hidden;
+	color: var(--light-text);
 
 	--secondary-font: Poppins;
 `;
@@ -82,6 +83,7 @@ const ContentAreaBackground = styled.div`
 
 const LeftBlock = styled.div`
 	display: flex;
+	width: 304px;
 `;
 
 const dayColour = new Colour("#419ADF");
@@ -196,12 +198,12 @@ export function Ticker() {
 					/>
 					{/* <ContentAreaBackgroundTint /> */}
 
-					<TickerRuns ref={runsRef} currentRun={runDataActive} runArray={runDataArray} />
-					<TickerCTA ref={ctaRef} currentTotal={donationAmount} />
-					<TickerMilestones currentTotal={donationAmount} ref={milestoneRef} />
+					{/* <TickerRuns ref={runsRef} currentRun={runDataActive} runArray={runDataArray} /> */}
+					{/* <TickerCTA ref={ctaRef} currentTotal={donationAmount} /> */}
+					{/* <TickerMilestones currentTotal={donationAmount} ref={milestoneRef} /> */}
 					<TickerIncentives incentives={incentives ?? []} ref={incentivesRef} />
-					<TickerPrizes ref={prizesRef} prizes={prizes} />
-					<TickerDonationMatches donationMatches={donationMatches} ref={donationMatchesRef} />
+					{/* <TickerPrizes ref={prizesRef} prizes={prizes} /> */}
+					{/* <TickerDonationMatches donationMatches={donationMatches} ref={donationMatchesRef} /> */}
 				</ContentArea>
 				<CurrentTime />
 				<DonationMatchesFixture />

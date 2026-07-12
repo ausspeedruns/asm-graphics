@@ -17,7 +17,7 @@ const TickerRunsContainer = styled.div`
 	display: flex;
 	align-items: center;
 	transform: translate(0px, -64px);
-	z-index: 0;
+	z-index: 3;
 `;
 
 interface Props {
@@ -36,7 +36,7 @@ export function TickerRuns(props: Props) {
 		.slice(currentRunIndex + 1)
 		.slice(0, numOfUpcomingRuns);
 
-	const RunsArray = upcomingRuns.map((run, i) => {
+	const runsArray = upcomingRuns.map((run, i) => {
 		return (
 			<>
 				<Run run={run} key={run.id} />
@@ -48,7 +48,7 @@ export function TickerRuns(props: Props) {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.to(containerRef.current, { y: 0, duration: 1 });
+			tl.fromTo(containerRef.current, { y: -64 }, { y: 0, duration: 1 });
 
 			// End
 			tl.to(containerRef.current, { y: 64, duration: 1 }, "+=10");
@@ -58,10 +58,12 @@ export function TickerRuns(props: Props) {
 		},
 	}));
 
+	console.log(runsArray);
+
 	return (
 		<TickerRunsContainer ref={containerRef}>
 			<TickerTitle>Coming Up</TickerTitle>
-			{RunsArray}
+			{runsArray}
 		</TickerRunsContainer>
 	);
 }

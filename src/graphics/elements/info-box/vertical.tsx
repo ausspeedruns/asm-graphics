@@ -5,6 +5,7 @@ import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
+import { customDataSchema } from "../../../shared/types/custom-data";
 
 const VerticalInfoContainer = styled.div`
 	width: 100%;
@@ -13,7 +14,7 @@ const VerticalInfoContainer = styled.div`
 	align-items: center;
 	justify-content: space-evenly;
 	z-index: 2;
-	gap: 10px;
+	gap: 5px;
 
 	font-size: 28px;
 
@@ -69,6 +70,8 @@ interface Props {
 }
 
 export function VerticalInfo(props: Props) {
+	const customData = customDataSchema.safeParse(props.runData?.customData ?? {}).data;
+
 	return (
 		<VerticalInfoContainer className={props.className} style={props.style}>
 			<VerticalStack id="timerStack">
@@ -77,7 +80,7 @@ export function VerticalInfo(props: Props) {
 			</VerticalStack>
 			{!props.hideDividers && <Divider className="divider" />}
 			<VerticalStack id="gameInfo">
-				<RunInfo.GameTitle game={props.runData?.customData["gameDisplay"] ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={customData?.gameDisplay ?? props.runData?.game ?? ""} />
 				<HorizontalStack id="subInfoStack">
 					<RunInfo.System system={props.runData?.system ?? ""} />
 					<RunInfo.Year year={props.runData?.release ?? ""} />

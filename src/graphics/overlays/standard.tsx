@@ -28,7 +28,7 @@ const InfoBoxBG = styled(ASM26Bricks)`
 	// background: var(--main);
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 	height: 644px;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
@@ -36,6 +36,8 @@ const InfoBoxBG = styled(ASM26Bricks)`
 	background-repeat: repeat;
 	position: relative;
 	padding: 10px 0;
+	padding-bottom: 30px;
+	box-sizing: border-box;
 `;
 
 const ASM26WreathContainer = styled.div`
@@ -46,6 +48,7 @@ const ASM26WreathContainer = styled.div`
 	align-items: center;
 	border-radius: 10px;
 	padding: 30px 60px;
+	margin: 20px;
 `;
 
 const ASM26Wreath = styled.img`

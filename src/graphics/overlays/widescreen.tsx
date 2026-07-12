@@ -26,7 +26,6 @@ const TopBar = styled(ASM26Felt)`
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	// background-color: var(--main);
 	position: relative;
-	padding-bottom: 12px;
 	box-sizing: border-box;
 `;
 

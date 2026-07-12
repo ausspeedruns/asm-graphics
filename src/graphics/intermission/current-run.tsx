@@ -7,9 +7,11 @@ import StopwatchIcon from "../media/icons/stopwatch.svg?react";
 import RunnerIcon from "../media/icons/runner.svg?react";
 import ConsoleIcon from "../media/icons/console.svg?react";
 import { useIntermissionStore } from "../stores/intermission-store";
+import { customDataSchema } from "../../shared/types/custom-data";
 
 export function IntermissionCurrentRun() {
 	const currentRun = useIntermissionStore((state) => state.activeRun);
+	const customData = customDataSchema.safeParse(currentRun?.customData ?? {}).data;
 
 	let playerNames: React.ReactNode[] = [];
 	if (currentRun?.teams.length === 0) {
@@ -32,7 +34,7 @@ export function IntermissionCurrentRun() {
 		}
 	}
 
-	const gameName = currentRun?.customData["gameDisplay"] ?? currentRun?.game ?? "";
+	const gameName = customData?.gameDisplay ?? currentRun?.game ?? "";
 
 	const estimate =
 		currentRun?.estimate?.startsWith("0") && !currentRun?.estimate?.startsWith("0:")

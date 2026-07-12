@@ -106,8 +106,6 @@ export const Widescreen2 = (props: OverlayProps) => {
 					<SmallInfo
 						timer={props.timer}
 						runData={props.runData}
-						// ASO2026
-						style={{ paddingBottom: 50 }}
 					/>
 				</LeftBox>
 
@@ -115,7 +113,7 @@ export const Widescreen2 = (props: OverlayProps) => {
 				<AudioIndicator
 					active={props.gameAudioIndicator === props.runData?.teams[0]?.players[0]?.id}
 					side="right"
-					style={{ position: "absolute", top: 259, left: 665, zIndex: 2 }}
+					style={{ position: "absolute", top: 259, left: 666, zIndex: 2 }}
 				/>
 				<AudioIndicator
 					active={props.gameAudioIndicator === props.runData?.teams[1]?.players[0]?.id}
@@ -123,7 +121,7 @@ export const Widescreen2 = (props: OverlayProps) => {
 					style={{
 						position: "absolute",
 						top: 259,
-						right: 665,
+						right: 666,
 						zIndex: 2,
 					}}
 				/>

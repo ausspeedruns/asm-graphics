@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTimeStyleContext } from "../use-time-style-context";
 import styles from "./asm26-night-mode.module.css";
 import { Colour } from "../../colour";
-import { calculateTimeBasedColour } from "../time-style-context";
+import { calculateNightT, calculateTimeBasedColour } from "../time-style-context";
 import Particles from "@tsparticles/react";
 import { type ISourceOptions } from "@tsparticles/engine";
 
@@ -100,7 +100,8 @@ interface ASM26FireProps {
 
 export function ASM26NightMode(props: ASM26FireProps) {
 	const { normalizedTime, daylightData } = useTimeStyleContext();
-	const [backgroundColour, setBackgroundColour] = useState<string>("transparent");
+	const [backgroundColour, setBackgroundColour] = useState("transparent");
+	const [particlesOpacity, setParticlesOpacity] = useState(0);
 
 	useEffect(() => {
 		const baseColour = calculateTimeBasedColour(normalizedTime, daylightData, {
@@ -108,8 +109,10 @@ export function ASM26NightMode(props: ASM26FireProps) {
 			night: nightColour,
 		});
 
-		if (!baseColour) return;
+		const opacity = calculateNightT(normalizedTime, daylightData);
+
 		setBackgroundColour(baseColour);
+		setParticlesOpacity(opacity);
 	}, [normalizedTime, daylightData]);
 
 	return (
@@ -122,7 +125,7 @@ export function ASM26NightMode(props: ASM26FireProps) {
 				} as React.CSSProperties
 			}
 		>
-			<Particles id={props.particlesId} options={fireParticles} />
+			<Particles id={props.particlesId} options={fireParticles} style={{ opacity: particlesOpacity }} />
 		</div>
 	);
 }

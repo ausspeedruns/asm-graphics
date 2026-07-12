@@ -75,6 +75,23 @@ function getCurrentNormalizedTime(now: Date): number {
 	return totalMinutes / MINUTES_PER_DAY;
 }
 
+// 1 is night mode, 0 is day mode
+export function calculateNightT(value: number, daylightData: DaylightData) {
+	let t: number;
+
+	if (value > daylightData.sunrise.end && value < daylightData.sunset.start) {
+		t = 0;
+	} else if (value >= daylightData.sunrise.start && value <= daylightData.sunrise.end) {
+		t = (value - daylightData.sunrise.start) / (daylightData.sunrise.end - daylightData.sunrise.start);
+	} else if (value >= daylightData.sunset.start && value <= daylightData.sunset.end) {
+		t = (value - daylightData.sunset.start) / (daylightData.sunset.end - daylightData.sunset.start);
+	} else {
+		t = 1;
+	}
+
+	return t;
+}
+
 const dayColour = new Colour("#ce762f");
 const nightColour = new Colour("#380049");
 
@@ -86,10 +103,6 @@ export function calculateTimeBasedColour(
 		night: Colour;
 	},
 ) {
-	if (typeof document === "undefined") {
-		return;
-	}
-
 	let colour: string;
 
 	// Start at day colour

@@ -35,6 +35,8 @@ const InfoBox = styled(ASM26Bricks)`
 	justify-content: space-between;
 	height: 664px;
 	padding: 16px;
+	box-sizing: border-box;
+	position: relative;
 `;
 
 const SponsorBoxS = styled(SponsorsBox)`

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useTickerStore } from "../stores/ticker-store";
 import { LerpNum } from "./lerp-num";
 
-import GoCLogo from "../media/game-on-cancer/word-mark.svg";
+import GoCLogo from "../media/game-on-cancer/word-mark.svg?react";
 
 const TickerDonationTotalContainer = styled.div`
 	height: 100%;
@@ -20,7 +20,7 @@ const TickerDonationTotalContainer = styled.div`
 	background: var(--goc-gradient);
 `;
 
-const CharityLogo = styled.img`
+const CharityLogo = styled(GoCLogo)`
 	height: 45px;
 	width: auto;
 	margin-left: 10px;
@@ -33,7 +33,7 @@ export function TickerDonationTotal() {
 	return (
 		<TickerDonationTotalContainer>
 			$<LerpNum value={donationAmount} />
-			<CharityLogo src={GoCLogo} />
+			<CharityLogo />
 		</TickerDonationTotalContainer>
 	);
 }

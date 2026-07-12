@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { WideInfo } from "../elements/info-box/wide";
 import type { OverlayProps } from "../gameplay-overlay";
 import { Facecam } from "../elements/facecam";
+import { ASM26Felt } from "../elements/asm26/asm26-felt";
 
 const TopBarOnlyContainer = styled.div`
 	height: 1016px;
@@ -10,7 +11,7 @@ const TopBarOnlyContainer = styled.div`
 	overflow: hidden;
 `;
 
-const TopBar = styled.div`
+const TopBar = styled(ASM26Felt)`
 	height: 207px;
 	width: 100%;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
@@ -23,7 +24,7 @@ const TopBar = styled.div`
 export function TopBarOnly(props: OverlayProps) {
 	return (
 		<TopBarOnlyContainer>
-			<TopBar>
+			<TopBar particlesId="top-bar-only-particles">
 				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
 			<Facecam

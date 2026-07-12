@@ -417,4 +417,5 @@ export default {
 	"Yoshi's Crafted World": 2019,
 	"Yoshi's Story": 1997,
 	"Zebulon: A Lost Cat": 2024,
+	"Bratz™: Flaunt your fashion": 2022,
 } as Record<string, number>;

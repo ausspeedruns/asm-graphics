@@ -91,7 +91,7 @@ export interface TickerItemHandles {
 }
 
 const MAX_INCENTIVES: number = 10; // Type is there because we sometimes set it to a number and then it would get upset at us since we test for -1 when it can't possibly be that.
-const TEST_RANGE: number[] = [];
+const TEST_RANGE: number[] = [1];
 
 export function IntermissionIncentives() {
 	const incentives = useIntermissionStore((state) => state.incentives);

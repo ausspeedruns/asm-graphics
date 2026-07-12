@@ -8,6 +8,7 @@ import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
 
 import ASM26Timer from "../../overlays/asm26/Timer.svg";
+import { customDataSchema } from "../../../shared/types/custom-data";
 
 const WideInfoContainer = styled.div`
 	position: absolute;
@@ -19,6 +20,7 @@ const WideInfoContainer = styled.div`
 	box-sizing: border-box;
 	overflow: hidden;
 	z-index: 2;
+	padding: 40px;
 
 	font-size: 34px;
 
@@ -29,6 +31,8 @@ const WideInfoContainer = styled.div`
 
 	& #gameTitle {
 		font-size: 200%;
+		max-width: 100%;
+		line-height: 0.75;
 	}
 
 	& #timer {
@@ -68,10 +72,12 @@ interface Props {
 }
 
 export function WideInfo(props: Props) {
+	const customData = customDataSchema.safeParse(props.runData?.customData ?? {}).data;
+
 	return (
 		<WideInfoContainer className={props.className} style={props.style}>
 			<GameInfo id="gameInfo">
-				<RunInfo.GameTitle game={props.runData?.customData["gameDisplay"] ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={customData?.gameDisplay ?? props.runData?.game ?? ""} />
 				<HorizontalStack id="subInfoStack">
 					<RunInfo.System system={props.runData?.system ?? ""} />
 					<RunInfo.Year year={props.runData?.release ?? ""} />

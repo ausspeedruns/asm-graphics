@@ -7,7 +7,7 @@ import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
-import Background from "./backgrounds/1x1.png";
+// import Background from "./backgrounds/1x1.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
@@ -62,7 +62,7 @@ export function OneByOne(props: OverlayProps) {
 	return (
 		<StandardContainer>
 			<FullGraphicClip>
-				<img src={Background} style={{ position: "absolute", width: "100%", height: "100%" }} />
+				{/* <img src={Background} style={{ position: "absolute", width: "100%", height: "100%" }} /> */}
 			</FullGraphicClip>
 			<Sidebar>
 				<Facecam
