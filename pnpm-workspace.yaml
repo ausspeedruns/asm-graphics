@@ -3,6 +3,7 @@ packages:
 
 allowBuilds:
   '@ffprobe-installer/darwin-arm64': true
+  '@ffprobe-installer/linux-x64': true
   '@parcel/watcher': true
   '@serialport/bindings-cpp': true
   '@tsparticles/engine': true
