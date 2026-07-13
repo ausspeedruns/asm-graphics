@@ -216,6 +216,13 @@ export function CropGameDialog(props: CropGameDialogProps) {
 		document.removeEventListener("mouseup", handleMouseUp);
 	}, [handleMouseMove]);
 
+	useEffect(() => {
+		return () => {
+			document.removeEventListener("mousemove", handleMouseMove);
+			document.removeEventListener("mouseup", handleMouseUp);
+		};
+	}, [handleMouseMove, handleMouseUp]);
+
 	function handleCrop() {
 		if (!selectedVideoSource) return;
 

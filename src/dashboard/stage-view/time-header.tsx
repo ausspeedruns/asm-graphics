@@ -13,7 +13,7 @@ export function TimeHeader() {
 		updateTime();
 		const interval = setInterval(updateTime, 1000);
 		return () => clearInterval(interval);
-	});
+	}, []);
 
 	return <div className={styles.container}>{timeText}</div>;
 }

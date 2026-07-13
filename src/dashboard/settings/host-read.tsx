@@ -56,6 +56,7 @@ export function HostReads() {
 
 			const oldIndex = hostReadsRep.findIndex((read) => read.id === active.id);
 			const newIndex = hostReadsRep.findIndex((read) => read.id === over?.id);
+			if (oldIndex === -1 || newIndex === -1) return;
 
 			const newOrder = arrayMove(hostReadsRep, oldIndex, newIndex);
 

@@ -103,6 +103,7 @@ export function PrizesSettings() {
 
 			const oldIndex = prizesRep.findIndex((prize) => prize.id === active.id);
 			const newIndex = prizesRep.findIndex((prize) => prize.id === over?.id);
+			if (oldIndex === -1 || newIndex === -1) return;
 
 			const newOrder = arrayMove(prizesRep, oldIndex, newIndex);
 

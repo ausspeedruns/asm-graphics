@@ -144,13 +144,8 @@ export const ASNNDash = () => {
 	useEffect(() => {
 		if (typeof asnnTicker === "undefined") return;
 
-		const existingTickers = ticker.filter((t) => asnnTicker.includes(t.text));
-		const newTickers = asnnTicker
-			.filter((text) => !existingTickers.some((t) => t.text === text))
-			.map((text) => ({ id: crypto.randomUUID(), text }));
-
-		setTicker((prev) => [...prev, ...newTickers]);
-	}, [asnnTicker, ticker]);
+		setTicker(asnnTicker.map((text) => ({ id: crypto.randomUUID(), text })));
+	}, [asnnTicker]);
 
 	function addNewHeadline() {
 		if (!headlineTextBox || headlineTextBox.trim() === "") {
