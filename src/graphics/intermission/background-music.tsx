@@ -48,7 +48,7 @@ export function BackgroundMusic(props: BackgroundMusicProps) {
 		<div className={styles.music}>
 			<MusicIconImg className={styles.musicIcon} />
 			<audio id="intermission-music" autoPlay preload="auto" ref={audioRef}>
-				{/* <source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" /> */}
+				<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 			</audio>
 			<div className={styles.songName}>
 				<div className={clsx(styles.marqueeContainer, !showMarquee && styles.hide)}>

@@ -253,7 +253,7 @@ export function Transition() {
 							ref={inkStampEventRef}
 						/>
 
-						<span className={styles.gameName}>{game} {game}</span>
+						<span className={styles.gameName}>{game}</span>
 						<span className={styles.category}>{category}</span>
 						<span className={styles.runners}>{runners}</span>
 					</div>
