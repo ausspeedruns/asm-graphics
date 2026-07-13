@@ -202,9 +202,9 @@ export function Intermission() {
 					disableNightMode
 				/>
 				<Location />
-				{/* <BackgroundMusic volume={backgroundMusicVolume} /> */}
+				<BackgroundMusic volume={backgroundMusicVolume} />
 				<IntermissionHost />
-				<Sponsors sponsors={sponsors} style={{ maxHeight: 70, maxWidth: "300px", zIndex: 10 }} />
+				<Sponsors sponsors={sponsors} style={{ maxHeight: 130, maxWidth: "300px", zIndex: 10 }} />
 				<GoCLogo />
 			</div>
 		</div>

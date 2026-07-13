@@ -16,7 +16,7 @@
 		text-box-edge: ex alphabetic;
 		line-height: 1;
 		transform: translateY(0.25cap);
-		margin-bottom: -0.25cap;
+		margin: -0.25cap 0;
 
 		.dollarSign {
 			font-size: 80%;
