@@ -136,8 +136,17 @@ export const EditUserDialog = (props: Props) => {
 						sx={{ flexGrow: 1, fontSize: "2rem" }}
 						freeSolo
 						options={PRONOUN_OPTIONS}
+						onChange={(_, newVal) => {
+							if (newVal) {
+								setPronouns(newVal);
+							}
+						}}
 						inputValue={pronouns}
-						onInputChange={(_, newVal) => setPronouns(newVal)}
+						onInputChange={(_, newVal, reason) => {
+							if (reason === "input") {
+								setPronouns(newVal);
+							}
+						}}
 						blurOnSelect={true}
 						renderInput={(params) => <TextField {...params} label="Pronouns" sx={{ fontSize: "2rem" }} />}
 					/>
