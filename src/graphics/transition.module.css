@@ -1,0 +1,69 @@
+.container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1920px;
+	height: 1080px;
+
+	background-image: url("./transition/Transition_BG.jpg");
+	background-size: cover;
+	background-position: center;
+
+	opacity: 0;
+}
+
+.letter {
+	position: absolute;
+	width: 1233px;
+	height: 842px;
+
+	box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.5);
+
+	background-image: url("./transition/Calligrapher-by-TGTS.jpg");
+	background-size: cover;
+	background-position: center;
+}
+
+.letterBar {
+	position: absolute;
+	width: 100%;
+	height: auto;
+}
+
+.stamp {
+	position: absolute;
+}
+
+.gameName {
+	font-family: "Caveat", cursive;
+	color: #439087;
+	font-size: 100px;
+	font-weight: 700;
+	
+	position: absolute;
+	top: 300px;
+	left: 170px;
+	max-width: 1000px;
+	line-height: 1;
+}
+
+.category {
+	font-family: "Big Shoulders", monospace;
+	font-size: 60px;
+	color: #CC3622;
+	
+	position: absolute;
+	top: 200px;
+	left: 150px;
+	transform: rotate(-10deg);
+}
+
+.runners {
+	font-family: "Caveat", cursive;
+	color: #CC3622;
+	font-size: 50px;
+	
+	position: absolute;
+	top: 500px;
+	left: 170px;
+}

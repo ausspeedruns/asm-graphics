@@ -5,6 +5,7 @@ import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
+import { customDataSchema } from "../../../shared/types/custom-data";
 
 const SmallInfoContainer = styled.div`
 	box-sizing: border-box;
@@ -29,7 +30,7 @@ const SmallInfoContainer = styled.div`
 
 	& #gameTitle,
 	& #category {
-		max-width: 90%;
+		max-width: 500px;
 	}
 
 	& #gameTitle {
@@ -67,10 +68,12 @@ interface Props {
 }
 
 export function SmallInfo(props: Props) {
+	const customData = customDataSchema.safeParse(props.runData?.customData);
+
 	return (
 		<SmallInfoContainer className={props.className} style={props.style}>
 			<TopRow id="topRow">
-				<RunInfo.GameTitle game={props.runData?.customData["gameDisplay"] ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={customData.data?.gameDisplay ?? props.runData?.game ?? ""} />
 				<RunInfo.Category category={props.runData?.category ?? ""} />
 			</TopRow>
 			<BottomRow id="bottomRow">
