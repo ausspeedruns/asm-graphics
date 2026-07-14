@@ -20,16 +20,16 @@ import { ShortBlockShowcase } from "./settings/short-block-showcase";
 
 const settingsPanels = [
 	HostReads,
-	IntermissionVideos,
-	EventUpload,
+	// IntermissionVideos,
+	// EventUpload,
 	OBSSettings,
 	X32Settings,
 	TiltifySettings,
 	PrizesSettings,
-	AcknowledgementOfCountry,
-	AusSpeedrunsWebsiteSettings,
-	GameYearsSettings,
-	TickerSettings,
+	// AcknowledgementOfCountry,
+	// AusSpeedrunsWebsiteSettings,
+	// GameYearsSettings,
+	// TickerSettings,
 	ShortBlockShowcase,
 ];
 
