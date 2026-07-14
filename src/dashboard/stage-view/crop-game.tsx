@@ -217,6 +217,12 @@ export function CropGameDialog(props: CropGameDialogProps) {
 	}, [handleMouseMove]);
 
 	useEffect(() => {
+		if (!props.open) {
+			handleMouseUp();
+		}
+	}, [props.open, handleMouseUp]);
+
+	useEffect(() => {
 		return () => {
 			document.removeEventListener("mousemove", handleMouseMove);
 			document.removeEventListener("mouseup", handleMouseUp);
