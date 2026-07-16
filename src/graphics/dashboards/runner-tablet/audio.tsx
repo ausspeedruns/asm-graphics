@@ -11,6 +11,8 @@ import { Headsets, HostHeadset, HostReferenceChannel } from "../../../shared/aud
 const gameAudio = [
 	{ name: "Game 1", channel: 9 },
 	{ name: "Game 2", channel: 11 },
+	{ name: "Game 3", channel: 13},
+	{ name: "Game 4", channel: 15 },
 ];
 
 const RTAudioContainer = styled.div`
