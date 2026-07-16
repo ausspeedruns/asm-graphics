@@ -22,6 +22,8 @@ const Sidebar = styled.div`
 	width: 564px;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 `;
 
 const InfoBoxBG = styled(ASM26Bricks)`
@@ -30,7 +32,6 @@ const InfoBoxBG = styled(ASM26Bricks)`
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	height: 644px;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	background-blend-mode: multiply;
 	background-repeat: repeat;
@@ -38,6 +39,11 @@ const InfoBoxBG = styled(ASM26Bricks)`
 	padding: 10px 0;
 	padding-bottom: 30px;
 	box-sizing: border-box;
+	flex-grow: 1;
+
+	#gameTitle {
+		max-width: 507px !important;
+	}
 `;
 
 const ASM26WreathContainer = styled.div`
