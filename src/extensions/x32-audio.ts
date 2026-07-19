@@ -476,6 +476,40 @@ function getHeadsetsByTarget(targets: string[]): number[] {
 	return mixbusTargets;
 }
 
+// nodecg.listenFor("x32:talkback-start", (targets) => {
+// 	if (!x32.connected) return;
+
+// 	const mixbusTargets = getHeadsetsByTarget(targets);
+
+// 	if (mixbusTargets.length === 0) {
+// 		nodecg.sendMessage("x32:talkback-stop");
+// 		activeTalkbackChannels = [];
+// 		return;
+// 	}
+
+// 	// Build desired state map (mixBus -> enabled)
+// 	const desired: Record<number, boolean> = {};
+
+// 	// Start with current channels as false, then mark targets as true
+// 	activeTalkbackChannels.forEach((mixBus) => (desired[mixBus] = false));
+// 	mixbusTargets.forEach((mixBus) => (desired[mixBus] = true));
+
+// 	// Apply all changes in a single loop
+// 	Object.entries(desired).forEach(([mixBusStr, enabled]) => {
+// 		const mixBus = Number(mixBusStr);
+
+// 		const currentlyEnabled = activeTalkbackChannels.includes(mixBus);
+// 		if (currentlyEnabled !== enabled) {
+// 			x32.setTalkbackMixbus("B", mixBus, enabled);
+// 		}
+// 	});
+
+// 	activeTalkbackChannels = mixbusTargets;
+
+// 	// Activate talkback
+// 	x32.enableTalkback("B", true);
+// });
+
 nodecg.listenFor("x32:talkback-start", (targets) => {
 	if (!x32.connected) return;
 
@@ -487,26 +521,15 @@ nodecg.listenFor("x32:talkback-start", (targets) => {
 		return;
 	}
 
-	// Build desired state map (mixBus -> enabled)
-	const desired: Record<number, boolean> = {};
-
-	// Start with current channels as false, then mark targets as true
-	activeTalkbackChannels.forEach((mixBus) => (desired[mixBus] = false));
-	mixbusTargets.forEach((mixBus) => (desired[mixBus] = true));
-
-	// Apply all changes in a single loop
-	Object.entries(desired).forEach(([mixBusStr, enabled]) => {
-		const mixBus = Number(mixBusStr);
-
-		const currentlyEnabled = activeTalkbackChannels.includes(mixBus);
-		if (currentlyEnabled !== enabled) {
-			x32.setTalkbackMixbus("B", mixBus, enabled);
+	const destMap = mixbusTargets.reduce((map, mixBus) => {
+		if (mixBus <1 || mixBus >16) {
+			throw new Error(`Invalid X32 mix bus: ${mixBus}`)
 		}
-	});
+		return map | (1 << (mixBus -1));
+	}, 0);
 
+	x32.setTalkbackDestmap("B", destMap);
 	activeTalkbackChannels = mixbusTargets;
-
-	// Activate talkback
 	x32.enableTalkback("B", true);
 });
 

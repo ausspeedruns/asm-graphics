@@ -423,17 +423,24 @@ class X32 extends EventEmitter<X32Class> {
 		console.log(`${on ? "Activating" : "Deactivating"} talkback channel ${channel}`);
 
 		this.oscSocket.send({
-			address: `/-stat/talk/${channel},i`,
+			address: `/-stat/talk/${channel}`,
 			args: [{ type: "i", value: on ? 1 : 0 }],
 		});
 	}
 
-	setTalkbackMixbus(talkbackChannel: "A" | "B", mixBus: number, enabled: boolean): void {
-		// TODO: Have a way to disable all other mixbuses if enabled is false?
-		console.log(`Trying to ${enabled ? "Enable" : "Disable"} talkback on: ${talkbackChannel} | ${mixBus}`);
+	// setTalkbackMixbus(talkbackChannel: "A" | "B", mixBus: number, enabled: boolean): void {
+	// 	// TODO: Have a way to disable all other mixbuses if enabled is false?
+	// 	console.log(`Trying to ${enabled ? "Enable" : "Disable"} talkback on: ${talkbackChannel} | ${mixBus}`);
+	// 	this.oscSocket.send({
+	// 		address: `/config/talk/${talkbackChannel} /destmap,i`,
+	// 		args: [{ type: "i", value: mixBus }],
+	// 	});
+	// }
+
+	setTalkbackDestmap(talkbackChannel: "A" | "B", destMap: number): void {
 		this.oscSocket.send({
-			address: `/config/talk/${talkbackChannel} /destmap,i`,
-			args: [{ type: "i", value: mixBus }],
+			address: `/config/talk/${talkbackChannel}/destmap`,
+			args: [{ type: "i", value: destMap }],
 		});
 	}
 
