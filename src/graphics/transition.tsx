@@ -97,14 +97,6 @@ export function Transition() {
 	const [category, setCategory] = useState("Category");
 	const [runners, setRunners] = useState("by some lots of runners");
 
-	const containerRef = useRef<HTMLDivElement>(null);
-	const letterRef = useRef<HTMLDivElement>(null);
-	const inkStampASRRef = useRef<HTMLImageElement>(null);
-	const inkStampEventRef = useRef<HTMLImageElement>(null);
-	const paperSlideSFXRef = useRef<HTMLAudioElement>(null);
-	const stampSFXRef = useRef<HTMLAudioElement>(null);
-	const stamp2SFXRef = useRef<HTMLAudioElement>(null);
-
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [automationsRep] = useReplicant("automations");
 
@@ -142,52 +134,6 @@ export function Transition() {
 	}
 
 	function runTransition(transition: "toIntermission" | "toGame" | "basic", specialText: string[] = []) {
-		// if (!automationsRep?.runTransition) {
-		// 	console.log("Not running transition");
-		// 	return;
-		// }
-
-		const tl = gsap.timeline();
-
-		tl.fromTo(
-			containerRef.current,
-			{ opacity: 0 },
-			{ opacity: 1, duration: 1, ease: "power2.inOut" },
-		);
-
-		tl.fromTo(
-			letterRef.current,
-			{ y: -1080, x: -1920, rotation: -40 },
-			{ y: 110, x: 330, rotation: -4, duration: 1, ease: "power2.inOut" },
-			"-=0.5",
-		);
-		gsapPlaySound(paperSlideSFXRef, tl, "-=0.5");
-
-		tl.addLabel("stamp 01", "+=0.5");
-		tl.fromTo(inkStampASRRef.current, { opacity: 0 }, { opacity: 1, duration: 0.01 }, "stamp 01");
-		gsapPlaySound(stampSFXRef, tl, "stamp 01-=0.5");
-		
-		tl.addLabel("stamp 02", "+=0.5");
-		tl.fromTo(inkStampEventRef.current, { opacity: 0 }, { opacity: 1, duration: 0.01 }, "stamp 02");
-		gsapPlaySound(stamp2SFXRef, tl, "stamp 02-=0.5");
-		
-		tl.to(letterRef.current, { y: 1080, x: 1920, rotation: 40, duration: 1, ease: "power2.inOut" }, "+=2");
-		gsapPlaySound(paperSlideSFXRef, tl, "-=0.75");
-
-		tl.to(containerRef.current, { opacity: 0, duration: 0.5, ease: "power2.inOut" }, "-=0.5");
-
-		// if (transition !== "toIntermission") {
-		// 	tl.call(
-		// 		() => {
-		// 			if (!audioRef.current) return;
-		// 			audioRef.current.src = ClipArray[Math.floor(Math.random() * ClipArray.length)];
-		// 			void audioRef.current.play();
-		// 		},
-		// 		[],
-		// 		"+=3",
-		// 	);
-		// }
-
 		switch (transition) {
 			case "basic":
 				setGame("ASM2026");
@@ -215,49 +161,6 @@ export function Transition() {
 	return (
 		<TransitionContainer>
 			<TransitionDiv>
-				{/* <BasicTransition src={TransitionStatic} ref={staticImageRef} /> */}
-				<audio ref={paperSlideSFXRef} src={PaperSlideSFX} />
-				<audio ref={stampSFXRef} src={StampSFX} />
-				<audio ref={stamp2SFXRef} src={StampSFX} />
-				<div className={styles.container} ref={containerRef}>
-					<div className={styles.letter} ref={letterRef}>
-						<img className={styles.letterBar} src={LetterBarImg} style={{ top: 0 }} />
-						<img className={styles.letterBar} src={LetterBarImg} style={{ bottom: 0 }} />
-
-						<img
-							className={styles.stamp}
-							src={Stamp01Img}
-							style={{ width: 280, transform: "rotate(-3deg)", top: 210, right: 10 }}
-						/>
-						<img
-							className={styles.stamp}
-							src={Stamp02Img}
-							style={{ width: 240, transform: "rotate(2deg)", top: 50, right: 20 }}
-						/>
-						<img
-							className={styles.stamp}
-							src={Stamp03Img}
-							style={{ width: 180, transform: "rotate(2deg)", top: 50, right: 280 }}
-						/>
-
-						<img
-							className={styles.stamp}
-							src={InkStampASRLogo}
-							style={{ width: 150, top: 200, right: 240, transform: "rotate(8deg)" }}
-							ref={inkStampASRRef}
-						/>
-						<img
-							className={styles.stamp}
-							src={InkStampEventLogo}
-							style={{ width: 350, bottom: 200, right: 150, transform: "rotate(-14deg)" }}
-							ref={inkStampEventRef}
-						/>
-
-						<span className={styles.gameName}>{game}</span>
-						<span className={styles.category}>{category}</span>
-						<span className={styles.runners}>{runners}</span>
-					</div>
-				</div>
 			</TransitionDiv>
 
 			{/* <audio ref={audioRef} /> */}
