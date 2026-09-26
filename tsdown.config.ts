@@ -7,7 +7,7 @@ export default defineConfig({
 	clean: true,
 	platform: "node",
 	target: "node24.12",
-	tsconfig: "tsconfig.extension.json",
+	tsconfig: "tsconfig.extensions.json",
 	minify: true,
 	outExtensions: () => ({
 		js: ".js",

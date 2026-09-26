@@ -13,3 +13,7 @@ allowBuilds:
   msgpackr-extract: true
   unrs-resolver: true
   vuex-module-decorators: true
+
+minimumReleaseAgeExclude:
+  - '@types/node@26.6.3'
+  - '@ewanlyon/vite-plugin-nodecg@2.1.0'
