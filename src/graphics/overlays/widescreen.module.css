@@ -7,7 +7,7 @@
 }
 
 .topBar {
-	flex: 1;
+	flex: 0 0 207px;
 	width: 100%;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	position: relative;
@@ -16,7 +16,8 @@
 
 .sidebar {
 	height: 100%;
-	max-width: 460px;
+	flex: 1 1 0;
+	min-width: 0;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
 	display: flex;
@@ -24,6 +25,8 @@
 }
 
 .gameplayRow {
+	flex: 1;
+	min-height: 0;
 	display: flex;
 	flex-direction: row;
 	align-items: stretch;

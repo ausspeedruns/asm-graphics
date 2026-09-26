@@ -1,19 +1,8 @@
 import { useListenFor } from "@nodecg/react-hooks";
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-// import styled from "@emotion/styled";
 import { Timer } from "./elements/timer";
 import type { Timer as TimerType } from "@asm-graphics/types/Timer";
-
-// import { dayTimeColours } from "./elements/useTimeColour";
-
-// const EventImage = styled.img`
-// 	position: absolute;
-// 	height: 1080px;
-// 	width: 1920px;
-
-// 	transition: opacity 5s ease-in-out;
-// `;
 
 function formatTime(seconds: number): string {
 	const hours = Math.floor(seconds / 3600);

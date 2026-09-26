@@ -67,7 +67,7 @@ export const Widescreen = (props: OverlayProps) => {
 						<SponsorsBox sponsors={props.sponsors} width="90%" height={200} />
 					</Container>
 				</div>
-				<GameplayCapture aspectRatio="16:9" grow />
+				<GameplayCapture aspectRatio="16:9" />
 			</div>
 		</div>
 	);

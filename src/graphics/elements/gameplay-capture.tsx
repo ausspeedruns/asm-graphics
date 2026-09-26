@@ -32,7 +32,8 @@ export function GameplayCapture(props: GameplayCaptureProps) {
 		minWidth: 0,
 		minHeight: 0,
 		maxWidth: "100%",
-		...(props.grow ? { alignSelf: "center" } : { maxHeight: "100%" }),
+		maxHeight: "100%",
+		...(props.grow ? { alignSelf: "center" } : {}),
 		aspectRatio: getAspectRatio(props.aspectRatio),
 	};
 
