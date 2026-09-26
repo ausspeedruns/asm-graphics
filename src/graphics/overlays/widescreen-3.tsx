@@ -14,9 +14,8 @@ import GameplayBL from "../media/icons/Widescreen-3-BL.svg";
 import GameplayTL from "../media/icons/Widescreen-3-TL.svg";
 import GameplayTR from "../media/icons/Widescreen-3-TR.svg";
 import { RaceFinish } from "../elements/race-finish";
-
-import ASM26FeltBg from "../media/asm26/asm26-sweater.png";
-import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
+import { Container } from "../elements/container";
+import { runCustomDataSchema } from "../../shared/types/custom-data";
 
 const Widescreen3Container = styled.div`
 	height: 1016px;
@@ -38,7 +37,6 @@ const TopBar = styled.div`
 	display: flex;
 	justify-content: center;
 	width: 1920px;
-	/* border-bottom: 1px solid var(--pax-gold); */
 
 	& > div {
 		border-top: 0px;
@@ -71,9 +69,9 @@ const NPIcon = styled.img`
 	margin: 0 5px;
 `;
 
-const InfoBox = styled.div`
-	// background: var(--main);
-	/* background-image: url('../shared/design/contour-maps/widescreen-3-bottom.svg'); */
+const InfoBox = styled(Container)`
+	position: relative;
+	box-sizing: border-box;
 	width: 902px;
 	height: 181px;
 	padding: 0 20px;
@@ -96,39 +94,6 @@ const InfoBox = styled.div`
 	& #category {
 		max-width: 90%;
 		font-size: 120%;
-	}
-
-	position: relative;
-	background: #ffffff;
-	box-sizing: border-box;
-
-	/* Repeating image at 60% opacity */
-	&::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-
-		background-image: url(${ASM26FeltBg});
-		background-repeat: repeat;
-		background-size: 2000px;
-		opacity: 0.6;
-	}
-
-	/* Top red layer on multiply */
-	&::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 1;
-
-		background: #cc3622;
-		mix-blend-mode: multiply;
-		pointer-events: none;
-	}
-
-	& > * {
-		z-index: 2;
 	}
 `;
 
@@ -157,147 +122,42 @@ const WideAudioIndicator = styled(AudioIndicator)`
 	}
 `;
 
-const LeftBG = styled.div`
+const LeftBG = styled(Container)`
 	position: absolute;
 	left: 0;
 	height: 1016px;
 	width: 57px;
-	// background: var(--main);
-	isolation: isolate;
 	overflow: hidden;
-
-	background: #ffffff;
-
-	/* Repeating image at 60% opacity */
-	&::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-
-		background-image: url(${ASM26FeltBg});
-		background-repeat: repeat;
-		background-size: 2000px;
-		opacity: 0.6;
-	}
-
-	/* Top red layer on multiply */
-	&::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 1;
-
-		background: #cc3622;
-		mix-blend-mode: multiply;
-		pointer-events: none;
-	}
-
-	& span {
-		z-index: 2;
-		position: relative;
-
-		color: #ffa23e;
-		font-family: var(--game-font);
-		writing-mode: vertical-rl;
-		text-orientation: mixed;
-		font-size: 49px;
-		filter: drop-shadow(4px 0px 0px #000000);
-		letter-spacing: 38%;
-	}
 `;
 
-const RightBG = styled.div`
+const RightBG = styled(Container)`
 	position: absolute;
 	right: 0;
 	height: 1016px;
 	width: 57px;
-
-	background: #ffffff;
-
-	/* Repeating image at 60% opacity */
-	&::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-
-		background-image: url(${ASM26FeltBg});
-		background-repeat: repeat;
-		background-size: 2000px;
-		opacity: 0.6;
-	}
-
-	/* Top red layer on multiply */
-	&::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 1;
-
-		background: #cc3622;
-		mix-blend-mode: multiply;
-		pointer-events: none;
-	}
-
-	& span {
-		z-index: 2;
-		position: relative;
-
-		color: var(--sec);
-		font-family: var(--game-font);
-		writing-mode: vertical-rl;
-		text-orientation: mixed;
-		font-size: 49px;
-		filter: drop-shadow(4px 0px 0px #000000);
-		letter-spacing: 38%;
-	}
 `;
 
-const FacecamBorderLeft = styled(ASM26Bricks)`
+const FacecamBorder = styled(Container)`
 	position: absolute;
 	top: 0;
+	width: 170px;
+	height: 285px;
+`;
+
+const FacecamBorderLeft = styled(FacecamBorder)`
 	left: 0;
-	width: 170px;
-	height: 285px;
-
-	&::before {
-		background-size: 350%;
-	}
 `;
 
-const FacecamBorderRight = styled(ASM26Bricks)`
-	position: absolute;
-	top: 0;
+const FacecamBorderRight = styled(FacecamBorder)`
 	right: 0;
-	width: 170px;
-	height: 285px;
-
-	&::before {
-		background-size: 350%;
-	}
-`;
-
-const FacecamBorderTrim = styled(ASM26Bricks)`
-	position: absolute;
-	width: 44px;
-	height: 100%;
-
-	background: #FF6A59;
-
-	z-index: 3;
-
-	&::before {
-		background-size: 2000%;
-		mix-blend-mode: multiply;
-		opacity: 1;
-	}
 `;
 
 export const Widescreen3 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 3);
 
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
+
+	const customData = runCustomDataSchema.safeParse(props.runData?.customData);
 
 	return (
 		<Widescreen3Container>
@@ -316,12 +176,8 @@ export const Widescreen3 = (props: OverlayProps) => {
 				side="top"
 				style={{ left: 1563 }}
 			/>
-			<LeftBG>
-				<span>*********************</span>
-			</LeftBG>
-			<RightBG>
-				<span>*********************</span>
-			</RightBG>
+			<LeftBG />
+			<RightBG />
 			<TopBar>
 				<Screen />
 				<Screen />
@@ -344,12 +200,8 @@ export const Widescreen3 = (props: OverlayProps) => {
 						audioIndicator={props.microphoneAudioIndicator}
 					/>
 
-					<FacecamBorderLeft particlesId="facecamBorderLeft">
-						<FacecamBorderTrim style={{ right: 0 }} particlesId="facecamBorderTrimLeft" />
-					</FacecamBorderLeft>
-					<FacecamBorderRight particlesId="facecamBorderRight">
-						<FacecamBorderTrim style={{ left: 0 }} particlesId="facecamBorderTrimRight" />
-					</FacecamBorderRight>
+					<FacecamBorderLeft />
+					<FacecamBorderRight />
 
 					<RaceFinish
 						style={{ top: 758, left: 1046, zIndex: 3 }}
@@ -368,7 +220,7 @@ export const Widescreen3 = (props: OverlayProps) => {
 					/>
 					<InfoBox>
 						<InfoBoxColumn id="gameInfo">
-							<RunInfo.GameTitle game={props.runData?.game ?? ""} />
+							<RunInfo.GameTitle game={customData.data?.gameDisplay ?? props.runData?.game ?? ""} />
 							<GameInfoBox>
 								<RunInfo.System system={props.runData?.system ?? ""} />
 								<RunInfo.Year year={props.runData?.release ?? ""} />

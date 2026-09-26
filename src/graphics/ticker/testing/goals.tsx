@@ -17,6 +17,7 @@ export function Goals(props: GoalsProps) {
 	const [incentiveName, setIncentiveName] = useState("Incentive Name");
 	const [total, setTotal] = useState(1000);
 	const [goalAmount, setGoalAmount] = useState(2000);
+	const [resetKey, setResetKey] = useState(0); // Used to force a re-render of the GoalBar component when the goal data changes
 
 	const ref = useRef<TickerItemHandles>(null);
 
@@ -26,6 +27,11 @@ export function Goals(props: GoalsProps) {
 		const tl = gsap.timeline();
 		ref.current.animation(tl);
 		tl.play();
+
+		// Reset the animation after it finishes
+		tl.eventCallback("onComplete", () => {
+			setResetKey((prevKey) => prevKey + 1);
+		});
 	}
 
 	const goal: Goal = {
@@ -47,7 +53,7 @@ export function Goals(props: GoalsProps) {
 				className={clsx(styles.showcase, styles.fullWidth)}
 				style={{ backgroundColor: props.showcaseBackgroundColour }}
 			>
-				<GoalBar goal={goal} ref={ref} />
+				<GoalBar goal={goal} ref={ref} key={resetKey} />
 			</div>
 			<div className={styles.controls}>
 				<Button onClick={handleRunAnimation}>Run Animation</Button>

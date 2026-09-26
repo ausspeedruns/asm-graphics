@@ -144,8 +144,14 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 				name: mutablePersonData.name,
 				pronouns: mutablePersonData.pronouns,
 				twitch: mutablePersonData.social?.twitch,
-				tag: mutablePersonData.customData?.["tag"],
-				microphone: mutablePersonData.customData?.["microphone"],
+				tag:
+					typeof mutablePersonData.customData?.["tag"] === "string"
+						? mutablePersonData.customData?.["tag"]
+						: "",
+				microphone:
+					typeof mutablePersonData.customData?.["microphone"] === "string"
+						? mutablePersonData.customData?.["microphone"]
+						: "",
 			});
 		}
 		props.onClose();
@@ -236,7 +242,9 @@ export function EditPersonDialog(props: EditRunnerDialogProps) {
 							value={mutablePersonData.customData?.["tag"] ?? ""}
 							onChange={(event) => handleCustomDataChange("tag", event.target.value)}
 						/>
-						<Tooltip title={props.hostExists ? "A host already exists. Remove the Host tag and try again." : ""}>
+						<Tooltip
+							title={props.hostExists ? "A host already exists. Remove the Host tag and try again." : ""}
+						>
 							<span>
 								<Button
 									variant="contained"

@@ -35,10 +35,8 @@ export function Runs(props: RunsProps) {
 	return (
 		<div className={styles.container}>
 			<h2>Run</h2>
-			<div className={styles.showcaseViewport}>
-				<div className={styles.showcase} style={{ backgroundColor: props.showcaseBackgroundColour }}>
-					<Run run={run} key={gameName} />
-				</div>
+			<div className={styles.showcase} style={{ backgroundColor: props.showcaseBackgroundColour }}>
+				<Run run={run} key={gameName} />
 			</div>
 			<div className={styles.controls}>
 				<TextField

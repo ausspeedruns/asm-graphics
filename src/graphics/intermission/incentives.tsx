@@ -51,7 +51,7 @@ const Pip = styled.div<{ $active?: boolean }>`
 	background: transparent;
 	border-radius: 5px;
 	transition: 1s;
-	background: #ddffd9;
+	background: var(--text-light);
 
 	${(props) =>
 		props.$active &&

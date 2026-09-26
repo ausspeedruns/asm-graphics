@@ -16,7 +16,6 @@ const GoalBarContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	/* transform: translate(-100%, 0); */
 	box-sizing: border-box;
 	color: var(--text-light);
 `;
@@ -25,30 +24,24 @@ const GoalDiv = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
-	/* margin-left: 10px; */
 	font-weight: bold;
 	font-size: 37px;
 `;
 
 const IncentiveName = styled(FitText)`
-	/* display: inline-block; */
 	font-weight: bold;
 	max-width: 100%;
-	/* font-family: var(--secondary-font); */
 `;
 
 const BottomBar = styled.div`
 	display: flex;
 	justify-content: space-between;
 	flex-direction: row-reverse;
-	/* flex-direction: column; */
 	align-items: center;
-	/* height: 50%; */
 	width: 100%;
 	box-sizing: border-box;
 	flex-grow: 1;
 	gap: 16px;
-	/* padding: 0 5%; */
 `;
 
 // Determines full size
@@ -57,13 +50,11 @@ const ProgressContainer = styled.div`
 	height: 100%;
 	width: 100%;
 	border: 2px solid var(--text-light);
-	/* background: var(--main); */
 	background: transparent;
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
 	display: flex;
-	/* flex-direction: column; */
 	align-items: flex-end;
 	justify-content: flex-end;
 	border-radius: 16px;
@@ -72,7 +63,6 @@ const ProgressContainer = styled.div`
 const ProgressBarContainer = styled.div`
 	height: 100%;
 	background: var(--text-light);
-	/* border-right: 5px solid var(--sec); */
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
@@ -82,7 +72,6 @@ const ProgressBarContainer = styled.div`
 
 const CurrentAmount = styled.span`
 	color: var(--text-dark);
-	/* font-family: var(--secondary-font); */
 	font-size: 30px;
 	font-weight: bold;
 	margin-right: 16px;

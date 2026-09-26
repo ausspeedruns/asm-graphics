@@ -12,13 +12,15 @@ import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
 import WidescreenWhole from "./backgrounds/Widescreen2p.png";
-import { CloudScrolling } from "./aso2026/clouds";
-import { ASM26Felt } from "../elements/asm26/asm26-felt";
-import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
+import { Container } from "../elements/container";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 const Widescreen2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
+	display: flex;
+	flex-direction: column;
+	position: relative;
 `;
 
 const WholeGraphicClip = styled.div`
@@ -26,36 +28,32 @@ const WholeGraphicClip = styled.div`
 	width: 1920px;
 	height: 1016px;
 	clip-path: path("M 1920 0 H 1254 V 341 H 1920 Z M 666 0 H 0 V 341 H 666 V 0 M 1920 882 H 0 V 1016 H 1920 Z");
-	// background: var(--main);
 	z-index: 1;
 `;
 
 const Topbar = styled.div`
 	display: flex;
-	position: absolute;
 	height: 341px;
-	width: 1920px;
+	width: 100%;
 	overflow: hidden;
 	border-bottom: 1px solid var(--sec);
 `;
 
-const LeftBox = styled(ASM26Felt)`
-	width: 666px;
+const LeftBox = styled(Container)`
+	position: relative;
+	flex: 1;
 	height: 100%;
 	display: flex;
-	// background: var(--main);
-	position: relative;
+	font-size: 30px;
 `;
 
-const RightBox = styled(ASM26Felt)`
-	width: 666px;
-	height: 100%;
-	/* background: var(--main); */
-	display: flex;
-	flex-direction: column;
+const RightBox = styled(Container)`
 	position: relative;
-	/* background: var(--main); */
-	z-index: 2;
+	flex: 1;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 const SponsorSize = {
@@ -63,34 +61,25 @@ const SponsorSize = {
 	width: 540,
 };
 
+const ScreenContainer = styled.div`
+	display: flex;
+	align-items: stretch;
+`;
+
 const CentralDivider = styled.div`
-	height: 540px;
 	width: 2px;
-	position: absolute;
-	top: 341px;
-	left: 959px;
 	background: var(--sec);
 `;
 
-const BottomBlock = styled(ASM26Bricks)`
-	position: absolute;
-	top: 881px;
-	height: 135px;
-	width: 1920px;
-	/* border-bottom: 1px solid var(--asm-orange); */
+const BottomBlock = styled(Container)`
+	width: 100%;
 	border-top: 1px solid var(--sec);
-	box-sizing: border-box;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	/* background: var(--main); */
-	z-index: 2;
-
-	&::before {
-		background-size: 42%;
-	}
+	flex: 1;
 `;
 
 export const Widescreen2 = (props: OverlayProps) => {
@@ -102,11 +91,8 @@ export const Widescreen2 = (props: OverlayProps) => {
 				{/* <img src={WidescreenWhole} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 			</WholeGraphicClip>
 			<Topbar>
-				<LeftBox particlesId="leftBox">
-					<SmallInfo
-						timer={props.timer}
-						runData={props.runData}
-					/>
+				<LeftBox>
+					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
 				{/* TODO: Figure out a better way to link Audio Indicator to person. */}
@@ -149,16 +135,21 @@ export const Widescreen2 = (props: OverlayProps) => {
 					place={teamData[1]?.place ?? -1}
 				/>
 
-				<RightBox particlesId="rightBox">
+				<RightBox>
 					<SponsorsBox
 						style={{ flexGrow: 1, zIndex: 2 }}
 						sponsors={props.sponsors}
-						sponsorStyle={SponsorSize}
+						width={SponsorSize.width}
+						height={SponsorSize.height}
 					/>
 				</RightBox>
 			</Topbar>
-			<CentralDivider />
-			<BottomBlock particlesId="bottomBlock">
+			<ScreenContainer>
+				<GameplayCapture aspectRatio="16:9" grow />
+				<CentralDivider />
+				<GameplayCapture aspectRatio="16:9" grow />
+			</ScreenContainer>
+			<BottomBlock>
 				<Couch
 					commentators={props.commentators}
 					audio={props.microphoneAudioIndicator}

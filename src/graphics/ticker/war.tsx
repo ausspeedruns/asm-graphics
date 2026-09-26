@@ -99,7 +99,7 @@ export function WarGame(props: GoalProps) {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			// Start
-			tl.fromTo(containerRef.current, { y: -64 }, { y: 0, duration: 1 }, "-=0.5");
+			tl.fromTo(containerRef.current, { y: -64 }, { y: 0, duration: 1 });
 
 			for (let i = 0; i < Math.min(props.war.options.length, MAX_ALLOWED - 1); i++) {
 				const optionRef = optionRefs.current[props.war.options.length - 1 - i];

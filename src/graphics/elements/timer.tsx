@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
 
-import type { Timer as TimerType } from "@asm-graphics/types/Timer";
-
 const TimerContainer = styled.div`
 	display: flex;
 	align-items: flex-end;

@@ -152,13 +152,9 @@ const OptionContainer = styled.div`
 	justify-content: space-between;
 	width: 100%;
 	height: 100%;
-	/* background: var(--main); */
-	/* padding: 10px; */
 	box-sizing: border-box;
-	/* transform: translate(0, 40px); */
 	font-family: var(--secondary-font);
 	max-width: 1000px;
-	/* opacity: 0; */
 	gap: 8px;
 `;
 
@@ -175,13 +171,11 @@ const TextDiv = styled.div`
 
 // Determines full size
 const ProgressContainer = styled.div`
-	/* flex-grow: 1; */
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 	box-sizing: border-box;
 	background: transparent;
-	/* background: var(--main); */
 	display: flex;
 	flex-direction: column;
 	align-items: center;

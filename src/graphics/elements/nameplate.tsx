@@ -81,7 +81,7 @@ const TwitchLogoImg = styled(TwitchLogo)`
 `;
 
 interface NameplateProps {
-	player: RunDataPlayer;
+	player?: RunDataPlayer;
 	nameplateLeft?: boolean;
 	maxWidth?: number;
 	icon?: React.ReactNode;
@@ -102,6 +102,7 @@ export function Nameplate(props: NameplateProps) {
 	const twitchNameEl = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
+		if (!props.player) return;
 		// Only loop if twitch name exists and if they are different, if the same then just display twitch
 		if (props.player.social.twitch && props.player.name !== props.player.social.twitch) {
 			const tl = gsap.timeline({
@@ -114,9 +115,9 @@ export function Nameplate(props: NameplateProps) {
 			tl.to(twitchNameEl.current, { opacity: 0, duration: 1 }, `+=${NAME_LOOP_DURATION}`);
 			tl.to(normalNameEl.current, { opacity: 1, duration: 1 });
 		}
-	}, [props.player.name, props.player.social.twitch]);
+	}, [props.player?.name, props.player?.social.twitch]);
 
-	const sameNameAndTwitch = props.player.name === props.player.social.twitch;
+	const sameNameAndTwitch = props.player?.name === props.player?.social.twitch;
 
 	const maxWidth = props.maxWidth ?? 999;
 	// const maxWidth = props.vertical ? (props.maxWidth ?? 999) * 0.7 : props.maxWidth ?? 999;
@@ -133,17 +134,20 @@ export function Nameplate(props: NameplateProps) {
 			<Names speaking={props.speaking} vertical={props.vertical}>
 				<SpeakingGlow speaking={props.speaking} />
 				<div ref={normalNameEl} style={{ opacity: sameNameAndTwitch ? 0 : 1, zIndex: 2 }}>
-					<NormalName style={{ maxWidth: maxWidth }} text={props.player.name} />
+					<NormalName style={{ maxWidth: maxWidth }} text={props.player?.name ?? "AusSpeedruns"} />
 				</div>
 				<TwitchDiv ref={twitchNameEl} style={{ opacity: sameNameAndTwitch ? 1 : 0, zIndex: 2 }}>
 					<TwitchLogoImg />
 
 					<div>
-						<NormalName style={{ maxWidth: maxWidth - 45 }} text={props.player.social.twitch ?? ""} />
+						<NormalName
+							style={{ maxWidth: maxWidth - 45 }}
+							text={props.player?.social.twitch ?? "AusSpeedruns"}
+						/>
 					</div>
 				</TwitchDiv>
 			</Names>
-			{props.player.pronouns && (
+			{props.player?.pronouns && (
 				<PronounBox vertical={props.vertical}>
 					<FitText
 						style={{ maxWidth: props.vertical ? maxWidth : maxWidth * 0.45 }}

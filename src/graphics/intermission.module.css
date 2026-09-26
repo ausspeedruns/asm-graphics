@@ -6,7 +6,8 @@
 	font-family: var(--main-font);
 	display: flex;
 	flex-direction: column;
-	color: #DDFFD9;
+	color: var(--text-light);
+	background-color: black;
 
 	* {
 		box-sizing: border-box;
@@ -17,22 +18,6 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-}
-
-.asm26CameraBorder {
-	--offset: 3px;
-
-	position: absolute;
-	top: calc(80px - var(--offset));
-	width: calc(1000px + var(--offset) * 2);
-	height: calc(820px + var(--offset) * 2);
-	left: calc(64px - var(--offset));
-
-	--stitch-colour: var(--sec);
-	--width: 40px;
-	--height: 6px;
-	--dash-percentage: 60%;
-	z-index: 5;
 }
 
 .cameraShadow {
@@ -109,46 +94,6 @@
 	}
 }
 
-.asm26WholeStitching {
-	position: absolute;
-	inset: 0;
-	z-index: 2;
-	margin: 12px;
-	pointer-events: none;
-
-	--stitch-colour: #DDFFD9;
-	--height: 3px;
-	--width: 40px;
-	--dash-percentage: 50%;
-}
-
-.asm26Stitching {
-	--gradient-settings: var(--stitch-colour) var(--dash-percentage), transparent calc(100% - var(--dash-percentage));
-
-	background-image:
-		linear-gradient(to right, var(--gradient-settings)),
-		linear-gradient(to right, var(--gradient-settings)),
-		linear-gradient(to bottom, var(--gradient-settings)),
-		linear-gradient(to bottom, var(--gradient-settings));
-	background-position:
-		left top,
-		left bottom,
-		left top,
-		right top;
-	background-repeat:
-		repeat-x,
-		repeat-x,
-		repeat-y,
-		repeat-y;
-	background-size:
-		var(--width) var(--height),
-		var(--width) var(--height),
-		var(--height) var(--width),
-		var(--height) var(--width);
-
-	filter: drop-shadow(3px 0px 0px rgba(0, 0, 0, 0.75));
-}
-
 .incentivesContainer {
 	position: relative;
 	width: 780px;
@@ -157,31 +102,4 @@
 	justify-content: center;
 	background-color: var(--sec);
 	border-radius: 20px;
-}
-
-.asm26Border {
-	font-family: var(--game-font);
-	filter: drop-shadow(3px 0px 0px rgba(0, 0, 0, 0.75));
-
-	&.arrows {
-		font-size: 87px;
-		height: 37px;
-		word-break: break-all;
-		line-height: 50%;
-		writing-mode: vertical-lr;
-		text-orientation: mixed;
-	}
-
-	&.plusses {
-		font-size: 50px;
-		letter-spacing: 5%;
-	}
-
-	&.orange {
-		color: #FFA23E;
-	}
-
-	&.blue {
-		color: var(--sec);
-	}
 }

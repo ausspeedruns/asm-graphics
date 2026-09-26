@@ -17,7 +17,7 @@ import { formatDate } from "date-fns";
 import type { RunData } from "@asm-graphics/types/RunData";
 import { IconButton } from "@mui/material";
 import { Edit } from "@mui/icons-material";
-import { customDataSchema } from "../../shared/types/custom-data";
+import { runCustomDataSchema } from "../../shared/types/custom-data";
 
 const MAX_NOTES_LENGTH = 60;
 
@@ -31,7 +31,7 @@ export function RunInfo(props: RunInfoProps) {
 	const run = props.run;
 	const runners = run?.teams.flatMap((team) => team.players.map((player) => player.name)).join(", ");
 
-	const customRunData = customDataSchema.safeParse(run?.customData ?? {}).data;
+	const customRunData = runCustomDataSchema.safeParse(run?.customData ?? {}).data;
 
 	const { layout, specialRequirements } = useMemo(() => {
 		const rawRequirements = customRunData?.specialRequirements ?? "";

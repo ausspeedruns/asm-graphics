@@ -7,8 +7,7 @@ import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
 
-import ASM26Timer from "../../overlays/asm26/Timer.svg";
-import { customDataSchema } from "../../../shared/types/custom-data";
+import { runCustomDataSchema } from "../../../shared/types/custom-data";
 
 const WideInfoContainer = styled.div`
 	position: absolute;
@@ -72,7 +71,7 @@ interface Props {
 }
 
 export function WideInfo(props: Props) {
-	const customData = customDataSchema.safeParse(props.runData?.customData ?? {}).data;
+	const customData = runCustomDataSchema.safeParse(props.runData?.customData ?? {}).data;
 
 	return (
 		<WideInfoContainer className={props.className} style={props.style}>
@@ -89,10 +88,6 @@ export function WideInfo(props: Props) {
 			</MiddleGameInfo>
 			<VerticalStack id="timerStack">
 				<HorizontalStack>
-					<img
-						src={ASM26Timer}
-						style={{ height: "60%", width: "auto", marginRight: 32, filter: "drop-shadow(4px 0 0 black)" }}
-					/>
 					<Timer milliseconds={props.timer?.milliseconds ?? 0} />
 				</HorizontalStack>
 			</VerticalStack>

@@ -6,7 +6,8 @@ import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
-import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
+import { Container } from "../elements/container";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 // import GBCLeft from "../media/asap24/GBC_01.png";
 // import GBCRight from "../media/asap24/GBC_02.png";
@@ -15,28 +16,19 @@ const GBCContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
 	position: relative;
+	display: flex;
+	align-items: stretch;
 `;
 
 const Sidebar = styled.div`
-	position: absolute;
-	height: 1016px;
-	width: 578px;
 	border-right: 1px solid var(--sec);
-	overflow: hidden;
+	flex: 3;
 `;
 
-const RightSidebar = styled(ASM26Bricks)`
-	position: absolute;
-	right: 0;
-	height: 1016px;
-	width: 211px;
+const RightSidebar = styled(Container)`
+	flex: 1;
 	border-left: 1px solid var(--sec);
 	overflow: hidden;
-	// background: var(--main);
-
-	&::before {
-		background-size: 200%;
-	}
 `;
 
 const SponsorBoxStyle = styled(SponsorsBox)`
@@ -49,13 +41,15 @@ const SponsorsSize = {
 	width: 430,
 };
 
-const InfoBoxBG = styled(ASM26Bricks)`
+const InfoBoxBG = styled(Container)`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	align-items: center;
 	height: 664px;
 	padding: 16px;
-	// background: var(--main);
+	box-sizing: border-box;
+	font-size: 30px;
 `;
 
 export function GBC(props: OverlayProps) {
@@ -63,14 +57,15 @@ export function GBC(props: OverlayProps) {
 		<GBCContainer>
 			<Sidebar>
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
-				<InfoBoxBG particlesId="infoBox">
+				<InfoBoxBG>
 					{/* <img src={GBCLeft} style={{ position: "absolute" }} /> */}
 					<Couch commentators={props.commentators} audio={props.microphoneAudioIndicator} darkTitle />
 					<VerticalInfo timer={props.timer} runData={props.runData} />
-					<SponsorBoxStyle sponsorStyle={SponsorsSize} sponsors={props.sponsors} />
+					<SponsorBoxStyle sponsors={props.sponsors} width="90%" height={200} />
 				</InfoBoxBG>
 			</Sidebar>
-			<RightSidebar particlesId="rightSidebar">{/* <img src={GBCRight} style={{ position: "absolute" }} /> */}</RightSidebar>
+			<GameplayCapture aspectRatio="10:9" />
+			<RightSidebar>{/* <img src={GBCRight} style={{ position: "absolute" }} /> */}</RightSidebar>
 		</GBCContainer>
 	);
 }

@@ -1,81 +1,47 @@
 import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
+import { GameplayCapture } from "../elements/gameplay-capture";
+import { Container } from "../elements/container";
 import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
 
 import StandardBG from "./backgrounds/Standard.png";
-import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
-import AdWreath from "../media/asm26/ad-wreath.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
+	display: flex;
+	align-items: stretch;
 `;
 
 const Sidebar = styled.div`
-	position: absolute;
-	height: 1016px;
-	width: 564px;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	flex: 1;
 `;
 
-const InfoBoxBG = styled(ASM26Bricks)`
-	// background: var(--main);
+const InfoBoxBG = styled(Container)`
+	// background-image: url(${StandardBG});
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-	background-blend-mode: multiply;
-	background-repeat: repeat;
 	position: relative;
-	padding: 10px 0;
-	padding-bottom: 30px;
+	padding: 10px 10px 30px;
 	box-sizing: border-box;
 	flex-grow: 1;
+
+	font-size: 30px;
 
 	#gameTitle {
 		max-width: 507px !important;
 	}
 `;
-
-const ASM26WreathContainer = styled.div`
-	position: relative;
-	background: #369cdb;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-radius: 10px;
-	padding: 30px 60px;
-	margin: 20px;
-`;
-
-const ASM26Wreath = styled.img`
-	position: absolute;
-	top: -50px;
-	left: -50px;
-	width: calc(100% + 100px);
-	height: calc(100% + 100px);
-	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-`;
-
-const SponsorBoxS = styled(SponsorsBox)`
-	width: 230px;
-	height: 100px;
-	margin-left: -20px;
-`;
-
-const SponsorsSize = {
-	height: 125,
-	width: 480,
-};
 
 export const Standard = (props: OverlayProps) => {
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
@@ -91,25 +57,19 @@ export const Standard = (props: OverlayProps) => {
 					audioIndicator={props.microphoneAudioIndicator}
 					verticalCoop
 				/>
-				<InfoBoxBG particlesId="infoBox">
-					{/* <img src={StandardBG} style={{ position: "absolute", width: "100%", height: "100%" }} /> */}
-
+				<InfoBoxBG>
 					<Couch
 						commentators={props.commentators}
 						audio={props.microphoneAudioIndicator}
 						showHost={props.showHost}
 					/>
 
-					<VerticalInfo timer={props.timer} runData={props.runData} hideDividers />
+					<VerticalInfo timer={props.timer} runData={props.runData} />
 
-					{/* <div style={{ flexGrow: 1 }} /> */}
-
-					<ASM26WreathContainer>
-						<ASM26Wreath src={AdWreath} />
-						<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
-					</ASM26WreathContainer>
+					<SponsorsBox sponsors={props.sponsors} width="90%" height={150} />
 				</InfoBoxBG>
 			</Sidebar>
+			<GameplayCapture aspectRatio="4:3" />
 		</StandardContainer>
 	);
 };

@@ -9,6 +9,8 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
+import { GameplayCapture } from "../elements/gameplay-capture";
+import { Container } from "../elements/container";
 
 // import Standard2p from "./backgrounds/Standard2p.png";
 
@@ -16,59 +18,48 @@ const Standard2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 `;
 
 const Topbar = styled.div`
 	display: flex;
-	position: absolute;
-	height: 295px;
-	width: 1920px;
-	/* border-bottom: 1px solid var(--sec); */
 	overflow: hidden;
 `;
 
-const LeftBox = styled.div`
-	width: 666px;
-	height: 100%;
+const LeftBox = styled(Container)`
+	flex: 1;
 	display: flex;
-	background: var(--main);
 	position: relative;
 	box-sizing: border-box;
+	font-size: 30px;
 `;
 
-const RightBox = styled.div`
-	width: 666px;
-	height: 100%;
+const RightBox = styled(Container)`
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background: var(--main);
 	position: relative;
 	z-index: 2;
 	box-sizing: border-box;
 `;
 
-const SponsorSize = {
-	height: 230,
-	width: 360,
-	// marginRight: -40,
-};
+const GameRow = styled.div`
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	align-items: stretch;
+`;
 
 const CentralDivider = styled.div`
-	height: 721px;
 	width: 2px;
-	position: absolute;
-	bottom: 0px;
-	left: 959px;
 	background: var(--sec);
 `;
 
-const FillerBox = styled.div`
-	height: 721px;
-	width: 158px;
-	position: absolute;
-	bottom: 0px;
-	background: var(--main);
+const FillerBox = styled(Container)`
+	flex-grow: 1;
 `;
 
 const WholeGraphicClip = styled.div`
@@ -99,21 +90,21 @@ export function GBC2(props: OverlayProps) {
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[0]}
-					side="left"
+					side="top"
 					style={{
 						position: "absolute",
-						top: 255,
-						left: 625,
+						top: 214,
+						left: 667,
 						zIndex: 2,
 					}}
 				/>
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[1]}
-					side="right"
+					side="top"
 					style={{
 						position: "absolute",
-						top: 255,
-						right: 625,
+						top: 214,
+						right: 667,
 						zIndex: 2,
 					}}
 				/>
@@ -147,15 +138,19 @@ export function GBC2(props: OverlayProps) {
 							commentators={props.commentators}
 							style={{ width: "30%", zIndex: 3, marginLeft: 12 }}
 							audio={props.microphoneAudioIndicator}
-							align="left"
+							align="center"
 						/>
-						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} />
+						<SponsorsBox sponsors={props.sponsors} width={360} height={230} style={{ flexGrow: 1 }} />
 					</div>
 				</RightBox>
 			</Topbar>
-			<FillerBox style={{ left: 0 }}></FillerBox>
-			<CentralDivider />
-			<FillerBox style={{ right: 0 }}></FillerBox>
+			<GameRow>
+				<FillerBox />
+				<GameplayCapture aspectRatio="10:9" />
+				<CentralDivider />
+				<GameplayCapture aspectRatio="10:9" />
+				<FillerBox />
+			</GameRow>
 		</Standard2Container>
 	);
 }

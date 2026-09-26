@@ -2,39 +2,37 @@ import styled from "@emotion/styled";
 
 import type { OverlayProps } from "../gameplay-overlay";
 
+import { Container } from "../elements/container";
 import { SmallInfo } from "../elements/info-box/small";
 import { Facecam } from "../elements/facecam";
 
 import DSBG from "./backgrounds/DS.png";
-import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 const DSContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
+	display: flex;
+	align-items: stretch;
 `;
 
 const Sidebar = styled.div`
-	position: absolute;
-	height: 1016px;
-	width: 564px;
+	height: 100%;
+	width: 565px;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
-const InfoBox = styled(ASM26Bricks)`
+const InfoBox = styled(Container)`
 	position: relative;
-	// background: var(--main);
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
-	height: 240px;
+	flex: 1;
 	border-bottom: 1px solid var(--sec);
-`;
 
-const DSSecondScreen = styled.div`
-	width: 564px;
-	height: 423px;
+	font-size: 25px;
 `;
 
 export function DS(props: OverlayProps) {
@@ -48,12 +46,12 @@ export function DS(props: OverlayProps) {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<InfoBox particlesId="infoBox">
-					{/* <img src={DSBG} style={{ position: "absolute", width: "100%", height: "100%" }} /> */}
+				<InfoBox>
 					<SmallInfo timer={props.timer} runData={props.runData} />
 				</InfoBox>
-				<DSSecondScreen />
+				<GameplayCapture aspectRatio="4:3" />
 			</Sidebar>
+			<GameplayCapture aspectRatio="4:3" />
 		</DSContainer>
 	);
 }

@@ -5,7 +5,7 @@ import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
-import { customDataSchema } from "../../../shared/types/custom-data";
+import { runCustomDataSchema } from "../../../shared/types/custom-data";
 
 const SmallInfoContainer = styled.div`
 	box-sizing: border-box;
@@ -22,8 +22,6 @@ const SmallInfoContainer = styled.div`
 	color: var(--text-light);
 	font-family: var(--main-font);
 
-	font-size: 30px;
-
 	& #timer {
 		font-size: 200%;
 	}
@@ -34,7 +32,7 @@ const SmallInfoContainer = styled.div`
 	}
 
 	& #gameTitle {
-		font-size: 200%;
+		font-size: 150%;
 		font-weight: bold;
 	}
 `;
@@ -68,7 +66,7 @@ interface Props {
 }
 
 export function SmallInfo(props: Props) {
-	const customData = customDataSchema.safeParse(props.runData?.customData);
+	const customData = runCustomDataSchema.safeParse(props.runData?.customData);
 
 	return (
 		<SmallInfoContainer className={props.className} style={props.style}>

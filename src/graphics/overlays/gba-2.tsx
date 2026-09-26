@@ -11,64 +11,53 @@ import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
 import GBA2p from "./backgrounds/GBA2p.png";
-import { ASM26Felt } from "../elements/asm26/asm26-felt";
+import { Container } from "../elements/container";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 const Standard2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 `;
 
 const Topbar = styled.div`
 	display: flex;
-	position: absolute;
-	height: 377px;
-	width: 1920px;
-	border-bottom: 1px solid white;
+	align-items: stretch;
+	flex: 1;
+	border-bottom: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
-const LeftBox = styled(ASM26Felt)`
-	width: 666px;
-	height: 100%;
+const LeftBox = styled(Container)`
+	flex: 1;
 	display: flex;
 	position: relative;
-	// background: var(--main);
+	font-size: 35px;
 `;
 
-const RightBox = styled(ASM26Felt)`
-	width: 666px;
-	height: 100%;
+const RightBox = styled(Container)`
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	position: relative;
-	// background: var(--main);
 	box-sizing: border-box;
 `;
 
-const SponsorSize = {
-	height: 230,
-	width: 400,
-};
-
-const CentralDivider = styled.div`
-	height: 639px;
-	width: 2px;
-	position: absolute;
-	top: 377px;
-	left: 959px;
-	background: var(--sec);
+const GameRow = styled.div`
+	display: flex;
+	flex: 0 1 auto;
+	min-height: 0;
+	flex-direction: row;
+	align-items: stretch;
 `;
 
-const RightBoxTrim = styled.span`
-	font-family: var(--game-font);
-	font-size: 50px;
-	z-index: 2;
-	text-align: center;
-	width: 100%;
-
-	filter: drop-shadow(3px 0px 0px black);
+const CentralDivider = styled.div`
+	width: 2px;
+	background: var(--sec);
 `;
 
 export const GBA2 = (props: OverlayProps) => {
@@ -80,14 +69,14 @@ export const GBA2 = (props: OverlayProps) => {
 			{/* <img src={GBA2p} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 
 			<Topbar>
-				<LeftBox particlesId="leftBox">
+				<LeftBox>
 					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[0]}
 					side="right"
-					style={{ position: "absolute", top: 295, left: 666 }}
+					style={{ position: "absolute", top: 295, left: 667 }}
 				/>
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[1]}
@@ -95,7 +84,7 @@ export const GBA2 = (props: OverlayProps) => {
 					style={{
 						position: "absolute",
 						top: 295,
-						right: 666,
+						right: 667,
 						zIndex: 2,
 					}}
 				/>
@@ -114,8 +103,7 @@ export const GBA2 = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 301, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
 				<RaceFinish style={{ top: 301, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
-				<RightBox particlesId="rightBox">
-					<RightBoxTrim style={{ color: "var(--sec)", marginTop: 16 }}>+++++++++++++++++++</RightBoxTrim>
+				<RightBox>
 					<div
 						style={{
 							display: "flex",
@@ -133,12 +121,15 @@ export const GBA2 = (props: OverlayProps) => {
 							style={{ width: "30%", zIndex: 3 }}
 							audio={props.microphoneAudioIndicator}
 						/>
-						<SponsorsBox sponsors={props.sponsors} sponsorStyle={SponsorSize} style={{ zIndex: 5 }} />
+						<SponsorsBox sponsors={props.sponsors} width={400} height={230} style={{ zIndex: 5 }} />
 					</div>
-					<RightBoxTrim style={{ color: "var(--sec)", marginBottom: 16 }}>+++++++++++++++++++</RightBoxTrim>
 				</RightBox>
 			</Topbar>
-			<CentralDivider />
+			<GameRow>
+				<GameplayCapture aspectRatio="3:2" grow />
+				<CentralDivider />
+				<GameplayCapture aspectRatio="3:2" grow />
+			</GameRow>
 		</Standard2Container>
 	);
 };

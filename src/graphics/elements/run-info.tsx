@@ -10,7 +10,6 @@ interface FontProps {
 /*			CATEGORY			*/
 const CategoryContainer = styled(FitText)`
 	font-family: var(--category-font);
-	font-weight: bold;
 	text-transform: uppercase;
 `;
 
@@ -58,7 +57,6 @@ export function Estimate(props: EstimateProps) {
 const GameContainer = styled(FitText)`
 	font-family: var(--game-font);
 	line-height: 1; // Changes based on font, keep tight
-	color: #DDFFD9;
 `;
 
 interface GameProps {

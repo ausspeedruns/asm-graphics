@@ -7,11 +7,11 @@ import StopwatchIcon from "../media/icons/stopwatch.svg?react";
 import RunnerIcon from "../media/icons/runner.svg?react";
 import ConsoleIcon from "../media/icons/console.svg?react";
 import { useIntermissionStore } from "../stores/intermission-store";
-import { customDataSchema } from "../../shared/types/custom-data";
+import { runCustomDataSchema } from "../../shared/types/custom-data";
 
 export function IntermissionCurrentRun() {
 	const currentRun = useIntermissionStore((state) => state.activeRun);
-	const customData = customDataSchema.safeParse(currentRun?.customData ?? {}).data;
+	const customData = runCustomDataSchema.safeParse(currentRun?.customData ?? {}).data;
 
 	let playerNames: React.ReactNode[] = [];
 	if (currentRun?.teams.length === 0) {

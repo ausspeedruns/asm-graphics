@@ -1,44 +1,40 @@
 import styled from "@emotion/styled";
-
+import { GameplayCapture } from "../elements/gameplay-capture";
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
+import { Container } from "../elements/container";
 
 // import Background from "./backgrounds/1x1.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
+	position: relative;
+	display: flex;
+	align-items: stretch;
 `;
 
 const Sidebar = styled.div`
-	position: absolute;
-	height: 1016px;
 	width: 564px;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 `;
 
-const InfoBoxBG = styled.div`
-	background: transparent;
+const InfoBox = styled(Container)`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	height: 644px;
-	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-	background-blend-mode: multiply;
-	background-repeat: repeat;
-	position: relative;
-	padding: 10px 0;
-`;
-
-const SponsorBoxS = styled(SponsorsBox)`
-	width: 65%;
-	min-height: 245px;
+	flex: 1;
+	padding: 10px;
+	font-size: 28px;
 `;
 
 const FullGraphicClip = styled.div`
@@ -51,10 +47,10 @@ const FullGraphicClip = styled.div`
 	overflow: hidden;
 `;
 
-const SponsorsSize = {
-	height: 125,
-	width: 480,
-};
+const RightBox = styled(Container)`
+	flex: 1;
+	border-left: 1px solid var(--sec);
+`;
 
 export function OneByOne(props: OverlayProps) {
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
@@ -73,20 +69,20 @@ export function OneByOne(props: OverlayProps) {
 					audioIndicator={props.microphoneAudioIndicator}
 					verticalCoop
 				/>
-				<InfoBoxBG>
+				<InfoBox>
 					<Couch
 						commentators={props.commentators}
 						audio={props.microphoneAudioIndicator}
 						showHost={props.showHost}
 					/>
 
-					<VerticalInfo timer={props.timer} runData={props.runData} hideDividers />
+					<VerticalInfo timer={props.timer} runData={props.runData} />
 
-					<div style={{ flexGrow: 1 }} />
-
-					<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
-				</InfoBoxBG>
+					<SponsorsBox sponsors={props.sponsors} width={480} height={125} />
+				</InfoBox>
 			</Sidebar>
+			<GameplayCapture aspectRatio="1:1" />
+			<RightBox />
 		</StandardContainer>
 	);
 }

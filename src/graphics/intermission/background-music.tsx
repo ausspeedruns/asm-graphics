@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
 import styles from "./background-music.module.css";
 
-import MusicIconImg from "../overlays/asm26/Music.svg?react";
+import MusicIcon from "../media/icons/MusicIcon.svg?react";
 
 interface BackgroundMusicProps {
 	volume?: number;
@@ -46,7 +46,7 @@ export function BackgroundMusic(props: BackgroundMusicProps) {
 
 	return (
 		<div className={styles.music}>
-			<MusicIconImg className={styles.musicIcon} />
+			<MusicIcon className={styles.musicIcon} />
 			<audio id="intermission-music" autoPlay preload="auto" ref={audioRef}>
 				<source type="audio/mp3" src="http://allrelays.rainwave.cc/ocremix.mp3?46016:hfmhf79FuJ" />
 			</audio>

@@ -105,7 +105,7 @@ export const RTSelection = (props: Props) => {
 					pronouns: runner.pronouns,
 					microphone: headset,
 					twitch: runner.social?.twitch,
-					tag: runner.customData?.["tag"],
+					tag: typeof runner.customData?.["tag"] === "string" ? runner.customData?.["tag"] : "",
 				});
 			});
 

@@ -13,7 +13,8 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { ConnectionTag } from "../elements/connection-tag";
 import { PasswordField } from "../elements/password-field";
 import { generateOBSScenes } from "./obs-scene-generator";
-import type { RunDataArray } from "@asm-graphics/shared/types/RunData";
+import type { RunDataArray } from "../../shared/types/RunData";
+import { runCustomDataSchema } from "../../shared/types/custom-data";
 import { useMemo, useState } from "react";
 import NumberField from "../elements/number-field";
 
@@ -30,7 +31,8 @@ export function OBSSettings() {
 	const allLayouts = useMemo(() => {
 		const layoutsSet = new Set<string>();
 		runsRep?.forEach((run) => {
-			const layoutMatch = /LAYOUT:\s*(.*)/.exec(run.customData?.["specialRequirements"] ?? "");
+			const customData = runCustomDataSchema.safeParse(run.customData ?? {}).data;
+			const layoutMatch = /LAYOUT:\s*(.*)/.exec(customData?.specialRequirements ?? "");
 			if (layoutMatch) {
 				const layoutName = layoutMatch[1]?.trim();
 				if (layoutName) {

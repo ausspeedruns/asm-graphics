@@ -9,7 +9,8 @@ import { Couch } from "../elements/couch";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
-import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
+import { Container } from "../elements/container";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 const DS2Container = styled.div`
 	height: 1016px;
@@ -22,40 +23,41 @@ const DS2Container = styled.div`
 const Middle = styled.div`
 	position: relative;
 	height: 1016px;
-	width: 564px;
+	width: 566px;
 	border-right: 1px solid var(--sec);
 	border-left: 1px solid var(--sec);
 	overflow: hidden;
 `;
 
-const InfoBox = styled(ASM26Bricks)`
-	// background: var(--main);
+const InfoBox = styled(Container)`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	align-items: center;
 	height: 664px;
 	padding: 16px;
 	box-sizing: border-box;
 	position: relative;
+	font-size: 30px;
 `;
 
-const SponsorBoxS = styled(SponsorsBox)`
-	width: 100%;
-	/* height: 264px; */
+const GameColumn = styled.div`
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 `;
-
-const SponsorsSize = {
-	height: 130,
-	width: 430,
-};
 
 export const DS2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
-	
+
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
 	return (
 		<DS2Container>
+			<GameColumn>
+				<GameplayCapture aspectRatio="4:3" />
+				<GameplayCapture aspectRatio="4:3" />
+			</GameColumn>
 			<Middle>
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 
@@ -77,12 +79,16 @@ export const DS2 = (props: OverlayProps) => {
 						zIndex: 2,
 					}}
 				/>
-				<InfoBox particlesId="infoBox">
+				<InfoBox>
 					<Couch commentators={props.commentators} style={{ zIndex: 2 }} />
 					<VerticalInfo timer={props.timer} runData={props.runData} />
-					<SponsorBoxS sponsorStyle={SponsorsSize} sponsors={props.sponsors} style={{ zIndex: 2 }} />
+					<SponsorsBox sponsors={props.sponsors} width={430} height={130} style={{ zIndex: 2 }} />
 				</InfoBox>
 			</Middle>
+			<GameColumn>
+				<GameplayCapture aspectRatio="4:3" />
+				<GameplayCapture aspectRatio="4:3" />
+			</GameColumn>
 		</DS2Container>
 	);
 };

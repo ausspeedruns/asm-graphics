@@ -20,6 +20,7 @@ export function Wars(props: WarsProps) {
 		{ name: "Option 2", total: 200 },
 	]);
 	const [type, setType] = useState<War["type"]>("War");
+	const [resetKey, setResetKey] = useState(0); // Used to force a re-render of the WarGame component when the war data changes
 
 	const ref = useRef<TickerItemHandles>(null);
 
@@ -29,6 +30,11 @@ export function Wars(props: WarsProps) {
 		const tl = gsap.timeline();
 		ref.current.animation(tl);
 		tl.play();
+
+		// Reset the animation after it finishes
+		tl.eventCallback("onComplete", () => {
+			setResetKey((prevKey) => prevKey + 1);
+		});
 	}
 
 	const war: War = {
@@ -49,7 +55,7 @@ export function Wars(props: WarsProps) {
 				className={clsx(styles.showcase, styles.fullWidth)}
 				style={{ backgroundColor: props.showcaseBackgroundColour }}
 			>
-				<WarGame war={war} ref={ref} />
+				<WarGame war={war} ref={ref} key={resetKey} />
 			</div>
 			<div className={styles.controls}>
 				<Button onClick={handleRunAnimation}>Run Animation</Button>

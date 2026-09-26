@@ -6,6 +6,8 @@ import type { RunDataTeam } from "@asm-graphics/types/RunData";
 
 import { Nameplate } from "./nameplate";
 
+import { runnerCustomDataSchema } from "../../shared/types/custom-data";
+
 import DiscordLogo from "../media/icons/discord.svg";
 import TwitterLogo from "../media/icons/twitter.svg";
 import YouTubeLogo from "../media/icons/youtube.svg";
@@ -97,7 +99,12 @@ export const Facecam = (props: FacecamProps) => {
 						}}
 						key={team.id}
 						speaking={team.players.some(
-							(player) => props.audioIndicator?.[player.customData["microphone"] ?? ""],
+							(player) =>
+								props.audioIndicator?.[
+									typeof player.customData["microphone"] === "string"
+										? player.customData["microphone"]
+										: ""
+								],
 						)}
 					/>,
 				);
@@ -105,7 +112,10 @@ export const Facecam = (props: FacecamProps) => {
 				// Versus does not have a team name, display each name
 
 				team.players.forEach((player) => {
-					const correctMic = player.customData["microphone"];
+					const correctMic =
+						typeof player.customData["microphone"] === "string"
+							? player.customData["microphone"]
+							: undefined;
 					id = player.id;
 					alternatingPronounSides = !alternatingPronounSides;
 					if (props.dontAlternatePronouns) {
@@ -151,7 +161,11 @@ export const Facecam = (props: FacecamProps) => {
 						fontSize: 25,
 					}}
 					key={team.relayPlayerID}
-					speaking={props.audioIndicator?.[team.players[0]?.customData["microphone"] ?? ""]}
+					speaking={
+						props.audioIndicator?.[
+							runnerCustomDataSchema.safeParse(team.players[0]?.customData ?? {}).data?.microphone ?? ""
+						]
+					}
 				/>,
 			);
 			allRunnerNames.push(<RunnerNameDivider key={team.relayPlayerID + "-divider"} />);
@@ -175,7 +189,11 @@ export const Facecam = (props: FacecamProps) => {
 						maxWidth={props.maxNameWidth}
 						key={player.id}
 						player={player}
-						speaking={props.audioIndicator?.[player.customData["microphone"] ?? ""]}
+						speaking={
+							props.audioIndicator?.[
+								runnerCustomDataSchema.safeParse(player.customData ?? {}).data?.microphone ?? ""
+							]
+						}
 						vertical={team.players.length > 1 ? props.verticalCoop : false}
 						style={{ height: height }}
 					/>,

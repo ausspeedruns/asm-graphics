@@ -9,57 +9,50 @@ import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
 import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
+import { Container } from "../elements/container";
 
 import Standard2p from "./backgrounds/Standard2p.png";
-import { ASM26Felt } from "../elements/asm26/asm26-felt";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 const Standard2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
+	display: flex;
+	flex-direction: column;
 `;
 
 const Topbar = styled.div`
 	display: flex;
-	position: absolute;
-	height: 297px;
-	width: 1920px;
-	/* border-bottom: 1px solid var(--sec); */
+	width: 100%;
+	flex: 1;
 	overflow: hidden;
 `;
 
-const LeftBox = styled(ASM26Felt)`
-	width: 666px;
+const LeftBox = styled(Container)`
+	position: relative;
+	flex: 1;
 	height: 100%;
 	display: flex;
-	// background: var(--main);
-	position: relative;
-	box-sizing: border-box;
+	font-size: 30px;
 `;
 
-const RightBox = styled(ASM26Felt)`
-	width: 666px;
+const RightBox = styled(Container)`
+	position: relative;
+	flex: 1;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	/* background: var(--main); */
-	position: relative;
-	z-index: 2;
-	box-sizing: border-box;
 `;
 
-const SponsorSize = {
-	height: 230,
-	width: 360,
-	// marginRight: -40,
-};
+const GameplayRow = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+`;
 
 const CentralDivider = styled.div`
-	height: 720px;
 	width: 2px;
-	position: absolute;
-	top: 296px;
-	left: 959px;
 	background: var(--sec);
 `;
 
@@ -72,7 +65,7 @@ const WholeGraphicClip = styled.div`
 	z-index: 1;
 `;
 
-export const Standard2 = (props: OverlayProps) => {
+export function Standard2(props: OverlayProps) {
 	const teamData = getTeams(props.runData, props.timer, 2);
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
@@ -82,7 +75,7 @@ export const Standard2 = (props: OverlayProps) => {
 				{/* <img style={{ position: "absolute", width: "100%" }} src={Standard2p} /> */}
 			</WholeGraphicClip>
 			<Topbar>
-				<LeftBox particlesId="leftBox">
+				<LeftBox>
 					<SmallInfo timer={props.timer} runData={props.runData} />
 				</LeftBox>
 
@@ -108,11 +101,11 @@ export const Standard2 = (props: OverlayProps) => {
 				/>
 
 				<Facecam
-					width={586}
 					maxNameWidth={190}
 					style={{
 						borderRight: "1px solid var(--sec)",
 						borderLeft: "1px solid var(--sec)",
+						flex: 1,
 						zIndex: 2,
 					}}
 					teams={props.runData?.teams}
@@ -122,7 +115,7 @@ export const Standard2 = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 221, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
 				<RaceFinish style={{ top: 221, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
-				<RightBox particlesId="rightBox">
+				<RightBox>
 					<div
 						style={{
 							display: "flex",
@@ -135,18 +128,19 @@ export const Standard2 = (props: OverlayProps) => {
 					>
 						<Couch
 							commentators={props.commentators}
-							style={{ width: "30%", zIndex: 3, marginLeft: 12 }}
+							style={{ width: "30%", zIndex: 3 }}
 							audio={props.microphoneAudioIndicator}
 							align="center"
 						/>
-						<SponsorsBox
-							sponsors={props.sponsors}
-							sponsorStyle={SponsorSize}
-						/>
+						<SponsorsBox sponsors={props.sponsors} width={360} height={230} />
 					</div>
 				</RightBox>
 			</Topbar>
-			<CentralDivider />
+			<GameplayRow>
+				<GameplayCapture aspectRatio="4:3" grow />
+				<CentralDivider />
+				<GameplayCapture aspectRatio="4:3" grow />
+			</GameplayRow>
 		</Standard2Container>
 	);
-};
+}

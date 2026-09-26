@@ -12,6 +12,7 @@ const TickerDonationTotalContainer = styled.div`
 
 	display: flex;
 	align-items: center;
+	gap: 10px;
 	padding: 0 10px;
 	color: var(--text-light);
 	font-weight: bold;
@@ -23,7 +24,6 @@ const TickerDonationTotalContainer = styled.div`
 const CharityLogo = styled(GoCLogo)`
 	height: 45px;
 	width: auto;
-	margin-left: 10px;
 	color: var(--text-light);
 `;
 

@@ -7,9 +7,6 @@ import type { RunData } from "@asm-graphics/types/RunData";
 
 import { format } from "date-fns";
 
-import ASM26Background from "../../media/asm26/ASM26_Carousel.png";
-import ASM26Bow from "../../media/asm26/Carosuel_Bow_Blue.png";
-
 const UpcomingRunsContainer = styled.div`
 	position: absolute;
 	top: 0;
@@ -87,23 +84,15 @@ const BORDER_RADIUS = 4;
 const UpcomingRunContainer = styled.div`
 	font-family: var(--secondary-font);
 	border-radius: ${BORDER_RADIUS + 4}px ${BORDER_RADIUS}px ${BORDER_RADIUS}px ${BORDER_RADIUS + 4}px; // +4 because if it is the same as the MetaDataContainer it gets aliasing artifacts
-	// background: white;
-	width: calc(1484px / 2);
-	height: calc(223px / 2);
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-image: url(${ASM26Background});
+	background: white;
 	display: flex;
-	// width: 100%;
-	// flex-grow: 1;
 	font-size: 22px;
 	line-height: 1;
 `;
 
 const MetaDataContainer = styled.div`
 	padding: 4px;
-	// background: var(--asm-orange);
+	background: var(--sec);
 	border-radius: ${BORDER_RADIUS}px 0 0 ${BORDER_RADIUS}px;
 	color: var(--text-light);
 
@@ -135,10 +124,12 @@ const RunInfoContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+	gap: 12px;
 	align-items: center;
 	flex-grow: 1;
-	color: var(--text-light);
+	color: var(--text-dark);
 	font-size: 150%;
+	padding: 8px;
 `;
 
 const GameName = styled(FitTextElements)`
@@ -199,7 +190,6 @@ export function Run(props: RunProps) {
 					/>
 				</LeftSideContainer>
 			</MetaDataContainer>
-			<img src={ASM26Bow} style={{ height: "100%" }} />
 			<RunInfoContainer>
 				<GameName text={<>{props.run.game}</>} />
 				<Category text={props.run.category} />

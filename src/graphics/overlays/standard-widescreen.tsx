@@ -10,6 +10,7 @@ import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 
 import { VerticalTimerBottomInfo } from "../elements/info-box/vertical-timer-bottom";
+import { Container } from "../elements/container";
 
 const StandardWidescreenContainer = styled.div`
 	height: 1016px;
@@ -21,22 +22,19 @@ const Topbar = styled.div`
 	display: flex;
 	position: absolute;
 	height: 400px;
-	width: 1920px;
-	/* border-bottom: 1px solid var(--sec); */
+	width: 100%;
 	overflow: hidden;
 `;
 
-const LeftBox = styled.div`
+const LeftBox = styled(Container)`
 	width: 524px;
 	height: 100%;
 	display: flex;
-	// background: var(--main);
 	position: relative;
 	box-sizing: border-box;
-	background: var(--main);
 `;
 
-const RightBox = styled.div`
+const RightBox = styled(Container)`
 	width: 796px;
 	height: 100%;
 	display: flex;
@@ -45,8 +43,7 @@ const RightBox = styled.div`
 	/* background: var(--main); */
 	position: relative;
 	z-index: 2;
-	box-sizing: border-box;
-	background: var(--main);
+	font-size: 28px;
 `;
 
 const SponsorSize = {
@@ -99,7 +96,12 @@ export const StandardWidescreen = (props: OverlayProps) => {
 							zIndex: 2,
 						}}
 					>
-						<SponsorsBox sponsors={props.sponsors} style={{ flexGrow: 1 }} sponsorStyle={SponsorSize} />
+						<SponsorsBox
+							sponsors={props.sponsors}
+							width={SponsorSize.width}
+							height={SponsorSize.height}
+							style={{ flexGrow: 1 }}
+						/>
 						<Couch
 							commentators={props.commentators}
 							style={{ width: "100%", zIndex: 3, marginBottom: 16 }}

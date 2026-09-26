@@ -6,6 +6,8 @@ import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
+import { Container } from "../elements/container";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 // import StandardBG from "../media/ASM23/standard-vertical-left.png";
 // import StandardRightBG from "../media/ASM23/standard-vertical-right.png";
@@ -14,40 +16,35 @@ const StandardContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
 	position: relative;
+
+	display: flex;
+	align-items: stretch;
 `;
 
 const Sidebar = styled.div`
-	position: absolute;
-	height: 1016px;
-	width: 580px;
 	border-right: 1px solid var(--asm-orange);
 	overflow: hidden;
+	flex-grow: 2;
+
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 `;
 
-const InfoBoxBG = styled.div`
-	background: var(--main);
+const InfoBoxBG = styled(Container)`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	height: 664px;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+	padding: 10px;
+	flex-grow: 1;
 `;
 
-const SponsorBoxS = styled(SponsorsBox)`
-	/* width: 65%; */
-	/* height: 264px; */
-`;
-
-const RightSide = styled.div`
-	position: absolute;
-	height: 1016px;
-	width: 578px;
-	right: 0;
-	border-left: 1px solid var(--asm-orange);
-	background: var(--main);
-	background-position: center;
-	background-repeat: none;
+const RightSide = styled(Container)`
+	border-left: 1px solid var(--sec);
+	font-size: 40px;
+	padding: 10px;
 
 	display: flex;
 	flex-direction: column;
@@ -55,12 +52,7 @@ const RightSide = styled.div`
 	align-items: center;
 `;
 
-const SponsorsSize = {
-	height: 240,
-	width: 480,
-};
-
-export const StandardVertical = (props: OverlayProps) => {
+export function StandardVertical(props: OverlayProps) {
 	const nameplateMaxWidth = 330 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
 	return (
@@ -80,16 +72,18 @@ export const StandardVertical = (props: OverlayProps) => {
 						style={{ position: "absolute", height: "auto", width: "100%", objectFit: "contain", bottom: 0 }}
 					/> */}
 					<Couch
-						style={{ zIndex: 3, paddingTop: 32, transform: "scale(1.2)" }}
 						commentators={props.commentators}
 						audio={props.microphoneAudioIndicator}
+						align="center"
+						style={{ width: "fit-content" }}
 					/>
 				</InfoBoxBG>
 			</Sidebar>
+			<GameplayCapture aspectRatio="3:4" />
 			<RightSide>
 				<VerticalInfo timer={props.timer} runData={props.runData} />
-				<SponsorBoxS sponsors={props.sponsors} sponsorStyle={SponsorsSize} />
+				<SponsorsBox sponsors={props.sponsors} width={480} height={240} />
 			</RightSide>
 		</StandardContainer>
 	);
-};
+}

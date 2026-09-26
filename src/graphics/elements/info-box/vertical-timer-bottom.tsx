@@ -5,6 +5,7 @@ import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 
 import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
+import { runCustomDataSchema } from "../../../shared/types/custom-data";
 
 const VerticalInfoContainer = styled.div`
 	width: 100%;
@@ -13,8 +14,7 @@ const VerticalInfoContainer = styled.div`
 	align-items: center;
 	justify-content: space-evenly;
 	z-index: 2;
-
-	font-size: 28px;
+	gap: 5px;
 
 	& #timer {
 		font-size: 300%;
@@ -64,25 +64,24 @@ interface Props {
 	style?: React.CSSProperties;
 	timer: ITimer | undefined;
 	runData: RunDataActiveRun | undefined;
-	hideDividers?: boolean;
 }
 
 export function VerticalTimerBottomInfo(props: Props) {
+	const customData = runCustomDataSchema.safeParse(props.runData?.customData ?? {}).data;
+
 	return (
 		<VerticalInfoContainer className={props.className} style={props.style}>
 			<VerticalStack id="gameInfo">
-				<RunInfo.GameTitle game={props.runData?.customData?.["gameDisplay"] ?? props.runData?.game ?? ""} />
+				<RunInfo.GameTitle game={customData?.gameDisplay ?? props.runData?.game ?? ""} />
 				<HorizontalStack id="subInfoStack">
 					<RunInfo.System system={props.runData?.system ?? ""} />
 					<RunInfo.Year year={props.runData?.release ?? ""} />
 				</HorizontalStack>
 			</VerticalStack>
-			{!props.hideDividers && <Divider className="divider" />}
 			<VerticalStack id="timerStack">
 				<RunInfo.Category category={props.runData?.category ?? ""} />
 				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
 			</VerticalStack>
-			{!props.hideDividers && <Divider className="divider" />}
 			<Timer milliseconds={props.timer?.milliseconds ?? 0} />
 		</VerticalInfoContainer>
 	);

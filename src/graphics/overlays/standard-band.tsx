@@ -5,28 +5,29 @@ import type { OverlayProps } from "../gameplay-overlay";
 import { VerticalInfo } from "../elements/info-box/vertical";
 import { Facecam } from "../elements/facecam";
 import { Couch } from "../elements/couch";
+import { Container } from "../elements/container";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 // import StandardBG from "./backgrounds/Standard.png";
 
 const StandardContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
+	display: flex;
+	align-items: stretch;
 `;
-
-const SIDEBAR_WIDTH = 600;
 
 const Sidebar = styled.div`
 	position: absolute;
 	height: 1016px;
-	width: ${SIDEBAR_WIDTH}px;
+	width: 600px;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 `;
 
-const InfoBoxBG = styled.div`
-	background: var(--main);
+const InfoBoxBG = styled(Container)`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
@@ -37,6 +38,7 @@ const InfoBoxBG = styled.div`
 	background-repeat: repeat;
 	position: relative;
 	padding: 10px 0;
+	font-size: 28px;
 `;
 
 export function StandardBand(props: OverlayProps) {
@@ -45,9 +47,9 @@ export function StandardBand(props: OverlayProps) {
 	return (
 		<StandardContainer>
 			<Sidebar>
+				<GameplayCapture aspectRatio="4:3" />
 				<Facecam
-					maxNameWidth={nameplateMaxWidth}
-					height={(SIDEBAR_WIDTH / 4) * 3 + 40} // + Nameplate Height
+					height={41}
 					teams={props.runData?.teams}
 					pronounStartSide="right"
 					audioIndicator={props.microphoneAudioIndicator}

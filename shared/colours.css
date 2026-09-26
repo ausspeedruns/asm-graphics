@@ -1,18 +1,16 @@
 body {
 	margin: 0;
-	--main: #05093f;
-	--primary: var(--main);
+	--main: #000000;
 	--nameplate: #202020;
 	--nameplate-lighter: #292929;
-	--sec: #419ADF;
-	--accent: #cc3622;
-	--text-light: #DDFFD9;
-	--text-dark: #202020;
+	--sec: #808080;
+	--accent: #404040;
+	--text-light: #ffffff;
+	--text-dark: #000000;
 
 	--main-font: "Poppins";
 	--secondary-font: "Poppins";
 	--mono-font: var(--asm-font);
-	--game-font: "Bitcount";
 
 	--asm-orange: #cc7722;
 	--asm-blue: #437c90;
@@ -36,5 +34,7 @@ body {
 		#ffba47 87%
 	);
 
-	font-variation-settings: "CRSV" 0, "ELSH" 60, "ELXP" 55, "slnt" 0, "wght" 400;
+	* {
+		box-sizing: border-box;
+	}
 }

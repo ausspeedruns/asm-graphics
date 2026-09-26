@@ -8,38 +8,39 @@ import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
 import * as RunInfo from "../elements/run-info";
 import { Timer } from "../elements/timer";
-import { ASM26Felt } from "../elements/asm26/asm26-felt";
+import { Container } from "../elements/container";
+import { runCustomDataSchema } from "../../shared/types/custom-data";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 const ThreeDS2Container = styled.div`
 	height: 1016px;
 	width: 1920px;
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	align-items: stretch;
 	position: relative;
+`;
+
+const GameRow = styled.div`
+	display: flex;
+	align-items: stretch;
 `;
 
 const Middle = styled.div`
 	position: relative;
-	height: 100%;
-	width: 744px;
-	/* border-right: 1px solid var(--pax-gold);
-	border-left: 1px solid var(--pax-gold); */
 	overflow: hidden;
-	// margin-top: 576px;
+	width: 745px;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-end;
-	align-items: center;
+	align-items: stretch;
 `;
 
-const InfoBox = styled(ASM26Felt)`
-	// background-color: var(--main);
+const InfoBox = styled(Container)`
 	display: flex;
 	justify-content: space-between;
-	height: 133px;
-	width: 100%;
 	padding: 16px;
 	box-sizing: border-box;
+	flex-grow: 1;
 
 	font-size: 22px;
 
@@ -83,66 +84,74 @@ const GameInfoBox = styled.div`
 
 const CentralDivider = styled.div`
 	background-color: var(--sec);
-	width: 2px;
-	flex-grow: 1;
+	width: 4px;
 `;
 
-export const ThreeDS2 = (props: OverlayProps) => {
+export function ThreeDS2(props: OverlayProps) {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
+	const customData = runCustomDataSchema.safeParse(props.runData?.customData);
 
 	return (
 		<ThreeDS2Container>
-			<Middle>
+			<GameRow style={{ flex: 1 }}>
+				<GameplayCapture aspectRatio="5:3" grow />
 				<CentralDivider />
-				<Facecam
-					height={307}
-					teams={props.runData?.teams}
-					audioIndicator={props.microphoneAudioIndicator}
-					style={{
-						borderTop: "1px solid var(--sec)",
-						borderRight: "1px solid var(--sec)",
-						borderLeft: "1px solid var(--sec)",
-						boxSizing: "border-box",
-					}}
-				/>
+				<GameplayCapture aspectRatio="5:3" grow />
+			</GameRow>
+			<GameRow>
+				<GameplayCapture aspectRatio="4:3" grow />
+				<Middle>
+					<Facecam
+						height={270}
+						teams={props.runData?.teams}
+						audioIndicator={props.microphoneAudioIndicator}
+						style={{
+							borderTop: "1px solid var(--sec)",
+							borderRight: "1px solid var(--sec)",
+							borderLeft: "1px solid var(--sec)",
+							boxSizing: "border-box",
+						}}
+					/>
 
-				<RaceFinish style={{ top: 801, left: 16 }} time={teamData[0]?.time} place={teamData[0]?.place} />
-				<RaceFinish style={{ top: 801, right: 16 }} time={teamData[1]?.time} place={teamData[1]?.place} />
+					<RaceFinish style={{ top: 801, left: 16 }} time={teamData[0]?.time} place={teamData[0]?.place} />
+					<RaceFinish style={{ top: 801, right: 16 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
-				<AudioIndicator
-					active={props.gameAudioIndicator === allRunnerIds[0]}
-					side="top"
-					style={{ position: "absolute", top: 801, left: 0 }}
-				/>
-				<AudioIndicator
-					active={props.gameAudioIndicator === allRunnerIds[1]}
-					side="top"
-					style={{
-						position: "absolute",
-						top: 801,
-						right: 0,
-						zIndex: 2,
-					}}
-				/>
-				<InfoBox particlesId="infoBox">
-					<InfoBoxColumn id="gameInfo">
-						<RunInfo.GameTitle game={props.runData?.game ?? ""} />
-						<GameInfoBox>
-							<RunInfo.System system={props.runData?.system ?? ""} />
-							<RunInfo.Year year={props.runData?.release ?? ""} />
-						</GameInfoBox>
-					</InfoBoxColumn>
-					<InfoBoxColumn id="runInfo">
-						<Timer milliseconds={props.timer?.milliseconds} />
-						<GameInfoBox>
-							<RunInfo.Category category={props.runData?.category ?? ""} />
-							<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
-						</GameInfoBox>
-					</InfoBoxColumn>
-				</InfoBox>
-			</Middle>
+					<AudioIndicator
+						active={props.gameAudioIndicator === allRunnerIds[0]}
+						side="top"
+						style={{ position: "absolute", top: 801, left: 1 }}
+					/>
+					<AudioIndicator
+						active={props.gameAudioIndicator === allRunnerIds[1]}
+						side="top"
+						style={{
+							position: "absolute",
+							top: 801,
+							right: 1,
+							zIndex: 2,
+						}}
+					/>
+					<InfoBox>
+						<InfoBoxColumn id="gameInfo">
+							<RunInfo.GameTitle game={customData.data?.gameDisplay ?? props.runData?.game ?? ""} />
+							<GameInfoBox>
+								<RunInfo.System system={props.runData?.system ?? ""} />
+								<RunInfo.Year year={props.runData?.release ?? ""} />
+							</GameInfoBox>
+						</InfoBoxColumn>
+						<InfoBoxColumn id="runInfo">
+							<Timer milliseconds={props.timer?.milliseconds} />
+							<GameInfoBox>
+								<RunInfo.Category category={props.runData?.category ?? ""} />
+								<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
+							</GameInfoBox>
+						</InfoBoxColumn>
+					</InfoBox>
+				</Middle>
+				<GameplayCapture aspectRatio="4:3" grow />
+			</GameRow>
 		</ThreeDS2Container>
 	);
-};
+}

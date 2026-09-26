@@ -15,22 +15,20 @@ import { OBSSettings } from "./settings/obs";
 import { X32Settings } from "./settings/x32";
 import { TiltifySettings } from "./settings/tiltify";
 import { TickerSettings } from "./settings/ticker";
-import { ShortBlockShowcase } from "./settings/short-block-showcase";
 // import MultipleContainers from "./settings/dnd-test";
 
 const settingsPanels = [
 	HostReads,
-	// IntermissionVideos,
-	// EventUpload,
+	IntermissionVideos,
+	EventUpload,
 	OBSSettings,
 	X32Settings,
 	TiltifySettings,
 	PrizesSettings,
-	// AcknowledgementOfCountry,
-	// AusSpeedrunsWebsiteSettings,
-	// GameYearsSettings,
-	// TickerSettings,
-	ShortBlockShowcase,
+	AcknowledgementOfCountry,
+	AusSpeedrunsWebsiteSettings,
+	GameYearsSettings,
+	TickerSettings,
 ];
 
 const GridItem = styled(Grid)`

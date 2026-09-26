@@ -1,31 +1,36 @@
 import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
+import { Container } from "../elements/container";
 import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
-import { ASM26Felt } from "../elements/asm26/asm26-felt";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 // import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
 
 const ThreeDSContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 `;
 
-const TopBar = styled(ASM26Felt)`
+const TopBar = styled(Container)`
 	height: 176px;
 	width: 100%;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-	// background-color: var(--main);
 	position: relative;
-	/* border-bottom: 1px solid var(--sec); */
+`;
+
+const GameRow = styled.div`
+	display: flex;
+	align-items: stretch;
 `;
 
 const Sidebar = styled.div`
-	position: absolute;
-	top: 176px;
-	height: 840px;
+	display: flex;
+	flex-direction: column;
 	width: 520px;
 	border-right: 1px solid var(--sec);
 	z-index: -1;
@@ -34,7 +39,7 @@ const Sidebar = styled.div`
 export const ThreeDS = (props: OverlayProps) => {
 	return (
 		<ThreeDSContainer>
-			<TopBar particlesId="topBar">
+			<TopBar>
 				{/* <img
 					src={WidescreenTop}
 					style={{ opacity: 0.8, position: "absolute", height: 175, width: 1295.35, right: -100 }}
@@ -50,16 +55,20 @@ export const ThreeDS = (props: OverlayProps) => {
 				/>
 				<WideInfo timer={props.timer} runData={props.runData} />
 			</TopBar>
-			<Sidebar>
-				<Facecam
-					// style={{ borderBottom: '1px solid #FFC629' }}
-					maxNameWidth={270}
-					height={451}
-					teams={props.runData?.teams}
-					pronounStartSide="right"
-					audioIndicator={props.microphoneAudioIndicator}
-				/>
-			</Sidebar>
+			<GameRow>
+				<Sidebar>
+					<Facecam
+						// style={{ borderBottom: '1px solid #FFC629' }}
+						maxNameWidth={270}
+						height={451}
+						teams={props.runData?.teams}
+						pronounStartSide="right"
+						audioIndicator={props.microphoneAudioIndicator}
+					/>
+					<GameplayCapture aspectRatio="4:3" />
+				</Sidebar>
+				<GameplayCapture aspectRatio="5:3" />
+			</GameRow>
 		</ThreeDSContainer>
 	);
 };

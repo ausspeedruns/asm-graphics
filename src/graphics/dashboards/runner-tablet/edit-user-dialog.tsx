@@ -49,7 +49,11 @@ export const EditUserDialog = (props: Props) => {
 		setOldUsername(props.commentator?.name ?? "");
 		setTwitch(props.commentator?.social?.twitch ?? "");
 		setPronouns(props.commentator?.pronouns ?? "");
-		setMicrophone(props.commentator?.customData?.["microphone"] ?? "NONE");
+		setMicrophone(
+			typeof props.commentator?.customData?.["microphone"] === "string"
+				? props.commentator?.customData?.["microphone"]
+				: "NONE",
+		);
 	}, [props.commentator]);
 
 	function handleNameSelected(name: string | null) {

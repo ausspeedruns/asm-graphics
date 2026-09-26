@@ -28,7 +28,9 @@ const PersonContainer = styled.div<{ isDragging?: boolean }>`
 	border: 1px solid rgba(255, 255, 255, 1);
 	padding: 8px;
 	backdrop-filter: blur(6px);
-	transition: transform 160ms ease, box-shadow 160ms ease;
+	transition:
+		transform 160ms ease,
+		box-shadow 160ms ease;
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
@@ -202,7 +204,8 @@ export function Person(props: PersonProps) {
 
 	const talkbackEnabled = props.currentTalkbackTargets?.includes(props.id) ?? false;
 
-	const rawMicrophone = personData.customData['microphone'];
+	const rawMicrophone =
+		typeof personData.customData["microphone"] === "string" ? personData.customData["microphone"] : undefined;
 	const headset = getHeadsetData(rawMicrophone);
 
 	const isOnRunnersAudio = gameAudioRep === props.id;
@@ -219,7 +222,7 @@ export function Person(props: PersonProps) {
 				<NameText>{personData.name}</NameText>
 				<PronounsText>{personData.pronouns}</PronounsText>
 			</NameBlock>
-			{personData.customData['tag'] && <TagBadge>{personData.customData['tag']}</TagBadge>}
+			{typeof personData.customData["tag"] === "string" && <TagBadge>{personData.customData["tag"]}</TagBadge>}
 
 			<MicRow>
 				<MicIcon bg={headset?.colour} fg={headset?.textColour}>

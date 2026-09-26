@@ -9,18 +9,17 @@ import { Couch } from "../elements/couch";
 
 import GBABG from "./backgrounds/GBA.png";
 
-import StandardSponsorBG from "./backgrounds/StandardSponsorBG.png";
-import { ASM26Bricks } from "../elements/asm26/asm26-bricks";
+import { Container } from "../elements/container";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 const GBAContainer = styled.div`
 	height: 1016px;
 	width: 1920px;
+	display: flex;
 `;
 
 const Sidebar = styled.div`
-	position: absolute;
-	height: 1016px;
-	width: 395px;
+	height: 100%;
 	border-right: 1px solid var(--sec);
 	overflow: hidden;
 `;
@@ -35,14 +34,16 @@ const SponsorsStyled = {
 	width: 340,
 };
 
-const InfoBoxBG = styled(ASM26Bricks)`
+const InfoBoxBG = styled(Container)`
 	position: relative;
-	// background: var(--main);
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
 	height: 664px;
+	padding: 10px;
+	font-size: 25px;
 `;
 
 export const GBA = (props: OverlayProps) => {
@@ -55,18 +56,22 @@ export const GBA = (props: OverlayProps) => {
 					pronounStartSide="right"
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
-				<InfoBoxBG particlesId="infoBox">
+				<InfoBoxBG>
 					{/* <img src={GBABG} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 					<Couch commentators={props.commentators} audio={props.microphoneAudioIndicator} />
 					<VerticalInfo
-						hideDividers
 						timer={props.timer}
 						runData={props.runData}
 					/>
 
-					<SponsorsBoxS sponsors={props.sponsors} sponsorStyle={SponsorsStyled} />
+					<SponsorsBoxS
+						sponsors={props.sponsors}
+						width={SponsorsStyled.width}
+						height={200}
+					/>
 				</InfoBoxBG>
 			</Sidebar>
+			<GameplayCapture aspectRatio="3:2" />
 		</GBAContainer>
 	);
 };

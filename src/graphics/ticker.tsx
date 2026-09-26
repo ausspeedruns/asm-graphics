@@ -12,7 +12,6 @@ import { TickerDonationMatches } from "./ticker/donation-matches";
 
 import { useTickerStore } from "./stores/ticker-store";
 import EventBug from "./overlays/backgrounds/ChannelBug.png";
-import ContentBackground from "./media/asm26/asm26-sweater.png";
 import { TickerIncentives } from "./ticker/incentives";
 import type { TickerSegment } from "@asm-graphics/types/Ticker";
 import { TickerDonationTotal } from "./ticker/donation-area";
@@ -21,6 +20,7 @@ import { CurrentTime } from "./ticker/current-time";
 import { calculateTimeBasedColour, TimeStyleProvider } from "./elements/time-style-context";
 import { useTimeStyleContext } from "./elements/use-time-style-context";
 import { Colour } from "./colour";
+import { Container } from "./elements/container";
 
 const TickerContainer = styled.div`
 	height: 64px;
@@ -35,7 +35,7 @@ const TickerContainer = styled.div`
 	--secondary-font: Poppins;
 `;
 
-const ContentArea = styled.div`
+const ContentArea = styled(Container)`
 	height: 64px;
 	flex-grow: 1;
 	display: flex;
@@ -43,8 +43,6 @@ const ContentArea = styled.div`
 	overflow: hidden;
 	position: relative;
 	font-family: var(--main-font);
-
-	// background: #1c1c1c;
 `;
 
 const ContentAreaBackground = styled.div`
@@ -56,29 +54,6 @@ const ContentAreaBackground = styled.div`
 	object-fit: cover;
 
 	background: #ffffff;
-
-	&::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-
-		background-image: url("${ContentBackground}");
-		background-repeat: repeat;
-		background-size: 60%;
-		opacity: 0.5;
-	}
-
-	&::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 1;
-
-		background: var(--ticker-bg-time-colour);
-		mix-blend-mode: multiply;
-		pointer-events: none;
-	}
 `;
 
 const LeftBlock = styled.div`
@@ -89,23 +64,22 @@ const LeftBlock = styled.div`
 const dayColour = new Colour("#419ADF");
 const nightColour = new Colour("#CC3622");
 
-const testDonationMatch = 
-		{
-			desc: "Description of the donation match",
-			id: "donation-match-1",
-			read: false,
-			time: Date.now(),
-			name: "John AusSpeedruns",
-			amount: 100,
-			currencySymbol: "$",
-			currencyCode: "USD",
+const testDonationMatch = {
+	desc: "Description of the donation match",
+	id: "donation-match-1",
+	read: false,
+	time: Date.now(),
+	name: "John AusSpeedruns",
+	amount: 100,
+	currencySymbol: "$",
+	currencyCode: "USD",
 
-			pledge: 200,
-			endsAt: Date.now() + 1000000,
-			completedAt: 0,
-			active: true,
-			updated: Date.now(),
-		}
+	pledge: 200,
+	endsAt: Date.now() + 1000000,
+	completedAt: 0,
+	active: true,
+	updated: Date.now(),
+};
 
 export interface TickerItemHandles {
 	animation(tl: gsap.core.Timeline): gsap.core.Timeline;
@@ -221,7 +195,7 @@ export function Ticker() {
 					<TickerMilestones currentTotal={donationAmount} ref={milestoneRef} />
 					<TickerIncentives incentives={incentives ?? []} ref={incentivesRef} />
 					<TickerPrizes ref={prizesRef} prizes={prizes} />
-					<TickerDonationMatches donationMatches={[testDonationMatch]} ref={donationMatchesRef} />
+					<TickerDonationMatches donationMatches={donationMatches} ref={donationMatchesRef} />
 				</ContentArea>
 				<CurrentTime />
 				<DonationMatchesFixture />

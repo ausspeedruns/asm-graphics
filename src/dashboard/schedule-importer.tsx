@@ -14,6 +14,7 @@ import { RichTreeView, type TreeViewValidItem } from "@mui/x-tree-view";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { RunDataArray } from "@asm-graphics/types/RunData";
+import { runCustomDataSchema } from "@asm-graphics/types/custom-data";
 
 const layoutsRegex = /LAYOUT:\s*(.*)/;
 const unknownLayoutLabel = "Unknown Layout";
@@ -22,8 +23,10 @@ function collectLayouts(runDataArray: RunDataArray): TreeViewValidItem<{}>[] {
 	runDataArray.forEach((run) => {
 		const gameName = run.game ?? `??? - ${run.id}`;
 
-		if (Object.hasOwn(run.customData, "specialRequirements")) {
-			const match = layoutsRegex.exec(run.customData?.["specialRequirements"] ?? "");
+		const customData = runCustomDataSchema.safeParse(run.customData ?? {}).data;
+
+		if (customData?.specialRequirements) {
+			const match = layoutsRegex.exec(customData.specialRequirements ?? "");
 
 			if (match) {
 				const layoutName = match[1]?.trim();

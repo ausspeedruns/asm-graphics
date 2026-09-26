@@ -5,9 +5,6 @@ import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 import { HOST_TAG } from "@asm-graphics/shared/constants";
 import { FitText } from "./fit-text";
 
-import CommentatorsNormalBG from "../media/asm26/CommentatorsNormal.png";
-import CommentatorsHostBG from "../media/asm26/CommentatorsHost.png";
-
 const PeopleContainer = styled.div`
 	font-family: var(--main-font);
 	width: 100%;
@@ -59,25 +56,19 @@ interface SpeakingProps {
 	isHost?: boolean;
 }
 
-const PersonCompressedContainer = styled.div<SpeakingProps>`
-	background-image: url(${({ isHost }) => (isHost ? CommentatorsHostBG : CommentatorsNormalBG)});
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
-	height: 80px;
-	width: 210px;
+const Commentator = styled.div<SpeakingProps>`
+	background: var(--text-light);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	gap: 4px;
-	color: var(--text-light);
+	color: var(--text-dark);
 	font-size: 19px;
 	box-sizing: border-box;
 	position: relative;
 	box-sizing: border-box;
-	padding: 20px;
-	margin: -10px;
-	filter: ${({ speaking }) => (speaking ? "drop-shadow(0px 0px 10px #ff9c6e)" : "none")};
+	padding: 4px 8px;
+	filter: ${({ speaking }) => (speaking ? "drop-shadow(0px 0px 10px #ffffff)" : "none")};
 `;
 
 const Name = styled(FitText)`
@@ -125,12 +116,11 @@ export function PersonCompressed(props: PersonCompressedProps) {
 	let isHost = false;
 	let displayTag = props.commentator.customData["tag"] as string | undefined;
 	if (displayTag === HOST_TAG) {
-		displayTag = "";
 		isHost = true;
 	}
 
 	return (
-		<PersonCompressedContainer isHost={isHost} speaking={props.speaking} style={props.style}>
+		<Commentator isHost={isHost} speaking={props.speaking} style={props.style}>
 			{/* <SpeakingColour speaking={props.speaking} /> */}
 			<Row>
 				<Name text={props.commentator.name} alignment="left" />
@@ -139,6 +129,6 @@ export function PersonCompressed(props: PersonCompressedProps) {
 				{props.commentator.pronouns && <Pronouns>{props.commentator.pronouns}</Pronouns>}
 				{displayTag && <Role>{displayTag}</Role>}
 			</Row>
-		</PersonCompressedContainer>
+		</Commentator>
 	);
 }

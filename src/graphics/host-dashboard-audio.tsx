@@ -39,12 +39,16 @@ export function HostDashAudio(props: HostDashAudioProps) {
 		const map = new Map(Headsets.map((headset) => [headset.name, headset.name]));
 		runDataActiveRep?.teams.map((team) => {
 			team.players.map((player) => {
-				if ("microphone" in player.customData) map.set(player.customData["microphone"], player.name);
+				if ("microphone" in player.customData && typeof player.customData["microphone"] === "string") {
+					map.set(player.customData["microphone"], player.name);
+				}
 			});
 		});
 
 		commentatorsRep?.map((couch) => {
-			if (couch.customData["microphone"]) map.set(couch.customData["microphone"], couch.name);
+			if (couch.customData["microphone"] && typeof couch.customData["microphone"] === "string") {
+				map.set(couch.customData["microphone"], couch.name);
+			}
 		});
 
 		return map;

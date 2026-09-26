@@ -13,7 +13,9 @@ import { Couch } from "../elements/couch";
 import { getTeams } from "../elements/team-data";
 import { BingoBoard } from "../elements/bingo-board";
 
-import WidescreenWhole from "./backgrounds/Widescreen2p.png";
+// import WidescreenWhole from "./backgrounds/Widescreen2p.png";
+import { Container } from "../elements/container";
+import { GameplayCapture } from "../elements/gameplay-capture";
 
 const Widescreen2BingoContainer = styled.div`
 	height: 1016px;
@@ -21,6 +23,7 @@ const Widescreen2BingoContainer = styled.div`
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	align-items: stretch;
 `;
 
 const WholeGraphicClip = styled.div`
@@ -28,7 +31,6 @@ const WholeGraphicClip = styled.div`
 	width: 1920px;
 	height: 1016px;
 	clip-path: path("M 1920 0 H 1254 V 341 H 1920 Z M 666 0 H 0 V 341 H 666 V 0 M 1920 763 H 0 V 1016 H 1920 Z");
-	// background: var(--main);
 	z-index: 1;
 `;
 
@@ -40,18 +42,15 @@ const Topbar = styled.div`
 	border-bottom: 1px solid var(--sec);
 `;
 
-const LeftBox = styled.div`
-	width: 666px;
-	height: 100%;
+const LeftBox = styled(Container)`
+	flex: 1;
 	display: flex;
-	background: var(--main);
 	position: relative;
+	font-size: 28px;
 `;
 
-const RightBox = styled.div`
-	width: 666px;
-	height: 100%;
-	background: var(--main);
+const RightBox = styled(Container)`
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -65,31 +64,26 @@ const SponsorSize = {
 	width: 540,
 };
 
-const BottomBlock = styled.div`
+const BottomBlock = styled(Container)`
 	height: 253px;
-	width: 100%;
-	/* border-bottom: 1px solid var(--asm-orange); */
-	// border-top: 1px solid var(--sec);
 	box-sizing: border-box;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	/* background: var(--main); */
 	z-index: 2;
 `;
 
-const MiddleSection = styled.div`
+const GameRow = styled.div`
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: stretch;
 	flex-grow: 1;
 `;
 
 const BingoBoardStyled = styled(BingoBoard)`
-	width: 421px;
-	height: 419px;
+	flex: 1;
 	z-index: 2;
 `;
 
@@ -110,9 +104,9 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 
 	return (
 		<Widescreen2BingoContainer>
-			<WholeGraphicClip>
+			{/* <WholeGraphicClip>
 				<img src={WidescreenWhole} style={{ position: "absolute", height: "100%", width: "100%" }} />
-			</WholeGraphicClip>
+			</WholeGraphicClip> */}
 			<Topbar>
 				<LeftBox>
 					<SmallInfo timer={props.timer} runData={props.runData} />
@@ -158,12 +152,14 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 				/>
 
 				<RightBox>
-					<SponsorsBox sponsors={props.sponsors} sponsorStyle={SponsorSize} />
+					<SponsorsBox sponsors={props.sponsors} width={SponsorSize.width} height={SponsorSize.height} />
 				</RightBox>
 			</Topbar>
-			<MiddleSection>
+			<GameRow>
+				<GameplayCapture aspectRatio="16:9" />
 				<BingoBoardStyled board={unionedBoardStateCells} />
-			</MiddleSection>
+				<GameplayCapture aspectRatio="16:9" />
+			</GameRow>
 			<BottomBlock>
 				<Couch
 					commentators={props.commentators}

@@ -43,8 +43,9 @@ import { Widescreen4 } from "./overlays/widescreen-4";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 
 const GameplayContainer = styled.div`
-	height: 1080px;
+	height: 1016px;
 	width: 1920px;
+	box-sizing: content-box;
 	border-right: 5px solid black;
 	border-bottom: 5px solid black;
 
@@ -110,7 +111,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	) {
 		const runner = runDataActiveRep?.teams.flatMap((team) => team.players)[0];
 
-		if (runner?.customData["microphone"]) {
+		if (runner?.customData["microphone"] && typeof runner.customData["microphone"] === "string") {
 			mutableMicAudioIndicator[runner.customData["microphone"]] = false;
 		}
 	}

@@ -63,7 +63,6 @@ export function Runs(props: RunsProps) {
 	return (
 		<div className={styles.container}>
 			<h2>Run</h2>
-			<div className={styles.showcaseViewport}>
 				<div
 					className={styles.showcase}
 					style={{
@@ -74,7 +73,6 @@ export function Runs(props: RunsProps) {
 				>
 					<UpcomingRuns upcomingRuns={runs} ref={ref} />
 				</div>
-			</div>
 			<div className={styles.controls}>
 				<Button onClick={handleRunAnimation}>Run Animation</Button>
 				{runs.map((run, index) => (
