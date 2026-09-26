@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import { useRef, useEffect, useState } from "react";
-import styled from "@emotion/styled";
 import gsap from "gsap";
 import { useShallow } from "zustand/react/shallow";
 
@@ -21,45 +20,7 @@ import { calculateTimeBasedColour, TimeStyleProvider } from "./elements/time-sty
 import { useTimeStyleContext } from "./elements/use-time-style-context";
 import { Colour } from "./colour";
 import { Container } from "./elements/container";
-
-const TickerContainer = styled.div`
-	height: 64px;
-	width: 1920px;
-	// background: var(--main);
-	font-family: var(--main-font);
-	display: flex;
-	justify-content: space-between;
-	overflow: hidden;
-	color: var(--light-text);
-
-	--secondary-font: Poppins;
-`;
-
-const ContentArea = styled(Container)`
-	height: 64px;
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-	position: relative;
-	font-family: var(--main-font);
-`;
-
-const ContentAreaBackground = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-
-	background: #ffffff;
-`;
-
-const LeftBlock = styled.div`
-	display: flex;
-	width: 304px;
-`;
+import styles from "./ticker.module.css";
 
 const dayColour = new Colour("#419ADF");
 const nightColour = new Colour("#CC3622");
@@ -180,12 +141,13 @@ export function Ticker() {
 
 	return (
 		<>
-			<TickerContainer>
-				<LeftBlock>
+			<div className={styles.tickerContainer}>
+				<div className={styles.leftBlock}>
 					<img src={EventBug} />
-				</LeftBlock>
-				<ContentArea ref={contentRef}>
-					<ContentAreaBackground
+				</div>
+				<Container className={styles.contentArea} ref={contentRef}>
+					<div
+						className={styles.contentAreaBackground}
 						style={{ "--ticker-bg-time-colour": backgroundColour } as React.CSSProperties}
 					/>
 					{/* <ContentAreaBackgroundTint /> */}
@@ -196,11 +158,11 @@ export function Ticker() {
 					<TickerIncentives incentives={incentives ?? []} ref={incentivesRef} />
 					<TickerPrizes ref={prizesRef} prizes={prizes} />
 					<TickerDonationMatches donationMatches={donationMatches} ref={donationMatchesRef} />
-				</ContentArea>
+				</Container>
 				<CurrentTime />
 				<DonationMatchesFixture />
 				<TickerDonationTotal />
-			</TickerContainer>
+			</div>
 
 			<div style={{ display: "flex", gap: "8px", alignItems: "center", padding: "8px" }}>
 				<input

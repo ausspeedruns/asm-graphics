@@ -1,0 +1,67 @@
+.orangeStripeContainer {
+	display: flex;
+}
+
+.stripe {
+	background: var(--asm-orange);
+}
+
+.horizontal {
+	width: 100%;
+}
+
+.vertical {
+	height: 100%;
+}
+
+.smallStripe.horizontal {
+	height: 4px;
+}
+
+.smallStripe.vertical {
+	width: 4px;
+}
+
+.bigStripe.horizontal {
+	height: 20px;
+}
+
+.bigStripe.vertical {
+	width: 20px;
+}
+
+.top {
+	flex-direction: column-reverse;
+	width: 100%;
+}
+
+.right {
+	flex-direction: row;
+	height: 100%;
+}
+
+.bottom {
+	flex-direction: column;
+	width: 100%;
+}
+
+.left {
+	flex-direction: row-reverse;
+	height: 100%;
+}
+
+.bigTop {
+	margin-bottom: 8px;
+}
+
+.bigRight {
+	margin-left: 8px;
+}
+
+.bigBottom {
+	margin-top: 8px;
+}
+
+.bigLeft {
+	margin-right: 8px;
+}

@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
 
@@ -28,41 +27,6 @@ import Clip5 from "./media/audio/itemget1.mp3";
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 
 const ClipArray = [Clip1, Clip2, Clip3, Clip4, Clip5];
-
-const TransitionContainer = styled.div`
-	width: 1920px;
-`;
-
-const TransitionDiv = styled.div`
-	height: 1080px;
-	width: 1920px;
-	overflow: hidden;
-	border-right: 5px solid black;
-	border-bottom: 5px solid black;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	position: relative;
-
-	background-size: cover;
-	background-position: center;
-	image-rendering: pixelated;
-
-	color: white;
-	font-family: "Noto Sans";
-
-	& div {
-		position: absolute;
-	}
-`;
-
-const BasicTransition = styled.img`
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-
-	opacity: 0;
-`;
 
 function runString(runData: RunDataActiveRun | undefined) {
 	if (!runData) return ["Enjoy the run!"];
@@ -159,9 +123,8 @@ export function Transition() {
 	};
 
 	return (
-		<TransitionContainer>
-			<TransitionDiv>
-			</TransitionDiv>
+		<div className={styles.transitionRoot}>
+			<div className={styles.transitionDiv} />
 
 			{/* <audio ref={audioRef} /> */}
 			<button style={{ float: "right" }} onClick={() => runTransition("basic")}>
@@ -184,7 +147,7 @@ export function Transition() {
 				<button onClick={() => changeBGColor("#00f")}>Blue</button>
 				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
 			</div>
-		</TransitionContainer>
+		</div>
 	);
 }
 

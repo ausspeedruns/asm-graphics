@@ -1,24 +1,11 @@
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 import { clone } from "underscore";
 
 import type { RunDataArray, RunData } from "@asm-graphics/types/RunData";
 
 import { Box, Paper } from "@mui/material";
-
-const UpcomingContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	padding: 8px;
-	padding-right: 24px;
-`;
-
-const Divider = styled.hr`
-	margin: 8px 0;
-	// height: 1px;
-	width: calc(100% + 16px);
-	background: #999;
-`;
+import styles from "./upcoming.module.css";
 
 interface Props {
 	style?: React.CSSProperties;
@@ -43,45 +30,13 @@ export function Upcoming(props: Props) {
 	});
 
 	return (
-		<UpcomingContainer style={props.style}>
+		<div className={styles.upcomingContainer} style={props.style}>
 			<SingleRun run={currentRun} active style={{ width: "calc(100% + 16px)" }} />
-			<Divider />
+			<hr className={styles.divider} />
 			{allRuns}
-		</UpcomingContainer>
+		</div>
 	);
 }
-
-const SingleRunContainer = styled(Paper)<ActiveProps>`
-	margin: 6px 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	font-size: 13px;
-	padding: 8px;
-	border-radius: 7px;
-	width: 100%;
-	background: var(--inset-background);
-	${({ active }) => (active === "true" ? "border-left: 8px solid #59a569; box-sizing: border-box;" : "")}
-`;
-
-const RunDataContainer = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	font-size: 1.1rem;
-`;
-
-const Game = styled.span`
-	font-size: 1.2rem;
-	font-weight: bold;
-`;
-const Category = styled.span`
-	font-weight: bold;
-`;
-const Names = styled.span`
-	font-weight: bold;
-`;
-const RunInfo = styled.span``;
 
 interface RunProps {
 	run: RunData | undefined;
@@ -110,17 +65,17 @@ function SingleRun(props: RunProps) {
 	}
 
 	return (
-		<SingleRunContainer elevation={2} active={props.active ? "true" : "false"} style={props.style}>
-			<RunDataContainer>
-				<Game>{props.run.game?.replaceAll("\\n", " ")}</Game>
-				<Category>{props.run.category?.replaceAll("\\n", " ")}</Category>
-			</RunDataContainer>
-			<RunDataContainer>
-				<Names>{playerNames}</Names>
-				<RunInfo>
+		<Paper className={clsx(styles.singleRunContainer, props.active && styles.active)} elevation={2} style={props.style}>
+			<div className={styles.runDataContainer}>
+				<span className={styles.game}>{props.run.game?.replaceAll("\\n", " ")}</span>
+				<span className={styles.category}>{props.run.category?.replaceAll("\\n", " ")}</span>
+			</div>
+			<div className={styles.runDataContainer}>
+				<span className={styles.names}>{playerNames}</span>
+				<span className={styles.runInfo}>
 					{props.run.system} - {props.run.estimate}
-				</RunInfo>
-			</RunDataContainer>
-		</SingleRunContainer>
+				</span>
+			</div>
+		</Paper>
 	);
 }

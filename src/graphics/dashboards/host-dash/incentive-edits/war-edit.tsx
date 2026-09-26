@@ -9,25 +9,11 @@ import {
 	Stack,
 	TextField,
 } from "@mui/material";
-import styled from "@emotion/styled";
 import _ from "underscore";
 
 import type { War } from "@asm-graphics/types/Incentives";
 import NumberField from "../../../elements/number-field";
-
-const StackStyled = styled(Stack)`
-	font-size: 2rem;
-
-	h1,
-	h2,
-	h3 {
-		margin: 0;
-	}
-
-	h1 {
-		font-weight: normal;
-	}
-`;
+import styles from "./war-edit.module.css";
 
 type WarProps = {
 	incentive: War;
@@ -116,7 +102,7 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 	const highestNumber = incentiveOptions.reduce((highest, opt) => (highest < opt.total ? opt.total : highest), -1);
 
 	return (
-		<StackStyled spacing="medium" sx={{ alignItems: "center" }}>
+		<Stack className={styles.stackStyled} spacing="medium" sx={{ alignItems: "center" }}>
 			<div>
 				{incentiveOptions.length > 0 ? (
 					<h1>
@@ -230,6 +216,6 @@ export function WarEdit({ incentive, updateIncentive }: WarProps) {
 			>
 				Update
 			</Button>
-		</StackStyled>
+		</Stack>
 	);
 }

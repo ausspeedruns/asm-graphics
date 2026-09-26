@@ -1,0 +1,66 @@
+.facecamContainer {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.runnerArea {
+	display: flex;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
+
+.runnerNameDivider {
+	background: var(--sec);
+	min-width: 2px;
+	height: 41px;
+}
+
+.noCamContainer {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	font-family: var(--main-font);
+}
+
+.noCamContainer canvas {
+	width: 100%;
+	height: 100%;
+}
+
+.socialMedia {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding-bottom: 41px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.socialMedia > div {
+	margin: 5px 0;
+}
+
+.socialMediaItem {
+	display: flex;
+	align-items: center;
+}
+
+.socialMediaItem > img {
+	height: 40px;
+	margin: 0 5px;
+}
+
+.socialMediaLabel {
+	color: #f2dab2;
+	font-size: 30px;
+	margin: 0 5px;
+}

@@ -1,0 +1,35 @@
+.tickerItemContainer {
+	height: 64px;
+	width: fit-content;
+	font-family: var(--main-font);
+	color: var(--text-light);
+	display: flex;
+	align-items: center;
+	line-height: 1;
+}
+
+.verticalStack {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0 12px;
+	height: 100%;
+}
+
+.title {
+	font-size: 28px;
+	white-space: nowrap;
+	font-weight: bold;
+	font-family: var(--secondary-font);
+}
+
+.subtitle {
+	font-size: 17px;
+	white-space: nowrap;
+}
+
+.borderItem {
+	height: 55px;
+	width: 2px;
+	background: var(--sec);
+}

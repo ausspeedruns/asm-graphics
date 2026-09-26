@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 import { Button, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
@@ -24,33 +23,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-
-const ASNNDashContainer = styled.div``;
-
-const Row = styled.div`
-	display: flex;
-	gap: 8px;
-	margin: 8px 0;
-	align-items: center;
-`;
-
-const TickerListContainer = styled.div`
-	padding: 0 16px;
-	margin-bottom: 12px;
-`;
-
-const TickerItem = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	flex-wrap: wrap;
-	border-radius: 10px;
-	border: 2px solid rgba(255, 255, 255, 0.278);
-	padding: 8px;
-	margin: 4px 0;
-	overflow-wrap: anywhere;
-	background: #32425a;
-`;
+import styles from "./asnn.module.css";
 
 interface Ticker {
 	id: UniqueIdentifier;
@@ -71,13 +44,13 @@ function Ticker(props: TickerProps) {
 	};
 
 	return (
-		<TickerItem ref={setNodeRef} style={style}>
+		<div className={styles.tickerItem} ref={setNodeRef} style={style}>
 			<DragIndicator {...attributes} {...listeners} />
 			<p style={{ flexGrow: 1 }}>{props.ticker.text}</p>
 			<Button color="error" variant="contained" onClick={props.removeFunc}>
 				<Delete />
 			</Button>
-		</TickerItem>
+		</div>
 	);
 }
 
@@ -98,7 +71,7 @@ function HeadlineItem(props: HeadlineItemProps) {
 
 	return (
 		<div ref={setNodeRef} style={style}>
-			<TickerItem>
+			<div className={styles.tickerItem}>
 				<DragIndicator {...attributes} {...listeners} />
 				<p style={{ flexGrow: 1, fontWeight: props.showing ? "bold" : "normal" }}>{props.headline.text}</p>
 				<Button color="error" variant="contained" onClick={props.removeFunc} disabled={props.showing}>
@@ -108,7 +81,7 @@ function HeadlineItem(props: HeadlineItemProps) {
 				<Button color="success" fullWidth variant="contained" onClick={props.showFunc} disabled={props.showing}>
 					Show
 				</Button>
-			</TickerItem>
+			</div>
 		</div>
 	);
 }
@@ -186,8 +159,8 @@ export const ASNNDash = () => {
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<ASNNDashContainer>
-				<Row>
+			<div className={styles.asnnDashContainer}>
+				<div className={styles.row}>
 					<TextField fullWidth label="Name" value={name} onChange={(e) => setName(e.target.value)} />
 					<TextField
 						fullWidth
@@ -195,8 +168,8 @@ export const ASNNDash = () => {
 						value={subtitle}
 						onChange={(e) => setSubtitle(e.target.value)}
 					/>
-				</Row>
-				<Row>
+				</div>
+				<div className={styles.row}>
 					<Button
 						color="success"
 						variant="contained"
@@ -213,9 +186,9 @@ export const ASNNDash = () => {
 					>
 						Hide Name
 					</Button>
-				</Row>
+				</div>
 				<hr style={{ margin: "24px 0" }} />
-				<Row>
+				<div className={styles.row}>
 					<TextField
 						fullWidth
 						label="Headline"
@@ -225,9 +198,9 @@ export const ASNNDash = () => {
 					<Button color="success" variant="contained" onClick={addNewHeadline} disabled={!headlineTextBox}>
 						Add
 					</Button>
-				</Row>
+				</div>
 
-				<TickerListContainer>
+				<div className={styles.tickerListContainer}>
 					<DndContext onDragEnd={onDragEndHeadlines} sensors={sensors} modifiers={[restrictToVerticalAxis]}>
 						<SortableContext items={headlineItems} strategy={verticalListSortingStrategy}>
 							{headlineItems.map((item) => (
@@ -241,9 +214,9 @@ export const ASNNDash = () => {
 							))}
 						</SortableContext>
 					</DndContext>
-				</TickerListContainer>
+				</div>
 				<hr style={{ margin: "24px 0" }} />
-				<Row>
+				<div className={styles.row}>
 					<TextField
 						fullWidth
 						label="Ticker"
@@ -260,7 +233,7 @@ export const ASNNDash = () => {
 					>
 						Add
 					</Button>
-				</Row>
+				</div>
 
 				<Button
 					color="error"
@@ -271,7 +244,7 @@ export const ASNNDash = () => {
 				>
 					Reset Ticker
 				</Button>
-				<TickerListContainer>
+				<div className={styles.tickerListContainer}>
 					<DndContext onDragEnd={onDragEndTicker} sensors={sensors} modifiers={[restrictToVerticalAxis]}>
 						<SortableContext items={ticker} strategy={verticalListSortingStrategy}>
 							{ticker.map((item) => (
@@ -283,7 +256,7 @@ export const ASNNDash = () => {
 							))}
 						</SortableContext>
 					</DndContext>
-				</TickerListContainer>
+				</div>
 				<Button
 					color="success"
 					fullWidth
@@ -293,7 +266,7 @@ export const ASNNDash = () => {
 				>
 					Update Ticker
 				</Button>
-			</ASNNDashContainer>
+			</div>
 		</ThemeProvider>
 	);
 };

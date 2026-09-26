@@ -1,0 +1,100 @@
+.warChoiceContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	color: var(--text-light);
+}
+
+.allOptionContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	justify-content: center;
+	gap: 16px;
+	flex-grow: 1;
+}
+
+.optionName {
+	max-width: 90%;
+	font-weight: bold;
+}
+
+.optionContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	font-family: var(--secondary-font);
+	max-width: 1000px;
+	gap: 8px;
+}
+
+.textDiv {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	left: 0;
+	color: var(--text-light);
+	font-size: 28px;
+	width: 100%;
+}
+
+.progressContainer {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	box-sizing: border-box;
+	background: transparent;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	border-radius: 8px;
+	gap: 8px;
+}
+
+.progressBarContainer {
+	height: 0%;
+	width: 100%;
+	background: var(--text-light);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	border-radius: 8px;
+}
+
+.currentAmount {
+	font-size: 26px;
+	z-index: 2;
+}
+
+.noChoicesContainer {
+	flex-grow: 1;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.noChoiceHeading {
+	text-transform: uppercase;
+	font-style: italic;
+	font-size: 60px;
+}
+
+.noChoiceSubheading {
+	font-family: var(--secondary-font);
+	font-size: 35px;
+}

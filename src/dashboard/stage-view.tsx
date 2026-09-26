@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Button, StyledEngineProvider, ThemeProvider } from "@mui/material";
 import { Campaign } from "@mui/icons-material";
@@ -21,42 +20,6 @@ import { CropGameDialog } from "./stage-view/crop-game";
 import type { RunData, RunDataArray } from "@asm-graphics/types/RunData";
 import { EditRunDialog } from "./stage-view/edit-run";
 import { PersonDataContext, usePersonDataProvider } from "./stage-view/use-person-data";
-
-const DashboardStageViewContainer = styled.div``;
-
-const TopBar = styled.div`
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
-`;
-
-const StageContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	padding: 20px 0;
-`;
-
-const StageRow = styled.div`
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-	gap: 16px;
-`;
-
-const RowHeading = styled.div`
-	min-height: 60px;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-`;
-
-const BottomBar = styled.div`
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-`;
 
 const ZONES = { commentators: "zone:commentators", host: "zone:host", runners: "zone:runners" } as const;
 
@@ -122,7 +85,7 @@ export function DashboardStageView() {
 			</head>
 			<ThemeProvider theme={darkTheme}>
 				<PersonDataContext.Provider value={personDataContext}>
-					<DashboardStageViewContainer>
+					<div>
 						<TimeHeader />
 						<StatusLights />
 						<RunInfo
@@ -132,7 +95,7 @@ export function DashboardStageView() {
 								setEditRunDialogOpen(true);
 							}}
 						/>
-						<StageContainer>
+						<div className={styles.stageContainer}>
 							<MainStage
 								openPersonEditDialog={(personId) => {
 									console.log("Opening edit dialog for person:", personId);
@@ -146,7 +109,7 @@ export function DashboardStageView() {
 									setPersonEditDialogOpen(true);
 								}}
 							/>
-						</StageContainer>
+						</div>
 						<div style={{ display: "flex", justifyContent: "center" }}>
 							<Button variant="contained" onClick={() => setGameCropDialogOpen(true)}>
 								Open Game Crop
@@ -184,7 +147,7 @@ export function DashboardStageView() {
 								))}
 							</div>
 						</div>
-					</DashboardStageViewContainer>
+					</div>
 					<EditPersonDialog
 						key={personId}
 						personId={personId}

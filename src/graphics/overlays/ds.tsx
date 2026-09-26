@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { Container } from "../elements/container";
@@ -8,37 +6,12 @@ import { Facecam } from "../elements/facecam";
 
 import DSBG from "./backgrounds/DS.png";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const DSContainer = styled.div`
-	height: 1016px;
-	width: 1920px;
-	display: flex;
-	align-items: stretch;
-`;
-
-const Sidebar = styled.div`
-	height: 100%;
-	width: 565px;
-	border-right: 1px solid var(--sec);
-	overflow: hidden;
-`;
-
-const InfoBox = styled(Container)`
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	flex: 1;
-	border-bottom: 1px solid var(--sec);
-
-	font-size: 25px;
-`;
+import styles from "./ds.module.css";
 
 export function DS(props: OverlayProps) {
 	return (
-		<DSContainer>
-			<Sidebar>
+		<div className={styles.dsContainer}>
+			<div className={styles.sidebar}>
 				<Facecam
 					height={352}
 					teams={props.runData?.teams}
@@ -46,12 +19,12 @@ export function DS(props: OverlayProps) {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<InfoBox>
+				<Container className={styles.infoBox}>
 					<SmallInfo timer={props.timer} runData={props.runData} />
-				</InfoBox>
+				</Container>
 				<GameplayCapture aspectRatio="4:3" />
-			</Sidebar>
+			</div>
 			<GameplayCapture aspectRatio="4:3" />
-		</DSContainer>
+		</div>
 	);
 }

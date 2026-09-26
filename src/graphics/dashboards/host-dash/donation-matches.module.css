@@ -1,0 +1,62 @@
+.donationMatchesContainer {
+	display: flex;
+	flex-direction: column;
+	padding: 8px;
+	padding-right: 24px;
+}
+
+.donationMatchContainer {
+	margin: 6px 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	font-size: 20px;
+	padding: 8px;
+	border-radius: 7px;
+	width: 100%;
+	background: var(--inset-background);
+}
+
+.inactive {
+	opacity: 0.4;
+}
+
+.row {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1.1em;
+}
+
+.name {
+	font-size: 1.2em;
+}
+
+.endTime {
+	font-weight: bold;
+}
+
+.progress {
+	background: #3f3f3f;
+	flex-grow: 1;
+	border-radius: 8px;
+	height: 2em;
+}
+
+.progressBar {
+	background: #c72;
+	height: 100%;
+	border-radius: 8px;
+	color: white;
+	padding-left: 8px;
+	line-height: 2em;
+	box-sizing: border-box;
+}
+
+.total {
+	font-weight: bold;
+	width: 70px;
+	text-align: right;
+	line-height: 2em;
+}

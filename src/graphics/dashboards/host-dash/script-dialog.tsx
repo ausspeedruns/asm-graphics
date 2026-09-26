@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect, useState } from "react";
-import styled from "@emotion/styled";
 import Markdown from "react-markdown";
 
 import RemarkGithubAlerts from "remark-github-alerts";
@@ -23,16 +22,7 @@ import "remark-github-alerts/styles/github-colors-dark-class.css";
 
 import type { HostRead } from "@asm-graphics/shared/HostRead";
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-
-const Container = styled.div`
-	font-family: var(--main-font);
-	font-weight: normal;
-
-	blockquote {
-		border-left: 4px solid var(--asm-orange);
-		padding: 16px;
-	}
-`;
+import styles from "./script-dialog.module.css";
 
 const HostDashTab = muiStyled(Tab)({
 	fontWeight: "bold",
@@ -105,7 +95,7 @@ export function ScriptDialog(props: ScriptDialogProps) {
 					<div>
 						<p>Scripts</p>
 					</div>
-					<Container style={{ flexGrow: 1 }}>
+					<div className={styles.container} style={{ flexGrow: 1 }}>
 						<TabContext value={tab}>
 							<HostDashTabList onChange={(_, newValue) => setTab(newValue)} aria-label="Scripts">
 								{hostReadsRep?.map((read) => (
@@ -119,7 +109,7 @@ export function ScriptDialog(props: ScriptDialogProps) {
 								</TabPanel>
 							))}
 						</TabContext>
-					</Container>
+					</div>
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>

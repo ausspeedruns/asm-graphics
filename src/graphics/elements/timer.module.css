@@ -1,0 +1,14 @@
+.timerContainer {
+	display: flex;
+	align-items: flex-end;
+	font-family: Seamless;
+	color: var(--text-light);
+	text-align: center;
+	letter-spacing: 2px;
+	justify-content: center;
+}
+
+.milliText {
+	font-size: 50%;
+	margin-left: -3%;
+}

@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { VerticalInfo } from "../elements/info-box/vertical";
@@ -13,36 +11,7 @@ import { Nameplate } from "../elements/nameplate";
 import { runnerCustomDataSchema } from "../../shared/types/custom-data";
 import { Container } from "../elements/container";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const Widescreen4Container = styled.div`
-	height: 1016px;
-	width: 1920px;
-	display: flex;
-	position: relative;
-`;
-
-const Middle = styled.div`
-	position: relative;
-	height: 100%;
-	width: 398px;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-`;
-
-const InfoBox = styled(Container)`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
-	flex: 1;
-	padding: 16px;
-	font-size: 25px;
-`;
-
-const SideFiller = styled(Container)`
-	flex-grow: 1;
-`;
+import styles from "./widescreen-4.module.css";
 
 export function Widescreen4(props: OverlayProps) {
 	const teamData = getTeams(props.runData, props.timer, 2);
@@ -55,7 +24,7 @@ export function Widescreen4(props: OverlayProps) {
 		) ?? [];
 
 	return (
-		<Widescreen4Container>
+		<div className={styles.widescreen4Container}>
 			{/* <div
 				style={
 					{
@@ -78,16 +47,16 @@ export function Widescreen4(props: OverlayProps) {
 					speaking={props.microphoneAudioIndicator?.[allCustomRunnerData[0]?.microphone ?? ""]}
 					style={{ zIndex: 4, height: 40 }}
 				/>
-				<SideFiller />
+				<Container className={styles.sideFiller} />
 				<GameplayCapture aspectRatio="16:9" />
 				<Nameplate
 					player={props.runData?.teams[1]?.players[0]}
 					speaking={props.microphoneAudioIndicator?.[allCustomRunnerData[1]?.microphone ?? ""]}
 					style={{ zIndex: 4, height: 40 }}
 				/>
-				<SideFiller />
+				<Container className={styles.sideFiller} />
 			</div>
-			<Middle>
+			<div className={styles.middle}>
 				<div style={{ height: 278 }} />
 
 				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place ?? -1} />
@@ -126,13 +95,13 @@ export function Widescreen4(props: OverlayProps) {
 						zIndex: 2,
 					}}
 				/>
-				<InfoBox>
+				<Container className={styles.infoBox}>
 					<Couch commentators={props.commentators} style={{ zIndex: 2 }} />
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 
 					<SponsorsBox sponsors={props.sponsors} width="90%" height={200} />
-				</InfoBox>
-			</Middle>
+				</Container>
+			</div>
 			<div style={{ display: "flex", flexDirection: "column", alignItems: "stretch", height: "100%", flex: 1 }}>
 				<GameplayCapture aspectRatio="16:9" />
 				<Nameplate
@@ -140,15 +109,15 @@ export function Widescreen4(props: OverlayProps) {
 					speaking={props.microphoneAudioIndicator?.[allCustomRunnerData[2]?.microphone ?? ""]}
 					style={{ zIndex: 4, height: 40 }}
 				/>
-				<SideFiller />
+				<Container className={styles.sideFiller} />
 				<GameplayCapture aspectRatio="16:9" />
 				<Nameplate
 					player={props.runData?.teams[3]?.players[0]}
 					speaking={props.microphoneAudioIndicator?.[allCustomRunnerData[3]?.microphone ?? ""]}
 					style={{ zIndex: 4, height: 40 }}
 				/>
-				<SideFiller />
+				<Container className={styles.sideFiller} />
 			</div>
-		</Widescreen4Container>
+		</div>
 	);
 }

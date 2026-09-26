@@ -1,0 +1,15 @@
+.donationTotalContainer {
+	container-type: size;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.total {
+	font-family: var(--main-font);
+	font-weight: bold;
+	font-size: 75cqmin;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+}

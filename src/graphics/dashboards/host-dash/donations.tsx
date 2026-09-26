@@ -1,6 +1,4 @@
 import { useState } from "react";
-import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
 import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 import { Button, Grid, Paper, Stack, Tooltip } from "@mui/material";
@@ -10,12 +8,7 @@ import { List, type RowComponentProps } from "react-window";
 import type { Donation } from "@asm-graphics/types/Donations";
 
 import { EditIncentiveDialog } from "./edit-incentive-dialog";
-
-const DonationsContainer = styled.div`
-	height: calc(100% - 56px);
-	overflow-x: hidden;
-	overflow-y: auto;
-`;
+import styles from "./donations.module.css";
 
 type RowProps = {
 	donations: Donation[];
@@ -48,7 +41,7 @@ export const Donations = () => {
 	const reversedDonations = [...(donationsRep ?? [])].reverse() ?? [];
 
 	return (
-		<DonationsContainer>
+		<div className={styles.donationsContainer}>
 			<div style={{ display: "flex", justifyContent: "center", padding: "1% 20%" }}>
 				<Button onClick={() => setEditIncentiveOpen(true)} variant="outlined">
 					Edit Incentives
@@ -65,7 +58,7 @@ export const Donations = () => {
 				)}
 			</div>
 			<EditIncentiveDialog open={editIncentiveOpen} onClose={() => setEditIncentiveOpen(false)} />
-		</DonationsContainer>
+		</div>
 	);
 };
 
@@ -76,50 +69,8 @@ interface DonationProps {
 	style: React.CSSProperties;
 }
 
-const NewFlash = keyframes`
-	from { background-color: #000000; }
-	to { background-color: var(--inset-background); }
-`;
-
 const MARGIN = 6;
 const PADDING = 8;
-
-const DonationContainer = styled(Paper)`
-	display: flex;
-	justify-content: space-between;
-	font-size: 13px;
-	border-radius: 7px;
-	/* animation-name: ${NewFlash};
-	animation-duration: 0.5s; */
-	background-color: var(--inset-background);
-	position: relative;
-	padding: ${PADDING}px;
-`;
-
-const Amount = styled.span`
-	font-weight: bold;
-	font-size: 1.2rem;
-	margin-right: 6px;
-`;
-
-const Name = styled.span`
-	font-weight: bold;
-	font-size: 1.2rem;
-`;
-
-const DateText = styled.span`
-	color: #aaa;
-`;
-
-const DisabledCover = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: rgba(0, 0, 0, 0.35);
-	top: 0px;
-	left: 0px;
-	border-radius: 7px;
-`;
 
 function getRowHeight(description: string) {
 	return 96 + Math.floor(description.length / 2.5);
@@ -151,7 +102,8 @@ function DonationEl(props: DonationProps) {
 	};
 
 	return (
-		<DonationContainer
+		<Paper
+			className={styles.donationContainer}
 			elevation={2}
 			style={{
 				...props.style,
@@ -160,20 +112,20 @@ function DonationEl(props: DonationProps) {
 		>
 			<Stack style={{ paddingRight: 4, flexWrap: "nowrap" }}>
 				<div>
-					<Amount>
+					<span className={styles.amount}>
 						${props.donation.amount.toLocaleString()}
 						{props.donation.currencyCode !== "AUD" ? ` ${props.donation.currencyCode}` : ""}
-					</Amount>
-					<Name>{props.donation.name}</Name>
+					</span>
+					<span className={styles.name}>{props.donation.name}</span>
 				</div>
-				<DateText>{timeText}</DateText>
+				<span className={styles.dateText}>{timeText}</span>
 				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
 					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
 			</Stack>
 
 			{props.donation.read ? (
-				<DisabledCover />
+				<div className={styles.disabledCover} />
 			) : (
 				<Tooltip title="Mark as read" placement="top">
 					<Button color="success" variant="contained" onClick={toggleRead}>
@@ -181,6 +133,6 @@ function DonationEl(props: DonationProps) {
 					</Button>
 				</Tooltip>
 			)}
-		</DonationContainer>
+		</Paper>
 	);
 }

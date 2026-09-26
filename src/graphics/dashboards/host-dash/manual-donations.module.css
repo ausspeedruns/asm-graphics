@@ -1,0 +1,60 @@
+.donationsContainer {
+	height: calc(100% - 56px);
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.donationForm {
+	padding: 8px;
+}
+
+.formTopRow {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.donationContainer {
+	margin: 6px 0;
+	display: flex;
+	font-size: 13px;
+	padding: 8px;
+	border-radius: 7px;
+	animation: newFlash 0.5s;
+	background-color: var(--inset-background);
+	position: relative;
+}
+
+.amount,
+.name {
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.amount {
+	margin-right: 6px;
+}
+
+.dateText {
+	color: #aaa;
+}
+
+.disabledCover {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.35);
+	top: 0px;
+	left: 0px;
+	border-radius: 7px;
+}
+
+@keyframes newFlash {
+	from {
+		background-color: #000000;
+	}
+	to {
+		background-color: var(--inset-background);
+	}
+}

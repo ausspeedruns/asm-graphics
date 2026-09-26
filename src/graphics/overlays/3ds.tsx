@@ -1,45 +1,17 @@
-import styled from "@emotion/styled";
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { Container } from "../elements/container";
 import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 import { GameplayCapture } from "../elements/gameplay-capture";
+import styles from "./3ds.module.css";
 
 // import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
 
-const ThreeDSContainer = styled.div`
-	height: 1016px;
-	width: 1920px;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-`;
-
-const TopBar = styled(Container)`
-	height: 176px;
-	width: 100%;
-	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-	position: relative;
-`;
-
-const GameRow = styled.div`
-	display: flex;
-	align-items: stretch;
-`;
-
-const Sidebar = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 520px;
-	border-right: 1px solid var(--sec);
-	z-index: -1;
-`;
-
 export const ThreeDS = (props: OverlayProps) => {
 	return (
-		<ThreeDSContainer>
-			<TopBar>
+		<div className={styles.threeDSContainer}>
+			<Container className={styles.topBar}>
 				{/* <img
 					src={WidescreenTop}
 					style={{ opacity: 0.8, position: "absolute", height: 175, width: 1295.35, right: -100 }}
@@ -54,9 +26,9 @@ export const ThreeDS = (props: OverlayProps) => {
 					}}
 				/>
 				<WideInfo timer={props.timer} runData={props.runData} />
-			</TopBar>
-			<GameRow>
-				<Sidebar>
+			</Container>
+			<div className={styles.gameRow}>
+				<div className={styles.sidebar}>
 					<Facecam
 						// style={{ borderBottom: '1px solid #FFC629' }}
 						maxNameWidth={270}
@@ -66,9 +38,9 @@ export const ThreeDS = (props: OverlayProps) => {
 						audioIndicator={props.microphoneAudioIndicator}
 					/>
 					<GameplayCapture aspectRatio="4:3" />
-				</Sidebar>
+				</div>
 				<GameplayCapture aspectRatio="5:3" />
-			</GameRow>
-		</ThreeDSContainer>
+			</div>
+		</div>
 	);
 };

@@ -1,0 +1,101 @@
+.rtaudioContainer {
+	display: flex;
+}
+
+.headsetSelectorContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	width: 300px;
+}
+
+.bigName {
+	font-size: 50px;
+	font-weight: bold;
+	max-width: 100%;
+	margin-top: 16px;
+	white-space: nowrap;
+	flex-grow: 1;
+}
+
+.headsetName {
+	all: unset;
+	flex-grow: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 32px;
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+	--headset-colour: #ffffff;
+	--headset-text-colour: #000000;
+	--pulse-colour: #ffffff;
+	background: #ffffff;
+	color: #000000;
+	box-shadow: inset 0 0 0 10px var(--headset-colour);
+}
+
+.selected {
+	background: var(--headset-colour);
+	color: var(--headset-text-colour);
+	box-shadow: none;
+	border-right: 20px solid var(--headset-colour);
+	animation: pulse 0.5s infinite alternate;
+}
+
+.mixingScrollable {
+	width: 100%;
+	flex-grow: 1;
+	height: 720px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.mixingScrollable::-webkit-scrollbar {
+	width: 20px;
+}
+
+.mixingScrollable::-webkit-scrollbar-track {
+	background: #000000ff;
+}
+
+.mixingScrollable::-webkit-scrollbar-thumb {
+	background: #f1f1f1;
+	border-radius: 9999px;
+}
+
+.mixingScrollable::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+.mixingContainer {
+	width: 100%;
+	flex-grow: 1;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	padding-top: 8px;
+	padding-bottom: 48px;
+}
+
+.categoryName {
+	font-weight: bold;
+	width: 93%;
+	font-size: 2rem;
+	margin-top: 1.5rem;
+}
+
+@keyframes pulse {
+	0% {
+		background-color: var(--pulse-colour);
+		border-right: 20px solid var(--pulse-colour);
+	}
+	100% {
+		background-color: var(--headset-colour);
+		border-right: 20px solid var(--headset-colour);
+	}
+}

@@ -1,5 +1,4 @@
-import { useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
+import { Fragment, useImperativeHandle, useRef } from "react";
 import { clone } from "underscore";
 
 import { TickerTitle } from "../title";
@@ -7,18 +6,7 @@ import { TickerTitle } from "../title";
 import type { TickerItemHandles } from "../../ticker";
 import type { RunDataArray, RunDataActiveRun, RunData } from "@asm-graphics/types/RunData";
 import { Run } from "./run";
-
-const TickerRunsContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 64px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	transform: translate(0px, -64px);
-	z-index: 3;
-`;
+import styles from "./runs.module.css";
 
 interface Props {
 	runArray: RunDataArray;
@@ -38,10 +26,10 @@ export function TickerRuns(props: Props) {
 
 	const runsArray = upcomingRuns.map((run, i) => {
 		return (
-			<>
+			<Fragment key={run.id}>
 				<Run run={run} key={run.id} />
-				{i < upcomingRuns.length - 1 && <BorderItem key={run.id + "-border"} />}
-			</>
+				{i < upcomingRuns.length - 1 && <div className={styles.borderItem} />}
+			</Fragment>
 		);
 	});
 
@@ -61,15 +49,9 @@ export function TickerRuns(props: Props) {
 	console.log(runsArray);
 
 	return (
-		<TickerRunsContainer ref={containerRef}>
+		<div className={styles.tickerRunsContainer} ref={containerRef}>
 			<TickerTitle>Coming Up</TickerTitle>
 			{runsArray}
-		</TickerRunsContainer>
+		</div>
 	);
 }
-
-const BorderItem = styled.div`
-	height: 55px;
-	width: 2px;
-	background: var(--sec);
-`;

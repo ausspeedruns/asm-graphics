@@ -1,0 +1,56 @@
+.widescreen2BingoContainer {
+	height: 1016px;
+	width: 1920px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.topbar {
+	display: flex;
+	height: 341px;
+	width: 100%;
+	overflow: hidden;
+	border-bottom: 1px solid var(--sec);
+}
+
+.leftBox {
+	flex: 1;
+	display: flex;
+	position: relative;
+	font-size: 28px;
+}
+
+.rightBox {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	z-index: 2;
+}
+
+.bottomBlock {
+	height: 253px;
+	box-sizing: border-box;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+}
+
+.gameRow {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	flex-grow: 1;
+}
+
+.bingoBoard {
+	flex: 1;
+	z-index: 2;
+}

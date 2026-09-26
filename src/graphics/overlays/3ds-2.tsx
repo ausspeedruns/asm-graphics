@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { Facecam } from "../elements/facecam";
@@ -11,81 +9,7 @@ import { Timer } from "../elements/timer";
 import { Container } from "../elements/container";
 import { runCustomDataSchema } from "../../shared/types/custom-data";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const ThreeDS2Container = styled.div`
-	height: 1016px;
-	width: 1920px;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-	position: relative;
-`;
-
-const GameRow = styled.div`
-	display: flex;
-	align-items: stretch;
-`;
-
-const Middle = styled.div`
-	position: relative;
-	overflow: hidden;
-	width: 745px;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-`;
-
-const InfoBox = styled(Container)`
-	display: flex;
-	justify-content: space-between;
-	padding: 16px;
-	box-sizing: border-box;
-	flex-grow: 1;
-
-	font-size: 22px;
-
-	& #gameTitle {
-		font-size: 180%;
-	}
-
-	& #timer {
-		font-size: 220%;
-	}
-
-	& #category {
-		max-width: 60%;
-		font-size: 80%;
-	}
-
-	& > div {
-		z-index: 5;
-	}
-`;
-
-const InfoBoxColumn = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 10px;
-`;
-
-const GameInfoBox = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
-
-	& > div {
-		flex-shrink: 0;
-	}
-`;
-
-const CentralDivider = styled.div`
-	background-color: var(--sec);
-	width: 4px;
-`;
+import styles from "./3ds-2.module.css";
 
 export function ThreeDS2(props: OverlayProps) {
 	const teamData = getTeams(props.runData, props.timer, 2);
@@ -94,15 +18,15 @@ export function ThreeDS2(props: OverlayProps) {
 	const customData = runCustomDataSchema.safeParse(props.runData?.customData);
 
 	return (
-		<ThreeDS2Container>
-			<GameRow style={{ flex: 1 }}>
+		<div className={styles.threeDS2Container}>
+			<div className={styles.gameRow} style={{ flex: 1 }}>
 				<GameplayCapture aspectRatio="5:3" grow />
-				<CentralDivider />
+				<div className={styles.centralDivider} />
 				<GameplayCapture aspectRatio="5:3" grow />
-			</GameRow>
-			<GameRow>
+			</div>
+			<div className={styles.gameRow}>
 				<GameplayCapture aspectRatio="4:3" grow />
-				<Middle>
+				<div className={styles.middle}>
 					<Facecam
 						height={270}
 						teams={props.runData?.teams}
@@ -133,25 +57,25 @@ export function ThreeDS2(props: OverlayProps) {
 							zIndex: 2,
 						}}
 					/>
-					<InfoBox>
-						<InfoBoxColumn id="gameInfo">
+					<Container className={styles.infoBox}>
+						<div className={styles.infoBoxColumn} id="gameInfo">
 							<RunInfo.GameTitle game={customData.data?.gameDisplay ?? props.runData?.game ?? ""} />
-							<GameInfoBox>
+							<div className={styles.gameInfoBox}>
 								<RunInfo.System system={props.runData?.system ?? ""} />
 								<RunInfo.Year year={props.runData?.release ?? ""} />
-							</GameInfoBox>
-						</InfoBoxColumn>
-						<InfoBoxColumn id="runInfo">
+							</div>
+						</div>
+						<div className={styles.infoBoxColumn} id="runInfo">
 							<Timer milliseconds={props.timer?.milliseconds} />
-							<GameInfoBox>
+							<div className={styles.gameInfoBox}>
 								<RunInfo.Category category={props.runData?.category ?? ""} />
 								<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
-							</GameInfoBox>
-						</InfoBoxColumn>
-					</InfoBox>
-				</Middle>
+							</div>
+						</div>
+					</Container>
+				</div>
 				<GameplayCapture aspectRatio="4:3" grow />
-			</GameRow>
-		</ThreeDS2Container>
+			</div>
+		</div>
 	);
 }

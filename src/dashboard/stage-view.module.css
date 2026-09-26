@@ -6,3 +6,11 @@
 	padding: 12px;
 	box-sizing: border-box;
 }
+
+.stageContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	padding: 20px 0;
+}

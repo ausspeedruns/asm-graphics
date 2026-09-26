@@ -1,0 +1,118 @@
+.asnnContainer {
+	height: 1080px;
+	width: 1920px;
+	max-height: 1080px;
+	border-right: 5px solid black;
+	border-bottom: 5px solid black;
+}
+
+.content {
+	width: 1920px;
+	height: 1016px;
+	position: relative;
+}
+
+.lowerThird {
+	display: grid;
+	grid-template-columns: 80% 20%;
+	column-gap: 16px;
+	row-gap: 16px;
+	width: 1600px;
+	margin: auto;
+	position: relative;
+	top: 775px;
+}
+
+.headline {
+	height: 128px;
+	line-height: 128px;
+	font-family: var(--secondary-font);
+	padding: 0 24px;
+	background-color: var(--asm-orange);
+	color: var(--text-light);
+	font-size: 80px;
+}
+
+.ticker,
+.timeBug {
+	height: 64px;
+	line-height: 64px;
+	font-family: var(--main-font);
+	background-color: white;
+	color: var(--asm-orange);
+	font-size: 38px;
+	overflow: hidden;
+}
+
+.ticker {
+	text-align: left;
+}
+
+.marquee {
+	--gap: 58px;
+	display: flex;
+	overflow: hidden;
+	gap: var(--gap);
+}
+
+.marqueeContent {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: space-around;
+	min-width: 100%;
+	gap: var(--gap);
+	animation: marquee 30s linear infinite;
+	margin: 0;
+	margin-block: 0;
+	margin-inline: 0;
+	padding-inline: 0;
+}
+
+.channelBug {
+	width: 100%;
+	height: 128px;
+	object-fit: contain;
+}
+
+.timeBug {
+	text-align: center;
+}
+
+.nameplate {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 633px;
+	left: 160px;
+	overflow: hidden;
+	font-family: var(--main-font);
+}
+
+.name,
+.subtitle {
+	background: var(--asm-blue);
+	width: fit-content;
+	padding: 0 16px;
+	color: var(--text-light);
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.name {
+	font-size: 52px;
+	margin-bottom: 3px;
+	font-weight: bold;
+}
+
+.subtitle {
+	font-size: 38px;
+}
+
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(-100% - var(--gap)));
+	}
+}

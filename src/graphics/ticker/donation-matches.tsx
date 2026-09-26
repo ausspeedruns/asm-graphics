@@ -1,5 +1,5 @@
 import { type Ref, useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 
 import type { DonationMatch } from "@asm-graphics/types/Donations";
 import type { TickerItemHandles } from "../ticker";
@@ -7,92 +7,7 @@ import type { TickerItemHandles } from "../ticker";
 import { TickerTitle } from "./title";
 import { FitText } from "../elements/fit-text";
 import { formatDistanceToNow } from "date-fns";
-
-const TickerGoalsContainer = styled.div`
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	text-transform: uppercase;
-	color: var(--text-light);
-	font-size: 37px;
-	transform: translate(0, -64px);
-	overflow: hidden;
-	z-index: 2;
-	font-family: var(--secondary-font);
-`;
-
-const MultiGoalContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	position: relative;
-`;
-
-const GoalElement = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	margin-right: 16px;
-`;
-
-const Name = styled(FitText)`
-	font-size: 20px;
-	max-width: 200px;
-	font-weight: bold;
-	font-family: var(--main-font);
-`;
-
-const Expiration = styled(FitText)`
-	font-size: 20px;
-	max-width: 200px;
-`;
-
-const IncentiveName = styled(FitText)`
-	font-size: 27px;
-	font-weight: bold;
-	max-width: 200px;
-`;
-
-const IncentiveContainer = styled(GoalElement)`
-	// position: absolute;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	margin: 0 4px 0 8px;
-	line-height: 1;
-`;
-
-// Determines full size
-const ProgressContainer = styled.div`
-	flex-grow: 1;
-	height: 54px;
-	margin: 0 16px 0 5px;
-	border: 1px solid #ffffff;
-	position: relative;
-	overflow: hidden;
-`;
-
-const ProgressBarContainer = styled.div`
-	height: 100%;
-	background: #ffffff;
-	border-right: 5px solid var(--sec);
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-`;
-
-const CurrentAmount = styled.span`
-	color: var(--text-dark);
-	margin-right: 5px;
-	font-weight: normal;
-	width: 100px;
-	text-align: right;
-	font-size: 25px;
-`;
+import styles from "./donation-matches.module.css";
 
 interface Props {
 	donationMatches: DonationMatch[];
@@ -156,26 +71,16 @@ export function TickerDonationMatches(props: Props) {
 		});
 
 	return (
-		<TickerGoalsContainer ref={containerRef}>
+		<div className={styles.tickerGoalsContainer} ref={containerRef}>
 			<TickerTitle>
 				Donation
 				<br />
 				Matches
 			</TickerTitle>
-			<MultiGoalContainer>{allMatches}</MultiGoalContainer>
-		</TickerGoalsContainer>
+			<div className={styles.multiGoalContainer}>{allMatches}</div>
+		</div>
 	);
 }
-
-const GoalBarContainer = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	transform: translate(0, -64px);
-`;
 
 interface GoalProps {
 	donationMatch: DonationMatch;
@@ -219,21 +124,21 @@ function MatchBar(props: GoalProps) {
 	}
 
 	return (
-		<GoalBarContainer ref={containerRef}>
-			<IncentiveContainer>
-				<Name text={props.donationMatch.name} />
-				<Expiration text={`Ends in ${formatDistanceToNow(props.donationMatch.endsAt)}`} />
-			</IncentiveContainer>
-			<ProgressContainer>
-				<ProgressBarContainer ref={progressBarRef}>
-					<CurrentAmount style={textOnRightSide}>
+		<div className={styles.goalBarContainer} ref={containerRef}>
+			<div className={clsx(styles.goalElement, styles.incentiveContainer)}>
+				<FitText className={styles.name} text={props.donationMatch.name} />
+				<FitText className={styles.expiration} text={`Ends in ${formatDistanceToNow(props.donationMatch.endsAt)}`} />
+			</div>
+			<div className={styles.progressContainer}>
+				<div className={styles.progressBarContainer} ref={progressBarRef}>
+					<span className={styles.currentAmount} style={textOnRightSide}>
 						${Math.floor(props.donationMatch.amount).toLocaleString()}
-					</CurrentAmount>
-				</ProgressBarContainer>
-			</ProgressContainer>
-			<GoalElement>
-				<IncentiveName text={`$${props.donationMatch.pledge}`}></IncentiveName>
-			</GoalElement>
-		</GoalBarContainer>
+					</span>
+				</div>
+			</div>
+			<div className={styles.goalElement}>
+				<FitText className={styles.incentiveName} text={`$${props.donationMatch.pledge}`} />
+			</div>
+		</div>
 	);
 }

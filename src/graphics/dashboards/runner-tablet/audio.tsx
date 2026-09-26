@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";
 import equal from "fast-deep-equal";
 import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
 import { FitText } from "../../elements/fit-text";
 import { Headsets, HostHeadset, HostReferenceChannel } from "../../../shared/audio-data";
-
 const gameAudio = [
 	{ name: "Game 1", channel: 9 },
 	{ name: "Game 2", channel: 11 },
@@ -15,26 +14,7 @@ const gameAudio = [
 	{ name: "Game 4", channel: 15 },
 ];
 
-const RTAudioContainer = styled.div`
-	display: flex;
-`;
-
-const HeadsetSelectorContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: center;
-	width: 300px;
-`;
-
-const BigName = styled(FitText)`
-	font-size: 50px;
-	font-weight: bold;
-	max-width: 100%;
-	margin-top: 16px;
-	white-space: nowrap;
-	flex-grow: 1;
-`;
+import styles from "./audio.module.css";
 
 function adjustHexColour(hex: string, amount: number) {
 	let col = hex.replace("#", "");
@@ -57,83 +37,6 @@ function adjustHexColour(hex: string, amount: number) {
 	return value;
 }
 
-const HeadsetName = styled.button<{ selected?: boolean; headset?: (typeof Headsets)[number] }>`
-	all: unset;
-	flex-grow: 1;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 32px;
-	width: 100%;
-	text-align: center;
-	font-weight: bold;
-
-	--headset-colour: ${({ headset }) => headset?.colour};
-	--headset-text-colour: ${({ headset }) => headset?.textColour};
-	--pulse-colour: ${({ headset }) => adjustHexColour(headset?.colour ?? "#ffffff", -60)};
-
-	background: ${({ selected }) => (selected ? "var(--headset-colour)" : "#ffffff")};
-	color: ${({ selected }) => (selected ? "var(--headset-text-colour)" : "#000")};
-	box-shadow: ${({ selected }) => (selected ? "" : `inset 0 0 0 10px var(--headset-colour)`)};
-	border-right: ${({ selected }) => (selected ? `20px solid var(--headset-colour)` : "")};
-
-	animation: ${({ selected }) => (selected ? "pulse 0.5s infinite alternate" : "none")};
-
-	@keyframes pulse {
-		0% {
-			background-color: var(--pulse-colour);
-			border-right: 20px solid var(--pulse-colour);
-		}
-		100% {
-			background-color: var(--headset-colour);
-			border-right: 20px solid var(--headset-colour);
-		}
-	}
-`;
-
-const MixingScrollable = styled.div`
-	width: 100%;
-	flex-grow: 1;
-	height: 720px;
-	overflow-x: hidden;
-	overflow-y: scroll;
-
-	&::-webkit-scrollbar {
-		width: 20px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: #000000ff;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background: #f1f1f1;
-		border-radius: 9999px;
-	}
-
-	&::-webkit-scrollbar-thumb:hover {
-		background: #555;
-	}
-`;
-
-const MixingContainer = styled.div`
-	width: 100%;
-	flex-grow: 1;
-	margin: auto;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-around;
-	padding-top: 8px;
-	padding-bottom: 48px;
-`;
-
-const CategoryName = styled.span`
-	font-weight: bold;
-	width: 93%;
-	font-size: 2rem;
-	margin-top: 1.5rem;
-`;
 
 interface Props {
 	className?: string;
@@ -218,30 +121,34 @@ export const RTAudio = (props: Props) => {
 	// 	.filter((gameAudio) => !!gameAudio.name);
 
 	return (
-		<RTAudioContainer className={props.className} style={props.style}>
-			<HeadsetSelectorContainer style={{ backgroundColor: selectedHeadsetObj?.colour }}>
+		<div className={clsx(styles.rtaudioContainer, props.className)} style={props.style}>
+			<div className={styles.headsetSelectorContainer} style={{ backgroundColor: selectedHeadsetObj?.colour }}>
 				{Headsets.filter((headset) => headset.name !== "Host" && headset.name !== "NONE").map((headset) => {
 					const selected = selectedHeadset === headset.name;
 
 					return (
-						<HeadsetName
+						<button
+							className={clsx(styles.headsetName, selected && styles.selected)}
 							key={headset.name}
-							selected={selected}
-							headset={headset}
+							style={{
+								"--headset-colour": headset.colour,
+								"--headset-text-colour": headset.textColour,
+								"--pulse-colour": adjustHexColour(headset.colour ?? "#ffffff", -60),
+							} as React.CSSProperties}
 							onClick={() => setSelectedHeadset(headset.name)}
 						>
 							<FitText
 								style={{ maxWidth: "100%" }}
 								text={headsetUserMap.get(headset.name) ?? headset.name}
 							/>
-						</HeadsetName>
+						</button>
 					);
 				})}
-			</HeadsetSelectorContainer>
-			<MixingScrollable>
-				<MixingContainer style={{ background: `${selectedHeadsetObj?.colour}22` }}>
-					<BigName text={editingText} />
-					<CategoryName>Main Volume</CategoryName>
+			</div>
+			<div className={styles.mixingScrollable}>
+				<div className={styles.mixingContainer} style={{ background: `${selectedHeadsetObj?.colour}22` }}>
+					<FitText className={styles.bigName} text={editingText} />
+					<span className={styles.categoryName}>Main Volume</span>
 					<AudioFader
 						mixBus={mixBus}
 						channel={0}
@@ -249,7 +156,7 @@ export const RTAudio = (props: Props) => {
 						onChange={(float) => handleFaderChange(float, mixBus, 0)}
 						colour={selectedHeadsetObj?.colour}
 					/>
-					<CategoryName>Game</CategoryName>
+					<span className={styles.categoryName}>Game</span>
 					{gameAudio?.map((gameAudioName, i) => {
 						return (
 							<AudioFader
@@ -263,7 +170,7 @@ export const RTAudio = (props: Props) => {
 							/>
 						);
 					})}
-					<CategoryName>Host</CategoryName>
+					<span className={styles.categoryName}>Host</span>
 					<AudioFader
 						mixBus={mixBus}
 						channel={HostReferenceChannel}
@@ -275,7 +182,7 @@ export const RTAudio = (props: Props) => {
 						}}
 						colour={"#000"}
 					/>
-					<CategoryName>Commentary</CategoryName>
+					<span className={styles.categoryName}>Commentary</span>
 					{sortedHeadsets
 						.filter((headset) => headset.name !== "NONE")
 						.map((headset) => {
@@ -297,9 +204,9 @@ export const RTAudio = (props: Props) => {
 								/>
 							);
 						})}
-				</MixingContainer>
-			</MixingScrollable>
-		</RTAudioContainer>
+				</div>
+			</div>
+		</div>
 	);
 };
 

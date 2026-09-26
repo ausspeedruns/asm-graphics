@@ -1,29 +1,12 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 
 import type { TickerItemHandles } from "../ticker";
 
 import { TickerItem } from "./item";
 import { TickerTitle } from "./title";
 import type { Prize } from "@asm-graphics/types/Prizes";
-
-const TickerPrizesContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	z-index: 2;
-	transform: translate(0, -64px);
-`;
-
-const PrizesScroller = styled.div`
-	width: fit-content;
-	display: flex;
-	align-items: center;
-`;
+import styles from "./prizes.module.css";
 
 interface Props {
 	className?: string;
@@ -52,12 +35,12 @@ export function TickerPrizes(props: Props) {
 	}));
 
 	return (
-		<TickerPrizesContainer ref={containerRef} className={props.className} style={props.style}>
+		<div className={clsx(styles.tickerPrizesContainer, props.className)} ref={containerRef} style={props.style}>
 			<TickerTitle style={{ display: "flex", flexDirection: "column", zIndex: 2 }}>
 				<span>Prizes</span>
 			</TickerTitle>
 			<div style={{ width: "100%", position: "relative" }}>
-				<PrizesScroller ref={prizesRef}>
+				<div className={styles.prizesScroller} ref={prizesRef}>
 					{props.prizes.map((prize) => (
 						<TickerItem
 							key={prize.id}
@@ -65,8 +48,8 @@ export function TickerPrizes(props: Props) {
 							sub={`${prize.requirement}${prize.requirementSubheading ? ` - ${prize.requirementSubheading}` : ""}`}
 						/>
 					))}
-				</PrizesScroller>
+				</div>
 			</div>
-		</TickerPrizesContainer>
+		</div>
 	);
 }

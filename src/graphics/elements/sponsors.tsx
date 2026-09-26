@@ -1,39 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import styled from "@emotion/styled";
 import gsap from "gsap";
+import clsx from "clsx";
 
 import type NodeCG from "nodecg/types";
-
-const SponsorsContainer = styled.div`
-	position: relative;
-	width: 100%;
-	height: 100%;
-`;
-
-const SponsorTestOverlay = styled.div`
-	position: absolute;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	border: 2px dashed var(--sec);
-	background: rgb(0 0 0 / 35%);
-	color: var(--sec);
-	font-family: var(--game-font, sans-serif);
-	font-size: 20px;
-	text-align: center;
-	pointer-events: none;
-	z-index: 4;
-`;
-
-const SponsorImage = styled.img`
-	object-position: center;
-	object-fit: contain;
-	z-index: 3;
-	height: 100%;
-	width: 100%;
-`;
+import styles from "./sponsors.module.css";
 
 const TEST_MODE = true;
 
@@ -94,27 +64,20 @@ export function Sponsors(props: Props) {
 	}
 
 	return (
-		<SponsorsContainer ref={imageContainerRef} className={props.className} style={imageStyle}>
+		<div ref={imageContainerRef} className={clsx(styles.sponsorsContainer, props.className)} style={imageStyle}>
 			{props.sponsors && props.sponsors.length > 0 && (
-				<SponsorImage ref={imageRef} src={props.sponsors[props.start ?? 0]?.url} />
+				<img className={styles.sponsorImage} ref={imageRef} src={props.sponsors[props.start ?? 0]?.url} />
 			)}
 			{TEST_MODE && (
-				<SponsorTestOverlay>
+				<div className={styles.sponsorTestOverlay}>
 					Sponsor area
 					<br />
 					{formatDimension(width)} x {formatDimension(height)}
-				</SponsorTestOverlay>
+				</div>
 			)}
-		</SponsorsContainer>
+		</div>
 	);
 }
-
-const SponsorsBoxContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: relative;
-`;
 
 interface FullBoxProps {
 	sponsors?: NodeCG.AssetFile[];
@@ -132,12 +95,12 @@ export function SponsorsBox(props: FullBoxProps) {
 	};
 
 	return (
-		<SponsorsBoxContainer className={props.className} style={boxStyle}>
+		<div className={clsx(styles.sponsorsBoxContainer, props.className)} style={boxStyle}>
 			<Sponsors
 				sponsors={props.sponsors}
 				width={props.width}
 				height={props.height}
 			/>
-		</SponsorsBoxContainer>
+		</div>
 	);
 }

@@ -1,32 +1,11 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
 
 import type { TickerItemHandles } from "../incentives";
 import { FitText, FitTextElements } from "../../elements/fit-text";
 import type { RunData } from "@asm-graphics/types/RunData";
 
 import { format } from "date-fns";
-
-const UpcomingRunsContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	box-sizing: border-box;
-`;
-
-const RunsPage = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 4px;
-`;
+import styles from "./incent-upcoming-runs.module.css";
 
 const RUNS_LIMIT = 3;
 const RUNS_PER_PAGE = 1;
@@ -60,9 +39,9 @@ export function UpcomingRuns(props: UpcomingRunsProps) {
 	}));
 
 	return (
-		<UpcomingRunsContainer ref={containerRef}>
+		<div className={styles.upcomingRunsContainer} ref={containerRef}>
 			{groupedRuns.map((runs, i) => (
-				<RunsPage key={i}>
+				<div className={styles.runsPage} key={i}>
 					{runs.map((run, j) => (
 						<Run
 							run={run}
@@ -73,78 +52,13 @@ export function UpcomingRuns(props: UpcomingRunsProps) {
 							}}
 						/>
 					))}
-				</RunsPage>
+				</div>
 			))}
-		</UpcomingRunsContainer>
+		</div>
 	);
 }
 
 const BORDER_RADIUS = 4;
-
-const UpcomingRunContainer = styled.div`
-	font-family: var(--secondary-font);
-	border-radius: ${BORDER_RADIUS + 4}px ${BORDER_RADIUS}px ${BORDER_RADIUS}px ${BORDER_RADIUS + 4}px; // +4 because if it is the same as the MetaDataContainer it gets aliasing artifacts
-	background: white;
-	display: flex;
-	font-size: 22px;
-	line-height: 1;
-`;
-
-const MetaDataContainer = styled.div`
-	padding: 4px;
-	background: var(--sec);
-	border-radius: ${BORDER_RADIUS}px 0 0 ${BORDER_RADIUS}px;
-	color: var(--text-light);
-
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
-`;
-
-const LeftSideContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 150px;
-`;
-
-const Time = styled.span`
-	font-weight: bold;
-	font-size: 100%;
-	text-align: center;
-`;
-
-const RunnerNames = styled(FitText)`
-	font-size: 100%;
-	max-width: 150px;
-	font-family: var(--main-font);
-`;
-
-const RunInfoContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	gap: 12px;
-	align-items: center;
-	flex-grow: 1;
-	color: var(--text-dark);
-	font-size: 150%;
-	padding: 8px;
-`;
-
-const GameName = styled(FitTextElements)`
-	font-weight: bold;
-	max-width: 450px;
-`;
-
-const Category = styled(FitTextElements)`
-	font-family: var(--main-font);
-	font-weight: normal;
-	max-width: 450px;
-	margin-top: -8px;
-	font-size: 75%;
-	/* margin-left: 16px; */
-`;
 
 interface RunProps {
 	run: RunData;
@@ -181,19 +95,20 @@ export function Run(props: RunProps) {
 	}));
 
 	return (
-		<UpcomingRunContainer ref={containerRef} style={props.style}>
-			<MetaDataContainer>
-				<LeftSideContainer>
-					<Time>{props.run.scheduled ? format(props.run.scheduled, "h:mm a") : "Soon"}</Time>
-					<RunnerNames
+		<div className={styles.upcomingRunContainer} ref={containerRef} style={props.style}>
+			<div className={styles.metaDataContainer}>
+				<div className={styles.leftSideContainer}>
+					<span className={styles.time}>{props.run.scheduled ? format(props.run.scheduled, "h:mm a") : "Soon"}</span>
+					<FitText
+						className={styles.runnerNames}
 						text={props.run.teams.map((team) => team.players.map((player) => player.name)).join(", ")}
 					/>
-				</LeftSideContainer>
-			</MetaDataContainer>
-			<RunInfoContainer>
-				<GameName text={<>{props.run.game}</>} />
-				<Category text={props.run.category} />
-			</RunInfoContainer>
-		</UpcomingRunContainer>
+				</div>
+			</div>
+			<div className={styles.runInfoContainer}>
+				<FitTextElements className={styles.gameName} text={<>{props.run.game}</>} />
+				<FitTextElements className={styles.category} text={props.run.category} />
+			</div>
+		</div>
 	);
 }

@@ -1,0 +1,61 @@
+.widescreen2Container {
+	height: 1016px;
+	width: 1920px;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.wholeGraphicClip {
+	position: absolute;
+	width: 1920px;
+	height: 1016px;
+	clip-path: path("M 1920 0 H 1254 V 341 H 1920 Z M 666 0 H 0 V 341 H 666 V 0 M 1920 882 H 0 V 1016 H 1920 Z");
+	z-index: 1;
+}
+
+.topbar {
+	display: flex;
+	height: 341px;
+	width: 100%;
+	overflow: hidden;
+	border-bottom: 1px solid var(--sec);
+}
+
+.leftBox {
+	position: relative;
+	flex: 1;
+	height: 100%;
+	display: flex;
+	font-size: 30px;
+}
+
+.rightBox {
+	position: relative;
+	flex: 1;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.screenContainer {
+	display: flex;
+	align-items: stretch;
+}
+
+.centralDivider {
+	width: 2px;
+	background: var(--sec);
+}
+
+.bottomBlock {
+	width: 100%;
+	border-top: 1px solid var(--sec);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+}

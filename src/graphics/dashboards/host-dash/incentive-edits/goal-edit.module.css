@@ -1,0 +1,9 @@
+.stackStyled {
+	font-size: 2rem;
+}
+
+.stackStyled h1,
+.stackStyled h2,
+.stackStyled h3 {
+	margin: 0;
+}

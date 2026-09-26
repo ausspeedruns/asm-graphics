@@ -13,84 +13,13 @@ import {
 	type DialogProps,
 } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import styled from "@emotion/styled";
 import { Flag, PieChart } from "@mui/icons-material";
 
 import { GoalEdit } from "./incentive-edits/goal-edit";
 import { WarEdit } from "./incentive-edits/war-edit";
 
 import type { Incentive } from "@asm-graphics/types/Incentives";
-
-const Body = styled.div`
-	display: grid;
-	grid-template-columns: 1.5fr 4fr;
-	gap: 1rem;
-`;
-
-const Segment = styled.div`
-	border-radius: 8px;
-	padding: 1rem;
-	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
-
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	& > h1 {
-		font-size: 2rem;
-		margin-bottom: 0;
-	}
-
-	& > h2 {
-		font-size: 1.5rem;
-		margin-top: 0;
-		font-style: italic;
-	}
-
-	& > hr {
-		width: 80%;
-		border: none;
-		border-top: 1px solid rgba(0, 0, 0, 0.6);
-	}
-`;
-
-const ListStyled = styled(List)`
-	overflow-y: auto;
-	max-height: 87vh;
-	border-radius: 8px;
-	padding: 1rem;
-	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
-
-	--sb-track-color: #fff;
-	--sb-thumb-color: #a9a9a9;
-	--sb-size: 10px;
-
-	&::-webkit-scrollbar {
-		width: var(--sb-size);
-	}
-
-	&::-webkit-scrollbar-track {
-		background: var(--sb-track-color);
-		border-radius: 8px;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background: var(--sb-thumb-color);
-		border-radius: 8px;
-		border: 2px solid #fff;
-	}
-
-	@supports not selector(::-webkit-scrollbar) {
-		scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
-	}
-`;
-
-const DialogStyled = styled(Dialog)`
-	font-family: "Roboto", sans-serif;
-
-	.MuiDialog-paper {
-	}
-`;
+import styles from "./edit-incentive-dialog.module.css";
 
 function getEditComponent(incentive: Incentive, updateIncentive: (incentive: Incentive) => void) {
 	if (incentive.type === "Goal") {
@@ -147,11 +76,11 @@ export function EditIncentiveDialog(props: DialogProps) {
 	}
 
 	return (
-		<DialogStyled maxWidth="xl" {...props}>
+		<Dialog className={styles.dialogStyled} maxWidth="xl" {...props}>
 			<DialogTitle>Edit Incentive</DialogTitle>
 			<DialogContent dividers>
-				<Body>
-					<ListStyled subheader={<li />}>
+				<div className={styles.body}>
+					<List className={styles.listStyled} subheader={<li />}>
 						{remappedIncentives?.map((game) => (
 							<li key={`section-${game.gameName}`}>
 								<ul style={{ padding: 0 }}>
@@ -180,14 +109,14 @@ export function EditIncentiveDialog(props: DialogProps) {
 								</ul>
 							</li>
 						))}
-					</ListStyled>
-					<Segment>
+					</List>
+					<div className={styles.segment}>
 						<h1>{selectedIncentive?.incentive}</h1>
 						<h2>{selectedIncentive?.game}</h2>
 						<hr />
 						{selectedIncentive && getEditComponent(selectedIncentive, updateIncentive)}
-					</Segment>
-				</Body>
+					</div>
+				</div>
 			</DialogContent>
 
 			<Snackbar
@@ -200,6 +129,6 @@ export function EditIncentiveDialog(props: DialogProps) {
 					{incentiveUpdated}
 				</Alert>
 			</Snackbar>
-		</DialogStyled>
+		</Dialog>
 	);
 }

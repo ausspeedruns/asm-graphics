@@ -1,84 +1,12 @@
 import { useEffect, useRef } from "react";
-import styled from "@emotion/styled";
 import gsap from "gsap";
+import clsx from "clsx";
 
 import TwitchLogo from "../media/icons/Twitch.svg?react";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 
 import { FitText } from "./fit-text";
-
-function nameplateDirection(data: NameplateStyleProps) {
-	if (data.vertical) {
-		return "column";
-	}
-
-	if (data.nameplateLeft) {
-		return "row-reverse";
-	}
-
-	return "row";
-}
-
-const NameplateContainer = styled.div<NameplateStyleProps>`
-	color: var(--text-light);
-	width: 100%;
-	font-size: 30px;
-	font-family: var(--secondary-font);
-	display: flex;
-	flex-direction: ${(props) => nameplateDirection(props)};
-	justify-content: space-between;
-	align-items: stretch;
-	background: var(--nameplate);
-`;
-
-const Names = styled.div<NameplateStyleProps>`
-	display: flex;
-	flex-grow: 1;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	width: ${({ vertical }) => (vertical ? "100%" : "")};
-	position: relative;
-`;
-
-const SpeakingGlow = styled.div<NameplateStyleProps>`
-	opacity: ${({ speaking }) => (speaking ? 1 : 0)};
-	background: var(--nameplate-lighter);
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	transition-duration: 0.2s;
-	transition-delay: ${({ speaking }) => (speaking ? undefined : "0.5s")};
-`;
-
-const NormalName = styled(FitText)``;
-
-const TwitchDiv = styled.div`
-	position: absolute;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-`;
-
-const PronounBox = styled.div<NameplateStyleProps>`
-	background: var(--sec);
-	font-weight: 400;
-	font-size: 20px;
-	text-transform: uppercase;
-	color: var(--text-light);
-	padding: 0 8px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: ${({ vertical }) => (vertical ? "100%" : "")};
-	box-sizing: border-box;
-	font-family: var(--main-font);
-`;
-
-const TwitchLogoImg = styled(TwitchLogo)`
-	height: 30px;
-	width: auto;
-`;
+import styles from "./nameplate.module.css";
 
 interface NameplateProps {
 	player?: RunDataPlayer;
@@ -91,8 +19,6 @@ interface NameplateProps {
 	vertical?: boolean;
 	speakingValue?: number;
 }
-
-type NameplateStyleProps = Pick<NameplateProps, "nameplateLeft" | "speaking" | "vertical">;
 
 // How many seconds it takes to fade between twitch and normal name
 const NAME_LOOP_DURATION = 90;
@@ -123,38 +49,39 @@ export function Nameplate(props: NameplateProps) {
 	// const maxWidth = props.vertical ? (props.maxWidth ?? 999) * 0.7 : props.maxWidth ?? 999;
 
 	return (
-		<NameplateContainer
+		<div
+			className={clsx(
+				styles.nameplateContainer,
+				props.vertical ? styles.vertical : props.nameplateLeft && styles.nameplateLeft,
+				props.className,
+			)}
 			style={props.style}
-			className={props.className}
-			nameplateLeft={props.nameplateLeft}
-			speaking={props.speaking}
-			vertical={props.vertical}
 		>
 			{props.icon}
-			<Names speaking={props.speaking} vertical={props.vertical}>
-				<SpeakingGlow speaking={props.speaking} />
+			<div className={clsx(styles.names, props.vertical && styles.verticalNames)}>
+				<div className={clsx(styles.speakingGlow, props.speaking && styles.speaking)} />
 				<div ref={normalNameEl} style={{ opacity: sameNameAndTwitch ? 0 : 1, zIndex: 2 }}>
-					<NormalName style={{ maxWidth: maxWidth }} text={props.player?.name ?? "AusSpeedruns"} />
+					<FitText style={{ maxWidth: maxWidth }} text={props.player?.name ?? "AusSpeedruns"} />
 				</div>
-				<TwitchDiv ref={twitchNameEl} style={{ opacity: sameNameAndTwitch ? 1 : 0, zIndex: 2 }}>
-					<TwitchLogoImg />
+				<div className={styles.twitchDiv} ref={twitchNameEl} style={{ opacity: sameNameAndTwitch ? 1 : 0, zIndex: 2 }}>
+					<TwitchLogo className={styles.twitchLogoImg} />
 
 					<div>
-						<NormalName
+						<FitText
 							style={{ maxWidth: maxWidth - 45 }}
 							text={props.player?.social.twitch ?? "AusSpeedruns"}
 						/>
 					</div>
-				</TwitchDiv>
-			</Names>
+				</div>
+			</div>
 			{props.player?.pronouns && (
-				<PronounBox vertical={props.vertical}>
+				<div className={clsx(styles.pronounBox, props.vertical && styles.verticalPronounBox)}>
 					<FitText
 						style={{ maxWidth: props.vertical ? maxWidth : maxWidth * 0.45 }}
 						text={props.player.pronouns}
 					/>
-				</PronounBox>
+				</div>
 			)}
-		</NameplateContainer>
+		</div>
 	);
 }

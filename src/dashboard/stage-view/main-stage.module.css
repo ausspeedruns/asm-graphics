@@ -1,0 +1,46 @@
+.pageWrapper {
+	min-width: 800px;
+	width: 100%;
+}
+
+.section {
+	margin-bottom: 16px;
+}
+
+.row {
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+}
+
+.containerBox {
+	background-color: rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	padding: 16px;
+	min-width: 300px;
+	min-height: 120px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	position: relative;
+}
+
+.containerTitle {
+	position: absolute;
+	top: 8px;
+	left: 16px;
+	font-size: 0.9rem;
+	color: #ffffff;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.itemList {
+	display: flex;
+	flex-direction: row;
+	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}

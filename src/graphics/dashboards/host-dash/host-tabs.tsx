@@ -4,7 +4,6 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Tab from "@mui/material/Tab";
-import styled from "@emotion/styled";
 import { Incentives } from "./incentives";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { IconButton } from "@mui/material";
@@ -12,25 +11,7 @@ import { styled as muiStyled } from "@mui/material/styles";
 import { Refresh } from "@mui/icons-material";
 import { format } from "date-fns";
 import { PrizesHost } from "./prizes";
-
-const Container = styled.div`
-	height: 100%;
-	position: relative;
-`;
-
-const Heading = styled.div`
-	background: var(--inset-background);
-	margin: 0;
-	padding: 8px;
-	font-size: 20px;
-	font-weight: bold;
-	border-radius: 4px;
-
-	display: flex;
-	gap: 8px;
-	justify-content: center;
-	align-items: center;
-`;
+import styles from "./host-tabs.module.css";
 
 const HostDashTab = muiStyled(Tab)({
 	fontWeight: "bold",
@@ -70,7 +51,7 @@ export const HostTabs = () => {
 	};
 
 	return (
-		<Container>
+		<div className={styles.container}>
 			<TabContext value={page}>
 				<HostDashTabList
 					slotProps={{ indicator: { style: { display: "none" } } }}
@@ -83,12 +64,12 @@ export const HostTabs = () => {
 				</HostDashTabList>
 
 				<TabPanel value="0" sx={{ height: "100%", padding: 0 }}>
-					<Heading>
+					<div className={styles.heading}>
 						Last Updated: {incentivesUpdatedRep ? format(incentivesUpdatedRep, "E h:mm:ss a") : "UNKNOWN"}
 						<IconButton size="small" onClick={updateIncentives} ref={incentiveLoadingRef}>
 							<Refresh fontSize="small" />
 						</IconButton>
-					</Heading>
+					</div>
 					<Incentives
 						style={{ height: "calc(100% - 56px)", overflowY: "auto", overflowX: "hidden", padding: 8 }}
 					/>
@@ -98,6 +79,6 @@ export const HostTabs = () => {
 					<PrizesHost style={{ paddingRight: 8 }} />
 				</TabPanel>
 			</TabContext>
-		</Container>
+		</div>
 	);
 };

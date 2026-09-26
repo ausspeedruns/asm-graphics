@@ -1,5 +1,4 @@
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 
@@ -7,20 +6,7 @@ import type { Donation } from "@asm-graphics/types/Donations";
 
 import { darkTheme } from "./theme";
 import { Paper, Stack, ThemeProvider } from "@mui/material";
-
-const DonationTotal = styled.div`
-	width: 100%;
-	text-align: center;
-	font-size: 30px;
-	font-weight: bold;
-`;
-
-const DonationsList = styled.div`
-	max-height: 300px;
-	display: flex;
-	flex-direction: column;
-	overflow-y: scroll;
-`;
+import styles from "./donations.module.css";
 
 export const Donations: React.FC = () => {
 	const [donationTotalRep] = useReplicant("donationTotal");
@@ -28,14 +14,14 @@ export const Donations: React.FC = () => {
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<DonationTotal>${(donationTotalRep ?? 0).toLocaleString()}</DonationTotal>
-			<DonationsList>
+			<div className={styles.donationTotal}>${(donationTotalRep ?? 0).toLocaleString()}</div>
+			<div className={styles.donationsList}>
 				{donations
 					?.map((donation) => {
 						return <DonationEl key={donation.id} donation={donation} />;
 					})
 					.reverse()}
-			</DonationsList>
+			</div>
 		</ThemeProvider>
 	);
 };
@@ -46,51 +32,25 @@ interface DonationProps {
 	donation: Donation;
 }
 
-const DonationContainer = styled(Paper)`
-	margin: 6px 0;
-	display: flex;
-	justify-content: space-between;
-	font-size: 13px;
-	padding: 8px;
-	border-radius: 7px;
-	background-color: #4d5e80;
-	position: relative;
-`;
-
-const Amount = styled.span`
-	font-weight: bold;
-	font-size: 1.2rem;
-	margin-right: 6px;
-`;
-
-const Name = styled.span`
-	font-weight: bold;
-	font-size: 1.2rem;
-`;
-
-const DateText = styled.span`
-	color: #aaa;
-`;
-
 function DonationEl(props: DonationProps) {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
 
 	return (
-		<DonationContainer elevation={2}>
+		<Paper className={styles.donationContainer} elevation={2}>
 			<Stack>
 				<div>
-					<Amount>
+					<span className={styles.amount}>
 						{props.donation.currencySymbol}
 						{props.donation.amount.toLocaleString()}
-					</Amount>
-					<Name>{props.donation.name}</Name>
+					</span>
+					<span className={styles.name}>{props.donation.name}</span>
 				</div>
-				<DateText>{timeText}</DateText>
+				<span className={styles.dateText}>{timeText}</span>
 				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
 					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
 			</Stack>
-		</DonationContainer>
+		</Paper>
 	);
 }
 

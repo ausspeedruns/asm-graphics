@@ -1,34 +1,10 @@
 import { Fragment, type Ref, useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
 
 import type { TickerItemHandles } from "../incentives";
 import { FitText } from "../../elements/fit-text";
 
 import type { Prize } from "@asm-graphics/types/Prizes";
-
-const PrizesContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	padding: 16px;
-	box-sizing: border-box;
-`;
-
-const PrizesPage = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 4px;
-	margin-left: -16px;
-	margin-top: -16px;
-`;
+import styles from "./incent-prizes.module.css";
 
 const PRIZE_PAGE_LENGTH = 1;
 const PRIZE_SPEED = 2;
@@ -61,9 +37,9 @@ export function Prizes(props: PrizesProps) {
 	}));
 
 	return (
-		<PrizesContainer ref={containerRef}>
+		<div className={styles.prizesContainer} ref={containerRef}>
 			{groupedPrizes.map((prizes, i) => (
-				<PrizesPage key={i}>
+				<div className={styles.prizesPage} key={i}>
 					{prizes.map((prize, j) => (
 						<Prize
 							prize={prize}
@@ -74,70 +50,13 @@ export function Prizes(props: PrizesProps) {
 							}}
 						/>
 					))}
-				</PrizesPage>
+				</div>
 			))}
-		</PrizesContainer>
+		</div>
 	);
 }
 
 Prizes.displayName = "Prizes";
-
-const UpcomingRunContainer = styled.div`
-	font-family: var(--secondary-font);
-	border-radius: 20px 16px 16px 20px;
-	background: white;
-	display: flex;
-`;
-
-const MetaDataContainer = styled.div`
-	padding: 16px;
-	background: var(--sec);
-	border-radius: 16px 0 0 16px;
-	color: var(--text-light);
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 16px;
-`;
-
-const RequirementsContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	font-size: 30px;
-`;
-
-const Requirement = styled.span`
-	font-weight: bold;
-	text-align: center;
-	max-width: 500px;
-`;
-
-const RequirementSubheading = styled.span`
-	font-size: 70%;
-	text-align: center;
-`;
-
-const Quantity = styled.span`
-	font-weight: bold;
-	font-size: 30px;
-`;
-
-const ItemContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-grow: 1;
-	color: var(--text-dark);
-	font-size: 45px;
-	padding: 8px;
-`;
-
-const Item = styled(FitText)`
-	font-weight: bold;
-	max-width: 500px;
-`;
 
 // const SubItem = styled.span`
 // 	font-weight: normal;
@@ -187,27 +106,27 @@ const Prize = (props: PrizeProps) => {
 	}));
 
 	return (
-		<UpcomingRunContainer ref={containerRef}>
-			<MetaDataContainer>
-				<RequirementsContainer>
-					<Requirement style={{ fontSize: props.prize.requirement.includes("\n") ? "70%" : undefined }}>
+		<div className={styles.upcomingRunContainer} ref={containerRef}>
+			<div className={styles.metaDataContainer}>
+				<div className={styles.requirementsContainer}>
+					<span className={styles.requirement} style={{ fontSize: props.prize.requirement.includes("\n") ? "70%" : undefined }}>
 						{renderTextWithLineBreaks(props.prize.requirement)}
-					</Requirement>
+					</span>
 					{props.prize.requirementSubheading && (
-						<RequirementSubheading>{props.prize.requirementSubheading}</RequirementSubheading>
+						<span className={styles.requirementSubheading}>{props.prize.requirementSubheading}</span>
 					)}
-				</RequirementsContainer>
-				<Quantity>
+				</div>
+				<span className={styles.quantity}>
 					{props.prize.quantity}
 					<span style={{ fontSize: "75%" }}>x</span>
-				</Quantity>
-			</MetaDataContainer>
-			<ItemContainer>
+				</span>
+			</div>
+			<div className={styles.itemContainer}>
 				{/* <Item>
 					{props.prize.item} <SubItem>{props.prize.subItem}</SubItem>
 				</Item> */}
-				<Item text={props.prize.item} />
-			</ItemContainer>
-		</UpcomingRunContainer>
+				<FitText className={styles.item} text={props.prize.item} />
+			</div>
+		</div>
 	);
 };

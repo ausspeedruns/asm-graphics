@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 
 import Mario from "../../media/runner-tablet/mario.png";
 import Sonic from "../../media/runner-tablet/sonic.png";
@@ -8,52 +8,7 @@ import Link from "../../media/runner-tablet/link.png";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 import { useReplicant } from "@nodecg/react-hooks";
 import { type Headset, Headsets } from "../../../shared/audio-data";
-
-const RTSelectionContainer = styled.div`
-	background-color: #cc7722;
-	height: calc(100% - 96px);
-	width: 100%;
-	color: white;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-`;
-
-const SelectionInstructions = styled.div`
-	display: flex;
-	flex-direction: column;
-	/* align-items: center;
-	justify-content: space-between; */
-	height: 20%;
-	padding: 2%;
-`;
-
-const SkipButton = styled.button`
-	float: right;
-	background: #c72;
-	font-size: 2rem;
-	color: white;
-	border: 0;
-`;
-
-const RunnerName = styled.div`
-	text-align: center;
-	font-size: 40px;
-	font-weight: bold;
-`;
-
-const Instructions = styled.div`
-	text-align: center;
-	font-size: 40px;
-	font-style: italic;
-`;
-
-const HeadsetContainers = styled.div`
-	display: flex;
-	width: 100%;
-	height: 400px;
-	flex-grow: 1;
-`;
+import styles from "./headset-selection.module.css";
 
 interface Props {
 	className?: string;
@@ -134,10 +89,10 @@ export const RTSelection = (props: Props) => {
 	// }, [runners]);
 
 	return (
-		<RTSelectionContainer className={props.className} style={props.style}>
-			<SelectionInstructions>
+		<div className={clsx(styles.rtSelectionContainer, props.className)} style={props.style}>
+			<div className={styles.selectionInstructions}>
 				<div style={{ width: "96%", position: "absolute" }}>
-					<SkipButton onClick={() => setRunnerIndex(runnerIndex + 1)}>Skip →</SkipButton>
+					<button className={styles.skipButton} onClick={() => setRunnerIndex(runnerIndex + 1)}>Skip →</button>
 				</div>
 				<div
 					style={{
@@ -148,14 +103,14 @@ export const RTSelection = (props: Props) => {
 						height: "100%",
 					}}
 				>
-					<RunnerName>
+					<div className={styles.runnerName}>
 						{runners[runnerIndex]?.name}{" "}
 						{runners[runnerIndex]?.pronouns && `[${runners[runnerIndex].pronouns?.toUpperCase()}]`}
-					</RunnerName>
-					<Instructions>Choose your headset!</Instructions>
+					</div>
+					<div className={styles.instructions}>Choose your headset!</div>
 				</div>
-			</SelectionInstructions>
-			<HeadsetContainers>
+			</div>
+			<div className={styles.headsetContainers}>
 				{Headsets.filter((headset) => headset.name !== "NONE" && headset.name !== "Host").map((headset) => {
 					return (
 						<HeadsetButton
@@ -171,60 +126,10 @@ export const RTSelection = (props: Props) => {
 						/>
 					);
 				})}
-			</HeadsetContainers>
-		</RTSelectionContainer>
+			</div>
+		</div>
 	);
 };
-
-const HeadsetButtonSelector = styled.div<{ taken: boolean }>`
-	height: 100%;
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-around;
-	border: 3px white solid;
-	border-top: 6px white solid;
-	border-bottom: 0;
-	transform: ${({ taken }) => (taken ? "translateY(+100px)" : "")};
-	opacity: ${({ taken }) => (taken ? "40%" : "")};
-	width: 100%;
-
-	&:first-of-type {
-		border-left: 6px white solid;
-	}
-
-	&:last-of-type {
-		border-right: 6px white solid;
-	}
-`;
-
-const HeadsetInformation = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`;
-
-const HeadsetName = styled.div`
-	font-size: 50px;
-`;
-
-const HeadsetColour = styled.div`
-	font-size: 50px;
-	font-weight: bold;
-`;
-
-const Recommended = styled.div`
-	font-weight: bold;
-	font-style: italic;
-`;
-
-const HeadsetImage = styled.img`
-	/* margin-bottom: -100px; */
-	width: 80%;
-	height: 50%;
-	object-fit: contain;
-`;
 
 const HeadsetImageMap: Record<string, any> = {
 	"Mario Red": Mario,
@@ -244,19 +149,19 @@ const HeadsetButton = (props: HeadsetButtonProps) => {
 	const [headsetCodename, headsetColour] = props.headset.name.split(" ");
 
 	return (
-		<HeadsetButtonSelector
-			taken={Boolean(props.owner)}
+		<div
+			className={clsx(styles.headsetButtonSelector, Boolean(props.owner) && styles.taken)}
 			style={{ background: props.headset.colour, color: props.headset.textColour }}
 			onClick={props.onClick}
 		>
-			<HeadsetInformation>
-				<HeadsetName>{headsetCodename}</HeadsetName>
-				<HeadsetColour>{headsetColour}</HeadsetColour>
+			<div className={styles.headsetInformation}>
+				<div className={styles.headsetName}>{headsetCodename}</div>
+				<div className={styles.headsetColour}>{headsetColour}</div>
 				{(props.recommended || props.owner) && (
-					<Recommended>{props.owner ? props.owner : "Recommended"}</Recommended>
+					<div className={styles.recommended}>{props.owner ? props.owner : "Recommended"}</div>
 				)}
-			</HeadsetInformation>
-			{HeadsetImageMap[props.headset.name] && <HeadsetImage src={HeadsetImageMap[props.headset.name]} />}
-		</HeadsetButtonSelector>
+			</div>
+			{HeadsetImageMap[props.headset.name] && <img className={styles.headsetImage} src={HeadsetImageMap[props.headset.name]} />}
+		</div>
 	);
 };

@@ -1,19 +1,11 @@
 import { useMemo, useState } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 
 import { TextField, Button, Autocomplete } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect } from "react";
 import { HOST_TAG } from "@asm-graphics/shared/constants";
-
-const HostNameContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 8px;
-	height: 75%;
-	gap: 16px;
-`;
+import styles from "./host-name.module.css";
 
 interface Props {
 	vertical?: boolean;
@@ -66,8 +58,8 @@ export function HostName(props: Props) {
 	}
 
 	return (
-		<HostNameContainer
-			className={props.className}
+		<div
+			className={clsx(styles.hostNameContainer, props.className)}
 			style={{
 				flexDirection: props.vertical ? "column" : undefined,
 				...props.style,
@@ -99,6 +91,6 @@ export function HostName(props: Props) {
 			<Button variant="contained" onClick={handleSubmit}>
 				Update
 			</Button>
-		</HostNameContainer>
+		</div>
 	);
 }

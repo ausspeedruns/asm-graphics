@@ -1,5 +1,5 @@
 import type React from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 import type { Timer as ITimer } from "@asm-graphics/types/Timer";
@@ -8,60 +8,7 @@ import { Timer } from "../timer";
 import * as RunInfo from "../run-info";
 
 import { runCustomDataSchema } from "../../../shared/types/custom-data";
-
-const WideInfoContainer = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 1920px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	box-sizing: border-box;
-	overflow: hidden;
-	z-index: 2;
-	padding: 40px;
-
-	font-size: 34px;
-
-	& #subInfoStack,
-	& #category {
-		font-weight: 600;
-	}
-
-	& #gameTitle {
-		font-size: 200%;
-		max-width: 100%;
-		line-height: 0.75;
-	}
-
-	& #timer {
-		font-size: 350%;
-	}
-`;
-
-const VerticalStack = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-`;
-
-const HorizontalStack = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-evenly;
-	width: 100%;
-`;
-
-const GameInfo = styled(VerticalStack)`
-	min-width: 600px;
-`;
-
-const MiddleGameInfo = styled(VerticalStack)`
-	min-width: 400px;
-`;
+import styles from "./wide.module.css";
 
 interface Props {
 	className?: string;
@@ -74,23 +21,23 @@ export function WideInfo(props: Props) {
 	const customData = runCustomDataSchema.safeParse(props.runData?.customData ?? {}).data;
 
 	return (
-		<WideInfoContainer className={props.className} style={props.style}>
-			<GameInfo id="gameInfo">
+		<div className={clsx(styles.wideInfoContainer, props.className)} style={props.style}>
+			<div className={clsx(styles.verticalStack, styles.gameInfo)} id="gameInfo">
 				<RunInfo.GameTitle game={customData?.gameDisplay ?? props.runData?.game ?? ""} />
-				<HorizontalStack id="subInfoStack">
+				<div className={styles.horizontalStack} id="subInfoStack">
 					<RunInfo.System system={props.runData?.system ?? ""} />
 					<RunInfo.Year year={props.runData?.release ?? ""} />
-				</HorizontalStack>
-			</GameInfo>
-			<MiddleGameInfo id="middleGameInfo">
+				</div>
+			</div>
+			<div className={clsx(styles.verticalStack, styles.middleGameInfo)} id="middleGameInfo">
 				<RunInfo.Category category={props.runData?.category ?? ""} />
 				<RunInfo.Estimate estimate={props.runData?.estimate ?? ""} />
-			</MiddleGameInfo>
-			<VerticalStack id="timerStack">
-				<HorizontalStack>
+			</div>
+			<div className={styles.verticalStack} id="timerStack">
+				<div className={styles.horizontalStack}>
 					<Timer milliseconds={props.timer?.milliseconds ?? 0} />
-				</HorizontalStack>
-			</VerticalStack>
-		</WideInfoContainer>
+				</div>
+			</div>
+		</div>
 	);
 }

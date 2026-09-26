@@ -1,0 +1,44 @@
+.verticalInfoContainer {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	z-index: 2;
+	gap: 5px;
+}
+
+.verticalInfoContainer :global(#timer) {
+	font-size: 270%;
+}
+
+.verticalInfoContainer #gameTitle,
+.verticalInfoContainer #category {
+	max-width: 90%;
+}
+
+.verticalInfoContainer #gameTitle {
+	font-size: 150%;
+}
+
+.verticalInfoContainer #category {
+	font-weight: 600;
+}
+
+.verticalStack {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 100%;
+}
+
+.horizontalStack {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	width: 100%;
+}

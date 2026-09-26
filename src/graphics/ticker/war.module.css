@@ -1,0 +1,111 @@
+.warChoiceContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-family: var(--main-font);
+	color: var(--text-light);
+}
+
+.goal {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	margin-right: 16px;
+}
+
+.game {
+	font-size: 20px;
+	margin-bottom: -10px;
+	max-width: 200px;
+	font-family: var(--main-font);
+}
+
+.incentiveName {
+	font-size: 27px;
+	font-weight: bold;
+	max-width: 200px;
+}
+
+.incentiveContainer {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	margin: 0 4px 0 8px;
+}
+
+.progressContainer {
+	flex-grow: 1;
+	min-width: 165px;
+	max-width: 50%;
+	height: 54px;
+	margin: 0 16px 0 5px;
+	border: 1px solid var(--accent);
+	position: relative;
+	overflow: hidden;
+}
+
+.progressBarContainer {
+	height: 100%;
+	width: 0px;
+	background: var(--sec);
+	border-right: 5px solid var(--sec);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.currentAmount {
+	font-weight: bold;
+	text-align: right;
+	margin-left: 5px;
+}
+
+.allOptionContainer {
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+}
+
+.optionName {
+	max-width: 60%;
+}
+
+.textDiv {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	left: 0;
+	padding-right: 8px;
+	color: var(--text-dark);
+	font-size: 20px;
+}
+
+.noChoicesContainer {
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+	font-style: italic;
+}
+
+.moreChoicesContainer {
+	text-transform: uppercase;
+	font-weight: bold;
+	width: 173px;
+	font-size: 27px;
+	margin: 0 16px 0 5px;
+	line-height: 24px;
+	text-align: center;
+}

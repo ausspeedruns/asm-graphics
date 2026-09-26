@@ -1,0 +1,64 @@
+.tickerMilestonesContainer {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	text-transform: uppercase;
+	color: var(--text-light);
+	font-size: 37px;
+	z-index: 2;
+}
+
+.nextMilestone {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	margin-right: 16px;
+	margin-top: -4px;
+}
+
+.nextMilestoneEvent {
+	font-size: 20px;
+	margin-top: 6px;
+	margin-bottom: -8px;
+}
+
+.nextMilestoneTotal {
+	font-size: 27px;
+	font-weight: bold;
+}
+
+.prevMilestone {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	margin: -4px 4px 0 8px;
+}
+
+.progressContainer {
+	flex-grow: 1;
+	height: 54px;
+	margin: 0 16px 0 5px;
+	border: 1px solid var(--text-light);
+	position: relative;
+	overflow: hidden;
+}
+
+.progressBarContainer {
+	height: 100%;
+	background: var(--sec);
+	border-right: 5px solid var(--sec);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.currentAmount {
+	color: var(--text-light);
+	margin-right: 16px;
+	width: 100px;
+	text-align: right;
+}

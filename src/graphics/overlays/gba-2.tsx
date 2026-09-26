@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { SmallInfo } from "../elements/info-box/small";
@@ -13,65 +11,20 @@ import { getTeams } from "../elements/team-data";
 import GBA2p from "./backgrounds/GBA2p.png";
 import { Container } from "../elements/container";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const Standard2Container = styled.div`
-	height: 1016px;
-	width: 1920px;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-`;
-
-const Topbar = styled.div`
-	display: flex;
-	align-items: stretch;
-	flex: 1;
-	border-bottom: 1px solid var(--sec);
-	overflow: hidden;
-`;
-
-const LeftBox = styled(Container)`
-	flex: 1;
-	display: flex;
-	position: relative;
-	font-size: 35px;
-`;
-
-const RightBox = styled(Container)`
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	position: relative;
-	box-sizing: border-box;
-`;
-
-const GameRow = styled.div`
-	display: flex;
-	flex: 0 1 auto;
-	min-height: 0;
-	flex-direction: row;
-	align-items: stretch;
-`;
-
-const CentralDivider = styled.div`
-	width: 2px;
-	background: var(--sec);
-`;
+import styles from "./gba-2.module.css";
 
 export const GBA2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
 	return (
-		<Standard2Container>
+		<div className={styles.standard2Container}>
 			{/* <img src={GBA2p} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
 
-			<Topbar>
-				<LeftBox>
+			<div className={styles.topbar}>
+				<Container className={styles.leftBox}>
 					<SmallInfo timer={props.timer} runData={props.runData} />
-				</LeftBox>
+				</Container>
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[0]}
@@ -103,7 +56,7 @@ export const GBA2 = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 301, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
 				<RaceFinish style={{ top: 301, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
-				<RightBox>
+				<Container className={styles.rightBox}>
 					<div
 						style={{
 							display: "flex",
@@ -123,13 +76,13 @@ export const GBA2 = (props: OverlayProps) => {
 						/>
 						<SponsorsBox sponsors={props.sponsors} width={400} height={230} style={{ zIndex: 5 }} />
 					</div>
-				</RightBox>
-			</Topbar>
-			<GameRow>
+				</Container>
+			</div>
+			<div className={styles.gameRow}>
 				<GameplayCapture aspectRatio="3:2" grow />
-				<CentralDivider />
+				<div className={styles.centralDivider} />
 				<GameplayCapture aspectRatio="3:2" grow />
-			</GameRow>
-		</Standard2Container>
+			</div>
+		</div>
 	);
 };

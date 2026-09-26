@@ -1,16 +1,10 @@
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 
 import { Button, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
-
-const Row = styled.div`
-	display: flex;
-	gap: 8px;
-	margin: 8px 0;
-`;
+import styles from "./on-screen-warnings.module.css";
 
 const MessageFlashingWarning = "This game contains flashing lights, viewer discretion is advised.";
 
@@ -33,12 +27,12 @@ export const OnScreenWarningsDash: React.FC = () => {
 		<ThemeProvider theme={darkTheme}>
 			Only Widescreen supports this. More to come?
 			<p style={{ margin: "16px 0 0 0", fontSize: "80%" }}>Pre-made messages:</p>
-			<Row>
+			<div className={styles.row}>
 				<Button variant="outlined" onClick={() => setLocalMessage(MessageFlashingWarning)}>
 					Flashing Warning
 				</Button>
-			</Row>
-			<Row>
+			</div>
+			<div className={styles.row}>
 				<TextField
 					multiline
 					minRows={3}
@@ -47,8 +41,8 @@ export const OnScreenWarningsDash: React.FC = () => {
 					value={localMessage}
 					onChange={handleMessageChange}
 				/>
-			</Row>
-			<Row>
+			</div>
+			<div className={styles.row}>
 				<Button color="success" variant={showRep ? "outlined" : "contained"} fullWidth onClick={showMessage}>
 					Show Warning
 				</Button>
@@ -60,7 +54,7 @@ export const OnScreenWarningsDash: React.FC = () => {
 				>
 					Hide Warning
 				</Button>
-			</Row>
+			</div>
 		</ThemeProvider>
 	);
 };

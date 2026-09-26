@@ -1,0 +1,24 @@
+.row {
+	display: flex;
+	gap: 8px;
+	margin: 8px 0;
+	align-items: center;
+}
+
+.tickerListContainer {
+	padding: 0 16px;
+	margin-bottom: 12px;
+}
+
+.tickerItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	border-radius: 10px;
+	border: 2px solid rgba(255, 255, 255, 0.278);
+	padding: 8px;
+	margin: 4px 0;
+	overflow-wrap: anywhere;
+	background: #32425a;
+}

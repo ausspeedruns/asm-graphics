@@ -1,39 +1,7 @@
 import { useRef, useEffect } from "react";
-import styled from "@emotion/styled";
 import gsap from "gsap";
-
-const RaceFinishContainer = styled.div`
-	overflow: hidden;
-	position: absolute;
-`;
-
-const AnimatedContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 130px;
-	height: 35px;
-	padding-right: 4px;
-	box-sizing: border-box;
-	font-size: 22px;
-	color: #ffffff;
-	font-family: var(--main-font);
-`;
-
-const Position = styled.div`
-	font-weight: bold;
-	height: 35px;
-	width: 35px;
-	text-align: center;
-	line-height: 36px;
-	background-color: rgba(0, 0, 0, 0.22);
-`;
-
-const FinalTime = styled.div`
-	line-height: 36px;
-	width: 100%;
-	text-align: center;
-`;
+import clsx from "clsx";
+import styles from "./race-finish.module.css";
 
 function timeFormat(time?: string) {
 	if (!time) return "";
@@ -90,11 +58,11 @@ export const RaceFinish: React.FC<RaceFinishProps> = (props: RaceFinishProps) =>
 	}
 
 	return (
-		<RaceFinishContainer className={props.className} style={props.style}>
-			<AnimatedContainer ref={animRef} style={{ backgroundColor: bgColour }}>
-				<Position>{props.place === -1 ? "X" : props.place}</Position>
-				<FinalTime>{timeFormat(props.time)}</FinalTime>
-			</AnimatedContainer>
-		</RaceFinishContainer>
+		<div className={clsx(styles.raceFinishContainer, props.className)} style={props.style}>
+			<div className={styles.animatedContainer} ref={animRef} style={{ backgroundColor: bgColour }}>
+				<div className={styles.position}>{props.place === -1 ? "X" : props.place}</div>
+				<div className={styles.finalTime}>{timeFormat(props.time)}</div>
+			</div>
+		</div>
 	);
 };

@@ -1,0 +1,17 @@
+.gameplayContainer {
+	height: 1016px;
+	width: 1920px;
+	box-sizing: content-box;
+	border-right: 5px solid black;
+	border-bottom: 5px solid black;
+	font-family: var(--main-font);
+	color: var(--text-light);
+}
+
+.spacedLink {
+	margin: 16px 16px 0;
+	font-weight: bold;
+	font-size: 20px;
+	text-decoration: none;
+	display: inline-block;
+}

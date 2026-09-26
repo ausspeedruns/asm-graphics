@@ -1,0 +1,30 @@
+.standardContainer {
+	height: 1016px;
+	width: 1920px;
+	display: flex;
+	align-items: stretch;
+}
+
+.sidebar {
+	border-right: 1px solid var(--sec);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.infoBoxBg {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	padding: 10px 10px 30px;
+	box-sizing: border-box;
+	flex-grow: 1;
+	font-size: 30px;
+}
+
+.infoBoxBg #gameTitle {
+	max-width: 507px !important;
+}

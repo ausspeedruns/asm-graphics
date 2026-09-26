@@ -1,0 +1,30 @@
+.standardContainer {
+	height: 1016px;
+	width: 1920px;
+	display: flex;
+	align-items: stretch;
+}
+
+.sidebar {
+	position: absolute;
+	height: 1016px;
+	width: 600px;
+	border-right: 1px solid var(--sec);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.infoBoxBg {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-grow: 1;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+	background-blend-mode: multiply;
+	background-repeat: repeat;
+	position: relative;
+	padding: 10px 0;
+	font-size: 28px;
+}

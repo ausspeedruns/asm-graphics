@@ -1,0 +1,49 @@
+.standard2Container {
+	height: 1016px;
+	width: 1920px;
+	display: flex;
+	flex-direction: column;
+}
+
+.topbar {
+	display: flex;
+	width: 100%;
+	flex: 1;
+	overflow: hidden;
+}
+
+.leftBox {
+	position: relative;
+	flex: 1;
+	height: 100%;
+	display: flex;
+	font-size: 30px;
+}
+
+.rightBox {
+	position: relative;
+	flex: 1;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.gameplayRow {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.centralDivider {
+	width: 2px;
+	background: var(--sec);
+}
+
+.wholeGraphicClip {
+	position: absolute;
+	width: 1920px;
+	height: 1016px;
+	clip-path: path("M 0 0 H 666 V 297 H 0 Z M 1920 0 H 1254 V 297 H 1921 Z ");
+	z-index: 1;
+}

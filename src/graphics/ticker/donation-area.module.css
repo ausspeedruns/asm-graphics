@@ -1,0 +1,20 @@
+.tickerDonationTotalContainer {
+	height: 100%;
+	width: fit-content;
+	float: right;
+	font-size: 37px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 0 10px;
+	color: var(--text-light);
+	font-weight: bold;
+	font-family: var(--mono-font);
+	background: var(--goc-gradient);
+}
+
+.charityLogo {
+	height: 45px;
+	width: auto;
+	color: var(--text-light);
+}

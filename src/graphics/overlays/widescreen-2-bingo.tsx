@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 
 import type { OverlayProps } from "../gameplay-overlay";
@@ -16,76 +15,12 @@ import { BingoBoard } from "../elements/bingo-board";
 // import WidescreenWhole from "./backgrounds/Widescreen2p.png";
 import { Container } from "../elements/container";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const Widescreen2BingoContainer = styled.div`
-	height: 1016px;
-	width: 1920px;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-`;
-
-const WholeGraphicClip = styled.div`
-	position: absolute;
-	width: 1920px;
-	height: 1016px;
-	clip-path: path("M 1920 0 H 1254 V 341 H 1920 Z M 666 0 H 0 V 341 H 666 V 0 M 1920 763 H 0 V 1016 H 1920 Z");
-	z-index: 1;
-`;
-
-const Topbar = styled.div`
-	display: flex;
-	height: 341px;
-	width: 100%;
-	overflow: hidden;
-	border-bottom: 1px solid var(--sec);
-`;
-
-const LeftBox = styled(Container)`
-	flex: 1;
-	display: flex;
-	position: relative;
-	font-size: 28px;
-`;
-
-const RightBox = styled(Container)`
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	position: relative;
-	z-index: 2;
-`;
+import styles from "./widescreen-2-bingo.module.css";
 
 const SponsorSize = {
 	height: 230,
 	width: 540,
 };
-
-const BottomBlock = styled(Container)`
-	height: 253px;
-	box-sizing: border-box;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	z-index: 2;
-`;
-
-const GameRow = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: stretch;
-	flex-grow: 1;
-`;
-
-const BingoBoardStyled = styled(BingoBoard)`
-	flex: 1;
-	z-index: 2;
-`;
 
 export const Widescreen2Bingo = (props: OverlayProps) => {
 	const [bingoSyncBoardStateRep] = useReplicant("bingosync:boardState");
@@ -103,14 +38,14 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
 	return (
-		<Widescreen2BingoContainer>
+		<div className={styles.widescreen2BingoContainer}>
 			{/* <WholeGraphicClip>
 				<img src={WidescreenWhole} style={{ position: "absolute", height: "100%", width: "100%" }} />
 			</WholeGraphicClip> */}
-			<Topbar>
-				<LeftBox>
+			<div className={styles.topbar}>
+				<Container className={styles.leftBox}>
 					<SmallInfo timer={props.timer} runData={props.runData} />
-				</LeftBox>
+				</Container>
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[0]}
@@ -151,22 +86,22 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 					place={teamData[1]?.place ?? -1}
 				/>
 
-				<RightBox>
+				<Container className={styles.rightBox}>
 					<SponsorsBox sponsors={props.sponsors} width={SponsorSize.width} height={SponsorSize.height} />
-				</RightBox>
-			</Topbar>
-			<GameRow>
+				</Container>
+			</div>
+			<div className={styles.gameRow}>
 				<GameplayCapture aspectRatio="16:9" />
-				<BingoBoardStyled board={unionedBoardStateCells} />
+				<BingoBoard className={styles.bingoBoard} board={unionedBoardStateCells} />
 				<GameplayCapture aspectRatio="16:9" />
-			</GameRow>
-			<BottomBlock>
+			</div>
+			<Container className={styles.bottomBlock}>
 				<Couch
 					commentators={props.commentators}
 					audio={props.microphoneAudioIndicator}
 					showHost={props.showHost}
 				/>
-			</BottomBlock>
+			</Container>
 
 			{/* <svg id="widescreen2Clip">
 				<defs>
@@ -175,6 +110,6 @@ export const Widescreen2Bingo = (props: OverlayProps) => {
 					</clipPath>
 				</defs>
 			</svg> */}
-		</Widescreen2BingoContainer>
+		</div>
 	);
 };

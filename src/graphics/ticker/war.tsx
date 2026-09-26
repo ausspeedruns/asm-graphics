@@ -1,88 +1,11 @@
 import { useImperativeHandle, useRef, useState } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 
 import type { War } from "@asm-graphics/types/Incentives";
 import type { TickerItemHandles } from "../ticker";
 
 import { FitText } from "../elements/fit-text";
-
-const WarChoiceContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	font-family: var(--main-font);
-	color: var(--text-light);
-`;
-
-const Goal = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	margin-right: 16px;
-`;
-
-const Game = styled(FitText)`
-	font-size: 20px;
-	margin-bottom: -10px;
-	max-width: 200px;
-	font-family: var(--main-font);
-`;
-
-const IncentiveName = styled(FitText)`
-	font-size: 27px;
-	font-weight: bold;
-	/* font-family: var(--secondary-font); */
-	max-width: 200px;
-`;
-
-const IncentiveContainer = styled(Goal)`
-	// position: absolute;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	margin: 0 4px 0 8px;
-`;
-
-// Determines full size
-const ProgressContainer = styled.div`
-	flex-grow: 1;
-	min-width: 165px;
-	max-width: 50%;
-	height: 54px;
-	margin: 0 16px 0 5px;
-	border: 1px solid var(--accent);
-	position: relative;
-	overflow: hidden;
-`;
-
-const ProgressBarContainer = styled.div`
-	height: 100%;
-	width: 0px;
-	background: var(--sec);
-	border-right: 5px solid var(--sec);
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-`;
-
-const CurrentAmount = styled.span`
-	font-weight: bold;
-	text-align: right;
-	margin-left: 5px;
-`;
-
-const AllOptionContainer = styled.div`
-	display: flex;
-	align-items: center;
-	flex-grow: 1;
-`;
+import styles from "./war.module.css";
 
 const MAX_ALLOWED = 4;
 
@@ -156,33 +79,15 @@ export function WarGame(props: GoalProps) {
 	}
 
 	return (
-		<WarChoiceContainer ref={containerRef}>
-			<IncentiveContainer>
-				<Game text={props.war.game} />
-				<IncentiveName text={props.war.incentive} />
-			</IncentiveContainer>
-			<AllOptionContainer>{allOptions.length > 0 ? allOptions : <NoChoicesMade />}</AllOptionContainer>
-		</WarChoiceContainer>
+		<div className={styles.warChoiceContainer} ref={containerRef}>
+			<div className={clsx(styles.goal, styles.incentiveContainer)}>
+				<FitText className={styles.game} text={props.war.game} />
+				<FitText className={styles.incentiveName} text={props.war.incentive} />
+			</div>
+			<div className={styles.allOptionContainer}>{allOptions.length > 0 ? allOptions : <NoChoicesMade />}</div>
+		</div>
 	);
 }
-
-const OptionName = styled(FitText)`
-	max-width: 60%;
-`;
-
-const TextDiv = styled.div`
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	top: 0;
-	left: 0;
-	padding-right: 8px;
-	color: var(--text-dark);
-	font-size: 20px;
-`;
 
 interface WarChoiceProps {
 	option: War["options"][number];
@@ -206,15 +111,15 @@ function WarChoice(props: WarChoiceProps) {
 	}));
 
 	return (
-		<ProgressContainer>
-			<ProgressBarContainer
+		<div className={styles.progressContainer}>
+			<div className={styles.progressBarContainer}
 				ref={progressBarRef}
 				style={{
 					borderColor: "var(--accent)",
 					background: isColor(props.option.name) ? props.option.name : "var(--accent)",
 				}}
 			/>
-			<TextDiv>
+			<div className={styles.textDiv}>
 				<div
 					style={{
 						display: "flex",
@@ -224,44 +129,24 @@ function WarChoice(props: WarChoiceProps) {
 						maxWidth: "80%",
 					}}
 				>
-					<OptionName text={props.option.name} />
-					<CurrentAmount>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
+					<FitText className={styles.optionName} text={props.option.name} />
+					<span className={styles.currentAmount}>${Math.floor(props.option.total).toLocaleString()}</span>
 				</div>
-			</TextDiv>
-		</ProgressContainer>
+			</div>
+		</div>
 	);
 }
 
-const NoChoicesContainer = styled.div`
-	flex-grow: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	/* font-weight: bold; */
-	text-transform: uppercase;
-	font-style: italic;
-`;
-
 function NoChoicesMade() {
-	return <NoChoicesContainer>No names submitted</NoChoicesContainer>;
+	return <div className={styles.noChoicesContainer}>No names submitted</div>;
 }
-
-const MoreChoicesContainer = styled.div`
-	text-transform: uppercase;
-	font-weight: bold;
-	width: 173px;
-	font-size: 27px;
-	margin: 0 16px 0 5px;
-	line-height: 24px;
-	text-align: center;
-`;
 
 interface MoreChoicesProps {
 	more: number;
 }
 
 function MoreChoices(props: MoreChoicesProps) {
-	return <MoreChoicesContainer>{props.more} more options</MoreChoicesContainer>;
+	return <div className={styles.moreChoicesContainer}>{props.more} more options</div>;
 }
 
 function isColor(strColor: string) {

@@ -1,35 +1,9 @@
 import { useImperativeHandle, useRef, useState } from "react";
-import styled from "@emotion/styled";
 
 import type { War } from "@asm-graphics/types/Incentives";
 import type { TickerItemHandles } from "../incentives";
 import { FitText } from "../../elements/fit-text";
-
-const WarChoiceContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	/* transform: translate(-100%, 0); */
-	/* padding: 0 50px; */
-	box-sizing: border-box;
-	color: var(--text-light);
-`;
-
-const AllOptionContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	justify-content: center;
-	gap: 16px;
-	flex-grow: 1;
-`;
+import styles from "./incent-wars.module.css";
 
 interface GoalProps {
 	war: War;
@@ -131,73 +105,15 @@ export const WarGame = (props: GoalProps) => {
 	}
 
 	return (
-		<WarChoiceContainer ref={containerRef}>
-			<AllOptionContainer>{allOptions}</AllOptionContainer>
+		<div className={styles.warChoiceContainer} ref={containerRef}>
+			<div className={styles.allOptionContainer}>{allOptions}</div>
 			{/* <IncentiveContainer>
 				<Game text={props.war.game} />
 				<IncentiveName text={props.war.incentive} />
 			</IncentiveContainer> */}
-		</WarChoiceContainer>
+		</div>
 	);
 };
-
-const OptionName = styled(FitText)`
-	max-width: 90%;
-	font-weight: bold;
-`;
-
-const OptionContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
-	font-family: var(--secondary-font);
-	max-width: 1000px;
-	gap: 8px;
-`;
-
-const TextDiv = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	top: 0;
-	left: 0;
-	color: var(--text-light);
-	font-size: 28px;
-	width: 100%;
-`;
-
-// Determines full size
-const ProgressContainer = styled.div`
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	box-sizing: border-box;
-	background: transparent;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-end;
-	border-radius: 8px;
-	gap: 8px;
-`;
-
-const ProgressBarContainer = styled.div`
-	height: 0%;
-	width: 100%;
-	background: var(--text-light);
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	border-radius: 8px;
-`;
-
-const CurrentAmount = styled.span`
-	font-size: 26px;
-	z-index: 2;
-`;
 
 const isColour = (strColor: string) => {
 	const s = new Option().style;
@@ -253,11 +169,12 @@ const WarChoice = (props: WarChoiceProps) => {
 
 	if (props.moreOptions) {
 		return (
-			<OptionContainer
+			<div
+				className={styles.optionContainer}
 				ref={containerRef}
 				style={{ justifyContent: "center", maxWidth: `${100 / props.numberOfItems}%` }}
 			>
-				<TextDiv>
+				<div className={styles.textDiv}>
 					<div
 						style={{
 							display: "flex",
@@ -266,53 +183,32 @@ const WarChoice = (props: WarChoiceProps) => {
 							fontSize: 25,
 						}}
 					>
-						<OptionName text={"More online!"} />
+						<FitText className={styles.optionName} text="More online!" />
 					</div>
-				</TextDiv>
-			</OptionContainer>
+				</div>
+			</div>
 		);
 	}
 
 	const optionIsColour = isColour(props.option.name);
 
 	return (
-		<OptionContainer ref={containerRef} style={{ maxWidth: `${100 / props.numberOfItems}%` }}>
-			<ProgressContainer>
-				<CurrentAmount ref={totalRef}>${Math.floor(props.option.total).toLocaleString()}</CurrentAmount>
-				<ProgressBarContainer
+		<div className={styles.optionContainer} ref={containerRef} style={{ maxWidth: `${100 / props.numberOfItems}%` }}>
+			<div className={styles.progressContainer}>
+				<span className={styles.currentAmount} ref={totalRef}>${Math.floor(props.option.total).toLocaleString()}</span>
+				<div className={styles.progressBarContainer}
 					ref={progressBarRef}
 					style={{
 						background: optionIsColour ? props.option.name : undefined,
 					}}
 				/>
-			</ProgressContainer>
-			<TextDiv>
-				<OptionName text={props.option.name} />
-			</TextDiv>
-		</OptionContainer>
+			</div>
+			<div className={styles.textDiv}>
+				<FitText className={styles.optionName} text={props.option.name} />
+			</div>
+		</div>
 	);
 };
-
-const NoChoicesContainer = styled.div`
-	flex-grow: 1;
-	display: flex;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	/* font-weight: bold; */
-`;
-
-const NoChoiceHeading = styled.span`
-	text-transform: uppercase;
-	font-style: italic;
-	font-size: 60px;
-`;
-
-const NoChoiceSubheading = styled.span`
-	font-family: var(--secondary-font);
-	font-size: 35px;
-`;
 
 interface NoChoicesMadeProps {
 	ref: React.Ref<TickerItemHandles>;
@@ -332,9 +228,9 @@ const NoChoicesMade = (props: NoChoicesMadeProps) => {
 	}));
 
 	return (
-		<NoChoicesContainer ref={containerRef}>
-			<NoChoiceHeading>No names submitted</NoChoiceHeading>
-			<NoChoiceSubheading>Donate and write a name!</NoChoiceSubheading>
-		</NoChoicesContainer>
+		<div className={styles.noChoicesContainer} ref={containerRef}>
+			<span className={styles.noChoiceHeading}>No names submitted</span>
+			<span className={styles.noChoiceSubheading}>Donate and write a name!</span>
+		</div>
 	);
 };

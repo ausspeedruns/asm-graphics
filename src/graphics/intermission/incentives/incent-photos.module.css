@@ -1,0 +1,30 @@
+.photosContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	transform: translate(-100%, 0);
+	padding: 16px;
+	box-sizing: border-box;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+}
+
+.eventPhotos {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.eventPhoto {
+	height: 380px;
+	width: auto;
+	object-fit: contain;
+	margin: 0 -1px;
+}

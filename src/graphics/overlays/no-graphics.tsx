@@ -1,18 +1,10 @@
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Credits } from "../elements/credits";
 import { AcknowledgementOfCountry, NameLowerThird } from "../elements/name-lowerthird";
 import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic";
 // import { ASM26NightMode } from "../elements/asm26/asm26-night-mode";
-
-const NoGraphicsContainer = styled.div`
-	height: 1016px;
-	width: 1920px;
-	max-height: 1016px;
-	max-width: 1920px;
-	position: relative;
-	overflow: hidden;
-`;
+import styles from "./no-graphics.module.css";
 
 interface Props {
 	className?: string;
@@ -22,7 +14,7 @@ interface Props {
 export const NoGraphics = (props: Props) => {
 	const [creditsNameRep] = useReplicant("lowerThirdPerson");
 	return (
-		<NoGraphicsContainer className={props.className} style={props.style}>
+		<div className={clsx(styles.noGraphicsContainer, props.className)} style={props.style}>
 			<Credits />
 			<div
 				style={{
@@ -76,6 +68,6 @@ export const NoGraphics = (props: Props) => {
 			>
 				<ASM26NightMode particlesId="leftNightMode" />
 			</div> */}
-		</NoGraphicsContainer>
+		</div>
 	);
 };

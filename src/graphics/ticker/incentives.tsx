@@ -1,5 +1,4 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
 
 import { TickerTitle } from "./title";
 
@@ -7,31 +6,7 @@ import type { Incentive } from "@asm-graphics/types/Incentives";
 import type { TickerItemHandles } from "../ticker";
 import { GoalBar } from "./goal";
 import { WarGame } from "./war";
-
-const TickerIncentivesContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 64px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	text-transform: uppercase;
-	color: var(--text-light);
-	font-size: 30px;
-	transform: translate(0, -64px);
-	overflow: hidden;
-	z-index: 2;
-	font-family: var(--secondary-font);
-`;
-
-const MultiIncentiveContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	position: relative;
-`;
+import styles from "./incentives.module.css";
 
 const NUMBER_TO_SHOW = 5;
 
@@ -96,9 +71,9 @@ export function TickerIncentives(props: Props) {
 	});
 
 	return (
-		<TickerIncentivesContainer ref={containerRef}>
+		<div className={styles.tickerIncentivesContainer} ref={containerRef}>
 			<TickerTitle>Incentives</TickerTitle>
-			<MultiIncentiveContainer>{incentiveElements}</MultiIncentiveContainer>
-		</TickerIncentivesContainer>
+			<div className={styles.multiIncentiveContainer}>{incentiveElements}</div>
+		</div>
 	);
 }

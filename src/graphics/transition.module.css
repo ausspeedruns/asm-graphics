@@ -1,3 +1,28 @@
+.transitionRoot {
+	width: 1920px;
+}
+
+.transitionDiv {
+	height: 1080px;
+	width: 1920px;
+	overflow: hidden;
+	border-right: 5px solid black;
+	border-bottom: 5px solid black;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	image-rendering: pixelated;
+	color: white;
+	font-family: "Noto Sans";
+}
+
+.transitionDiv > div {
+	position: absolute;
+}
+
 .container {
 	position: absolute;
 	top: 0;

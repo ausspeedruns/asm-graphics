@@ -1,0 +1,42 @@
+.socialsContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	transform: translate(-100%, 0);
+	padding: 16px;
+	box-sizing: border-box;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+}
+
+.socialBar {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	font-size: 40px;
+}
+
+.socialIcon {
+	height: 40px;
+	width: 40px;
+	object-fit: contain;
+}
+
+.socialGrid {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	gap: 32px;
+}
+
+.staggerContainer {
+	display: flex;
+	width: calc(100% - 48px);
+}

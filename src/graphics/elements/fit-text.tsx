@@ -2,13 +2,12 @@
 // Slightly modified by Ewan Lyon
 
 import { Fragment, useRef, useEffect, memo } from "react";
+import clsx from "clsx";
+import styles from "./fit-text.module.css";
 
-import styled from "@emotion/styled";
-
-export const Text = styled.div`
-	white-space: nowrap;
-	text-align: center;
-`;
+export function Text(props: React.ComponentProps<"div">) {
+	return <div {...props} className={clsx(styles.text, props.className)} />;
+}
 
 const renderTextWithLineBreaks = (text: string) => {
 	const lines = text.split("\\n");

@@ -1,41 +1,9 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
 
 import type NodeCG from "nodecg/types";
 
 import type { TickerItemHandles } from "../incentives";
-
-
-const PhotosContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	transform: translate(-100%, 0);
-	padding: 16px;
-	box-sizing: border-box;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 20px;
-`;
-
-const EventPhotos = styled.div`
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`;
-
-const EventPhoto = styled.img`
-	height: 380px;
-	width: auto;
-	object-fit: contain;
-	margin: 0 -1px;
-`;
+import styles from "./incent-photos.module.css";
 
 const NUMBER_OF_PHOTOS = 5;
 
@@ -68,12 +36,12 @@ export function Photos(props: IncentivePhotosProps) {
 	const randomPhotos = getRandomPhotos();
 
 	return (
-		<PhotosContainer ref={containerRef}>
-			<EventPhotos ref={photosRef}>
+		<div className={styles.photosContainer} ref={containerRef}>
+			<div className={styles.eventPhotos} ref={photosRef}>
 				{randomPhotos.map((photo, index) => (
-					<EventPhoto key={index} src={photo.url} />
+					<img className={styles.eventPhoto} key={index} src={photo.url} />
 				))}
-			</EventPhotos>
-		</PhotosContainer>
+			</div>
+		</div>
 	);
 }

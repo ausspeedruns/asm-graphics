@@ -1,0 +1,27 @@
+.threeDSContainer {
+	height: 1016px;
+	width: 1920px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.topBar {
+	height: 176px;
+	width: 100%;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+	position: relative;
+}
+
+.gameRow {
+	display: flex;
+	align-items: stretch;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	width: 520px;
+	border-right: 1px solid var(--sec);
+	z-index: -1;
+}

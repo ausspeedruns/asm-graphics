@@ -1,66 +1,9 @@
 import { Button, Slider } from "@mui/material";
 import { useEffect, useState } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import type { Headset } from "../../../shared/audio-data";
 import { Add, Remove } from "@mui/icons-material";
-
-const AudioFaderContainer = styled.div`
-	width: 94%;
-	/* width: 140px; */
-	height: 100px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	padding-left: 64px;
-`;
-
-const SliderContainer = styled.div`
-	display: flex;
-	align-items: center;
-`;
-
-const DBValue = styled.p`
-	text-align: center;
-	font-size: 30px;
-	margin: 0;
-	min-width: 100px;
-`;
-
-const FaderLabel = styled.div`
-	min-height: 2rem;
-	max-height: 2rem;
-	font-size: 30px;
-	margin: 0;
-	border-radius: 8px;
-	line-height: 2rem;
-	padding: 0 8px;
-`;
-
-const StyledSlider = styled(Slider)`
-	width: 85% !important;
-
-	& .MuiSlider-thumb {
-		height: 35px;
-		width: 20px;
-		border-radius: 5px;
-		background-color: #fff;
-		border: 2px solid black;
-	}
-
-	& .MuiSlider-rail {
-		border: 2px solid black;
-		border-radius: 0;
-		background: white;
-		height: 10px;
-		opacity: 1;
-	}
-
-	& .MuiSlider-track {
-		border: 2px solid black;
-		border-radius: 0;
-		height: 10px;
-	}
-`;
+import styles from "./audio-fader.module.css";
 
 interface Props {
 	className?: string;
@@ -85,22 +28,24 @@ export const AudioFader = (props: Props) => {
 	}, [props.value]);
 
 	return (
-		<AudioFaderContainer
-			className={props.className}
+		<div
+			className={clsx(styles.audioFaderContainer, props.className)}
 			style={{ opacity: props.fakeDisabled ? 0.4 : 1, ...props.style }}
 		>
 			{props.label && (
-				<FaderLabel
+				<div
+					className={styles.faderLabel}
 					style={{
 						fontStyle: props.label === "You" ? "italic" : "initial",
 						fontWeight: props.label === "You" ? "bold" : "initial",
 					}}
 				>
 					{props.label}
-				</FaderLabel>
+				</div>
 			)}
-			<SliderContainer>
-				<StyledSlider
+			<div className={styles.sliderContainer}>
+				<Slider
+					className={styles.styledSlider}
 					style={{ margin: "auto" }}
 					value={faderVal ?? 0}
 					onChange={(_, newVal) => {
@@ -140,8 +85,8 @@ export const AudioFader = (props: Props) => {
 				>
 					<Add />
 				</Button>
-				<DBValue>{((faderVal ?? 0) * 100).toFixed(0)}</DBValue>
-			</SliderContainer>
-		</AudioFaderContainer>
+				<p className={styles.dbValue}>{((faderVal ?? 0) * 100).toFixed(0)}</p>
+			</div>
+		</div>
 	);
 };

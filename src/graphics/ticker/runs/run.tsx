@@ -1,42 +1,5 @@
-import styled from "@emotion/styled";
 import type { RunData } from "@asm-graphics/types/RunData";
-
-const TickerItemContainer = styled.div`
-	height: 64px;
-	width: fit-content;
-	font-family: var(--main-font);
-	color: var(--text-light);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-grow: 1;
-	line-height: 1;
-`;
-
-const VerticalStack = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 0 12px;
-	height: 100%;
-`;
-
-const Title = styled.span`
-	font-size: 28px;
-	white-space: nowrap;
-	font-weight: 1000;
-	font-family: var(--secondary-font);
-	/* height: 60%; */
-	/* margin-bottom: -8px; */
-`;
-
-const Subtitle = styled.span`
-	font-size: 17px;
-	white-space: nowrap;
-	/* height: 40%; */
-	/* font-family: var(--secondary-font); */
-`;
+import styles from "./run.module.css";
 
 interface RunProps {
 	run: RunData;
@@ -61,14 +24,14 @@ export function Run(props: RunProps) {
 	}
 
 	return (
-		<TickerItemContainer>
-			<VerticalStack>
-				<Title>{props.run.game ?? ""}</Title>
-				<Subtitle>
+		<div className={styles.tickerItemContainer}>
+			<div className={styles.verticalStack}>
+				<span className={styles.title}>{props.run.game ?? ""}</span>
+				<span className={styles.subtitle}>
 					<b>{approximateTimeFormatter(timeUntilRun)}</b> – {playerNames}
-				</Subtitle>
-			</VerticalStack>
-		</TickerItemContainer>
+				</span>
+			</div>
+		</div>
 	);
 }
 

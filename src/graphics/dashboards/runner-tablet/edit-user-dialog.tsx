@@ -1,28 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import styled from "@emotion/styled";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Autocomplete, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { User } from "@asm-graphics/types/AusSpeedrunsWebsite";
 import { Headsets } from "../../../shared/audio-data";
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import styles from "./edit-user-dialog.module.css";
 
 const PRONOUN_OPTIONS = ["He/Him", "She/Her", "They/Them", "He/They", "She/They", "They/He", "They/She", "Any/All"];
-
-const HeadsetSelection = styled.div`
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 1rem;
-	margin-top: 0.5rem;
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-`;
-
-const HeadsetButton = styled.button`
-	min-height: 4rem;
-	border: 0;
-	border-radius: 8px;
-	font-size: 1.2rem;
-	width: 23%;
-`;
 
 interface Props {
 	className?: string;
@@ -157,12 +141,13 @@ export const EditUserDialog = (props: Props) => {
 				</div>
 				<div>
 					<span style={{ fontWeight: "bold", fontFamily: "sans-serif" }}>Headset / Microphone</span>
-					<HeadsetSelection>
+					<div className={styles.headsetSelection}>
 						{Headsets.map((headset) => {
 							if (headset.name === "Host") return <></>;
 
 							return (
-								<HeadsetButton
+								<button
+									className={styles.headsetButton}
 									key={headset.name}
 									style={{
 										backgroundColor: headset.colour,
@@ -176,10 +161,10 @@ export const EditUserDialog = (props: Props) => {
 									onClick={() => setMicrophone(headset.name)}
 								>
 									{headset.name}
-								</HeadsetButton>
+								</button>
 							);
 						})}
-					</HeadsetSelection>
+					</div>
 				</div>
 			</DialogContent>
 			<DialogActions style={{ justifyContent: "space-between" }}>

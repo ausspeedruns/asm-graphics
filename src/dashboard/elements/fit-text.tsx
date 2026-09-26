@@ -3,11 +3,11 @@
 
 import { useRef, useEffect, memo } from "react";
 
-import styled from "@emotion/styled";
+import styles from "./fit-text.module.css";
 
-export const Text = styled.div`
-	white-space: nowrap;
-`;
+export function Text(props: React.ComponentProps<"div">) {
+	return <div {...props} className={styles.text} />;
+}
 
 interface Props {
 	text: string;

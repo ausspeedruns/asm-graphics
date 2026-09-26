@@ -1,0 +1,9 @@
+.gridItem {
+	padding: 16px;
+	border: 1px solid #ffffff70;
+	border-radius: 8px;
+}
+
+.gridItem h3 {
+	margin-top: 0;
+}

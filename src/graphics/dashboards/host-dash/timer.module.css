@@ -1,0 +1,38 @@
+.timerContainer {
+	padding: 8px;
+	font-family: Noto Sans, sans-serif;
+}
+
+.currentTime {
+	width: 100%;
+	background: #eee;
+	padding: 8px 0;
+	font-size: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.mainButtons {
+	margin: 8px 0;
+	width: 100%;
+	display: flex;
+	gap: 4px;
+}
+
+.teamTimerContainer {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+	font-size: 1.2rem;
+}
+
+.names {
+	margin-left: 8px;
+}
+
+.endTime {
+	font-weight: bold;
+	font-size: 1.5rem;
+	margin-left: 16px;
+}

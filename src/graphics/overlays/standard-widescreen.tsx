@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { SponsorsBox } from "../elements/sponsors";
@@ -11,40 +9,7 @@ import { getTeams } from "../elements/team-data";
 
 import { VerticalTimerBottomInfo } from "../elements/info-box/vertical-timer-bottom";
 import { Container } from "../elements/container";
-
-const StandardWidescreenContainer = styled.div`
-	height: 1016px;
-	width: 1920px;
-	position: relative;
-`;
-
-const Topbar = styled.div`
-	display: flex;
-	position: absolute;
-	height: 400px;
-	width: 100%;
-	overflow: hidden;
-`;
-
-const LeftBox = styled(Container)`
-	width: 524px;
-	height: 100%;
-	display: flex;
-	position: relative;
-	box-sizing: border-box;
-`;
-
-const RightBox = styled(Container)`
-	width: 796px;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	/* background: var(--main); */
-	position: relative;
-	z-index: 2;
-	font-size: 28px;
-`;
+import styles from "./standard-widescreen.module.css";
 
 const SponsorSize = {
 	height: 230,
@@ -52,40 +17,22 @@ const SponsorSize = {
 	// marginRight: -40,
 };
 
-const CentralDivider = styled.div`
-	height: 618px;
-	width: 1px;
-	position: absolute;
-	bottom: 0;
-	left: 823px;
-	background: var(--sec);
-`;
-
-const WholeGraphicClip = styled.div`
-	position: absolute;
-	width: 1920px;
-	height: 1016px;
-	clip-path: path("M 0 0 H 666 V 295 H 0 Z M 1920 0 H 1254 V 295 H 1921 Z ");
-	// background: var(--main);
-	z-index: 1;
-`;
-
 export const StandardWidescreen = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
 	return (
-		<StandardWidescreenContainer>
-			<WholeGraphicClip>
+		<div className={styles.standardWidescreenContainer}>
+			<div className={styles.wholeGraphicClip}>
 				{" "}
 				{/* NOTE OUT OF DATE SINCE THIS IS FOR STANDARD 2 */}
 				{/* <img
 					style={{ position: "absolute", width: "100%" }}
 					src={Standard2p}
 				/> */}
-			</WholeGraphicClip>
-			<Topbar>
-				<LeftBox>
+			</div>
+			<div className={styles.topbar}>
+				<Container className={styles.leftBox}>
 					<div
 						style={{
 							display: "flex",
@@ -109,7 +56,7 @@ export const StandardWidescreen = (props: OverlayProps) => {
 							align="center"
 						/>
 					</div>
-				</LeftBox>
+				</Container>
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[0]}
@@ -147,11 +94,11 @@ export const StandardWidescreen = (props: OverlayProps) => {
 				<RaceFinish style={{ top: 407, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place ?? -1} />
 				<RaceFinish style={{ top: 407, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place ?? -1} />
 
-				<RightBox>
+				<Container className={styles.rightBox}>
 					<VerticalTimerBottomInfo timer={props.timer} runData={props.runData} />
-				</RightBox>
-			</Topbar>
-			<CentralDivider />
-		</StandardWidescreenContainer>
+				</Container>
+			</div>
+			<div className={styles.centralDivider} />
+		</div>
 	);
 };

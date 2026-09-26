@@ -1,21 +1,4 @@
-import styled from "@emotion/styled";
-
-const HeaderContainer = styled.div`
-	height: 100%;
-	font-weight: bold;
-	font-size: 16px;
-	width: 100%;
-	background: var(--panel-background);
-	color: var(--text-color);
-
-	transition: background 0.25s;
-
-	display: flex;
-	padding-left: 32px;
-	border-radius: 0px;
-
-	align-items: center;
-`;
+import styles from "./header.module.css";
 
 interface Props {
 	text: string;
@@ -27,8 +10,8 @@ interface Props {
 
 export function Header(props: Props) {
 	return (
-		<HeaderContainer style={props.style} onClick={props.onClick} draggable={props.draggable}>
+		<div className={styles.headerContainer} style={props.style} onClick={props.onClick} draggable={props.draggable}>
 			<h3>{props.text}</h3>
-		</HeaderContainer>
+		</div>
 	);
 }

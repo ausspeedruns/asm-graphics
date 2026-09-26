@@ -1,25 +1,12 @@
 import { useEffect, useState, useMemo, type CSSProperties } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./dashboards/runner-tablet/audio-fader";
 import { Headsets, HostHeadset } from "../shared/audio-data";
 
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
-
-const MixingContainer = styled.div`
-	font-family:
-		Noto Sans,
-		sans-serif;
-	width: 100%;
-	margin: auto;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-`;
-
-const Heading = styled.h1``;
+import styles from "./host-dashboard-audio.module.css";
 
 interface HostDashAudioProps {
 	style?: CSSProperties;
@@ -78,8 +65,8 @@ export function HostDashAudio(props: HostDashAudioProps) {
 	};
 
 	return (
-		<MixingContainer {...props}>
-			<Heading>Headphone Volume</Heading>
+		<div className={styles.mixingContainer} {...props}>
+			<h1>Headphone Volume</h1>
 			<AudioFader
 				key={"MASTER"}
 				label={"MASTER"}
@@ -89,7 +76,7 @@ export function HostDashAudio(props: HostDashAudioProps) {
 				onChange={(float) => handleFaderChange(float, HostHeadset.mixBus, 0)}
 				colour={"#000"}
 			/>
-			<Heading>Games</Heading>
+			<h1>Games</h1>
 			{[...Array(numberOfRunners).keys()].map((number) => {
 				return (
 					<AudioFader
@@ -103,7 +90,7 @@ export function HostDashAudio(props: HostDashAudioProps) {
 					/>
 				);
 			})}
-			<Heading>Runners</Heading>
+			<h1>Runners</h1>
 			{Headsets.map((headset) => {
 				return (
 					<AudioFader
@@ -117,7 +104,7 @@ export function HostDashAudio(props: HostDashAudioProps) {
 					/>
 				);
 			})}
-		</MixingContainer>
+		</div>
 	);
 }
 

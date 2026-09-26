@@ -1,0 +1,8 @@
+.noGraphicsContainer {
+	height: 1016px;
+	width: 1920px;
+	max-height: 1016px;
+	max-width: 1920px;
+	position: relative;
+	overflow: hidden;
+}

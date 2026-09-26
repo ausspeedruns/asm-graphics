@@ -1,0 +1,29 @@
+.containerBox {
+	background-color: #1e1e1e;
+	border: 1px solid #333;
+	border-radius: 8px;
+	padding: 20px;
+	min-width: 300px;
+	min-height: 120px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.containerTitle {
+	margin-top: 0;
+	margin-bottom: 15px;
+	font-size: 0.9rem;
+	color: #888;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.itemList {
+	display: flex;
+	flex-direction: row;
+	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}

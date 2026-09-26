@@ -1,32 +1,21 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import styled from "@emotion/styled";
+import clsx from "clsx";
+import styles from "./sortable-item.module.css";
 
-export const SquareItem = styled.div<{ isDragging?: boolean }>`
-  width: 80px;
-  height: 80px;
-  background-color: #2c2c2c;
-  border: 1px solid #444;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: grab;
-  user-select: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  opacity: ${(props) => (props.isDragging ? 0.4 : 1)};
-  box-shadow: ${(props) => (props.isDragging ? "0 8px 20px rgba(0,0,0,0.6)" : "0 2px 4px rgba(0,0,0,0.2)")};
-  
-  &:hover {
-    border-color: #666;
-    background-color: #333;
-  }
+interface SquareItemProps extends React.ComponentProps<"div"> {
+	isDragging?: boolean;
+}
 
-  &:active {
-    cursor: grabbing;
-  }
-`;
+export function SquareItem({ isDragging, className, ...props }: SquareItemProps) {
+	return (
+		<div
+			{...props}
+			className={clsx(styles.squareItem, isDragging && styles.dragging, className)}
+		/>
+	);
+}
 
 interface SortableItemProps {
 	id: string;

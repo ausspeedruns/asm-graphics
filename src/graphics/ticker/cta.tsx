@@ -1,38 +1,7 @@
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
-import styled from "@emotion/styled";
 
 import type { TickerItemHandles } from "../ticker";
-
-const TickerCTAContainer = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	text-transform: uppercase;
-	color: var(--text-light);
-	font-size: 27px;
-	z-index: 2;
-	font-family: var(--main-font);
-`;
-
-const CTALine = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	/* margin-top: -8px; */
-`;
-
-const EmphasisFont = styled.span`
-	/* font-family: var(--main-font); */
-	font-family: var(--secondary-font);
-	font-weight: bold;
-`;
+import styles from "./cta.module.css";
 
 interface CTAProps {
 	currentTotal?: number;
@@ -95,18 +64,18 @@ export function TickerCTA(props: CTAProps) {
 	}));
 
 	return (
-		<TickerCTAContainer ref={containerRef}>
-			<CTALine ref={donateRef} style={{ fontSize: 37 }}>
+		<div className={styles.tickerCtaContainer} ref={containerRef}>
+			<div className={styles.ctaLine} ref={donateRef} style={{ fontSize: 37 }}>
 				<span>Donate at&nbsp;</span>
-				<EmphasisFont>ausspeedruns.com</EmphasisFont>
-			</CTALine>
-			<CTALine ref={incentiveRef}>
+				<span className={styles.emphasisFont}>ausspeedruns.com</span>
+			</div>
+			<div className={styles.ctaLine} ref={incentiveRef}>
 				<span>Check out incentives at&nbsp;</span>
-				<EmphasisFont>ausspeedruns.com/incentives</EmphasisFont>
-			</CTALine>
+				<span className={styles.emphasisFont}>ausspeedruns.com/incentives</span>
+			</div>
 			{/* <CTALine ref={factRef} style={{ transform: "translate(100%, 0)" }}>
 				<span dangerouslySetInnerHTML={{ __html: fact }}></span>
 			</CTALine> */}
-		</TickerCTAContainer>
+		</div>
 	);
 }

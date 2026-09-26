@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { SmallInfo } from "../elements/info-box/small";
@@ -14,86 +12,25 @@ import { getTeams } from "../elements/team-data";
 import WidescreenWhole from "./backgrounds/Widescreen2p.png";
 import { Container } from "../elements/container";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const Widescreen2Container = styled.div`
-	height: 1016px;
-	width: 1920px;
-	display: flex;
-	flex-direction: column;
-	position: relative;
-`;
-
-const WholeGraphicClip = styled.div`
-	position: absolute;
-	width: 1920px;
-	height: 1016px;
-	clip-path: path("M 1920 0 H 1254 V 341 H 1920 Z M 666 0 H 0 V 341 H 666 V 0 M 1920 882 H 0 V 1016 H 1920 Z");
-	z-index: 1;
-`;
-
-const Topbar = styled.div`
-	display: flex;
-	height: 341px;
-	width: 100%;
-	overflow: hidden;
-	border-bottom: 1px solid var(--sec);
-`;
-
-const LeftBox = styled(Container)`
-	position: relative;
-	flex: 1;
-	height: 100%;
-	display: flex;
-	font-size: 30px;
-`;
-
-const RightBox = styled(Container)`
-	position: relative;
-	flex: 1;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
+import styles from "./widescreen-2.module.css";
 
 const SponsorSize = {
 	height: 230,
 	width: 540,
 };
 
-const ScreenContainer = styled.div`
-	display: flex;
-	align-items: stretch;
-`;
-
-const CentralDivider = styled.div`
-	width: 2px;
-	background: var(--sec);
-`;
-
-const BottomBlock = styled(Container)`
-	width: 100%;
-	border-top: 1px solid var(--sec);
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	flex: 1;
-`;
-
 export const Widescreen2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
 
 	return (
-		<Widescreen2Container>
-			<WholeGraphicClip>
+		<div className={styles.widescreen2Container}>
+			<div className={styles.wholeGraphicClip}>
 				{/* <img src={WidescreenWhole} style={{ position: "absolute", height: "100%", width: "100%" }} /> */}
-			</WholeGraphicClip>
-			<Topbar>
-				<LeftBox>
+			</div>
+			<div className={styles.topbar}>
+				<Container className={styles.leftBox}>
 					<SmallInfo timer={props.timer} runData={props.runData} />
-				</LeftBox>
+				</Container>
 
 				{/* TODO: Figure out a better way to link Audio Indicator to person. */}
 				<AudioIndicator
@@ -135,27 +72,27 @@ export const Widescreen2 = (props: OverlayProps) => {
 					place={teamData[1]?.place ?? -1}
 				/>
 
-				<RightBox>
+				<Container className={styles.rightBox}>
 					<SponsorsBox
 						style={{ flexGrow: 1, zIndex: 2 }}
 						sponsors={props.sponsors}
 						width={SponsorSize.width}
 						height={SponsorSize.height}
 					/>
-				</RightBox>
-			</Topbar>
-			<ScreenContainer>
+				</Container>
+			</div>
+			<div className={styles.screenContainer}>
 				<GameplayCapture aspectRatio="16:9" grow />
-				<CentralDivider />
+				<div className={styles.centralDivider} />
 				<GameplayCapture aspectRatio="16:9" grow />
-			</ScreenContainer>
-			<BottomBlock>
+			</div>
+			<Container className={styles.bottomBlock}>
 				<Couch
 					commentators={props.commentators}
 					audio={props.microphoneAudioIndicator}
 					showHost={props.showHost}
 				/>
-			</BottomBlock>
+			</Container>
 
 			{/* <svg id="widescreen2Clip">
 				<defs>
@@ -164,6 +101,6 @@ export const Widescreen2 = (props: OverlayProps) => {
 					</clipPath>
 				</defs>
 			</svg> */}
-		</Widescreen2Container>
+		</div>
 	);
 };

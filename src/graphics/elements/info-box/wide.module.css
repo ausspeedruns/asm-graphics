@@ -1,0 +1,52 @@
+.wideInfoContainer {
+	position: absolute;
+	height: 100%;
+	width: 1920px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	box-sizing: border-box;
+	overflow: hidden;
+	z-index: 2;
+	padding: 40px;
+	font-size: 34px;
+}
+
+.wideInfoContainer #subInfoStack,
+.wideInfoContainer #category {
+	font-weight: 600;
+}
+
+.wideInfoContainer #gameTitle {
+	font-size: 200%;
+	max-width: 100%;
+	line-height: 0.75;
+}
+
+.wideInfoContainer :global(#timer) {
+	font-size: 350%;
+}
+
+.verticalStack {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.horizontalStack {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 100%;
+}
+
+.gameInfo {
+	min-width: 600px;
+}
+
+.middleGameInfo {
+	min-width: 400px;
+}

@@ -1,81 +1,10 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
 
 import type { Goal } from "@asm-graphics/types/Incentives";
 import type { TickerItemHandles } from "../incentives";
 
 import { FitText } from "../../elements/fit-text";
-
-const GoalBarContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	color: var(--text-light);
-`;
-
-const GoalDiv = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: flex-end;
-	font-weight: bold;
-	font-size: 37px;
-`;
-
-const IncentiveName = styled(FitText)`
-	font-weight: bold;
-	max-width: 100%;
-`;
-
-const BottomBar = styled.div`
-	display: flex;
-	justify-content: space-between;
-	flex-direction: row-reverse;
-	align-items: center;
-	width: 100%;
-	box-sizing: border-box;
-	flex-grow: 1;
-	gap: 16px;
-`;
-
-// Determines full size
-const ProgressContainer = styled.div`
-	flex-grow: 1;
-	height: 100%;
-	width: 100%;
-	border: 2px solid var(--text-light);
-	background: transparent;
-	position: relative;
-	overflow: hidden;
-	box-sizing: border-box;
-	display: flex;
-	align-items: flex-end;
-	justify-content: flex-end;
-	border-radius: 16px;
-`;
-
-const ProgressBarContainer = styled.div`
-	height: 100%;
-	background: var(--text-light);
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	position: absolute;
-	left: 0;
-`;
-
-const CurrentAmount = styled.span`
-	color: var(--text-dark);
-	font-size: 30px;
-	font-weight: bold;
-	margin-right: 16px;
-`;
+import styles from "./incent-goal.module.css";
 
 interface GoalProps {
 	goal: Goal;
@@ -118,19 +47,19 @@ export const GoalBar = (props: GoalProps) => {
 	}
 
 	return (
-		<GoalBarContainer ref={containerRef}>
-			<BottomBar>
-				<GoalDiv>
-					<IncentiveName text={`$${props.goal.goal}`}></IncentiveName>
-				</GoalDiv>
-				<ProgressContainer>
-					<ProgressBarContainer ref={progressBarRef}>
-						<CurrentAmount style={textOutside}>
+		<div className={styles.goalBarContainer} ref={containerRef}>
+			<div className={styles.bottomBar}>
+				<div className={styles.goalDiv}>
+					<FitText className={styles.incentiveName} text={`$${props.goal.goal}`} />
+				</div>
+				<div className={styles.progressContainer}>
+					<div className={styles.progressBarContainer} ref={progressBarRef}>
+						<span className={styles.currentAmount} style={textOutside}>
 							${Math.floor(props.goal.total).toLocaleString()}
-						</CurrentAmount>
-					</ProgressBarContainer>
-				</ProgressContainer>
-			</BottomBar>
-		</GoalBarContainer>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 };

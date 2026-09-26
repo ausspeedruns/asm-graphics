@@ -1,0 +1,147 @@
+.dashContainer {
+	min-width: 100vw;
+	min-height: 100vh;
+	padding-top: 72px;
+	font-family: Noto Sans, sans-serif;
+	display: grid;
+	background: var(--background-color);
+	color: var(--text-color);
+	box-sizing: border-box;
+	transition:
+		background 0.25s,
+		color 0.25s,
+		--background-color 0.25s,
+		--text-color 0.25s,
+		--top-bar-background 0.25s,
+		--mosaic-background 0.25s,
+		--panel-background 0.25s,
+		--inset-background 0.25s;
+}
+
+.darkMode {
+	color-scheme: dark;
+}
+
+.lightMode {
+	color-scheme: light;
+}
+
+.dashContainer * {
+	box-sizing: border-box;
+}
+
+.dashContainer :global(.mosaic) {
+	background-color: var(--mosaic-background);
+	transition: background-color 0.25s;
+}
+
+.dashContainer :global(.mosaic-window) {
+	border: 1px solid var(--orange);
+	border-radius: 8px;
+}
+
+.dashContainer :global(.mosaic-window-body) {
+	background-color: var(--panel-background);
+	transition: background-color 0.25s;
+}
+
+.dashContainer :global(.mosaic-window-toolbar) {
+	box-shadow: none;
+	border-radius: 0;
+	height: 45px;
+}
+
+.topBar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: var(--top-bar-background);
+	width: 100%;
+	height: 72px;
+	padding: 8px 24px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.topBar p,
+.topBar h2 {
+	color: white;
+	line-height: 72px;
+	margin: 0;
+	padding: 0;
+}
+
+.topBar p {
+	font-size: 20px;
+}
+
+.topBar h2 {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.topBar h2 .pronouns {
+	font-size: 50%;
+}
+
+.topBar button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	font-weight: bold;
+	font-size: 16px;
+	min-width: 0;
+	padding: 8px;
+	color: white;
+	background: var(--accent-color);
+	border: 2px solid white;
+	border-radius: 6px;
+}
+
+.topBar button:hover {
+	background: white;
+	border: 2px solid var(--accent-color);
+	color: var(--accent-color);
+}
+
+.spacer {
+	flex-grow: 1;
+}
+
+.adProgressBarContainer {
+	width: 100%;
+	height: 20px;
+	position: absolute;
+	top: 72px;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	background-color: var(--ad-progress-bg);
+	z-index: 10;
+}
+
+.adProgressBar {
+	width: 100%;
+	background-color: var(--ad-progress-fill);
+	animation: progressBarAnimation 15s linear;
+}
+
+.adProgressBarLabel {
+	position: absolute;
+	text-align: center;
+	white-space: nowrap;
+	font-weight: bold;
+	color: white;
+}
+
+@keyframes progressBarAnimation {
+	0% {
+		width: 100%;
+	}
+	100% {
+		width: 0%;
+	}
+}

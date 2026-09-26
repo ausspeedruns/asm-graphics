@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import type { AudioIndicator } from "@asm-graphics/types/Audio";
 
 import type { RunDataTeam } from "@asm-graphics/types/RunData";
@@ -11,21 +11,9 @@ import { runnerCustomDataSchema } from "../../shared/types/custom-data";
 import DiscordLogo from "../media/icons/discord.svg";
 import TwitterLogo from "../media/icons/twitter.svg";
 import YouTubeLogo from "../media/icons/youtube.svg";
+import styles from "./facecam.module.css";
 
 const nodecgConfig = nodecg.bundleConfig;
-
-const FacecamContainer = styled.div`
-	position: relative;
-	height: 100%;
-	width: 100%;
-`;
-
-const RunnerArea = styled.div`
-	display: flex;
-	width: 100%;
-	position: absolute;
-	bottom: 0;
-`;
 
 interface FacecamProps {
 	teams: RunDataTeam[] | undefined;
@@ -45,12 +33,6 @@ interface FacecamProps {
 
 const NAMEPLATE_HEIGHT = 41;
 const NAMEPLATE_HEIGHT_VERTICAL = 69;
-
-const RunnerNameDivider = styled.div`
-	background: var(--sec);
-	min-width: 2px;
-	height: ${NAMEPLATE_HEIGHT}px;
-`;
 
 export const Facecam = (props: FacecamProps) => {
 	const allRunnerNames: ReactNode[] = [];
@@ -135,7 +117,7 @@ export const Facecam = (props: FacecamProps) => {
 							speaking={correctMic ? props.audioIndicator?.[correctMic] : undefined}
 						/>,
 					);
-					allRunnerNames.push(<RunnerNameDivider key={id + "-divider"} />);
+					allRunnerNames.push(<div className={styles.runnerNameDivider} key={id + "-divider"} />);
 				});
 			}
 		});
@@ -168,7 +150,7 @@ export const Facecam = (props: FacecamProps) => {
 					}
 				/>,
 			);
-			allRunnerNames.push(<RunnerNameDivider key={team.relayPlayerID + "-divider"} />);
+			allRunnerNames.push(<div className={styles.runnerNameDivider} key={team.relayPlayerID + "-divider"} />);
 		} else {
 			// Single Player/Coop, display each player's name
 			team.players.forEach((player, i) => {
@@ -198,7 +180,9 @@ export const Facecam = (props: FacecamProps) => {
 						style={{ height: height }}
 					/>,
 				);
-				allRunnerNames.push(<RunnerNameDivider key={player.id + "-divider"} style={{ height: height }} />);
+				allRunnerNames.push(
+					<div className={styles.runnerNameDivider} key={player.id + "-divider"} style={{ height }} />,
+				);
 			});
 		}
 
@@ -206,7 +190,8 @@ export const Facecam = (props: FacecamProps) => {
 	}
 
 	return (
-		<FacecamContainer
+		<div
+			className={clsx(styles.facecamContainer, props.className)}
 			style={Object.assign(
 				{
 					minHeight: props.height,
@@ -215,79 +200,31 @@ export const Facecam = (props: FacecamProps) => {
 				},
 				props.style,
 			)}
-			className={props.className}
 		>
 			{props.noCam && <NoCam />}
-			<RunnerArea>{allRunnerNames}</RunnerArea>
-		</FacecamContainer>
+			<div className={styles.runnerArea}>{allRunnerNames}</div>
+		</div>
 	);
 };
 
-const NoCamContainer = styled.div`
-	height: 100%;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	position: relative;
-	font-family: var(--main-font);
-
-	& canvas {
-		width: 100%;
-		height: 100%;
-	}
-`;
-
-const SocialMedia = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
-	padding-bottom: 41px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-
-	& > div {
-		margin: 5px 0;
-	}
-`;
-
-const SocialMediaItem = styled.div`
-	display: flex;
-	align-items: center;
-
-	& > img {
-		height: 40px;
-		margin: 0 5px;
-	}
-`;
-
-const SocialMediaLabel = styled.span`
-	color: #f2dab2;
-	font-size: 30px;
-	margin: 0 5px;
-`;
-
 export function NoCam() {
 	return (
-		<NoCamContainer>
-			<SocialMedia>
-				<SocialMediaItem>
+		<div className={styles.noCamContainer}>
+			<div className={styles.socialMedia}>
+				<div className={styles.socialMediaItem}>
 					<img src={TwitterLogo} />
-					<SocialMediaLabel>@ AusSpeedruns</SocialMediaLabel>
-				</SocialMediaItem>
-				<SocialMediaItem>
+					<span className={styles.socialMediaLabel}>@ AusSpeedruns</span>
+				</div>
+				<div className={styles.socialMediaItem}>
 					<img src={YouTubeLogo} />
-					<SocialMediaLabel>Australian Speedruns</SocialMediaLabel>
-				</SocialMediaItem>
-				<SocialMediaItem>
+					<span className={styles.socialMediaLabel}>Australian Speedruns</span>
+				</div>
+				<div className={styles.socialMediaItem}>
 					<img src={DiscordLogo} />
-					<SocialMediaLabel>discord.ausspeedruns.com</SocialMediaLabel>
-				</SocialMediaItem>
-				<SocialMediaLabel
+					<span className={styles.socialMediaLabel}>discord.ausspeedruns.com</span>
+				</div>
+				<span
+					className={styles.socialMediaLabel}
 					style={{
 						fontSize: 30,
 						fontWeight: "bold",
@@ -295,8 +232,8 @@ export function NoCam() {
 					}}
 				>
 					{nodecgConfig.graphql?.event ?? "AusSpeedruns"}
-				</SocialMediaLabel>
-			</SocialMedia>
-		</NoCamContainer>
+				</span>
+			</div>
+		</div>
 	);
 }

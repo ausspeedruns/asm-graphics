@@ -1,0 +1,18 @@
+.currentTimeArea {
+	height: 100%;
+	width: fit-content;
+	background: var(--time-colour);
+	color: var(--text-light);
+	font-weight: bold;
+	padding: 0 16px;
+	text-transform: uppercase;
+	font-size: 22px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+	line-height: 20px;
+	font-family: var(--mono-font);
+}

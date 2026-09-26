@@ -216,16 +216,6 @@
 				"height": 1080
 			},
 			{
-				"file": "custom-overlay.html",
-				"width": 1920,
-				"height": 1080
-			},
-			{
-				"file": "overlay-editor.html",
-				"width": 0,
-				"height": 0
-			},
-			{
 				"file": "ticker-testing.html",
 				"width": 0,
 				"height": 0

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styled from "@emotion/styled";
 import { Close } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { IconButton, Snackbar, Tab } from "@mui/material";
@@ -10,21 +9,7 @@ import { Donations } from "./donations";
 import { ManualDonations } from "./manual-donations";
 
 import type { Donation } from "@asm-graphics/types/Donations";
-
-const Container = styled.div`
-	width: 100%;
-	height: 100%;
-`;
-
-const Heading = styled.div`
-	background: var(--inset-background);
-	margin: 0;
-	padding: 8px;
-	font-size: 20px;
-	font-weight: bold;
-	text-align: center;
-	border-radius: 4px;
-`;
+import styles from "./donation-tabs.module.css";
 
 const HostDashTab = muiStyled(Tab)({
 	fontWeight: "bold",
@@ -58,7 +43,7 @@ export const DonationTabs = () => {
 	};
 
 	return (
-		<Container>
+		<div className={styles.container}>
 			<TabContext value={page}>
 				<HostDashTabList
 					slotProps={{ indicator: { style: { display: "none" } } }}
@@ -71,14 +56,14 @@ export const DonationTabs = () => {
 				</HostDashTabList>
 
 				<TabPanel value="donations" sx={{ height: "100%", padding: 0 }}>
-					<Heading style={{ cursor: "pointer" }} onClick={copyDonateCommand}>
+					<div className={styles.heading} style={{ cursor: "pointer" }} onClick={copyDonateCommand}>
 						{(donationsRep ?? []).length} Donations
-					</Heading>
+					</div>
 					<Donations />
 				</TabPanel>
 
 				<TabPanel value="manual" sx={{ height: "100%", padding: 0 }}>
-					<Heading>Manual Donations ${(manualDonationRep ?? 0).toLocaleString()}</Heading>
+					<div className={styles.heading}>Manual Donations ${(manualDonationRep ?? 0).toLocaleString()}</div>
 					<ManualDonations />
 				</TabPanel>
 			</TabContext>
@@ -98,6 +83,6 @@ export const DonationTabs = () => {
 					</IconButton>
 				}
 			/>
-		</Container>
+		</div>
 	);
 };

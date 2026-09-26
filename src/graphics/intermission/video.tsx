@@ -1,39 +1,9 @@
 import { useImperativeHandle, useRef, useState } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import gsap from "gsap";
 
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-
-const IntermissionAdsContainer = styled.div`
-	width: 100%;
-	opacity: 0;
-	/* background: linear-gradient(90deg, #7f6314 0%, #000000 33.33%, #000000 66.67%, #7f6314 100%); */
-	/* border-top: 1px solid var(--sec);
-	border-bottom: 1px solid var(--sec); */
-	height: 100%;
-	position: absolute;
-	top: 0;
-	background: black;
-	border-radius: 32px;
-`;
-
-const VideoBox = styled.div`
-	margin: auto;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-top: 37px;
-	width: 900px;
-	height: 623px;
-	/* background: red; */
-`;
-
-const Video = styled.video`
-	width: 100%;
-	height: auto;
-	z-index: 2;
-	opacity: 0;
-`;
+import styles from "./video.module.css";
 
 interface Props {
 	className?: string;
@@ -116,11 +86,11 @@ export function IntermissionVideoComponent(props: Props) {
 	}));
 
 	return (
-		<IntermissionAdsContainer className={props.className} style={props.style} ref={containerRef}>
+		<div className={clsx(styles.intermissionAdsContainer, props.className)} style={props.style} ref={containerRef}>
 			{/* <EntryExitVids ref={entryRef} src={adEntry} muted /> */}
-			<VideoBox>
-				<Video ref={videoRef} />
-			</VideoBox>
+			<div className={styles.videoBox}>
+				<video className={styles.video} ref={videoRef} />
+			</div>
 			{/* <EntryExitVids ref={exitRef} src={adExit} muted /> */}
 			{/* <div
 				ref={textRef}
@@ -137,6 +107,6 @@ export function IntermissionVideoComponent(props: Props) {
 				}}>
 				Game On Cancer
 			</div> */}
-		</IntermissionAdsContainer>
+		</div>
 	);
 }

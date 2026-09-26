@@ -1,5 +1,4 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
 
 import type { TickerItemHandles } from "../incentives";
 
@@ -8,39 +7,7 @@ import YouTubeIcon from "../../media/icons/youtube.svg";
 import DiscordIcon from "../../media/icons/discord.svg";
 import TwitterIcon from "../../media/icons/twitter.svg";
 import TwitchIcon from "../../media/icons/TwitchWhite.svg";
-
-const SocialsContainer = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	transform: translate(-100%, 0);
-	padding: 16px;
-	box-sizing: border-box;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 20px;
-`;
-
-const SocialBar = styled.div`
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	/* font-family: var(--secondary-font); */
-	gap: 16px;
-	font-size: 40px;
-`;
-
-const SocialIcon = styled.img`
-	height: 40px;
-	width: 40px;
-	object-fit: contain;
-`;
+import styles from "./incent-socials.module.css";
 
 const TRANSITION_SPEED = 2;
 const ITEM_HOLD_DURATION = 10;
@@ -66,18 +33,18 @@ export function Socials(props: SocialsProps) {
 	}));
 
 	return (
-		<SocialsContainer ref={containerRef}>
+		<div className={styles.socialsContainer} ref={containerRef}>
 			<Stagger
 				ref={(el) => {
 					staggerElements.current[0] = el!;
 				}}
 				index={0}
 			>
-				<div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 32 }}>
-					<SocialBar>
-						<SocialIcon src={WebsiteIcon} />
+				<div className={styles.socialGrid}>
+					<div className={styles.socialBar}>
+						<img className={styles.socialIcon} src={WebsiteIcon} />
 						AusSpeedruns.com
-					</SocialBar>
+					</div>
 				</div>
 			</Stagger>
 			<Stagger
@@ -86,13 +53,13 @@ export function Socials(props: SocialsProps) {
 				}}
 				index={2}
 			>
-				<div style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: 32 }}>
-					<SocialBar>
-						<SocialIcon src={TwitchIcon} /> @AusSpeedruns
-					</SocialBar>
-					<SocialBar>
-						<SocialIcon src={YouTubeIcon} /> @AusSpeedruns
-					</SocialBar>
+				<div className={styles.socialGrid}>
+					<div className={styles.socialBar}>
+						<img className={styles.socialIcon} src={TwitchIcon} /> @AusSpeedruns
+					</div>
+					<div className={styles.socialBar}>
+						<img className={styles.socialIcon} src={YouTubeIcon} /> @AusSpeedruns
+					</div>
 				</div>
 			</Stagger>
 			<Stagger
@@ -101,18 +68,13 @@ export function Socials(props: SocialsProps) {
 				}}
 				index={4}
 			>
-				<SocialBar>
-					<SocialIcon src={DiscordIcon} /> AusSpeedruns.com/Discord
-				</SocialBar>
+				<div className={styles.socialBar}>
+					<img className={styles.socialIcon} src={DiscordIcon} /> AusSpeedruns.com/Discord
+				</div>
 			</Stagger>
-		</SocialsContainer>
+		</div>
 	);
 }
-
-const StaggerContainer = styled.div`
-	display: flex;
-	width: calc(100% - 48px);
-`;
 
 interface PrizeProps {
 	children?: React.ReactNode;
@@ -141,5 +103,9 @@ function Stagger(props: PrizeProps) {
 		},
 	}));
 
-	return <StaggerContainer ref={containerRef}>{props.children}</StaggerContainer>;
+	return (
+		<div className={styles.staggerContainer} ref={containerRef}>
+			{props.children}
+		</div>
+	);
 }

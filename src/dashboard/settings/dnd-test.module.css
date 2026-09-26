@@ -1,0 +1,83 @@
+.pageWrapper {
+	background-color: #121212;
+	color: #ffffff;
+	padding: 20px;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.section {
+	margin-bottom: 16px;
+}
+
+.sectionTitle {
+	border-bottom: 1px solid #333;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+	font-weight: 500;
+	color: #e0e0e0;
+}
+
+.row {
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+}
+
+.containerBox {
+	background-color: #1e1e1e;
+	border: 1px solid #333;
+	border-radius: 8px;
+	padding: 16px;
+	min-width: 300px;
+	min-height: 120px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.containerTitle {
+	margin-top: 0;
+	margin-bottom: 15px;
+	font-size: 0.9rem;
+	color: #888;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.itemList {
+	display: flex;
+	flex-direction: row;
+	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.squareItem {
+	width: 80px;
+	height: 80px;
+	background-color: #2c2c2c;
+	border: 1px solid #444;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: grab;
+	user-select: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.squareItem:hover {
+	border-color: #666;
+	background-color: #333;
+}
+
+.squareItem:active {
+	cursor: grabbing;
+}
+
+.dragging {
+	opacity: 0.4;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}

@@ -1,0 +1,41 @@
+.donationMatchContainer {
+	background: white;
+	font-size: 45px;
+	padding: 0 8px;
+}
+
+.gradientText {
+	background: var(--goc-gradient);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	animation: gradientAnimation 5s ease infinite;
+	background-size: 400% 400%;
+}
+
+.multiplierText {
+	font-weight: 900;
+	height: 50px;
+	margin-top: -6px;
+}
+
+.donationMatchLabel {
+	font-size: 30%;
+	font-weight: bold;
+}
+
+@keyframes gradientAnimation {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

@@ -1,0 +1,133 @@
+.widescreen3Container {
+	height: 1016px;
+	width: 1920px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.screen {
+	width: 903px;
+	height: 508px;
+	border: 1px solid var(--sec);
+	box-sizing: border-box;
+	position: relative;
+}
+
+.topBar {
+	display: flex;
+	justify-content: center;
+	width: 1920px;
+}
+
+.topBar > div {
+	border-top: 0px;
+}
+
+.bottomBar {
+	display: flex;
+	width: 1920px;
+	justify-content: center;
+}
+
+.bottomBar > div {
+	border-bottom: 0px;
+	border-right: 0px;
+}
+
+.centralDivider {
+	height: 719px;
+	width: 2px;
+	position: absolute;
+	top: 297px;
+	left: 959px;
+	background: var(--sec);
+}
+
+.npIcon {
+	width: 40px;
+	height: auto;
+	margin: 0 5px;
+}
+
+.infoBox {
+	position: relative;
+	box-sizing: border-box;
+	width: 902px;
+	height: 181px;
+	padding: 0 20px;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	align-items: center;
+	justify-items: center;
+	font-size: 22px;
+}
+
+.infoBox #gameTitle {
+	font-size: 250%;
+}
+
+.infoBox :global(#timer) {
+	font-size: 400%;
+}
+
+.infoBox #category {
+	max-width: 90%;
+	font-size: 120%;
+}
+
+.infoBoxColumn {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.gameInfoBox {
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.wideAudioIndicator {
+	position: absolute;
+	top: 753px;
+}
+
+.wideAudioIndicator > div {
+	width: 50px;
+}
+
+.leftBg,
+.rightBg {
+	position: absolute;
+	height: 1016px;
+	width: 57px;
+}
+
+.leftBg {
+	left: 0;
+	overflow: hidden;
+}
+
+.rightBg {
+	right: 0;
+}
+
+.facecamBorder {
+	position: absolute;
+	top: 0;
+	width: 170px;
+	height: 285px;
+}
+
+.facecamBorderLeft {
+	left: 0;
+}
+
+.facecamBorderRight {
+	right: 0;
+}

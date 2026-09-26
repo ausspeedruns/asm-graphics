@@ -1,0 +1,92 @@
+.tickerGoalsContainer {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	text-transform: uppercase;
+	color: var(--text-light);
+	font-size: 37px;
+	transform: translate(0, -64px);
+	overflow: hidden;
+	z-index: 2;
+	font-family: var(--secondary-font);
+}
+
+.multiGoalContainer {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	position: relative;
+}
+
+.goalElement {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	margin-right: 16px;
+}
+
+.name,
+.expiration {
+	font-size: 20px;
+	max-width: 200px;
+}
+
+.name {
+	font-weight: bold;
+	font-family: var(--main-font);
+}
+
+.incentiveName {
+	font-size: 27px;
+	font-weight: bold;
+	max-width: 200px;
+}
+
+.incentiveContainer {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	margin: 0 4px 0 8px;
+	line-height: 1;
+}
+
+.progressContainer {
+	flex-grow: 1;
+	height: 54px;
+	margin: 0 16px 0 5px;
+	border: 1px solid #ffffff;
+	position: relative;
+	overflow: hidden;
+}
+
+.progressBarContainer {
+	height: 100%;
+	background: #ffffff;
+	border-right: 5px solid var(--sec);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.currentAmount {
+	color: var(--text-dark);
+	margin-right: 5px;
+	font-weight: normal;
+	width: 100px;
+	text-align: right;
+	font-size: 25px;
+}
+
+.goalBarContainer {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	transform: translate(0, -64px);
+}

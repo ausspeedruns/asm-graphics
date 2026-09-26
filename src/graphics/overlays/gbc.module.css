@@ -1,0 +1,34 @@
+.gbcContainer {
+	height: 1016px;
+	width: 1920px;
+	position: relative;
+	display: flex;
+	align-items: stretch;
+}
+
+.sidebar {
+	border-right: 1px solid var(--sec);
+	flex: 3;
+}
+
+.rightSidebar {
+	flex: 1;
+	border-left: 1px solid var(--sec);
+	overflow: hidden;
+}
+
+.sponsorBoxStyle {
+	width: 100%;
+	height: 264px;
+}
+
+.infoBoxBg {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	height: 664px;
+	padding: 16px;
+	box-sizing: border-box;
+	font-size: 30px;
+}

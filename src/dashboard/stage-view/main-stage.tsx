@@ -20,85 +20,14 @@ import {
 	useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SortablePerson, Person } from "./person";
 import { Button } from "@mui/material";
 import { PersonDataContext } from "./use-person-data";
-
-// Styled Components for Dark Mode
-const PageWrapper = styled.div`
-	min-width: 800px;
-	width: 100%;
-`;
-const Section = styled.div`
-	margin-bottom: 16px;
-`;
-
-const Row = styled.div`
-	display: flex;
-	gap: 20px;
-	flex-wrap: wrap;
-`;
-
-const ContainerBox = styled.div`
-	background-color: rgba(0, 0, 0, 0.2);
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 8px;
-	padding: 16px;
-	min-width: 300px;
-	min-height: 120px;
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-	position: relative;
-`;
-
-const ContainerTitle = styled.h3`
-	position: absolute;
-	top: 8px;
-	left: 16px;
-	font-size: 0.9rem;
-	color: #ffffff;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-`;
-
-const ItemList = styled.div`
-	display: flex;
-	flex-direction: row;
-	gap: 12px;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-`;
-
-const SquareItem = styled.div<{ isDragging?: boolean }>`
-	width: 170px;
-	height: 200px;
-	background-color: #2c2c2c;
-	border: 1px solid #444;
-	border-radius: 6px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: grab;
-	user-select: none;
-	transition: border-color 0.2s, box-shadow 0.2s;
-	opacity: ${(props) => (props.isDragging ? 0.4 : 1)};
-	box-shadow: ${(props) => (props.isDragging ? "0 8px 20px rgba(0,0,0,0.6)" : "0 2px 4px rgba(0,0,0,0.2)")};
-	
-	&:hover {
-		border-color: #666;
-		background-color: #333;
-	}
-
-	&:active {
-		cursor: grabbing;
-	}
-`;
+import styles from "./main-stage.module.css";
 
 // Droppable Container Component
 interface ContainerProps {
@@ -125,10 +54,10 @@ function Container({
 	const { setNodeRef } = useDroppable({ id });
 
 	return (
-		<ContainerBox ref={setNodeRef}>
-			<ContainerTitle>{title}</ContainerTitle>
+		<div className={styles.containerBox} ref={setNodeRef}>
+			<h3 className={styles.containerTitle}>{title}</h3>
 			<SortableContext items={items} strategy={horizontalListSortingStrategy}>
-				<ItemList style={{ minHeight: "120px" }}>
+				<div className={styles.itemList} style={{ minHeight: "120px" }}>
 					{items.map((itemId) => (
 						// <SortableItem key={item.id} person={item} />
 						<SortablePerson
@@ -141,9 +70,9 @@ function Container({
 						/>
 					))}
 					<Button onClick={newPerson}>+</Button>
-				</ItemList>
+				</div>
 			</SortableContext>
-		</ContainerBox>
+		</div>
 	);
 }
 
@@ -328,7 +257,7 @@ export function MainStage(props: MainStageProps) {
 	}
 
 	return (
-		<PageWrapper>
+		<div className={styles.pageWrapper}>
 			<DndContext
 				sensors={sensors}
 				collisionDetection={closestCenter}
@@ -336,8 +265,8 @@ export function MainStage(props: MainStageProps) {
 				onDragOver={handleDragOver}
 				onDragEnd={handleDragEnd}
 			>
-				<Section>
-					<Row>
+				<div className={styles.section}>
+					<div className={styles.row}>
 						<Container
 							id="commentators"
 							title="Commentators"
@@ -347,11 +276,11 @@ export function MainStage(props: MainStageProps) {
 							currentTalkbackTargets={props.currentTalkbackIds}
 							newPerson={() => props.createNewPerson?.(false)}
 						/>
-					</Row>
-				</Section>
+					</div>
+				</div>
 
-				<Section>
-					<Row>
+				<div className={styles.section}>
+					<div className={styles.row}>
 						<Container
 							id="runners"
 							title="Runners"
@@ -362,13 +291,13 @@ export function MainStage(props: MainStageProps) {
 							currentTalkbackTargets={props.currentTalkbackIds}
 							newPerson={() => props.createNewPerson?.(true)}
 						/>
-					</Row>
-				</Section>
+					</div>
+				</div>
 
 				<DragOverlay>
 					{activeId ? <Person style={{ opacity: 1, cursor: "grabbing" }} id={activeId} /> : null}
 				</DragOverlay>
 			</DndContext>
-		</PageWrapper>
+		</div>
 	);
 }

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styled from "@emotion/styled";
 import {
 	useSensors,
 	useSensor,
@@ -23,6 +22,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import type { HostRead } from "@asm-graphics/shared/HostRead";
 import { Incentives, TwitchRevenue, Prizes } from "./default-host-reads";
+import styles from "./host-read.module.css";
 
 const DEFAULT_HOST_READS = [Prizes, TwitchRevenue, Incentives];
 const DEFAULT_HOST_READS_IDS = DEFAULT_HOST_READS.map((read) => read.title.toLowerCase().replace(/\s+/g, "-"));
@@ -128,12 +128,6 @@ export function HostReads() {
 	);
 }
 
-const SmallFontTextField = styled(TextField)`
-	& .MuiInputBase-input {
-		font-size: 80%;
-	}
-`;
-
 interface HostReadComponentProps {
 	read: HostRead;
 }
@@ -175,7 +169,8 @@ function HostReadComponent(props: HostReadComponentProps) {
 					size="small"
 					variant="outlined"
 				/>
-				<SmallFontTextField
+				<TextField
+					className={styles.smallFontTextField}
 					label="Content (Markdown supported)"
 					multiline
 					minRows={3}

@@ -1,6 +1,5 @@
 import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import styled from "@emotion/styled";
-import { css } from "@emotion/react";
+import clsx from "clsx";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -12,80 +11,9 @@ import { Prizes } from "./incentives/incent-prizes";
 import { Photos } from "./incentives/incent-photos";
 import { UpcomingRuns } from "./incentives/incent-upcoming-runs";
 import { useIntermissionStore } from "../stores/intermission-store";
+import styles from "./intermission-incentives.module.css";
 
 gsap.registerPlugin(useGSAP);
-
-const InterIncentivesContainer = styled.div`
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	box-sizing: border-box;
-	gap: 12px;
-
-	padding: 10px;
-`;
-
-const PanelContainer = styled.div`
-	/* height: 236px; */
-	box-sizing: border-box;
-	position: relative;
-	flex-grow: 1;
-`;
-
-const PipsContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-	gap: 16px;
-	/* padding: 0 8px 32px 8px; */
-	width: 90%;
-	margin: auto;
-`;
-
-const Pip = styled.div<{ $active?: boolean }>`
-	height: 5px;
-	min-width: 10px;
-	flex-grow: 1;
-	background: transparent;
-	border-radius: 5px;
-	transition: 1s;
-	background: var(--text-light);
-
-	${(props) =>
-		props.$active &&
-		css`
-			background: #cc3622;
-		`}
-`;
-
-const CurrentLabels = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	height: 40px;
-	font-size: 25px;
-	gap: 8px;
-
-	& * {
-		text-box: trim-both cap alphabetic;
-		line-height: 0.75;
-	}
-`;
-
-const MainLabel = styled(FitText)`
-	font-size: 100%;
-	max-width: 100%;
-	font-family: var(--secondary-font);
-	font-weight: bold;
-`;
-
-const Subheading = styled(FitText)`
-	font-size: 100%;
-	max-width: 100%;
-`;
 
 export interface TickerItemHandles {
 	animation(timeline: gsap.core.Timeline): gsap.core.Timeline;
@@ -280,17 +208,19 @@ export function IntermissionIncentives() {
 	}, [allLabels.length, runLoop, stopLoop]);
 
 	return (
-		<InterIncentivesContainer ref={containerRef}>
-			<PanelContainer>{allPanels}</PanelContainer>
-			<CurrentLabels ref={labelsRef}>
-				<MainLabel text={allLabels[currentPanel]?.header} />
-				{allLabels[currentPanel]?.subheading && <Subheading text={allLabels[currentPanel].subheading} />}
-			</CurrentLabels>
-			<PipsContainer>
+		<div className={styles.interIncentivesContainer} ref={containerRef}>
+			<div className={styles.panelContainer}>{allPanels}</div>
+			<div className={styles.currentLabels} ref={labelsRef}>
+				<FitText className={styles.mainLabel} text={allLabels[currentPanel]?.header} />
+				{allLabels[currentPanel]?.subheading && (
+					<FitText className={styles.subheading} text={allLabels[currentPanel].subheading} />
+				)}
+			</div>
+			<div className={styles.pipsContainer}>
 				{allPanels.map((_, i) => {
-					return <Pip key={i} $active={i == currentPanel} />;
+					return <div className={clsx(styles.pip, i === currentPanel && styles.active)} key={i} />;
 				})}
-			</PipsContainer>
-		</InterIncentivesContainer>
+			</div>
+		</div>
 	);
 }

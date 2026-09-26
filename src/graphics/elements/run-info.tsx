@@ -1,38 +1,19 @@
 import type { CSSProperties } from "react";
-import styled from "@emotion/styled";
+import styles from "./run-info.module.css";
 
-import { FitText, FitTextElements } from "./fit-text";
-
-interface FontProps {
-	fontSize: number;
-}
+import { FitText } from "./fit-text";
 
 /*			CATEGORY			*/
-const CategoryContainer = styled(FitText)`
-	font-family: var(--category-font);
-	text-transform: uppercase;
-`;
-
 interface CategoryProps {
 	category: string;
 	style?: CSSProperties;
 }
 
 export function Category(props: CategoryProps) {
-	return <CategoryContainer allowNewlines style={props.style} id="category" text={props.category} />;
+	return <FitText className={styles.categoryContainer} allowNewlines style={props.style} id="category" text={props.category} />;
 }
 
 /*			ESTIMATE			*/
-const EstimateContainer = styled.div`
-	font-family: var(--metadata-font);
-`;
-
-const EstText = styled.span`
-	font-size: 50%;
-`;
-
-const EstTime = styled.span``;
-
 interface EstimateProps {
 	estimate: string;
 	style?: CSSProperties;
@@ -46,48 +27,34 @@ export function Estimate(props: EstimateProps) {
 	}
 
 	return (
-		<EstimateContainer style={props.style} id="estimate">
-			<EstText>{formattedEstimate && "EST "}</EstText>
-			<EstTime>{formattedEstimate}</EstTime>
-		</EstimateContainer>
+		<div className={styles.estimateContainer} style={props.style} id="estimate">
+			<span className={styles.estText}>{formattedEstimate && "EST "}</span>
+			<span>{formattedEstimate}</span>
+		</div>
 	);
 }
 
 /*			GAME TITLE			*/
-const GameContainer = styled(FitText)`
-	font-family: var(--game-font);
-	line-height: 1; // Changes based on font, keep tight
-`;
-
 interface GameProps {
 	game: string;
 	style?: CSSProperties;
 }
 
 export function GameTitle(props: GameProps) {
-	return <GameContainer allowNewlines style={props.style} id="gameTitle" text={props.game} />;
+	return <FitText className={styles.gameContainer} allowNewlines style={props.style} id="gameTitle" text={props.game} />;
 }
 
 /*			SYSTEM			*/
-const SystemContainer = styled(FitText)`
-	font-family: var(--metadata-font);
-	max-width: 90%;
-`;
-
 interface SystemProps {
 	system: string;
 	style?: CSSProperties;
 }
 
 export function System(props: SystemProps) {
-	return <SystemContainer style={props.style} text={props.system} id="system" />;
+	return <FitText className={styles.systemContainer} style={props.style} text={props.system} id="system" />;
 }
 
 /*			YEAR			*/
-const YearContainer = styled.div`
-	font-family: var(--metadata-font);
-`;
-
 interface YearProps {
 	year: string;
 	style?: CSSProperties;
@@ -95,8 +62,8 @@ interface YearProps {
 
 export function Year(props: YearProps) {
 	return (
-		<YearContainer style={props.style} id="year">
+		<div className={styles.yearContainer} style={props.style} id="year">
 			{props.year ? props.year : "????"}
-		</YearContainer>
+		</div>
 	);
 }

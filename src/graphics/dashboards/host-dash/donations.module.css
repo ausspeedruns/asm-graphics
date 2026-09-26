@@ -1,0 +1,39 @@
+.donationsContainer {
+	height: calc(100% - 56px);
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.donationContainer {
+	display: flex;
+	justify-content: space-between;
+	font-size: 13px;
+	border-radius: 7px;
+	background-color: var(--inset-background);
+	position: relative;
+	padding: 8px;
+}
+
+.amount,
+.name {
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.amount {
+	margin-right: 6px;
+}
+
+.dateText {
+	color: #aaa;
+}
+
+.disabledCover {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.35);
+	top: 0px;
+	left: 0px;
+	border-radius: 7px;
+}

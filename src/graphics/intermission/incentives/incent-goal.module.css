@@ -1,0 +1,69 @@
+.goalBarContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	color: var(--text-light);
+}
+
+.goalDiv {
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	font-weight: bold;
+	font-size: 37px;
+}
+
+.incentiveName {
+	font-weight: bold;
+	max-width: 100%;
+}
+
+.bottomBar {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+	align-items: center;
+	width: 100%;
+	box-sizing: border-box;
+	flex-grow: 1;
+	gap: 16px;
+}
+
+.progressContainer {
+	flex-grow: 1;
+	height: 100%;
+	width: 100%;
+	border: 2px solid var(--text-light);
+	background: transparent;
+	position: relative;
+	overflow: hidden;
+	box-sizing: border-box;
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+	border-radius: 16px;
+}
+
+.progressBarContainer {
+	height: 100%;
+	background: var(--text-light);
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	position: absolute;
+	left: 0;
+}
+
+.currentAmount {
+	color: var(--text-dark);
+	font-size: 30px;
+	font-weight: bold;
+	margin-right: 16px;
+}

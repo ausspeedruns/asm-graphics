@@ -1,0 +1,23 @@
+.categoryContainer {
+	font-family: var(--category-font);
+	text-transform: uppercase;
+}
+
+.estimateContainer,
+.yearContainer {
+	font-family: var(--metadata-font);
+}
+
+.estText {
+	font-size: 50%;
+}
+
+.gameContainer {
+	font-family: var(--game-font);
+	line-height: 1;
+}
+
+.systemContainer {
+	font-family: var(--metadata-font);
+	max-width: 90%;
+}

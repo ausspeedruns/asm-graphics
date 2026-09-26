@@ -1,0 +1,64 @@
+.creditsContainer {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.creditsPanel {
+	width: 0;
+	height: 100%;
+	overflow: hidden;
+	background: #000000c4;
+}
+
+.allCredits {
+	display: flex;
+	flex-direction: column;
+	width: 500px;
+	align-items: center;
+	justify-content: center;
+	font-family: Noto Sans;
+	color: #ffffff;
+}
+
+.eventImg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.title {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	font-size: 30px;
+	margin-top: 30px;
+	font-family: Russo One, sans-serif;
+	text-align: center;
+}
+
+.nameContainer {
+	font-size: 26px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.nameWithRoles {
+	font-weight: bold;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.nameWithRoles > span {
+	margin-top: -5px;
+	font-weight: normal !important;
+}

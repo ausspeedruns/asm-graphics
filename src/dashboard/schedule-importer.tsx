@@ -14,7 +14,7 @@ import { RichTreeView, type TreeViewValidItem } from "@mui/x-tree-view";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { RunDataArray } from "@asm-graphics/types/RunData";
-import { runCustomDataSchema } from "@asm-graphics/types/custom-data";
+import { runCustomDataSchema } from "../shared/types/custom-data";
 
 const layoutsRegex = /LAYOUT:\s*(.*)/;
 const unknownLayoutLabel = "Unknown Layout";

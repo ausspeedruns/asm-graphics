@@ -1,19 +1,9 @@
 import { useState } from "react";
-import styled from "@emotion/styled";
 import { Button, Checkbox, FormControl, FormControlLabel, InputAdornment, OutlinedInput, Stack } from "@mui/material";
 
 import type { Goal } from "@asm-graphics/types/Incentives";
 import NumberField from "../../../elements/number-field";
-
-const StackStyled = styled(Stack)`
-	font-size: 2rem;
-
-	h1,
-	h2,
-	h3 {
-		margin: 0;
-	}
-`;
+import styles from "./goal-edit.module.css";
 
 type GoalProps = {
 	incentive: Goal;
@@ -54,7 +44,7 @@ export function GoalEdit({ incentive, updateIncentive }: GoalProps) {
 	const hasEdited = total !== incentive.total || active !== incentive.active;
 
 	return (
-		<StackStyled spacing="medium" sx={{ alignItems: "center" }}>
+		<Stack className={styles.stackStyled} spacing="medium" sx={{ alignItems: "center" }}>
 			<FormControlLabel
 				control={<Checkbox defaultChecked onChange={(_, checked) => setActive(checked)} checked={active} />}
 				label="Active"
@@ -105,6 +95,6 @@ export function GoalEdit({ incentive, updateIncentive }: GoalProps) {
 			>
 				Update
 			</Button>
-		</StackStyled>
+		</Stack>
 	);
 }

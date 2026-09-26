@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { ThemeProvider, createTheme } from "@mui/material";
 import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
@@ -11,55 +11,7 @@ import { RTAudio } from "./dashboards/runner-tablet/audio";
 import { RTNames } from "./dashboards/runner-tablet/names";
 // import { RTSelection } from "./dashboards/runner-tablet/headset-selection";
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
-
-const NavBar = styled.div`
-	width: 100%;
-	height: 10vh;
-	background: var(--orange-500);
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-`;
-
-interface NavBarButtonProps {
-	active?: boolean;
-}
-
-const NavBarButton = styled.button<NavBarButtonProps>`
-	height: 100%;
-	border: 0;
-	border-right: 5px var(--orange-600) solid;
-	font-size: 2rem;
-	padding: 0 3rem;
-	background: ${({ active }) => (active ? "var(--orange-400)" : "var(--orange-500)")};
-	transition: 100ms;
-`;
-
-const RightSide = styled.div`
-	float: right;
-	height: 100%;
-`;
-
-const HostName = styled.div`
-	display: inline-block;
-	color: white;
-	font-weight: bold;
-	text-align: right;
-	padding-right: 1rem;
-	font-size: 32px;
-
-	span {
-		font-weight: normal;
-	}
-`;
-
-const ReadyButton = styled(NavBarButton)`
-	color: #fff;
-	float: right;
-	border-right: 0;
-`;
-
-const Body = styled.div`
-	height: 90vh;
-`;
+import styles from "./runner-tablet.module.css";
 
 const TABS = {
 	NAMES: "names",
@@ -146,27 +98,27 @@ const RunnerTablet: React.FC = () => {
 	return (
 		<ThemeProvider theme={RunnerTabletTheme}>
 			<div style={{ height: "100%", width: "100%", fontFamily: "sans-serif" }}>
-				<NavBar style={{ display: tab === TABS.HEADSET_SELECTION ? "none" : "" }}>
-					<NavBarButton onClick={() => setTab("names")} active={tab === "names"}>
+				<nav className={styles.navBar} style={{ display: tab === TABS.HEADSET_SELECTION ? "none" : "" }}>
+					<button className={clsx(styles.navBarButton, tab === "names" && styles.active)} onClick={() => setTab("names")}>
 						Names
-					</NavBarButton>
-					<NavBarButton onClick={() => setTab("audio")} active={tab === "audio"}>
+					</button>
+					<button className={clsx(styles.navBarButton, tab === "audio" && styles.active)} onClick={() => setTab("audio")}>
 						Audio
-					</NavBarButton>
-					<RightSide>
-						<HostName>
+					</button>
+					<div className={styles.rightSide}>
+						<div className={styles.hostName}>
 							{/* <span>Host</span> */}
 							{/* <br /> */}
 							{host?.name}
 							<br />
 							<span>{host?.pronouns}</span>
-						</HostName>
-						<ReadyButton onClick={fullscreen} style={{ background: live ? "#0066ff" : "#ff0000" }}>
+						</div>
+						<button className={styles.readyButton} onClick={fullscreen} style={{ background: live ? "#0066ff" : "#ff0000" }}>
 							{buttonText}
-						</ReadyButton>
-					</RightSide>
-				</NavBar>
-				<Body style={{ height: tab === TABS.HEADSET_SELECTION ? "100vh" : "" }}>{currentTabBody}</Body>
+						</button>
+					</div>
+				</nav>
+				<div className={styles.body} style={{ height: tab === TABS.HEADSET_SELECTION ? "100vh" : "" }}>{currentTabBody}</div>
 			</div>
 		</ThemeProvider>
 	);

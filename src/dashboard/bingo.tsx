@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 import {
 	TextField,
 	Button,
@@ -20,6 +19,7 @@ import { darkTheme } from "./theme";
 import type { BoardCell, BoardState, RoomJoinParameters, CellColour } from "@asm-graphics/shared/BingoSync";
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import type { ConnectionStatus } from "@asm-graphics/shared/replicants";
+import styles from "./bingo.module.css";
 
 const CellColours = [
 	"blank",
@@ -34,17 +34,6 @@ const CellColours = [
 	"pink",
 	"yellow",
 ] as const;
-
-const StatusBox = styled.div`
-	height: 2rem;
-	color: white;
-	border-radius: 10px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 1rem;
-	margin-bottom: 1rem;
-`;
 
 function connectionStatusStyle(status: ConnectionStatus | boolean): { text: string; colour: string } {
 	if (typeof status === "boolean") {
@@ -107,7 +96,9 @@ export function BingoDashboard() {
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<StatusBox style={{ backgroundColor: bingoStatusInfo.colour }}>{bingoStatusInfo.text}</StatusBox>
+			<div className={styles.statusBox} style={{ backgroundColor: bingoStatusInfo.colour }}>
+				{bingoStatusInfo.text}
+			</div>
 			<Stack spacing={2} direction="column">
 				<TextField
 					label="Room Code"
@@ -172,30 +163,6 @@ export function BingoDashboard() {
 	);
 }
 
-const CellContainer = styled.div`
-	display: flex;
-	align-items: center;
-	height: 77px;
-	width: 77px;
-
-	border: 1px solid #ccc;
-
-	transition: background-color 0.1s ease-in-out;
-
-	&:hover {
-		background-color: rgba(240, 240, 240, 0.21);
-		cursor: pointer;
-	}
-`;
-
-const CellText = styled.span`
-	font-size: 75%;
-	text-align: center;
-	width: 100%;
-	padding: 0 2px;
-	text-wrap: balance;
-`;
-
 function backgroundGradientGenerator(colours: CellColour[]): string {
 	if (colours.length === 0 || colours[0] === "blank") {
 		return "";
@@ -224,15 +191,16 @@ interface CellProps {
 
 function Cell(props: CellProps) {
 	return (
-		<CellContainer
+		<div
+			className={styles.cellContainer}
 			onClick={() => props.onClick?.(props.cell)}
 			style={{
 				background: backgroundGradientGenerator(props.overriddenCell?.colors ?? props.cell.colors),
 				fontWeight: props.overriddenCell ? "bold" : "normal",
 			}}
 		>
-			<CellText>{props.overriddenCell?.name ?? props.cell.name}</CellText>
-		</CellContainer>
+			<span className={styles.cellText}>{props.overriddenCell?.name ?? props.cell.name}</span>
+		</div>
 	);
 }
 

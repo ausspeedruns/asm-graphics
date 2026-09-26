@@ -1,6 +1,6 @@
 import { cloneElement, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import { createTheme } from "@mui/material/styles";
 import { Button, ThemeProvider, useColorScheme } from "@mui/material";
 import { Description, Edit, Tune, ResetTv, DarkMode, LightMode } from "@mui/icons-material";
@@ -23,162 +23,7 @@ import { DonationTotal } from "./dashboards/host-dash/donation-total";
 import { HostMicrophone } from "./dashboards/host-dash/host-microphone";
 
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
-
-const DashContainer = styled.div<{ darkMode: boolean }>`
-	color-scheme: ${(props) => (props.darkMode ? "dark" : "light")};
-
-	transition:
-		background 0.25s,
-		color 0.25s,
-		--background-color 0.25s,
-		--text-color 0.25s,
-		--top-bar-background 0.25s,
-		--mosaic-background 0.25s,
-		--panel-background 0.25s,
-		--inset-background 0.25s;
-
-	.mosaic {
-		background-color: var(--mosaic-background);
-		transition: background-color 0.25s;
-
-		.mosaic-window {
-			border: 1px solid var(--orange);
-			border-radius: 8px;
-
-			.mosaic-window-body {
-				background-color: var(--panel-background);
-				transition: background-color 0.25s;
-			}
-
-			.mosaic-window-toolbar {
-				box-shadow: none;
-				border-radius: 0;
-				height: 45px;
-			}
-		}
-	}
-
-	min-width: 100vw;
-	min-height: 100vh;
-	padding-top: 72px;
-
-	font-family:
-		Noto Sans,
-		sans-serif;
-
-	display: grid;
-
-	background: var(--background-color);
-	color: var(--text-color);
-
-	box-sizing: border-box;
-	* {
-		box-sizing: border-box;
-	}
-`;
-
-const TopBar = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	background: var(--top-bar-background);
-	width: 100%;
-	height: 72px;
-	padding: 8px 24px;
-
-	display: flex;
-	align-items: center;
-	gap: 12px;
-
-	p,
-	h2 {
-		color: white;
-		line-height: 72px;
-		margin: 0;
-		padding: 0;
-	}
-
-	p {
-		font-size: 20px;
-	}
-
-	h2 {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-
-		.pronouns {
-			font-size: 50%;
-		}
-	}
-
-	button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 4px;
-		font-weight: bold;
-		font-size: 16px;
-
-		min-width: 0;
-
-		padding: 8px;
-		color: white;
-		background: var(--accent-color);
-		border: 2px solid white;
-		border-radius: 6px;
-
-		&:hover {
-			background: white;
-			border: 2px solid var(--accent-color);
-			color: var(--accent-color);
-		}
-	}
-`;
-
-const Spacer = styled.div`
-	flex-grow: 1;
-`;
-
-const AdProgressBarContainer = styled.div`
-	width: 100%;
-	height: 20px;
-	position: absolute;
-	top: 72px;
-	left: 0;
-
-	display: flex;
-	justify-content: center;
-	background-color: var(--ad-progress-bg);
-
-	z-index: 10;
-`;
-
-const AdProgressBar = styled.div`
-	width: 100%;
-	background-color: var(--ad-progress-fill);
-
-	animation: progressBarAnimation;
-	animation-timing-function: linear;
-	animation-duration: 15s;
-
-	@keyframes progressBarAnimation {
-		0% {
-			width: 100%;
-		}
-		100% {
-			width: 0%;
-		}
-	}
-`;
-
-const AdProgressBarLabel = styled.div`
-	position: absolute;
-	text-align: center;
-	white-space: nowrap;
-	font-weight: bold;
-	color: white;
-`;
+import styles from "./host-dashboard.module.css";
 
 type ViewId = keyof typeof ELEMENTS;
 
@@ -284,8 +129,8 @@ export function HostDash() {
 	}, [playingAd]);
 
 	return (
-		<DashContainer darkMode={mode === "dark"}>
-			<TopBar>
+		<div className={clsx(styles.dashContainer, mode === "dark" ? styles.darkMode : styles.lightMode)}>
+			<div className={styles.topBar}>
 				<p>YOU ARE:</p>
 				<h2>
 					{host?.name} <span className="pronouns">{host?.pronouns}</span>
@@ -293,7 +138,7 @@ export function HostDash() {
 				<Button onClick={() => setHostOpen(true)}>
 					<Edit />
 				</Button>
-				<Spacer />
+				<div className={styles.spacer} />
 				<Button onClick={() => setAudioOpen(true)}>
 					<Tune />
 					Audio
@@ -316,13 +161,13 @@ export function HostDash() {
 				>
 					{currentTimeRef.current}
 				</p>
-			</TopBar>
+			</div>
 
 			{playingAd && (
-				<AdProgressBarContainer>
-					<AdProgressBar ref={adProgressBarRef} />
-					<AdProgressBarLabel>Advert Playing</AdProgressBarLabel>
-				</AdProgressBarContainer>
+				<div className={styles.adProgressBarContainer}>
+					<div className={styles.adProgressBar} ref={adProgressBarRef} />
+					<div className={styles.adProgressBarLabel}>Advert Playing</div>
+				</div>
 			)}
 
 			<HostEditDialog open={hostOpen} submit={() => setHostOpen(false)} onClose={() => setHostOpen(false)} />
@@ -345,7 +190,7 @@ export function HostDash() {
 				value={mosaicValue}
 				onChange={(newLayout) => setMosaicValue(newLayout)}
 			/>
-		</DashContainer>
+		</div>
 	);
 }
 

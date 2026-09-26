@@ -20,88 +20,8 @@ import {
 	useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import styled from "@emotion/styled";
-
-// Styled Components for Dark Mode
-const PageWrapper = styled.div`
-  background-color: #121212;
-  color: #ffffff;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-`;
-
-const Section = styled.div`
-  margin-bottom: 16px;
-`;
-
-const SectionTitle = styled.h2`
-  border-bottom: 1px solid #333;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  font-weight: 500;
-  color: #e0e0e0;
-`;
-
-const Row = styled.div`
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-`;
-
-const ContainerBox = styled.div`
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 16px;
-  min-width: 300px;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`;
-
-const ContainerTitle = styled.h3`
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-`;
-
-const ItemList = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SquareItem = styled.div<{ isDragging?: boolean }>`
-  width: 80px;
-  height: 80px;
-  background-color: #2c2c2c;
-  border: 1px solid #444;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: grab;
-  user-select: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  opacity: ${(props) => (props.isDragging ? 0.4 : 1)};
-  box-shadow: ${(props) => (props.isDragging ? "0 8px 20px rgba(0,0,0,0.6)" : "0 2px 4px rgba(0,0,0,0.2)")};
-  
-  &:hover {
-    border-color: #666;
-    background-color: #333;
-  }
-
-  &:active {
-    cursor: grabbing;
-  }
-`;
+import clsx from "clsx";
+import styles from "./dnd-test.module.css";
 
 // Sortable Item Component
 interface SortableItemProps {
@@ -117,9 +37,15 @@ const SortableItem: React.FC<SortableItemProps> = ({ id }) => {
 	};
 
 	return (
-		<SquareItem ref={setNodeRef} style={style} isDragging={isDragging} {...attributes} {...listeners}>
+		<div
+			ref={setNodeRef}
+			style={style}
+			className={clsx(styles.squareItem, isDragging && styles.dragging)}
+			{...attributes}
+			{...listeners}
+		>
 			{id}
-		</SquareItem>
+		</div>
 	);
 };
 
@@ -134,16 +60,16 @@ const Container: React.FC<ContainerProps> = ({ id, title, items }) => {
 	const { setNodeRef } = useDroppable({ id });
 
 	return (
-		<ContainerBox ref={setNodeRef}>
-			<ContainerTitle>{title}</ContainerTitle>
+		<div className={styles.containerBox} ref={setNodeRef}>
+			<h3 className={styles.containerTitle}>{title}</h3>
 			<SortableContext items={items} strategy={horizontalListSortingStrategy}>
-				<ItemList style={{ minHeight: "80px" }}>
+				<div className={styles.itemList} style={{ minHeight: "80px" }}>
 					{items.map((itemId) => (
 						<SortableItem key={itemId} id={itemId} />
 					))}
-				</ItemList>
+				</div>
 			</SortableContext>
-		</ContainerBox>
+		</div>
 	);
 };
 
@@ -247,7 +173,7 @@ export default function MultipleContainers() {
 	};
 
 	return (
-		<PageWrapper>
+		<div className={styles.pageWrapper}>
 			<DndContext
 				sensors={sensors}
 				collisionDetection={closestCenter}
@@ -255,23 +181,27 @@ export default function MultipleContainers() {
 				onDragOver={handleDragOver}
 				onDragEnd={handleDragEnd}
 			>
-				<Section>
-					<Row>
+				<div className={styles.section}>
+					<div className={styles.row}>
 						<Container id="comm1" title="Container 1" items={items["comm1"] ?? []} />
 						<Container id="host" title="Host" items={items["host"] ?? []} />
-					</Row>
-				</Section>
+					</div>
+				</div>
 
-				<Section>
-					<Row>
+				<div className={styles.section}>
+					<div className={styles.row}>
 						<Container id="runners" title="Runners List" items={items["runners"] ?? []} />
-					</Row>
-				</Section>
+					</div>
+				</div>
 
 				<DragOverlay>
-					{activeId ? <SquareItem style={{ opacity: 1, cursor: "grabbing" }}>{activeId}</SquareItem> : null}
+					{activeId ? (
+						<div className={styles.squareItem} style={{ opacity: 1, cursor: "grabbing" }}>
+							{activeId}
+						</div>
+					) : null}
 				</DragOverlay>
 			</DndContext>
-		</PageWrapper>
+		</div>
 	);
 }

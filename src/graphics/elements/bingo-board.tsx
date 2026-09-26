@@ -1,22 +1,5 @@
 import type { BoardCell, CellColour } from "@asm-graphics/shared/BingoSync.js";
-import styled from "@emotion/styled";
-
-const Cell = styled.div`
-	font-family: var(--main-font);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 75%;
-	padding: 0 4px;
-	color: white;
-	text-align: center;
-	text-wrap: balance;
-	position: relative;
-	line-height: 1.1;
-	color: white;
-	background-color: #3d3d3dff;
-	outline: 1px solid #ffc75b;
-`;
+import styles from "./bingo-board.module.css";
 
 export const cellColourMapping: Record<CellColour, string> = {
 	purple: "#000000", // Not purple
@@ -82,7 +65,8 @@ export function BingoBoard(props: BingoBoardProps) {
 			{cells.map((cell) => {
 				const cellDone = cell.colors.length >= 1 && cell.colors[0] !== "blank";
 				return (
-					<Cell
+					<div
+						className={styles.cell}
 						key={cell.slot}
 						style={{
 							background: backgroundGradientGenerator(cell.colors),
@@ -91,7 +75,7 @@ export function BingoBoard(props: BingoBoardProps) {
 						}}
 					>
 						<span style={{ zIndex: 4, opacity: cellDone ? 0.77 : 1 }}>{cell.name}</span>
-					</Cell>
+					</div>
 				);
 			})}
 		</div>

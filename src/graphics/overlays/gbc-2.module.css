@@ -1,0 +1,55 @@
+.standard2Container {
+	height: 1016px;
+	width: 1920px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.topbar {
+	display: flex;
+	overflow: hidden;
+}
+
+.leftBox {
+	flex: 1;
+	display: flex;
+	position: relative;
+	box-sizing: border-box;
+	font-size: 30px;
+}
+
+.rightBox {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: relative;
+	z-index: 2;
+	box-sizing: border-box;
+}
+
+.gameRow {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	align-items: stretch;
+}
+
+.centralDivider {
+	width: 2px;
+	background: var(--sec);
+}
+
+.fillerBox {
+	flex-grow: 1;
+}
+
+.wholeGraphicClip {
+	position: absolute;
+	width: 1920px;
+	height: 1016px;
+	clip-path: path("M 0 0 H 666 V 295 H 0 Z M 1920 0 H 1254 V 295 H 1921 Z ");
+	z-index: 1;
+}

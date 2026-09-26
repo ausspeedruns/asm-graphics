@@ -1,0 +1,45 @@
+.standard2Container {
+	height: 1016px;
+	width: 1920px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.topbar {
+	display: flex;
+	align-items: stretch;
+	flex: 1;
+	border-bottom: 1px solid var(--sec);
+	overflow: hidden;
+}
+
+.leftBox {
+	flex: 1;
+	display: flex;
+	position: relative;
+	font-size: 35px;
+}
+
+.rightBox {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.gameRow {
+	display: flex;
+	flex: 0 1 auto;
+	min-height: 0;
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.centralDivider {
+	width: 2px;
+	background: var(--sec);
+}

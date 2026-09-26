@@ -1,0 +1,38 @@
+.donationTotal {
+	width: 100%;
+	text-align: center;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.donationsList {
+	max-height: 300px;
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+}
+
+.donationContainer {
+	margin: 6px 0;
+	display: flex;
+	justify-content: space-between;
+	font-size: 13px;
+	padding: 8px;
+	border-radius: 7px;
+	background-color: #4d5e80;
+	position: relative;
+}
+
+.amount,
+.name {
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.amount {
+	margin-right: 6px;
+}
+
+.dateText {
+	color: #aaa;
+}

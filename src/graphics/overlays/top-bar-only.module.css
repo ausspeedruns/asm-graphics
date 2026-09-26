@@ -1,0 +1,15 @@
+.topBarOnlyContainer {
+	height: 1016px;
+	width: 1920px;
+	position: relative;
+	overflow: hidden;
+}
+
+.topBar {
+	height: 207px;
+	width: 100%;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+	position: relative;
+	padding-bottom: 12px;
+	box-sizing: border-box;
+}

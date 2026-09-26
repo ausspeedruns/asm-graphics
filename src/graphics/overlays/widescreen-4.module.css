@@ -1,0 +1,29 @@
+.widescreen4Container {
+	height: 1016px;
+	width: 1920px;
+	display: flex;
+	position: relative;
+}
+
+.middle {
+	position: relative;
+	height: 100%;
+	width: 398px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.infoBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	flex: 1;
+	padding: 16px;
+	font-size: 25px;
+}
+
+.sideFiller {
+	flex-grow: 1;
+}

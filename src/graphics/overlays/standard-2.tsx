@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { SmallInfo } from "../elements/info-box/small";
@@ -13,71 +11,21 @@ import { Container } from "../elements/container";
 
 import Standard2p from "./backgrounds/Standard2p.png";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const Standard2Container = styled.div`
-	height: 1016px;
-	width: 1920px;
-	display: flex;
-	flex-direction: column;
-`;
-
-const Topbar = styled.div`
-	display: flex;
-	width: 100%;
-	flex: 1;
-	overflow: hidden;
-`;
-
-const LeftBox = styled(Container)`
-	position: relative;
-	flex: 1;
-	height: 100%;
-	display: flex;
-	font-size: 30px;
-`;
-
-const RightBox = styled(Container)`
-	position: relative;
-	flex: 1;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-`;
-
-const GameplayRow = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: stretch;
-`;
-
-const CentralDivider = styled.div`
-	width: 2px;
-	background: var(--sec);
-`;
-
-const WholeGraphicClip = styled.div`
-	position: absolute;
-	width: 1920px;
-	height: 1016px;
-	clip-path: path("M 0 0 H 666 V 297 H 0 Z M 1920 0 H 1254 V 297 H 1921 Z ");
-	// background: var(--main);
-	z-index: 1;
-`;
+import styles from "./standard-2.module.css";
 
 export function Standard2(props: OverlayProps) {
 	const teamData = getTeams(props.runData, props.timer, 2);
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
 	return (
-		<Standard2Container>
-			<WholeGraphicClip>
+		<div className={styles.standard2Container}>
+			<div className={styles.wholeGraphicClip}>
 				{/* <img style={{ position: "absolute", width: "100%" }} src={Standard2p} /> */}
-			</WholeGraphicClip>
-			<Topbar>
-				<LeftBox>
+			</div>
+			<div className={styles.topbar}>
+				<Container className={styles.leftBox}>
 					<SmallInfo timer={props.timer} runData={props.runData} />
-				</LeftBox>
+				</Container>
 
 				<AudioIndicator
 					active={props.gameAudioIndicator === allRunnerIds[0]}
@@ -115,7 +63,7 @@ export function Standard2(props: OverlayProps) {
 				<RaceFinish style={{ top: 221, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place} />
 				<RaceFinish style={{ top: 221, left: 960 }} time={teamData[1]?.time} place={teamData[1]?.place} />
 
-				<RightBox>
+				<Container className={styles.rightBox}>
 					<div
 						style={{
 							display: "flex",
@@ -134,13 +82,13 @@ export function Standard2(props: OverlayProps) {
 						/>
 						<SponsorsBox sponsors={props.sponsors} width={360} height={230} />
 					</div>
-				</RightBox>
-			</Topbar>
-			<GameplayRow>
+				</Container>
+			</div>
+			<div className={styles.gameplayRow}>
 				<GameplayCapture aspectRatio="4:3" grow />
-				<CentralDivider />
+				<div className={styles.centralDivider} />
 				<GameplayCapture aspectRatio="4:3" grow />
-			</GameplayRow>
-		</Standard2Container>
+			</div>
+		</div>
 	);
 }

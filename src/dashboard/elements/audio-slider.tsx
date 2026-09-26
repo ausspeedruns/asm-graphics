@@ -1,13 +1,6 @@
 import { Slider, Input } from "@mui/material";
-import styled from "@emotion/styled";
 import NumberField from "./number-field";
-
-const SliderContainer = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	flex: 1;
-`;
+import styles from "./audio-slider.module.css";
 
 const marks = [
 	{
@@ -83,7 +76,7 @@ interface AudioSliderProps {
 
 export function AudioSlider(props: AudioSliderProps) {
 	return (
-		<SliderContainer>
+		<div className={styles.sliderContainer}>
 			<Slider
 				style={{ margin: "auto" }}
 				size="small"
@@ -114,6 +107,6 @@ export function AudioSlider(props: AudioSliderProps) {
 				max={10}
 				sx={{ width: "110px" }}
 			/>
-		</SliderContainer>
+		</div>
 	);
 }

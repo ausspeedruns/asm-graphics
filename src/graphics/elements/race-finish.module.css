@@ -1,0 +1,32 @@
+.raceFinishContainer {
+	overflow: hidden;
+	position: absolute;
+}
+
+.animatedContainer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 130px;
+	height: 35px;
+	padding-right: 4px;
+	box-sizing: border-box;
+	font-size: 22px;
+	color: #ffffff;
+	font-family: var(--main-font);
+}
+
+.position {
+	font-weight: bold;
+	height: 35px;
+	width: 35px;
+	text-align: center;
+	line-height: 36px;
+	background-color: rgba(0, 0, 0, 0.22);
+}
+
+.finalTime {
+	line-height: 36px;
+	width: 100%;
+	text-align: center;
+}

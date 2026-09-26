@@ -1,46 +1,11 @@
-import styled from "@emotion/styled";
+import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 
 import { Grid, Paper, Stack } from "@mui/material";
 
 import type { Incentive } from "@asm-graphics/types/Incentives";
 import type { RunData } from "@asm-graphics/types/RunData";
-
-const IncentivesContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	padding: 8px;
-	padding-right: 24px;
-	gap: 8px;
-
-	section {
-		&,
-		* {
-			box-sizing: border-box;
-		}
-
-		width: 100%;
-		border-radius: 8px;
-		display: grid;
-		gap: 6px;
-		padding-bottom: 8px;
-
-		& > div {
-			width: calc(100% - 16px);
-			margin: 0 8px;
-		}
-	}
-
-	h1 {
-		width: 100%;
-		margin: 0;
-		background: lightgrey;
-		padding: 8px;
-		padding-left: 16px;
-		border-radius: 8px 8px 0 0;
-		border-bottom: 2px solid black;
-	}
-`;
+import styles from "./incentives.module.css";
 
 interface Props {
 	className?: string;
@@ -76,7 +41,7 @@ export function Incentives(props: Props) {
 	);
 
 	return (
-		<IncentivesContainer className={props.className} style={props.style}>
+		<div className={clsx(styles.incentivesContainer, props.className)} style={props.style}>
 			{currentRunIncentives.length > 0 ? (
 				<>
 					<section style={{ background: "var(--orange-600)" }}>
@@ -97,88 +62,11 @@ export function Incentives(props: Props) {
 					return <IncentiveItem key={incentive.index} incentive={incentive} />;
 				})
 			)}
-		</IncentivesContainer>
+		</div>
 	);
 }
 
 /* Incentive Item */
-
-const IncentiveItemContainer = styled(Paper)`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	font-size: 13px;
-	padding: 8px;
-	border-radius: 7px;
-	width: 100%;
-	background: var(--inset-background);
-	position: relative;
-`;
-
-const GameTitle = styled.span`
-	font-weight: bold;
-	font-size: 1.2rem;
-`;
-
-const IncentiveName = styled.span`
-	font-weight: bold;
-	font-size: 1.2rem;
-`;
-
-const Notes = styled.span`
-	font-size: 1.1rem;
-`;
-
-const WarContainer = styled.div`
-	display: flex;
-	flex-grow: 1;
-	flex-wrap: wrap;
-	margin: 1% 1% 1% 0;
-	gap: 8px;
-	justify-content: center;
-`;
-
-const WarItem = styled(Paper)`
-	background: var(--inset-background);
-	/* font-weight: bold; */
-	padding: 2%;
-	font-size: 1.2rem;
-
-	&:first-child {
-		margin-left: 0;
-	}
-`;
-
-const WarNoOptions = styled(Paper)`
-	width: 100%;
-	text-align: center;
-	font-weight: bold;
-	padding: 1%;
-	font-size: 1.3rem;
-`;
-
-const GoalContainer = styled(Paper)`
-	display: flex;
-	flex-grow: 1;
-	justify-content: space-evenly;
-	font-size: 1.3rem;
-	background: var(--inset-background);
-	/* font-weight: bold; */
-	padding: 1%;
-	margin: 1% 1% 1% 0;
-	border: 1px solid var(--text-color);
-	border-radius: 4px;
-`;
-
-const DisabledCover = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: rgba(0, 0, 0, 0.35);
-	top: 0px;
-	left: 0px;
-	border-radius: 7px;
-`;
 
 interface ItemProps {
 	incentive: Incentive;
@@ -192,7 +80,7 @@ function IncentiveItem(props: ItemProps) {
 			const amountLeft = props.incentive.goal - props.incentive.total;
 
 			incentiveData = (
-				<GoalContainer elevation={1}>
+				<Paper className={styles.goalContainer} elevation={1}>
 					<span>${(amountLeft % 1 === 0 ? amountLeft : amountLeft.toFixed(2)).toLocaleString()} Left</span>
 					<span>{Math.floor((props.incentive.total / props.incentive.goal) * 100)}%</span>
 					<span>
@@ -203,13 +91,15 @@ function IncentiveItem(props: ItemProps) {
 						).toLocaleString()}{" "}
 						/ ${props.incentive.goal.toLocaleString()}
 					</span>
-				</GoalContainer>
+				</Paper>
 			);
 			break;
 		}
 
 		case "War": {
-			let warData: React.ReactNode = <WarNoOptions elevation={1}>No names submitted</WarNoOptions>;
+			let warData: React.ReactNode = (
+				<Paper className={styles.warNoOptions} elevation={1}>No names submitted</Paper>
+			);
 
 			if (props.incentive.options.length !== 0) {
 				const mutableWarData = props.incentive.options.map((a) => ({ ...a }));
@@ -217,15 +107,15 @@ function IncentiveItem(props: ItemProps) {
 				warData = mutableWarData
 					.map((option) => {
 						return (
-							<WarItem elevation={1} key={option.name}>
+							<Paper className={styles.warItem} elevation={1} key={option.name}>
 								{option.name}: ${option.total.toLocaleString()}
-							</WarItem>
+							</Paper>
 						);
 					})
 					.reverse();
 			}
 
-			incentiveData = <WarContainer>{warData}</WarContainer>;
+			incentiveData = <div className={styles.warContainer}>{warData}</div>;
 			break;
 		}
 
@@ -234,18 +124,18 @@ function IncentiveItem(props: ItemProps) {
 	}
 
 	return (
-		<IncentiveItemContainer elevation={2}>
+		<Paper className={styles.incentiveItemContainer} elevation={2}>
 			<Stack>
-				<GameTitle>
+				<span className={styles.gameTitle}>
 					{props.incentive.game} - <i>{props.incentive.incentive}</i>
-				</GameTitle>
-				<Notes>{props.incentive.notes}</Notes>
+				</span>
+				<span className={styles.notes}>{props.incentive.notes}</span>
 			</Stack>
 
 			<Grid container>
 				{incentiveData}
-				{!props.incentive.active && <DisabledCover />}
+				{!props.incentive.active && <div className={styles.disabledCover} />}
 			</Grid>
-		</IncentiveItemContainer>
+		</Paper>
 	);
 }

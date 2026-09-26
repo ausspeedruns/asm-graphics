@@ -1,0 +1,17 @@
+.tickerRunsContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 64px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	transform: translate(0px, -64px);
+	z-index: 3;
+}
+
+.borderItem {
+	height: 55px;
+	width: 2px;
+	background: var(--sec);
+}

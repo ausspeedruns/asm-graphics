@@ -1,0 +1,14 @@
+.container {
+	overflow: hidden;
+}
+
+.iconBackground {
+	height: 41px;
+	width: 41px;
+	background: var(--text-light);
+	color: var(--text-dark);
+	font-size: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

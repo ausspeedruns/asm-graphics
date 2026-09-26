@@ -1,0 +1,108 @@
+.rtNamesContainer {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	padding-bottom: 48px;
+}
+
+.techWarning {
+	background: red;
+	color: white;
+	padding: 1rem;
+	border-radius: 16px;
+	text-align: center;
+	margin: 0;
+}
+
+.data {
+	display: grid;
+	grid-template-columns: min-content auto;
+	gap: 0.5rem 1rem;
+	align-items: center;
+	justify-content: center;
+	margin-top: 8px;
+}
+
+.data span {
+	white-space: nowrap;
+	font-size: 24px;
+}
+
+.data span:nth-child(even) {
+	font-weight: bold;
+}
+
+.nameInputs {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.nameRow {
+	display: flex;
+	margin: 1rem 0;
+	font-size: 2rem;
+	align-items: center;
+}
+
+.headsetName {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+	border-radius: 20px;
+	margin-right: 1rem;
+	width: 4rem;
+	text-align: center;
+}
+
+.runnerPronouns {
+	margin-left: 8px;
+	font-size: 1.5rem;
+	font-style: italic;
+}
+
+.runnerTwitch {
+	display: flex;
+	align-items: center;
+	margin-left: 48px;
+}
+
+.twitchImg {
+	height: 2rem;
+	width: auto;
+	margin-right: 8px;
+}
+
+.editButton:global(.MuiButtonBase-root) {
+	margin-left: 32px;
+	font-size: 28px;
+}
+
+.addCommentatorButton:global(.MuiButtonBase-root) {
+	font-size: 32px;
+}
+
+.rainbowText {
+	font-size: 32px;
+	background: linear-gradient(to right, #6666ff, #0099ff, #00ff00, #ff3399, #6666ff);
+	background-clip: text;
+	color: transparent;
+	animation: rainbowTextAnimation 3s ease-in-out infinite;
+	background-size: 400% 100%;
+	margin: 0 16px;
+}
+
+@keyframes rainbowTextAnimation {
+	0%,
+	100% {
+		background-position: 0 0;
+	}
+	50% {
+		background-position: 100% 0;
+	}
+}

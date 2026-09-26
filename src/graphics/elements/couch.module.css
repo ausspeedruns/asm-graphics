@@ -1,0 +1,58 @@
+.peopleContainer {
+	font-family: var(--main-font);
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px;
+}
+
+.commentator {
+	background: var(--text-light);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
+	color: var(--text-dark);
+	font-size: 19px;
+	box-sizing: border-box;
+	position: relative;
+	padding: 4px 8px;
+}
+
+.speaking {
+	filter: drop-shadow(0px 0px 10px #ffffff);
+}
+
+.name {
+	font-family: var(--secondary-font);
+	font-weight: bold;
+	z-index: 2;
+	width: 100%;
+	max-width: 100%;
+	text-box: trim-both ex text;
+}
+
+.pronouns {
+	font-size: 75%;
+	text-transform: uppercase;
+	font-family: var(--main-font);
+	z-index: 2;
+	text-box: trim-both ex text;
+}
+
+.role {
+	font-weight: bold;
+	font-size: 75%;
+	border-radius: 15px;
+	min-width: 20px;
+	text-align: center;
+	text-box: trim-both ex text;
+}
+
+.row {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 4px;
+}

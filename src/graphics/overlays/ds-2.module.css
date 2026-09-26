@@ -1,0 +1,34 @@
+.ds2Container {
+	height: 1016px;
+	width: 1920px;
+	display: flex;
+	justify-content: center;
+	position: relative;
+}
+
+.middle {
+	position: relative;
+	height: 1016px;
+	width: 566px;
+	border-right: 1px solid var(--sec);
+	border-left: 1px solid var(--sec);
+	overflow: hidden;
+}
+
+.infoBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	height: 664px;
+	padding: 16px;
+	box-sizing: border-box;
+	position: relative;
+	font-size: 30px;
+}
+
+.gameColumn {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}

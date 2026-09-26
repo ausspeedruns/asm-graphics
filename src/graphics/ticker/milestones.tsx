@@ -1,77 +1,10 @@
 import { useImperativeHandle, useRef } from "react";
-import styled from "@emotion/styled";
+import clsx from "clsx";
 
 import type { TickerItemHandles } from "../ticker";
 
 import { TickerTitle } from "./title";
-
-const TickerMilestonesContainer = styled.div`
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	text-transform: uppercase;
-	color: var(--text-light);
-	font-size: 37px;
-	z-index: 2;
-`;
-
-const NextMilestone = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	margin-right: 16px;
-	margin-top: -4px;
-`;
-
-const NextMilestoneEvent = styled.span`
-	font-size: 20px;
-	margin-top: 6px;
-	margin-bottom: -8px;
-`;
-
-const NextMilestoneTotal = styled.span`
-	font-size: 27px;
-	font-weight: bold;
-`;
-
-const PrevMilestone = styled(NextMilestone)`
-	// position: absolute;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	margin: -4px 4px 0 8px;
-`;
-
-// Determines full size
-const ProgressContainer = styled.div`
-	flex-grow: 1;
-	height: 54px;
-	margin: 0 16px 0 5px;
-	border: 1px solid var(--text-light);
-	position: relative;
-	overflow: hidden;
-`;
-
-const ProgressBarContainer = styled.div`
-	height: 100%;
-	background: var(--sec);
-	border-right: 5px solid var(--sec);
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-`;
-
-const CurrentAmount = styled(NextMilestoneTotal)`
-	color: var(--text-light);
-	margin-right: 16px;
-	/* font-weight: normal; */
-	width: 100px;
-	text-align: right;
-`;
+import styles from "./milestones.module.css";
 
 type Milestone = {
 	event?: string;
@@ -136,18 +69,14 @@ interface Props {
 	ref?: React.Ref<TickerItemHandles>;
 }
 
-// Milestones to use for the events
 const MILESTONES = combineMilestones(ASM_MILESTONES);
 
 function combineMilestones(milestones: Milestone[]): Milestone[] {
-	// If the first array is empty, just return the second array.
 	if (milestones.length === 0) {
 		return NUMBER_MILESTONES;
 	}
 
 	const lastMilestone = milestones[milestones.length - 1]?.total ?? 0;
-
-	// Filter out items from the second array that are less than or equal to the last item of the first array.
 	const filteredMilestones = NUMBER_MILESTONES.filter((milestone) => milestone.total > lastMilestone);
 
 	return [...milestones, ...filteredMilestones];
@@ -163,7 +92,6 @@ export function TickerMilestones(props: Props) {
 	if (prevMilestoneArray.length === 0) prevMilestoneArray.push({ event: "Start!", total: 0 });
 
 	const prevMilestone = prevMilestoneArray[prevMilestoneArray.length - 1];
-
 	const moneyDifference = props.currentTotal - (prevMilestone?.total ?? 0);
 
 	let showMilestones = true;
@@ -180,18 +108,14 @@ export function TickerMilestones(props: Props) {
 		animation: (tl) => {
 			if (!showMilestones) return tl;
 
-			// Start
 			tl.set(progressBarRef.current, { width: 0 });
 			tl.set(containerRef.current, { y: -64 });
 			tl.to(containerRef.current, { y: 0, duration: 1 });
-
 			tl.to(
 				progressBarRef.current,
 				{ width: `${percentage}%`, duration: Math.max(1, percentage / 45 + 0.5) },
 				"+=1",
 			);
-
-			// End
 			tl.to(containerRef.current, { y: 64, duration: 1 }, "+=10");
 			tl.set(containerRef.current, { y: -64, duration: 1 });
 
@@ -211,27 +135,27 @@ export function TickerMilestones(props: Props) {
 	}
 
 	return (
-		<TickerMilestonesContainer ref={containerRef} style={{ transform: "translate(0px, 64px)" }}>
+		<div className={styles.tickerMilestonesContainer} ref={containerRef} style={{ transform: "translate(0px, 64px)" }}>
 			<TickerTitle>
 				Milestone
 				<br />
 				Progress
 			</TickerTitle>
-			<PrevMilestone>
-				<NextMilestoneEvent>{prevMilestone?.event}</NextMilestoneEvent>
-				<NextMilestoneTotal>${Math.floor(prevMilestone?.total ?? 0).toLocaleString()}</NextMilestoneTotal>
-			</PrevMilestone>
-			<ProgressContainer>
-				<ProgressBarContainer ref={progressBarRef}>
-					<CurrentAmount style={textOnRightSide}>
+			<div className={clsx(styles.nextMilestone, styles.prevMilestone)}>
+				<span className={styles.nextMilestoneEvent}>{prevMilestone?.event}</span>
+				<span className={styles.nextMilestoneTotal}>${Math.floor(prevMilestone?.total ?? 0).toLocaleString()}</span>
+			</div>
+			<div className={styles.progressContainer}>
+				<div className={styles.progressBarContainer} ref={progressBarRef}>
+					<span className={clsx(styles.nextMilestoneTotal, styles.currentAmount)} style={textOnRightSide}>
 						${Math.floor(props.currentTotal).toLocaleString()}
-					</CurrentAmount>
-				</ProgressBarContainer>
-			</ProgressContainer>
-			<NextMilestone>
-				<NextMilestoneEvent>{nextMilestone.event}</NextMilestoneEvent>
-				<NextMilestoneTotal>${Math.floor(nextMilestone.total).toLocaleString()}</NextMilestoneTotal>
-			</NextMilestone>
-		</TickerMilestonesContainer>
+					</span>
+				</div>
+			</div>
+			<div className={styles.nextMilestone}>
+				<span className={styles.nextMilestoneEvent}>{nextMilestone.event}</span>
+				<span className={styles.nextMilestoneTotal}>${Math.floor(nextMilestone.total).toLocaleString()}</span>
+			</div>
+		</div>
 	);
 }

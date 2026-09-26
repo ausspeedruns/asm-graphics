@@ -1,0 +1,48 @@
+.smallInfoContainer {
+	box-sizing: border-box;
+	padding: 20px 10px;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	z-index: 2;
+	color: var(--text-light);
+	font-family: var(--main-font);
+}
+
+.smallInfoContainer :global(#timer) {
+	font-size: 200%;
+}
+
+.smallInfoContainer #gameTitle,
+.smallInfoContainer #category {
+	max-width: 500px;
+}
+
+.smallInfoContainer #gameTitle {
+	font-size: 150%;
+	font-weight: bold;
+}
+
+.verticalStack {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+.topRow {
+	justify-content: space-evenly;
+	flex: 3;
+}
+
+.bottomRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 100%;
+	flex: 1;
+}

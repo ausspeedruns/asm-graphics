@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 import { HashRouter, Route, Link, Routes } from "react-router";
 import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
@@ -38,28 +37,10 @@ import { ParticlesProvider } from "@tsparticles/react";
 import type { Engine } from "@tsparticles/engine";
 import { loadFull } from "tsparticles";
 import { Widescreen4 } from "./overlays/widescreen-4";
+import styles from "./gameplay-overlay.module.css";
 
 // import { useNormalisedTime } from "../hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
-
-const GameplayContainer = styled.div`
-	height: 1016px;
-	width: 1920px;
-	box-sizing: content-box;
-	border-right: 5px solid black;
-	border-bottom: 5px solid black;
-
-	font-family: var(--main-font);
-	color: var(--text-light);
-`;
-
-const SpacedLinks = styled(Link)`
-	margin: 16px 16px 0 16px;
-	font-weight: bold;
-	font-size: 20px;
-	text-decoration: none;
-	display: inline-block;
-`;
 
 export interface OverlayProps {
 	runData: RunDataActiveRun | undefined;
@@ -247,9 +228,9 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 
 	const DevLinks = Overlays.map((overlay) => {
 		return (
-			<SpacedLinks to={`/${overlay.name}`} key={overlay.name}>
+			<Link className={styles.spacedLink} to={`/${overlay.name}`} key={overlay.name}>
 				{overlay.name}
-			</SpacedLinks>
+			</Link>
 		);
 	});
 
@@ -259,7 +240,8 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 
 	return (
 		<>
-			<GameplayContainer
+			<div
+				className={styles.gameplayContainer}
 			// style={
 			// 	{
 			// 		"--plastic-top": asm25Colours.plasticTop + "5C",
@@ -273,7 +255,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 			>
 				<Routes>{RouteData}</Routes>
 				{/* <TickerOverlay /> */}
-			</GameplayContainer>
+			</div>
 
 			{DevLinks}
 			<input

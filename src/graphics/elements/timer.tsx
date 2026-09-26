@@ -1,23 +1,4 @@
-import styled from "@emotion/styled";
-
-const TimerContainer = styled.div`
-	display: flex;
-	align-items: flex-end;
-	font-family: Seamless;
-	color: var(--text-light);
-	text-align: center;
-	letter-spacing: 2px;
-	justify-content: center;
-`;
-
-const MilliText = styled.span`
-	font-size: 50%;
-	margin-left: -3%;
-`;
-
-interface FontProps {
-	fontSize: number;
-}
+import styles from "./timer.module.css";
 
 interface Props {
 	milliseconds?: number;
@@ -34,10 +15,10 @@ export function Timer(props: Props) {
 	let compressedTime = millisecondsToDisplayTime(props.milliseconds ?? 0);
 
 	return (
-		<TimerContainer style={props.style} id="timer">
+		<div className={styles.timerContainer} style={props.style} id="timer">
 			<span>{compressedTime}</span>
-			<MilliText>.{millis}</MilliText>
-		</TimerContainer>
+			<span className={styles.milliText}>.{millis}</span>
+		</div>
 	);
 }
 

@@ -1,149 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { keyframes } from "@emotion/react";
-import styled from "@emotion/styled";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { format } from "date-fns";
 import gsap from "gsap";
 
 import ASNNBug from "./media/asnn.webm";
 import { FitText } from "./elements/fit-text";
-
-const TestContainer = styled.div``;
-
-const ASNNContainer = styled.div`
-	height: 1080px;
-	width: 1920px;
-	max-height: 1080px;
-	border-right: 5px solid black;
-	border-bottom: 5px solid black;
-`;
-
-const Content = styled.div`
-	width: 1920px;
-	height: 1016px;
-	position: relative;
-`;
-
-const LowerThird = styled.div`
-	display: grid;
-	grid-template-columns: 80% 20%;
-	column-gap: 16px;
-	row-gap: 16px;
-	/* display: flex;
-	flex-direction: column; */
-	/* gap: 16px; */
-	width: 1600px;
-	margin: auto;
-	position: relative;
-	top: 775px;
-	/* margin-top: 600px; */
-	/* position: absolute;
-	bottom: 500px; */
-`;
-
-const Headline = styled.div`
-	height: 128px;
-	line-height: 128px;
-	font-family: var(--secondary-font);
-	padding: 0 24px;
-	background-color: var(--asm-orange);
-	color: var(--text-light);
-	font-size: 80px;
-`;
-
-const Ticker = styled.div`
-	height: 64px;
-	line-height: 64px;
-	font-family: var(--main-font);
-	background-color: white;
-	color: var(--asm-orange);
-	font-size: 38px;
-	overflow: hidden;
-`;
-
-const MarqueeKeyframes = keyframes`
-	from {
-		transform: translateX(0);
-	}
-	to {
-		transform: translateX(calc(-100% - var(--gap)));
-	}
-`;
-
-const Marquee = styled.div`
-	--gap: 58px;
-	display: flex;
-	overflow: hidden;
-	gap: var(--gap);
-`;
-
-const MarqueeContent = styled.ul`
-	flex-shrink: 0;
-	display: flex;
-	justify-content: space-around;
-	min-width: 100%;
-	gap: var(--gap);
-	animation: ${MarqueeKeyframes} 30s linear infinite;
-	margin: 0;
-	margin-block: 0;
-	margin-inline: 0;
-	padding-inline: 0;
-`;
-
-const ChannelBug = styled.video`
-	width: 100%;
-	height: 128px;
-	object-fit: contain;
-`;
-
-const TimeBug = styled.div`
-	height: 64px;
-	line-height: 64px;
-	font-family: var(--main-font);
-	background-color: white;
-	color: var(--asm-orange);
-	font-size: 38px;
-	overflow: hidden;
-	text-align: center;
-`;
-
-const Nameplate = styled.div`
-	display: flex;
-	flex-direction: column;
-
-	position: absolute;
-	top: 633px;
-	left: 160px;
-
-	overflow: hidden;
-
-	font-family: var(--main-font);
-`;
-
-const Name = styled.span`
-	background: var(--asm-blue);
-	width: fit-content;
-	padding: 0 16px;
-	color: var(--text-light);
-
-	overflow: hidden;
-	white-space: nowrap;
-	font-size: 52px;
-	margin-bottom: 3px;
-	font-weight: bold;
-`;
-
-const Subtitle = styled.span`
-	background: var(--asm-blue);
-	width: fit-content;
-	padding: 0 16px;
-	color: var(--text-light);
-
-	overflow: hidden;
-	white-space: nowrap;
-	font-size: 38px;
-`;
+import styles from "./asnn.module.css";
 
 const TICKER_DURATION_SCALAR = 0.3;
 
@@ -201,36 +64,38 @@ export const ASNN = () => {
 	});
 
 	return (
-		<TestContainer>
-			<ASNNContainer>
-				<Content>
-					<Nameplate ref={nameplateEl}>
-						<Name ref={nameEl} />
-						<Subtitle ref={subtitleEl} />
-					</Nameplate>
-					<LowerThird>
-						<Headline>
+		<div>
+			<div className={styles.asnnContainer}>
+				<div className={styles.content}>
+					<div className={styles.nameplate} ref={nameplateEl}>
+						<span className={styles.name} ref={nameEl} />
+						<span className={styles.subtitle} ref={subtitleEl} />
+					</div>
+					<div className={styles.lowerThird}>
+						<div className={styles.headline}>
 							<FitText alignment="left" text={asnnHeadline ?? ""} style={{ maxWidth: "100%" }} />
-						</Headline>
-						<ChannelBug src={ASNNBug} autoPlay muted loop />
-						<Ticker>
-							<Marquee>
-								<MarqueeContent
+						</div>
+						<video className={styles.channelBug} src={ASNNBug} autoPlay muted loop />
+						<div className={styles.ticker}>
+							<div className={styles.marquee}>
+								<ul
+									className={styles.marqueeContent}
 									style={{ animationDuration: `${tickerLength * TICKER_DURATION_SCALAR}s` }}
 								>
 									{tickerElements}
-								</MarqueeContent>
-								<MarqueeContent
+								</ul>
+								<ul
+									className={styles.marqueeContent}
 									style={{ animationDuration: `${tickerLength * TICKER_DURATION_SCALAR}s` }}
 								>
 									{tickerElements}
-								</MarqueeContent>
-							</Marquee>
-						</Ticker>
-						<TimeBug>{currentTime}</TimeBug>
-					</LowerThird>
-				</Content>
-			</ASNNContainer>
+								</ul>
+							</div>
+						</div>
+						<div className={styles.timeBug}>{currentTime}</div>
+					</div>
+				</div>
+			</div>
 			<div>
 				<button onClick={() => changeBGColor("#000")}>Black</button>
 				<button onClick={() => changeBGColor("#f00")}>Red</button>
@@ -238,7 +103,7 @@ export const ASNN = () => {
 				<button onClick={() => changeBGColor("#00f")}>Blue</button>
 				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
 			</div>
-		</TestContainer>
+		</div>
 	);
 };
 

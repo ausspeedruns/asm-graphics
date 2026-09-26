@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { Container } from "../elements/container";
@@ -11,54 +9,13 @@ import { Couch } from "../elements/couch";
 import WidescreenTop from "./backgrounds/WidescreenTop.png";
 import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const WidescreenContainer = styled.div`
-	height: 1016px;
-	width: 1920px;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-`;
-
-const TopBar = styled(Container)`
-	flex: 1;
-	width: 100%;
-	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-	position: relative;
-	box-sizing: border-box;
-`;
-
-const Sidebar = styled.div`
-	height: 100%;
-	max-width: 460px;
-	border-right: 1px solid var(--sec);
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-`;
-
-const GameplayRow = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: stretch;
-`;
-
-const SidebarBG = styled(Container)`
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
-	flex: 1;
-	overflow: hidden;
-	padding: 10px;
-`;
+import styles from "./widescreen.module.css";
 
 export const Widescreen = (props: OverlayProps) => {
 	const nameplateMaxWidth = 200 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
 	return (
-		<WidescreenContainer>
+		<div className={styles.widescreenContainer}>
 			{/* <div
 				style={{
 					position: "absolute",
@@ -68,11 +25,11 @@ export const Widescreen = (props: OverlayProps) => {
 					clipPath: "path('M 0 0 H 1920 V 207 H 0 Z M 0 556 H 479 V 1017 H 0 Z')",
 				}}
 			/> */}
-			<TopBar>
+			<Container className={styles.topBar}>
 				<WideInfo timer={props.timer} runData={props.runData} />
-			</TopBar>
-			<GameplayRow>
-				<Sidebar>
+			</Container>
+			<div className={styles.gameplayRow}>
+				<div className={styles.sidebar}>
 					<Facecam
 						maxNameWidth={nameplateMaxWidth}
 						height={400}
@@ -81,7 +38,7 @@ export const Widescreen = (props: OverlayProps) => {
 						audioIndicator={props.microphoneAudioIndicator}
 						verticalCoop
 					/>
-					<SidebarBG>
+					<Container className={styles.sidebarBg}>
 						<Couch
 							style={{ zIndex: 2 }}
 							commentators={props.commentators}
@@ -108,10 +65,10 @@ export const Widescreen = (props: OverlayProps) => {
 						)}
 
 						<SponsorsBox sponsors={props.sponsors} width="90%" height={200} />
-					</SidebarBG>
-				</Sidebar>
+					</Container>
+				</div>
 				<GameplayCapture aspectRatio="16:9" grow />
-			</GameplayRow>
-		</WidescreenContainer>
+			</div>
+		</div>
 	);
 };

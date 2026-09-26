@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import type { OverlayProps } from "../gameplay-overlay";
 
 import { VerticalInfo } from "../elements/info-box/vertical";
@@ -11,41 +9,7 @@ import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";
 import { Container } from "../elements/container";
 import { GameplayCapture } from "../elements/gameplay-capture";
-
-const DS2Container = styled.div`
-	height: 1016px;
-	width: 1920px;
-	display: flex;
-	justify-content: center;
-	position: relative;
-`;
-
-const Middle = styled.div`
-	position: relative;
-	height: 1016px;
-	width: 566px;
-	border-right: 1px solid var(--sec);
-	border-left: 1px solid var(--sec);
-	overflow: hidden;
-`;
-
-const InfoBox = styled(Container)`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	height: 664px;
-	padding: 16px;
-	box-sizing: border-box;
-	position: relative;
-	font-size: 30px;
-`;
-
-const GameColumn = styled.div`
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-`;
+import styles from "./ds-2.module.css";
 
 export const DS2 = (props: OverlayProps) => {
 	const teamData = getTeams(props.runData, props.timer, 2);
@@ -53,12 +17,12 @@ export const DS2 = (props: OverlayProps) => {
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
 
 	return (
-		<DS2Container>
-			<GameColumn>
+		<div className={styles.ds2Container}>
+			<div className={styles.gameColumn}>
 				<GameplayCapture aspectRatio="4:3" />
 				<GameplayCapture aspectRatio="4:3" />
-			</GameColumn>
-			<Middle>
+			</div>
+			<div className={styles.middle}>
 				<Facecam height={352} teams={props.runData?.teams} audioIndicator={props.microphoneAudioIndicator} />
 
 				<RaceFinish style={{ top: 276, left: 830 }} time={teamData[0]?.time} place={teamData[0]?.place ?? -1} />
@@ -79,16 +43,16 @@ export const DS2 = (props: OverlayProps) => {
 						zIndex: 2,
 					}}
 				/>
-				<InfoBox>
+				<Container className={styles.infoBox}>
 					<Couch commentators={props.commentators} style={{ zIndex: 2 }} />
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 					<SponsorsBox sponsors={props.sponsors} width={430} height={130} style={{ zIndex: 2 }} />
-				</InfoBox>
-			</Middle>
-			<GameColumn>
+				</Container>
+			</div>
+			<div className={styles.gameColumn}>
 				<GameplayCapture aspectRatio="4:3" />
 				<GameplayCapture aspectRatio="4:3" />
-			</GameColumn>
-		</DS2Container>
+			</div>
+		</div>
 	);
 };

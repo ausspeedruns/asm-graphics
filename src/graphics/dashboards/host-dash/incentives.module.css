@@ -1,0 +1,104 @@
+.incentivesContainer {
+	display: flex;
+	flex-direction: column;
+	padding: 8px;
+	padding-right: 24px;
+	gap: 8px;
+}
+
+.incentivesContainer section,
+.incentivesContainer section * {
+	box-sizing: border-box;
+}
+
+.incentivesContainer section {
+	width: 100%;
+	border-radius: 8px;
+	display: grid;
+	gap: 6px;
+	padding-bottom: 8px;
+}
+
+.incentivesContainer section > div {
+	width: calc(100% - 16px);
+	margin: 0 8px;
+}
+
+.incentivesContainer h1 {
+	width: 100%;
+	margin: 0;
+	background: lightgrey;
+	padding: 8px 8px 8px 16px;
+	border-radius: 8px 8px 0 0;
+	border-bottom: 2px solid black;
+}
+
+.incentiveItemContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	font-size: 13px;
+	padding: 8px;
+	border-radius: 7px;
+	width: 100%;
+	background: var(--inset-background);
+	position: relative;
+}
+
+.gameTitle {
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.notes {
+	font-size: 1.1rem;
+}
+
+.warContainer {
+	display: flex;
+	flex-grow: 1;
+	flex-wrap: wrap;
+	margin: 1% 1% 1% 0;
+	gap: 8px;
+	justify-content: center;
+}
+
+.warItem {
+	background: var(--inset-background);
+	padding: 2%;
+	font-size: 1.2rem;
+}
+
+.warItem:first-child {
+	margin-left: 0;
+}
+
+.warNoOptions {
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+	padding: 1%;
+	font-size: 1.3rem;
+}
+
+.goalContainer {
+	display: flex;
+	flex-grow: 1;
+	justify-content: space-evenly;
+	font-size: 1.3rem;
+	background: var(--inset-background);
+	padding: 1%;
+	margin: 1% 1% 1% 0;
+	border: 1px solid var(--text-color);
+	border-radius: 4px;
+}
+
+.disabledCover {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.35);
+	top: 0px;
+	left: 0px;
+	border-radius: 7px;
+}

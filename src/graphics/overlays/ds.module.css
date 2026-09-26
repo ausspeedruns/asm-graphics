@@ -1,0 +1,24 @@
+.dsContainer {
+	height: 1016px;
+	width: 1920px;
+	display: flex;
+	align-items: stretch;
+}
+
+.sidebar {
+	height: 100%;
+	width: 565px;
+	border-right: 1px solid var(--sec);
+	overflow: hidden;
+}
+
+.infoBox {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex: 1;
+	border-bottom: 1px solid var(--sec);
+	font-size: 25px;
+}

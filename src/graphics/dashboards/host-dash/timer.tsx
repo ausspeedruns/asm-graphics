@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import { useReplicant } from "@nodecg/react-hooks";
 
 import type { Timer as ITimer } from "@asm-graphics/types/Timer";
@@ -6,32 +5,7 @@ import type { Timer as ITimer } from "@asm-graphics/types/Timer";
 import { Button, Tooltip, Paper } from "@mui/material";
 import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from "@mui/icons-material";
 import type { RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData";
-
-const TimerContainer = styled.div`
-	padding: 8px;
-	font-family:
-		Noto Sans,
-		sans-serif;
-`;
-
-const CurrentTime = styled(Paper)`
-	width: 100%;
-	background: #eee;
-	padding: 8px 0;
-	font-size: 25px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-const MainButtons = styled.div`
-	margin: 8px 0;
-	width: 100%;
-	display: flex;
-	gap: 4px;
-`;
-
-const TeamBlock = styled.div``;
+import styles from "./timer.module.css";
 
 export function Timer() {
 	const [timerRep] = useReplicant<ITimer>("timer", {
@@ -70,8 +44,9 @@ export function Timer() {
 	}
 
 	return (
-		<TimerContainer>
-			<CurrentTime
+		<div className={styles.timerContainer}>
+			<Paper
+				className={styles.currentTime}
 				style={{
 					background: timerRep?.state === "finished" ? "#388E3C" : "",
 					color: fontColor,
@@ -79,8 +54,8 @@ export function Timer() {
 				elevation={1}
 			>
 				<div>{timerRep?.time}</div>
-			</CurrentTime>
-			<MainButtons>
+			</Paper>
+			<div className={styles.mainButtons}>
 				<Tooltip title={timerRep?.state === "running" ? "Pause" : "Start"}>
 					<div style={{ width: "100%" }}>
 						<Button
@@ -121,36 +96,19 @@ export function Timer() {
 						<UndoButton fullWidth team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
 					</>
 				)}
-			</MainButtons>
+			</div>
 			{runDataActiveRep && runDataActiveRep.teams.length > 1 && timerRep && (
-				<TeamBlock>
+				<div>
 					{runDataActiveRep &&
 						timerRep &&
 						runDataActiveRep.teams.map((team) => (
 							<TeamTimer team={team} timerRep={timerRep} key={team.id} />
 						))}
-				</TeamBlock>
+				</div>
 			)}
-		</TimerContainer>
+		</div>
 	);
 };
-
-const TeamTimerContainer = styled.div`
-	display: flex;
-	gap: 4px;
-	align-items: center;
-	font-size: 1.2rem;
-`;
-
-const Names = styled.div`
-	margin-left: 8px;
-`;
-
-const EndTime = styled.div`
-	font-weight: bold;
-	font-size: 1.5rem;
-	margin-left: 16px;
-`;
 
 interface TeamTimerProps {
 	team: RunDataTeam;
@@ -162,22 +120,22 @@ const TeamTimer: React.FC<TeamTimerProps> = (props: TeamTimerProps) => {
 	const state = props.timerRep.teamFinishTimes[props.team.id]?.state || undefined;
 
 	return (
-		<TeamTimerContainer style={{ margin: "4px 0" }}>
+		<div className={styles.teamTimerContainer} style={{ margin: "4px 0" }}>
 			<StopForfeitButton team={props.team} timerRep={props.timerRep} />
 			<StopForfeitButton forfeit team={props.team} timerRep={props.timerRep} />
 			<UndoButton team={props.team} timerRep={props.timerRep} />
-			<Names>
+			<div className={styles.names}>
 				{props.team.name && <span style={{ fontWeight: "bold" }}>{props.team.name}: </span>}
 				{props.team.players.map((player) => player.name).join(", ")}
-			</Names>
-			<EndTime>
+			</div>
+			<div className={styles.endTime}>
 				{finishTime && state === "completed"
 					? finishTime
 					: finishTime && state === "forfeit"
 						? `Forfeit ${finishTime}`
 						: ""}
-			</EndTime>
-		</TeamTimerContainer>
+			</div>
+		</div>
 	);
 };
 

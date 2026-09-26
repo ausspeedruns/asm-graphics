@@ -1,0 +1,9 @@
+.container {
+	font-family: var(--main-font);
+	font-weight: normal;
+}
+
+.container blockquote {
+	border-left: 4px solid var(--asm-orange);
+	padding: 16px;
+}

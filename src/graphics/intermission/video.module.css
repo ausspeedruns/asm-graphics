@@ -1,0 +1,26 @@
+.intermissionAdsContainer {
+	width: 100%;
+	opacity: 0;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	background: black;
+	border-radius: 32px;
+}
+
+.videoBox {
+	margin: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 37px;
+	width: 900px;
+	height: 623px;
+}
+
+.video {
+	width: 100%;
+	height: auto;
+	z-index: 2;
+	opacity: 0;
+}

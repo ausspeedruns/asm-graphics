@@ -1,25 +1,11 @@
 import { useEffect, useRef } from "react";
-import styled from "@emotion/styled";
 import gsap from "gsap";
+import clsx from "clsx";
 
 import { VolumeUp } from "@mui/icons-material";
+import styles from "./audio-indicator.module.css";
 
 const SIZE = 41;
-
-const AudioIndicatorContainer = styled.div`
-	overflow: hidden;
-`;
-
-const IconBGContainer = styled.div`
-	height: ${SIZE}px;
-	width: ${SIZE}px;
-	background: var(--text-light);
-	color: var(--text-dark);
-	font-size: 30px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
 
 interface Props {
 	side: "left" | "right" | "top";
@@ -44,10 +30,10 @@ export const AudioIndicator: React.FC<Props> = (props: Props) => {
 	}, [props.active, props.side]);
 
 	return (
-		<AudioIndicatorContainer style={props.style} className={props.className}>
-			<IconBGContainer ref={containerRef}>
+		<div style={props.style} className={clsx(styles.container, props.className)}>
+			<div className={styles.iconBackground} ref={containerRef}>
 				<VolumeUp style={{ fontSize: "inherit" }} />
-			</IconBGContainer>
-		</AudioIndicatorContainer>
+			</div>
+		</div>
 	);
 };

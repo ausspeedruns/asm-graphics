@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import styled from "@emotion/styled";
 
 import { Button, TextField, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { useReplicant } from "@nodecg/react-hooks";
-
-const Row = styled.div`
-	display: flex;
-	gap: 8px;
-	margin: 8px 0;
-`;
+import styles from "./full-cam.module.css";
 
 function FullCam() {
 	const [creditsInfo, setCreditsInfo] = useState({ name: "", title: "" });
@@ -42,7 +36,7 @@ function FullCam() {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<h3 style={{ margin: "0", textAlign: "center" }}>Acknowledgement of Country</h3>
-			<Row>
+			<div className={styles.row}>
 				<Button
 					color="success"
 					variant="contained"
@@ -59,7 +53,7 @@ function FullCam() {
 				>
 					Hide AoC
 				</Button>
-			</Row>
+			</div>
 			<hr style={{ margin: "24px 0" }} />
 			<div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
 				<h3 style={{ margin: "0", textAlign: "center" }}>Lowerthird</h3>
@@ -79,7 +73,7 @@ function FullCam() {
 			<Button color="primary" variant="contained" fullWidth onClick={updateCreditsInfo} disabled={!canUpdate}>
 				Update
 			</Button>
-			<Row>
+			<div className={styles.row}>
 				<Button
 					color="success"
 					variant="contained"
@@ -96,7 +90,7 @@ function FullCam() {
 				>
 					Hide Lowerthird
 				</Button>
-			</Row>
+			</div>
 			<hr style={{ margin: "24px 0" }} />
 			<h3 style={{ margin: "0", textAlign: "center" }}>Credits</h3>
 			<Button color="success" variant="contained" fullWidth onClick={() => nodecg.sendMessage("credits:start")}>

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
 import { useReplicant } from "@nodecg/react-hooks";
 import _, { uniqueId } from "underscore";
 import { Button, InputAdornment, Paper, Stack, TextField, Tooltip } from "@mui/material";
@@ -8,23 +6,7 @@ import { Check, Delete, Undo } from "@mui/icons-material";
 
 import type { Donation } from "@asm-graphics/types/Donations";
 import NumberField from "../../elements/number-field";
-
-const DonationsContainer = styled.div`
-	height: calc(100% - 56px);
-	overflow-x: hidden;
-	overflow-y: auto;
-`;
-
-const DonationForm = styled.div`
-	padding: 8px;
-`;
-
-const FormTopRow = styled.div`
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
-	gap: 8px;
-`;
+import styles from "./manual-donations.module.css";
 
 // Donation object example
 // desc: "for PeekingBoo a joy to watch and listen to! Goodluck!"
@@ -86,9 +68,9 @@ export const ManualDonations: React.FC = () => {
 	const canAddNewDonation = author.trim() !== "" && !isNaN(amount) && amount > 0;
 
 	return (
-		<DonationsContainer>
-			<DonationForm>
-				<FormTopRow>
+		<div className={styles.donationsContainer}>
+			<div className={styles.donationForm}>
+				<div className={styles.formTopRow}>
 					<TextField
 						margin="dense"
 						label="Name"
@@ -104,7 +86,7 @@ export const ManualDonations: React.FC = () => {
 						startAdornment={<InputAdornment position="start">$</InputAdornment>}
 						onValueChange={(value) => setAmount(value ?? 0)}
 					/>
-				</FormTopRow>
+				</div>
 				<TextField
 					margin="dense"
 					label="Message"
@@ -125,11 +107,11 @@ export const ManualDonations: React.FC = () => {
 						Add
 					</Button>
 				</div>
-			</DonationForm>
+			</div>
 			<Stack style={{ padding: 8, wordBreak: "break-word" }}>
 				{allDonations}
 			</Stack>
-		</DonationsContainer>
+		</div>
 	);
 };
 
@@ -138,48 +120,6 @@ export const ManualDonations: React.FC = () => {
 interface DonationProps {
 	donation: Donation;
 }
-
-const NewFlash = keyframes`
-	from { background-color: #000000; }
-	to { background-color: var(--inset-background); }
-`;
-
-const DonationContainer = styled(Paper)`
-	margin: 6px 0;
-	display: flex;
-	font-size: 13px;
-	padding: 8px;
-	border-radius: 7px;
-	animation-name: ${NewFlash};
-	animation-duration: 0.5s;
-	background-color: var(--inset-background);
-	position: relative;
-`;
-
-const Amount = styled.span`
-	font-weight: bold;
-	font-size: 1.2rem;
-	margin-right: 6px;
-`;
-
-const Name = styled.span`
-	font-weight: bold;
-	font-size: 1.2rem;
-`;
-
-const DateText = styled.span`
-	color: #aaa;
-`;
-
-const DisabledCover = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: rgba(0, 0, 0, 0.35);
-	top: 0px;
-	left: 0px;
-	border-radius: 7px;
-`;
 
 const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	const timeText = new Date(props.donation.time).toLocaleTimeString();
@@ -193,7 +133,7 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 	};
 
 	return (
-		<DonationContainer elevation={2}>
+		<Paper className={styles.donationContainer} elevation={2}>
 			<Tooltip title="Delete" placement="top">
 				<Button color="error" variant="contained" onClick={deleteDono} style={{ flexGrow: 0, marginRight: 8 }}>
 					<Delete />
@@ -201,16 +141,16 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 			</Tooltip>
 			<Stack style={{ flexGrow: 1, gap: 4 }}>
 				<div>
-					<Amount>${props.donation.amount.toLocaleString()}</Amount>
-					<Name>{props.donation.name}</Name>
+					<span className={styles.amount}>${props.donation.amount.toLocaleString()}</span>
+					<span className={styles.name}>{props.donation.name}</span>
 				</div>
-				<DateText>{timeText}</DateText>
+				<span className={styles.dateText}>{timeText}</span>
 				<span style={{ fontStyle: props.donation.desc ? "" : "italic" }}>
 					{_.unescape(props.donation.desc || "No comment").replace("&#39;", "'")}
 				</span>
 			</Stack>
 
-			{props.donation.read && <DisabledCover />}
+			{props.donation.read && <div className={styles.disabledCover} />}
 
 			{props.donation.read ? (
 				<Tooltip title="Mark as unread" placement="top">
@@ -225,6 +165,6 @@ const DonationEl: React.FC<DonationProps> = (props: DonationProps) => {
 					</Button>
 				</Tooltip>
 			)}
-		</DonationContainer>
+		</Paper>
 	);
 };
