@@ -8,6 +8,9 @@ import DSBG from "./backgrounds/DS.png";
 import { GameplayCapture } from "../elements/gameplay-capture";
 import styles from "./ds.module.css";
 
+import round from "../media/asap26/Round.png";
+import swirl from "../media/asap26/Swirl.png";
+
 export function DS(props: OverlayProps) {
 	return (
 		<div className={styles.dsContainer}>
@@ -19,8 +22,15 @@ export function DS(props: OverlayProps) {
 					audioIndicator={props.microphoneAudioIndicator}
 				/>
 
-				<Container className={styles.infoBox}>
+				<Container className={styles.infoBox} asap26NoBorder>
 					<SmallInfo timer={props.timer} runData={props.runData} />
+
+					<img src={swirl} id={styles.swirlLeft} className={styles.asapGreeble} />
+					<img src={swirl} id={styles.swirlRight} className={styles.asapGreeble} />
+
+					<img src={round} id={styles.roundLeft} className={styles.asapGreeble} />
+					<img src={round} id={styles.roundRight} className={styles.asapGreeble} />
+
 				</Container>
 				<GameplayCapture aspectRatio="4:3" />
 			</div>

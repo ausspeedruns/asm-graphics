@@ -63,7 +63,7 @@
 	font-size: 22px;
 }
 
-.infoBox #gameTitle {
+.infoBox :global(#gameTitle) {
 	font-size: 250%;
 }
 
@@ -71,7 +71,7 @@
 	font-size: 400%;
 }
 
-.infoBox #category {
+.infoBox :global(#category) {
 	max-width: 90%;
 	font-size: 120%;
 }

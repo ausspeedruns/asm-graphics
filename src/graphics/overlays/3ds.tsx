@@ -7,6 +7,7 @@ import { GameplayCapture } from "../elements/gameplay-capture";
 import styles from "./3ds.module.css";
 
 // import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";
+import side from "../media/asap26/Side.png";
 
 export const ThreeDS = (props: OverlayProps) => {
 	return (
@@ -16,16 +17,9 @@ export const ThreeDS = (props: OverlayProps) => {
 					src={WidescreenTop}
 					style={{ opacity: 0.8, position: "absolute", height: 175, width: 1295.35, right: -100 }}
 				/> */}
-				<div
-					style={{
-						position: "absolute",
-						bottom: 0,
-						height: 8,
-						width: "100%",
-						background: "var(--dh-orange-to-red)",
-					}}
-				/>
 				<WideInfo timer={props.timer} runData={props.runData} />
+				<img src={side} id={styles.sideLeft} className={styles.asapGreeble} />
+				<img src={side} id={styles.sideRight} className={styles.asapGreeble} />
 			</Container>
 			<div className={styles.gameRow}>
 				<div className={styles.sidebar}>

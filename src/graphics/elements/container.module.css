@@ -1,3 +1,8 @@
 .container {
-	background: var(--main);
+	background: var(--asap26-bg);
+	box-shadow: 0 0 0 10px var(--asap26-accent) inset, 0 0 0 15px var(--asap26-border-2) inset;
+}
+
+.asap26NoBorder {
+	box-shadow: none;
 }

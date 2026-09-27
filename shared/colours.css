@@ -11,6 +11,8 @@ body {
 	--main-font: "Poppins";
 	--secondary-font: "Poppins";
 	--mono-font: var(--asm-font);
+	--game-font: "Rye";
+	--category-font: "Poppins";
 
 	--asm-orange: #cc7722;
 	--asm-blue: #437c90;
@@ -22,6 +24,11 @@ body {
 	--orange-400: #ffa651;
 	--orange-600: #b8561b;
 	--orange-500: #cc7722;
+
+	--asap26-bg: #ffdbc2;
+	--asap26-accent: #ff6817;
+	--asap26-border-2: #009dff;
+	--asap26-text-shadow: #7f0000;
 
 	/* GOC */
 	--goc-gradient: linear-gradient(

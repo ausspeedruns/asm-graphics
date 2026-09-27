@@ -12,16 +12,16 @@
 	font-size: 300%;
 }
 
-.verticalInfoContainer #gameTitle,
-.verticalInfoContainer #category {
+.verticalInfoContainer :global(#gameTitle),
+.verticalInfoContainer :global(#category) {
 	max-width: 90%;
 }
 
-.verticalInfoContainer #gameTitle {
+.verticalInfoContainer :global(#gameTitle) {
 	font-size: 180%;
 }
 
-.verticalInfoContainer #category {
+.verticalInfoContainer :global(#category) {
 	font-weight: 600;
 }
 

@@ -14,7 +14,7 @@
 	border: 2px dashed var(--sec);
 	background: rgb(0 0 0 / 35%);
 	color: var(--sec);
-	font-family: var(--game-font, sans-serif);
+	font-family: sans-serif;
 	font-size: 20px;
 	text-align: center;
 	pointer-events: none;

@@ -25,6 +25,70 @@
 	font-size: 30px;
 }
 
-.infoBoxBg #gameTitle {
-	max-width: 507px !important;
+.infoBoxBg {
+	:global(#gameTitle) {
+		max-width: 507px !important;
+
+
+	}
+
+	/* ASAP26 */
+	:global(#category) {
+		color: white;
+		text-shadow: -3px 2px var(--asap26-text-shadow), -4px 4px #000;
+		-webkit-text-stroke: 2px var(--asap26-accent);
+		font-size: 40px;
+	}
+}
+
+/* ASAP26 */
+.asapGreeble {
+	position: absolute;
+}
+
+#swirlLeft {
+	left: 0;
+	top: 200px;
+	transform: scaleX(-1);
+}
+
+#swirlRight {
+	right: 0;
+	top: 200px;
+}
+
+#swirlBottomLeft {
+	left: -20px;
+	bottom: -75px;
+	transform: rotate(-90deg) scaleX(-1);
+	z-index: 1;
+}
+
+#swirlBottomRight {
+	right: -20px;
+	bottom: -75px;
+	transform: rotate(90deg);
+	z-index: 1;
+}
+
+#roundLeft {
+	top: 60px;
+	left: 0px;
+}
+
+#roundRight {
+	top: 60px;
+	right: 0px;
+	transform: scaleX(-1);
+}
+
+#roundBottomLeft {
+	bottom: 0px;
+	left: 0px;
+}
+
+#roundBottomRight {
+	bottom: 0px;
+	right: 0px;
+	transform: scaleX(-1);
 }

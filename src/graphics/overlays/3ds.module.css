@@ -25,3 +25,19 @@
 	border-right: 1px solid var(--sec);
 	z-index: -1;
 }
+
+/* ASAP26 */
+.asapGreeble {
+	position: absolute;
+}
+
+#sideLeft {
+	left: 0;
+	height: 100%;
+}
+
+#sideRight {
+	right: 0;
+	height: 100%;
+	transform: scaleX(-1);
+}

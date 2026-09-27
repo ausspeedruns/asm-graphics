@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import clsx from "clsx";
+import styles from "./gameplay-capture.module.css";
 
 const TEST_MODE = true;
 
@@ -27,15 +28,6 @@ interface GameplayCaptureProps {
 export function GameplayCapture(props: GameplayCaptureProps) {
 	const captureRef = useRef<HTMLDivElement>(null);
 	const [size, setSize] = useState({ width: 0, height: 0 });
-	const captureStyle: CSSProperties = {
-		flex: props.grow ? "1 1 auto" : "0 1 auto",
-		minWidth: 0,
-		minHeight: 0,
-		maxWidth: "100%",
-		maxHeight: "100%",
-		...(props.grow ? { alignSelf: "center" } : {}),
-		aspectRatio: getAspectRatio(props.aspectRatio),
-	};
 
 	useEffect(() => {
 		if (!TEST_MODE || !captureRef.current) return;
@@ -58,18 +50,11 @@ export function GameplayCapture(props: GameplayCaptureProps) {
 		return (
 			<div
 				ref={captureRef}
-				style={{
-					...captureStyle,
-					backgroundColor: "red",
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					color: "white",
-					textAlign: "center",
-				}}
+				className={clsx(styles.capture, props.grow && styles.grow, styles.testMode)}
+				style={{ aspectRatio: getAspectRatio(props.aspectRatio) }}
 			>
 				{size.width > 0 && size.height > 0 ? (
-					<div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+					<div className={styles.measurementDetails}>
 						<div>
 							Actual: {size.width} x {size.height} ({(size.width / size.height).toFixed(6)}:1)
 						</div>
@@ -84,6 +69,10 @@ export function GameplayCapture(props: GameplayCaptureProps) {
 	}
 
 	return (
-		<div ref={captureRef} style={captureStyle} />
+		<div
+			ref={captureRef}
+			className={clsx(styles.capture, props.grow && styles.grow)}
+			style={{ aspectRatio: getAspectRatio(props.aspectRatio) }}
+		/>
 	);
 }

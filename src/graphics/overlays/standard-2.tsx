@@ -13,6 +13,8 @@ import Standard2p from "./backgrounds/Standard2p.png";
 import { GameplayCapture } from "../elements/gameplay-capture";
 import styles from "./standard-2.module.css";
 
+import corner from "../media/asap26/Corner.png";
+
 export function Standard2(props: OverlayProps) {
 	const teamData = getTeams(props.runData, props.timer, 2);
 	const allRunnerIds = props.runData?.teams.flatMap((team) => team.players.map((player) => player.id)) ?? [];
@@ -25,6 +27,9 @@ export function Standard2(props: OverlayProps) {
 			<div className={styles.topbar}>
 				<Container className={styles.leftBox}>
 					<SmallInfo timer={props.timer} runData={props.runData} />
+
+					<img src={corner} className={styles.cornerLeft} />
+					<img src={corner} className={styles.cornerRight} />
 				</Container>
 
 				<AudioIndicator

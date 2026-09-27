@@ -47,3 +47,18 @@
 	clip-path: path("M 0 0 H 666 V 297 H 0 Z M 1920 0 H 1254 V 297 H 1921 Z ");
 	z-index: 1;
 }
+
+/* ASAP2026 */
+
+.cornerLeft {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.cornerRight {
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: scaleX(-1);
+}

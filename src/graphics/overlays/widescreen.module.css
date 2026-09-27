@@ -42,3 +42,43 @@
 	overflow: hidden;
 	padding: 10px;
 }
+
+/* ASAP26 */
+.asapGreeble {
+	position: absolute;
+}
+
+#swirlTopLeft {
+	left: 600px;
+	top: -80px;
+	transform: rotate(-90deg);
+}
+
+#swirlTopRight {
+	right: 600px;
+	top: -80px;
+	transform: rotate(90deg) scaleX(-1);
+}
+
+#swirlBottomLeft {
+	left: 600px;
+	bottom: -80px;
+	transform: rotate(90deg) scaleY(-1);
+}
+
+#swirlBottomRight {
+	right: 600px;
+	bottom: -80px;
+	transform: rotate(-90deg) scale(-1);
+}
+
+#sideLeft {
+	left: 0;
+	height: 100%;
+}
+
+#sideRight {
+	right: 0;
+	height: 100%;
+	transform: scaleX(-1);
+}

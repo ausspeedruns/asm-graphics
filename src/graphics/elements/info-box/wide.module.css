@@ -12,12 +12,12 @@
 	font-size: 34px;
 }
 
-.wideInfoContainer #subInfoStack,
-.wideInfoContainer #category {
+.wideInfoContainer :global(#subInfoStack),
+.wideInfoContainer :global(#category) {
 	font-weight: 600;
 }
 
-.wideInfoContainer #gameTitle {
+.wideInfoContainer :global(#gameTitle) {
 	font-size: 200%;
 	max-width: 100%;
 	line-height: 0.75;

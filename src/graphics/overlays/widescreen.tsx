@@ -11,6 +11,10 @@ import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
 import { GameplayCapture } from "../elements/gameplay-capture";
 import styles from "./widescreen.module.css";
 
+// ASAP26
+import swirl from "../media/asap26/Swirl.png";
+import side from "../media/asap26/Side.png";
+
 export const Widescreen = (props: OverlayProps) => {
 	const nameplateMaxWidth = 200 / (props.runData?.teams?.[0]?.players?.length ?? 1) + 70;
 
@@ -27,6 +31,14 @@ export const Widescreen = (props: OverlayProps) => {
 			/> */}
 			<Container className={styles.topBar}>
 				<WideInfo timer={props.timer} runData={props.runData} />
+
+				<img src={swirl} id={styles.swirlTopLeft} className={styles.asapGreeble} />
+				<img src={swirl} id={styles.swirlTopRight} className={styles.asapGreeble} />
+				<img src={swirl} id={styles.swirlBottomLeft} className={styles.asapGreeble} />
+				<img src={swirl} id={styles.swirlBottomRight} className={styles.asapGreeble} />
+
+				<img src={side} id={styles.sideLeft} className={styles.asapGreeble} />
+				<img src={side} id={styles.sideRight} className={styles.asapGreeble} />
 			</Container>
 			<div className={styles.gameplayRow}>
 				<div className={styles.sidebar}>

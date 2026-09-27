@@ -6,6 +6,10 @@
 	text-align: center;
 	letter-spacing: 2px;
 	justify-content: center;
+
+	/* ASAP26 */
+	text-shadow: -3px 2px var(--asap26-text-shadow), -4px 4px #000;
+	-webkit-text-stroke: 3px var(--asap26-accent);
 }
 
 .milliText {

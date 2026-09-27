@@ -25,3 +25,43 @@
 	border-bottom: 1px solid var(--sec);
 	font-size: 25px;
 }
+
+/* ASAP2026 */
+.infoBox {
+	:global(#category) {
+		text-shadow: none;
+		-webkit-text-stroke: 0px;
+		font-weight: bold;
+		color: var(--asap26-accent);
+	}
+}
+
+.asapGreeble {
+	position: absolute;
+}
+
+#swirlLeft {
+	left: 0;
+	top: 0;
+	transform: scale(-1);
+	z-index: 1;
+}
+
+#swirlRight {
+	right: 0;
+	top: 0;
+	transform: scaleY(-1);
+	z-index: 1;
+}
+
+#roundLeft {
+	left: 0;
+	top: -62px;
+	transform: rotate(-90deg) scaleX(-1);
+}
+
+#roundRight {
+	right: 0;
+	top: -62px;
+	transform: rotate(90deg);
+}
