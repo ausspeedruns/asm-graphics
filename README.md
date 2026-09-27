@@ -132,6 +132,18 @@ This is purely about the dashboard usage
 1. Make sure all the couch commentators and runners are in the correct order in the "Stage View" panel
 2. Click "Open Game Crop" and assign the relevant game capture sources to the section and crop the gameplay accordingly
 
+### Gameplay Layout Screenshots
+
+The layout screenshot tester advances through the live NodeCG schedule and captures only the gameplay overlay container. It requires Node.js 24 or newer, the schedule loaded in NodeCG, and a Chrome for Testing 150 executable.
+
+Set `CHROME_EXECUTABLE_PATH` to the Chrome 150 executable, then run:
+
+```sh
+pnpm test:gameplay-layouts
+```
+
+The tester opens `http://localhost:9090/bundles/asm-graphics/graphics/gameplay-overlay.html` by default and writes images to `artifacts/gameplay-layout-screenshots`. Override these with `GAMEPLAY_OVERLAY_URL` and `GAMEPLAY_SCREENSHOT_DIRECTORY`, or pass `--url`, `--chrome`, and `--output`. Runs with missing or unsupported layout labels are skipped and reported. To run the layout-name unit checks, use `pnpm test:gameplay-layouts:unit`.
+
 ## Events used in
 
 - ASO2026

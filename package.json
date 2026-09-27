@@ -21,7 +21,9 @@
 		"watch:browser": "vite",
 		"watch:extensions": "tsdown -w",
 		"type-check:browser": "tsc -p tsconfig.browser.json --noEmit",
-		"type-check:extensions": "tsc -p tsconfig.extensions.json --noEmit"
+		"type-check:extensions": "tsc -p tsconfig.extensions.json --noEmit",
+		"test:gameplay-layouts": "node scripts/gameplay-layout-screenshots.ts",
+		"test:gameplay-layouts:unit": "node --test scripts/gameplay-layout-screenshots.test.ts"
 	},
 	"dependencies": {
 		"@base-ui/react": "^1.8.0",
@@ -79,6 +81,7 @@
 		"oxfmt": "^0.70.0",
 		"oxlint": "^1.85.0",
 		"oxlint-tsgolint": "^7.0.2003",
+		"puppeteer-core": "^25.12.0",
 		"tsdown": "^0.23.0",
 		"typescript": "7.0.2",
 		"vite": "^8.3.1",

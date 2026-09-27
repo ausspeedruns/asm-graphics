@@ -32,3 +32,8 @@ speedcontrol-config.json
 
 # AusSpeedruns
 event-data
+
+# Gameplay layout screenshots
+/artifacts/gameplay-layout-screenshots/
+
+/chrome

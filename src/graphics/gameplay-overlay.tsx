@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { HashRouter, Route, Link, Routes } from "react-router";
 import { useReplicant } from "@nodecg/react-hooks";
@@ -62,8 +62,11 @@ interface GameplayOverlayProps {
 function GameplayOverlay(props: GameplayOverlayProps) {
 	const { clearManualNormalizedTime, normalizedTime, setManualNormalizedTime } = useTimeStyleContext();
 
+	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [timerRep] = useReplicant<Timer>("timer", { bundle: "nodecg-speedcontrol" });
+	const activeRunIndex = runDataArrayRep?.findIndex((run) => run.id === runDataActiveRep?.id) ?? -1;
+	const hasNextRun = Boolean(runDataArrayRep && activeRunIndex >= 0 && activeRunIndex < runDataArrayRep.length - 1);
 
 	const [commentatorsRep] = useReplicant("commentators");
 	const [showHostRep] = useReplicant("showHost");
@@ -76,8 +79,6 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 
 	const [onScreenMessageShowRep] = useReplicant("onScreenWarning:show");
 	const [onScreenMessageMessageRep] = useReplicant("onScreenWarning:message");
-
-	const [displayingRun, setDisplayingRun] = useState<RunDataActiveRun>(undefined);
 
 	// const normalisedTime = useNormalisedTime(1000);
 	// const [normalisedTime, setNormalisedTime] = useState(0);
@@ -98,7 +99,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	}
 
 	const overlayArgs: OverlayProps = {
-		runData: displayingRun,
+		runData: runDataActiveRep,
 		timer: timerRep,
 		commentators: commentatorsRep ?? [],
 		preview: props.preview,
@@ -205,23 +206,6 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 		},
 	];
 
-	useEffect(() => {
-		if (props.preview) {
-			nodecg.readReplicant("runDataArray", "nodecg-speedcontrol", (runData) => {
-				nodecg.readReplicant("runDataActiveRunSurrounding", "nodecg-speedcontrol", (surrounding) => {
-					setDisplayingRun(
-						(runData as RunDataArray).find(
-							(run) =>
-								run.id === (surrounding as { previous?: string; current?: string; next?: string }).next,
-						),
-					);
-				});
-			});
-		} else {
-			setDisplayingRun(runDataActiveRep);
-		}
-	}, [props.preview, runDataActiveRep]);
-
 	const RouteData = Overlays.map((overlay) => {
 		return <Route path={`/${overlay.name}`} key={overlay.name} element={overlay.component} />;
 	});
@@ -234,24 +218,32 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 		);
 	});
 
-	function changeBGColor(col: string) {
-		document.body.style.background = col;
-	}
+	const layout = useMemo(() => {
+		const rawRequirements =
+			typeof runDataActiveRep?.customData?.["specialRequirements"] === "string"
+				? runDataActiveRep?.customData?.["specialRequirements"]
+				: "";
+		const layoutMatch = /LAYOUT:\s*([^\n]+)/i.exec(rawRequirements);
+		const extractedLayout = layoutMatch?.[1]?.trim() || null;
+
+		return extractedLayout;
+	}, [runDataActiveRep?.customData]);
 
 	return (
 		<>
 			<div
+				id="gameplay-container"
 				className={styles.gameplayContainer}
-			// style={
-			// 	{
-			// 		"--plastic-top": asm25Colours.plasticTop + "5C",
-			// 		"--plastic-bottom": asm25Colours.plasticBottom,
-			// 		"--text-outline": asm25Colours.textOutline,
-			// 		"--trace": asm25Colours.trace,
-			// 		"--trace-outline": asm25Colours.traceOutline,
-			// 		"--chip": asm25Colours.chip,
-			// 	} as React.CSSProperties
-			// }
+				// style={
+				// 	{
+				// 		"--plastic-top": asm25Colours.plasticTop + "5C",
+				// 		"--plastic-bottom": asm25Colours.plasticBottom,
+				// 		"--text-outline": asm25Colours.textOutline,
+				// 		"--trace": asm25Colours.trace,
+				// 		"--trace-outline": asm25Colours.traceOutline,
+				// 		"--chip": asm25Colours.chip,
+				// 	} as React.CSSProperties
+				// }
 			>
 				<Routes>{RouteData}</Routes>
 				{/* <TickerOverlay /> */}
@@ -274,12 +266,32 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 				<button onClick={() => setNormalisedTime((sunriseStart + sunriseEnd) / 2)}>Sunrise</button> */}
 			</div>
 			<div>
-				<button onClick={() => changeBGColor("#000")}>Black</button>
-				<button onClick={() => changeBGColor("#f00")}>Red</button>
-				<button onClick={() => changeBGColor("#0f0")}>Green</button>
-				<button onClick={() => changeBGColor("#00f")}>Blue</button>
-				<button onClick={() => changeBGColor("rgba(0, 0, 0, 0)")}>Transparent</button>
 				<button onClick={() => nodecg.sendMessage("credits:start")}>Credits</button>
+				<button
+					id="event-start"
+					onClick={() =>
+						nodecg.sendMessageToBundle("changeActiveRun", "nodecg-speedcontrol", runDataArrayRep?.[0]?.id)
+					}
+				>
+					Start at beginning
+				</button>
+				<button
+					id="next-run"
+					onClick={() => nodecg.sendMessageToBundle("changeToNextRun", "nodecg-speedcontrol")}
+					disabled={!hasNextRun}
+				>
+					Next Run
+				</button>
+				<span
+					id="intended-layout"
+					data-run-id={runDataActiveRep?.id ?? ""}
+					data-run-game={runDataActiveRep?.game ?? ""}
+					data-run-index={activeRunIndex}
+					data-run-count={runDataArrayRep?.length ?? 0}
+					data-first-run-id={runDataArrayRep?.[0]?.id ?? ""}
+				>
+					{layout}
+				</span>
 			</div>
 		</>
 	);

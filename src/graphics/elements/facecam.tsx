@@ -127,66 +127,69 @@ export const Facecam = (props: FacecamProps) => {
 		let alternatingPronounSides = props.pronounStartSide === "right";
 		const team = props.teams[0];
 
-		if (!team) {
-			return null;
-		}
-
-		if (team.relayPlayerID) {
-			// Relay, display relay player name
-			allRunnerNames.push(
-				<Nameplate
-					icon={props.icons ? props.icons[0] : undefined}
-					maxWidth={props.maxNameWidth}
-					player={team.players.find((player) => player.id === team.relayPlayerID)!}
-					nameplateLeft={alternatingPronounSides}
-					style={{
-						fontSize: 25,
-					}}
-					key={team.relayPlayerID}
-					speaking={
-						props.audioIndicator?.[
-							runnerCustomDataSchema.safeParse(team.players[0]?.customData ?? {}).data?.microphone ?? ""
-						]
-					}
-				/>,
-			);
-			allRunnerNames.push(<div className={styles.runnerNameDivider} key={team.relayPlayerID + "-divider"} />);
-		} else {
-			// Single Player/Coop, display each player's name
-			team.players.forEach((player, i) => {
-				alternatingPronounSides = !alternatingPronounSides;
-				if (props.dontAlternatePronouns) {
-					alternatingPronounSides = props.pronounStartSide === "right";
-				}
-
-				let height = NAMEPLATE_HEIGHT;
-				if (props.verticalCoop && team.players.length > 1 && team.players.some((player) => player.pronouns)) {
-					height = NAMEPLATE_HEIGHT_VERTICAL;
-				}
-
+		if (team) {
+			if (team.relayPlayerID) {
+				// Relay, display relay player name
 				allRunnerNames.push(
 					<Nameplate
-						icon={props.icons ? props.icons[i] : undefined}
-						nameplateLeft={alternatingPronounSides}
+						icon={props.icons ? props.icons[0] : undefined}
 						maxWidth={props.maxNameWidth}
-						key={player.id}
-						player={player}
+						player={team.players.find((player) => player.id === team.relayPlayerID)!}
+						nameplateLeft={alternatingPronounSides}
+						style={{
+							fontSize: 25,
+						}}
+						key={team.relayPlayerID}
 						speaking={
 							props.audioIndicator?.[
-								runnerCustomDataSchema.safeParse(player.customData ?? {}).data?.microphone ?? ""
+								runnerCustomDataSchema.safeParse(team.players[0]?.customData ?? {}).data?.microphone ??
+									""
 							]
 						}
-						vertical={team.players.length > 1 ? props.verticalCoop : false}
-						style={{ height: height }}
 					/>,
 				);
-				allRunnerNames.push(
-					<div className={styles.runnerNameDivider} key={player.id + "-divider"} style={{ height }} />,
-				);
-			});
-		}
+				allRunnerNames.push(<div className={styles.runnerNameDivider} key={team.relayPlayerID + "-divider"} />);
+			} else {
+				// Single Player/Coop, display each player's name
+				team.players.forEach((player, i) => {
+					alternatingPronounSides = !alternatingPronounSides;
+					if (props.dontAlternatePronouns) {
+						alternatingPronounSides = props.pronounStartSide === "right";
+					}
 
-		void allRunnerNames.pop();
+					let height = NAMEPLATE_HEIGHT;
+					if (
+						props.verticalCoop &&
+						team.players.length > 1 &&
+						team.players.some((player) => player.pronouns)
+					) {
+						height = NAMEPLATE_HEIGHT_VERTICAL;
+					}
+
+					allRunnerNames.push(
+						<Nameplate
+							icon={props.icons ? props.icons[i] : undefined}
+							nameplateLeft={alternatingPronounSides}
+							maxWidth={props.maxNameWidth}
+							key={player.id}
+							player={player}
+							speaking={
+								props.audioIndicator?.[
+									runnerCustomDataSchema.safeParse(player.customData ?? {}).data?.microphone ?? ""
+								]
+							}
+							vertical={team.players.length > 1 ? props.verticalCoop : false}
+							style={{ height: height }}
+						/>,
+					);
+					allRunnerNames.push(
+						<div className={styles.runnerNameDivider} key={player.id + "-divider"} style={{ height }} />,
+					);
+				});
+			}
+
+			void allRunnerNames.pop();
+		}
 	}
 
 	return (
@@ -201,39 +204,7 @@ export const Facecam = (props: FacecamProps) => {
 				props.style,
 			)}
 		>
-			{props.noCam && <NoCam />}
 			<div className={styles.runnerArea}>{allRunnerNames}</div>
 		</div>
 	);
 };
-
-export function NoCam() {
-	return (
-		<div className={styles.noCamContainer}>
-			<div className={styles.socialMedia}>
-				<div className={styles.socialMediaItem}>
-					<img src={TwitterLogo} />
-					<span className={styles.socialMediaLabel}>@ AusSpeedruns</span>
-				</div>
-				<div className={styles.socialMediaItem}>
-					<img src={YouTubeLogo} />
-					<span className={styles.socialMediaLabel}>Australian Speedruns</span>
-				</div>
-				<div className={styles.socialMediaItem}>
-					<img src={DiscordLogo} />
-					<span className={styles.socialMediaLabel}>discord.ausspeedruns.com</span>
-				</div>
-				<span
-					className={styles.socialMediaLabel}
-					style={{
-						fontSize: 30,
-						fontWeight: "bold",
-						color: "#F2DAB2",
-					}}
-				>
-					{nodecgConfig.graphql?.event ?? "AusSpeedruns"}
-				</span>
-			</div>
-		</div>
-	);
-}
