@@ -89,7 +89,7 @@ function collectLayouts(runDataArray: RunDataArray): TreeViewValidItem<{}>[] {
 	return layoutsArray;
 }
 
-export const DashScheduleImporter = () => {
+export function DashScheduleImporter() {
 	const [loadRunOnSelect, setLoadRunOnSelect] = useState(false);
 	const [runsRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 
@@ -122,6 +122,6 @@ export const DashScheduleImporter = () => {
 			</Stack>
 		</ThemeProvider>
 	);
-};
+}
 
 createRoot(document.getElementById("root")!).render(<DashScheduleImporter />);

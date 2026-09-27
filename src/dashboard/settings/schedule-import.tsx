@@ -57,7 +57,13 @@ export function GameYearsSettings() {
 									}}
 									key={run.id}
 								>
-									{run.game}
+									<a
+										href={`https://google.com/search?q=${encodeURIComponent(run.game ?? "")}`}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{run.game}
+									</a>
 								</li>
 							);
 						})}
