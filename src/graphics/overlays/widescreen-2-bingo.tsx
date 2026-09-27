@@ -8,7 +8,7 @@ import { SponsorsBox } from "../elements/sponsors";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { Facecam } from "../elements/facecam";
 import { RaceFinish } from "../elements/race-finish";
-import { Couch } from "../elements/couch";
+import { Couch } from "../elements/couch/couch";
 import { getTeams } from "../elements/team-data";
 import { BingoBoard } from "../elements/bingo-board";
 

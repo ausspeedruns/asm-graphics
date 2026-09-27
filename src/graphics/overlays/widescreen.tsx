@@ -4,7 +4,7 @@ import { Container } from "../elements/container";
 import { WideInfo } from "../elements/info-box/wide";
 import { Facecam } from "../elements/facecam";
 import { SponsorsBox } from "../elements/sponsors";
-import { Couch } from "../elements/couch";
+import { Couch } from "../elements/couch/couch";
 
 import WidescreenTop from "./backgrounds/WidescreenTop.png";
 import WidescreenBottom from "./backgrounds/WidescreenBottom.png";

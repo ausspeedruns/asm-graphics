@@ -3,7 +3,7 @@ import type { OverlayProps } from "../gameplay-overlay";
 import { VerticalInfo } from "../elements/info-box/vertical";
 import { SponsorsBox } from "../elements/sponsors";
 import { Facecam } from "../elements/facecam";
-import { Couch } from "../elements/couch";
+import { Couch } from "../elements/couch/couch";
 import { AudioIndicator } from "../elements/audio-indicator";
 import { RaceFinish } from "../elements/race-finish";
 import { getTeams } from "../elements/team-data";

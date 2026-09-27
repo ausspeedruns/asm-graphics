@@ -2,7 +2,7 @@ import type { OverlayProps } from "../gameplay-overlay";
 
 import { VerticalInfo } from "../elements/info-box/vertical";
 import { Facecam } from "../elements/facecam";
-import { Couch } from "../elements/couch";
+import { Couch } from "../elements/couch/couch";
 import { Container } from "../elements/container";
 import { GameplayCapture } from "../elements/gameplay-capture";
 

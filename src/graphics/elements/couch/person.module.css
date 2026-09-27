@@ -1,12 +1,3 @@
-.peopleContainer {
-	font-family: var(--main-font);
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 8px;
-}
-
 .commentator {
 	background: var(--text-light);
 	display: flex;
