@@ -37,7 +37,7 @@ export const Standard = (props: OverlayProps) => {
 
 					<VerticalInfo timer={props.timer} runData={props.runData} />
 
-					<SponsorsBox sponsors={props.sponsors} width="90%" height={150} />
+					<SponsorsBox sponsors={props.sponsors} width="80%" height={150} />
 
 					<img src={swirl} id={styles.swirlLeft} className={styles.asapGreeble} />
 					<img src={swirl} id={styles.swirlRight} className={styles.asapGreeble} />

@@ -34,4 +34,9 @@
 	justify-content: center;
 	align-items: center;
 	position: relative;
+
+	/* ASAP2026 */
+	border: 10px solid var(--asap26-border-2);
+	border-radius: 18px;
+	background: #f89d65;
 }

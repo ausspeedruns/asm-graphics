@@ -96,11 +96,7 @@ export function SponsorsBox(props: FullBoxProps) {
 
 	return (
 		<div className={clsx(styles.sponsorsBoxContainer, props.className)} style={boxStyle}>
-			<Sponsors
-				sponsors={props.sponsors}
-				width={props.width}
-				height={props.height}
-			/>
+			<Sponsors sponsors={props.sponsors} />
 		</div>
 	);
 }
