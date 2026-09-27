@@ -47,3 +47,97 @@
 	justify-content: flex-start;
 	gap: 4px;
 }
+
+/* ASAP2026: Ticket layout overrides and new ticket layers. */
+.commentator {
+	width: min(171px, 100%);
+	aspect-ratio: 171 / 58;
+	flex: 0 1 171px;
+	padding: 0;
+	background: transparent;
+	display: block;
+	font-size: 19px;
+}
+
+/* ASAP2026: Inline SVG fill uses this color and transitions with speaking state. */
+.ticket {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	color: #e2e2e2;
+	filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+	transition: color 180ms ease;
+}
+
+.frame {
+	position: absolute;
+	inset: 6.5% 8.5%;
+	display: flex;
+	box-sizing: border-box;
+	background: #91e4f7;
+	border: 2px solid #1763a7;
+	border-radius: 7px;
+	overflow: hidden;
+	transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.label {
+	width: 12%;
+	flex: 0 0 12%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	border-right: 2px solid #1763a7;
+	color: #1763a7;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 1;
+	transition: color 180ms ease, border-color 180ms ease;
+}
+
+.labelText {
+	padding: 2px 1px;
+	text-orientation: mixed;
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+}
+
+.content {
+	min-width: 0;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
+	padding: 0 5px;
+}
+
+.name {
+	font-size: 16px;
+	line-height: 1;
+}
+
+.pronouns {
+	font-size: 11px;
+	line-height: 1;
+}
+
+/* ASAP2026: Active-speaker ticket colors. */
+.speaking .frame {
+	background: #ffc0a6;
+	border-color: #e24819;
+}
+
+/* ASAP2026: Tint the outer ticket during speech as well. */
+.speaking .ticket {
+	color: #ffc0a6;
+}
+
+.speaking .label {
+	border-right-color: #e24819;
+	color: #e24819;
+}
