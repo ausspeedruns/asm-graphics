@@ -142,7 +142,7 @@ Set `CHROME_EXECUTABLE_PATH` to the Chrome 150 executable, then run:
 pnpm test:gameplay-layouts
 ```
 
-The tester opens `http://localhost:9090/bundles/asm-graphics/graphics/gameplay-overlay.html` by default and writes images to `artifacts/gameplay-layout-screenshots`. Override these with `GAMEPLAY_OVERLAY_URL` and `GAMEPLAY_SCREENSHOT_DIRECTORY`, or pass `--url`, `--chrome`, and `--output`. Runs with missing or unsupported layout labels are skipped and reported. To run the layout-name unit checks, use `pnpm test:gameplay-layouts:unit`.
+The tester opens `http://localhost:9090/bundles/asm-graphics/graphics/gameplay-overlay.html` by default and writes images to a date-time subfolder under `artifacts/gameplay-layout-screenshots`. Override these with `GAMEPLAY_OVERLAY_URL` and `GAMEPLAY_SCREENSHOT_DIRECTORY`, or pass `--url`, `--chrome`, and `--output`. Runs with missing or unsupported layout labels are skipped and reported. To run the layout-name unit checks, use `pnpm test:gameplay-layouts:unit`.
 
 ## Events used in
 

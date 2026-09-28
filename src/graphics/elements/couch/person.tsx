@@ -26,10 +26,14 @@ export function Person(props: PersonCompressedProps) {
 				{/* ASAP2026: Inline SVG inherits its color from CSS. */}
 				<Ticket className={styles.ticket} aria-hidden="true" />
 				<div className={styles.frame}>
-					<div className={styles.label}><span className={styles.labelText}>{displayTag || "COMM"}</span></div>
+					<div className={styles.label}>
+						<span className={styles.labelText}>{displayTag ?? "COMM"}</span>
+					</div>
 					<div className={styles.content}>
 						<FitText className={styles.name} text={props.commentator.name} alignment="left" />
-						{props.commentator.pronouns && <div className={styles.pronouns}>{props.commentator.pronouns}</div>}
+						{props.commentator.pronouns && (
+							<div className={styles.pronouns}>{props.commentator.pronouns}</div>
+						)}
 					</div>
 				</div>
 			</div>

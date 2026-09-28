@@ -23,11 +23,15 @@
 	align-items: center;
 	flex: 1;
 	border-bottom: 1px solid var(--sec);
-	font-size: 25px;
+	font-size: 30px;
 }
 
 /* ASAP2026 */
 .infoBox {
+	:global(#gameTitle) {
+		font-size: 200%;
+	}
+
 	:global(#category) {
 		text-shadow: none;
 		-webkit-text-stroke: 0px;

@@ -11,7 +11,8 @@ body {
 	--main-font: "Poppins";
 	--secondary-font: "Poppins";
 	--mono-font: var(--asm-font);
-	--game-font: "Rye";
+	/* --game-font: "Rye"; */
+	--game-font: "Spicy Rice";
 	--category-font: "Poppins";
 
 	--asm-orange: #cc7722;

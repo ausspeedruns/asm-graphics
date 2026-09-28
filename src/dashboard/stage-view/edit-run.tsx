@@ -72,6 +72,23 @@ export function EditRunDialog(props: EditRunDialogProps) {
 		});
 	}
 
+	function handleGameNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+		const value = event.target.value;
+		const singleLineName = value.replaceAll("\n", " ");
+
+		setMutableRunData((prev) => {
+			if (!prev) return prev;
+			return {
+				...prev,
+				game: singleLineName,
+				customData: {
+					...prev.customData,
+					gameDisplay: value,
+				},
+			};
+		});
+	}
+
 	function handleCustomDataChange(key: string, value: string) {
 		setMutableRunData((prev) => {
 			if (!prev) return prev;
@@ -200,16 +217,13 @@ export function EditRunDialog(props: EditRunDialogProps) {
 						<TextField
 							fullWidth
 							label="Game Name"
-							name="game"
-							value={mutableRunData.game ?? ""}
-							onChange={handleChange}
-						/>
-						<TextField
-							fullWidth
-							label="Display Game Name"
 							value={mutableRunData.customData["gameDisplay"] ?? ""}
-							onChange={(e) => handleCustomDataChange("gameDisplay", e.target.value)}
-							helperText="Use for multi-line display (add \n for line breaks)"
+							onChange={handleGameNameChange}
+							multiline
+							sx={{
+								"& .MuiInputBase-input": { textAlign: "center" },
+							}}
+							helperText="Press enter to add line breaks"
 						/>
 					</Box>
 

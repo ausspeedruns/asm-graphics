@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+	formatTimestampFolderName,
 	isExpectedChromeVersion,
 	normalizeLayoutName,
 	resolveLayoutName,
@@ -30,4 +31,8 @@ test("accepts only Chrome major version 150", () => {
 	assert.equal(isExpectedChromeVersion("HeadlessChrome/150.0.0.0"), true);
 	assert.equal(isExpectedChromeVersion("Chrome/149.0.0.0"), false);
 	assert.equal(isExpectedChromeVersion("Chromium/150.0.0.0"), false);
+});
+
+test("formats a filesystem-safe local date-time folder name", () => {
+	assert.equal(formatTimestampFolderName(new Date(2026, 8, 28, 14, 5, 6, 7)), "2026-09-28_14-05-06-007");
 });

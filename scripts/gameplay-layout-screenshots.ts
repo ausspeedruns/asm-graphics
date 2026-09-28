@@ -63,6 +63,11 @@ export function isExpectedChromeVersion(browserVersion: string): boolean {
 	return new RegExp(`^(?:Headless)?Chrome/${expectedChromeMajorVersion}(?:\\.|$)`).test(browserVersion);
 }
 
+export function formatTimestampFolderName(date: Date): string {
+	const pad = (value: number, width = 2) => String(value).padStart(width, "0");
+	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}_${pad(date.getHours())}-${pad(date.getMinutes())}-${pad(date.getSeconds())}-${pad(date.getMilliseconds(), 3)}`;
+}
+
 function readOptionValue(argumentsList: string[], index: number, option: string): string {
 	const value = argumentsList[index + 1];
 	if (!value || value.startsWith("--")) {
@@ -273,7 +278,8 @@ async function main(): Promise<void> {
 			throw new Error("No runs are available in the live NodeCG schedule.");
 		}
 
-		await mkdir(options.outputDirectory, { recursive: true });
+		const outputDirectory = path.join(options.outputDirectory, formatTimestampFolderName(new Date()));
+		await mkdir(outputDirectory, { recursive: true });
 		await page.click("#event-start");
 		await page.waitForFunction(
 			(expectedId) => document.querySelector<HTMLSpanElement>("#intended-layout")?.dataset.runId === expectedId,
@@ -288,7 +294,7 @@ async function main(): Promise<void> {
 			if (!run.id || run.index < 0 || run.count < 1) {
 				throw new Error("The active run metadata is incomplete; reload the gameplay overlay and try again.");
 			}
-			if (await captureRun(page, run, routeNames, options.outputDirectory)) {
+			if (await captureRun(page, run, routeNames, outputDirectory)) {
 				savedCount += 1;
 			} else {
 				skippedCount += 1;
@@ -306,7 +312,7 @@ async function main(): Promise<void> {
 			run = nextRun;
 		}
 
-		console.log(`[done] ${savedCount} screenshot(s) saved, ${skippedCount} run(s) skipped. Output: ${path.resolve(options.outputDirectory)}`);
+		console.log(`[done] ${savedCount} screenshot(s) saved, ${skippedCount} run(s) skipped. Output: ${path.resolve(outputDirectory)}`);
 	} finally {
 		await browser.close();
 	}

@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter, Route, Link, Routes } from "react-router";
+import { HashRouter, Route, Link, Routes, useLocation } from "react-router";
 import { useReplicant } from "@nodecg/react-hooks";
-import _ from "underscore";
+import _, { get } from "underscore";
 
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
 import type { RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphics/types/RunData";
@@ -42,6 +42,19 @@ import styles from "./gameplay-overlay.module.css";
 // import { useNormalisedTime } from "../hooks/useCurrentTime";
 // import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
 
+function getLayout(run: RunDataActiveRun | undefined) {
+	if (!run) {
+		return "NoGraphics";
+	}
+
+	const rawRequirements =
+		typeof run?.customData?.["specialRequirements"] === "string" ? run?.customData?.["specialRequirements"] : "";
+	const layoutMatch = /LAYOUT:\s*([^\n]+)/i.exec(rawRequirements);
+	const extractedLayout = layoutMatch?.[1]?.trim();
+
+	return extractedLayout ?? "NoGraphics";
+}
+
 export interface OverlayProps {
 	runData: RunDataActiveRun | undefined;
 	timer: Timer | undefined;
@@ -61,6 +74,8 @@ interface GameplayOverlayProps {
 
 function GameplayOverlay(props: GameplayOverlayProps) {
 	const { clearManualNormalizedTime, normalizedTime, setManualNormalizedTime } = useTimeStyleContext();
+	const location = useLocation();
+	const currentUrlLayout = decodeURIComponent(location.pathname.replace(/^\/+/, "")) || "Standard";
 
 	const [runDataArrayRep] = useReplicant<RunDataArray>("runDataArray", { bundle: "nodecg-speedcontrol" });
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
@@ -219,14 +234,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	});
 
 	const layout = useMemo(() => {
-		const rawRequirements =
-			typeof runDataActiveRep?.customData?.["specialRequirements"] === "string"
-				? runDataActiveRep?.customData?.["specialRequirements"]
-				: "";
-		const layoutMatch = /LAYOUT:\s*([^\n]+)/i.exec(rawRequirements);
-		const extractedLayout = layoutMatch?.[1]?.trim() || null;
-
-		return extractedLayout;
+		return getLayout(runDataActiveRep);
 	}, [runDataActiveRep?.customData]);
 
 	return (
@@ -292,6 +300,15 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 				>
 					{layout}
 				</span>
+				{runDataArrayRep
+					?.filter((run) => getLayout(run) === currentUrlLayout)
+					.map((run) => (
+						<button
+							onClick={() => nodecg.sendMessageToBundle("changeActiveRun", "nodecg-speedcontrol", run.id)}
+						>
+							{run.game}
+						</button>
+					))}
 			</div>
 		</>
 	);

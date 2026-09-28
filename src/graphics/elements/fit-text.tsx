@@ -10,7 +10,7 @@ export function Text(props: React.ComponentProps<"div">) {
 }
 
 const renderTextWithLineBreaks = (text: string) => {
-	const lines = text.split("\\n");
+	const lines = text.split("\n");
 	return lines.map((line, index) => (
 		<Fragment key={index}>
 			{line}
@@ -72,7 +72,7 @@ export const FitText = memo((props: Props) => {
 			id={props.id}
 		>
 			<Text ref={textRef} style={{ transformOrigin: transformOrigin }}>
-				{props.allowNewlines ? renderTextWithLineBreaks(props.text ?? "") : props.text?.replaceAll("\\n", " ")}
+				{props.allowNewlines ? renderTextWithLineBreaks(props.text ?? "") : props.text?.replaceAll("\n", " ")}
 			</Text>
 		</div>
 	);

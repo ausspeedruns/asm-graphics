@@ -5,7 +5,7 @@ import clsx from "clsx";
 import type NodeCG from "nodecg/types";
 import styles from "./sponsors.module.css";
 
-const TEST_MODE = true;
+const TEST_MODE = false;
 
 interface Props {
 	sponsors?: NodeCG.AssetFile[];
@@ -60,7 +60,7 @@ export function Sponsors(props: Props) {
 	}, [imgIndex, props.sponsors]);
 
 	if ((!props.sponsors || props.sponsors.length === 0) && !TEST_MODE) {
-		return <></>;
+		return;
 	}
 
 	return (
@@ -93,6 +93,10 @@ export function SponsorsBox(props: FullBoxProps) {
 		width: props.width,
 		height: props.height,
 	};
+
+	if ((!props.sponsors || props.sponsors.length === 0) && !TEST_MODE) {
+		return;
+	}
 
 	return (
 		<div className={clsx(styles.sponsorsBoxContainer, props.className)} style={boxStyle}>
