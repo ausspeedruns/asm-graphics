@@ -11,6 +11,15 @@
 	width: 100%;
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 	position: relative;
+
+	/* ASAP26 */
+	:global(#gameTitle) {
+		font-size: 150%;
+	}
+
+	:global(#category) {
+		font-size: 90%;
+	}
 }
 
 .gameRow {
