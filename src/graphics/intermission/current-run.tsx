@@ -9,6 +9,8 @@ import ConsoleIcon from "../media/icons/console.svg?react";
 import { useIntermissionStore } from "../stores/intermission-store";
 import { runCustomDataSchema } from "../../shared/types/custom-data";
 
+import asap26Filigree from "../media/asap26/filigree.png";
+
 export function IntermissionCurrentRun() {
 	const currentRun = useIntermissionStore((state) => state.activeRun);
 	const customData = runCustomDataSchema.safeParse(currentRun?.customData ?? {}).data;
@@ -44,11 +46,15 @@ export function IntermissionCurrentRun() {
 	return (
 		<div className={styles.currentRun}>
 			<div className={styles.nameContainer}>
-				<FitText
-					className={clsx(styles.name, gameName.includes("\\n") && styles.containsNewLine)}
-					allowNewlines
-					text={gameName}
-				/>
+				<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+					<img src={asap26Filigree} />
+					<FitText
+						className={clsx(styles.name, gameName.includes("\\n") && styles.containsNewLine)}
+						allowNewlines
+						text={gameName}
+					/>
+					<img src={asap26Filigree} style={{ transform: "scaleX(-1)" }} />
+				</div>
 				<FitText className={styles.category} text={currentRun?.category} />
 			</div>
 			<div className={styles.runInfo}>

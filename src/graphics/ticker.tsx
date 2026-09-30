@@ -18,12 +18,7 @@ import { DonationMatchesFixture } from "./ticker/donation-matches-fixture";
 import { CurrentTime } from "./ticker/current-time";
 import { calculateTimeBasedColour, TimeStyleProvider } from "./elements/time-style-context";
 import { useTimeStyleContext } from "./elements/use-time-style-context";
-import { Colour } from "./colour";
-import { Container } from "./elements/container";
 import styles from "./ticker.module.css";
-
-const dayColour = new Colour("#419ADF");
-const nightColour = new Colour("#CC3622");
 
 const testDonationMatch = {
 	desc: "Description of the donation match",
@@ -128,24 +123,13 @@ export function Ticker() {
 		startNextSegment(segment);
 	}, [segmentIndex, tickerOrder]);
 
-	useEffect(() => {
-		const baseColour = calculateTimeBasedColour(normalizedTime, daylightData, {
-			day: dayColour,
-			night: nightColour,
-		});
-
-		if (!baseColour) return;
-
-		setBackgroundColour(baseColour);
-	}, [normalizedTime, daylightData]);
-
 	return (
 		<>
 			<div className={styles.tickerContainer}>
 				<div className={styles.leftBlock}>
 					<img src={EventBug} />
 				</div>
-				<Container className={styles.contentArea} ref={contentRef}>
+				<div className={styles.contentArea} ref={contentRef}>
 					<div
 						className={styles.contentAreaBackground}
 						style={{ "--ticker-bg-time-colour": backgroundColour } as React.CSSProperties}
@@ -158,7 +142,7 @@ export function Ticker() {
 					<TickerIncentives incentives={incentives ?? []} ref={incentivesRef} />
 					<TickerPrizes ref={prizesRef} prizes={prizes} />
 					<TickerDonationMatches donationMatches={donationMatches} ref={donationMatchesRef} />
-				</Container>
+				</div>
 				<CurrentTime />
 				<DonationMatchesFixture />
 				<TickerDonationTotal />

@@ -71,7 +71,7 @@ export const FitText = memo((props: Props) => {
 			ref={containerRef}
 			id={props.id}
 		>
-			<Text ref={textRef} style={{ transformOrigin: transformOrigin }}>
+			<Text ref={textRef} style={{ transformOrigin: transformOrigin }} data-text={props.text ?? ""}>
 				{props.allowNewlines ? renderTextWithLineBreaks(props.text ?? "") : props.text?.replaceAll("\n", " ")}
 			</Text>
 		</div>

@@ -28,12 +28,26 @@
 			line-height: 50px;
 			margin: 5px 0px;
 		}
+
+		/* ASAP26 */
+		-webkit-text-stroke: 8px var(--asap26-accent);
+		paint-order: stroke fill;
+		text-shadow: -5px 5px var(--asap26-text-shadow),
+		-8px 8px #000;
+		max-width: 600px;
 	}
 
 	.category {
 		max-width: 80%;
 		font-size: 120%;
 		font-weight: bold;
+		
+		/* ASAP26 */
+		font-weight: 900;
+		-webkit-text-stroke: 5px var(--asap26-accent);
+		paint-order: stroke fill;
+		text-shadow: -5px 5px var(--asap26-text-shadow),
+		-6px 6px #000;
 	}
 
 	.runInfo {
@@ -52,6 +66,10 @@
 				width: 2rem;
 			}
 		}
+
+		/* ASAP26 */
+		color: var(--asap26-accent);
+		font-weight: 900;
 	}
 
 	.estimate {
@@ -65,4 +83,7 @@
 	.runners {
 		max-width: 50%;
 	}
+
+	/* ASAP26 */
+	width: 80%;
 }

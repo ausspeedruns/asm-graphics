@@ -16,8 +16,10 @@ export function Timer(props: Props) {
 
 	return (
 		<div className={styles.timerContainer} style={props.style} id="timer">
-			<span>{compressedTime}</span>
-			<span className={styles.milliText}>.{millis}</span>
+			<span data-text={compressedTime}>{compressedTime}</span>
+			<span className={styles.milliText} data-text={`.${millis}`}>
+				.{millis}
+			</span>
 		</div>
 	);
 }

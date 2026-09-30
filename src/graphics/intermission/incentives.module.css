@@ -34,7 +34,7 @@
 }
 
 .active {
-	background: #cc3622;
+	background: var(--asap26-accent);
 }
 
 .currentLabels {
@@ -47,7 +47,7 @@
 	gap: 8px;
 }
 
-.currentLabels > * {
+.currentLabels>* {
 	text-box: trim-both cap alphabetic;
 	line-height: 0.75;
 }

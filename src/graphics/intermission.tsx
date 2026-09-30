@@ -12,7 +12,7 @@ import { IntermissionIncentives } from "./intermission/incentives";
 import { IntermissionVideoComponent, type IntermissionAdsRef } from "./intermission/video";
 import GoCLogo from "./media/game-on-cancer/full-logo.svg?react";
 
-// import IntermissionBG from "./overlays/backgrounds/Intermission.png";
+import crowdCam from "./media/asap26/Crowd Cam.png";
 
 // import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
 import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
@@ -25,10 +25,12 @@ import { IntermissionHost } from "./intermission/host";
 import { Location } from "./intermission/location";
 import { Sponsors } from "./elements/sponsors";
 
-const cameraLeft = 64;
-const cameraTop = 80;
-const cameraWidth = 1000;
-const cameraHeight = 820;
+import asap26Filigree from "./media/asap26/filigree.png";
+
+const cameraLeft = 951;
+const cameraTop = 50;
+const cameraWidth = 915;
+const cameraHeight = 800;
 
 function IntermissionPage() {
 	return (
@@ -109,27 +111,34 @@ export function Intermission() {
 					/>
 				</clipPath>
 			</svg>
-			<div className={clsx(styles.asm26WholeStitching, styles.asm26Stitching)} />
-			<div className={styles.main}>
-				<div className={styles.leftColumn}>
-					{/* <IntermissionVideoComponent ref={adsRef} videos={videos} /> */}
-					<div className={styles.cameraShadow} />
-				</div>
-				<div className={styles.rightColumn}>
-					<IntermissionDonationTotal />
-					<IntermissionCurrentRun />
-					<div className={styles.incentivesContainer} ref={incentivesRef}>
-						<IntermissionIncentives />
+			<div className={styles.intermissionFrame}>
+				<div className={styles.main}>
+					<div className={styles.contentColumn}>
+						<IntermissionDonationTotal />
+						<IntermissionCurrentRun />
+						<div className={styles.incentivesContainer} ref={incentivesRef}>
+							<IntermissionIncentives />
+						</div>
+						<GoCLogo className={styles.charityLogo} />
+					</div>
+					<div className={styles.cameraColumn}>
+						{/* <IntermissionVideoComponent ref={adsRef} videos={videos} /> */}
+						{/* <div className={styles.cameraShadow} /> */}
+						<div className={styles.footer}>
+							<img src={asap26Filigree} style={{ position: "absolute", top: 0, left: 0 }} />
+							<img
+								src={asap26Filigree}
+								style={{ position: "absolute", top: 0, right: 0, transform: "scaleX(-1)" }}
+							/>
+							<Location />
+							<BackgroundMusic volume={0} />
+							<IntermissionHost />
+							<Sponsors sponsors={sponsors} style={{ maxHeight: 130, maxWidth: "300px", zIndex: 10 }} />
+						</div>
 					</div>
 				</div>
 			</div>
-			<div className={styles.footer}>
-				<Location />
-				<BackgroundMusic volume={1} />
-				<IntermissionHost />
-				<Sponsors sponsors={sponsors} style={{ maxHeight: 130, maxWidth: "300px", zIndex: 10 }} />
-				<GoCLogo />
-			</div>
+			<img src={crowdCam} style={{ position: "absolute", zIndex: 5, top: 43, left: 930 }} />
 		</div>
 	);
 }

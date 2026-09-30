@@ -26,10 +26,13 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	background: #ffffff;
+	background-color: #FF7926;
+	background-image: linear-gradient(0deg, #E80000, #FFA30F), url("./media/asap26/Spiral\ Pattern.png");
+	background-repeat: no-repeat, repeat;
+	background-blend-mode: hard-light, normal;
 }
 
 .leftBlock {
 	display: flex;
-	width: 304px;
+	min-width: 304px;
 }

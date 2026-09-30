@@ -31,7 +31,23 @@
 	line-height: 1;
 
 	/* ASAP26 */
-	text-shadow: -5px 5px var(--asap26-text-shadow), -8px 8px #000;
 	-webkit-text-stroke: 8px var(--asap26-accent);
 	paint-order: stroke fill;
+
+	>div {
+		position: relative;
+		isolation: isolate;
+
+		&::before {
+			content: attr(data-text);
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			color: transparent;
+			-webkit-text-stroke: 0;
+			text-shadow: -5px 5px var(--asap26-text-shadow), -8px 8px #000;
+			white-space: pre-wrap;
+			pointer-events: none;
+		}
+	}
 }

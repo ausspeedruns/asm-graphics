@@ -4,10 +4,13 @@ import styles from "./donation-total.module.css";
 import { LerpNum } from "../ticker/lerp-num";
 import { useIntermissionStore } from "../stores/intermission-store";
 
+import asap26LongFiligree from "../media/asap26/long-filigree.png";
+
 export function IntermissionDonationTotal() {
-	const donationTotal = useIntermissionStore((state) => state.donationTotal);
-	// const donationMatchMultiplier = useIntermissionStore((state) => state.donationMatchMultiplier);
-	const donationMatchMultiplier = 2;
+	// const donationTotal = useIntermissionStore((state) => state.donationTotal);
+	const donationTotal = 50_000;
+	const donationMatchMultiplier = useIntermissionStore((state) => state.donationMatchMultiplier);
+	// const donationMatchMultiplier = 2;
 
 	return (
 		<div className={styles.donationTotal}>
@@ -17,8 +20,10 @@ export function IntermissionDonationTotal() {
 					donationMatchMultiplier && donationMatchMultiplier > 1 && styles.donationMultiplier,
 				)}
 			>
-				<span className={styles.dollarSign}>$</span>
-				<LerpNum value={donationTotal} />
+				<span className={styles.totalText}>
+					<span className={styles.dollarSign}>$</span>
+					<LerpNum value={donationTotal} />
+				</span>
 
 				{donationMatchMultiplier && donationMatchMultiplier > 1 && (
 					<span className={styles.matchMultiplier}>
@@ -31,6 +36,7 @@ export function IntermissionDonationTotal() {
 			</div>
 
 			<div className={styles.link}>AusSpeedruns.com/Donate</div>
+			<img src={asap26LongFiligree} className={styles.asap26Filigree} />
 		</div>
 	);
 }

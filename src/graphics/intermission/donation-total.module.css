@@ -8,10 +8,20 @@
 	gap: 32px;
 
 	.total {
-		position: relative;
 		font-size: 180px;
+
+		.totalText {
+
+			/* ASAP26 */
+			font-family: "Spicy Rice";
+			-webkit-text-stroke: 8px var(--asap26-accent);
+			paint-order: stroke fill;
+			text-shadow: -5px 5px var(--asap26-text-shadow),
+				-8px 8px #000;
+		}
+
+		position: relative;
 		font-family: var(--mono-font);
-		/* font-weight: 900; */
 		text-box-trim: trim-both;
 		text-box-edge: ex alphabetic;
 		line-height: 1;
@@ -26,6 +36,15 @@
 	.link {
 		font-size: 40px;
 		text-transform: uppercase;
+
+		/* ASAP26 */
+		font-family: "Poppins";
+		font-weight: 900;
+		color: var(--asap26-accent);
+		-webkit-text-stroke: 4px white;
+		paint-order: stroke fill;
+		text-shadow: -5px 5px var(--asap26-text-shadow), -6px 6px #000;
+		margin-top: 20px;
 	}
 
 	.matchMultiplier {
@@ -62,6 +81,10 @@
 		.text {
 			font-size: 75%;
 		}
+	}
+
+	.asap26Filigree {
+		margin-top: -40px;
 	}
 }
 

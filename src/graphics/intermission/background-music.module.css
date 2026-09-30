@@ -1,5 +1,5 @@
 .music {
-	max-width: 350px;
+	max-width: 300px;
 	display: flex;
 	align-items: center;
 	flex-shrink: 1;
@@ -8,6 +8,10 @@
 	svg {
 		height: 75px;
 		z-index: 2;
+
+		* {
+			fill: var(--asap26-accent);
+		}
 	}
 
 	.songName {
@@ -46,6 +50,9 @@
 			opacity: 0;
 		}
 	}
+
+	/* ASAP26 */
+	font-weight: bold;
 }
 
 @keyframes marqueeAnimation {

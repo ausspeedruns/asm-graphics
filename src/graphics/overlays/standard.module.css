@@ -34,10 +34,26 @@
 	/* ASAP26 */
 	:global(#category) {
 		color: white;
-		text-shadow: -3px 3px var(--asap26-text-shadow), -6px 6px #000;
-		-webkit-text-stroke: 5px var(--asap26-accent);
+		-webkit-text-stroke: 6px var(--asap26-accent);
 		font-size: 40px;
 		paint-order: stroke fill;
+
+		> div {
+			position: relative;
+			isolation: isolate;
+
+			&::before {
+				content: attr(data-text);
+				position: absolute;
+				inset: 0;
+				z-index: -1;
+				color: transparent;
+				-webkit-text-stroke: 0;
+				text-shadow: -4px 4px var(--asap26-text-shadow), -6px 6px #000;
+				white-space: pre-wrap;
+				pointer-events: none;
+			}
+		}
 	}
 }
 

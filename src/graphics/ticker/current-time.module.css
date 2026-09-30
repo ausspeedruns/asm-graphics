@@ -1,7 +1,7 @@
 .currentTimeArea {
 	height: 100%;
 	width: fit-content;
-	background: var(--time-colour);
+	background: #282828;
 	color: var(--text-light);
 	font-weight: bold;
 	padding: 0 16px;

@@ -21,7 +21,7 @@ export function Location() {
 	}, []);
 	return (
 		<div className={styles.locationInfo}>
-			<b>Adelaide</b>
+			<b>Melbourne</b>
 			<span>Australia</span>
 			<span className={styles.timeContainer}>{currentTime}</span>
 		</div>

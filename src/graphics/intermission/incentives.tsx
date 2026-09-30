@@ -11,7 +11,7 @@ import { Prizes } from "./incentives/incent-prizes";
 import { Photos } from "./incentives/incent-photos";
 import { UpcomingRuns } from "./incentives/incent-upcoming-runs";
 import { useIntermissionStore } from "../stores/intermission-store";
-import styles from "./intermission-incentives.module.css";
+import styles from "./incentives.module.css";
 
 gsap.registerPlugin(useGSAP);
 
