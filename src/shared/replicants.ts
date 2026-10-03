@@ -22,17 +22,48 @@ type ReplicantValueType = Primitives | Primitives[] | object[] | object;
 
 const nodecg = nodecgApiContext.get();
 
+export interface ConnectionIssue {
+	status: "warning" | "error";
+	message: string;
+	timestamp: number;
+	count: number;
+}
+
 export interface ConnectionStatus {
 	status: "disconnected" | "connected" | "warning" | "error" | "connecting";
 	timestamp: number;
 	message: string;
+	/** Newest first. Survives recovery so transient failures aren't lost when the next heartbeat succeeds. */
+	recentIssues: ConnectionIssue[];
 }
 
 const defaultStatus: ConnectionStatus = {
 	status: "disconnected",
 	timestamp: 0,
 	message: "",
+	recentIssues: [],
 };
+
+const MAX_RECENT_ISSUES = 10;
+
+export function nextConnectionStatus(
+	prev: ConnectionStatus | undefined,
+	status: ConnectionStatus["status"],
+	message: string,
+): ConnectionStatus {
+	const timestamp = Date.now();
+	let recentIssues = prev?.recentIssues ?? [];
+
+	if (status === "warning" || status === "error") {
+		const [latest, ...rest] = recentIssues;
+		recentIssues =
+			latest?.message === message
+				? [{ ...latest, status, timestamp, count: latest.count + 1 }, ...rest]
+				: [{ status, message, timestamp, count: 1 }, ...recentIssues].slice(0, MAX_RECENT_ISSUES);
+	}
+
+	return { status, timestamp, message, recentIssues };
+}
 
 export const replicants = {
 	// Commentators/Host

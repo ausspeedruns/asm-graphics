@@ -3,7 +3,7 @@ import type { Donation } from "@asm-graphics/types/Donations.js";
 import _ from "underscore";
 import z from "zod";
 import { getReplicant } from "./replicants.js";
-import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
+import { nextConnectionStatus, type ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 
 const nodecg = nodecgApiContext.get();
 const ncgLog = new nodecg.Logger("Tiltify-V5");
@@ -59,7 +59,6 @@ async function getAccessToken() {
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
 			status.accessCode = false;
-			
 			updateTiltifyStatus("error", "Get Access Token: Failed to parse data. Check console for details.");
 			return;
 		}
@@ -73,6 +72,8 @@ async function getAccessToken() {
 		}
 	} catch (error) {
 		ncgLog.error("getAccessToken error: ", JSON.stringify(error));
+		status.accessCode = false;
+		updateTiltifyStatus("error", `Get Access Token: ${String(error)}`);
 	}
 }
 
@@ -240,7 +241,7 @@ async function getCampaignData() {
 			ncgLog.error("getCampaignData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
-			updateTiltifyStatus("error", "Get Campaign Data: Failed to parse data. Check console for details.");
+			status.campaignData = false;
 			return;
 		}
 
@@ -287,7 +288,7 @@ async function getDonationsData() {
 			ncgLog.error("getDonationsData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
-			updateTiltifyStatus("error", "Get Donations Data: Failed to parse data. Check console for details.");
+			status.donationsData = false;
 			return;
 		}
 
@@ -358,7 +359,7 @@ async function getDonationMatchData() {
 			ncgLog.error("getDonationMatchData: Failed to parse data");
 			ncgLog.error(JSON.stringify(data));
 			ncgLog.error(parsedData.error);
-			updateTiltifyStatus("error", "Get Donation Match Data: Failed to parse data. Check console for details.");
+			status.donationMatchesData = false;
 			return;
 		}
 
@@ -439,23 +440,18 @@ async function connectToTiltify() {
 	await autoRefreshAccessToken();
 
 	// Get data
-	campaignDataInterval = setInterval(() => {
-		void getCampaignData();
-		void getDonationsData();
-		void getDonationMatchData();
+	if (campaignDataInterval) clearInterval(campaignDataInterval);
+	campaignDataInterval = setInterval(async () => {
+		await Promise.all([getCampaignData(), getDonationsData(), getDonationMatchData()]);
 
-		if (Object.values(status).every((statusValue) => statusValue)) {
+		const failed = Object.entries(status)
+			.filter(([, ok]) => !ok)
+			.map(([key]) => camelCaseSplit(key));
+
+		if (failed.length === 0) {
 			updateTiltifyStatus("connected", "Connected to Tiltify");
 		} else {
-			const errorMessage = "";
-
-			for (const [key, value] of Object.entries(status)) {
-				if (!value) {
-					errorMessage.concat(`Failed to get ${camelCaseSplit(key)} data.\n`);
-				}
-			}
-
-			updateTiltifyStatus("warning", errorMessage.trim());
+			updateTiltifyStatus("warning", `Failed to get: ${failed.join(", ")}. Check console for details.`);
 		}
 	}, 5000);
 }
@@ -502,9 +498,5 @@ function camelCaseSplit(str: string) {
 }
 
 function updateTiltifyStatus(status: ConnectionStatus['status'], message = "") {
-	tiltifyStatusRep.value = {
-		status,
-		timestamp: Date.now(),
-		message,
-	};
+	tiltifyStatusRep.value = nextConnectionStatus(tiltifyStatusRep.value, status, message);
 }

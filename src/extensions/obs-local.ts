@@ -1,7 +1,7 @@
 import { EventSubscription, OBSWebSocket } from "obs-websocket-js";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 import { getReplicant } from "./replicants.js";
-import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
+import { nextConnectionStatus, type ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 import { GameplayLocations } from "@asm-graphics/shared/obs-gameplay-scene-data.js";
 
 const nodecg = nodecgApiContext.get();
@@ -60,7 +60,7 @@ obs.on("Identified", async () => {
 obs.on("ConnectionClosed", async (error) => {
 	if (error) {
 		log.error("Connection closed due to error:", JSON.stringify(error));
-		updateOBSStatus("error", "Connection closed due to error. Check console for details.");
+		updateOBSStatus("error", `Connection closed due to error: ${String(error.message || error.code)}`);
 	} else {	
 		log.warn("Connection closed");
 		updateOBSStatus("disconnected", "Connection closed");
@@ -97,7 +97,7 @@ obsReconnectIntervalRep.on("change", () => {
 
 obs.on("ConnectionError", (err) => {
 	log.warn("Connection error:", err);
-	updateOBSStatus("error", "Connection error. Check console for details.");
+	updateOBSStatus("error", `Connection error: ${err.message}`);
 });
 
 obs.on("SceneTransitionStarted", async (transitionName) => {
@@ -239,6 +239,7 @@ async function cycleRecording() {
 async function connectOBS() {
 	if (!nodecg.bundleConfig.obs) {
 		log.error("OBS configuration is missing.");
+		updateOBSStatus("error", "OBS configuration is missing.");
 		return;
 	}
 
@@ -257,7 +258,7 @@ async function connectOBS() {
 		updateOBSStatus("connected", "Connection successful");
 	} catch (err) {
 		log.warn("Connection error:", err);
-		updateOBSStatus("error", "Connection error. Check console for details.");
+		updateOBSStatus("error", `Connection error: ${err instanceof Error ? err.message : String(err)}`);
 	}
 }
 
@@ -282,11 +283,7 @@ if (nodecg.bundleConfig.obs?.autoConnect) {
 }
 
 function updateOBSStatus(status: ConnectionStatus["status"], message: string) {
-	obsStatusRep.value = {
-		status,
-		timestamp: Date.now(),
-		message,
-	};
+	obsStatusRep.value = nextConnectionStatus(obsStatusRep.value, status, message);
 }
 
 nodecg.listenFor("obs:getSourceScreenshot", async (data, cb) => {

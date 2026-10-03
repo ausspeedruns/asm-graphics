@@ -55,10 +55,12 @@ class X32 extends EventEmitter<X32Class> {
 			return;
 		}
 
+		this.emit("status", "connecting", "Connecting to X32...");
 		this.oscSocket.options.remoteAddress = ip;
 		this.oscSocket.open();
 
 		this.intervalHeartbeat = setInterval(this.sendHeartbeat.bind(this), this.HEARTBEAT_INTERVAL);
+		this.heartbeatTimeout = setTimeout(this.handleMissedHeartbeat.bind(this), this.HEARTBEAT_TIMEOUT);
 
 		this.subscriptionRenewal = setInterval(this.renewSubscriptions.bind(this), this.SUBSCRIPTION_INTERVAL);
 	}
@@ -69,17 +71,18 @@ class X32 extends EventEmitter<X32Class> {
 		}
 
 		this.oscSocket.close();
-		this.connected = false;
+		this.close();
+		this.emit("status", "disconnected", "Disconnected via dashboard");
 	}
 
+	// Keep sending heartbeats while missing them so the next reply can recover the connection.
 	handleMissedHeartbeat = () => {
-		this.emit("status", "warning", "Missed heartbeat");
 		this.heartbeatAttempts++;
 
-		clearInterval(this.intervalHeartbeat);
-
 		if (this.heartbeatAttempts > this.MAX_HEARTBEAT_ATTEMPTS) {
-			this.emit("status", "disconnected", "Maximum heartbeat attempts reached. Connection lost.");
+			this.emit("status", "error", "No heartbeat from X32. Connection lost.");
+		} else {
+			this.emit("status", "warning", "Missed heartbeat");
 		}
 
 		this.heartbeatTimeout = setTimeout(this.handleMissedHeartbeat.bind(this), this.HEARTBEAT_TIMEOUT);
@@ -176,7 +179,11 @@ class X32 extends EventEmitter<X32Class> {
 	}
 
 	close() {
-		this.connected = true;
+		this.connected = false;
+		this.heartbeatAttempts = 0;
+		clearTimeout(this.heartbeatTimeout);
+		clearInterval(this.intervalHeartbeat);
+		clearInterval(this.subscriptionRenewal);
 	}
 
 	/**

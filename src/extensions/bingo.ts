@@ -3,7 +3,7 @@ import { Bingosync } from "./util/bingosync.js";
 import type { BoardCell, RoomJoinParameters } from "@asm-graphics/shared/BingoSync.js";
 import { getReplicant } from "./replicants.js";
 import { clone } from "underscore";
-import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
+import { nextConnectionStatus, type ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 
 const nodecg = nodecgGet();
 
@@ -100,9 +100,5 @@ if (bingosyncBoardStateRep.value.cells.length > 0) {
 }
 
 function updateBingosyncStatus(status: ConnectionStatus['status'], message: string) {
-	bingosyncStatusRep.value = {
-		status,
-		timestamp: Date.now(),
-		message,
-	};
+	bingosyncStatusRep.value = nextConnectionStatus(bingosyncStatusRep.value, status, message);
 }

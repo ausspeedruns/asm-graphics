@@ -2,6 +2,7 @@ import * as nodecgApiContext from "./nodecg-api-context.js";
 import X32 from "./util/x32.js";
 
 import { getReplicant } from "./replicants.js";
+import { nextConnectionStatus } from "@asm-graphics/shared/replicants.js";
 
 import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import type NodeCG from "nodecg/types";
@@ -150,11 +151,7 @@ function setHostCouchActive(active: boolean) {
 //#region X32 Events
 
 x32.on("status", (status, message) => {
-	x32StatusRep.value = {
-		status,
-		timestamp: Date.now(),
-		message,
-	};
+	x32StatusRep.value = nextConnectionStatus(x32StatusRep.value, status, message);
 });
 
 x32.on("faders", (faders, bus) => {
