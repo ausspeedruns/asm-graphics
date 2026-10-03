@@ -2,10 +2,10 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 import { Button } from "@mui/material";
 import styles from "./testing.module.css";
-import type { TickerItemHandles } from "../../ticker";
+import type { TickerItemHandles } from "../../ticker.js";
 import gsap from "gsap";
-import NumberField from "../../elements/number-field";
-import { TickerCTA } from "../cta";
+import NumberField from "../../elements/number-field.js";
+import { TickerCTA } from "../cta.js";
 
 interface CTAProps {
 	showcaseBackgroundColour: string;

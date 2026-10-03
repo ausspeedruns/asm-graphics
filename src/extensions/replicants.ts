@@ -1,4 +1,3 @@
-import type NodeCG from "nodecg/types";
 import * as nodecgApiContext from "./nodecg-api-context.js";
 
 import { replicants, type ReplicantName, type ReplicantType } from "@asm-graphics/shared/replicants.js";
@@ -16,7 +15,7 @@ for (const [replicantName, defaultValue] of Object.entries(replicants)) {
 	}
 }
 
-type StrictReplicant<T> = Omit<NodeCG.default.ServerReplicant<T>, 'value'> & { value: T };
+type StrictReplicant<T> = Omit<ReturnType<typeof nodecg.Replicant<T>>, 'value'> & { value: T };
 
 export function getReplicant<E extends ReplicantName>(name: E) {
 	return nodecg.Replicant<ReplicantType<E>>(name) as StrictReplicant<ReplicantType<E>>;

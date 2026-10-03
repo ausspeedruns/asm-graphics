@@ -4,10 +4,10 @@ import { createRoot } from "react-dom/client";
 import styles from "./ticker-testing.module.css";
 
 import { Button, Slider, Stack } from "@mui/material";
-import { Goals } from "./intermission/incentives/testing/goals";
-import { Wars } from "./intermission/incentives/testing/wars";
-import { Runs } from "./intermission/incentives/testing/upcoming-runs";
-import { PrizesTesting } from "./intermission/incentives/testing/prizes";
+import { Goals } from "./intermission/incentives/testing/goals.js";
+import { Wars } from "./intermission/incentives/testing/wars.js";
+import { Runs } from "./intermission/incentives/testing/upcoming-runs.js";
+import { PrizesTesting } from "./intermission/incentives/testing/prizes.js";
 
 const BACKGROUND_OPTIONS = [
 	{ label: "Grey", value: "#6b7280" },

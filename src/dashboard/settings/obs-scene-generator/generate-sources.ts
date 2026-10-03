@@ -7,7 +7,7 @@ import type {
 	sceneSourceSchema,
 	textSourceSchema,
 	colourSourceSchema,
-} from "./obs-schemas";
+} from "./obs-schemas.js";
 
 export const baseSceneItem: z.infer<typeof sceneItemSchema> = {
 	name: "",

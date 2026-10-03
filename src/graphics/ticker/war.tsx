@@ -1,10 +1,10 @@
 import { useImperativeHandle, useRef, useState } from "react";
 import clsx from "clsx";
 
-import type { War } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "../ticker";
+import type { War } from "@asm-graphics/types/Incentives.js";
+import type { TickerItemHandles } from "../ticker.js";
 
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 import styles from "./war.module.css";
 
 const MAX_ALLOWED = 4;

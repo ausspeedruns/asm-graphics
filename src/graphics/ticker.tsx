@@ -3,21 +3,21 @@ import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useShallow } from "zustand/react/shallow";
 
-import { TickerRuns } from "./ticker/runs/runs";
-import { TickerCTA } from "./ticker/cta";
-import { TickerMilestones } from "./ticker/milestones";
-import { TickerPrizes } from "./ticker/prizes";
-import { TickerDonationMatches } from "./ticker/donation-matches";
+import { TickerRuns } from "./ticker/runs/runs.js";
+import { TickerCTA } from "./ticker/cta.js";
+import { TickerMilestones } from "./ticker/milestones.js";
+import { TickerPrizes } from "./ticker/prizes.js";
+import { TickerDonationMatches } from "./ticker/donation-matches.js";
 
-import { useTickerStore } from "./stores/ticker-store";
+import { useTickerStore } from "./stores/ticker-store.js";
 import EventBug from "./overlays/backgrounds/ChannelBug.png";
-import { TickerIncentives } from "./ticker/incentives";
-import type { TickerSegment } from "@asm-graphics/types/Ticker";
-import { TickerDonationTotal } from "./ticker/donation-area";
-import { DonationMatchesFixture } from "./ticker/donation-matches-fixture";
-import { CurrentTime } from "./ticker/current-time";
-import { calculateTimeBasedColour, TimeStyleProvider } from "./elements/time-style-context";
-import { useTimeStyleContext } from "./elements/use-time-style-context";
+import { TickerIncentives } from "./ticker/incentives.js";
+import type { TickerSegment } from "@asm-graphics/types/Ticker.js";
+import { TickerDonationTotal } from "./ticker/donation-area.js";
+import { DonationMatchesFixture } from "./ticker/donation-matches-fixture.js";
+import { CurrentTime } from "./ticker/current-time.js";
+import { calculateTimeBasedColour, TimeStyleProvider } from "./elements/time-style-context.js";
+import { useTimeStyleContext } from "./elements/use-time-style-context.js";
 import styles from "./ticker.module.css";
 
 const testDonationMatch = {

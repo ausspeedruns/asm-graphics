@@ -6,8 +6,8 @@
             "DOM",
             "DOM.Iterable"
         ],
-        "module": "ESNext",
-        "moduleResolution": "Bundler",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
         "jsx": "react-jsx",
         "noEmit": true,
         "isolatedModules": true,

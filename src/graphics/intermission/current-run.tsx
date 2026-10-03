@@ -1,13 +1,13 @@
 import clsx from "clsx";
 import { Fragment } from "react/jsx-runtime";
 import styles from "./current-run.module.css";
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 
 import StopwatchIcon from "../media/icons/stopwatch.svg?react";
 import RunnerIcon from "../media/icons/runner.svg?react";
 import ConsoleIcon from "../media/icons/console.svg?react";
-import { useIntermissionStore } from "../stores/intermission-store";
-import { runCustomDataSchema } from "../../shared/types/custom-data";
+import { useIntermissionStore } from "../stores/intermission-store.js";
+import { runCustomDataSchema } from "../../shared/types/custom-data.js";
 
 import asap26Filigree from "../media/asap26/filigree.png";
 

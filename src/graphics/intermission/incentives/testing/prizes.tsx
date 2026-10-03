@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 import { Button, TextField } from "@mui/material";
 import styles from "./testing.module.css";
-import type { TickerItemHandles } from "../../incentives";
+import type { TickerItemHandles } from "../../incentives.js";
 import gsap from "gsap";
-import NumberField from "../../../elements/number-field";
-import type { Prize as IPrize } from "@asm-graphics/types/Prizes";
-import { Prizes } from "../incent-prizes";
+import NumberField from "../../../elements/number-field.js";
+import type { Prize as IPrize } from "@asm-graphics/types/Prizes.js";
+import { Prizes } from "../incent-prizes.js";
 
 interface PrizesProps {
 	showcaseBackgroundColour: string;

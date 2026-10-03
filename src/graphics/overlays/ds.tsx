@@ -1,11 +1,11 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { Container } from "../elements/container";
-import { SmallInfo } from "../elements/info-box/small";
-import { Facecam } from "../elements/facecam";
+import { Container } from "../elements/container.js";
+import { SmallInfo } from "../elements/info-box/small.js";
+import { Facecam } from "../elements/facecam.js";
 
 import DSBG from "./backgrounds/DS.png";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 import styles from "./ds.module.css";
 
 import round from "../media/asap26/Round.png";

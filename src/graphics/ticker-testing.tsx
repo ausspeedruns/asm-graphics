@@ -2,15 +2,15 @@ import { createRoot } from "react-dom/client";
 
 import styles from "./ticker-testing.module.css";
 
-import { Runs } from "./ticker/testing/runs";
+import { Runs } from "./ticker/testing/runs.js";
 import { Button, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Wars } from "./ticker/testing/wars";
-import { Goals } from "./ticker/testing/goals";
-import { CTA } from "./ticker/testing/cta";
-import { Prizes } from "./ticker/testing/prizes";
-import { Milestone } from "./ticker/testing/milestone";
-import { DonationMatches } from "./ticker/testing/donation-matches";
+import { Wars } from "./ticker/testing/wars.js";
+import { Goals } from "./ticker/testing/goals.js";
+import { CTA } from "./ticker/testing/cta.js";
+import { Prizes } from "./ticker/testing/prizes.js";
+import { Milestone } from "./ticker/testing/milestone.js";
+import { DonationMatches } from "./ticker/testing/donation-matches.js";
 
 const BACKGROUND_OPTIONS = [
 	{ label: "Grey", value: "#6b7280" },

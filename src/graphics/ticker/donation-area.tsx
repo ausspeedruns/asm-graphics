@@ -1,5 +1,5 @@
-import { useTickerStore } from "../stores/ticker-store";
-import { LerpNum } from "./lerp-num";
+import { useTickerStore } from "../stores/ticker-store.js";
+import { LerpNum } from "./lerp-num.js";
 
 import GoCLogo from "../media/game-on-cancer/word-mark.svg?react";
 import styles from "./donation-area.module.css";

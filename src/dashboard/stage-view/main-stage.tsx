@@ -22,11 +22,11 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
-import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import CircularProgress from "@mui/material/CircularProgress";
-import { SortablePerson, Person } from "./person";
+import { SortablePerson, Person } from "./person.js";
 import { Button } from "@mui/material";
-import { PersonDataContext } from "./use-person-data";
+import { PersonDataContext } from "./use-person-data.js";
 import styles from "./main-stage.module.css";
 
 // Droppable Container Component

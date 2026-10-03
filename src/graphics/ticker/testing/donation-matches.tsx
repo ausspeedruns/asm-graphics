@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 import { Button, Checkbox, FormControlLabel, Stack, TextField } from "@mui/material";
 import styles from "./testing.module.css";
-import type { TickerItemHandles } from "../../ticker";
+import type { TickerItemHandles } from "../../ticker.js";
 import gsap from "gsap";
-import NumberField from "../../elements/number-field";
-import type { DonationMatch } from "@asm-graphics/types/Donations";
-import { TickerDonationMatches } from "../donation-matches";
+import NumberField from "../../elements/number-field.js";
+import type { DonationMatch } from "@asm-graphics/types/Donations.js";
+import { TickerDonationMatches } from "../donation-matches.js";
 
 interface DonationMatchesProps {
 	showcaseBackgroundColour: string;

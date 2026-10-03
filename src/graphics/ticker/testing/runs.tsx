@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Run } from "../runs/run";
+import { Run } from "../runs/run.js";
 import { Button, Stack, TextField } from "@mui/material";
-import type { RunData } from "@asm-graphics/types/RunData";
+import type { RunData } from "@asm-graphics/types/RunData.js";
 import styles from "./testing.module.css";
 
 interface RunsProps {

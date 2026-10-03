@@ -1,5 +1,5 @@
 import { Slider, Input } from "@mui/material";
-import NumberField from "./number-field";
+import NumberField from "./number-field.js";
 import styles from "./audio-slider.module.css";
 
 const marks = [

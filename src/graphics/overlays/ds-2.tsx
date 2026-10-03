@@ -1,14 +1,14 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { VerticalInfo } from "../elements/info-box/vertical";
-import { SponsorsBox } from "../elements/sponsors";
-import { Facecam } from "../elements/facecam";
-import { Couch } from "../elements/couch/couch";
-import { AudioIndicator } from "../elements/audio-indicator";
-import { RaceFinish } from "../elements/race-finish";
-import { getTeams } from "../elements/team-data";
-import { Container } from "../elements/container";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { VerticalInfo } from "../elements/info-box/vertical.js";
+import { SponsorsBox } from "../elements/sponsors.js";
+import { Facecam } from "../elements/facecam.js";
+import { Couch } from "../elements/couch/couch.js";
+import { AudioIndicator } from "../elements/audio-indicator.js";
+import { RaceFinish } from "../elements/race-finish.js";
+import { getTeams } from "../elements/team-data.js";
+import { Container } from "../elements/container.js";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 import styles from "./ds-2.module.css";
 
 export const DS2 = (props: OverlayProps) => {

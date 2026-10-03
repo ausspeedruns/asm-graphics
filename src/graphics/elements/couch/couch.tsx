@@ -1,10 +1,10 @@
 import styles from "./couch.module.css";
 import clsx from "clsx";
 
-import type { AudioIndicator } from "@asm-graphics/types/Audio";
-import type { RunDataPlayer } from "@asm-graphics/types/RunData";
-import { HOST_TAG } from "@asm-graphics/shared/constants";
-import { Person } from "./person";
+import type { AudioIndicator } from "@asm-graphics/types/Audio.js";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
+import { HOST_TAG } from "@asm-graphics/shared/constants.js";
+import { Person } from "./person.js";
 
 interface Props {
 	commentators: RunDataPlayer[];

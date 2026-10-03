@@ -1,4 +1,4 @@
-import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import { useState } from "react";
 
 export function useTalkback(commentators?: RunDataPlayer[], runners?: RunDataPlayer[]) {

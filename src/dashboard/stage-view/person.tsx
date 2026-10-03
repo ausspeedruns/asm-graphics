@@ -4,13 +4,13 @@ import { CSS } from "@dnd-kit/utilities";
 import { Mic, MicOff, Edit, RecordVoiceOver } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 
-import { Headsets } from "../../shared/audio-data";
+import { Headsets } from "../../shared/audio-data.js";
 
-import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import { useReplicant } from "@nodecg/react-hooks";
 import type { DraggableAttributes } from "@dnd-kit/core";
-import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import { usePersonData } from "./use-person-data";
+type SyntheticListenerMap = Record<string, Function>;
+import { usePersonData } from "./use-person-data.js";
 import styles from "./person.module.css";
 
 function getHeadsetData(microphone: string | undefined) {

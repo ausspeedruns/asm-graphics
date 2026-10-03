@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import styles from "./donation-total.module.css";
 
-import { LerpNum } from "../ticker/lerp-num";
-import { useIntermissionStore } from "../stores/intermission-store";
+import { LerpNum } from "../ticker/lerp-num.js";
+import { useIntermissionStore } from "../stores/intermission-store.js";
 
 import asap26LongFiligree from "../media/asap26/long-filigree.png";
 

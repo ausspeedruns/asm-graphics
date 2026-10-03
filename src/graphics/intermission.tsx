@@ -6,24 +6,24 @@ import _ from "underscore";
 import styles from "./intermission.module.css";
 import clsx from "clsx";
 
-import { IntermissionIncentives } from "./intermission/incentives";
+import { IntermissionIncentives } from "./intermission/incentives.js";
 
 // Assets
-import { IntermissionVideoComponent, type IntermissionAdsRef } from "./intermission/video";
+import { IntermissionVideoComponent, type IntermissionAdsRef } from "./intermission/video.js";
 import GoCLogo from "./media/game-on-cancer/full-logo.svg?react";
 
 import crowdCam from "./media/asap26/Crowd Cam.png";
 
 // import AusSpeedrunsLogo from './media/AusSpeedruns-Logo.svg';
-import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-import { TimeStyleProvider } from "./elements/time-style-context";
-import { useIntermissionStore } from "./stores/intermission-store";
-import { IntermissionCurrentRun } from "./intermission/current-run";
-import { IntermissionDonationTotal } from "./intermission/donation-total";
-import { BackgroundMusic } from "./intermission/background-music";
-import { IntermissionHost } from "./intermission/host";
-import { Location } from "./intermission/location";
-import { Sponsors } from "./elements/sponsors";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.js";
+import { TimeStyleProvider } from "./elements/time-style-context.js";
+import { useIntermissionStore } from "./stores/intermission-store.js";
+import { IntermissionCurrentRun } from "./intermission/current-run.js";
+import { IntermissionDonationTotal } from "./intermission/donation-total.js";
+import { BackgroundMusic } from "./intermission/background-music.js";
+import { IntermissionHost } from "./intermission/host.js";
+import { Location } from "./intermission/location.js";
+import { Sponsors } from "./elements/sponsors.js";
 
 import asap26Filigree from "./media/asap26/filigree.png";
 

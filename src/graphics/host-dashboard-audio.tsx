@@ -2,10 +2,10 @@ import { useEffect, useState, useMemo, type CSSProperties } from "react";
 import { createRoot } from "react-dom/client";
 
 import { useReplicant } from "@nodecg/react-hooks";
-import { AudioFader } from "./dashboards/runner-tablet/audio-fader";
-import { Headsets, HostHeadset } from "../shared/audio-data";
+import { AudioFader } from "./dashboards/runner-tablet/audio-fader.js";
+import { Headsets, HostHeadset } from "../shared/audio-data.js";
 
-import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import styles from "./host-dashboard-audio.module.css";
 
 interface HostDashAudioProps {

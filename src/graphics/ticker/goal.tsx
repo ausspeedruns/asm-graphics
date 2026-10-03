@@ -1,10 +1,10 @@
 import { useImperativeHandle, useRef } from "react";
 import clsx from "clsx";
 
-import type { Goal } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "../ticker";
+import type { Goal } from "@asm-graphics/types/Incentives.js";
+import type { TickerItemHandles } from "../ticker.js";
 
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 
 import styles from "./goal.module.css";
 

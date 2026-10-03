@@ -1,11 +1,11 @@
 import { useImperativeHandle, useRef } from "react";
 import clsx from "clsx";
 
-import type { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../ticker.js";
 
-import { TickerItem } from "./item";
-import { TickerTitle } from "./title";
-import type { Prize } from "@asm-graphics/types/Prizes";
+import { TickerItem } from "./item.js";
+import { TickerTitle } from "./title.js";
+import type { Prize } from "@asm-graphics/types/Prizes.js";
 import styles from "./prizes.module.css";
 
 interface Props {

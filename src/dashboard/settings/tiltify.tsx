@@ -1,8 +1,8 @@
 import { FormGroup, TextField, Button } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import { ConnectionTag } from "../elements/connection-tag";
+import { ConnectionTag } from "../elements/connection-tag.js";
 import { useState } from "react";
-import { PasswordField } from "../elements/password-field";
+import { PasswordField } from "../elements/password-field.js";
 
 export function TiltifySettings() {
 	const [tiltifyConnectedRep] = useReplicant("tiltify:status");

@@ -1,14 +1,14 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { Facecam } from "../elements/facecam";
-import { AudioIndicator } from "../elements/audio-indicator";
-import { RaceFinish } from "../elements/race-finish";
-import { getTeams } from "../elements/team-data";
-import * as RunInfo from "../elements/run-info";
-import { Timer } from "../elements/timer";
-import { Container } from "../elements/container";
-import { runCustomDataSchema } from "../../shared/types/custom-data";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { Facecam } from "../elements/facecam.js";
+import { AudioIndicator } from "../elements/audio-indicator.js";
+import { RaceFinish } from "../elements/race-finish.js";
+import { getTeams } from "../elements/team-data.js";
+import * as RunInfo from "../elements/run-info.js";
+import { Timer } from "../elements/timer.js";
+import { Container } from "../elements/container.js";
+import { runCustomDataSchema } from "../../shared/types/custom-data.js";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 import styles from "./3ds-2.module.css";
 
 export function ThreeDS2(props: OverlayProps) {

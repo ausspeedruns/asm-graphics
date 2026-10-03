@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import _ from "underscore";
 
-import type { War } from "@asm-graphics/types/Incentives";
-import NumberField from "../../../elements/number-field";
+import type { War } from "@asm-graphics/types/Incentives.js";
+import NumberField from "../../../elements/number-field.js";
 import styles from "./war-edit.module.css";
 
 type WarProps = {

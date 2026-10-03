@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { DonationMatch } from "@asm-graphics/types/Donations";
-import type { Prize } from "@asm-graphics/types/Prizes";
-import type { TickerSegment } from "@asm-graphics/types/Ticker";
+import type { RunDataArray, RunDataActiveRun } from "@asm-graphics/types/RunData.js";
+import type { Incentive } from "@asm-graphics/types/Incentives.js";
+import type { DonationMatch } from "@asm-graphics/types/Donations.js";
+import type { Prize } from "@asm-graphics/types/Prizes.js";
+import type { TickerSegment } from "@asm-graphics/types/Ticker.js";
 
 type TickerOrderItem = { id: TickerSegment; enabled: boolean; settings?: Record<string, unknown> };
 

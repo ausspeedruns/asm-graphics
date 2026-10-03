@@ -10,13 +10,13 @@ import {
 	Typography,
 } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import { ConnectionTag } from "../elements/connection-tag";
-import { PasswordField } from "../elements/password-field";
-import { generateOBSScenes } from "./obs-scene-generator";
-import type { RunDataArray } from "../../shared/types/RunData";
-import { runCustomDataSchema } from "../../shared/types/custom-data";
+import { ConnectionTag } from "../elements/connection-tag.js";
+import { PasswordField } from "../elements/password-field.js";
+import { generateOBSScenes } from "./obs-scene-generator.js";
+import type { RunDataArray } from "../../shared/types/RunData.js";
+import { runCustomDataSchema } from "../../shared/types/custom-data.js";
 import { useMemo, useState } from "react";
-import NumberField from "../elements/number-field";
+import NumberField from "../elements/number-field.js";
 
 export function OBSSettings() {
 	const [obsStatusRep] = useReplicant("obs:status");

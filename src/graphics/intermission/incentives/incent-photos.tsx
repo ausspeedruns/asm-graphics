@@ -2,13 +2,13 @@ import { useImperativeHandle, useRef } from "react";
 
 import type NodeCG from "nodecg/types";
 
-import type { TickerItemHandles } from "../incentives";
+import type { TickerItemHandles } from "../incentives.js";
 import styles from "./incent-photos.module.css";
 
 const NUMBER_OF_PHOTOS = 5;
 
 interface IncentivePhotosProps {
-	photos?: NodeCG.AssetFile[];
+	photos?: NodeCG.default.AssetFile[];
 	ref: React.Ref<TickerItemHandles>;
 }
 
@@ -25,7 +25,7 @@ export function Photos(props: IncentivePhotosProps) {
 	}));
 
 	const getRandomPhotos = () => {
-		const randomPhotos: NodeCG.AssetFile[] = [];
+		const randomPhotos: NodeCG.default.AssetFile[] = [];
 		if (props.photos && props.photos.length > NUMBER_OF_PHOTOS) {
 			const shuffledPhotos = [...props.photos].sort(() => Math.random() - 0.5);
 			randomPhotos.push(...shuffledPhotos.slice(0, NUMBER_OF_PHOTOS));

@@ -1,7 +1,7 @@
-import { WideInfo } from "../elements/info-box/wide";
-import type { OverlayProps } from "../gameplay-overlay";
-import { Facecam } from "../elements/facecam";
-import { Container } from "../elements/container";
+import { WideInfo } from "../elements/info-box/wide.js";
+import type { OverlayProps } from "../gameplay-overlay.js";
+import { Facecam } from "../elements/facecam.js";
+import { Container } from "../elements/container.js";
 import styles from "./top-bar-only.module.css";
 
 export function TopBarOnly(props: OverlayProps) {

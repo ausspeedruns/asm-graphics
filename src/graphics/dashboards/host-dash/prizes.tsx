@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import type { Prize } from "@asm-graphics/types/Prizes";
+import type { Prize } from "@asm-graphics/types/Prizes.js";
 import { useReplicant } from "@nodecg/react-hooks";
 import styles from "./prizes.module.css";
 

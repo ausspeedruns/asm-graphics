@@ -1,5 +1,5 @@
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Timer } from "@asm-graphics/types/Timer";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData.js";
+import type { Timer } from "@asm-graphics/types/Timer.js";
 
 type TeamData = {
 	id: string;

@@ -1,8 +1,8 @@
-import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import clsx from "clsx";
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 import styles from "./person.module.css";
-import { HOST_TAG } from "@asm-graphics/shared/constants";
+import { HOST_TAG } from "@asm-graphics/shared/constants.js";
 
 // ASAP2026
 import Ticket from "../../media/asap26/ticket.svg?react";

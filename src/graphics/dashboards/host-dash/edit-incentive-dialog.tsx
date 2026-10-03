@@ -15,10 +15,10 @@ import {
 import { useReplicant } from "@nodecg/react-hooks";
 import { Flag, PieChart } from "@mui/icons-material";
 
-import { GoalEdit } from "./incentive-edits/goal-edit";
-import { WarEdit } from "./incentive-edits/war-edit";
+import { GoalEdit } from "./incentive-edits/goal-edit.js";
+import { WarEdit } from "./incentive-edits/war-edit.js";
 
-import type { Incentive } from "@asm-graphics/types/Incentives";
+import type { Incentive } from "@asm-graphics/types/Incentives.js";
 import styles from "./edit-incentive-dialog.module.css";
 
 function getEditComponent(incentive: Incentive, updateIncentive: (incentive: Incentive) => void) {

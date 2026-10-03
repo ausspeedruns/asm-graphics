@@ -1,4 +1,4 @@
-import type { ConnectionStatus } from "@asm-graphics/shared/replicants";
+import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 import { CircularProgress } from "@mui/material";
 
 export function ConnectionTag(props: { status?: ConnectionStatus }) {

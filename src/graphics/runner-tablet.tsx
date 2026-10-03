@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { ThemeProvider, createTheme } from "@mui/material";
-import usePrevious from "@asm-graphics/shared-browser/hooks/usePrevious";
+import usePrevious from "@asm-graphics/shared-browser/hooks/usePrevious.js";
 
-// import type { Timer } from '@asm-graphics/types/Timer';
+// import type { Timer } from '@asm-graphics/types/Timer.js';
 
-import { RTAudio } from "./dashboards/runner-tablet/audio";
-import { RTNames } from "./dashboards/runner-tablet/names";
-// import { RTSelection } from "./dashboards/runner-tablet/headset-selection";
-import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
+import { RTAudio } from "./dashboards/runner-tablet/audio.js";
+import { RTNames } from "./dashboards/runner-tablet/names.js";
+// import { RTSelection } from "./dashboards/runner-tablet/headset-selection.js";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import styles from "./runner-tablet.module.css";
 
 const TABS = {

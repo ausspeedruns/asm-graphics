@@ -1,6 +1,6 @@
 import styles from "./host.module.css";
-import { useIntermissionStore } from "../stores/intermission-store";
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { useIntermissionStore } from "../stores/intermission-store.js";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 
 import Mic from "@mui/icons-material/Mic";
 

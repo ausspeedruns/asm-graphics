@@ -1,4 +1,4 @@
-import type { RunDataPlayer, RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataPlayer, RunDataActiveRun } from "@asm-graphics/types/RunData.js";
 import { createContext, useContext, useMemo } from "react";
 import { useReplicant } from "@nodecg/react-hooks";
 

@@ -5,10 +5,10 @@ import { IconButton, Snackbar, Tab } from "@mui/material";
 import { styled as muiStyled } from "@mui/material/styles";
 import { useReplicant } from "@nodecg/react-hooks";
 
-import { Donations } from "./donations";
-import { ManualDonations } from "./manual-donations";
+import { Donations } from "./donations.js";
+import { ManualDonations } from "./manual-donations.js";
 
-import type { Donation } from "@asm-graphics/types/Donations";
+import type { Donation } from "@asm-graphics/types/Donations.js";
 import styles from "./donation-tabs.module.css";
 
 const HostDashTab = muiStyled(Tab)({

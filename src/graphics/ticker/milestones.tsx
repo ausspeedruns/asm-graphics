@@ -1,9 +1,9 @@
 import { useImperativeHandle, useRef } from "react";
 import clsx from "clsx";
 
-import type { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../ticker.js";
 
-import { TickerTitle } from "./title";
+import { TickerTitle } from "./title.js";
 import styles from "./milestones.module.css";
 
 type Milestone = {

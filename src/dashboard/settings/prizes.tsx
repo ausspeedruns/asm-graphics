@@ -1,4 +1,4 @@
-import type { Prize } from "@asm-graphics/types/Prizes";
+import type { Prize } from "@asm-graphics/types/Prizes.js";
 import {
 	useSensors,
 	useSensor,
@@ -32,7 +32,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import NumberField from "../elements/number-field";
+import NumberField from "../elements/number-field.js";
 
 export function PrizesSettings() {
 	const [prizesRep] = useReplicant("prizes");

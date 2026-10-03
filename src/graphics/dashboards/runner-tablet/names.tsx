@@ -2,12 +2,12 @@ import { useState } from "react";
 import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 
-import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 
 import TwitchSVG from "../../media/icons/TwitchGlitchPurple.svg";
-import { EditUserDialog } from "./edit-user-dialog";
+import { EditUserDialog } from "./edit-user-dialog.js";
 import { Button } from "@mui/material";
-import { Headsets } from "../../../shared/audio-data";
+import { Headsets } from "../../../shared/audio-data.js";
 import styles from "./names.module.css";
 
 interface Props {

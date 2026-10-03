@@ -4,13 +4,13 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Tab from "@mui/material/Tab";
-import { Incentives } from "./incentives";
+import { Incentives } from "./incentives.js";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { IconButton } from "@mui/material";
 import { styled as muiStyled } from "@mui/material/styles";
 import { Refresh } from "@mui/icons-material";
 import { format } from "date-fns";
-import { PrizesHost } from "./prizes";
+import { PrizesHost } from "./prizes.js";
 import styles from "./host-tabs.module.css";
 
 const HostDashTab = muiStyled(Tab)({

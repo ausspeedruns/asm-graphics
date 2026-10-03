@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 import { clone } from "underscore";
 
-import type { RunDataArray, RunData } from "@asm-graphics/types/RunData";
+import type { RunDataArray, RunData } from "@asm-graphics/types/RunData.js";
 
 import { Box, Paper } from "@mui/material";
 import styles from "./upcoming.module.css";

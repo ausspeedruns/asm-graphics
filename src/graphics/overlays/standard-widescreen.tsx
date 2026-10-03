@@ -1,14 +1,14 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { SponsorsBox } from "../elements/sponsors";
-import { AudioIndicator } from "../elements/audio-indicator";
-import { Facecam } from "../elements/facecam";
-import { RaceFinish } from "../elements/race-finish";
-import { Couch } from "../elements/couch/couch";
-import { getTeams } from "../elements/team-data";
+import { SponsorsBox } from "../elements/sponsors.js";
+import { AudioIndicator } from "../elements/audio-indicator.js";
+import { Facecam } from "../elements/facecam.js";
+import { RaceFinish } from "../elements/race-finish.js";
+import { Couch } from "../elements/couch/couch.js";
+import { getTeams } from "../elements/team-data.js";
 
-import { VerticalTimerBottomInfo } from "../elements/info-box/vertical-timer-bottom";
-import { Container } from "../elements/container";
+import { VerticalTimerBottomInfo } from "../elements/info-box/vertical-timer-bottom.js";
+import { Container } from "../elements/container.js";
 import styles from "./standard-widescreen.module.css";
 
 const SponsorSize = {

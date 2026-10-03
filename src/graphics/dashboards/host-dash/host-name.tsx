@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect } from "react";
-import { HOST_TAG } from "@asm-graphics/shared/constants";
+import { HOST_TAG } from "@asm-graphics/shared/constants.js";
 import styles from "./host-name.module.css";
 
 interface Props {

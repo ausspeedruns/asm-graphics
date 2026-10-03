@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 
-import type { RunDataArray, RunData } from "@asm-graphics/types/RunData";
+import type { RunDataArray, RunData } from "@asm-graphics/types/RunData.js";
 
 import { Paper } from "@mui/material";
 import styles from "./upnext.module.css";

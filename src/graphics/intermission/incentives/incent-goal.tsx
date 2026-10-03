@@ -1,9 +1,9 @@
 import { useImperativeHandle, useRef } from "react";
 
-import type { Goal } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "../incentives";
+import type { Goal } from "@asm-graphics/types/Incentives.js";
+import type { TickerItemHandles } from "../incentives.js";
 
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 import styles from "./incent-goal.module.css";
 
 interface GoalProps {

@@ -5,9 +5,9 @@ import { Button, Grid, Paper, Stack, Tooltip } from "@mui/material";
 import { Check } from "@mui/icons-material";
 import { List, type RowComponentProps } from "react-window";
 
-import type { Donation } from "@asm-graphics/types/Donations";
+import type { Donation } from "@asm-graphics/types/Donations.js";
 
-import { EditIncentiveDialog } from "./edit-incentive-dialog";
+import { EditIncentiveDialog } from "./edit-incentive-dialog.js";
 import styles from "./donations.module.css";
 
 type RowProps = {

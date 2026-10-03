@@ -8,7 +8,7 @@ import styles from "./sponsors.module.css";
 const TEST_MODE = false;
 
 interface Props {
-	sponsors?: NodeCG.AssetFile[];
+	sponsors?: NodeCG.default.AssetFile[];
 	start?: number;
 	width?: React.CSSProperties["width"];
 	height?: React.CSSProperties["height"];
@@ -80,7 +80,7 @@ export function Sponsors(props: Props) {
 }
 
 interface FullBoxProps {
-	sponsors?: NodeCG.AssetFile[];
+	sponsors?: NodeCG.default.AssetFile[];
 	width: NonNullable<React.CSSProperties["width"]>;
 	height: NonNullable<React.CSSProperties["height"]>;
 	style?: React.CSSProperties;

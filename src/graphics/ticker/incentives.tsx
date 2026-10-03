@@ -1,11 +1,11 @@
 import { useImperativeHandle, useRef } from "react";
 
-import { TickerTitle } from "./title";
+import { TickerTitle } from "./title.js";
 
-import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { TickerItemHandles } from "../ticker";
-import { GoalBar } from "./goal";
-import { WarGame } from "./war";
+import type { Incentive } from "@asm-graphics/types/Incentives.js";
+import type { TickerItemHandles } from "../ticker.js";
+import { GoalBar } from "./goal.js";
+import { WarGame } from "./war.js";
 import styles from "./incentives.module.css";
 
 const NUMBER_TO_SHOW = 5;

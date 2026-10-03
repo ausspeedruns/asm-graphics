@@ -5,42 +5,42 @@ import { useReplicant } from "@nodecg/react-hooks";
 import _, { get } from "underscore";
 
 // import { CurrentOverlay } from '@asm-graphics/types/CurrentOverlay';
-import type { RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphics/types/RunData";
-import type { Timer } from "@asm-graphics/types/Timer";
+import type { RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphics/types/RunData.js";
+import type { Timer } from "@asm-graphics/types/Timer.js";
 import type NodeCG from "nodecg/types";
 
 // import { TickerOverlay } from "./elements/ticker";
-import { Standard } from "./overlays/standard";
-import { Standard2 } from "./overlays/standard-2";
-import { Widescreen } from "./overlays/widescreen";
-import { Widescreen2 } from "./overlays/widescreen-2";
-import { Widescreen3 } from "./overlays/widescreen-3";
-import { DS } from "./overlays/ds";
-import { GBA } from "./overlays/gba";
-import { GBA2 } from "./overlays/gba-2";
-import { GBC } from "./overlays/gbc";
-import { DS2 } from "./overlays/ds-2";
-import { ThreeDS } from "./overlays/3ds";
-import { ThreeDS2 } from "./overlays/3ds-2";
-import { NoGraphics } from "./overlays/no-graphics";
-import { StandardVertical } from "./overlays/standard-vertical";
-import { StandardWidescreen } from "./overlays/standard-widescreen";
-import { StandardBand } from "./overlays/standard-band";
-import { Widescreen2Bingo } from "./overlays/widescreen-2-bingo";
-import { GBC2 } from "./overlays/gbc-2";
-import { TopBarOnly } from "./overlays/top-bar-only";
-import type { AudioIndicator } from "@asm-graphics/types/Audio";
-import { OneByOne } from "./overlays/1x1";
-import { TimeStyleProvider } from "./elements/time-style-context";
-import { useTimeStyleContext } from "./elements/use-time-style-context";
+import { Standard } from "./overlays/standard.js";
+import { Standard2 } from "./overlays/standard-2.js";
+import { Widescreen } from "./overlays/widescreen.js";
+import { Widescreen2 } from "./overlays/widescreen-2.js";
+import { Widescreen3 } from "./overlays/widescreen-3.js";
+import { DS } from "./overlays/ds.js";
+import { GBA } from "./overlays/gba.js";
+import { GBA2 } from "./overlays/gba-2.js";
+import { GBC } from "./overlays/gbc.js";
+import { DS2 } from "./overlays/ds-2.js";
+import { ThreeDS } from "./overlays/3ds.js";
+import { ThreeDS2 } from "./overlays/3ds-2.js";
+import { NoGraphics } from "./overlays/no-graphics.js";
+import { StandardVertical } from "./overlays/standard-vertical.js";
+import { StandardWidescreen } from "./overlays/standard-widescreen.js";
+import { StandardBand } from "./overlays/standard-band.js";
+import { Widescreen2Bingo } from "./overlays/widescreen-2-bingo.js";
+import { GBC2 } from "./overlays/gbc-2.js";
+import { TopBarOnly } from "./overlays/top-bar-only.js";
+import type { AudioIndicator } from "@asm-graphics/types/Audio.js";
+import { OneByOne } from "./overlays/1x1.js";
+import { TimeStyleProvider } from "./elements/time-style-context.js";
+import { useTimeStyleContext } from "./elements/use-time-style-context.js";
 import { ParticlesProvider } from "@tsparticles/react";
 import type { Engine } from "@tsparticles/engine";
 import { loadFull } from "tsparticles";
-import { Widescreen4 } from "./overlays/widescreen-4";
+import { Widescreen4 } from "./overlays/widescreen-4.js";
 import styles from "./gameplay-overlay.module.css";
 
 // import { useNormalisedTime } from "../hooks/useCurrentTime";
-// import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour";
+// import { normalisedTimeToColour, sunriseEnd, sunriseStart, sunsetEnd, sunsetStart } from "./elements/useTimeColour.js";
 
 function getLayout(run: RunDataActiveRun | undefined) {
 	if (!run) {
@@ -61,7 +61,7 @@ export interface OverlayProps {
 	commentators: RunDataPlayer[];
 	host?: RunDataPlayer;
 	preview?: boolean;
-	sponsors: NodeCG.AssetFile[];
+	sponsors: NodeCG.default.AssetFile[];
 	gameAudioIndicator: string;
 	microphoneAudioIndicator?: AudioIndicator;
 	onScreenWarning?: { message: string; show: boolean };
@@ -87,7 +87,7 @@ function GameplayOverlay(props: GameplayOverlayProps) {
 	const [showHostRep] = useReplicant("showHost");
 	const host = (commentatorsRep ?? []).find((comm) => comm.id === "host");
 
-	const [sponsorsRep] = useReplicant<NodeCG.AssetFile[]>("assets:sponsors", { bundle: "asm-graphics" });
+	const [sponsorsRep] = useReplicant<NodeCG.default.AssetFile[]>("assets:sponsors", { bundle: "asm-graphics" });
 
 	const [gameAudioIndicatorRep] = useReplicant("game-audio-indicator");
 	const [microphoneAudioIndicatorRep] = useReplicant("audio-indicators");

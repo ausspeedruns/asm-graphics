@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import styles from "./gameplay-capture.module.css";
 
-const TEST_MODE = true;
+const TEST_MODE = false;
 
 function getAspectRatio(aspectRatio: `${number}:${number}`) {
 	const [width, height] = aspectRatio.split(":").map(Number);

@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import styles from "./run-info.module.css";
 
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 
 /*			CATEGORY			*/
 interface CategoryProps {

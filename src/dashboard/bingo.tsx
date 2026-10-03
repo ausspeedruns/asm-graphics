@@ -15,10 +15,10 @@ import {
 	OutlinedInput,
 } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import { darkTheme } from "./theme";
-import type { BoardCell, BoardState, RoomJoinParameters, CellColour } from "@asm-graphics/shared/BingoSync";
+import { darkTheme } from "./theme.js";
+import type { BoardCell, BoardState, RoomJoinParameters, CellColour } from "@asm-graphics/shared/BingoSync.js";
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-import type { ConnectionStatus } from "@asm-graphics/shared/replicants";
+import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
 import styles from "./bingo.module.css";
 
 const CellColours = [

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createRoot } from "react-dom/client";
 import TextField from "@mui/material/TextField";
 import { Stack, Button, ThemeProvider } from "@mui/material";
-import { darkTheme } from "./theme";
+import { darkTheme } from "./theme.js";
 
 type TimerFormat = `${number}:${number}:${number}`;
 

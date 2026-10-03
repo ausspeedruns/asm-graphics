@@ -1,9 +1,9 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { Container } from "../elements/container";
-import { WideInfo } from "../elements/info-box/wide";
-import { Facecam } from "../elements/facecam";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { Container } from "../elements/container.js";
+import { WideInfo } from "../elements/info-box/wide.js";
+import { Facecam } from "../elements/facecam.js";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 import styles from "./3ds.module.css";
 
 // import WidescreenTop from "../elements/event-specific/dh-24/Widescreen-2.png";

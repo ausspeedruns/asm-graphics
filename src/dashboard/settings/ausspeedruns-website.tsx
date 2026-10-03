@@ -1,8 +1,8 @@
 import { Alert, Button, Snackbar, Stack, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import { PasswordField } from "../elements/password-field";
+import { PasswordField } from "../elements/password-field.js";
 import { useState } from "react";
-import NumberField from "../elements/number-field";
+import NumberField from "../elements/number-field.js";
 
 export function AusSpeedrunsWebsiteSettings() {
 	const [ausSpeedrunsWebsiteSettings, setAusSpeedrunsWebsiteSettings] = useReplicant("ausspeedruns-website:settings");

@@ -14,10 +14,10 @@ import styles from "./run-info.module.css";
 import Tooltip from "@mui/material/Tooltip";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { formatDate } from "date-fns";
-import type { RunData } from "@asm-graphics/types/RunData";
+import type { RunData } from "@asm-graphics/types/RunData.js";
 import { IconButton } from "@mui/material";
 import { Edit } from "@mui/icons-material";
-import { runCustomDataSchema } from "../../shared/types/custom-data";
+import { runCustomDataSchema } from "../../shared/types/custom-data.js";
 
 const MAX_NOTES_LENGTH = 60;
 

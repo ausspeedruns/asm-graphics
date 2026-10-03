@@ -1,6 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, horizontalListSortingStrategy } from "@dnd-kit/sortable";
-import { SortableItem } from "./sortable-item";
+import { SortableItem } from "./sortable-item.js";
 import styles from "./container.module.css";
 
 interface ContainerProps {

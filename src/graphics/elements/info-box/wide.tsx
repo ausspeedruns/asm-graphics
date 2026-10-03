@@ -1,13 +1,13 @@
 import type React from "react";
 import clsx from "clsx";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
-import type { Timer as ITimer } from "@asm-graphics/types/Timer";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData.js";
+import type { Timer as ITimer } from "@asm-graphics/types/Timer.js";
 
-import { Timer } from "../timer";
-import * as RunInfo from "../run-info";
+import { Timer } from "../timer.js";
+import * as RunInfo from "../run-info.js";
 
-import { runCustomDataSchema } from "../../../shared/types/custom-data";
+import { runCustomDataSchema } from "../../../shared/types/custom-data.js";
 import styles from "./wide.module.css";
 
 interface Props {

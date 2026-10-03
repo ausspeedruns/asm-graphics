@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import { Button, TextField, ThemeProvider } from "@mui/material";
-import { darkTheme } from "./theme";
+import { darkTheme } from "./theme.js";
 import { useReplicant } from "@nodecg/react-hooks";
 import styles from "./full-cam.module.css";
 

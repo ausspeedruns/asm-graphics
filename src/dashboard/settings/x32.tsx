@@ -1,8 +1,8 @@
 import { Button, FormGroup, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
-import { ConnectionTag } from "../elements/connection-tag";
+import { ConnectionTag } from "../elements/connection-tag.js";
 import { WbIncandescent } from "@mui/icons-material";
-import { AudioSlider } from "../elements/audio-slider";
+import { AudioSlider } from "../elements/audio-slider.js";
 
 export function X32Settings() {
 	const [x32StatusRep] = useReplicant("x32:status");

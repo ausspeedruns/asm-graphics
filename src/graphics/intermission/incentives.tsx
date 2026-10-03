@@ -3,14 +3,14 @@ import clsx from "clsx";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 
-import { WarGame } from "./incentives/incent-wars";
-import { GoalBar } from "./incentives/incent-goal";
-import { Prizes } from "./incentives/incent-prizes";
-import { Photos } from "./incentives/incent-photos";
-import { UpcomingRuns } from "./incentives/incent-upcoming-runs";
-import { useIntermissionStore } from "../stores/intermission-store";
+import { WarGame } from "./incentives/incent-wars.js";
+import { GoalBar } from "./incentives/incent-goal.js";
+import { Prizes } from "./incentives/incent-prizes.js";
+import { Photos } from "./incentives/incent-photos.js";
+import { UpcomingRuns } from "./incentives/incent-upcoming-runs.js";
+import { useIntermissionStore } from "../stores/intermission-store.js";
 import styles from "./incentives.module.css";
 
 gsap.registerPlugin(useGSAP);

@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import { UpcomingRuns } from "../incent-upcoming-runs";
+import { UpcomingRuns } from "../incent-upcoming-runs.js";
 import { Button, Stack, TextField } from "@mui/material";
-import type { RunData } from "@asm-graphics/types/RunData";
+import type { RunData } from "@asm-graphics/types/RunData.js";
 import styles from "./testing.module.css";
-import type { TickerItemHandles } from "../../incentives";
+import type { TickerItemHandles } from "../../incentives.js";
 import gsap from "gsap";
 
 const DEFAULT_RUN: RunData = {

@@ -16,7 +16,7 @@ import Clip3 from "./media/audio/heartcontainer1.mp3";
 import Clip4 from "./media/audio/heartpiece1.mp3";
 import Clip5 from "./media/audio/itemget1.mp3";
 
-import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun } from "@asm-graphics/types/RunData.js";
 
 const CLIPS: string[] = [Clip1, Clip2, Clip3, Clip4, Clip5];
 

@@ -2,7 +2,7 @@ import { useImperativeHandle, useRef, useState } from "react";
 import clsx from "clsx";
 import gsap from "gsap";
 
-import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.js";
 import styles from "./video.module.css";
 
 interface Props {

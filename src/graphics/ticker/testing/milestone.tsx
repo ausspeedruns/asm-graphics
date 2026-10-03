@@ -2,10 +2,10 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 import { Button } from "@mui/material";
 import styles from "./testing.module.css";
-import type { TickerItemHandles } from "../../ticker";
+import type { TickerItemHandles } from "../../ticker.js";
 import gsap from "gsap";
-import NumberField from "../../elements/number-field";
-import { TickerMilestones } from "../milestones";
+import NumberField from "../../elements/number-field.js";
+import { TickerMilestones } from "../milestones.js";
 
 interface MilestoneProps {
 	showcaseBackgroundColour: string;

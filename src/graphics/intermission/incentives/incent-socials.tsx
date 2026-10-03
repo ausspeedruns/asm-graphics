@@ -1,6 +1,6 @@
 import { useImperativeHandle, useRef } from "react";
 
-import type { TickerItemHandles } from "../incentives";
+import type { TickerItemHandles } from "../incentives.js";
 
 import WebsiteIcon from "../../media/icons/website.svg";
 import YouTubeIcon from "../../media/icons/youtube.svg";

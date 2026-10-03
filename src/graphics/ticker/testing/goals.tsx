@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 import { Button, TextField } from "@mui/material";
 import styles from "./testing.module.css";
-import { GoalBar } from "../goal";
-import type { TickerItemHandles } from "../../ticker";
+import { GoalBar } from "../goal.js";
+import type { TickerItemHandles } from "../../ticker.js";
 import gsap from "gsap";
-import type { Goal } from "@asm-graphics/types/Incentives";
-import NumberField from "../../elements/number-field";
+import type { Goal } from "@asm-graphics/types/Incentives.js";
+import NumberField from "../../elements/number-field.js";
 
 interface GoalsProps {
 	showcaseBackgroundColour: string;

@@ -20,8 +20,8 @@ import { TextField, Button, Accordion, AccordionSummary, Typography, AccordionDe
 import { useReplicant } from "@nodecg/react-hooks";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import type { HostRead } from "@asm-graphics/shared/HostRead";
-import { Incentives, TwitchRevenue, Prizes } from "./default-host-reads";
+import type { HostRead } from "@asm-graphics/shared/HostRead.js";
+import { Incentives, TwitchRevenue, Prizes } from "./default-host-reads.js";
 import styles from "./host-read.module.css";
 
 const DEFAULT_HOST_READS = [Prizes, TwitchRevenue, Incentives];

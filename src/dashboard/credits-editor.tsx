@@ -1,19 +1,19 @@
-import { darkTheme } from "./theme";
+import { darkTheme } from "./theme.js";
 import { createRoot } from "react-dom/client";
 import { Button, MenuItem, Select, Stack, TextField, ThemeProvider } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { arrayMove } from "@dnd-kit/sortable";
-import { Section } from "./credits-editor/section";
+import { Section } from "./credits-editor/section.js";
 import { useReplicant } from "@nodecg/react-hooks";
 import { useEffect, useState } from "react";
-import type { Credits, CreditsName, CreditsSection } from "@asm-graphics/shared/credits";
+import type { Credits, CreditsName, CreditsSection } from "@asm-graphics/shared/credits.js";
 import type NodeCG from "nodecg/types";
 
 export function DashCreditsEditor() {
 	const [creditsData, setCreditsData] = useState<Credits | null>(null);
 	const [creditsRep] = useReplicant("credits");
 	const [volunteersRep] = useReplicant("volunteers");
-	const [logoRep] = useReplicant<NodeCG.AssetFile[]>("assets:logo", { bundle: "asm-graphics" });
+	const [logoRep] = useReplicant<NodeCG.default.AssetFile[]>("assets:logo", { bundle: "asm-graphics" });
 
 	useEffect(() => {
 		if (!creditsRep) return;

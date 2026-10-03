@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
-import { Credits } from "../elements/credits";
-import { AcknowledgementOfCountry, NameLowerThird } from "../elements/name-lowerthird";
-import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic";
+import { Credits } from "../elements/credits.js";
+import { AcknowledgementOfCountry, NameLowerThird } from "../elements/name-lowerthird.js";
+import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic.js";
 // import { ASM26NightMode } from "../elements/asm26/asm26-night-mode";
 import styles from "./no-graphics.module.css";
 

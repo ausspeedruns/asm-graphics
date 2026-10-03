@@ -1,11 +1,11 @@
 import { Fragment, useImperativeHandle, useRef } from "react";
 import { clone } from "underscore";
 
-import { TickerTitle } from "../title";
+import { TickerTitle } from "../title.js";
 
-import type { TickerItemHandles } from "../../ticker";
-import type { RunDataArray, RunDataActiveRun, RunData } from "@asm-graphics/types/RunData";
-import { Run } from "./run";
+import type { TickerItemHandles } from "../../ticker.js";
+import type { RunDataArray, RunDataActiveRun, RunData } from "@asm-graphics/types/RunData.js";
+import { Run } from "./run.js";
 import styles from "./runs.module.css";
 
 interface Props {

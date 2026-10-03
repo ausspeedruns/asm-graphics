@@ -1,8 +1,8 @@
 import { useListenFor } from "@nodecg/react-hooks";
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Timer } from "./elements/timer";
-import type { Timer as TimerType } from "@asm-graphics/types/Timer";
+import { Timer } from "./elements/timer.js";
+import type { Timer as TimerType } from "@asm-graphics/types/Timer.js";
 
 function formatTime(seconds: number): string {
 	const hours = Math.floor(seconds / 3600);

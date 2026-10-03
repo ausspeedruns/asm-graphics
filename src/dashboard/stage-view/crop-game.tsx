@@ -12,10 +12,10 @@ import {
 	Typography,
 } from "@mui/material";
 import z from "zod";
-import type { CropSettings } from "@asm-graphics/shared/obs-types";
+import type { CropSettings } from "@asm-graphics/shared/obs-types.js";
 import { useReplicant } from "@nodecg/react-hooks";
-import { GameplayLocations } from "@asm-graphics/shared/obs-gameplay-scene-data";
-import NumberField from "../elements/number-field";
+import { GameplayLocations } from "@asm-graphics/shared/obs-gameplay-scene-data.js";
+import NumberField from "../elements/number-field.js";
 
 const BASE_WIDTH = 1920;
 const BASE_HEIGHT = 1080;

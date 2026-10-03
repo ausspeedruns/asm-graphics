@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Checkbox, FormControl, FormControlLabel, InputAdornment, OutlinedInput, Stack } from "@mui/material";
 
-import type { Goal } from "@asm-graphics/types/Incentives";
-import NumberField from "../../../elements/number-field";
+import type { Goal } from "@asm-graphics/types/Incentives.js";
+import NumberField from "../../../elements/number-field.js";
 import styles from "./goal-edit.module.css";
 
 type GoalProps = {

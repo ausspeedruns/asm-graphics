@@ -11,10 +11,10 @@ import {
 	ThemeProvider,
 } from "@mui/material";
 import { RichTreeView, type TreeViewValidItem } from "@mui/x-tree-view";
-import { darkTheme } from "./theme";
+import { darkTheme } from "./theme.js";
 import { useReplicant } from "@nodecg/react-hooks";
-import type { RunDataArray } from "@asm-graphics/types/RunData";
-import { runCustomDataSchema } from "../shared/types/custom-data";
+import type { RunDataArray } from "@asm-graphics/types/RunData.js";
+import { runCustomDataSchema } from "../shared/types/custom-data.js";
 
 const layoutsRegex = /LAYOUT:\s*(.*)/;
 const unknownLayoutLabel = "Unknown Layout";

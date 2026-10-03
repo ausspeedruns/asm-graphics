@@ -3,8 +3,8 @@ import { useReplicant } from "@nodecg/react-hooks";
 
 import { Grid, Paper, Stack } from "@mui/material";
 
-import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { RunData } from "@asm-graphics/types/RunData";
+import type { Incentive } from "@asm-graphics/types/Incentives.js";
+import type { RunData } from "@asm-graphics/types/RunData.js";
 import styles from "./incentives.module.css";
 
 interface Props {

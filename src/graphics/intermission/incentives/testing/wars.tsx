@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField } from "@mui/material";
 import styles from "./testing.module.css";
-import { WarGame } from "../incent-wars";
-import type { TickerItemHandles } from "../../incentives";
+import { WarGame } from "../incent-wars.js";
+import type { TickerItemHandles } from "../../incentives.js";
 import gsap from "gsap";
-import type { War } from "@asm-graphics/types/Incentives";
-import NumberField from "../../../elements/number-field";
+import type { War } from "@asm-graphics/types/Incentives.js";
+import NumberField from "../../../elements/number-field.js";
 
 interface WarsProps {
 	showcaseBackgroundColour: string;

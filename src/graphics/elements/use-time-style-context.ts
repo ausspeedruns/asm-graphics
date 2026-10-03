@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { TimeStyleContext, type TimeStyleContextValue } from "./time-style-context";
+import { TimeStyleContext, type TimeStyleContextValue } from "./time-style-context.js";
 
 export function useTimeStyleContext(): TimeStyleContextValue {
 	const context = useContext(TimeStyleContext);

@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogContentText, type DialogProps, DialogTitle } from "@mui/material";
-import { HostName } from "./host-name";
+import { HostName } from "./host-name.js";
 
 interface HostEditDialogProps extends DialogProps {
 	submit: () => void;

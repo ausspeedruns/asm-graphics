@@ -1,5 +1,5 @@
 import { useReplicant } from "@nodecg/react-hooks";
-import { DEFAULT_TICKER_ORDER, type TickerSegment } from "../../shared/types/Ticker";
+import { DEFAULT_TICKER_ORDER, type TickerSegment } from "../../shared/types/Ticker.js";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import {
 	arrayMove,

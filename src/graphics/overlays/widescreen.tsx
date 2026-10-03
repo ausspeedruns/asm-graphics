@@ -1,14 +1,14 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { Container } from "../elements/container";
-import { WideInfo } from "../elements/info-box/wide";
-import { Facecam } from "../elements/facecam";
-import { SponsorsBox } from "../elements/sponsors";
-import { Couch } from "../elements/couch/couch";
+import { Container } from "../elements/container.js";
+import { WideInfo } from "../elements/info-box/wide.js";
+import { Facecam } from "../elements/facecam.js";
+import { SponsorsBox } from "../elements/sponsors.js";
+import { Couch } from "../elements/couch/couch.js";
 
 import WidescreenTop from "./backgrounds/WidescreenTop.png";
 import WidescreenBottom from "./backgrounds/WidescreenBottom.png";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 import styles from "./widescreen.module.css";
 
 // ASAP26

@@ -1,16 +1,16 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { SmallInfo } from "../elements/info-box/small";
-import { SponsorsBox } from "../elements/sponsors";
-import { AudioIndicator } from "../elements/audio-indicator";
-import { Facecam } from "../elements/facecam";
-import { RaceFinish } from "../elements/race-finish";
-import { Couch } from "../elements/couch/couch";
-import { getTeams } from "../elements/team-data";
+import { SmallInfo } from "../elements/info-box/small.js";
+import { SponsorsBox } from "../elements/sponsors.js";
+import { AudioIndicator } from "../elements/audio-indicator.js";
+import { Facecam } from "../elements/facecam.js";
+import { RaceFinish } from "../elements/race-finish.js";
+import { Couch } from "../elements/couch/couch.js";
+import { getTeams } from "../elements/team-data.js";
 
 import GBA2p from "./backgrounds/GBA2p.png";
-import { Container } from "../elements/container";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { Container } from "../elements/container.js";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 import styles from "./gba-2.module.css";
 
 export const GBA2 = (props: OverlayProps) => {

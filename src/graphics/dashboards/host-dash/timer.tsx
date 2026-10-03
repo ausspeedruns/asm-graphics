@@ -1,10 +1,10 @@
 import { useReplicant } from "@nodecg/react-hooks";
 
-import type { Timer as ITimer } from "@asm-graphics/types/Timer";
+import type { Timer as ITimer } from "@asm-graphics/types/Timer.js";
 
 import { Button, Tooltip, Paper } from "@mui/material";
 import { Check, Close, FastRewind, Pause, PlayArrow, Undo } from "@mui/icons-material";
-import type { RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataTeam } from "@asm-graphics/types/RunData.js";
 import styles from "./timer.module.css";
 
 export function Timer() {

@@ -1,21 +1,21 @@
 import clsx from "clsx";
 
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { AudioIndicator } from "../elements/audio-indicator";
-import { Facecam } from "../elements/facecam";
-import { getTeams } from "../elements/team-data";
-// import { RaceFinish } from '../elements/race-finish';
+import { AudioIndicator } from "../elements/audio-indicator.js";
+import { Facecam } from "../elements/facecam.js";
+import { getTeams } from "../elements/team-data.js";
+// import { RaceFinish } from '../elements/race-finish.js';
 
-import { Timer } from "../elements/timer";
-import * as RunInfo from "../elements/run-info";
+import { Timer } from "../elements/timer.js";
+import * as RunInfo from "../elements/run-info.js";
 
 import GameplayBL from "../media/icons/Widescreen-3-BL.svg";
 import GameplayTL from "../media/icons/Widescreen-3-TL.svg";
 import GameplayTR from "../media/icons/Widescreen-3-TR.svg";
-import { RaceFinish } from "../elements/race-finish";
-import { Container } from "../elements/container";
-import { runCustomDataSchema } from "../../shared/types/custom-data";
+import { RaceFinish } from "../elements/race-finish.js";
+import { Container } from "../elements/container.js";
+import { runCustomDataSchema } from "../../shared/types/custom-data.js";
 import styles from "./widescreen-3.module.css";
 
 export const Widescreen3 = (props: OverlayProps) => {

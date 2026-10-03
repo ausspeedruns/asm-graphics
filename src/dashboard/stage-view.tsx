@@ -6,20 +6,20 @@ import { Campaign } from "@mui/icons-material";
 
 import styles from "./stage-view.module.css";
 
-import type { RunDataActiveRun, RunDataPlayer } from "../../bundles/nodecg-speedcontrol/src/types";
+import type { RunDataActiveRun, RunDataPlayer } from "../../bundles/nodecg-speedcontrol/src/types/index.js";
 
-import { darkTheme } from "./theme";
-import { EditPersonDialog, NEW_COMMENTATOR_ID, NEW_RUNNER_ID } from "./stage-view/edit-person-dialog";
-import { RunInfo } from "./stage-view/run-info";
-import { useTalkback } from "./stage-view/use-talkback";
-import { MainStage } from "./stage-view/main-stage";
-import { RunTimeline } from "./stage-view/run-timeline";
-import { TimeHeader } from "./stage-view/time-header";
-import { StatusLights } from "./stage-view/status-lights";
-import { CropGameDialog } from "./stage-view/crop-game";
-import type { RunData, RunDataArray } from "@asm-graphics/types/RunData";
-import { EditRunDialog } from "./stage-view/edit-run";
-import { PersonDataContext, usePersonDataProvider } from "./stage-view/use-person-data";
+import { darkTheme } from "./theme.js";
+import { EditPersonDialog, NEW_COMMENTATOR_ID, NEW_RUNNER_ID } from "./stage-view/edit-person-dialog.js";
+import { RunInfo } from "./stage-view/run-info.js";
+import { useTalkback } from "./stage-view/use-talkback.js";
+import { MainStage } from "./stage-view/main-stage.js";
+import { RunTimeline } from "./stage-view/run-timeline.js";
+import { TimeHeader } from "./stage-view/time-header.js";
+import { StatusLights } from "./stage-view/status-lights.js";
+import { CropGameDialog } from "./stage-view/crop-game.js";
+import type { RunData, RunDataArray } from "@asm-graphics/types/RunData.js";
+import { EditRunDialog } from "./stage-view/edit-run.js";
+import { PersonDataContext, usePersonDataProvider } from "./stage-view/use-person-data.js";
 
 const ZONES = { commentators: "zone:commentators", host: "zone:host", runners: "zone:runners" } as const;
 

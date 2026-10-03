@@ -12,8 +12,8 @@ import {
 } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { Name } from "./name";
-import type { CreditsName } from "@asm-graphics/shared/credits";
+import { Name } from "./name.js";
+import type { CreditsName } from "@asm-graphics/shared/credits.js";
 
 interface SectionProps {
 	title?: string;

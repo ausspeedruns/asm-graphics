@@ -3,9 +3,9 @@ import gsap from "gsap";
 import clsx from "clsx";
 
 import TwitchLogo from "../media/icons/Twitch.svg?react";
-import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
 
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 import styles from "./nameplate.module.css";
 
 interface NameplateProps {

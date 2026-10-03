@@ -1,7 +1,7 @@
 import { Button, Slider } from "@mui/material";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import type { Headset } from "../../../shared/audio-data";
+import type { Headset } from "../../../shared/audio-data.js";
 import { Add, Remove } from "@mui/icons-material";
 import styles from "./audio-fader.module.css";
 

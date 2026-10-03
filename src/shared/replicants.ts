@@ -1,6 +1,5 @@
 import * as nodecgApiContext from "../extensions/nodecg-api-context.js";
 
-import type NodeCG from "nodecg/types";
 import type { RunDataPlayer } from "./types/RunData.js";
 import type { Donation, DonationMatch } from "./types/Donations.js";
 import type { Incentive } from "./types/Incentives.js";
@@ -19,7 +18,7 @@ import type { NetworkTestResult } from "../extensions/network-test.js";
 
 type Primitives = string | number | boolean | null;
 
-type ReplicantValueType = Primitives | Primitives[] | object[] | NodeCG.Replicant.Options<any>;
+type ReplicantValueType = Primitives | Primitives[] | object[] | object;
 
 const nodecg = nodecgApiContext.get();
 

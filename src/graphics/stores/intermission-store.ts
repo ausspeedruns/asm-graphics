@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 import type NodeCG from "nodecg/types";
-import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-import type { Incentive } from "@asm-graphics/types/Incentives";
-import type { Prize } from "@asm-graphics/types/Prizes";
-import type { RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphics/types/RunData";
-import type { DonationMatch } from "@asm-graphics/types/Donations";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.js";
+import type { Incentive } from "@asm-graphics/types/Incentives.js";
+import type { Prize } from "@asm-graphics/types/Prizes.js";
+import type { RunDataActiveRun, RunDataArray, RunDataPlayer } from "@asm-graphics/types/RunData.js";
+import type { DonationMatch } from "@asm-graphics/types/Donations.js";
 
 interface State {
 	activeRun: RunDataActiveRun;
@@ -14,9 +14,9 @@ interface State {
 	donationTotal: number;
 	manualDonationTotal: number;
 	apiDonationTotal: number;
-	sponsors: NodeCG.AssetFile[];
+	sponsors: NodeCG.default.AssetFile[];
 	incentives: Incentive[];
-	photos: NodeCG.AssetFile[];
+	photos: NodeCG.default.AssetFile[];
 	donationMatches: DonationMatch[];
 	donationMatchMultiplier: number;
 	prizes: Prize[];
@@ -52,7 +52,7 @@ nodecg.Replicant("donationTotal").on("change", (newVal) => {
 });
 
 nodecg.Replicant("assets:sponsors", "asm-graphics").on("change", (newVal) => {
-	useIntermissionStore.setState({ sponsors: newVal as NodeCG.AssetFile[] });
+	useIntermissionStore.setState({ sponsors: newVal as NodeCG.default.AssetFile[] });
 });
 
 nodecg.Replicant("incentives").on("change", (newVal) => {
@@ -62,7 +62,7 @@ nodecg.Replicant("manual-donation-total").on("change", (newVal) => {
 	useIntermissionStore.setState((state) => ({ ...state, manualDonationTotal: newVal as number, donationTotal: state.apiDonationTotal + (newVal as number) }));
 });
 nodecg.Replicant("assets:eventPhotos", "asm-graphics").on("change", (newVal) => {
-	useIntermissionStore.setState({ photos: newVal as NodeCG.AssetFile[] });
+	useIntermissionStore.setState({ photos: newVal as NodeCG.default.AssetFile[] });
 });
 
 nodecg.Replicant("donation-matches").on("change", (newVal) => {

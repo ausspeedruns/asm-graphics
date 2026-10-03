@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
-import type { AudioIndicator } from "@asm-graphics/types/Audio";
+import type { AudioIndicator } from "@asm-graphics/types/Audio.js";
 
-import type { RunDataTeam } from "@asm-graphics/types/RunData";
+import type { RunDataTeam } from "@asm-graphics/types/RunData.js";
 
-import { Nameplate } from "./nameplate";
+import { Nameplate } from "./nameplate.js";
 
-import { runnerCustomDataSchema } from "../../shared/types/custom-data";
+import { runnerCustomDataSchema } from "../../shared/types/custom-data.js";
 
 import DiscordLogo from "../media/icons/discord.svg";
 import TwitterLogo from "../media/icons/twitter.svg";

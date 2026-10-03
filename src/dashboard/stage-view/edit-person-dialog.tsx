@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { Headsets } from "../../shared/audio-data";
+import { Headsets } from "../../shared/audio-data.js";
 
-import type { RunDataPlayer } from "@asm-graphics/types/RunData";
-import { usePersonData } from "./use-person-data";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
+import { usePersonData } from "./use-person-data.js";
 import { useReplicant } from "@nodecg/react-hooks";
 import { Delete } from "@mui/icons-material";
 

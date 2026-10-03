@@ -9,7 +9,7 @@ import type {
 	obsSceneFileSchema,
 	sourceItems,
 	colourSourceSchema,
-} from "./obs-scene-generator/obs-schemas";
+} from "./obs-scene-generator/obs-schemas.js";
 import {
 	baseOBSScenesFile,
 	baseSource,
@@ -19,8 +19,8 @@ import {
 	generateOBSScene,
 	generateTextLabelSource,
 	type SourceInput,
-} from "./obs-scene-generator/generate-sources";
-import { GameplayLocations } from "../../shared/obs-gameplay-scene-data";
+} from "./obs-scene-generator/generate-sources.js";
+import { GameplayLocations } from "../../shared/obs-gameplay-scene-data.js";
 
 function generateReferenceColourSource(name: string): z.infer<typeof colourSourceSchema> {
 	return generateColourSource(name, "#00ff00ff");

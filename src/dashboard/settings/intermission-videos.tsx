@@ -33,8 +33,8 @@ import {
 import { useReplicant } from "@nodecg/react-hooks";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo";
-import NumberField from "../elements/number-field";
+import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.js";
+import NumberField from "../elements/number-field.js";
 
 export function IntermissionVideos() {
 	const [intermissionVideosRep, setIntermissionVideosRep] = useReplicant("intermission-videos");

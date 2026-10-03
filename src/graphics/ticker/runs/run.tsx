@@ -1,4 +1,4 @@
-import type { RunData } from "@asm-graphics/types/RunData";
+import type { RunData } from "@asm-graphics/types/RunData.js";
 import styles from "./run.module.css";
 
 interface RunProps {

@@ -17,7 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { format, parseISO } from "date-fns";
 
-import type { RunData, RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunData, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 
 // Convert ISO string to datetime-local format (YYYY-MM-DDTHH:mm)
 function toDateTimeLocal(isoString: string | undefined): string {

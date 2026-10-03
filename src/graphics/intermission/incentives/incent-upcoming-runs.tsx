@@ -1,8 +1,8 @@
 import { useImperativeHandle, useRef } from "react";
 
-import type { TickerItemHandles } from "../incentives";
-import { FitText, FitTextElements } from "@asm-graphics/shared-browser/fit-text";
-import type { RunData } from "@asm-graphics/types/RunData";
+import type { TickerItemHandles } from "../incentives.js";
+import { FitText, FitTextElements } from "@asm-graphics/shared-browser/fit-text.js";
+import type { RunData } from "@asm-graphics/types/RunData.js";
 
 import { format } from "date-fns";
 import styles from "./incent-upcoming-runs.module.css";

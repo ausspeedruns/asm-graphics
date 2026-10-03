@@ -1,14 +1,14 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { VerticalInfo } from "../elements/info-box/vertical";
-import { SponsorsBox } from "../elements/sponsors";
-import { Facecam } from "../elements/facecam";
-import { Couch } from "../elements/couch/couch";
+import { VerticalInfo } from "../elements/info-box/vertical.js";
+import { SponsorsBox } from "../elements/sponsors.js";
+import { Facecam } from "../elements/facecam.js";
+import { Couch } from "../elements/couch/couch.js";
 
 import GBABG from "./backgrounds/GBA.png";
 
-import { Container } from "../elements/container";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { Container } from "../elements/container.js";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 import styles from "./gba.module.css";
 
 const SponsorsStyled = {

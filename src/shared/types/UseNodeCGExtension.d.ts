@@ -1,4 +1,4 @@
-import { NodeCGMessages } from "./NodeCGMessages";
+import { NodeCGMessages } from "./NodeCGMessages.js";
 import { ReplicantType, type ReplicantName } from "../replicants.ts";
 import { UseListenForOptions } from "@nodecg/react-hooks";
 

@@ -3,7 +3,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { Paper } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 
-import type { DonationMatch as IDonationMatch } from "@asm-graphics/types/Donations";
+import type { DonationMatch as IDonationMatch } from "@asm-graphics/types/Donations.js";
 import styles from "./donation-matches.module.css";
 
 interface Props {

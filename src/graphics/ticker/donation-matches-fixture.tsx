@@ -1,4 +1,4 @@
-import { useTickerStore } from "../stores/ticker-store";
+import { useTickerStore } from "../stores/ticker-store.js";
 import styles from "./donation-matches-fixture.module.css";
 
 export function DonationMatchesFixture() {

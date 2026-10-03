@@ -1,11 +1,11 @@
-import { GameplayCapture } from "../elements/gameplay-capture";
-import type { OverlayProps } from "../gameplay-overlay";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { VerticalInfo } from "../elements/info-box/vertical";
-import { SponsorsBox } from "../elements/sponsors";
-import { Facecam } from "../elements/facecam";
-import { Couch } from "../elements/couch/couch";
-import { Container } from "../elements/container";
+import { VerticalInfo } from "../elements/info-box/vertical.js";
+import { SponsorsBox } from "../elements/sponsors.js";
+import { Facecam } from "../elements/facecam.js";
+import { Couch } from "../elements/couch/couch.js";
+import { Container } from "../elements/container.js";
 import styles from "./1x1.module.css";
 
 // import Background from "./backgrounds/1x1.png";

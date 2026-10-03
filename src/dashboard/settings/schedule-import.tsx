@@ -1,4 +1,4 @@
-import type { RunDataArray } from "@asm-graphics/types/RunData";
+import type { RunDataArray } from "@asm-graphics/types/RunData.js";
 import { Download } from "@mui/icons-material";
 import { Button, Accordion, AccordionSummary, AccordionDetails, TextField } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";

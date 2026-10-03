@@ -1,18 +1,18 @@
 import { create } from "zustand";
 
 import type NodeCG from "nodecg/types";
-import type { AudioIndicator } from "@asm-graphics/types/Audio";
-import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
-import type { Timer } from "@asm-graphics/types/Timer";
+import type { AudioIndicator } from "@asm-graphics/types/Audio.js";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
+import type { Timer } from "@asm-graphics/types/Timer.js";
 
 interface State {
 	runData: RunDataActiveRun | undefined;
 	timer: Timer;
 	commentators: RunDataPlayer[];
 	host: RunDataPlayer | undefined;
-	sponsors: NodeCG.AssetFile[];
-	fonts: NodeCG.AssetFile[];
-	backgrounds: NodeCG.AssetFile[];
+	sponsors: NodeCG.default.AssetFile[];
+	fonts: NodeCG.default.AssetFile[];
+	backgrounds: NodeCG.default.AssetFile[];
 	gameAudioIndicator: string;
 	microphoneAudioIndicator: AudioIndicator | undefined;
 	onScreenWarning: { message: string; show: boolean };
@@ -56,15 +56,15 @@ nodecg.Replicant("host").on("change", (newVal) => {
 });
 
 nodecg.Replicant("assets:sponsors", "asm-graphics").on("change", (newVal) => {
-	useOverlayStore.setState({ sponsors: newVal as NodeCG.AssetFile[] });
+	useOverlayStore.setState({ sponsors: newVal as NodeCG.default.AssetFile[] });
 });
 
 nodecg.Replicant("assets:fonts", "asm-graphics").on("change", (newVal) => {
-	useOverlayStore.setState({ fonts: newVal as NodeCG.AssetFile[] });
+	useOverlayStore.setState({ fonts: newVal as NodeCG.default.AssetFile[] });
 });
 
 nodecg.Replicant("assets:backgrounds", "asm-graphics").on("change", (newVal) => {
-	useOverlayStore.setState({ backgrounds: newVal as NodeCG.AssetFile[] });
+	useOverlayStore.setState({ backgrounds: newVal as NodeCG.default.AssetFile[] });
 });
 
 nodecg.Replicant("game-audio-indicator").on("change", (newVal) => {

@@ -1,6 +1,6 @@
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
 
-import type { TickerItemHandles } from "../ticker";
+import type { TickerItemHandles } from "../ticker.js";
 import styles from "./cta.module.css";
 
 interface CTAProps {

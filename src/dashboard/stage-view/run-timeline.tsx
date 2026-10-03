@@ -5,9 +5,9 @@ import { formatDate, formatDistanceStrict } from "date-fns";
 
 import RunnerIcon from "../../graphics/media/icons/runner.svg?react";
 
-import type { Timer } from "@asm-graphics/types/Timer";
+import type { Timer } from "@asm-graphics/types/Timer.js";
 import type { HTMLAttributes } from "react";
-import useCurrentRun from "@asm-graphics/shared-browser/hooks/useCurrentRun";
+import useCurrentRun from "@asm-graphics/shared-browser/hooks/useCurrentRun.js";
 
 function RunnerSliderThumb(props: HTMLAttributes<unknown>) {
 	const { children, ...other } = props;

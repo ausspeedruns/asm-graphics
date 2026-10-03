@@ -1,10 +1,10 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { VerticalInfo } from "../elements/info-box/vertical";
-import { Facecam } from "../elements/facecam";
-import { Couch } from "../elements/couch/couch";
-import { Container } from "../elements/container";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { VerticalInfo } from "../elements/info-box/vertical.js";
+import { Facecam } from "../elements/facecam.js";
+import { Couch } from "../elements/couch/couch.js";
+import { Container } from "../elements/container.js";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 
 // import StandardBG from "./backgrounds/Standard.png";
 import styles from "./standard-band.module.css";

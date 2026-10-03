@@ -1,11 +1,11 @@
 import { type Ref, useImperativeHandle, useRef } from "react";
 import clsx from "clsx";
 
-import type { DonationMatch } from "@asm-graphics/types/Donations";
-import type { TickerItemHandles } from "../ticker";
+import type { DonationMatch } from "@asm-graphics/types/Donations.js";
+import type { TickerItemHandles } from "../ticker.js";
 
-import { TickerTitle } from "./title";
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
+import { TickerTitle } from "./title.js";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
 import { formatDistanceToNow } from "date-fns";
 import styles from "./donation-matches.module.css";
 

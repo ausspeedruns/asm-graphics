@@ -10,19 +10,19 @@ import "react-mosaic-component/react-mosaic-component.css";
 
 import "./host-dash.css";
 
-import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog";
-import { ScriptDialog } from "./dashboards/host-dash/script-dialog";
-import { Timer } from "./dashboards/host-dash/timer";
-import { HostTabs } from "./dashboards/host-dash/host-tabs";
-import { Header } from "./dashboards/host-dash/header";
-import { DonationMatches } from "./dashboards/host-dash/donation-matches";
-import { UpNext } from "./dashboards/host-dash/upnext";
-import { AudioDialog } from "./dashboards/host-dash/audio-dialog";
-import { DonationTabs } from "./dashboards/host-dash/donation-tabs";
-import { DonationTotal } from "./dashboards/host-dash/donation-total";
-import { HostMicrophone } from "./dashboards/host-dash/host-microphone";
+import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog.js";
+import { ScriptDialog } from "./dashboards/host-dash/script-dialog.js";
+import { Timer } from "./dashboards/host-dash/timer.js";
+import { HostTabs } from "./dashboards/host-dash/host-tabs.js";
+import { Header } from "./dashboards/host-dash/header.js";
+import { DonationMatches } from "./dashboards/host-dash/donation-matches.js";
+import { UpNext } from "./dashboards/host-dash/upnext.js";
+import { AudioDialog } from "./dashboards/host-dash/audio-dialog.js";
+import { DonationTabs } from "./dashboards/host-dash/donation-tabs.js";
+import { DonationTotal } from "./dashboards/host-dash/donation-total.js";
+import { HostMicrophone } from "./dashboards/host-dash/host-microphone.js";
 
-import type { RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import styles from "./host-dashboard.module.css";
 
 type ViewId = keyof typeof ELEMENTS;

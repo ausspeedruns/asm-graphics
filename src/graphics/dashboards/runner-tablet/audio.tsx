@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData";
+import type { RunDataActiveRun, RunDataPlayer } from "@asm-graphics/types/RunData.js";
 import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
-import { AudioFader } from "./audio-fader";
+import { AudioFader } from "./audio-fader.js";
 import equal from "fast-deep-equal";
-import usePrevious from "@asm-graphics/shared-browser/hooks/usePrevious";
-import { FitText } from "@asm-graphics/shared-browser/fit-text";
-import { Headsets, HostHeadset, HostReferenceChannel } from "../../../shared/audio-data";
+import usePrevious from "@asm-graphics/shared-browser/hooks/usePrevious.js";
+import { FitText } from "@asm-graphics/shared-browser/fit-text.js";
+import { Headsets, HostHeadset, HostReferenceChannel } from "../../../shared/audio-data.js";
 const gameAudio = [
 	{ name: "Game 1", channel: 9 },
 	{ name: "Game 2", channel: 11 },

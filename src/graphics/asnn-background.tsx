@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { dayTimeColours } from "./elements/useTimeColour";
+import { dayTimeColours } from "./elements/useTimeColour.js";
 
 function ASNNBackground() {
 	return (

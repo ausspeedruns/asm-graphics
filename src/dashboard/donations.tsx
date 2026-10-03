@@ -2,9 +2,9 @@ import { createRoot } from "react-dom/client";
 import { useReplicant } from "@nodecg/react-hooks";
 import _ from "underscore";
 
-import type { Donation } from "@asm-graphics/types/Donations";
+import type { Donation } from "@asm-graphics/types/Donations.js";
 
-import { darkTheme } from "./theme";
+import { darkTheme } from "./theme.js";
 import { Paper, Stack, ThemeProvider } from "@mui/material";
 import styles from "./donations.module.css";
 

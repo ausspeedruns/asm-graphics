@@ -4,8 +4,8 @@ import _, { uniqueId } from "underscore";
 import { Button, InputAdornment, Paper, Stack, TextField, Tooltip } from "@mui/material";
 import { Check, Delete, Undo } from "@mui/icons-material";
 
-import type { Donation } from "@asm-graphics/types/Donations";
-import NumberField from "../../elements/number-field";
+import type { Donation } from "@asm-graphics/types/Donations.js";
+import NumberField from "../../elements/number-field.js";
 import styles from "./manual-donations.module.css";
 
 // Donation object example

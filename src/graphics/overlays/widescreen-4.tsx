@@ -1,16 +1,16 @@
-import type { OverlayProps } from "../gameplay-overlay";
+import type { OverlayProps } from "../gameplay-overlay.js";
 
-import { VerticalInfo } from "../elements/info-box/vertical";
-import { SponsorsBox } from "../elements/sponsors";
-import { Couch } from "../elements/couch/couch";
-import { AudioIndicator } from "../elements/audio-indicator";
-import { RaceFinish } from "../elements/race-finish";
-import { getTeams } from "../elements/team-data";
-import { Nameplate } from "../elements/nameplate";
+import { VerticalInfo } from "../elements/info-box/vertical.js";
+import { SponsorsBox } from "../elements/sponsors.js";
+import { Couch } from "../elements/couch/couch.js";
+import { AudioIndicator } from "../elements/audio-indicator.js";
+import { RaceFinish } from "../elements/race-finish.js";
+import { getTeams } from "../elements/team-data.js";
+import { Nameplate } from "../elements/nameplate.js";
 
-import { runnerCustomDataSchema } from "../../shared/types/custom-data";
-import { Container } from "../elements/container";
-import { GameplayCapture } from "../elements/gameplay-capture";
+import { runnerCustomDataSchema } from "../../shared/types/custom-data.js";
+import { Container } from "../elements/container.js";
+import { GameplayCapture } from "../elements/gameplay-capture.js";
 import styles from "./widescreen-4.module.css";
 
 export function Widescreen4(props: OverlayProps) {

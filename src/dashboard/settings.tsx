@@ -3,22 +3,22 @@ import { createRoot } from "react-dom/client";
 import styles from "./settings.module.css";
 
 import { ThemeProvider } from "@mui/material";
-import { darkTheme } from "./theme";
+import { darkTheme } from "./theme.js";
 import { Grid } from "@mui/material";
-import { GameYearsSettings } from "./settings/schedule-import";
-import { AusSpeedrunsWebsiteSettings } from "./settings/ausspeedruns-website";
-import { PrizesSettings } from "./settings/prizes";
-import { AcknowledgementOfCountry } from "./settings/acknowledgement-of-country";
-import { EventUpload } from "./settings/event-upload";
-import { HostReads } from "./settings/host-read";
-import { IntermissionVideos } from "./settings/intermission-videos";
-import { OBSSettings } from "./settings/obs";
-import { X32Settings } from "./settings/x32";
-import { TiltifySettings } from "./settings/tiltify";
-import { TickerSettings } from "./settings/ticker";
-// import MultipleContainers from "./settings/dnd-test";
-import { VolunteerImporter } from "./settings/volunteer-importer";
-import { TestNetwork } from "./settings/test-network";
+import { GameYearsSettings } from "./settings/schedule-import.js";
+import { AusSpeedrunsWebsiteSettings } from "./settings/ausspeedruns-website.js";
+import { PrizesSettings } from "./settings/prizes.js";
+import { AcknowledgementOfCountry } from "./settings/acknowledgement-of-country.js";
+import { EventUpload } from "./settings/event-upload.js";
+import { HostReads } from "./settings/host-read.js";
+import { IntermissionVideos } from "./settings/intermission-videos.js";
+import { OBSSettings } from "./settings/obs.js";
+import { X32Settings } from "./settings/x32.js";
+import { TiltifySettings } from "./settings/tiltify.js";
+import { TickerSettings } from "./settings/ticker.js";
+// import MultipleContainers from "./settings/dnd-test.js";
+import { VolunteerImporter } from "./settings/volunteer-importer.js";
+import { TestNetwork } from "./settings/test-network.js";
 
 const settingsPanels = [
 	HostReads,
