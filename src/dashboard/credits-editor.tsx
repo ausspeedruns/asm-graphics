@@ -12,6 +12,7 @@ import type NodeCG from "nodecg/types";
 export function DashCreditsEditor() {
 	const [creditsData, setCreditsData] = useState<Credits | null>(null);
 	const [creditsRep] = useReplicant("credits");
+	const [volunteersRep] = useReplicant("volunteers");
 	const [logoRep] = useReplicant<NodeCG.AssetFile[]>("assets:logo", { bundle: "asm-graphics" });
 
 	useEffect(() => {
@@ -163,6 +164,33 @@ export function DashCreditsEditor() {
 		void nodecg.sendMessage("credits:update", creditsData);
 	}
 
+	function handleUseVolunteerData() {
+		if (!volunteersRep) return;
+
+		// Transform the volunteer data into the format expected by the credits editor
+		const newSections: CreditsSection[] = Object.entries(volunteersRep).map(([role, entries]) => ({
+			title: role,
+			names: entries.map((entry) => ({ name: entry.name, role: "" })),
+		}));
+
+		setCreditsData((prev) => ({ ...prev!, sections: newSections }));
+	}
+
+	function handleDownloadJSON() {
+		if (!creditsData) return;
+
+		const json = JSON.stringify(creditsData, null, 2);
+		const blob = new Blob([json], { type: "application/json" });
+		const url = URL.createObjectURL(blob);
+
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = "credits.json";
+		a.click();
+
+		URL.revokeObjectURL(url);
+	}
+
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Stack spacing={2}>
@@ -224,6 +252,8 @@ export function DashCreditsEditor() {
 				<Button color="success" variant="contained" fullWidth onClick={handleUpdate}>
 					Update
 				</Button>
+				<Button onClick={handleUseVolunteerData}>Use Volunteer Data</Button>
+				<Button onClick={handleDownloadJSON}>Download JSON</Button>
 			</Stack>
 		</ThemeProvider>
 	);

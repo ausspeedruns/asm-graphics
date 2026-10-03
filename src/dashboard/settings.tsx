@@ -1,5 +1,7 @@
 import { createRoot } from "react-dom/client";
 
+import styles from "./settings.module.css";
+
 import { ThemeProvider } from "@mui/material";
 import { darkTheme } from "./theme";
 import { Grid } from "@mui/material";
@@ -15,7 +17,8 @@ import { X32Settings } from "./settings/x32";
 import { TiltifySettings } from "./settings/tiltify";
 import { TickerSettings } from "./settings/ticker";
 // import MultipleContainers from "./settings/dnd-test";
-import styles from "./settings.module.css";
+import { VolunteerImporter } from "./settings/volunteer-importer";
+import { TestNetwork } from "./settings/test-network";
 
 const settingsPanels = [
 	HostReads,
@@ -29,6 +32,8 @@ const settingsPanels = [
 	AusSpeedrunsWebsiteSettings,
 	GameYearsSettings,
 	TickerSettings,
+	VolunteerImporter,
+	TestNetwork,
 ];
 
 export function Settings() {

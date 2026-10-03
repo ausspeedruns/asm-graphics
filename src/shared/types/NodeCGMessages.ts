@@ -9,6 +9,7 @@ import type { RunDataPlayer } from "./RunData.js";
 import type { CropSettings } from "../obs-types.js";
 import type { TickerSegment } from "./Ticker.js";
 import type { Credits } from "../credits.js";
+import type { VolunteerEntry } from "../../extensions/volunteers.js";
 
 export type NodeCGMessages = {
 	// Audio
@@ -148,4 +149,7 @@ export type NodeCGMessages = {
 
 	// ASM26
 	"asm26:bonusRuns-inject": never;
+
+	// Volunteers
+	"volunteers:update": Record<string, VolunteerEntry[]>;
 };

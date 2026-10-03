@@ -5,6 +5,7 @@ import type { RunDataPlayer } from "./types/RunData.js";
 import type { Donation, DonationMatch } from "./types/Donations.js";
 import type { Incentive } from "./types/Incentives.js";
 import type { AudioIndicator, OBSAudioIndicator } from "./types/Audio.js";
+import type { VolunteerEntry } from "../extensions/volunteers.js";
 import type { User as AusSpeedrunsUser } from "./types/AusSpeedrunsWebsite.js";
 import type { Automations } from "./types/Automations.js";
 import type { Prize } from "./types/Prizes.js";
@@ -12,7 +13,7 @@ import type { BoardState, RoomJoinParameters } from "./BingoSync.js";
 import type { HostRead } from "./HostRead.js";
 import type { IntermissionVideo } from "./IntermissionVideo.js";
 import type { LowerThirdPerson } from "./FullscreenGraphic.js";
-import { DEFAULT_TICKER_ORDER, type TickerSegment } from "./types/Ticker.js";
+import { DEFAULT_TICKER_ORDER } from "./types/Ticker.js";
 import type { Credits } from "./credits.js";
 
 type Primitives = string | number | boolean | null;
@@ -156,6 +157,9 @@ export const replicants = {
 
 	// Credits
 	"credits": { defaultValue: { logo: "", eventName: "", sections: [] } as Credits },
+
+	// Volunteers
+	"volunteers": { defaultValue: {} as Record<string, VolunteerEntry[]> },
 } satisfies Record<string, ReplicantValueType>;
 
 type ReplicantValue<T> = T extends { defaultValue: infer D } ? D : T;

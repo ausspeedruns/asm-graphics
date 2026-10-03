@@ -9,6 +9,7 @@ import type { Prize } from "./prizes.js";
 import path from "node:path";
 import { mkdirSync, writeFileSync } from "node:fs";
 import type { IncomingMessage } from "node:http";
+import { fileURLToPath } from "node:url";
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger("event-setup");
@@ -19,7 +20,7 @@ const creditsRep = getReplicant("credits");
 const prizesRep = getReplicant("prizes");
 const router = nodecg.Router();
 
-const ASSET_ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../assets", nodecg.bundleName);
+const ASSET_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../assets", nodecg.bundleName);
 const EVENT_UPLOAD_ROUTE = `/bundles/${nodecg.bundleName}/event-upload`;
 
 router.post(EVENT_UPLOAD_ROUTE, nodecg.util.authCheck, async (req, res) => {

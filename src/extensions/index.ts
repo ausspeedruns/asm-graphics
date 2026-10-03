@@ -38,5 +38,5 @@ async function init() {
 	require("./ticker");
 	require("./credits");
 	require("./event-setup");
-	require("./asm26-bonus-runs");
+	require("./volunteers");
 }
