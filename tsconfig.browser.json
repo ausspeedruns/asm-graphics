@@ -18,6 +18,9 @@
             ],
             "@asm-graphics/shared/*": [
                 "./src/shared/*"
+            ],
+            "@asm-graphics/shared-browser/*": [
+                "./src/shared-browser/*"
             ]
         },
         "types": [
@@ -29,6 +32,7 @@
         "./src/dashboard/**/*",
         "./src/graphics/**/*",
         "./src/shared/**/*",
+        "./src/shared-browser/**/*",
         "node_modules/vite-plugin-svgr/client.d.ts"
     ],
     "exclude": [

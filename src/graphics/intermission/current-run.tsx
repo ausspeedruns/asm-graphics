@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Fragment } from "react/jsx-runtime";
 import styles from "./current-run.module.css";
-import { FitText } from "../elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 
 import StopwatchIcon from "../media/icons/stopwatch.svg?react";
 import RunnerIcon from "../media/icons/runner.svg?react";

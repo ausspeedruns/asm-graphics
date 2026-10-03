@@ -1,7 +1,7 @@
 import { Fragment, type Ref, useImperativeHandle, useRef } from "react";
 
 import type { TickerItemHandles } from "../incentives";
-import { FitText } from "../../elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 
 import type { Prize } from "@asm-graphics/types/Prizes";
 import styles from "./incent-prizes.module.css";

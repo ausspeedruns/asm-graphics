@@ -5,7 +5,7 @@ import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";
 import equal from "fast-deep-equal";
 import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
-import { FitText } from "../../elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 import { Headsets, HostHeadset, HostReferenceChannel } from "../../../shared/audio-data";
 const gameAudio = [
 	{ name: "Game 1", channel: 9 },

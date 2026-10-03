@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type PropsWithChildren } from "react";
-import { Colour } from "../colour";
+import { Colour } from "@asm-graphics/shared-browser/colour";
 
 export interface TimeStyleContextValue {
 	normalizedTime: number;

@@ -5,7 +5,7 @@ import type { DonationMatch } from "@asm-graphics/types/Donations";
 import type { TickerItemHandles } from "../ticker";
 
 import { TickerTitle } from "./title";
-import { FitText } from "../elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 import { formatDistanceToNow } from "date-fns";
 import styles from "./donation-matches.module.css";
 

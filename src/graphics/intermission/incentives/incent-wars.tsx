@@ -2,7 +2,7 @@ import { useImperativeHandle, useRef, useState } from "react";
 
 import type { War } from "@asm-graphics/types/Incentives";
 import type { TickerItemHandles } from "../incentives";
-import { FitText } from "../../elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 import styles from "./incent-wars.module.css";
 
 interface GoalProps {

@@ -4,7 +4,7 @@ import clsx from "clsx";
 import type { War } from "@asm-graphics/types/Incentives";
 import type { TickerItemHandles } from "../ticker";
 
-import { FitText } from "../elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 import styles from "./war.module.css";
 
 const MAX_ALLOWED = 4;

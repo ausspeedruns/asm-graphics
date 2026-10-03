@@ -1,7 +1,7 @@
 import { useImperativeHandle, useRef } from "react";
 
 import type { TickerItemHandles } from "../incentives";
-import { FitText, FitTextElements } from "../../elements/fit-text";
+import { FitText, FitTextElements } from "@asm-graphics/shared-browser/fit-text";
 import type { RunData } from "@asm-graphics/types/RunData";
 
 import { format } from "date-fns";

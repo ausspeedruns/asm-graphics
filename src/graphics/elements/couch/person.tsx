@@ -1,6 +1,6 @@
 import type { RunDataPlayer } from "@asm-graphics/types/RunData";
 import clsx from "clsx";
-import { FitText } from "../fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 import styles from "./person.module.css";
 import { HOST_TAG } from "@asm-graphics/shared/constants";
 

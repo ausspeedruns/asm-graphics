@@ -3,7 +3,7 @@ import { useImperativeHandle, useRef } from "react";
 import type { Goal } from "@asm-graphics/types/Incentives";
 import type { TickerItemHandles } from "../incentives";
 
-import { FitText } from "../../elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 import styles from "./incent-goal.module.css";
 
 interface GoalProps {

@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import gsap from "gsap";
 
 import ASNNBug from "./media/asnn.webm";
-import { FitText } from "./elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 import styles from "./asnn.module.css";
 
 const TICKER_DURATION_SCALAR = 0.3;

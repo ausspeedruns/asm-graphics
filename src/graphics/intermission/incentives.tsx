@@ -3,7 +3,7 @@ import clsx from "clsx";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-import { FitText } from "../elements/fit-text";
+import { FitText } from "@asm-graphics/shared-browser/fit-text";
 
 import { WarGame } from "./incentives/incent-wars";
 import { GoalBar } from "./incentives/incent-goal";

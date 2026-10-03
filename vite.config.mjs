@@ -11,6 +11,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			"@asm-graphics/shared": path.resolve(__dirname, "./src/shared"),
+			"@asm-graphics/shared-browser": path.resolve(__dirname, "./src/shared-browser"),
 		},
 	},
 	plugins: [
