@@ -52,3 +52,8 @@ declare module '*.module.css' {
   const classes: { [key: string]: string };
   export default classes;
 }
+
+declare module "*.lottie" {
+    const assetPath: string;
+    export default assetPath;
+}

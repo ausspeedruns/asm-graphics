@@ -50,7 +50,7 @@ export function StatusLights() {
 				tooltipText={`Twitch: ${networkTestRep?.twitch ? "Connected" : "Disconnected"}, YouTube: ${networkTestRep?.youtube ? "Connected" : "Disconnected"} | Last updated: ${networkTestRep?.timestamp ? new Date(networkTestRep.timestamp).toLocaleString() : "N/A"}`}
 				status={networkTestRep?.twitch && networkTestRep?.youtube ? "connected" : "disconnected"}
 			/>
-			<Tooltip title="Start Network Test" arrow>
+			<Tooltip title="Start Network Reachability Test" arrow>
 				<IconButton onClick={() => nodecg.sendMessage("network-test:start")}>
 					<NetworkCheck />
 				</IconButton>

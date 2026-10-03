@@ -108,13 +108,13 @@ export function Person(props: PersonProps) {
 
 			<div className={styles.micRow}>
 				<div
-					className={styles.micIcon}
+					className={clsx(styles.micIcon, !rawMicrophone && styles.noMic)}
 					style={{ "--mic-bg": headset?.colour, "--mic-fg": headset?.textColour } as React.CSSProperties}
 				>
 					{rawMicrophone ? <Mic /> : <MicOff />}
 				</div>
-				<div className={styles.micLabel}>
-					{rawMicrophone ?? "No Mic"}
+				<div className={clsx(styles.micLabel, !rawMicrophone && styles.noMic)}>
+					{rawMicrophone ? rawMicrophone : "No Mic Assigned"}
 					{headset && (
 						<>
 							<br />

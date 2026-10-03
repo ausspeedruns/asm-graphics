@@ -92,6 +92,22 @@
 	opacity: 0.95;
 }
 
+@keyframes pulse {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.noMic {
+	animation: pulse 3s infinite;
+}
+
 .actionsRow {
 	display: flex;
 	justify-content: space-between;

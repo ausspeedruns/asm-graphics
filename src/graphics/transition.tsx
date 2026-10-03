@@ -2,21 +2,14 @@ import { useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
+// import { Lottie, type LottieHandle } from "lottie-react";
+import type { DotLottie } from "@lottiefiles/dotlottie-react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react/webgpu";
 
 import styles from "./transition.module.css";
 
-import LetterBarImg from "./transition/Letter_Stripe.png";
-import Stamp01Img from "./transition/Monkey.png";
-import Stamp02Img from "./transition/Triangle.png";
-import Stamp03Img from "./transition/CHDING.png";
-
-import InkStampASRLogo from "./transition/Australia_Stamp.png";
-import InkStampEventLogo from "./transition/ASM_Stamp.png";
-
-import StampSFX from "./transition/freesound_community-traditional-stamp-44189.mp3";
-import PaperSlideSFX from "./transition/oxidvideos-paper-slide-short-478835.mp3";
-
-// import TransitionStatic from "./overlays/backgrounds/TransitionStatic.png";
+// import lottieAnimation from "./media/Transition.lottie?url";
+import lottieAnimation from "./media/Transition.slots.json?url";
 
 import Clip1 from "./media/audio/chestappears1.mp3";
 import Clip2 from "./media/audio/crystal.mp3";
@@ -60,6 +53,7 @@ export function Transition() {
 	const [game, setGame] = useState("A cool game name");
 	const [category, setCategory] = useState("Category");
 	const [runners, setRunners] = useState("by some lots of runners");
+	const dotLottieRef = useRef<DotLottie>(null);
 
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [automationsRep] = useReplicant("automations");
@@ -98,24 +92,31 @@ export function Transition() {
 	}
 
 	function runTransition(transition: "toIntermission" | "toGame" | "basic", specialText: string[] = []) {
+		dotLottieRef.current?.setTextSlot("gameName", { t: specialText[0] ?? "" });
+		dotLottieRef.current?.setTextSlot("runner", { t: specialText[2] ?? "" });
+
 		switch (transition) {
 			case "basic":
-				setGame("ASM2026");
-				setCategory("");
-				setRunners(specialText[0] ?? "");
+				dotLottieRef.current?.setTextSlot("gameName", { t: "ASAP2026" });
+				dotLottieRef.current?.setTextSlot("category", { t: "" });
+				dotLottieRef.current?.setTextSlot("runner", { t: specialText[0] ?? "" });
 				break;
 			case "toIntermission":
-				setGame("ASM2026");
-				setCategory(specialText[0] ?? "");
+				dotLottieRef.current?.setTextSlot("gameName", { t: "ASAP2026" });
+				dotLottieRef.current?.setTextSlot("category", { t: specialText[0] ?? "" });
 				setRunners(specialText[0] ?? "");
 				break;
 			case "toGame":
 			default:
 				setGame(specialText[0] ?? "");
+				dotLottieRef.current?.setTextSlot("category", { t: specialText[1] ?? "" });
 				setCategory(specialText[1] ?? "");
 				setRunners(specialText[2] ?? "");
 				break;
 		}
+
+		dotLottieRef.current?.setFrame(0);
+		dotLottieRef.current?.play();
 	}
 
 	const changeBGColor = (col: string) => {
@@ -124,7 +125,15 @@ export function Transition() {
 
 	return (
 		<div className={styles.transitionRoot}>
-			<div className={styles.transitionDiv} />
+			<div className={styles.transitionDiv}>
+				<DotLottieReact
+					src={lottieAnimation}
+					loop={false}
+					dotLottieRefCallback={(dotLottie) => {
+						dotLottieRef.current = dotLottie;
+					}}
+				/>
+			</div>
 
 			{/* <audio ref={audioRef} /> */}
 			<button style={{ float: "right" }} onClick={() => runTransition("basic")}>
