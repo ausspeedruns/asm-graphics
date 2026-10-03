@@ -39,4 +39,6 @@ async function init() {
 	require("./credits");
 	require("./event-setup");
 	require("./volunteers");
+	require("./network-test");
 }
+``

@@ -102,7 +102,7 @@ export function Person(props: PersonProps) {
 				<div className={styles.nameText}>{personData.name}</div>
 				<div className={styles.pronounsText}>{personData.pronouns}</div>
 			</div>
-			{typeof personData.customData["tag"] === "string" && (
+			{typeof personData.customData["tag"] === "string" && personData.customData["tag"] && (
 				<div className={styles.tagBadge}>{personData.customData["tag"]}</div>
 			)}
 

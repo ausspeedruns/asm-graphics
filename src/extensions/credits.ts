@@ -9,5 +9,6 @@ const log = new nodecg.Logger("Credits");
 const creditsRep = getReplicant("credits");
 
 nodecg.listenFor("credits:update", (data) => {
+	log.info("Updating credits with data:", data);
 	creditsRep.value = data;
 });

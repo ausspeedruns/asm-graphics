@@ -15,6 +15,7 @@ import type { IntermissionVideo } from "./IntermissionVideo.js";
 import type { LowerThirdPerson } from "./FullscreenGraphic.js";
 import { DEFAULT_TICKER_ORDER } from "./types/Ticker.js";
 import type { Credits } from "./credits.js";
+import type { NetworkTestResult } from "../extensions/network-test.js";
 
 type Primitives = string | number | boolean | null;
 
@@ -156,10 +157,13 @@ export const replicants = {
 	"ticker:order": DEFAULT_TICKER_ORDER,
 
 	// Credits
-	"credits": { defaultValue: { logo: "", eventName: "", sections: [] } as Credits },
+	credits: { defaultValue: { logo: "", eventName: "", sections: [] } as Credits },
 
 	// Volunteers
-	"volunteers": { defaultValue: {} as Record<string, VolunteerEntry[]> },
+	volunteers: { defaultValue: {} as Record<string, VolunteerEntry[]> },
+
+	// Testing
+	"network-test": { defaultValue: { twitch: false, youtube: false, timestamp: Date.now() } as NetworkTestResult },
 } satisfies Record<string, ReplicantValueType>;
 
 type ReplicantValue<T> = T extends { defaultValue: infer D } ? D : T;

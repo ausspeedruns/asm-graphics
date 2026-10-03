@@ -1,10 +1,11 @@
-import { Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { useReplicant } from "@nodecg/react-hooks";
 
 import styles from "./status-lights.module.css";
 import type { ConnectionStatus } from "@asm-graphics/shared/replicants.js";
+import { NetworkCheck } from "@mui/icons-material";
 
-function GenerateTooltipText(status?: ConnectionStatus) {
+function generateTooltipText(status?: ConnectionStatus) {
 	if (!status) {
 		return "NodeCG Connecting...";
 	}
@@ -32,17 +33,28 @@ export function StatusLights() {
 	const [obsStatusRep] = useReplicant("obs:status");
 	const [x32StatusRep] = useReplicant("x32:status");
 	const [tiltifyStatusRep] = useReplicant("tiltify:status");
+	const [networkTestRep] = useReplicant("network-test");
 
 	return (
 		<div className={styles.container}>
-			<StatusLight label="OBS" tooltipText={GenerateTooltipText(obsStatusRep)} status={obsStatusRep?.status} />
+			<StatusLight label="OBS" tooltipText={generateTooltipText(obsStatusRep)} status={obsStatusRep?.status} />
 			{/* <StatusLight label="Livestream" tooltipText="Connected to the server" status="connected" /> */}
-			<StatusLight label="X32" tooltipText={GenerateTooltipText(x32StatusRep)} status={x32StatusRep?.status} />
+			<StatusLight label="X32" tooltipText={generateTooltipText(x32StatusRep)} status={x32StatusRep?.status} />
 			<StatusLight
 				label="Tiltify"
-				tooltipText={GenerateTooltipText(tiltifyStatusRep)}
+				tooltipText={generateTooltipText(tiltifyStatusRep)}
 				status={tiltifyStatusRep?.status}
 			/>
+			<StatusLight
+				label="Twitch and Youtube Reachable"
+				tooltipText={`Twitch: ${networkTestRep?.twitch ? "Connected" : "Disconnected"}, YouTube: ${networkTestRep?.youtube ? "Connected" : "Disconnected"} | Last updated: ${networkTestRep?.timestamp ? new Date(networkTestRep.timestamp).toLocaleString() : "N/A"}`}
+				status={networkTestRep?.twitch && networkTestRep?.youtube ? "connected" : "disconnected"}
+			/>
+			<Tooltip title="Start Network Test" arrow>
+				<IconButton onClick={() => nodecg.sendMessage("network-test:start")}>
+					<NetworkCheck />
+				</IconButton>
+			</Tooltip>
 		</div>
 	);
 }
