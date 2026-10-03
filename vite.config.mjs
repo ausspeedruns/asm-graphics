@@ -5,13 +5,11 @@ import NodeCGPlugin from "vite-plugin-nodecg";
 import svgr from "vite-plugin-svgr";
 import path from "node:path";
 
-const ReactCompilerConfig = {};
-
 export default defineConfig({
 	resolve: {
 		alias: {
-			"@asm-graphics/shared": path.resolve(__dirname, "./src/shared"),
-			"@asm-graphics/shared-browser": path.resolve(__dirname, "./src/shared-browser"),
+			"@asm-graphics/shared": path.resolve(import.meta.dirname, "./src/shared"),
+			"@asm-graphics/shared-browser": path.resolve(import.meta.dirname, "./src/shared-browser"),
 		},
 	},
 	plugins: [
