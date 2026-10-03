@@ -131,7 +131,7 @@ export function Intermission() {
 								style={{ position: "absolute", top: 0, right: 0, transform: "scaleX(-1)" }}
 							/>
 							<Location />
-							<BackgroundMusic volume={0} />
+							<BackgroundMusic volume={1} />
 							<IntermissionHost />
 							<Sponsors sponsors={sponsors} style={{ maxHeight: 130, maxWidth: "300px", zIndex: 10 }} />
 						</div>

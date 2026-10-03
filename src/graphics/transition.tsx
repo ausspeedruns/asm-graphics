@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
@@ -8,7 +8,6 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react/webgpu";
 
 import styles from "./transition.module.css";
 
-// import lottieAnimation from "./media/Transition.lottie?url";
 import lottieAnimation from "./media/Transition.slots.json?url";
 
 import Clip1 from "./media/audio/chestappears1.mp3";
@@ -19,7 +18,7 @@ import Clip5 from "./media/audio/itemget1.mp3";
 
 import type { RunDataActiveRun } from "@asm-graphics/types/RunData";
 
-const ClipArray = [Clip1, Clip2, Clip3, Clip4, Clip5];
+const CLIPS: string[] = [Clip1, Clip2, Clip3, Clip4, Clip5];
 
 function runString(runData: RunDataActiveRun | undefined) {
 	if (!runData) return ["Enjoy the run!"];
@@ -50,13 +49,25 @@ const TAGLINES = [
 
 export function Transition() {
 	const audioRef = useRef<HTMLAudioElement>(null);
-	const [game, setGame] = useState("A cool game name");
-	const [category, setCategory] = useState("Category");
-	const [runners, setRunners] = useState("by some lots of runners");
 	const dotLottieRef = useRef<DotLottie>(null);
+	const [gpu, setGpu] = useState<GPUDevice>();
 
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [automationsRep] = useReplicant("automations");
+
+	useEffect(() => {
+		let created: GPUDevice | undefined;
+
+		navigator.gpu
+			?.requestAdapter()
+			.then((adapter) => adapter?.requestDevice())
+			.then((gpuDevice) => {
+				created = gpuDevice;
+				setGpu(created);
+			});
+
+		return () => created?.destroy();
+	}, []);
 
 	useListenFor("transition:UNKNOWN", () => {
 		console.log("Transitioning");
@@ -104,19 +115,27 @@ export function Transition() {
 			case "toIntermission":
 				dotLottieRef.current?.setTextSlot("gameName", { t: "ASAP2026" });
 				dotLottieRef.current?.setTextSlot("category", { t: specialText[0] ?? "" });
-				setRunners(specialText[0] ?? "");
+				dotLottieRef.current?.setTextSlot("runner", { t: specialText[0] ?? "" });
 				break;
 			case "toGame":
 			default:
-				setGame(specialText[0] ?? "");
+				dotLottieRef.current?.setTextSlot("gameName", { t: specialText[0] ?? "" });
 				dotLottieRef.current?.setTextSlot("category", { t: specialText[1] ?? "" });
-				setCategory(specialText[1] ?? "");
-				setRunners(specialText[2] ?? "");
+				dotLottieRef.current?.setTextSlot("runner", { t: specialText[2] ?? "" });
 				break;
 		}
 
-		dotLottieRef.current?.setFrame(0);
-		dotLottieRef.current?.play();
+		const tl = gsap.timeline();
+
+		tl.call(() => {
+			dotLottieRef.current?.setFrame(0);
+			dotLottieRef.current?.play();
+			// console.log(CLIPS[Math.floor(Math.random() * CLIPS.length)]);
+			if (audioRef.current) {
+				audioRef.current.src = CLIPS[Math.floor(Math.random() * CLIPS.length)] ?? "";
+			}
+		});
+		gsapPlaySound(audioRef, tl, "+=1.5");
 	}
 
 	const changeBGColor = (col: string) => {
@@ -132,10 +151,11 @@ export function Transition() {
 					dotLottieRefCallback={(dotLottie) => {
 						dotLottieRef.current = dotLottie;
 					}}
+					device={gpu}
 				/>
 			</div>
 
-			{/* <audio ref={audioRef} /> */}
+			<audio ref={audioRef} />
 			<button style={{ float: "right" }} onClick={() => runTransition("basic")}>
 				Run blank transition
 			</button>
