@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { useReplicant } from "@nodecg/react-hooks";
 import { AudioFader } from "./audio-fader";
 import equal from "fast-deep-equal";
-import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
+import usePrevious from "@asm-graphics/shared-browser/hooks/usePrevious";
 import { FitText } from "@asm-graphics/shared-browser/fit-text";
 import { Headsets, HostHeadset, HostReferenceChannel } from "../../../shared/audio-data";
 const gameAudio = [

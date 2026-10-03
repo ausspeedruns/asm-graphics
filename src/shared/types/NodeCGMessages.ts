@@ -1,10 +1,10 @@
 import type { Donation } from "./Donations.js";
 import type { Incentive } from "./Incentives.js";
 import type { Prize } from "./Prizes.js";
-import type { BoardCell, RoomJoinParameters } from "@asm-graphics/shared/BingoSync.js";
-import type { HostRead } from "@asm-graphics/shared/HostRead.js";
-import type { IntermissionVideo } from "@asm-graphics/shared/IntermissionVideo.js";
-import type { LowerThirdPerson } from "@asm-graphics/shared/FullscreenGraphic.js";
+import type { BoardCell, RoomJoinParameters } from "../BingoSync.js";
+import type { HostRead } from "../HostRead.js";
+import type { IntermissionVideo } from "../IntermissionVideo.js";
+import type { LowerThirdPerson } from "../FullscreenGraphic.js";
 import type { RunDataPlayer } from "./RunData.js";
 import type { CropSettings } from "../obs-types.js";
 import type { TickerSegment } from "./Ticker.js";

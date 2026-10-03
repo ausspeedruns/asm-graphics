@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import { ThemeProvider, createTheme } from "@mui/material";
-import usePrevious from "@asm-graphics/shared/hooks/usePrevious";
+import usePrevious from "@asm-graphics/shared-browser/hooks/usePrevious";
 
 // import type { Timer } from '@asm-graphics/types/Timer';
 

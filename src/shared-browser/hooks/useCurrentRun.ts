@@ -1,5 +1,5 @@
 import { useReplicant } from "@nodecg/react-hooks";
-import { type RunDataActiveRun } from "@asm-graphics/types/RunData.js";
+import type { RunDataActiveRun } from "../../shared/types/RunData.js";
 
 function useCurrentRun() {
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });

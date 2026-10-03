@@ -7,7 +7,7 @@ import RunnerIcon from "../../graphics/media/icons/runner.svg?react";
 
 import type { Timer } from "@asm-graphics/types/Timer";
 import type { HTMLAttributes } from "react";
-import useCurrentRun from "@asm-graphics/shared/hooks/useCurrentRun";
+import useCurrentRun from "@asm-graphics/shared-browser/hooks/useCurrentRun";
 
 function RunnerSliderThumb(props: HTMLAttributes<unknown>) {
 	const { children, ...other } = props;
