@@ -7,8 +7,8 @@ import { useIntermissionStore } from "../stores/intermission-store.js";
 import asap26LongFiligree from "../media/asap26/long-filigree.png";
 
 export function IntermissionDonationTotal() {
-	// const donationTotal = useIntermissionStore((state) => state.donationTotal);
-	const donationTotal = 50_000;
+	const donationTotal = useIntermissionStore((state) => state.donationTotal);
+	// const donationTotal = 50_000;
 	const donationMatchMultiplier = useIntermissionStore((state) => state.donationMatchMultiplier);
 	// const donationMatchMultiplier = 2;
 
