@@ -18,7 +18,6 @@ import { TiltifySettings } from "./settings/tiltify.js";
 import { TickerSettings } from "./settings/ticker.js";
 // import MultipleContainers from "./settings/dnd-test.js";
 import { VolunteerImporter } from "./settings/volunteer-importer.js";
-import { TestNetwork } from "./settings/test-network.js";
 
 const settingsPanels = [
 	HostReads,
@@ -33,7 +32,6 @@ const settingsPanels = [
 	GameYearsSettings,
 	TickerSettings,
 	VolunteerImporter,
-	TestNetwork,
 ];
 
 export function Settings() {

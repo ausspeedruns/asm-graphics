@@ -16,6 +16,8 @@
 		--mosaic-background 0.25s,
 		--panel-background 0.25s,
 		--inset-background 0.25s;
+
+	--accent-color: #004177;
 }
 
 .darkMode {
@@ -41,7 +43,7 @@
 }
 
 .dashContainer :global(.mosaic-window-body) {
-	background-color: var(--panel-background);
+	background-color: var(--panel-background) !important;
 	transition: background-color 0.25s;
 }
 

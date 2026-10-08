@@ -49,7 +49,6 @@ export function Timer() {
 				className={styles.currentTime}
 				style={{
 					background: timerRep?.state === "finished" ? "#388E3C" : "",
-					color: fontColor,
 				}}
 				elevation={1}
 			>
@@ -77,23 +76,16 @@ export function Timer() {
 						</Button>
 					</div>
 				</Tooltip>
-				<Tooltip title="Reset">
-					<div style={{ width: "100%" }}>
-						<Button
-							fullWidth
-							variant="contained"
-							disabled={timerRep?.state === "stopped"}
-							onClick={resetPress}
-						>
-							<FastRewind /> Reset
-						</Button>
-					</div>
-				</Tooltip>
 				{runDataActiveRep?.teams.length === 1 && timerRep && (
 					<>
-						<StopForfeitButton fullWidth team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
-						<StopForfeitButton fullWidth forfeit team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
-						<UndoButton fullWidth team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
+						<DoneButton team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
+						<ForfeitButton team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
+						<Tooltip title="Reset">
+							<Button variant="contained" disabled={timerRep?.state === "stopped"} onClick={resetPress}>
+								<FastRewind />
+							</Button>
+						</Tooltip>
+						<UndoButton team={runDataActiveRep?.teams[0]!} timerRep={timerRep} />
 					</>
 				)}
 			</div>
@@ -108,21 +100,21 @@ export function Timer() {
 			)}
 		</div>
 	);
-};
+}
 
 interface TeamTimerProps {
 	team: RunDataTeam;
 	timerRep: ITimer;
 }
 
-const TeamTimer: React.FC<TeamTimerProps> = (props: TeamTimerProps) => {
+function TeamTimer(props: TeamTimerProps) {
 	const finishTime = props.timerRep.teamFinishTimes[props.team.id]?.time || undefined;
 	const state = props.timerRep.teamFinishTimes[props.team.id]?.state || undefined;
 
 	return (
 		<div className={styles.teamTimerContainer} style={{ margin: "4px 0" }}>
-			<StopForfeitButton team={props.team} timerRep={props.timerRep} />
-			<StopForfeitButton forfeit team={props.team} timerRep={props.timerRep} />
+			<DoneButton team={props.team} timerRep={props.timerRep} />
+			<ForfeitButton team={props.team} timerRep={props.timerRep} />
 			<UndoButton team={props.team} timerRep={props.timerRep} />
 			<div className={styles.names}>
 				{props.team.name && <span style={{ fontWeight: "bold" }}>{props.team.name}: </span>}
@@ -137,26 +129,58 @@ const TeamTimer: React.FC<TeamTimerProps> = (props: TeamTimerProps) => {
 			</div>
 		</div>
 	);
-};
-
-interface StopButtonProps {
-	team: RunDataTeam;
-	timerRep: ITimer;
-	forfeit?: boolean;
-	fullWidth?: boolean;
 }
 
-const StopForfeitButton: React.FC<StopButtonProps> = (props: StopButtonProps) => {
+interface DoneButtonProps {
+	team: RunDataTeam;
+	timerRep: ITimer;
+}
+
+function DoneButton(props: DoneButtonProps) {
 	// STOP
 	const stopPress = () => {
 		void nodecg.sendMessageToBundle("timerStop", "nodecg-speedcontrol", {
 			id: props.team.id,
-			forfeit: props.forfeit,
 		});
 	};
 
 	return (
-		<Tooltip title={props.forfeit ? "Forfeit" : "DONE"}>
+		<Tooltip title={"DONE"}>
+			<span style={{ width: "100%" }}>
+				<Button
+					fullWidth
+					variant="contained"
+					disabled={
+						(props.team.id && !!props.timerRep?.teamFinishTimes[props.team.id]) ||
+						props.timerRep?.state === "stopped"
+					}
+					onClick={stopPress}
+					color="success"
+				>
+					<Check /> Done
+				</Button>
+			</span>
+		</Tooltip>
+	);
+}
+
+interface StopButtonProps {
+	team: RunDataTeam;
+	timerRep: ITimer;
+	fullWidth?: boolean;
+}
+
+function ForfeitButton(props: StopButtonProps) {
+	// STOP
+	const stopPress = () => {
+		void nodecg.sendMessageToBundle("timerStop", "nodecg-speedcontrol", {
+			id: props.team.id,
+			forfeit: true,
+		});
+	};
+
+	return (
+		<Tooltip title={"Forfeit"}>
 			<span>
 				<Button
 					fullWidth={props.fullWidth}
@@ -166,30 +190,21 @@ const StopForfeitButton: React.FC<StopButtonProps> = (props: StopButtonProps) =>
 						props.timerRep?.state === "stopped"
 					}
 					onClick={stopPress}
-					color={props.forfeit ? "error" : "success"}
+					color="error"
 				>
-					{props.forfeit ? (
-						<>
-							<Close /> Forfeit
-						</>
-					) : (
-						<>
-							<Check /> Done
-						</>
-					)}
+					<Close />
 				</Button>
 			</span>
 		</Tooltip>
 	);
-};
+}
 
 interface UndoButtonProps {
 	team: RunDataTeam;
 	timerRep: ITimer;
-	fullWidth?: boolean;
 }
 
-const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
+function UndoButton(props: UndoButtonProps) {
 	// UNDO
 	const undoPress = () => {
 		void nodecg.sendMessageToBundle("timerUndo", "nodecg-speedcontrol", props.team.id);
@@ -198,7 +213,6 @@ const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 	return (
 		<Tooltip title="Undo">
 			<Button
-				fullWidth={props.fullWidth}
 				variant="contained"
 				disabled={
 					props.timerRep.state !== "finished" ||
@@ -207,8 +221,8 @@ const UndoButton: React.FC<UndoButtonProps> = (props: UndoButtonProps) => {
 				}
 				onClick={undoPress}
 			>
-				<Undo /> Undo
+				<Undo />
 			</Button>
 		</Tooltip>
 	);
-};
+}

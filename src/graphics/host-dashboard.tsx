@@ -9,6 +9,7 @@ import { Mosaic, type MosaicNode, MosaicWindow } from "react-mosaic-component";
 import "react-mosaic-component/react-mosaic-component.css";
 
 import "./host-dash.css";
+import styles from "./host-dashboard.module.css";
 
 import { HostEditDialog } from "./dashboards/host-dash/host-edit-dialog.js";
 import { ScriptDialog } from "./dashboards/host-dash/script-dialog.js";
@@ -23,7 +24,7 @@ import { DonationTotal } from "./dashboards/host-dash/donation-total.js";
 import { HostMicrophone } from "./dashboards/host-dash/host-microphone.js";
 
 import type { RunDataPlayer } from "@asm-graphics/types/RunData.js";
-import styles from "./host-dashboard.module.css";
+import { hostDashTheme } from "./dashboards/host-dash/host-dashboard-theme.js";
 
 type ViewId = keyof typeof ELEMENTS;
 
@@ -97,7 +98,7 @@ export function HostDash() {
 	const adProgressBarRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
+		function updateCurrentTime() {
 			if (!currentTimeRef.current || !currentTimeElRef.current) return;
 
 			const newTime = new Date().toLocaleTimeString(timeFormat ? "en-AU" : "en-GB");
@@ -106,7 +107,11 @@ export function HostDash() {
 
 			currentTimeRef.current = newTime;
 			currentTimeElRef.current.innerText = newTime;
-		}, 200);
+		}
+
+		updateCurrentTime();
+
+		const interval = setInterval(updateCurrentTime, 1000);
 
 		return () => clearInterval(interval);
 	}, [timeFormat]);
@@ -210,16 +215,6 @@ function ColourSchemeButton() {
 		</Button>
 	);
 }
-
-export const hostDashTheme = createTheme({
-	palette: {
-		primary: { main: "#CC7722" },
-		secondary: { main: "#03a9f4" },
-	},
-	colorSchemes: {
-		dark: true,
-	},
-});
 
 function HostDashApp() {
 	return (

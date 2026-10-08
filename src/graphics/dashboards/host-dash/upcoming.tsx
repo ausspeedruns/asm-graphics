@@ -31,7 +31,7 @@ export function Upcoming(props: Props) {
 
 	return (
 		<div className={styles.upcomingContainer} style={props.style}>
-			<SingleRun run={currentRun} active style={{ width: "calc(100% + 16px)" }} />
+			<SingleRun run={currentRun} active />
 			<hr className={styles.divider} />
 			{allRuns}
 		</div>
@@ -44,13 +44,9 @@ interface RunProps {
 	style?: React.CSSProperties;
 }
 
-interface ActiveProps {
-	active?: string;
-}
-
 function SingleRun(props: RunProps) {
 	if (!props.run) {
-		return <></>;
+		return;
 	}
 
 	let playerNames;
@@ -65,7 +61,11 @@ function SingleRun(props: RunProps) {
 	}
 
 	return (
-		<Paper className={clsx(styles.singleRunContainer, props.active && styles.active)} elevation={2} style={props.style}>
+		<Paper
+			className={clsx(styles.singleRunContainer, props.active && styles.active)}
+			elevation={2}
+			style={props.style}
+		>
 			<div className={styles.runDataContainer}>
 				<span className={styles.game}>{props.run.game?.replaceAll("\\n", " ")}</span>
 				<span className={styles.category}>{props.run.category?.replaceAll("\\n", " ")}</span>

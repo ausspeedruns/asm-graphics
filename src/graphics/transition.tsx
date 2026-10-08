@@ -2,9 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { useListenFor, useReplicant } from "@nodecg/react-hooks";
 import gsap from "gsap";
-// import { Lottie, type LottieHandle } from "lottie-react";
-import type { DotLottie } from "@lottiefiles/dotlottie-react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react/webgpu";
+import { type DotLottie, DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 import styles from "./transition.module.css";
 
@@ -50,24 +48,9 @@ const TAGLINES = [
 export function Transition() {
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const dotLottieRef = useRef<DotLottie>(null);
-	const [gpu, setGpu] = useState<GPUDevice>();
 
 	const [runDataActiveRep] = useReplicant<RunDataActiveRun>("runDataActiveRun", { bundle: "nodecg-speedcontrol" });
 	const [automationsRep] = useReplicant("automations");
-
-	useEffect(() => {
-		let created: GPUDevice | undefined;
-
-		navigator.gpu
-			?.requestAdapter()
-			.then((adapter) => adapter?.requestDevice())
-			.then((gpuDevice) => {
-				created = gpuDevice;
-				setGpu(created);
-			});
-
-		return () => created?.destroy();
-	}, []);
 
 	useListenFor("transition:UNKNOWN", () => {
 		console.log("Transitioning");
@@ -151,7 +134,6 @@ export function Transition() {
 					dotLottieRefCallback={(dotLottie) => {
 						dotLottieRef.current = dotLottie;
 					}}
-					device={gpu}
 				/>
 			</div>
 

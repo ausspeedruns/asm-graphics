@@ -97,6 +97,7 @@
 	font-weight: bold;
 	line-height: 1;
 	transition: color 180ms ease, border-color 180ms ease;
+	text-transform: uppercase;
 }
 
 .labelText {
