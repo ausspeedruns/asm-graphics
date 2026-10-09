@@ -13,6 +13,8 @@ const RUNS_SPEED = 2;
 const RUNS_DURATION = 10;
 const RUNS_PAGE_STAGGER = 0.05;
 
+const OFFSCREEN_X_PERCENT = 150;
+
 interface UpcomingRunsProps {
 	upcomingRuns: RunData[];
 	ref: React.Ref<TickerItemHandles>;
@@ -30,7 +32,7 @@ export function UpcomingRuns(props: UpcomingRunsProps) {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("runsStart");
-			tl.fromTo(containerRef.current, { xPercent: -110 }, { xPercent: 0 });
+			tl.fromTo(containerRef.current, { xPercent: -OFFSCREEN_X_PERCENT }, { xPercent: 0 });
 			runsRefs.current.reverse().forEach((runRef) => {
 				tl.add(runRef.animation(tl));
 			});
@@ -78,7 +80,7 @@ export function Run(props: RunProps) {
 		animation: (tl) => {
 			tl.fromTo(
 				containerRef.current,
-				{ xPercent: -110 },
+				{ xPercent: -OFFSCREEN_X_PERCENT },
 				{ xPercent: 0, duration: RUNS_SPEED, ease: "power3.out" },
 				`upcomingRuns+=${props.index / RUN_STAGGER_INVERSE + pageTimeOffset}`,
 			);
@@ -87,7 +89,7 @@ export function Run(props: RunProps) {
 
 			tl.to(
 				containerRef.current,
-				{ xPercent: 110, duration: RUNS_SPEED, ease: "power3.in" },
+				{ xPercent: OFFSCREEN_X_PERCENT, duration: RUNS_SPEED, ease: "power3.in" },
 				`upcomingRuns+=${props.index / RUN_STAGGER_INVERSE + RUNS_DURATION + pageTimeOffset}`,
 			);
 			return tl;

@@ -71,7 +71,7 @@ interface ConnectionStatusLightProps {
 
 function ConnectionStatusLight(props: ConnectionStatusLightProps) {
 	const [statusRep, setStatusRep] = useReplicant(props.replicant);
-	const issueCount = statusRep?.recentIssues.length ?? 0;
+	const issueCount = statusRep?.recentIssues?.length ?? 0;
 
 	return (
 		<StatusLight label={props.label} tooltipText={generateTooltipText(statusRep)} status={statusRep?.status}>

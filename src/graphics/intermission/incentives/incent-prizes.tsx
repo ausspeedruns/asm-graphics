@@ -11,6 +11,8 @@ const PRIZE_SPEED = 2;
 const PRIZE_DURATION = 5;
 const PRIZE_PAGE_STAGGER = 0.05;
 
+const OFFSCREEN_X_PERCENT = 150;
+
 interface PrizesProps {
 	prizes: Prize[];
 	ref: Ref<TickerItemHandles>;
@@ -28,7 +30,7 @@ export function Prizes(props: PrizesProps) {
 	useImperativeHandle(props.ref, () => ({
 		animation: (tl) => {
 			tl.addLabel("prizesStart");
-			tl.fromTo(containerRef.current, { xPercent: -110 }, { xPercent: 0 });
+			tl.fromTo(containerRef.current, { xPercent: -OFFSCREEN_X_PERCENT }, { xPercent: 0 });
 			prizesRefs.current.reverse().forEach((prizeRef) => {
 				tl.add(prizeRef.animation(tl));
 			});
@@ -89,7 +91,7 @@ const Prize = (props: PrizeProps) => {
 		animation: (tl) => {
 			tl.fromTo(
 				containerRef.current,
-				{ xPercent: -110 },
+				{ xPercent: -OFFSCREEN_X_PERCENT },
 				{ xPercent: 0, duration: PRIZE_SPEED, ease: "power3.out" },
 				`prizesStart+=${props.index / PRIZE_STAGGER_INVERSE + pageTimeOffset}`,
 			);
@@ -98,7 +100,7 @@ const Prize = (props: PrizeProps) => {
 
 			tl.to(
 				containerRef.current,
-				{ xPercent: 110, duration: PRIZE_SPEED, ease: "power3.in" },
+				{ xPercent: OFFSCREEN_X_PERCENT, duration: PRIZE_SPEED, ease: "power3.in" },
 				`prizesStart+=${props.index / PRIZE_STAGGER_INVERSE + PRIZE_DURATION + pageTimeOffset}`,
 			);
 			return tl;
